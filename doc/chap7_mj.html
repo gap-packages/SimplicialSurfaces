@@ -18,7 +18,7 @@
 <body class="chap7"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chap23_mj.html">23</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap8_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
@@ -87,9 +87,9 @@
 
 </li>
 </ul>
-<p>Since polygonal morphisms are stored as mappings (in the GAP-sense), all methods available for mappings (in particular those from section <a href="/opt/gap/doc/ref/chap32_mj.html#X7E5A430D7F838F1C"><span class="RefLink">Reference: Properties and Attributes of (General) Mappings</span></a>) are available for polygonal morphisms. In particular, <code class="keyw">IsInjective</code>, <code class="keyw">IsSurjective</code>, <code class="keyw">IsBijective</code>.</p>
+<p>Since polygonal morphisms are stored as mappings (in the GAP-sense), all methods available for mappings (in particular those from section <a href="https://docs.gap-system.org/doc/ref/chap32_mj.html#X7E5A430D7F838F1C"><span class="RefLink">Reference: Properties and Attributes of (General) Mappings</span></a>) are available for polygonal morphisms. In particular, <code class="keyw">IsInjective</code>, <code class="keyw">IsSurjective</code>, <code class="keyw">IsBijective</code>.</p>
 
-<p>If the edges and faces of the polygonal complexes are uniquely defined by their vertices (which can be tested by <code class="keyw">IsAnomalyFree</code>, compare <a href="chap16_mj.html#X85509F8A82079CA8"><span class="RefLink">16.1-1</span></a>), the polygonal morphism can be defined by the vertex map (the more flexible constructor in <a href="chap7_mj.html#X7C7EAC6278E1C63A"><span class="RefLink">7.1-1</span></a> requires all three maps). Consider the following example, in which the face 2 is mapped to the face 2, and both the faces 3 and 4 are mapped to the face 3:</p>
+<p>If the edges and faces of the polygonal complexes are uniquely defined by their vertices (which can be tested by <code class="keyw">IsAnomalyFree</code>, compare <a href="chap17_mj.html#X85509F8A82079CA8"><span class="RefLink">17.1-1</span></a>), the polygonal morphism can be defined by the vertex map (the more flexible constructor in <a href="chap7_mj.html#X7C7EAC6278E1C63A"><span class="RefLink">7.1-1</span></a> requires all three maps). Consider the following example, in which the face 2 is mapped to the face 2, and both the faces 3 and 4 are mapped to the face 3:</p>
 
 
 <div class="example"><pre>
@@ -217,7 +217,7 @@ true
 <div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolygonalMorphismByVertexImagesNC</code>( <var class="Arg">sourceComplex</var>, <var class="Arg">rangeComplex</var>, <var class="Arg">vertexMap</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
 <p>Returns: a polygonal mapping</p>
 
-<p>Given two vertex-faithful (<a href="chap16_mj.html#X85509F8A82079CA8"><span class="RefLink">16.1-1</span></a>) polygonal complexes and a map between their vertices, construct a polygonal morphism extending the vertex map. The arguments are:</p>
+<p>Given two vertex-faithful (<a href="chap17_mj.html#X85509F8A82079CA8"><span class="RefLink">17.1-1</span></a>) polygonal complexes and a map between their vertices, construct a polygonal morphism extending the vertex map. The arguments are:</p>
 
 
 <ul>
@@ -354,7 +354,7 @@ true
 
 <p>Given a bijective polygonal morphism, one can define its inverse, i.e. a polygonal morphism, in which <code class="keyw">SourceComplex</code> (<a href="chap7_mj.html#X87C2DDF77E55BAB3"><span class="RefLink">7.4-1</span></a>) and <code class="keyw">RangeComplex</code> (<a href="chap7_mj.html#X8055458B859E3487"><span class="RefLink">7.4-2</span></a>) are switched.</p>
 
-<p>Due to the way in which GAP handles inverses and mappings (compare the introduction of section <a href="/opt/gap/doc/ref/chap32_mj.html#X7E2E16277940FA0B"><span class="RefLink">Reference: Arithmetic Operations for General Mappings</span></a>), the different methods perform subtly different tasks:</p>
+<p>Due to the way in which GAP handles inverses and mappings (compare the introduction of section <a href="https://docs.gap-system.org/doc/ref/chap32_mj.html#X7E2E16277940FA0B"><span class="RefLink">Reference: Arithmetic Operations for General Mappings</span></a>), the different methods perform subtly different tasks:</p>
 
 
 <ul>
@@ -962,7 +962,7 @@ fail
 <div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap8_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chap23_mj.html">23</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

@@ -8,7 +8,7 @@
 <script type="text/javascript"
   src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
-<title>GAP (SimplicialSurfaces) - Chapter 19: Edge vari-colourings</title>
+<title>GAP (SimplicialSurfaces) - Chapter 19: Edge colourings</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
 <link rel="stylesheet" type="text/css" href="manual.css" />
@@ -18,471 +18,497 @@
 <body class="chap19"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chap23_mj.html">23</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap18_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap20_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 <p id="mathjaxlink" class="pcenter"><a href="chap19.html">[MathJax off]</a></p>
-<p><a id="X851E137D7DF6A82D" name="X851E137D7DF6A82D"></a></p>
-<div class="ChapSects"><a href="chap19_mj.html#X851E137D7DF6A82D">19 <span class="Heading">Edge vari-colourings</span></a>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19_mj.html#X829ECEC37C3D02A7">19.1 <span class="Heading">Definition and elementary properties</span></a>
+<p><a id="X7EC40052873E6A6E" name="X7EC40052873E6A6E"></a></p>
+<div class="ChapSects"><a href="chap19_mj.html#X7EC40052873E6A6E">19 <span class="Heading">Edge colourings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19_mj.html#X7EB193248443EC68">19.1 <span class="Heading">General definition</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7E818BC2816DD972">19.1-1 IsEdgeVariColouring</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X82F97A4C78598E53">19.1-2 ColouredEdgesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X873E45B578851665">19.1-1 IsEdgeColouredTwistedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7F71C0FA7E16237F">19.1-2 EdgeColouredTwistedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7AD6BAAC78356DAA">19.1-3 TwistedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X812FD9A3803F45DA">19.1-4 ColoursOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7841B3C38620AA52">19.1-5 EdgesOfColours</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7F21C88B849F476F">19.1-6 Colours</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19_mj.html#X7D6FACC587109AE4">19.2 <span class="Heading">Permutation description</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19_mj.html#X832DDB857DC02EE0">19.2 <span class="Heading">Drawing edge coloured surfaces</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X8726F36784306F81">19.2-1 ColourInvolutions</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X806F8235854E7CD8">19.2-1 DrawSurfaceToTikz</a></span>
 </div></div>
-<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19_mj.html#X8360A8FA79F2DC5E">19.3 <span class="Heading">Wild coloured surfaces</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19_mj.html#X7D24868C86D216D5">19.3 <span class="Heading">Isomorphisms between edge-coloured polygonal complexes</span></a>
 </span>
 <div class="ContSSBlock">
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X853F5A1A805C947C">19.3-1 IsWildColouredSurface</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7C0EFFF283FA0646">19.3-2 ColouredUmbrellasOfVertices</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7FCD445D7F228A99">19.3-3 LocalSymmetryOfEdges</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7B2CEDA6834072B6">19.3-4 IsTameColouredSurface</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X811F6405841A27A0">19.3-5 AllWildColouredSurfaces</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X79B2764C86834418">19.3-6 SixFoldCover</a></span>
-<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7B07C3117D45EC98">19.3-7 CommonCover</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7D18314381B5DCEE">19.3-1 ColourIncidenceDigraphsGraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X7B15939D7F62C52B">19.3-2 IsIsomorphicEdgeColouredPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19_mj.html#X87D5D8DE79FE2683">19.3-3 EdgeColouredPolygonalComplexIsomorphismRepresentatives</a></span>
 </div></div>
 </div>
 
-<h3>19 <span class="Heading">Edge vari-colourings</span></h3>
+<h3>19 <span class="Heading">Edge colourings</span></h3>
 
-<p>In Chapter <a href="chap18_mj.html#X7EC40052873E6A6E"><span class="RefLink">18</span></a>, the concept of edge colourings was introduced in general. This chapter is concerned with a specific type of edge colourings, where every edge of a given face has to have a different colour (so it is <em>varicoloured</em> on each face).</p>
+<p>This chapter is concerned with edge-coloured (twisted) polygonal complexes and in particular simplicial surfaces. The first section (<a href="chap19_mj.html#X7EB193248443EC68"><span class="RefLink">19.1</span></a>) deals with the definition of arbitrary edge-colourings and the methods to access its colouring.</p>
 
-<p>In Section <a href="chap19_mj.html#X829ECEC37C3D02A7"><span class="RefLink">19.1</span></a>, the concept of the edge vari-colouring is defined. In addition, some access functions made possible by the colouring are described. Section <a href="chap19_mj.html#X7D6FACC587109AE4"><span class="RefLink">19.2</span></a> represents the edge vari-colouring of polygonal complexes without edge ramifications as permutations, the <code class="keyw">ColourInvolutions</code> (<a href="chap19_mj.html#X8726F36784306F81"><span class="RefLink">19.2-1</span></a>).</p>
+<p>The second section (<a href="chap19_mj.html#X832DDB857DC02EE0"><span class="RefLink">19.2</span></a>) explains how the drawing functionality for polygonal surfaces without edge ramifications (compare section <a href="chap17_mj.html#X786563217D3FA669"><span class="RefLink">17.2</span></a> for details) is extended for edge-coloured ramified polygonal surfaces.</p>
 
-<p>After these general properties, section <a href="chap19_mj.html#X8360A8FA79F2DC5E"><span class="RefLink">19.3</span></a> deals with a special subclass of a vari-colouring: <em>edge exact-colourings</em>, in which the number of colours is minimal (for example, in a simplicial surface there can only be three colours). It describes a method to uniquely reconstruct an exact-coloured surface from its permutation (by introducing the <em>local symmetries</em> (<a href="chap19_mj.html#X7FCD445D7F228A99"><span class="RefLink">19.3-3</span></a>)).</p>
+<p>Finally section <a href="chap19_mj.html#X7D24868C86D216D5"><span class="RefLink">19.3</span></a> deals with the isomorphism problem of edge-coloured polygonal complexes.</p>
 
-<p>Section <a href="chap19_mj.html#X8360A8FA79F2DC5E"><span class="RefLink">19.3</span></a> also describes some methods to construct vari-coloured and exact-coloured surfaces.</p>
+<p><a id="X7EB193248443EC68" name="X7EB193248443EC68"></a></p>
 
-<p><a id="X829ECEC37C3D02A7" name="X829ECEC37C3D02A7"></a></p>
+<h4>19.1 <span class="Heading">General definition</span></h4>
 
-<h4>19.1 <span class="Heading">Definition and elementary properties</span></h4>
+<p>This section describes how an edge-colouring is implemented in the <code class="keyw">SimplicialSurfaces</code>-package.</p>
 
-<p>This section defines the concept of edge vari-colourings (<a href="chap19_mj.html#X7E818BC2816DD972"><span class="RefLink">19.1-1</span></a>) and introduces the coloured version of this method:</p>
-
-
-<ul>
-<li><p><code class="keyw">ColouredEdgesOfFaces</code> (<a href="chap19_mj.html#X82F97A4C78598E53"><span class="RefLink">19.1-2</span></a>) extends <code class="keyw">EdgesOfFaces</code> (<a href="chap3_mj.html#X7928464E7DB7BC68"><span class="RefLink">3.2-6</span></a>).</p>
-
-</li>
-</ul>
-<p>We will illustrate all of these on a prism with triangular base.</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">prism := PolygonalSurfaceByDownwardIncidence( </span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [[2,3],[1,3],[1,2],[1,7],[2,8],[3,9],[8,9],[7,9],[7,8]],</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [[1,3,2],,[3,5,9,4],[1,6,7,5],[2,4,8,6],,[7,8,9]]);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colPrism := EdgeColouredPolygonalComplex(prism, [1,4,2,1,5,2,4,5,3]);;</span>
-</pre></div>
-
-<p>This can be drawn by <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap18_mj.html#X806F8235854E7CD8"><span class="RefLink">18.2-1</span></a>).</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeDrawOrder := [1,5,6,7], </span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">    edgeColourClassColours :=  ["magenta", "cyan", "olive", "lime", "pink"] );;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz(colPrism, "Prism_coloured", pr );;</span>
-</pre></div>
-
-<p><br><img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> </img> <br></p>
-
-<p><a id="X7E818BC2816DD972" name="X7E818BC2816DD972"></a></p>
-
-<h5>19.1-1 IsEdgeVariColouring</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEdgeVariColouring</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEdgeExactColouring</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
-<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
-
-<p>The property <code class="keyw">IsEdgeVariColouring</code> checks if the edges of each face are vari-coloured by the given edge colouring. This is the case if and only if all edges of each face have different colours.</p>
-
-<p>For each face there have to be at least as many colours as there are incident edges. Therefore the maximal number of edges in a face is a lower bound on the number of colours in such a colouring. If this lower bound is obtained, we call the colouring <em>exact</em>, which is checked by the property <code class="keyw">IsEdgeExactColouring</code>. For a simplicial surface this means that there are exactly three colours.</p>
-
-<p>We illustrate this on the prism that was introduced at the start of Section <a href="chap19_mj.html#X829ECEC37C3D02A7"><span class="RefLink">19.1</span></a>. <br><img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> </img> <br> The given edge colouring is a vari-colouring but not an exact-colouring.</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfColours( colPrism );</span>
-[ [ 1, 4 ], [ 3, 6 ], [ 9 ], [ 2, 7 ], [ 5, 8 ] ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeVariColouring( colPrism );</span>
-true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeExactColouring( colPrism );</span>
-false
-</pre></div>
-
-<p>Since there are faces with four incident edges, any colouring with less than four colours can't be a vari-colouring. Conversely, a colouring with more than four colours can't be exact.</p>
-
-<p>In fact, there is no exact vari-colouring for this polygonal surface. TODO refer to comparison with simplicial surface (prove this result there);</p>
-
-<p><a id="X82F97A4C78598E53" name="X82F97A4C78598E53"></a></p>
-
-<h5>19.1-2 ColouredEdgesOfFaces</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColouredEdgesOfFaces</code>( <var class="Arg">rbComp</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColouredEdgesOfFace</code>( <var class="Arg">rbComp</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColouredEdgesOfFaceNC</code>( <var class="Arg">rbComp</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>Returns: a list of (lists of) positive integers</p>
-
-<p>For an edge vari-coloured polygonal complex the method <code class="keyw">ColouredEdgesOfFace</code>(<var class="Arg">rbComp</var>, <var class="Arg">face</var>) returns a list of the incident edges of <var class="Arg">face</var> such that the <em>i</em>-th entry has the colour <em>i</em>. The NC-version does not check whether the given <var class="Arg">face</var> is an actual face of the coloured complex.</p>
-
-<p>The attribute <code class="keyw">ColouredEdgesOfFaces</code> collects all of these lists in a list indexed by the face labels, i.e. <code class="keyw">ColouredEdgesOfFaces</code>(<var class="Arg">rbComp</var>)[<var class="Arg">face</var>] = <code class="keyw">ColouredEdgesOfFace</code>(<var class="Arg">rbComp</var>, <var class="Arg">face</var>). All other positions are unbound.</p>
-
-<p>Consider the prism example from the start of Section <a href="chap19_mj.html#X829ECEC37C3D02A7"><span class="RefLink">19.1</span></a>. <br><img src="./images/_Wrapper_TIKZ_Prism_coloured-1.svg"> </img> <br></p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColoursOfEdges(colPrism);</span>
-[ 1, 4, 2, 1, 5, 2, 4, 5, 3 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColouredEdgesOfFace(colPrism, 1);</span>
-[ 1, 3,, 2 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColouredEdgesOfFace(colPrism, 4);</span>
-[ 1, 6,, 7, 5 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColouredEdgesOfFaces(colPrism);</span>
-[ [ 1, 3,, 2 ],, [ 4, 3, 9,, 5 ], [ 1, 6,, 7, 5 ], [ 4, 6,, 2, 8 ],, [ ,, 9, 7, 8 ] ]
-</pre></div>
-
-<p><a id="X7D6FACC587109AE4" name="X7D6FACC587109AE4"></a></p>
-
-<h4>19.2 <span class="Heading">Permutation description</span></h4>
-
-<p>While Section <a href="chap19_mj.html#X829ECEC37C3D02A7"><span class="RefLink">19.1</span></a> dealt with general edge vari-colourings, this section is restricted to edge vari-colourings of polygonal complexes without edge ramifications. For those there are at most two faces incident to an edge.</p>
-
-<p>Therefore every colour can be interpreted as an involution on the set of faces (which swaps two faces that are connected by an edge of that colour).</p>
-
-<p>For example, consider a coloured disk (that has a boundary).</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">disk := PolygonalSurfaceByDownwardIncidence(</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [[1,4],[1,2],[2,3],[3,4],[1,5],[1,6],[2,7],[2,8],[3,9],[3,10],</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">        [4,11],[4,12],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[5,12]],</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [[13,6,5],[14,7,2,6],[15,8,7],[5,1,12,20],[2,3,4,1],</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">        [8,16,9,3],[12,11,19],[4,10,18,11],[9,17,10]] );;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedComplex(disk);</span>
-false
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colDisk := EdgeColouredPolygonalComplex(disk, </span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [[13,15,17,19],,[5,2,8,18],[14,12,4,9],[20,7,3,10],[6,1,11,16]] );;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeVariColouring(colDisk);</span>
-true
-</pre></div>
-
-<p><br><img src="./images/_Wrapper_TIKZ_ColouredDisk-1.svg"> </img> <br> The colour 3 (red in the picture) corresponds to the involution <span class="SimpleMath">\((1,4)(2,5)(3,6)\)</span>, while the colour 1 (green in the picture) induces the trivial permutation since all of its edges are boundary edges. The permutations can be accessed by the <code class="keyw">ColourInvolutions</code>-methods (<a href="chap19_mj.html#X8726F36784306F81"><span class="RefLink">19.2-1</span></a>):</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColourInvolutions(colDisk);</span>
-[ (),, (1,4)(2,5)(3,6), (4,7)(5,8)(6,9), (2,3)(5,6)(8,9), (1,2)(4,5)(7,8) ]
-</pre></div>
-
-<p><a id="X8726F36784306F81" name="X8726F36784306F81"></a></p>
-
-<h5>19.2-1 ColourInvolutions</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColourInvolutions</code>( <var class="Arg">rcRamSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<p>Returns: a list of involutions</p>
-
-<p>For an edge vari-coloured (<a href="chap19_mj.html#X7E818BC2816DD972"><span class="RefLink">19.1-1</span></a>) polygonal complex without edge ramifications (<a href="chap2_mj.html#X81B84AEB7A8ED9EE"><span class="RefLink">2.3-1</span></a>), return the colour involutions.</p>
-
-<p>The attribute <code class="keyw">ColourInvolutions</code>(<var class="Arg">rcRamSurf</var>) returns a list of involutions (the position <var class="Arg">col</var> is bound if and only if <var class="Arg">col</var> is a colour of the underlying polygonal complex without edge ramifications).</p>
-
-<p>For a given colour <var class="Arg">col</var> the colour involution encodes the neighbouring relation of the faces that is induced by the edges of the colour <var class="Arg">col</var>. A boundary edge induces a fixed point.</p>
-
-<p>This can be seen on the example from the start of section <a href="chap19_mj.html#X7D6FACC587109AE4"><span class="RefLink">19.2</span></a>. <br><img src="./images/_Wrapper_TIKZ_ColouredDisk-1.svg"> </img> <br></p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColourInvolutions(colDisk);</span>
-[ (),, (1,4)(2,5)(3,6), (4,7)(5,8)(6,9), (2,3)(5,6)(8,9), (1,2)(4,5)(7,8) ]
-</pre></div>
-
-<p><a id="X8360A8FA79F2DC5E" name="X8360A8FA79F2DC5E"></a></p>
-
-<h4>19.3 <span class="Heading">Wild coloured surfaces</span></h4>
-
-<p>While the previous sections dealt with general edge vari-colourings, this section focuses exclusively on edge exact-coloured simplicial surfaces, i.e. simplicial surfaces whose edges are coloured with three colours such that the edges of each face have different colours. Since these are quite important structures, we will denote them by <em>wild-coloured surfaces</em> (<a href="chap19_mj.html#X853F5A1A805C947C"><span class="RefLink">19.3-1</span></a>).</p>
-
-<p>In this situation there is an additional local symmetry structure on the edges. For every inner edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>) there are two possible colourings of the adjacent faces, which can be described by a symmetry with respect to the edge between them. The colours can either be mirrored or rotated into each other. <br><img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> </img> <br> The first type is called <em>mirror</em> and the second one <em>rotation</em>. Together with the <em>boundary</em>-type for the boundary edges (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>) this defines the <code class="keyw">LocalSymmetryOfEdges</code> (<a href="chap19_mj.html#X7FCD445D7F228A99"><span class="RefLink">19.3-3</span></a>).</p>
-
-<p>Together with the edge colouring, the local symmetry determines the underlying simplicial surface.</p>
-
-<p><a id="X853F5A1A805C947C" name="X853F5A1A805C947C"></a></p>
-
-<h5>19.3-1 IsWildColouredSurface</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsWildColouredSurface</code>( <var class="Arg">colSurf</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
-<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
-
-<p>Check if an edge-coloured polygonal complex is a <em>wild-coloured surface</em>, i.e.</p>
+<p>An <code class="keyw">EdgeColouredTwistedPolygonalComplex</code> (<a href="chap19_mj.html#X7F71C0FA7E16237F"><span class="RefLink">19.1-2</span></a>) consists of:</p>
 
 
 <ul>
-<li><p>It is a simplicial surface (<a href="chap2_mj.html#X7F92DEC87FC7923E"><span class="RefLink">2.3-5</span></a>)</p>
+<li><p>a twisted polygonal complex, accessible by <code class="keyw">TwistedPolygonalComplex</code> (<a href="chap19_mj.html#X7AD6BAAC78356DAA"><span class="RefLink">19.1-3</span></a>)</p>
 
 </li>
-<li><p>It has an edge-exact colouring (<a href="chap19_mj.html#X7E818BC2816DD972"><span class="RefLink">19.1-1</span></a>), i.e. the edges are coloured by three colours and the edges of every face have different colours.</p>
+<li><p>an edge colouring, which can be accessed by <code class="keyw">ColoursOfEdges</code> (<a href="chap19_mj.html#X812FD9A3803F45DA"><span class="RefLink">19.1-4</span></a>) and <code class="keyw">EdgesOfColours</code> (<a href="chap19_mj.html#X7841B3C38620AA52"><span class="RefLink">19.1-5</span></a>)</p>
 
 </li>
 </ul>
-<p>For example, consider the tetrahedron. This colouring is a wild colouring of the tetrahedron:</p>
+<p>Specialisations like <code class="keyw">EdgeColouredPolygonalComplex</code> and <code class="keyw">EdgeColouredSimplicialSurface</code> exist as well and behave in the expected way.</p>
+
+<p>As an illustration we consider a pyramid with square base.</p>
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">wildColTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,1]);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWildColouredSurface(wildColTetra);</span>
-true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pyr := PolygonalSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ , [1,2], [2,3], [3,4], [1,4], [2,10], [3,10], [4,10], [1,10] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ [2,3,4,5], , [2,6,9], [3,6,7], [4,7,8], [5,8,9] ] );;</span>
 </pre></div>
 
-<p><br><img src="./images/_Wrapper_TIKZ_WildColTetra-1.svg"> </img> <br> This colouring of the tetrahedron is an example for a coloring that is not a wild colouring:</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,2]);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWildColouredSurface(colTetra);</span>
-false
-</pre></div>
-
-<p><br><img src="./images/_Wrapper_TIKZ_NotWildColTetra-1.svg"> </img> <br> Using four colours leads to a colouring that is not a wild colouring:</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colFourTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,4]);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWildColouredSurface(colFourTetra);</span>
-false
-</pre></div>
-
-<p><br><img src="./images/_Wrapper_TIKZ_NotWildColTetraFour-1.svg"> </img> <br></p>
-
-<p><a id="X7C0EFFF283FA0646" name="X7C0EFFF283FA0646"></a></p>
-
-<h5>19.3-2 ColouredUmbrellasOfVertices</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColouredUmbrellasOfVertices</code>( <var class="Arg">wildSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColouredUmbrellaOfVertex</code>( <var class="Arg">wildSurf</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColouredUmbrellaOfVertexNC</code>( <var class="Arg">wildSurf</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>Returns: a list of coloured edge-face-paths</p>
-
-<p>For a wild coloured surface (<a href="chap19_mj.html#X853F5A1A805C947C"><span class="RefLink">19.3-1</span></a>) the method <code class="keyw">ColouredUmbrellaOfVertex</code>(<var class="Arg">wildSurf</var>, <var class="Arg">vertex</var>) returns an edge-coloured edge-face path for the umbrella-path around <var class="Arg">vertex</var>. All of these umbrella-paths are collected in the attribute <code class="keyw">ColouredUmbrellasOfVertices</code>(<var class="Arg">wildSurf</var>), i.e. <code class="keyw">ColouredUmbrellasOfVertices</code>(<var class="Arg">wildSurf</var>)[<var class="Arg">vertex</var>] = <code class="keyw">ColouredUmbrellaOfVertex</code>(<var class="Arg">wildSurf</var>, <var class="Arg">vertex</var>).</p>
-
-<p>This method extends <code class="keyw">UmbrellaPathsOfVertices</code> (<a href="chap3_mj.html#X7C7A78287D84FB52"><span class="RefLink">3.4-1</span></a>). The edge-coloured edge-face-paths behave exactly as regular edge-face-paths but are displayed differently.</p>
-
-<p>The NC-version does not check whether the given <var class="Arg">vertex</var> actually is a vertex of <var class="Arg">wildSurf</var>.</p>
-
-<p><a id="X7FCD445D7F228A99" name="X7FCD445D7F228A99"></a></p>
-
-<h5>19.3-3 LocalSymmetryOfEdges</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LocalSymmetryOfEdges</code>( <var class="Arg">colSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LocalSymmetryOfEdgesAsNumbers</code>( <var class="Arg">colSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<p>Returns: a list of strings</p>
-
-<p>Return the local symmetry of the edges in <var class="Arg">colSurf</var>, i.e. whether the colours in the adjacent faces of a given inner edge are mirrored or rotated.</p>
-
-<p>The edges of the edge coloured surface <var class="Arg">colSurf</var> have a local symmetry. For every inner coloured edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>) there are two possible colourings of the adjacent faces, which can be described by a symmetry with respect to the edge between them. The colours can either be mirrored or rotated into each other. <br><img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> </img> <br> The first type is called <em>mirror</em> and the second one <em>rotation</em>. Together with the <em>boundary</em>-type for the boundary edges (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>) this defines the <code class="keyw">LocalSymmetryOfEdges</code>.</p>
-
-<p>This function returns a list whose <em>i</em>th entry is "mirror" if the <em>i</em>th edge of <var class="Arg">colSurf</var> is a mirror edge, or "rotation" if the <em>i</em>th edge of <var class="Arg">colSurf</var> is a rotation edge, or "boundary" if the <em>i</em>th edge of <var class="Arg">colSurf</var> is a boundary edge.</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := Octahedron();;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := AllWildColouredSurfaces(oct);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LocalSymmetryOfEdges(oct[1]);</span>
-[ "mirror", "mirror", "mirror", "mirror", "mirror", "mirror", "mirror",
- "mirror", "mirror", "mirror", "mirror", "mirror" ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LocalSymmetryOfEdges(oct[2]);</span>
-[ "mirror", "rotation", "mirror", "rotation", "mirror", "mirror", "mirror",
- "mirror", "rotation", "mirror", "mirror", "rotation" ]
-</pre></div>
-
-<p>Of particular interest are those colourings where the local symmetry is equal for each edge of the same colour. In comparison to the wild-coloured surfaces these colourings are much better behaved. Therefore they are called <em>tame-coloured surfaces</em>.</p>
-
-<p><a id="X7B2CEDA6834072B6" name="X7B2CEDA6834072B6"></a></p>
-
-<h5>19.3-4 IsTameColouredSurface</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTameColouredSurface</code>( <var class="Arg">colSurf</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LocalSymmetryOfColours</code>( <var class="Arg">colSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LocalSymmetryOfColoursAsNumbers</code>( <var class="Arg">colSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
-<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
-
-<p>Check whether the local symmetry (<a href="chap19_mj.html#X7FCD445D7F228A99"><span class="RefLink">19.3-3</span></a>) of a wild-coloured surface is equal for all edges of the same colour.</p>
-
-<p>The method <code class="keyw">LocalSymmetryOfColours</code> returns a list of local symmetries that is indexed by the colours.</p>
-
-<p>For example, consider the octahedron:</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := AllWildColouredSurfaces(Octahedron());;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTameColouredSurface(oct[1]);</span>
-true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LocalSymmetryOfColours(oct[1]);</span>
-[ "mirror", "mirror", "mirror" ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LocalSymmetryOfEdgesAsNumbers(oct[1]);</span>
-[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTameColouredSurface(oct[1]);</span>
-true
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LocalSymmetryOfColours(oct[2]);</span>
-[ "mirror", "rotation", "mirror" ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LocalSymmetryOfEdgesAsNumbers(oct[2]);</span>
-[ 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2 ]
-</pre></div>
-
-<p>Consider the following edge coloured surface:</p>
-
-
-<div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surface:=SimplicialSurfaceByDownwardIncidence(</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [[1,2],[1,3],[2,3],[2,4],[3,4],[3,5],[4,5],[2,4],[2,5],[1,5]],</span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [[1,2,3],[3,4,5],[5,6,7],[7,8,9],[9,10,1]]);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colSurface:=EdgeColouredSimplicialSurface(surface,[1,2,3,2,1,3,2,1,3,2]);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTameColouredSurface(colSurface);</span>
-false
-</pre></div>
-
-<p><br><img src="./images/_Wrapper_TIKZ_NotTameCol-1.svg"> </img> <br> This is an example for a surface which is not tame coloured, since the blue edges do not have the same symmetry.</p>
-
-<p><a id="X811F6405841A27A0" name="X811F6405841A27A0"></a></p>
-
-<h5>19.3-5 AllWildColouredSurfaces</h5>
-
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllWildColouredSurfaces</code>( <var class="Arg">simpSurf</var>[, <var class="Arg">localSymmetry</var>, <var class="Arg">noIsom</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllTameColouredSurfaces</code>( <var class="Arg">simpSurf</var>[, <var class="Arg">localSymmetry</var>, <var class="Arg">noIsom</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllWildColouredSurfaces</code>( <var class="Arg">invList</var>[, <var class="Arg">localSymmetry</var>, <var class="Arg">noIsom</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllTameColouredSurfaces</code>( <var class="Arg">invList</var>[, <var class="Arg">localSymmetry</var>, <var class="Arg">noIsom</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>Returns: a list of wild-coloured surfaces</p>
-
-<p>This method computes all wild-coloured surfaces up to isomorphism based on the given information. If the optional parameter <var class="Arg">noIsom</var> is set to false, the method computes all wild-coloured surfaces. This means the returned list contains isomorphic edge-coloured surfaces. By default, <var class="Arg">noIsom</var> is true. The information can be given in one of two forms:</p>
+<p>We would like to colour the edges in the following way: <br><img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> </img> <br> To do that we describe the colours by positive integers (for example 1,2,4). We can encode the edge colouring in two ways:</p>
 
 <ol>
-<li><p>A simplicial surface (<a href="chap2_mj.html#X7F92DEC87FC7923E"><span class="RefLink">2.3-5</span></a>). The optional argument <var class="Arg">localSymmetry</var> is a list that encodes the local symmetry (<a href="chap19_mj.html#X7FCD445D7F228A99"><span class="RefLink">19.3-3</span></a>) of some edges:</p>
+<li><p>We can give a list that encodes which edge has which colour.</p>
 
 
-<ul>
-<li><p>If <var class="Arg">localSymmetry</var>[<var class="Arg">edge</var>] = 1, then <var class="Arg">edge</var> will become a mirror-edge.</p>
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colOfEdges := [,2,1,1,2,4,1,4,2];</span>
+[ , 2, 1, 1, 2, 4, 1, 4, 2 ]
+</pre></div>
 
-</li>
-<li><p>If <var class="Arg">localSymmetry</var>[<var class="Arg">edge</var>] = 2, then <var class="Arg">edge</var> will become a rotation-edge.</p>
-
-</li>
-<li><p>Unbound positions and the value 0 are ignored, all other entries will throw errors.</p>
+<p>The entry at position <var class="Arg">edge</var> denotes the colour of <var class="Arg">edge</var>.</p>
 
 </li>
-</ul>
-</li>
-<li><p>A list of three involutions that will become the colour involutions (<a href="chap19_mj.html#X8726F36784306F81"><span class="RefLink">19.2-1</span></a>) of all returned wild-coloured surfaces. The involutions can also be given individually (with colours 1, 2, 3) or as generators of a group.</p>
+<li><p>We can give a edge colour class for each colour (as list).</p>
 
-<p>The optional argument <var class="Arg">localSymmetry</var> is a list that encodes the local symmetry (<a href="chap19_mj.html#X7B2CEDA6834072B6"><span class="RefLink">19.3-4</span></a>) of the colours. The entry <var class="Arg">localSymmetry</var>[<var class="Arg">colour</var>] can be given in one of two forms (all others will throw errors):</p>
 
-<ol>
-<li><p>If the entry <var class="Arg">localSymmetry</var>[<var class="Arg">colour</var>] is 1, then all edges with colour <var class="Arg">colour</var> will be mirror edges. If it is 2, they will be rotation edges. If the entry is 0 or unbound, no information is given.</p>
-
-</li>
-<li><p>If the entry <var class="Arg">localSymmetry</var>[<var class="Arg">colour</var>] is again a list, it has to be indexed by the cycles of the involution <var class="Arg">invList</var>[<var class="Arg">colour</var>], i.e. the entry at position <var class="Arg">k</var> encodes the local symmetry of the k-th cycle (counted in <code class="keyw">Cycles</code>(<var class="Arg">invList</var>[<var class="Arg">colour</var>], <var class="Arg">[1..n]</var>), where <var class="Arg">n</var> is the highest point moved by the involutions). As usual, 1 means mirror and 2 means rotation.</p>
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colClasses := [ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ];</span>
+[ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ]
+</pre></div>
 
 </li>
 </ol>
-</li>
-</ol>
-<p>The method <code class="keyw">AllTameColouredSurfaces</code> works identical, except that it only returns the tame-coloured surfaces (<a href="chap19_mj.html#X7B2CEDA6834072B6"><span class="RefLink">19.3-4</span></a>).</p>
+<p>Both of those can be used to construct the edge coloured polygonal complex:</p>
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetWild := AllWildColouredSurfaces(Tetrahedron());;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(tetWild);</span>
-1
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetTame := AllTameColouredSurfaces(Tetrahedron());;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(tetTame);</span>
-1
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octTame := AllTameColouredSurfaces(Octahedron());;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(octTame);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colPyr := EdgeColouredPolygonalComplex( pyr, colOfEdges );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colPyrAlt := EdgeColouredPolygonalComplex( pyr, colClasses );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colPyr = colPyrAlt;</span>
+true
+</pre></div>
+
+<p>Both the polygonal surface and the colouring can be accessed.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolygonalComplex(colPyr) = pyr;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColoursOfEdges(colPyr) = colOfEdges;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfColours(colPyr) = colClasses;</span>
+true
+</pre></div>
+
+<p>A quick access to the used colours is also available:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Colours(colPyr);</span>
+[ 1, 2, 4 ]
+</pre></div>
+
+<p><a id="X873E45B578851665" name="X873E45B578851665"></a></p>
+
+<h5>19.1-1 IsEdgeColouredTwistedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEdgeColouredTwistedPolygonalComplex</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEdgeColouredPolygonalComplex</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEdgeColouredSimplicialSurface</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check if a given object is an <code class="keyw">IsEdgeColouredTwistedPolygonalComplex</code>. This is the case if it consists of a twisted polygonal complex and an edge colouring, accessible by <code class="keyw">TwistedPolygonalComplex</code> (<a href="chap19_mj.html#X7AD6BAAC78356DAA"><span class="RefLink">19.1-3</span></a>) and <code class="keyw">ColoursOfEdges</code> (<a href="chap19_mj.html#X812FD9A3803F45DA"><span class="RefLink">19.1-4</span></a>) respectively.</p>
+
+<p>In addition there are some properties of the type <code class="keyw">IsEdgeColoured</code><em>Thing</em> which check if the underlying twisted polygonal complex fulfills <em>Thing</em>. For example <code class="keyw">IsEdgeColouredSimplicialSurface</code> checks if the underlying polygonal complex is a simplicial surface.</p>
+
+<p><a id="X7F71C0FA7E16237F" name="X7F71C0FA7E16237F"></a></p>
+
+<h5>19.1-2 EdgeColouredTwistedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredTwistedPolygonalComplex</code>( <var class="Arg">complex</var>, <var class="Arg">colouring</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredTwistedPolygonalComplexNC</code>( <var class="Arg">complex</var>, <var class="Arg">colouring</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredPolygonalComplex</code>( <var class="Arg">complex</var>, <var class="Arg">colouring</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredPolygonalComplexNC</code>( <var class="Arg">complex</var>, <var class="Arg">colouring</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredSimplicialSurface</code>( <var class="Arg">surface</var>, <var class="Arg">colouring</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredSimplicialSurfaceNC</code>( <var class="Arg">surface</var>, <var class="Arg">colouring</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: an <code class="keyw">EdgeColouredTwistedPolygonalComplex</code></p>
+
+<p>Construct an edge coloured (twisted) polygonal complex. The edge colouring can be given in one of two ways:</p>
+
+<ol>
+<li><p>As a list <var class="Arg">colouring</var> of positive integers. For every edge <var class="Arg">edge</var> in the given <var class="Arg">complex</var> the entry <var class="Arg">colouring[edge]</var> contains the colour of <var class="Arg">edge</var> (we encode colours by positive integers).</p>
+
+</li>
+<li><p>As a list <var class="Arg">colouring</var> of sets of positive integers. For every colour <var class="Arg">col</var> (the colours are described by positive integers) the entry <var class="Arg">colouring[col]</var> contains the set of all edges with colour <var class="Arg">col</var>.</p>
+
+</li>
+</ol>
+<p>The more specific variations enforce their more restrictive type on <var class="Arg">complex</var>, e.g. <code class="keyw">EdgeColouredSimplicialSurface</code> requires <var class="Arg">complex</var> to be a simplicial surface.</p>
+
+<p>Note: If the given <var class="Arg">complex</var> is already edge coloured, it will be stripped of this colouring first.</p>
+
+<p>As illustration we colour the pyramid from the start of section <a href="chap19_mj.html#X7EB193248443EC68"><span class="RefLink">19.1</span></a> in two different ways and use both ways of encoding the colouring.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pyr := PolygonalSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ , [1,2], [2,3], [3,4], [1,4], [2,10], [3,10], [4,10], [1,10] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ [2,3,4,5], , [2,6,9], [3,6,7], [4,7,8], [5,8,9] ] );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Pyramid_uncoloured-1.svg"> </img> <br> We use the first method of encoding the colouring (based on the edges):</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colPyr1 := EdgeColouredPolygonalComplex(pyr, [,2,1,1,2,3,1,3,2]);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_Pyramid_coloured_1-1.svg"> </img> We can also pick a different colouring which we will define by the second method of encoding:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colPyr2 := EdgeColouredPolygonalComplex(pyr, [[2,6],[3,7],,[4,8],[5,9]]);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_Pyramid_coloured_2-1.svg"> </img></p>
+
+<p>The NC-version does not check whether the given <var class="Arg">colouring</var> is consistent with the edges of <var class="Arg">complex</var>, i.e.</p>
+
+
+<ul>
+<li><p>Does every edge of <var class="Arg">complex</var> appear?</p>
+
+</li>
+<li><p>Is every purported edge of <var class="Arg">colouring</var> an edge of <var class="Arg">complex</var>?</p>
+
+</li>
+</ul>
+<p><a id="X7AD6BAAC78356DAA" name="X7AD6BAAC78356DAA"></a></p>
+
+<h5>19.1-3 TwistedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalComplex</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PolygonalComplex</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialSurface</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a twisted polygonal complex</p>
+
+<p>Return the underlying twisted polygonal complex of an edge coloured twisted polygonal complex. The other variants return the same object but will guarantee the more specific type.</p>
+
+<p>For example both edge coloured pyramids from <a href="chap19_mj.html#X7F71C0FA7E16237F"><span class="RefLink">19.1-2</span></a> have the same underlying polygonal complex.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolygonalComplex(colPyr1) = PolygonalComplex(colPyr2);</span>
+true
+</pre></div>
+
+<p><a id="X812FD9A3803F45DA" name="X812FD9A3803F45DA"></a></p>
+
+<h5>19.1-4 ColoursOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColoursOfEdges</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColourOfEdge</code>( <var class="Arg">colComplex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColourOfEdgeNC</code>( <var class="Arg">colComplex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers / a positive integer</p>
+
+<p>The method <code class="keyw">ColourOfEdge</code>(<var class="Arg">colComplex</var>, <var class="Arg">edge</var>) returns the colour of <var class="Arg">edge</var>, represented by a positive integer. The NC-version does not check whether the given <var class="Arg">edge</var> is an edge of the underlying twisted polygonal complex.</p>
+
+<p>The attribute <code class="keyw">ColoursOfEdges</code>(<var class="Arg">colComplex</var>) collects all of those colours in a list that is indexed by the edge labels, i.e. <code class="keyw">ColoursOfEdges</code>(<var class="Arg">colComplex</var>)[<var class="Arg">edge</var>] = <code class="keyw">ColourOfEdge</code>(<var class="Arg">colComplex</var>, <var class="Arg">edge</var>). All other positions of this list are not bound.</p>
+
+<p>For example consider the coloured pyramid from the start of section <a href="chap19_mj.html#X7EB193248443EC68"><span class="RefLink">19.1</span></a>. <br><img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColourOfEdge( colPyr, 2 );</span>
 2
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octTameIsom := AllTameColouredSurfaces(Octahedron(),false);;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(octTameIsom);</span>
-4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColourOfEdge( colPyr, 7);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ColoursOfEdges( colPyr );</span>
+[ , 2, 1, 1, 2, 4, 1, 4, 2 ]
 </pre></div>
 
-<p>TODO examples that use local symmetries -&gt; what is interesting (but small)?</p>
+<p><a id="X7841B3C38620AA52" name="X7841B3C38620AA52"></a></p>
 
-<p><a id="X79B2764C86834418" name="X79B2764C86834418"></a></p>
+<h5>19.1-5 EdgesOfColours</h5>
 
-<h5>19.3-6 SixFoldCover</h5>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfColours</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfColour</code>( <var class="Arg">colComplex</var>, <var class="Arg">colour</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SixFoldCover</code>( <var class="Arg">simpSurf</var>, <var class="Arg">localSymmetry</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>Returns: a tame coloured surface</p>
+<p>The method <code class="keyw">EdgesOfColour</code>(<var class="Arg">colComplex</var>, <var class="Arg">colour</var>) returns the set of all edges with colour <var class="Arg">colour</var>. If a colour is not used in the given edge coloured twisted polygonal complex, the empty set is returned.</p>
 
-<p>Construct the <em>six fold cover</em> of a simplicial surface. The argument <var class="Arg">localSymmetry</var> is a list with three entries, all of them being 1 (mirror) or 2 (rotation).</p>
+<p>The attribute <code class="keyw">EdgesOfColours</code>(<var class="Arg">colComplex</var>) collects all of these sets in a list that is indexed by the colours (given as positive integers), i.e. <code class="keyw">EdgesOfColours</code>(<var class="Arg">colComplex</var>)[<var class="Arg">colour</var>] = <code class="keyw">EdgesOfColour</code>(<var class="Arg">colComplex</var>, <var class="Arg">colour</var>). All other positions of this list are not bound.</p>
 
-<p>The <em>six fold cover</em> of a simplicial surface is a tame coloured simplicial surface that covers the original surface six times.</p>
-
-<p>It is constructed in the following way:</p>
+<p>For example consider the coloured pyramid from the start of section <a href="chap19_mj.html#X7EB193248443EC68"><span class="RefLink">19.1</span></a>. <br><img src="./images/_Wrapper_TIKZ_Pyramid_coloured-1.svg"> </img> <br></p>
 
 
-<ul>
-<li><p>For each face <span class="SimpleMath">\(f\)</span> of <var class="Arg">simpSurf</var> (with edges <span class="SimpleMath">\(e_a\)</span>, <span class="SimpleMath">\(e_b\)</span> and <span class="SimpleMath">\(e_c\)</span>) there are six faces in the cover. These have the form <span class="SimpleMath">\((f, e_1, e_2, e_3)\)</span> with <span class="SimpleMath">\(\{e_1,e_2,e_3\} = \{e_a,e_b,e_c\}\)</span>. Formally they represent the map <span class="SimpleMath">\(e_a \to e_1\)</span>, <span class="SimpleMath">\(e_b \to e_2\)</span>, <span class="SimpleMath">\(e_c \to e_3\)</span>.</p>
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfColour( colPyr, 1 );</span>
+[ 3, 4, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfColour( colPyr, 4);</span>
+[ 6, 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfColour( colPyr, 5 );</span>
+[]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfColours( colPyr );</span>
+[ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ]
+</pre></div>
 
-</li>
-<li><p>For each face of the six fold cover and each <span class="SimpleMath">\(i\in\{1,2,3\}\)</span> an edge of this face is defined. For example, if <span class="SimpleMath">\(i = 2\)</span> and the face is <span class="SimpleMath">\((f,e_x,e_y,e_z)\)</span>, we construct the neighbour in the following way:</p>
+<p><a id="X7F21C88B849F476F" name="X7F21C88B849F476F"></a></p>
 
-<p>Find the neighbour of <span class="SimpleMath">\(f\)</span> with respect to <span class="SimpleMath">\(e_y\)</span>, denoted by <span class="SimpleMath">\(g\)</span>. The neighbour in the six fold cover will be of the form <span class="SimpleMath">\((g,?,e_y,?)\)</span>. The content of the <span class="SimpleMath">\(?\)</span> depends on the argument <var class="Arg">localSymmetry</var>. Assume <span class="SimpleMath">\(g\)</span> has the edges <span class="SimpleMath">\(\{e_y,e_v,e_w\}\)</span>, where <span class="SimpleMath">\(e_x,e_y,e_v\)</span> share a vertex in <var class="Arg">simpSurf</var>. If <var class="Arg">localSymmetry[i] = 1</var>, we perform a <em>mirroring</em>, so the neighbour will be <span class="SimpleMath">\((g,e_v,e_y,e_w)\)</span>. If <var class="Arg">localSymmetry[i]=2</var>, we perform a <em>rotation</em>, so the neighbour will be <span class="SimpleMath">\((g,e_w,e_y,e_v)\)</span>.</p>
+<h5>19.1-6 Colours</h5>
 
-</li>
-<li><p>To define the vertices, <var class="Arg">localSymmetry</var> is used. All edges with <span class="SimpleMath">\(i=2\)</span> in the preceding explanation will get the local symmetry <var class="Arg">localSymmetry[2]</var> (mirror if it is 1, rotation if it is 2).</p>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Colours</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
 
-</li>
-</ul>
+<p>Return the set of all edge colours that are used in the given edge coloured twisted polygonal complex.</p>
+
+<p><a id="X832DDB857DC02EE0" name="X832DDB857DC02EE0"></a></p>
+
+<h4>19.2 <span class="Heading">Drawing edge coloured surfaces</span></h4>
+
+<p>The drawing functionality for ramified polygonal surfaces in section <a href="chap17_mj.html#X786563217D3FA669"><span class="RefLink">17.2</span></a> can also be used for edge coloured polygonal complexes (as long as the underlying polygonal complex is a ramified polygonal surface).</p>
+
+<p>The main difference to the previous method is that it is much more convenient to change edge lengths and colours. Consider for example a coloured tetrahedron.</p>
+
 
 <div class="example"><pre>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := Tetrahedron();;</span>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SixFoldCover(tetra);</span>
-[ tame coloured surface (MMM with 12 vertices, 36 edges and 24 faces), 
-  rec( Description := "[oldFace, [vertices of the oldFace]]", 
-    Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], 
-              [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], 
-              [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], 
-              [ 2, [ 3, 5, 1 ] ], [ 2, [ 5, 1, 3 ] ], [ 2, [ 5, 3, 1 ] ], 
-              [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], 
-              [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], 
-              [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], 
-              [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ],[ 4, [ 6, 3, 2 ] ] ] ) ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(last[1]);</span>
-1
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SixFoldCover(Tetrahedron(), [2,2,2] );</span>
-[ tame coloured surface (RRR with 24 vertices, 36 edges and 24 faces), 
-  rec( Description := "[oldFace, [vertices of the oldFace]]", 
-   Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], 
-              [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], 
-              [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], 
-              [ 2, [ 3, 5, 1 ] ], [ 2, [ 5, 1, 3 ] ], [ 2, [ 5, 3, 1 ] ], 
-              [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], 
-              [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], 
-              [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], 
-              [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ], [ 4, [ 6, 3, 2 ] ] ] ) ]
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(last[1]);</span>
-6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colTetra := EdgeColouredPolygonalComplex(tetra, [1,2,3,3,2,1]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := DrawSurfaceToTikz( colTetra, "ColouredTetrahedron", rec(scale:=2.5) );;</span>
 </pre></div>
 
-<p><a id="X7B07C3117D45EC98" name="X7B07C3117D45EC98"></a></p>
+<p><br><img src="./images/_Wrapper_TIKZ_ColouredTetrahedron-1.svg"> </img> <br> If we now want to change edge lengths (such that edges of the same colour have the same length), we can do this very easily:</p>
 
-<h5>19.3-7 CommonCover</h5>
 
-<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonCover</code>( <var class="Arg">surf1</var>, <var class="Arg">surf2</var>, <var class="Arg">localSym1</var>, <var class="Arg">localSym2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
-<p>Returns: a pair of a simplicial surface and a record that stores vertices, edges and faces of it</p>
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeColourClassLengths := [5,4,3];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.scale := 1;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_rectangular", pr );;</span>
+</pre></div>
 
-<p>Compute the <em>common cover</em> of two simplicial surfaces.</p>
+<p><br><img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_rectangular-1.svg"> </img> <br> The colours can also be changed in the same fashion.</p>
 
-<p>TODO</p>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeColourClassColours := ["cyan","olive","magenta"];</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_coloured", pr );</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_coloured-1.svg"> </img> <br></p>
+
+<p>While it is very easy to modify all edges of the same colour simultaneously, it becomes harder to change them individually. For example we can't just make the first and fourth edge longer.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLengths;</span>
+[ 5, 4, 3, 3, 4, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLengths := [4,4,3,4,4,5];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_modLengths", pr );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLengths;</span>
+[ 5, 4, 3, 3, 4, 5 ]
+</pre></div>
+
+<p>To change individual edges the colour connection has to be ignored. This is possible by using the entry <var class="Arg">edgeColourClassActive</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeColourClassActive := false;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLengths := [4,4,3,4,4,5];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( colTetra, "ColouredTetrahedron_modLengths", pr );</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_ColouredTetrahedron_modLengths-1.svg"> </img> <br></p>
+
+<p><a id="X806F8235854E7CD8" name="X806F8235854E7CD8"></a></p>
+
+<h5>19.2-1 DrawSurfaceToTikz</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DrawSurfaceToTikz</code>( <var class="Arg">colRamSurf</var>, <var class="Arg">fileName</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Draw the net of the given <var class="Arg">colRamSurf</var> into a tex-file (using TikZ). This method extends the drawing method for polygonal surfaces without edge ramifications (compare <a href="chap17_mj.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>) by respecting the edge colour classes of <var class="Arg">colRamSurf</var>. An introduction the the usage of the additional parameters can be found at the start of section <a href="chap19_mj.html#X832DDB857DC02EE0"><span class="RefLink">19.2</span></a>.</p>
+
+
+<ul>
+<li><p>If the given <var class="Arg">fileName</var> does not end in <em>.tex</em> the ending <em>.tex</em> will be added to it.</p>
+
+</li>
+<li><p>The given file will be overwritten without asking if it already exists. If you don't have permission to write in that file, this method will throw an error.</p>
+
+</li>
+<li><p>The particulars of the drawing are determined by the given <var class="Arg">printRecord</var>. If this is not given, the default settings are used.</p>
+
+</li>
+<li><p>The <var class="Arg">printRecord</var> will be modified and returned by this method. It contains the data to recreate the drawing of the surface.</p>
+
+</li>
+</ul>
+<p>There are several parameters to change the output of this method, from cosmetic changes to exactly controlling in which order the faces are drawn. For the standard parameters, see <a href="chap17_mj.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>. For edge coloured ramified polygonal surfaces the <em>edgeColourClass</em>-parameters are added:</p>
+
+
+<ul>
+<li><p><em>edgeColourClassActive</em>: If this parameter is <code class="keyw">false</code> the other <em>edgeColourClass</em>-parameters have no effect. By default, it is <code class="keyw">true</code>.</p>
+
+</li>
+<li><p><em>edgeColourClassLengths</em>: This parameter is a list with an entry for every colour of <var class="Arg">colRamSurf</var>. The entry of a colour defines the length of all edges with this colour. This parameter overwrites <em>edgeLengths</em> as long as <em>edgeColourClassActive</em> is <code class="keyw">true</code>.</p>
+
+</li>
+<li><p><em>edgeColourClassColours</em>: This parameter is a list with an entry for every colour of <var class="Arg">colRamSurf</var>. The entry of a colour defines the drawing colour for all edges of this colour class. This parameter overwrites <em>edgeColours</em> as long as <em>edgeColourClassActive</em> is <code class="keyw">true</code>.</p>
+
+</li>
+</ul>
+<p><a id="X7D24868C86D216D5" name="X7D24868C86D216D5"></a></p>
+
+<h4>19.3 <span class="Heading">Isomorphisms between edge-coloured polygonal complexes</span></h4>
+
+<p>An edge-coloured polygonal complex can be completely described by the incidence structure of its polygonal complex and the edge colouring. These can be encoded in an extended incidence graph. To do so, we start with the incidence graph from section <a href="chap15_mj.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a> and add a vertex for each colour, which is connected to all edges of this colour.</p>
+
+<p>Then the isomorphism problem can be decided if one of the following graph packages is loaded: <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p><a id="X7D18314381B5DCEE" name="X7D18314381B5DCEE"></a></p>
+
+<h5>19.3-1 ColourIncidenceDigraphsGraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColourIncidenceDigraphsGraph</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColourIncidenceGrapeGraph</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ColourIncidenceNautyGraph</code>( <var class="Arg">colComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a graph as defined in the package <code class="keyw">Digraphs</code></p>
+
+<p>Return the colour-extended incidence graph (a coloured, undirected graph) of the given edge coloured polygonal complex. It is defined as follows:</p>
+
+
+<ul>
+<li><p>The <em>vertices</em> are the vertices (colour 0), edges (colour 1), faces (colour 2) and colours (colour 3) of <var class="Arg">colComplex</var>. The labels are shifted in the following way:</p>
+
+
+<ul>
+<li><p>The vertex numbers are not modified</p>
+
+</li>
+<li><p>The edge numbers are shifted upwards by the maximal vertex number</p>
+
+</li>
+<li><p>The face numbers are shifted upwards by the sum of the maximal vertex number and the maximal edge number</p>
+
+</li>
+</ul>
+
+<ul>
+<li><p>The colour labels are shifted upwards by the sum of the maximal vertex label, the maximal edge label and the maximal face label.</p>
+
+</li>
+</ul>
+</li>
+<li><p>The <em>edges</em> can be one of these:</p>
+
+
+<ul>
+<li><p>Vertex-edge-pairs or edge-face-pairs such that the elements of the pair are incident in the polygonal complex of <var class="Arg">colComplex</var></p>
+
+</li>
+<li><p>edge-colour-pairs such that the edge has the corresponding colour in <var class="Arg">colComplex</var>.</p>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>The returned graph can be given in three different formats, corresponding to different graph packages: <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p>Note that if <code class="keyw">ColourIncidenceDigraphsGraph</code> is used the output is a list, where the first entry is a digraph and the second a list of vertex colours, with the colours 1...5. There are isolated vertices of the digraph which correspond to labels of vertices, edges and faces that do not exists in the given polygonal complex. These are coloured with colour 5 and the other vertices are coloured as described above but increased by one.</p>
+
+<p>As an example consider the coloured Tetrahedron: <br><img src="./images/_Wrapper_TIKZ_ColouredTetrahedron-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colTetra := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);;</span>
+</pre></div>
+
+<p>For example edge 1 is incident to the vertices 1 and 2, incident to the faces 1 and 2 and has colour 1. Edge 1 has the label 5 in the incidence graph. This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12 and 15 in the incidence graph:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph:=ColourIncidenceDigraphsGraph(colTetra)[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">InNeighboursOfVertex(digraph,5);</span>
+[ 1, 2, 11, 12, 15 ]
+</pre></div>
+
+<p><a id="X7B15939D7F62C52B" name="X7B15939D7F62C52B"></a></p>
+
+<h5>19.3-2 IsIsomorphicEdgeColouredPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsIsomorphicEdgeColouredPolygonalComplex</code>( <var class="Arg">colComplex1</var>, <var class="Arg">colComplex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Return whether the given edge coloured polygonal complexes are isomorphic. They are isomorphic if their colour-extended incidence graphs (compare <a href="chap19_mj.html#X7D18314381B5DCEE"><span class="RefLink">19.3-1</span></a>) are isomorphic. Changes of the colour labels are explicitly allowed.</p>
+
+<p>For example the two colourings from <a href="chap19_mj.html#X7F71C0FA7E16237F"><span class="RefLink">19.1-2</span></a> are not isomorphic.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphicEdgeColouredPolygonalComplex(colPyr1, colPyr2);</span>
+false
+</pre></div>
+
+<p><a id="X87D5D8DE79FE2683" name="X87D5D8DE79FE2683"></a></p>
+
+<h5>19.3-3 EdgeColouredPolygonalComplexIsomorphismRepresentatives</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeColouredPolygonalComplexIsomorphismRepresentatives</code>( <var class="Arg">complexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of edge coloured polygonal complexes</p>
+
+<p>The method <code class="keyw">EdgeColouredPolygonalComplexIsomorphismRepresentatives</code> takes a list of edge coloured polygonal complexes and returns a reduced list in which no two entries are isomorphic.</p>
+
+<p>For example, consider two isomorphic edge-coloured tetrahedra:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colTetra1 := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);</span>
+tame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colTetra2 := EdgeColouredPolygonalComplex(Tetrahedron(), [3,1,2,2,1,3]);</span>
+tame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphicEdgeColouredPolygonalComplex(colTetra1,colTetra2);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">EdgeColouredPolygonalComplexIsomorphismRepresentatives([colTetra1,colTetra2]));</span>
+1
+</pre></div>
 
 
 <div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap18_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap20_mj.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chap23_mj.html">23</a>  <a href="chapInd_mj.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

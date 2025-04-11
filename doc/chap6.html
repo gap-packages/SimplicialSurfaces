@@ -15,7 +15,7 @@
 <body class="chap6"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chap23.html">23</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap5.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap7.html">[Next Chapter]</a>&nbsp;  </div>
 
@@ -63,7 +63,7 @@
 10
 </pre></div>
 
-<p>The method <code class="keyw">ConnectedFaceSum</code> requires flags of the surfaces we want to combine. We can obtain the set of all flags by calling <code class="keyw">Flags</code>(<a href="chap21.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>).</p>
+<p>The method <code class="keyw">ConnectedFaceSum</code> requires flags of the surfaces we want to combine. We can obtain the set of all flags by calling <code class="keyw">Flags</code>(<a href="chap22.html#X82975C097EC3C998"><span class="RefLink">22.1-1</span></a>).</p>
 
 
 <div class="example"><pre>
@@ -97,8 +97,8 @@ simplicial surface (17 vertices, 45 edges, and 30 faces)
 
 
 <div class="example"><pre>
-<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">autGrp := AutomorphismGroup(newSurf);</span>
-Group(())
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTrivial(AutomorphismGroup(newSurf));</span>
+true
 </pre></div>
 
 <p>Since this is the trivial group, we succeeded in our goal.</p>
@@ -175,7 +175,7 @@ true
 
 </li>
 </ol>
-<p>A tedious way would be to construct this surface by hand, label all vertices, edges, and faces, and use one of the methods from chapter <a href="chap4.html#X7C77E62B7FD24306"><span class="RefLink">4</span></a> to construct the surface. Instead, we can also follow the guidelines to construct the surface. First, we have to obtain the spherical surface. Since the two vertices of degree 5 are not adjacent, the faces incident to them are distinct. We can construct those by the method <code class="keyw">SimplicialUmbrella</code> (<a href="chap14.html#X860EF4C583F576EE"><span class="RefLink">14.4-2</span></a>):</p>
+<p>A tedious way would be to construct this surface by hand, label all vertices, edges, and faces, and use one of the methods from chapter <a href="chap4.html#X7C77E62B7FD24306"><span class="RefLink">4</span></a> to construct the surface. Instead, we can also follow the guidelines to construct the surface. First, we have to obtain the spherical surface. Since the two vertices of degree 5 are not adjacent, the faces incident to them are distinct. We can construct those by the method <code class="keyw">SimplicialUmbrella</code> (<a href="chap14.html#X860EF4C583F576EE"><span class="RefLink">14.4-4</span></a>):</p>
 
 
 <div class="example"><pre>
@@ -183,7 +183,7 @@ true
 simplicial surface (6 vertices, 10 edges, and 5 faces)
 </pre></div>
 
-<p>Since two of these umbrellas have 10 faces in total, we can construct the surface from two umbrellas. We can do so by identifying their boundaries. This process is known as <em>joining</em> and the relevant methods are documented in section <a href="chap12.html#X82623EE88772F585"><span class="RefLink">12.4</span></a>. For our purpose, we need <code class="keyw">JoinBoundaries</code> (<a href="chap12.html#X7FAFA27E7CC8A11C"><span class="RefLink">12.4-5</span></a>). This method requires a vertex and an edge of each umbrella, that lie on the boundary and are incident to each other. The easiest way would be to look up the labelling in the documentation of <code class="keyw">SimplicialUmbrella</code> (<a href="chap14.html#X860EF4C583F576EE"><span class="RefLink">14.4-2</span></a>), but we can also find one of them ourselves:</p>
+<p>Since two of these umbrellas have 10 faces in total, we can construct the surface from two umbrellas. We can do so by identifying their boundaries. This process is known as <em>joining</em> and the relevant methods are documented in section <a href="chap12.html#X82623EE88772F585"><span class="RefLink">12.4</span></a>. For our purpose, we need <code class="keyw">JoinBoundaries</code> (<a href="chap12.html#X7FAFA27E7CC8A11C"><span class="RefLink">12.4-5</span></a>). This method requires a vertex and an edge of each umbrella, that lie on the boundary and are incident to each other. The easiest way would be to look up the labelling in the documentation of <code class="keyw">SimplicialUmbrella</code> (<a href="chap14.html#X860EF4C583F576EE"><span class="RefLink">14.4-4</span></a>), but we can also find one of them ourselves:</p>
 
 
 <div class="example"><pre>
@@ -221,7 +221,7 @@ simplicial surface (7 vertices, 15 edges, and 10 faces)
 [ 17, 18 ]
 </pre></div>
 
-<p>For the octahedron, we can use any flag. We can use <code class="keyw">Flags</code> (<a href="chap21.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>) to compute all of them.</p>
+<p>For the octahedron, we can use any flag. We can use <code class="keyw">Flags</code> (<a href="chap22.html#X82975C097EC3C998"><span class="RefLink">22.1-1</span></a>) to compute all of them.</p>
 
 
 <div class="example"><pre>
@@ -263,9 +263,9 @@ simplicial surface (13 vertices, 33 edges, and 22 faces)
 
 <div class="example"><pre>
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">aut := AutomorphismGroupOnVertices(faceSum2);</span>
-&lt;permutation group with 2 generators&gt;
+permutation group with 2 generators
 <span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fixedVertices := Filtered( Vertices(faceSum2), </span>
-<span class="GAPprompt">&gt;</span> <span class="GAPinput">                       v -&gt; ForAll(aut, a -&gt; v^a=v) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   v -&gt; ForAll(aut, a -&gt; v^a=v) );</span>
 [ 20 ]
 </pre></div>
 
@@ -285,7 +285,7 @@ simplicial surface (12 vertices, 29 edges, and 18 faces)
 <div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap5.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap7.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chap23.html">23</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

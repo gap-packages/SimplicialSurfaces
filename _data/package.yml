@@ -1,7 +1,7 @@
 name: SimplicialSurfaces
-version: "0.6"
+version: "0.7"
 license: "GPL-3.0-or-later"
-date: 2021-09-23
+date: 2025-04-11
 description: |
     Computing with simplicial surfaces and folding processes.
 
@@ -36,18 +36,12 @@ maintainers:
 GAP: ">= 4.12"
 
 needed-pkgs:
-    - name: "Grape"
-      version: ">=4.8.2"
-      url: "https://gap-packages.github.io/grape"
     - name: "AttributeScheduler"
       version: ">=2018.08.03"
       url: "http://TODO/"
     - name: "Digraphs"
       version: ">=1.1.1"
       url: "https://digraphs.github.io/Digraphs"
-    - name: "NautyTracesInterface"
-      version: ">=0.2"
-      url: "https://gap-packages.github.io/NautyTracesInterface/"
 
 suggested-pkgs:
     - name: "GAPDoc"
@@ -59,14 +53,20 @@ suggested-pkgs:
     - name: "IO"
       version: ">=2.2"
       url: "https://gap-packages.github.io/io"
+    - name: "Grape"
+      version: ">=4.8.2"
+      url: "https://gap-packages.github.io/grape"
+    - name: "NautyTracesInterface"
+      version: ">=0.2"
+      url: "https://gap-packages.github.io/NautyTracesInterface/"
 
 www: https://github.com/gap-packages/SimplicialSurfaces
-readme: SimplicialSurfacesREADME.md
+readme: README.md
 packageinfo: https://github.com/gap-packages/SimplicialSurfacesPackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/SimplicialSurfaces/SimplicialSurfaces-0.6.tar.gz
+      url: https://github.com/gap-packages/SimplicialSurfaces/releases/download/v0.7/SimplicialSurfaces-0.7.tar.gz
 
 abstract: |
     The <span class='pkgname'>SimplicialSurfaces</span> package provides functionality for working with simplicial surfaces and generalisations
@@ -78,10 +78,10 @@ keywords: |
     Simplicial.
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>NBAGWST21</span>]   <b class='BibAuthor'>Niemeyer, A., Baumeister, M., Akpanya, R., Görtzen, T., Weiß, M., Schnelle, L. and GAP Team, T.</b>,
+    [<span class='BibKey'>NBAGWST25</span>]   <b class='BibAuthor'>Niemeyer, A., Baumeister, M., Akpanya, R., Görtzen, T., Weiß, M., Schnelle, L. and GAP Team, T.</b>,
      <i class='BibTitle'>SimplicialSurfaces, Computing with simplicial surfaces and folding processes.,
-             Version 0.6</i>
-     (<span class='BibYear'>2021</span>)<br />
+             Version 0.7</i>
+     (<span class='BibYear'>2025</span>)<br />
     (<span class='BibNote'>GAP package</span>),
     <span class='BibHowpublished'><a href="https://github.com/gap-packages/SimplicialSurfaces">https://github.com/gap-packages/SimplicialSurfaces</a></span>.
     </p>
@@ -89,18 +89,20 @@ citeas: |
 
 bibtex: |
     @misc{ SimplicialSurfaces,
-      author =           {Niemeyer,  A.  and  Baumeister,  M.  and  Akpanya, R. and G{\"o}rtzen, T. and Wei{\ss}, M. and
-                          Schnelle, L. and GAP Team, T.},
-      title =            {{SimplicialSurfaces},  {Computing  with simplicial surfaces and folding processes.}, {V}ersion
-                          0.6},
-      month =            {Sep},
-      year =             {2021},
+      author =           {Niemeyer,  A.  and  Baumeister, M. and Akpanya, R. and
+                          G{\"o}rtzen,  T. and Wei{\ss}, M. and Schnelle, L. and
+                          GAP Team, T.},
+      title =            {{SimplicialSurfaces},   {Computing   with   simplicial
+                          surfaces and folding processes.}, {V}ersion 0.7},
+      month =            {Apr},
+      year =             {2025},
       note =             {GAP package},
-      howpublished =     {\href                                     {https://github.com/gap-packages/SimplicialSurfaces}
+      howpublished =     {\href
+                          {https://github.com/gap-packages/SimplicialSurfaces}
                           {\texttt{https://github.com/}\discretionary
                           {}{}{}\texttt{gap\texttt{\symbol{45}}packages/}\discretionary
                           {}{}{}\texttt{SimplicialSurfaces}}},
       keywords =         {Simplicial},
-      printedkey =       {NBAGWST21}
+      printedkey =       {NBAGWST25}
     }
 

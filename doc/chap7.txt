@@ -22,7 +22,7 @@
   polygonal morphisms. In particular, [9XIsInjective[109X, [9XIsSurjective[109X, [9XIsBijective[109X.[133X
   
   [33X[0;0YIf  the  edges  and faces of the polygonal complexes are uniquely defined by
-  their  vertices  (which can be tested by [9XIsAnomalyFree[109X, compare [14X16.1-1[114X), the
+  their  vertices  (which can be tested by [9XIsAnomalyFree[109X, compare [14X17.1-1[114X), the
   polygonal  morphism  can  be  defined  by  the vertex map (the more flexible
   constructor  in  [14X7.1-1[114X  requires  all  three  maps).  Consider the following
   example,  in  which the face 2 is mapped to the face 2, and both the faces 3
@@ -140,7 +140,7 @@
   [33X[1;0Y[29X[2XPolygonalMorphismByVertexImagesNC[102X( [3XsourceComplex[103X, [3XrangeComplex[103X, [3XvertexMap[103X ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ya polygonal mapping[133X
   
-  [33X[0;0YGiven  two  vertex-faithful  ([14X16.1-1[114X)  polygonal complexes and a map between
+  [33X[0;0YGiven  two  vertex-faithful  ([14X17.1-1[114X)  polygonal complexes and a map between
   their vertices, construct a polygonal morphism extending the vertex map. The
   arguments are:[133X
   

@@ -1335,10 +1335,10 @@
   [1X4.5 [33X[0;0YConstructing surfaces via their Dress Group[133X[101X
   
   [33X[0;0YIn  some  constructions a surface may arrise from the knowledge of its Dress
-  Group, see Section [14X21.2[114X. In this case, the surface can be reconstructed from
+  Group, see Section [14X22.2[114X. In this case, the surface can be reconstructed from
   its Dress group [22XD = ⟨ θ_0, θ_1, θ_2⟩[122X by computing the orbits of the dihedral
   subgroups  [22XD_0  =  ⟨  θ_1, θ_2⟩[122X, [22XD_1 = ⟨ θ_0, θ_2⟩[122X, [22XD_2 = ⟨ θ_0, θ_1⟩[122X, where
-  [23X\theta_0,  \theta_1,  \theta_2[123X  are  the  Dress  Involutions, see [14X21.2-1[114X. In
+  [23X\theta_0,  \theta_1,  \theta_2[123X  are  the  Dress  Involutions, see [14X22.2-1[114X. In
   particular,  the  vertices  correspond  to  the  orbits  of  [22XD_0[122X,  the edges
   correspond  to the orbits of [22XD_1[122X, the faces correspond to the orbits of [22XD_2[122X,
   and incidence is given by non-empty set-intersection.[133X
@@ -1349,7 +1349,7 @@
   [6XReturns:[106X  [33X[0;10Ya simplicial surface or false[133X
   
   [33X[0;0YThis  method  takes  as  input a permutation group [3Xdress[103X, and tests, whether
-  [3Xdress[103X  is the Dress Group of a simplicial surface [3Xsurf[103X, see Section [14X21.2[114X. If
+  [3Xdress[103X  is the Dress Group of a simplicial surface [3Xsurf[103X, see Section [14X22.2[114X. If
   this is the case, [3Xsurf[103X is constructed and returned.[133X
   
   [4X[32X  Example  [32X[104X

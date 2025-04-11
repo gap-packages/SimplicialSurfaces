@@ -33,7 +33,7 @@
   [4X[32X[104X
   
   [33X[0;0YThe  method  [9XConnectedFaceSum[109X  requires  flags  of  the  surfaces we want to
-  combine. We can obtain the set of all flags by calling [9XFlags[109X([14X21.1-1[114X).[133X
+  combine. We can obtain the set of all flags by calling [9XFlags[109X([14X22.1-1[114X).[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XFlags(surf16[1]);[127X[104X
@@ -66,8 +66,8 @@
   the automorphism group with [9XAutomorphismGroup[109X ([14X15.6-1[114X).[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XautGrp := AutomorphismGroup(newSurf);[127X[104X
-    [4X[28XGroup(())[128X[104X
+    [4X[25Xgap>[125X [27XIsTrivial(AutomorphismGroup(newSurf));[127X[104X
+    [4X[28Xtrue[128X[104X
   [4X[32X[104X
   
   [33X[0;0YSince this is the trivial group, we succeeded in our goal.[133X
@@ -152,7 +152,7 @@
   construct the surface. First, we have to obtain the spherical surface. Since
   the  two  vertices  of degree 5 are not adjacent, the faces incident to them
   are  distinct.  We  can  construct  those  by  the method [9XSimplicialUmbrella[109X
-  ([14X14.4-2[114X):[133X
+  ([14X14.4-4[114X):[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27Xumb5 := SimplicialUmbrella(5);[127X[104X
@@ -165,7 +165,7 @@
   section  [14X12.4[114X. For our purpose, we need [9XJoinBoundaries[109X ([14X12.4-5[114X). This method
   requires a vertex and an edge of each umbrella, that lie on the boundary and
   are  incident  to  each  other.  The  easiest  way  would  be to look up the
-  labelling  in  the  documentation of [9XSimplicialUmbrella[109X ([14X14.4-2[114X), but we can
+  labelling  in  the  documentation of [9XSimplicialUmbrella[109X ([14X14.4-4[114X), but we can
   also find one of them ourselves:[133X
   
   [4X[32X  Example  [32X[104X
@@ -212,7 +212,7 @@
     [4X[28X[ 17, 18 ][128X[104X
   [4X[32X[104X
   
-  [33X[0;0YFor  the  octahedron,  we  can  use  any  flag. We can use [9XFlags[109X ([14X21.1-1[114X) to
+  [33X[0;0YFor  the  octahedron,  we  can  use  any  flag. We can use [9XFlags[109X ([14X22.1-1[114X) to
   compute all of them.[133X
   
   [4X[32X  Example  [32X[104X
@@ -258,9 +258,9 @@
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27Xaut := AutomorphismGroupOnVertices(faceSum2);[127X[104X
-    [4X[28X<permutation group with 2 generators>[128X[104X
+    [4X[28Xpermutation group with 2 generators[128X[104X
     [4X[25Xgap>[125X [27XfixedVertices := Filtered( Vertices(faceSum2), [127X[104X
-    [4X[25X>[125X [27X                       v -> ForAll(aut, a -> v^a=v) );[127X[104X
+    [4X[25X>[125X [27X   v -> ForAll(aut, a -> v^a=v) );[127X[104X
     [4X[28X[ 20 ][128X[104X
   [4X[32X[104X
   

@@ -6,10 +6,10 @@
           [1X Computing with simplicial surfaces and folding processes. [101X
   
   
-                                      0.6
+                                      0.7
   
   
-                               23 September 2021
+                                 11 April 2025
   
   
                                  Alice Niemeyer
@@ -66,7 +66,7 @@
   
   -------------------------------------------------------
   [1XCopyright[101X
-  [33X[0;0Y© 2016-2021 by Alice Niemeyer and Markus Baumeister[133X
+  [33X[0;0Y© 2016-2025 by Alice Niemeyer and Markus Baumeister[133X
   
   [33X[0;0YThis  package  may  be distributed under the terms and conditions of the GNU
   Public License Version 3 (or higher).[133X
@@ -272,10 +272,12 @@
     9.1 [33X[0;0YInvariants[133X
       9.1-1 EulerCharacteristic
       9.1-2 IsClosedComplex
-      9.1-3 IsMultiTetrahedralSphere
-      9.1-4 TetrahedralNumber
-      9.1-5 TetrahedralType
-      9.1-6 BlockType
+      9.1-3 IsSimplexRing
+      9.1-4 IsSimplexString
+      9.1-5 IsMultiTetrahedralSphere
+      9.1-6 TetrahedralNumber
+      9.1-7 TetrahedralType
+      9.1-8 BlockType
     9.2 [33X[0;0YDegree-based properties and invariants[133X
       9.2-1 EdgeDegreesOfVertices
       9.2-2 FaceDegreesOfVertices
@@ -407,11 +409,15 @@
       14.3-5 Dodecahedron
       14.3-6 Icosahedron
     14.4 [33X[0;0YOther pre-defined surfaces[133X
-      14.4-1 JanusHead
-      14.4-2 SimplicialUmbrella
-      14.4-3 SimplicialDoubleUmbrella
-      14.4-4 SimplicialOpenGeodesic
-      14.4-5 SimplicialClosedGeodesic
+      14.4-1 OneFace
+      14.4-2 Butterfly
+      14.4-3 JanusHead
+      14.4-4 SimplicialUmbrella
+      14.4-5 SimplicialDoubleUmbrella
+      14.4-6 SimplicialOpenGeodesic
+      14.4-7 SimplicialClosedGeodesic
+      14.4-8 SimplexRingByIsomorphismType
+      14.4-9 SimplexStringByIsomorphismType
   15 [33X[0;0YGraphs and isomorphisms[133X
     15.1 [33X[0;0YWhich graph package should be used?[133X
     15.2 [33X[0;0YIncidence graph[133X
@@ -435,108 +441,111 @@
     15.7 [33X[0;0YAction on paths[133X
       15.7-1 OnVertexEdgePaths
       15.7-2 OnEdgeFacePaths
-  16 [33X[0;0YNets and embeddings[133X
-    16.1 [33X[0;0YAnomalies[133X
-      16.1-1 IsAnomalyFree
-      16.1-2 EdgeAnomalyClasses
-      16.1-3 FaceAnomalyClasses
-    16.2 [33X[0;0YDrawing a net in TikZ[133X
-      16.2-1 DrawSurfaceToTikz
-      16.2-2 [33X[0;0YColours[133X
-      16.2-3 [33X[0;0YLabels[133X
-      16.2-4 [33X[0;0YLengths and angles[133X
-      16.2-5 [33X[0;0YDraw order[133X
-      16.2-6 [33X[0;0YOutput control[133X
-      16.2-7 [33X[0;0YData representation[133X
-      16.2-8 SetFaceCoordinates2D
-    16.3 [33X[0;0YDrawing a net in SVG[133X
-      16.3-1 DrawComplexToSVG
-      16.3-2 [33X[0;0YFlaps[133X
-      16.3-3 [33X[0;0YCircles[133X
-      16.3-4 [33X[0;0YGeodesic[133X
-      16.3-5 [33X[0;0YCricut Maker[133X
-    16.4 [33X[0;0YDrawing the face graph[133X
-      16.4-1 DrawFacegraphToTikz
-      16.4-2 [33X[0;0YColours[133X
-      16.4-3 [33X[0;0YLabels[133X
-      16.4-4 [33X[0;0YScaling[133X
-      16.4-5 [33X[0;0YFace coordinates[133X
-      16.4-6 [33X[0;0YGeodesics[133X
-      16.4-7 [33X[0;0YOutput control[133X
-      16.4-8 DrawConvexFacegraphToTikz
-  17 [33X[0;0YAnimating surfaces with Java Script[133X
-  18 [33X[0;0YEdge colourings[133X
-    18.1 [33X[0;0YGeneral definition[133X
-      18.1-1 IsEdgeColouredTwistedPolygonalComplex
-      18.1-2 EdgeColouredTwistedPolygonalComplex
-      18.1-3 TwistedPolygonalComplex
-      18.1-4 ColoursOfEdges
-      18.1-5 EdgesOfColours
-      18.1-6 Colours
-    18.2 [33X[0;0YDrawing edge coloured surfaces[133X
-      18.2-1 DrawSurfaceToTikz
-    18.3 [33X[0;0YIsomorphisms between edge-coloured polygonal complexes[133X
-      18.3-1 ColourIncidenceDigraphsGraph
-      18.3-2 IsIsomorphicEdgeColouredPolygonalComplex
-      18.3-3 EdgeColouredPolygonalComplexIsomorphismRepresentatives
-  19 [33X[0;0YEdge vari-colourings[133X
-    19.1 [33X[0;0YDefinition and elementary properties[133X
-      19.1-1 IsEdgeVariColouring
-      19.1-2 ColouredEdgesOfFaces
-    19.2 [33X[0;0YPermutation description[133X
-      19.2-1 ColourInvolutions
-    19.3 [33X[0;0YWild coloured surfaces[133X
-      19.3-1 IsWildColouredSurface
-      19.3-2 ColouredUmbrellasOfVertices
-      19.3-3 LocalSymmetryOfEdges
-      19.3-4 IsTameColouredSurface
-      19.3-5 AllWildColouredSurfaces
-      19.3-6 SixFoldCover
-      19.3-7 CommonCover
-  20 [33X[0;0YEdge isosceles-colourings[133X
+  16 [33X[0;0YConstructing Families of Simplicial Surfaces[133X
+    16.1 [33X[0;0YCombinatorialEmbeddings[133X
+      16.1-1 ReembeddingsOfDigraph
+  17 [33X[0;0YNets and embeddings[133X
+    17.1 [33X[0;0YAnomalies[133X
+      17.1-1 IsAnomalyFree
+      17.1-2 EdgeAnomalyClasses
+      17.1-3 FaceAnomalyClasses
+    17.2 [33X[0;0YDrawing a net in TikZ[133X
+      17.2-1 DrawSurfaceToTikz
+      17.2-2 [33X[0;0YColours[133X
+      17.2-3 [33X[0;0YLabels[133X
+      17.2-4 [33X[0;0YLengths and angles[133X
+      17.2-5 [33X[0;0YDraw order[133X
+      17.2-6 [33X[0;0YOutput control[133X
+      17.2-7 [33X[0;0YData representation[133X
+      17.2-8 SetFaceCoordinates2D
+    17.3 [33X[0;0YDrawing a net in SVG[133X
+      17.3-1 DrawComplexToSVG
+      17.3-2 [33X[0;0YFlaps[133X
+      17.3-3 [33X[0;0YCircles[133X
+      17.3-4 [33X[0;0YGeodesic[133X
+      17.3-5 [33X[0;0YCricut Maker[133X
+    17.4 [33X[0;0YDrawing the face graph[133X
+      17.4-1 DrawFacegraphToTikz
+      17.4-2 [33X[0;0YColours[133X
+      17.4-3 [33X[0;0YLabels[133X
+      17.4-4 [33X[0;0YScaling[133X
+      17.4-5 [33X[0;0YFace coordinates[133X
+      17.4-6 [33X[0;0YGeodesics[133X
+      17.4-7 [33X[0;0YOutput control[133X
+      17.4-8 DrawConvexFacegraphToTikz
+  18 [33X[0;0YAnimating surfaces with Java Script[133X
+  19 [33X[0;0YEdge colourings[133X
+    19.1 [33X[0;0YGeneral definition[133X
+      19.1-1 IsEdgeColouredTwistedPolygonalComplex
+      19.1-2 EdgeColouredTwistedPolygonalComplex
+      19.1-3 TwistedPolygonalComplex
+      19.1-4 ColoursOfEdges
+      19.1-5 EdgesOfColours
+      19.1-6 Colours
+    19.2 [33X[0;0YDrawing edge coloured surfaces[133X
+      19.2-1 DrawSurfaceToTikz
+    19.3 [33X[0;0YIsomorphisms between edge-coloured polygonal complexes[133X
+      19.3-1 ColourIncidenceDigraphsGraph
+      19.3-2 IsIsomorphicEdgeColouredPolygonalComplex
+      19.3-3 EdgeColouredPolygonalComplexIsomorphismRepresentatives
+  20 [33X[0;0YEdge vari-colourings[133X
     20.1 [33X[0;0YDefinition and elementary properties[133X
-      20.1-1 IsEdgeTwoColouring
+      20.1-1 IsEdgeVariColouring
       20.1-2 ColouredEdgesOfFaces
-    20.2 [33X[0;0YIsosceles coloured surfaces[133X
-      20.2-1 IsIsoscelesColouredSurface
-    20.3 [33X[0;0YFunctions for isosceles coloured Simplicial Surfaces[133X
-      20.3-1 ApexVertexOfFace
-      20.3-2 BaseEdgeOfFace
-      20.3-3 ColouredUmbrellasOfVertices
-    20.4 [33X[0;0YPermutation description[133X
-      20.4-1 WildColouredSurfaceOfIsoscelesColouredSurface
-      20.4-2 ColourInvolutions
-      20.4-3 LocalSymmetryOfEdges
-      20.4-4 AllIsoscelesColouredSurfaces
-      20.4-5 CounterOfVerticesByAngle
-  21 [33X[0;0YFlags[133X
-    21.1 [33X[0;0YComputation[133X
-      21.1-1 Flags
-      21.1-2 VertexEdgeFlags
-      21.1-3 VertexFaceFlags
-      21.1-4 EdgeFaceFlags
-      21.1-5 TwoFlags
-      21.1-6 OneFlags
-    21.2 [33X[0;0YDress group[133X
-      21.2-1 DressInvolutions
-    21.3 [33X[0;0YFlag complex / Barycentric subdivision[133X
-      21.3-1 FlagComplex
-      21.3-2 IsFlagComplex
-      21.3-3 OriginalComplex
-      21.3-4 OriginalVertices
-      21.3-5 OriginalEdges
-      21.3-6 OriginalFaces
-      21.3-7 OriginalOneFlag
-      21.3-8 OriginalTwoFlag
-      21.3-9 OriginalThreeFlag
-      21.3-10 BarycentreOfVertex
-      21.3-11 BarycentreOfEdge
-      21.3-12 BarycentreOfFace
-      21.3-13 IsomorphicFlagSurface
-      21.3-14 DrawSurfaceToTikz
-  22 [33X[0;0YExample Implementations[133X
-    22.1 [33X[0;0YStronglyConnectedComponentOfFace[133X
-    22.2 [33X[0;0YVertexCounter[133X
+    20.2 [33X[0;0YPermutation description[133X
+      20.2-1 ColourInvolutions
+    20.3 [33X[0;0YWild coloured surfaces[133X
+      20.3-1 IsWildColouredSurface
+      20.3-2 ColouredUmbrellasOfVertices
+      20.3-3 LocalSymmetryOfEdges
+      20.3-4 IsTameColouredSurface
+      20.3-5 AllWildColouredSurfaces
+      20.3-6 SixFoldCover
+      20.3-7 CommonCover
+  21 [33X[0;0YEdge isosceles-colourings[133X
+    21.1 [33X[0;0YDefinition and elementary properties[133X
+      21.1-1 IsEdgeTwoColouring
+      21.1-2 ColouredEdgesOfFaces
+    21.2 [33X[0;0YIsosceles coloured surfaces[133X
+      21.2-1 IsIsoscelesColouredSurface
+    21.3 [33X[0;0YFunctions for isosceles coloured Simplicial Surfaces[133X
+      21.3-1 ApexVertexOfFace
+      21.3-2 BaseEdgeOfFace
+      21.3-3 ColouredUmbrellasOfVertices
+    21.4 [33X[0;0YPermutation description[133X
+      21.4-1 WildColouredSurfaceOfIsoscelesColouredSurface
+      21.4-2 ColourInvolutions
+      21.4-3 LocalSymmetryOfEdges
+      21.4-4 AllIsoscelesColouredSurfaces
+      21.4-5 CounterOfVerticesByAngle
+  22 [33X[0;0YFlags[133X
+    22.1 [33X[0;0YComputation[133X
+      22.1-1 Flags
+      22.1-2 VertexEdgeFlags
+      22.1-3 VertexFaceFlags
+      22.1-4 EdgeFaceFlags
+      22.1-5 TwoFlags
+      22.1-6 OneFlags
+    22.2 [33X[0;0YDress group[133X
+      22.2-1 DressInvolutions
+    22.3 [33X[0;0YFlag complex / Barycentric subdivision[133X
+      22.3-1 FlagComplex
+      22.3-2 IsFlagComplex
+      22.3-3 OriginalComplex
+      22.3-4 OriginalVertices
+      22.3-5 OriginalEdges
+      22.3-6 OriginalFaces
+      22.3-7 OriginalOneFlag
+      22.3-8 OriginalTwoFlag
+      22.3-9 OriginalThreeFlag
+      22.3-10 BarycentreOfVertex
+      22.3-11 BarycentreOfEdge
+      22.3-12 BarycentreOfFace
+      22.3-13 IsomorphicFlagSurface
+      22.3-14 DrawSurfaceToTikz
+  23 [33X[0;0YExample Implementations[133X
+    23.1 [33X[0;0YStronglyConnectedComponentOfFace[133X
+    23.2 [33X[0;0YVertexCounter[133X
   
   
   [32X

@@ -5,7 +5,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<title>GAP (SimplicialSurfaces) - Chapter 17: Animating surfaces with Java Script</title>
+<title>GAP (SimplicialSurfaces) - Chapter 17: Nets and embeddings</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <meta name="generator" content="GAPDoc2HTML" />
 <link rel="stylesheet" type="text/css" href="manual.css" />
@@ -15,24 +15,1535 @@
 <body class="chap17"  onload="jscontent()">
 
 
-<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chap23.html">23</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap16.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap18.html">[Next Chapter]</a>&nbsp;  </div>
 
 <p id="mathjaxlink" class="pcenter"><a href="chap17_mj.html">[MathJax on]</a></p>
-<p><a id="X85695E9C7DB14390" name="X85695E9C7DB14390"></a></p>
-<div class="ChapSects"><a href="chap17.html#X85695E9C7DB14390">17 <span class="Heading">Animating surfaces with Java Script</span></a>
+<p><a id="X7D4FA5CF87A8C291" name="X7D4FA5CF87A8C291"></a></p>
+<div class="ChapSects"><a href="chap17.html#X7D4FA5CF87A8C291">17 <span class="Heading">Nets and embeddings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap17.html#X7CECFE7381563C45">17.1 <span class="Heading">Anomalies</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X85509F8A82079CA8">17.1-1 IsAnomalyFree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X841950BD7CABE2C8">17.1-2 EdgeAnomalyClasses</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X83C4C450829C921A">17.1-3 FaceAnomalyClasses</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap17.html#X786563217D3FA669">17.2 <span class="Heading">Drawing a net in TikZ</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7D14422983FF72ED">17.2-1 DrawSurfaceToTikz</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X851A5F35815EF6FA">17.2-2 <span class="Heading">Colours</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X834DA0E979EF427E">17.2-3 <span class="Heading">Labels</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7D6A1712785320EA">17.2-4 <span class="Heading">Lengths and angles</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X812604D980E46C67">17.2-5 <span class="Heading">Draw order</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X801FE64F853E34FA">17.2-6 <span class="Heading">Output control</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7BA03A9F7E116D64">17.2-7 <span class="Heading">Data representation</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7B65C3A27C5D58FF">17.2-8 SetFaceCoordinates2D</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap17.html#X844439697D990770">17.3 <span class="Heading">Drawing a net in SVG</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X78737BB97BA47D35">17.3-1 DrawComplexToSVG</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7B4F6F4D78D93BDB">17.3-2 <span class="Heading">Flaps</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X8048E9A786CF83E3">17.3-3 <span class="Heading">Circles</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X8160040281AC6799">17.3-4 <span class="Heading">Geodesic</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X81BFD8998587BC8E">17.3-5 <span class="Heading">Cricut Maker</span></a>
+</span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap17.html#X84A7C555875BE14A">17.4 <span class="Heading">Drawing the face graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X826734807B47A998">17.4-1 DrawFacegraphToTikz</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X851A5F35815EF6FA">17.4-2 <span class="Heading">Colours</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X834DA0E979EF427E">17.4-3 <span class="Heading">Labels</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X8420D1787FC150CC">17.4-4 <span class="Heading">Scaling</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7FFE2C11788EF6F7">17.4-5 <span class="Heading">Face coordinates</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X86C1095A7A393E82">17.4-6 <span class="Heading">Geodesics</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X801FE64F853E34FA">17.4-7 <span class="Heading">Output control</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap17.html#X7E24F51A7FB2B387">17.4-8 DrawConvexFacegraphToTikz</a></span>
+</div></div>
 </div>
 
-<h3>17 <span class="Heading">Animating surfaces with Java Script</span></h3>
+<h3>17 <span class="Heading">Nets and embeddings</span></h3>
 
-<p><em> There is a new package developed to take over this functionality. You can access it here: <span class="URL"><a href="https://gap-art-rwth.github.io/GAPic/">https://gap-art-rwth.github.io/GAPic/</a></span>. </em></p>
+<p>One of the central questions about polygonal complexes and simplicial surfaces (for the detailed definitions see Chapter <a href="chap2.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a>) is whether they can be embedded into <span class="SimpleMath">ℝ^3</span>. This is a very hard question and can currently only be solved for small examples.</p>
+
+<p>Therefore the <code class="keyw">SimplicialSurface</code>-package does not contain methods to compute general embeddings. This chapter contains some prerequisite methods in the direction of the general embedding-problem.</p>
+
+<p>Section <a href="chap17.html#X7CECFE7381563C45"><span class="RefLink">17.1</span></a> deals with properties that make embeddings impossible. Section <a href="chap17.html#X786563217D3FA669"><span class="RefLink">17.2</span></a> contains a method to draw the net of a polygonal complex.</p>
+
+<p><a id="X7CECFE7381563C45" name="X7CECFE7381563C45"></a></p>
+
+<h4>17.1 <span class="Heading">Anomalies</span></h4>
+
+<p>If an embedding of a polygonal complex maps edges to straight lines, it is defined by the images of its vertices alone. This restricts the possible incidence structures:</p>
+
+<p>Two edges that are incident to the same vertices would be mapped to the same line, contradicting the injectivity of the embedding. The same argument applies to two faces with the same vertices.</p>
+
+<p>Those cases are called <em>edge-anomalies</em> and <em>face-anomalies</em>. Both are appearing in the example of an open bag: <br><img src="./images/_Wrapper_Image_OpenBag-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">bag := SimplicialSurfaceByUpwardIncidence( [ [1,2], [1,3,4], [2,3,4] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              [ [1,2], [1,2], [2], [1] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAnomalyFree( bag );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClasses( bag );</span>
+[ [ 1 ], [ 2 ], [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceAnomalyClasses( bag );</span>
+[ [ 1, 2 ] ]
+</pre></div>
+
+<p><a id="X85509F8A82079CA8" name="X85509F8A82079CA8"></a></p>
+
+<h5>17.1-1 IsAnomalyFree</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAnomalyFree</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVertexFaithful</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given polygonal complex contains anomalies, i.e. pairs of edges or pairs of faces that are incident to the same vertices.</p>
+
+<p>As examples, consider a tetrahedron (without any anomalies) and the open bag from the start of section <a href="chap17.html#X7CECFE7381563C45"><span class="RefLink">17.1</span></a> (with anomalies):</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAnomalyFree( Tetrahedron() );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAnomalyFree( bag );</span>
+false
+
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVertexFaithful( Tetrahedron() );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVertexFaithful( bag );</span>
+false
+</pre></div>
+
+<p><a id="X841950BD7CABE2C8" name="X841950BD7CABE2C8"></a></p>
+
+<h5>17.1-2 EdgeAnomalyClasses</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeAnomalyClasses</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeAnomalyClassOfEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeAnomalyClassOfEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of sets of positive integers</p>
+
+<p>Return the set of all edge-anomaly-classes of the given polygonal complex. Two edges of <var class="Arg">complex</var> lie in the same <em>edge-anomaly-class</em> if they are incident to the same vertices.</p>
+
+<p>The method <code class="keyw">EdgeAnomalyClassOfEdge</code> only returns the edge-anomaly-class of the given edge (as set). The NC-version does not check if <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>Consider the open bag from the start of section <a href="chap17.html#X7CECFE7381563C45"><span class="RefLink">17.1</span></a>: <br><img src='./images/_Wrapper_embedding-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClassOfEdge( bag, 1 );</span>
+[ 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClassOfEdge( bag, 3 );</span>
+[ 3, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClasses( bag );</span>
+[ [ 1 ], [ 2 ], [ 3, 4 ] ]
+</pre></div>
+
+<p><a id="X83C4C450829C921A" name="X83C4C450829C921A"></a></p>
+
+<h5>17.1-3 FaceAnomalyClasses</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceAnomalyClasses</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceAnomalyClassOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceAnomalyClassOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of sets of positive integers</p>
+
+<p>Return the set of all face-anomaly-classes of the given polygonal complex. Two faces of <var class="Arg">complex</var> lie in the same <em>face-anomaly-class</em> if they are incident to the same vertices.</p>
+
+<p>The method <code class="keyw">FaceAnomalyClassOfFace</code> only returns the face-anomaly-class of the given face (as set). The NC-version does not check if <var class="Arg">face</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>Consider the open bag from the start of section <a href="chap17.html#X7CECFE7381563C45"><span class="RefLink">17.1</span></a>: <br><img src='./images/_Wrapper_embedding-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceAnomalyClassOfFace( bag, 1 );</span>
+[ 1, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceAnomalyClasses( bag );</span>
+[ [ 1, 2 ] ]
+</pre></div>
+
+<p><a id="X786563217D3FA669" name="X786563217D3FA669"></a></p>
+
+<h4>17.2 <span class="Heading">Drawing a net in TikZ</span></h4>
+
+<p>While it is very hard to compute an embedding into <span class="SimpleMath">ℝ^3</span> it is quite easy to draw the net of a ramified polygonal surface into a plane.</p>
+
+<p>For example, the net of an octahedron can be drawn like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := Octahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( oct, "Octahedron_example" );;</span>
+</pre></div>
+
+<p>This will write a file <em>Octahedron_example.tex</em> that contains the net of the octahedron, written in <code class="keyw">TikZ</code>: <br><img src="./images/_Wrapper_TIKZ_Octahedron_example-1.svg"> </img> <br></p>
+
+<p>To customize this drawing, a record is used (called the <var class="Arg">printRecord</var>). Each call of the drawing method creates one of those:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := DrawSurfaceToTikz( oct, "Octahedron_example" );;</span>
+</pre></div>
+
+<p>Maybe the edges should not be labelled. Then they can be turned off:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLabelsActive := false;;</span>
+</pre></div>
+
+<p>The colours can also be changed very easily (especially if all colours should be changed at once). For example, let's make all vertices green:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.vertexColours := "green";;</span>
+</pre></div>
+
+<p>After compiling we get the following net.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_recoloured-1.svg"> </img> <br> It should be mentioned that all of these calls modify their <var class="Arg">printRecord</var>.</p>
+
+<p>Since it is impractical to always call LaTeX for every customization we can call it directly from within <strong class="pkg">GAP</strong>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.compileLaTeX := true;;</span>
+</pre></div>
+
+<p>Still the picture looks quite small. To see how big it currently is, we can look at the parameter <var class="Arg">scale</var>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.scale;</span>
+2
+</pre></div>
+
+<p>So the default <var class="Arg">scale</var> is 2. Since there is a lot of space left, we can set the <var class="Arg">scale</var> to 3. Furthermore we label the faces with roman numbers.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.scale := 3;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.faceLabels := ["I","II","III","IV","V","VI","VII","VIII"];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( oct, "Octahedron_customized.tex", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_customized-1.svg"> </img> <br></p>
+
+<p>Next we would like to change the shapes of the triangles. To do so we need to know how long the edges are.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLabelsActive := true;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( oct, "Octahedron_edgeLabels", pr );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLengths;</span>
+[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_edgeLabels-1.svg"> </img> <br></p>
+
+<p>We want to make the angles around vertex 1 larger, for example:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLengths := [ 1, 1, 1, 1, 1.5, 1.5, 1, 1.5, 1, 1.5, 1, 1 ];;</span>
+</pre></div>
+
+<p>Since the <var class="Arg">printRecord</var> also remembers the angles, this information has to be discarded before the recomputation.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Unbind( pr.angles );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_reshaped-1.svg"> </img> <br></p>
+
+<p>We can see that the program chooses to display a different net to avoid self-intersections. If the system can not easily avoid intersections it will split up the surface and draw these components separately. This feature can be turned off by setting the parameter <var class="Arg">avoidIntersections</var> to <code class="keyw">false</code>.</p>
+
+<p><a id="X7D14422983FF72ED" name="X7D14422983FF72ED"></a></p>
+
+<h5>17.2-1 DrawSurfaceToTikz</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DrawSurfaceToTikz</code>( <var class="Arg">ramSurf</var>, <var class="Arg">fileName</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Draw the net of the given <var class="Arg">ramSurf</var> into a tex-file (using TikZ). An introduction to the use of this method (along with several examples) can be found at the start of section <a href="chap17.html#X786563217D3FA669"><span class="RefLink">17.2</span></a>.</p>
+
+
+<ul>
+<li><p>If the given <var class="Arg">fileName</var> does not end in <em>.tex</em> the ending <em>.tex</em> will be added to it.</p>
+
+</li>
+<li><p>The given file will be overwritten without asking if it already exists. If you don't have permission to write in that file, this method will throw an error.</p>
+
+</li>
+<li><p>The particulars of the drawing are determined by the given <var class="Arg">printRecord</var>. If this is not given, the default settings are used.</p>
+
+</li>
+<li><p>The <var class="Arg">printRecord</var> will be modified and returned by this method. It contains the data to recreate the drawing of the surface.</p>
+
+</li>
+</ul>
+<p>There are several parameters to change the output of this method, from cosmetic changes to exactly controlling in which order the faces are drawn. There are the following classes of parameters:</p>
+
+
+<ul>
+<li><p><em>Colours</em> (<a href="chap17.html#X851A5F35815EF6FA"><span class="RefLink">17.2-2</span></a>): Change the colours of vertices, edges and faces.</p>
+
+</li>
+<li><p><em>Labels</em> (<a href="chap17.html#X834DA0E979EF427E"><span class="RefLink">17.2-3</span></a>): Modify the labels of vertices, edges and faces.</p>
+
+</li>
+<li><p><em>Lengths and angles</em> (<a href="chap17.html#X7D6A1712785320EA"><span class="RefLink">17.2-4</span></a>): These parameters control the size and shape of the drawing and the individual faces.</p>
+
+</li>
+<li><p><em>Draw order</em> (<a href="chap17.html#X812604D980E46C67"><span class="RefLink">17.2-5</span></a>): They control the order in which the faces are drawn.</p>
+
+</li>
+<li><p><em>Output control</em> (<a href="chap17.html#X801FE64F853E34FA"><span class="RefLink">17.2-6</span></a>): Modify how the LaTeX-output behaves and how much information is printed to the console.</p>
+
+</li>
+<li><p><em>Data representation</em> (<a href="chap17.html#X7BA03A9F7E116D64"><span class="RefLink">17.2-7</span></a>): These parameters can't be influenced by the user and contain the information to recreate the drawing.</p>
+
+</li>
+</ul>
+<p><a id="X851A5F35815EF6FA" name="X851A5F35815EF6FA"></a></p>
+
+<h5>17.2-2 <span class="Heading">Colours</span></h5>
+
+<p>This subsection covers how to change the colours of vertices, edges and faces in the drawings from <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>). It covers the following parameters:</p>
+
+
+<ul>
+<li><p><em>vertexColours</em>: Modify the colours of the vertices (the default colour is orange).</p>
+
+</li>
+<li><p><em>edgeColours</em>: Modify the colours of the edges (the default colour is gray).</p>
+
+</li>
+<li><p><em>faceColours</em>: Modify the colours of the face (the default colour is a darker shade of yellow).</p>
+
+</li>
+</ul>
+<p>We will exemplify them with the example of a cube. Here the cube has holes in the vertex, edge and face sets to make it more clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := PolygonalComplexByDownwardIncidence([ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 1, 4 ], [ 2, 7 ], , [ 3, 8 ], [ 4, 9 ], [ 1, 6 ], [ 7, 8 ] ,[ 8, 9 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 6, 9 ], [ 6, 7 ] ],[ [ 1, 2, 3, 4 ], ,[ 1, 5, 9, 13 ], [ 2, 5, 7, 10 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 4, 8, 9, 12 ], [ 3, 7, 8, 11 ], [ 10, 11, 12, 13 ] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz(cube, "Cube_example");;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_example-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><em>vertexColours</em>: Modifies the colours of the vertices. The colours are given in a list <var class="Arg">colours</var> such that <var class="Arg">colours[v]</var> is the colour of the vertex <var class="Arg">v</var>. If vertex <var class="Arg">v</var> is not in the surface, the colour is skipped. The colours are strings that are recognizable by LaTeX.</p>
+
+<p>It is possible to leave some vertex colours unbound - those will be coloured with the default vertex colour (orange).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexColours :=</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   ["red", "blue", "green",, "pink", "black!20!yellow"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_vertexColouredLocal-1.svg"> </img> <br> Instead of giving an entire list it is also possible to give just one string defining a new colour for all vertices. It will be internally converted into a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexColours := "blue!60!white" );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_vertexColouredGlobal-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>edgeColours</em>: Modifies the colours of the edges. The colours are given in a list <var class="Arg">colours</var> such that <var class="Arg">colours[e]</var> is the colour of the edge <var class="Arg">e</var>. If edge <var class="Arg">e</var> is not in the surface, the colour is skipped. The colours are strings that are recognizable by LaTeX.</p>
+
+<p>Is is possible to leave some edge colours unbound - those will be coloured with the default edge colour (gray).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeColours :=</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [,,,,"red", "purple", "blue", "green!80!black"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_edgeColouredLocal-1.svg"> </img> <br> Instead of giving an entire list it is also possible to give just one string defining a new colour for all edges. It will be internally converted into a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeColours := "red" );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_edgeColouredGlobal-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>faceColours</em>: Modifies the colours of the faces. The colours are given in a list <var class="Arg">colours</var> such that <var class="Arg">colours[f]</var> is the colour of the face <var class="Arg">f</var>. If face <var class="Arg">f</var> is not in the surface, the colour is skipped. It is possible to leave some face colours unbound - those will be coloured with the default face colour (a darker shape of yellow, the custom colour <em>\\faceColorY</em>).</p>
+
+<p>The colours can be strings that are recognized by LaTeX, but they can also be one of six pre-defined colours of this package:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceColours := ["\\faceColorY", "\\faceColorB", </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    "\\faceColorC", "\\faceColorR", "\\faceColorG", "\\faceColorO"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_faceColouredLocal-1.svg"> </img> <br> Instead of giving an entire list it is also possible to give just one string defining a new colour for all faces. It will be internally converted into a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceColours := "olive!20!white" );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_faceColouredGlobal-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X834DA0E979EF427E" name="X834DA0E979EF427E"></a></p>
+
+<h5>17.2-3 <span class="Heading">Labels</span></h5>
+
+<p>This subsection covers the parameters that change the labels of vertices, edges and faces in the drawings of <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>).</p>
+
+
+<ul>
+<li><p><em>vertexLabelsActive</em>: Turn the vertex labels on or off (by default they are turned on).</p>
+
+</li>
+<li><p><em>vertexLabels</em>: Modify the vertex labels (by default they are labelled by their number).</p>
+
+</li>
+<li><p><em>edgeLabelsActive</em>: Turn the edge labels on or off (by default they are turned on).</p>
+
+</li>
+<li><p><em>edgeLabels</em>: Modify the edge labels (by default they are labelled by their number).</p>
+
+</li>
+<li><p><em>faceLabelsActive</em>: Turn the face labels on or off (by default they are turned on).</p>
+
+</li>
+<li><p><em>faceLabels</em>: Modify the face labels (by default they are labelled by their number).</p>
+
+</li>
+</ul>
+<p>We will exemplify these parameters on the example of a tetrahedron. Here the tetrahedron has holes in the vertex, edge and face sets to make it more clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 3, 4 ], ,[ 3, 5 ], [ 4, 5 ] ], [ [ 1, 2, 4 ], [ 1, 3, 6 ], ,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 4, 6, 7 ], [ 2, 3, 7 ] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_example-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><em>vertexLabelsActive</em>: By default all vertices are labelled. If they should not be labelled, this parameter can be set to <code class="keyw">false</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexLabelsActive := false );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_vertexLabelsOff-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>vertexLabels</em>: By default the vertices are labelled by their number. This can be changed with this parameter (if you just want to turn off the labels, use <em>vertexLabelsActive</em> instead).</p>
+
+<p>The labels are given as a list <var class="Arg">labels</var> such that <var class="Arg">labels[v]</var> is the label of the vertex <var class="Arg">v</var>. If vertex <var class="Arg">v</var> is not in the surface, the label is skipped. It is possible to leave some vertex labels unbound - those will be labelled with their default label.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexLabels := ["V_1", "X", , "++"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_vertexLabels-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>edgeLabelsActive</em>: By default all edges are labelled. If they should not be labelled, this parameter can be set to <code class="keyw">false</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeLabelsActive := false );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLabelsOff-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>edgeLabels</em>: By default the edges are labelled by their number. This can be changed with this parameter (if you just want to turn off the labels, use <em>edgeLabelsActive</em> instead).</p>
+
+<p>The labels are given as a list <var class="Arg">labels</var> such that <var class="Arg">labels[e]</var> is the label of the edge <var class="Arg">e</var>. If edge <var class="Arg">e</var> is not in the surface, the label is skipped. It is possible to leave some edge labels unbound - those will be labelled with their default label.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLabels-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>faceLabelsActive</em>: By default all faces are labelled. If they should not be labelled, this parameter can be set to <code class="keyw">false</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceLabelsActive := false );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_faceLabelsOff-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>faceLabels</em>: By default the faces are labelled by their number. This can be changed with this parameter (if you just want to turn off the labels, use <em>faceLabelsActive</em> instead).</p>
+
+<p>The labels are given as a list <var class="Arg">labels</var> such that <var class="Arg">labels[f]</var> is the label of the face <var class="Arg">f</var>. If face <var class="Arg">f</var> is not in the surface, the label is skipped. It is possible to leave some face labels unbound - those will be labelled with their default label.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceLabels := ["I", "f_2", "42", ,] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_faceLabels-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X7D6A1712785320EA" name="X7D6A1712785320EA"></a></p>
+
+<h5>17.2-4 <span class="Heading">Lengths and angles</span></h5>
+
+<p>This subsection explains the parameters that modify the size and shapes of the faces that are drawn by the method <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>). More specifically it explains the following parameters:</p>
+
+
+<ul>
+<li><p><em>scale</em>: Globally scales the picture. The default is 2.</p>
+
+</li>
+<li><p><em>edgeLengths</em>: Is a list <var class="Arg">lengths</var> such that <var class="Arg">lengths[e]</var> is the length of the edge <var class="Arg">e</var>. By default, each edge has length 1.</p>
+
+</li>
+<li><p><em>angles</em>: This parameter controls the inner angles of the faces. The angles are stored as a list <var class="Arg">angles</var> such that <var class="Arg">angles[f][v]</var> represents the angle in face <var class="Arg">f</var> at vertex <var class="Arg">v</var>. The angle is represented as a list <var class="Arg">[sin,cos]</var> with the sine and cosine of the angle.</p>
+
+</li>
+<li><p><em>floatAccuracy</em>: Internal parameter to decide when two floats are regarded as equal. The default is 0.001. Usually it should not be necessary to modify this value.</p>
+
+</li>
+</ul>
+<p>By default, all faces are drawn as regular polygons. To choose different polygons their edge lengths and inner angles have to be defined (exception: for triangles it is sufficient to define the edge lengths, as long as the angles are not set).</p>
+
+<p>If the given information is inconsistent an error is thrown.</p>
+
+<p>We will exemplify the first two parameters on the example of a tetrahedron. Here the tetrahedron has holes in the vertex, edge and face sets to make it more clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 3, 4 ], ,[ 3, 5 ], [ 4, 5 ] ], [ [ 1, 2, 4 ], [ 1, 3, 6 ], ,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 4, 6, 7 ], [ 2, 3, 7 ] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_example" );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_example-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><em>scale</em>: By default the scale is 2. This can be changed with this parameter.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( scale := 1.5 );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_rescaled", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_rescaled-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>edgeLengths</em>: By default each edge has length 1. This can be changed with this parameter.</p>
+
+<p>The lengths are given as a list <var class="Arg">edgeLengths</var> such that <var class="Arg">edgeLengths[e]</var> is the length of the edge <var class="Arg">e</var>. If edge <var class="Arg">e</var> is not in the surface, the length is skipped. It is possible to leave some edge lengths unbound - those will have length 1.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeLengths := [1.5, 1.5, 1, 1.5, 2, 1, 1] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_edgeLengths-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>angles</em>: The angles can be changed with this parameter.</p>
+
+<p>The angles are given as a list <var class="Arg">angles</var> such that <var class="Arg">angles[f][v]</var> is the inner angle of vertex <var class="Arg">v</var> in face <var class="Arg">f</var>. The angle is represented as a list <var class="Arg">[sin,cos]</var> with the sine and cosine of the angle. In the case of a triangle, it is not possible to change the angles without specifying the edge lengths, as the angles do not describe a unique triangle.</p>
+
+<p>We will exemplify this parameter on the example of a rectangle example. In the case of a rectangle, changing the angles does not change the edge lengths.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rectangle:=PolygonalSurfaceByVerticesInFaces([[1,2,3,4]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawSurfaceToTikz( rectangle, "Rectangle_example" );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Rectangle_example-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.angles:=[[[ 0.866025, 0.5 ],[ 0.866025, -0.5 ],[ 0.866025, 0.5 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 0.866025, -0.5 ]]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Rectangle_angles-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X812604D980E46C67" name="X812604D980E46C67"></a></p>
+
+<h5>17.2-5 <span class="Heading">Draw order</span></h5>
+
+<p>This subsection is concerned with the parameters that control the draw order of the drawings from <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>). The drawing order is decided by the following parameters:</p>
+
+
+<ul>
+<li><p><em>avoidIntersections</em>: If this parameter is <code class="keyw">true</code> (the default) intersections in the drawing are avoided if possible. If there is a conflict between a given drawing order and the intersection avoidance, the avoidance will prevail!</p>
+
+</li>
+<li><p><em>startingFaces</em>: After drawing this list contains one face from each strongly connected component. These are the first faces that were drawn from these components. That means that the vertex coordinates of these faces are the first to be calculated. By giving this list manually the first drawn faces can be customized. The function will auto-correct the spelling <em>startingFace</em> into <em>startingFaces</em> if there is no entry for <em>startingFaces</em>.</p>
+
+</li>
+<li><p><em>edgeDrawOrder</em>: After drawing this list contains a list of edges for each strongly connected component. For each component, this list explains the order in which these edges were completed (an edge is completed if both adjacent faces are drawn). This means that this parameter controls which edges are drawn once and which edges need to be drawn twice because they cannot be completed. This can be customized and <code class="keyw">DrawSurfaceToTikz</code> will try to follow it as closely as possible while avoiding intersections (if <em>avoidIntersections</em> is set).</p>
+
+</li>
+</ul>
+<p>We will exemplify these parameters on different examples.</p>
+
+
+<ul>
+<li><p><em>startingFaces</em>: After drawing, this list contains the first faces that were drawn from each strongly connected component. These can be changed with this parameter.</p>
+
+<p>For example, consider the butterfly with two strongly connected components.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly := TriangularComplexByVerticesInFaces( 7, 4, [ [1,2,3], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[1,6,7], [1,3,4], [1,5,6] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := DrawSurfaceToTikz(butterfly,"Butterfly");;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Butterfly-1.svg"> </img> <br> Changing the faces results in a different picture:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( startingFaces := [3,4] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz( butterfly, "Butterfly_startingFaces", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Butterfly_startingFaces-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>edgeDrawOrder</em>: After drawing this list contains a list of edges for each strongly connected component. For each component, this list explains the order in which these edges were completed (an edge is completed if both adjacent faces are drawn). This order can be changed with this parameter.</p>
+
+<p>For example, consider this simplicial surface:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleSixGon:=SimplicialSurfaceByUmbrellaDescriptor([(1,2,3,4,5,6),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">(7,8,9,10,11,12),(1,2,8,7),(2,3,9,8),(3,4,10,9),(4,5,11,10),(5,6,12,11),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">(6,1,7,12)]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon");;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_DoubleSixGon-1.svg"> </img> <br> Changing the edge draw order results in a different picture:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr!.edgeDrawOrder:=[[1,2,10,8,6,4,7,15,13,14,18,17,16]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_DoubleSixGon_edgeDraw-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X801FE64F853E34FA" name="X801FE64F853E34FA"></a></p>
+
+<h5>17.2-6 <span class="Heading">Output control</span></h5>
+
+<p>This subsection contains miscellaneous parameters to control the output of <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>). It contains the following options:</p>
+
+
+<ul>
+<li><p><em>compileLaTeX</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the generated tex-file will be automatically compiled with <code class="keyw">pdflatex</code>. In rare cases the compilation might run into a problem and stop. To abort such a computation, type 'x' and hit ENTER (this command is passed to <code class="keyw">pdflatex</code>). If this happens, please notify the developers so it can be fixed in a later version.</p>
+
+</li>
+<li><p><em>latexDocumentclass</em>: Defines which documentclass is used for the output. The default is <code class="keyw">article</code>. If the picture should not be cropped (and not be printed), <code class="keyw">standalone</code> is recommended.</p>
+
+</li>
+<li><p><em>noOutput</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the method <code class="keyw">DrawSurfaceToTikz</code> will produce no output on the console.</p>
+
+</li>
+<li><p><em>onlyTikzpicture</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the generated tex-file will only consist of a <code class="keyw">tikzpicture</code> without header (it is not possible to compile it on its own).</p>
+
+</li>
+</ul>
+<p><a id="X7BA03A9F7E116D64" name="X7BA03A9F7E116D64"></a></p>
+
+<h5>17.2-7 <span class="Heading">Data representation</span></h5>
+
+<p>This subsection contains miscellaneous parameters which cannot be influenced by the user and contain information to recreate the drawing of <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>). These parameters are: <em>vertexCoordinates</em>, <em>edgeEndPoint</em> and <em>faceVertices</em>.</p>
+
+<p>For each vertex <var class="Arg">v</var> and each edge <var class="Arg">e</var> the components that contain <var class="Arg">v</var> respectively <var class="Arg">e</var> are sorted in the order in which <var class="Arg">v</var> respectively <var class="Arg">e</var> were drawn. The variable <var class="Arg">index</var> will play an essential role in describing the parameters. <var class="Arg">index(v)</var> specifies the index of the component in the order described above in which the drawn node is located (analogously for <var class="Arg">e</var>). Consider the parameters in detail:</p>
+
+
+<ul>
+<li><p><em>vertexCoordinates</em>: After drawing this list contains a list for each vertex. For each vertex the list stores the coordinates each time the vertex is drawn. The coordinates are represented as a list <var class="Arg">[x,y, index]</var>.</p>
+
+</li>
+<li><p><em>edgeEndPoint</em>: After drawing this list contains a list for each edge <var class="Arg">e</var>. For each edge the list stores the end vertices of <var class="Arg">e</var> for each drawn time. Each entry is represented as <var class="Arg">[v1,v2,index(e)]</var>, with the vertices <var class="Arg">v1</var> and <var class="Arg">v2</var> are represented as a list <var class="Arg">[vi, index(vi)]</var>.</p>
+
+</li>
+<li><p><em>faceVertices</em>: After drawing this list contains a list for each face. For each face the list contains in each entry a list of triples, with each entry in the list describing a vertex. The vertices are represented as <var class="Arg">[v, index(v)]</var>.</p>
+
+</li>
+</ul>
+<p><a id="X7B65C3A27C5D58FF" name="X7B65C3A27C5D58FF"></a></p>
+
+<h5>17.2-8 SetFaceCoordinates2D</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SetFaceCoordinates2D</code>( <var class="Arg">surface</var>, <var class="Arg">coordinates</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SetFaceCoordinates2DNC</code>( <var class="Arg">surface</var>, <var class="Arg">coordinates</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: the updated print record</p>
+
+<p>Save the given list of 2D-coordinates in the given or an empty print record. If the format of the 2D-coordinates (2D-coordinates have to be a list of 2 entries of floats) is not correct, then an error is shown. The NC-version does not check the coordinate format.</p>
+
+<p>For an example consider the tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">printRecord:=rec();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]]);</span>
+rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">printRecord);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">printRecord;</span>
+rec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )
+</pre></div>
+
+<p><a id="X844439697D990770" name="X844439697D990770"></a></p>
+
+<h4>17.3 <span class="Heading">Drawing a net in SVG</span></h4>
+
+<p>As we saw in <a href="chap17.html#X786563217D3FA669"><span class="RefLink">17.2</span></a> it is quite easy to draw the net of a ramified polygonal surface into a plane. Instead of drawing them in a <em>.tex</em> file we can draw them in a <em>.svg</em> file and add for example flaps so that it is possible to clue the folding plan together to obatin an embedding in <span class="SimpleMath">ℝ^3</span>.</p>
+
+<p>For example, the net of an icosahedron can be drawn like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico:=Icosahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawComplexToSVG(ico,"Icosahedron");;</span>
+</pre></div>
+
+<p>This will write a file <em>Icosahedron.svg</em> that contains the net of the isocahedron: <br><img src="images/Icosahedron_svg.png"></img></br></p>
+
+<p>To customize this drawing, a record is used (called the <var class="Arg">printRecord</var>). We can change the edge lengths to 1,2 and 2 and give a specific edge draw order by the following:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico:=AllWildColouredSurfaces(ico)[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=rec();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeDrawOrder:=[[29,26,17,13,3,7,14,24,25,21,8,6,2,5,16,19,20,12,22,30]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeColourClassLengths:=[1,2,2];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeColourClassColours:=["red","green","blue"];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.AddFlapTriangle:=true;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawComplexToSVG(ico,"Icosahedron_example",pr);;</span>
+</pre></div>
+
+<p>Then we obtain the following net: <br><img src="images/IcosahedronExample_svg.png"></img></br></p>
+
+<p><a id="X78737BB97BA47D35" name="X78737BB97BA47D35"></a></p>
+
+<h5>17.3-1 DrawComplexToSVG</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DrawComplexToSVG</code>( <var class="Arg">complex</var>, <var class="Arg">fileName</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Draw the net of the given <var class="Arg">complex</var> into a svg-file. An introduction to the use of this method (along with several examples) can be found at the start of section <a href="chap17.html#X844439697D990770"><span class="RefLink">17.3</span></a>. It is possible to use the <em>svg</em>-file as an input for a Cricut Maker to create a nice net which can be folded and glued together. A short description for this is written in <a href="chap17.html#X81BFD8998587BC8E"><span class="RefLink">17.3-5</span></a>.</p>
+
+
+<ul>
+<li><p>If the given <var class="Arg">fileName</var> does not end in <em>.svg</em> the ending <em>.svg</em> will be added to it.</p>
+
+</li>
+<li><p>The given file will be overwritten without asking if it already exists. If you don't have permission to write in that file, this method will throw an error.</p>
+
+</li>
+<li><p>The particulars of the drawing are determined by the given <var class="Arg">printRecord</var>. If this is not given, the default settings are used.</p>
+
+</li>
+<li><p>The <var class="Arg">printRecord</var> will be modified and returned by this method. It contains the data to recreate the drawing of the surface.</p>
+
+</li>
+</ul>
+<p>There are several parameters to change the output of this method, similar to the options of <code class="keyw">DrawSurfaceToTikz</code> as described in <a href="chap17.html#X786563217D3FA669"><span class="RefLink">17.2</span></a>. This includes the parameters for changing the colours of edges and faces (<a href="chap17.html#X851A5F35815EF6FA"><span class="RefLink">17.2-2</span></a>), the lengths (<a href="chap17.html#X7D6A1712785320EA"><span class="RefLink">17.2-4</span></a>), the edge draw order (<a href="chap17.html#X812604D980E46C67"><span class="RefLink">17.2-5</span></a>).</p>
+
+<p>Moreover, there are additional parameters especially only for the method <code class="keyw">DrawComplexToSVG</code>:</p>
+
+
+<ul>
+<li><p><em>Flaps</em> (<a href="chap17.html#X7B4F6F4D78D93BDB"><span class="RefLink">17.3-2</span></a>): Draw flaps.</p>
+
+</li>
+<li><p><em>Circles</em> (<a href="chap17.html#X8048E9A786CF83E3"><span class="RefLink">17.3-3</span></a>): Draw circles for each face.</p>
+
+</li>
+<li><p><em>Geodesic</em> (<a href="chap17.html#X8160040281AC6799"><span class="RefLink">17.3-4</span></a>): Draw Geodesics.</p>
+
+</li>
+</ul>
+<p><a id="X7B4F6F4D78D93BDB" name="X7B4F6F4D78D93BDB"></a></p>
+
+<h5>17.3-2 <span class="Heading">Flaps</span></h5>
+
+<p>This subsection contains parameters to add flaps to the drawing of <code class="keyw">DrawComplexToSVG</code> (<a href="chap17.html#X78737BB97BA47D35"><span class="RefLink">17.3-1</span></a>). There are two different kind of flaps which can be added:</p>
+
+
+<ul>
+<li><p><em>AddFlaps</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the generated <em>.svg</em> file will compute flaps with four corners.</p>
+
+</li>
+<li><p><em>AddFlapTriangle</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the generated <em>.svg</em> file will compute flaps which are triangles.</p>
+
+</li>
+</ul>
+<p>For example, consider icosahedron at the begin of this section. Here we added the flaps with four coners:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico:=Icosahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=rec();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.AddFlaps:=true;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawComplexToSVG(ico,"Icosahedron_Flaps");;</span>
+</pre></div>
+
+<p><br><img src="images/IcosahedronFlap_svg.png"></img></br></p>
+
+<p>In the following the triangular flaps are drawn:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico:=Icosahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=rec();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.AddFlapTriangle:=true;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawComplexToSVG(ico,"Icosahedron_FlapTriangle");;</span>
+</pre></div>
+
+<p><br><img src="images/IcosahedronFlapTriangle_svg.png"></img></br></p>
+
+<p><a id="X8048E9A786CF83E3" name="X8048E9A786CF83E3"></a></p>
+
+<h5>17.3-3 <span class="Heading">Circles</span></h5>
+
+<p>If the paramterer <em>AddCircle</em> is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) circles are drawn at the center of each face. This can be used, for example, to place magnets in the surfaces that can be constructed by gluing the folding plan together.</p>
+
+<p>Consider the icosahedron at the begin of this section where the circle are drawn:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico:=Icosahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=rec();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.AddCircle:=true;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawComplexToSVG(ico,"Icosahedron_Circle");;</span>
+</pre></div>
+
+<p><br><img src="images/IcosahedronCircle_svg.png"></img></br></p>
+
+<p><a id="X8160040281AC6799" name="X8160040281AC6799"></a></p>
+
+<h5>17.3-4 <span class="Heading">Geodesic</span></h5>
+
+<p>If the paramterer <em>AddGeodesic</em> is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) all geodesics are drawn on the surface. This only works for equilateral triangles otherwise a warning is printed.</p>
+
+<p>Consider the icosahedron at the begin of this section with equilateral triangle where the geodesics are drawn:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico:=Icosahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=rec();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.AddGeodesic:=true;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr:=DrawComplexToSVG(ico,"Icosahedron_Geodesic");;</span>
+</pre></div>
+
+<p><br><img src="images/IcosahedronGeodesic_svg.png"></img></br></p>
+
+<p><a id="X81BFD8998587BC8E" name="X81BFD8998587BC8E"></a></p>
+
+<h5>17.3-5 <span class="Heading">Cricut Maker</span></h5>
+
+<p>This is a short manual on how to use the Cricut Maker together with the output from the <code class="keyw">DrawSurfaceToSVG</code> method. After you have created an output-file with the name <em>name.svg</em> you can use the Cricut Maker to create a nice net which can be folded and glued together:</p>
+
+<ol>
+<li><p>Start Cricut Design Space on your Computer and sign in.</p>
+
+</li>
+<li><p>Go to Canvas and then click on <em>Upload</em>.</p>
+
+</li>
+<li><p>Click <em>Upload Image</em> and upload your SVG file. Then click <em>Continue</em> and then <em>Upload</em></p>
+
+</li>
+<li><p>First you need to select all groups and change the operation to <em>Print then Cut</em> and then click on <em>Attach</em>.</p>
+
+</li>
+<li><p>Adjust the size of your model so that the Cricut Maker supports the size (currently up to 16.54cm x 25.22 cm). You can also rotate your model if that helps.</p>
+
+</li>
+<li><p>Click <em>Make</em> and <em>Continue</em>. Choose a printer and then print the file.</p>
+
+</li>
+<li><p>Then cancel the <em>Make</em> process to get back to Canvas.</p>
+
+</li>
+<li><p>Delete all the groups which do not contain scoring and flap edges.</p>
+
+</li>
+<li><p>Change the operation for the inner edges to score and keep the print then cut option for the flaps.</p>
+
+</li>
+<li><p>Click <em>Make</em> and select then <em>I've already printed</em> option.</p>
+
+</li>
+<li><p>Choose the correct paper setting and put the printed paper on the mat.</p>
+
+</li>
+<li><p>First, you need to put the scoring wheel into the machine. After some time, the program tells you to switch to the cutter.</p>
+
+</li>
+<li><p>After the Cricut Maker is done, you can take out the model and glue it together.</p>
+
+</li>
+</ol>
+<p><a id="X84A7C555875BE14A" name="X84A7C555875BE14A"></a></p>
+
+<h4>17.4 <span class="Heading">Drawing the face graph</span></h4>
+
+<p>The face graph of a simplicial surface is a graph whereby the vertices of the graph are given by the faces and the edges of the graph are given by the edges of the given simplicial surface. For more specific access to the face graph of a simplicial surface, compare (<a href="chap15.html#X79CE6AC2842A4F92"><span class="RefLink">15.4-2</span></a>). We can compute a straight-line embedding of the face graph by assigning 2D-coordinates to the faces. Note, <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>) only computes face graphs of spherical vertex faithful surfaces.</p>
+
+<p>For example the face graph of an octahedron can be drawn like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := Octahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;</span>
+</pre></div>
+
+<p>This will write a file <em>facegraph_oct_example.tex</em> that contains the face graph of the octahedron, written in <code class="keyw">TikZ</code>: <br><img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> </img> <br></p>
+
+<p>To customize this drawing, a record is used (called the <var class="Arg">printRecord</var>). Each call of the drawing method creates one of those:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := DrawFacegraphToTikz( oct, "facegraph_oct" );;</span>
+</pre></div>
+
+<p>If the edges should be labelled, they can be turned on as follows:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeLabelsActive := true;;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_facegraph_oct_edgelabels-1.svg"> </img> <br></p>
+
+<p>The labels of the vertices can be turned on with</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.vertexLabelsActive := true;;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_facegraph_oct_vertexLabels-1.svg"> </img> <br></p>
+
+<p>The colours of the edges and vertices can also be changed very easily (especially if all colours should be changed at once). For example, let's make all edges green:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.edgeColours := "green";;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_facegraph_oct_greenEdges-1.svg"> </img> <br></p>
+
+<p>We can even compute an embedding of the face graph with the corresponding geodesics of the simplicial surface. <br><img src="./images/_Wrapper_Image_facegraph_octGeodesics-1.svg"> </img> <br></p>
+
+<p>If we are not happy with the position of a face node, we can change it by adjusting the 2D-coordinate of the face.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.faceCoordinates2D[1]:=[-2.,4.];;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_facegraph_oct2-1.svg"> </img></p>
+
+<p>It is even possible to compute an embedding of the face graph of a given simplicial surface by manipulating all face coordinates. For example we can compute an embedding so that it is clear to see that the face graph of the octahedron is bipartite.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.faceCoordinates2D[1]:=[0.,0.];;pr.faceCoordinates2D[4]:=[4.,0.];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.faceCoordinates2D[3]:=[4.,1.];;pr.faceCoordinates2D[7]:=[4.,2.];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_facegraph_oct3-1.svg"> </img></p>
+
+<p><a id="X826734807B47A998" name="X826734807B47A998"></a></p>
+
+<h5>17.4-1 DrawFacegraphToTikz</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DrawFacegraphToTikz</code>( <var class="Arg">surface</var>, <var class="Arg">file</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Draw the face graph of the given <var class="Arg">surface</var> into a tex-file (using TikZ). An introduction to the use of this method (along with several examples) can be found at the start of section <a href="chap17.html#X84A7C555875BE14A"><span class="RefLink">17.4</span></a>. If <code class="keyw">surface</code> is a simplicial vertex faithful sphere and the function is used without the argument <code class="keyw">printRecord</code>, then the drawing printed into <code class="keyw">file</code> is a planar embedding of the face graph of <code class="keyw">surface</code>, where the vertices of the surface are identified by the faces of the embedding. Trying to use the function for a surface that is not a vertex-faithful sphere results in returning <code class="keyw">fail</code>.</p>
+
+
+<ul>
+<li><p>If the given <var class="Arg">file</var> does not end in <em>.tex</em> the ending <em>.tex</em> will be added to it.</p>
+
+</li>
+<li><p>The given file will be overwritten without asking if it already exists. If you don't have permission to write in that file, this method will throw an error.</p>
+
+</li>
+<li><p>The particulars of the drawing are determined by the given <var class="Arg">printRecord</var>. If this is not given and <var class="Arg">surface</var> is a simplicial sphere, the default settings are used.</p>
+
+</li>
+<li><p>The <var class="Arg">printRecord</var> will be modified and returned by this method. It contains the data to recreate the drawing of the surface.</p>
+
+</li>
+</ul>
+<p>There are several parameters to change the output of this method. Since the design of the parameters is similar to the design of the parameters of <code class="keyw">DrawSurfaceToTikz</code>(<a href="chap17.html#X7D14422983FF72ED"><span class="RefLink">17.2-1</span></a>), one can also refer to the corresponding subsections for a better understanding. There are the following classes of parameters:</p>
+
+
+<ul>
+<li><p><em>Colours</em> (<a href="chap17.html#X851A5F35815EF6FA"><span class="RefLink">17.4-2</span></a>): Change the colours of edges and faces represented as vertices.</p>
+
+</li>
+<li><p><em>Labels</em> (<a href="chap17.html#X834DA0E979EF427E"><span class="RefLink">17.2-3</span></a>): Modify the labels of vertices, edges and faces.</p>
+
+</li>
+<li><p><em>Scale</em> (<a href="chap17.html#X8420D1787FC150CC"><span class="RefLink">17.4-4</span></a>): These parameters control the size of the drawing.</p>
+
+</li>
+<li><p><em>faceCoordinates2D</em> (<a href="chap17.html#X7FFE2C11788EF6F7"><span class="RefLink">17.4-5</span></a>): Modify the 2D-coordinates of the faces.</p>
+
+</li>
+<li><p><em>Geodesics</em> (<a href="chap17.html#X86C1095A7A393E82"><span class="RefLink">17.4-6</span></a>): Draw the geodesics of the simplicial surface into the file.</p>
+
+</li>
+<li><p><em>Output control</em> (<a href="chap17.html#X801FE64F853E34FA"><span class="RefLink">17.4-7</span></a>): Modify how the LaTeX-output behaves and how much information is printed to the console.</p>
+
+</li>
+</ul>
+<p>If <code class="keyw">surface</code> is a simplicial sphere without 2-waists, the function can be called without specifying the parameter <code class="keyw">faceCoordinates2D</code>. In this case the implementation computes coordinates for the faces represented by vertices so that the embedded facegraph is planar.</p>
+
+<p><a id="X851A5F35815EF6FA" name="X851A5F35815EF6FA"></a></p>
+
+<h5>17.4-2 <span class="Heading">Colours</span></h5>
+
+<p>This subsection covers how to change the colours of edges and faces represented as vertices in the drawings from <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>). It covers the following parameters:</p>
+
+
+<ul>
+<li><p><em>faceColours</em>: Modify the colours of the vertices representing the faces (the default colour is gray).</p>
+
+</li>
+<li><p><em>edgeColours</em>: Modify the colours of the edges (the default colour is gray).</p>
+
+</li>
+</ul>
+<p>We will exemplify them with the tetrahedron to make clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[1,3,4],[2,3,4]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><em>faceColours</em>: Modifies the colours of the vertices representing the faces. The colours are given in a list <var class="Arg">colours</var> such that <var class="Arg">colours[f]</var> is the colour of the vertex representing face <var class="Arg">f</var>. If face <var class="Arg">f</var> is not in the surface, the colour is skipped. The colours are strings that are recognizable by LaTeX.</p>
+
+<p>It is possible to leave some face colours unbound - those will be coloured with the default face colour (gray).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceColours :=</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   ["blue", "green",, "black!20!yellow"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz(tetra, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"facegraph_tetrahedron_vertexColouredLocal", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredLocal-1.svg"> </img> <br> Instead of giving an entire list it is also possible to give just one string defining a new colour for all vertices. It will be internally converted into a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexColours := "blue!60!white" );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz(tetra, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"facegraph_tetrahedron_vertexColouredGlobal.tex",pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_vertexColouredGlobal-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>edgeColours</em>: Modifies the colours of the edges. The colours are given in a list <var class="Arg">colours</var> such that <var class="Arg">colours[e]</var> is the colour of the edge <var class="Arg">e</var>. If edge <var class="Arg">e</var> is not in the surface, the colour is skipped. The colours are strings that are recognizable by LaTeX.</p>
+
+<p>Is is possible to leave some edge colours unbound - those will be coloured with the default edge colour (gray).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeColours :=</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [,,"red","purple","blue","green!80!black"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz(tetra,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"facegraph_tetrahedron_edgeColouredLocal.tex", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredLocal-1.svg"> </img> <br> Instead of giving an entire list it is also possible to give just one string defining a new colour for all edges. It will be internally converted into a list.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeColours := "red" );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( tetra, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"facegraph_tetrahedron_edgeColouredGlobal.tex", pr );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_edgeColouredGlobal-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X834DA0E979EF427E" name="X834DA0E979EF427E"></a></p>
+
+<h5>17.4-3 <span class="Heading">Labels</span></h5>
+
+<p>This subsection covers the parameters that change the labels of vertices, edges and faces in the drawings of <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>).</p>
+
+
+<ul>
+<li><p><em>vertexLabelsActive</em>: Turn the vertex labels on or off (by default they are turned off).</p>
+
+</li>
+<li><p><em>vertexLabels</em>: Modify the vertex labels (by default they are labelled by their number).</p>
+
+</li>
+<li><p><em>edgeLabelsActive</em>: Turn the edge labels on or off (by default they are turned off).</p>
+
+</li>
+<li><p><em>edgeLabels</em>: Modify the edge labels (by default they are labelled by their number).</p>
+
+</li>
+<li><p><em>faceLabelsActive</em>: Turn the face labels on or off (by default they are turned on).</p>
+
+</li>
+<li><p><em>faceLabels</em>: Modify the face labels (by default they are labelled by their number).</p>
+
+</li>
+</ul>
+<p>We will exemplify these parameters on the example of a double-6-gon to make clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_Double6gon-1.svg"> </img></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_facegraph_Double6Gon-1.svg"> </img></p>
+
+
+<ul>
+<li><p><em>vertexLabelsActive</em>: By default all vertices are not labelled. If they should be labelled, this parameter can be set to <code class="keyw">true</code>. Note, the vertices of the simplicial surface can be identified by the faces of the facegraph.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexLabelsActive := true);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_VertexLabelsOn-1.svg"> </img></p>
+
+</li>
+<li><p><em>vertexLabels</em>: By default the vertices are labelled by their number. This can be changed with this parameter (if you just want to turn off the labels, use <em>vertexLabelsActive</em> instead).</p>
+
+<p>The labels are given as a list <var class="Arg">labels</var> such that <var class="Arg">labels[v]</var> is the label of the vertex <var class="Arg">v</var>. If vertex <var class="Arg">v</var> is not in the surface, the label is skipped. It is possible to leave some vertex labels unbound - those will be labelled with their default label.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( vertexLabels := ["V_1", "X", , "++"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_vertexLabels-1.svg"> </img></p>
+
+</li>
+<li><p><em>edgeLabelsActive</em>: By default all edges are not labelled. If they should be labelled, this parameter can be set to <code class="keyw">true</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeLabelsActive := true  );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabelsOn-1.svg"> </img></p>
+
+</li>
+<li><p><em>edgeLabels</em>: By default the edges are labelled by their number. This can be changed with this parameter (if you just want to turn off the labels, use <em>edgeLabelsActive</em> instead).</p>
+
+<p>The labels are given as a list <var class="Arg">labels</var> such that <var class="Arg">labels[e]</var> is the label of the edge <var class="Arg">e</var>. If edge <var class="Arg">e</var> is not in the surface, the label is skipped. It is possible to leave some edge labels unbound - those will be labelled with their default label.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( edgeLabels := ["a", , "e_3", , "?"] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_EdgeLabels-1.svg"> </img></p>
+
+</li>
+<li><p><em>faceLabelsActive</em>: By default all faces are labelled. If they should not be labelled, this parameter can be set to <code class="keyw">false</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceLabelsActive := false );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_facegraph_Double6Gon_FaceLabelsOff-1.svg"> </img></p>
+
+</li>
+<li><p><em>faceLabels</em>: By default the faces are labelled by their number. This can be changed with this parameter (if you just want to turn off the labels, use <em>faceLabelsActive</em> instead).</p>
+
+<p>The labels are given as a list <var class="Arg">labels</var> such that <var class="Arg">labels[f]</var> is the label of the face <var class="Arg">f</var>. If face <var class="Arg">f</var> is not in the surface, the label is skipped. It is possible to leave some face labels unbound - those will be labelled with their default label.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceLabels := ["I", "f_2", "42", ,] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_TIKZ_facegraph_Double6Gon_FaceLabels-1.svg"> </img></p>
+
+</li>
+</ul>
+<p><a id="X8420D1787FC150CC" name="X8420D1787FC150CC"></a></p>
+
+<h5>17.4-4 <span class="Heading">Scaling</span></h5>
+
+<p>This subsection explains the parameters that modify the size of the drawings produced by the method <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>). More specifically it explains the following parameters:</p>
+
+
+<ul>
+<li><p><em>scale</em>: Globally scales the picture. The default is 2.</p>
+
+</li>
+<li><p><em>floatAccuracy</em>: Internal parameter to decide when two floats are regarded as equal. The default is 0.001. Usually it should not be necessary to modify this value.</p>
+
+</li>
+</ul>
+<p>We will exemplify the parameter <em>scale</em> on the octahedron to make it more clear how the parameters works:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct:=Octahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( oct, "facegraph_oct" );;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_oct-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><em>scale</em>: By default the scale is 2. This can be changed with this parameter.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( scale := 1.5 );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X7FFE2C11788EF6F7" name="X7FFE2C11788EF6F7"></a></p>
+
+<h5>17.4-5 <span class="Heading">Face coordinates</span></h5>
+
+<p>This subsection covers how to change the position of the faces in the drawing computed by <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>). It covers the following parameters:</p>
+
+
+<ul>
+<li><p><em>faceCoordinates2D</em>: Modify the coordinates of the faces which are represented as vertices in the embedding.</p>
+
+</li>
+</ul>
+
+<ul>
+<li><p><em>spread</em> (Only available for <code class="keyw">DrawConvexFacegraphToTikz</code> <a href="chap17.html#X7E24F51A7FB2B387"><span class="RefLink">17.4-8</span></a>): Modify the spread of the coordinates.</p>
+
+</li>
+</ul>
+<p>We will exemplify them with the tetrahedron to make clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[1,3,4],[2,3,4]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><em>faceCoordinates2D</em>: Modifies the position of the vertices representing the faces. The coordinates are given in a list <var class="Arg">faceCoordinates2D</var> such that <var class="Arg">faceCoordinates2D[f]</var> is the 2D-coordinate of the vertex representing face <var class="Arg">f</var>. The list of bounded positions in <em>faceCoordinates2D</em> has to be equal to the set of faces of the given surface, otherwise the function returns an error.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( faceCoordinates2D:=[[0.,0.],[4.,0.],[4.,4.],[0.,4.]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz(tetra, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"facegraph_tetrahedron_Coordinates", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_facegraph_tetrahedron_Coordinates-1.svg"> </img> <br></p>
+
+</li>
+<li><p><em>spread</em> (Only available for <code class="keyw">DrawConvexFacegraphToTikz</code> <a href="chap17.html#X7E24F51A7FB2B387"><span class="RefLink">17.4-8</span></a>): Modifies the position of the vertices representing the faces. The spread parameter can be chosen as a float in the interval (0, 1). Choosing the parameter outside the interval results in an error. Choosing a number close to 1 modifies the face coordinates such that they tend torwards the outer ring of the face graph. Choosing a number close to 0 modifies the face coordinates such that they tend torwards the middle of the face graph. The default spread is set at 0.5.</p>
+
+<p>We will exemplify this parameter with the icosahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawConvexFacegraphToTikz(icosahedron, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"convex_facegraph_icosahedron_default_spread");;</span>
+</pre></div>
+
+</li>
+<li><p><em>spread</em> (Only available for <code class="keyw">DrawConvexFacegraphToTikz</code> <a href="chap17.html#X7E24F51A7FB2B387"><span class="RefLink">17.4-8</span></a>): Modifies the position of the vertices representing the faces. The spread parameter can be chosen as a float in the interval (0, 1). Choosing the parameter outside the interval results in an error. Choosing a number close to 1 modifies the face coordinates such that they tend torwards the outer ring of the face graph. Choosing a number close to 0 modifies the face coordinates such that they tend torwards the middle of the face graph. The default spread is set at 0.5.</p>
+
+<p>We will exemplify this parameter with the icosahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">icosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawConvexFacegraphToTikz(icosahedron, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"convex_facegraph_icosahedron_default_spread");;</span>
+</pre></div>
+
+<p><br><img src="./images/_TIKZ_convex_facegraph_icosahedron_default_spread.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec(spread := 0.3);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawConvexFacegraphToTikz(icosahedron,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"> "convex_facegraph_icosahedron_low_spread", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_TIKZ_convex_facegraph_icosahedron_low_spread.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec(spread := 0.7);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawConvexFacegraphToTikz(icosahedron,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"> "convex_facegraph_icosahedron_high_spread", pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_TIKZ_convex_facegraph_icosahedron_high_spread.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X86C1095A7A393E82" name="X86C1095A7A393E82"></a></p>
+
+<h5>17.4-6 <span class="Heading">Geodesics</span></h5>
+
+<p>This subsection covers the usage of the parameter that adds geodesics into the drawings of <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>). This parameter is designed for simplicial surfaces whose face graphs are embedded with the help of the coordinates computed in the implementations.</p>
+
+<p>It covers the following parameters:</p>
+
+
+<ul>
+<li><p><em>geodesicsActice</em>: Turn the drawing of the geodesics on or off (by default they are turned off). A geodesic of a simplicial surface can be defined as a face-edge-path. This information can be used to draw the geodesic as polygon so that edges of the polygon and edges of the embedding of the face graph intersect if and only if the corresponding edge of the simplicial surface lies on the defining face-edge-path.</p>
+
+</li>
+</ul>
+<p>We will exemplify these parameter on the example of a octahedron to make it more clear how the parameters work:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct:=Octahedron();</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;</span>
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_facegraph_oct_Rescaled-1.svg"> </img></p>
+
+
+<ul>
+<li><p><em>geodesicsActive</em>: By default the geodics are not painted into the .tex file. If they should be shown, this parameter can be set to <code class="keyw">true</code>. Note the octahedron has four geodesics which are all represented in the drawing by polygons coloured in red, green, blue and yellow.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pr := rec( geodesicActive := true);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawFacegraphToTikz( oct,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">"facegraph_octGeodesics.tex" , pr);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_facegraph_octGeodesics-1.svg"> </img> <br></p>
+
+</li>
+</ul>
+<p><a id="X801FE64F853E34FA" name="X801FE64F853E34FA"></a></p>
+
+<h5>17.4-7 <span class="Heading">Output control</span></h5>
+
+<p>This subsection contains miscellaneous parameters to control the output of <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>). It contains the following options:</p>
+
+
+<ul>
+<li><p><em>compileLaTeX</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the generated tex-file will be automatically compiled with <code class="keyw">pdflatex</code>. In rare cases the compilation might run into a problem and stop. To abort such a computation, type 'x' and hit ENTER (this command is passed to <code class="keyw">pdflatex</code>). If this happens, please notify the developers so it can be fixed in a later version.</p>
+
+</li>
+<li><p><em>latexDocumentclass</em>: Defines which documentclass is used for the output. The default is <code class="keyw">article</code>. If the picture should not be cropped (and not be printed), <code class="keyw">standalone</code> is recommended.</p>
+
+</li>
+<li><p><em>noOutput</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the method <code class="keyw">DrawSurfaceToTikz</code> will produce no output on the console.</p>
+
+</li>
+<li><p><em>onlyTikzpicture</em>: If this parameter is <code class="keyw">true</code> (the default is <code class="keyw">false</code>) the generated tex-file will only consist of a <code class="keyw">tikzpicture</code> without header (it is not possible to compile it on its own).</p>
+
+</li>
+</ul>
+<p><a id="X7E24F51A7FB2B387" name="X7E24F51A7FB2B387"></a></p>
+
+<h5>17.4-8 DrawConvexFacegraphToTikz</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DrawConvexFacegraphToTikz</code>( <var class="Arg">surface</var>, <var class="Arg">file</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Draw the face graph of the given <var class="Arg">surface</var> into a tex-file (using TikZ). An introduction to the use of this method (along with several examples) can be found at the start of section <a href="chap17.html#X84A7C555875BE14A"><span class="RefLink">17.4</span></a>. If <code class="keyw">surface</code> is a simplicial vertex faithful sphere and the function is used without the argument <code class="keyw">printRecord</code>, then the drawing printed into <code class="keyw">file</code> is a planar embedding of the face graph of <code class="keyw">surface</code>, where the vertices of the surface are identified by the faces of the embedding. <code class="keyw">DrawConvexFacegraphToTikz</code> differs from <code class="keyw">DrawFacegraphToTikz</code> (<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>) by constructing the face graph by successively manipulating a convex drawing plane and calculating new face coordinates. The new coordinates are then drawn with <code class="keyw">DrawFacegraphToTikz</code>. This results in an embedding which maps the faces of one of the largest umbrella paths on the outer ring as a regular polygon. Trying to use the function for a surface that is not a vertex-faithful sphere results in returning <code class="keyw">fail</code>.</p>
+
+
+<ul>
+<li><p>If the given <var class="Arg">file</var> does not end in <em>.tex</em> the ending <em>.tex</em> will be added to it.</p>
+
+</li>
+<li><p>The given file will be overwritten without asking if it already exists. If you don't have permission to write in that file, this method will throw an error.</p>
+
+</li>
+<li><p>The particulars of the drawing are determined by the given <var class="Arg">printRecord</var>. If this is not given and <var class="Arg">surface</var> is a simplicial sphere, the default settings are used.</p>
+
+</li>
+<li><p>The <var class="Arg">printRecord</var> will be modified and returned by this method. It contains the data to recreate the drawing of the surface.</p>
+
+</li>
+</ul>
+<p>There are several parameters to change the output of this method. Since the design of the parameters is the design of the parameters of <code class="keyw">DrawFacegraphToTikz</code>(<a href="chap17.html#X826734807B47A998"><span class="RefLink">17.4-1</span></a>), one can also refer to the corresponding subsections for a better understanding. There are the following classes of parameters:</p>
+
+
+<ul>
+<li><p><em>Colours</em> (<a href="chap17.html#X851A5F35815EF6FA"><span class="RefLink">17.4-2</span></a>): Change the colours of edges and faces represented as vertices.</p>
+
+</li>
+<li><p><em>Labels</em> (<a href="chap17.html#X834DA0E979EF427E"><span class="RefLink">17.2-3</span></a>): Modify the labels of vertices, edges and faces.</p>
+
+</li>
+<li><p><em>Scale</em> (<a href="chap17.html#X8420D1787FC150CC"><span class="RefLink">17.4-4</span></a>): These parameters control the size of the drawing.</p>
+
+</li>
+<li><p><em>faceCoordinates2D</em> (<a href="chap17.html#X7FFE2C11788EF6F7"><span class="RefLink">17.4-5</span></a>): Modify the 2D-coordinates of the faces.</p>
+
+</li>
+<li><p><em>Geodesics</em> (<a href="chap17.html#X86C1095A7A393E82"><span class="RefLink">17.4-6</span></a>): Draw the geodesics of the simplicial surface into the file.</p>
+
+</li>
+<li><p><em>Output control</em> (<a href="chap17.html#X801FE64F853E34FA"><span class="RefLink">17.4-7</span></a>): Modify how the LaTeX-output behaves and how much information is printed to the console.</p>
+
+</li>
+</ul>
+<p>Consider the following example of the double-6-gon:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">double6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_Double6gon.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawConvexFacegraphToTikz( double6Gon, "convex_facegraph_Double6Gon.tex" );;</span>
+</pre></div>
+
+<p><br><img src="./images/Image_convex_facegraph_Double6Gon.svg"> </img> <br></p>
 
 
 <div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap16.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap18.html">[Next Chapter]</a>&nbsp;  </div>
 
 
-<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chap23.html">23</a>  <a href="chapInd.html">Ind</a>  </div>
 
 <hr />
 <p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>

@@ -1,484 +1,463 @@
   
-  [1X19 [33X[0;0YEdge vari-colourings[133X[101X
+  [1X19 [33X[0;0YEdge colourings[133X[101X
   
-  [33X[0;0YIn  Chapter  [14X18[114X,  the  concept of edge colourings was introduced in general.
-  This  chapter  is  concerned  with a specific type of edge colourings, where
-  every  edge  of  a  given  face  has  to  have  a different colour (so it is
-  [13Xvaricoloured[113X on each face).[133X
+  [33X[0;0YThis  chapter  is concerned with edge-coloured (twisted) polygonal complexes
+  and  in  particular simplicial surfaces. The first section ([14X19.1[114X) deals with
+  the  definition  of  arbitrary edge-colourings and the methods to access its
+  colouring.[133X
   
-  [33X[0;0YIn  Section  [14X19.1[114X,  the  concept  of  the edge vari-colouring is defined. In
-  addition,   some  access  functions  made  possible  by  the  colouring  are
-  described.  Section  [14X19.2[114X  represents  the  edge vari-colouring of polygonal
-  complexes  without edge ramifications as permutations, the [9XColourInvolutions[109X
-  ([14X19.2-1[114X).[133X
+  [33X[0;0YThe  second  section  ([14X19.2[114X)  explains  how  the  drawing  functionality for
+  polygonal  surfaces  without  edge  ramifications  (compare section [14X17.2[114X for
+  details) is extended for edge-coloured ramified polygonal surfaces.[133X
   
-  [33X[0;0YAfter  these  general properties, section [14X19.3[114X deals with a special subclass
-  of  a  vari-colouring: [13Xedge exact-colourings[113X, in which the number of colours
-  is  minimal  (for  example,  in a simplicial surface there can only be three
-  colours).  It  describes  a method to uniquely reconstruct an exact-coloured
-  surface from its permutation (by introducing the [13Xlocal symmetries[113X ([14X19.3-3[114X)).[133X
-  
-  [33X[0;0YSection  [14X19.3[114X  also  describes  some  methods to construct vari-coloured and
-  exact-coloured surfaces.[133X
+  [33X[0;0YFinally  section  [14X19.3[114X  deals  with the isomorphism problem of edge-coloured
+  polygonal complexes.[133X
   
   
-  [1X19.1 [33X[0;0YDefinition and elementary properties[133X[101X
+  [1X19.1 [33X[0;0YGeneral definition[133X[101X
   
-  [33X[0;0YThis  section  defines  the  concept  of  edge  vari-colourings ([14X19.1-1[114X) and
-  introduces the coloured version of this method:[133X
+  [33X[0;0YThis   section  describes  how  an  edge-colouring  is  implemented  in  the
+  [9XSimplicialSurfaces[109X-package.[133X
   
-  [30X    [33X[0;6Y[9XColouredEdgesOfFaces[109X ([14X19.1-2[114X) extends [9XEdgesOfFaces[109X ([14X3.2-6[114X).[133X
+  [33X[0;0YAn [9XEdgeColouredTwistedPolygonalComplex[109X ([14X19.1-2[114X) consists of:[133X
   
-  [33X[0;0YWe will illustrate all of these on a prism with triangular base.[133X
+  [30X    [33X[0;6Ya  twisted  polygonal  complex,  accessible by [9XTwistedPolygonalComplex[109X
+        ([14X19.1-3[114X)[133X
+  
+  [30X    [33X[0;6Yan  edge  colouring,  which can be accessed by [9XColoursOfEdges[109X ([14X19.1-4[114X)
+        and [9XEdgesOfColours[109X ([14X19.1-5[114X)[133X
+  
+  [33X[0;0YSpecialisations         like         [9XEdgeColouredPolygonalComplex[109X        and
+  [9XEdgeColouredSimplicialSurface[109X exist as well and behave in the expected way.[133X
+  
+  [33X[0;0YAs an illustration we consider a pyramid with square base.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xprism := PolygonalSurfaceByDownwardIncidence( [127X[104X
-    [4X[25X>[125X [27X    [[2,3],[1,3],[1,2],[1,7],[2,8],[3,9],[8,9],[7,9],[7,8]],[127X[104X
-    [4X[25X>[125X [27X    [[1,3,2],,[3,5,9,4],[1,6,7,5],[2,4,8,6],,[7,8,9]]);;[127X[104X
-    [4X[25Xgap>[125X [27XcolPrism := EdgeColouredPolygonalComplex(prism, [1,4,2,1,5,2,4,5,3]);;[127X[104X
+    [4X[25Xgap>[125X [27Xpyr := PolygonalSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [ , [1,2], [2,3], [3,4], [1,4], [2,10], [3,10], [4,10], [1,10] ],[127X[104X
+    [4X[25X>[125X [27X    [ [2,3,4,5], , [2,6,9], [3,6,7], [4,7,8], [5,8,9] ] );;[127X[104X
   [4X[32X[104X
   
-  [33X[0;0YThis can be drawn by [9XDrawSurfaceToTikz[109X ([14X18.2-1[114X).[133X
+  [33X[0;0YWe  would  like  to  colour the edges in the following way: Image omitted in
+  terminal  text  To do that we describe the colours by positive integers (for
+  example 1,2,4). We can encode the edge colouring in two ways:[133X
+  
+  [31X1[131X   [33X[0;6YWe can give a list that encodes which edge has which colour.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27XcolOfEdges := [,2,1,1,2,4,1,4,2];[127X[104X
+          [4X[28X[ , 2, 1, 1, 2, 4, 1, 4, 2 ][128X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YThe entry at position [3Xedge[103X denotes the colour of [3Xedge[103X.[133X
+  
+  [31X2[131X   [33X[0;6YWe can give a edge colour class for each colour (as list).[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27XcolClasses := [ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ];[127X[104X
+          [4X[28X[ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ][128X[104X
+        [4X[32X[104X
+  
+  [33X[0;0YBoth of those can be used to construct the edge coloured polygonal complex:[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xpr := rec( edgeDrawOrder := [1,5,6,7], [127X[104X
-    [4X[25X>[125X [27X    edgeColourClassColours :=  ["magenta", "cyan", "olive", "lime", "pink"] );;[127X[104X
-    [4X[25Xgap>[125X [27XDrawSurfaceToTikz(colPrism, "Prism_coloured", pr );;[127X[104X
+    [4X[25Xgap>[125X [27XcolPyr := EdgeColouredPolygonalComplex( pyr, colOfEdges );;[127X[104X
+    [4X[25Xgap>[125X [27XcolPyrAlt := EdgeColouredPolygonalComplex( pyr, colClasses );;[127X[104X
+    [4X[25Xgap>[125X [27XcolPyr = colPyrAlt;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YBoth the polygonal surface and the colouring can be accessed.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPolygonalComplex(colPyr) = pyr;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XColoursOfEdges(colPyr) = colOfEdges;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfColours(colPyr) = colClasses;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YA quick access to the used colours is also available:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XColours(colPyr);[127X[104X
+    [4X[28X[ 1, 2, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X19.1-1 IsEdgeColouredTwistedPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XIsEdgeColouredTwistedPolygonalComplex[102X( [3Xobject[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsEdgeColouredPolygonalComplex[102X( [3Xobject[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsEdgeColouredSimplicialSurface[102X( [3XcolComplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck if a given object is an [9XIsEdgeColouredTwistedPolygonalComplex[109X. This is
+  the  case  if  it  consists  of  a  twisted  polygonal  complex  and an edge
+  colouring, accessible by [9XTwistedPolygonalComplex[109X ([14X19.1-3[114X) and [9XColoursOfEdges[109X
+  ([14X19.1-4[114X) respectively.[133X
+  
+  [33X[0;0YIn  addition there are some properties of the type [9XIsEdgeColoured[109X[13XThing[113X which
+  check  if  the  underlying  twisted  polygonal  complex  fulfills [13XThing[113X. For
+  example  [9XIsEdgeColouredSimplicialSurface[109X  checks if the underlying polygonal
+  complex is a simplicial surface.[133X
+  
+  [1X19.1-2 EdgeColouredTwistedPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XEdgeColouredTwistedPolygonalComplex[102X( [3Xcomplex[103X, [3Xcolouring[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeColouredTwistedPolygonalComplexNC[102X( [3Xcomplex[103X, [3Xcolouring[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeColouredPolygonalComplex[102X( [3Xcomplex[103X, [3Xcolouring[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeColouredPolygonalComplexNC[102X( [3Xcomplex[103X, [3Xcolouring[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeColouredSimplicialSurface[102X( [3Xsurface[103X, [3Xcolouring[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeColouredSimplicialSurfaceNC[102X( [3Xsurface[103X, [3Xcolouring[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Yan [9XEdgeColouredTwistedPolygonalComplex[109X[133X
+  
+  [33X[0;0YConstruct  an  edge coloured (twisted) polygonal complex. The edge colouring
+  can be given in one of two ways:[133X
+  
+  [31X1[131X   [33X[0;6YAs  a  list [3Xcolouring[103X of positive integers. For every edge [3Xedge[103X in the
+        given  [3Xcomplex[103X  the  entry [3Xcolouring[edge][103X contains the colour of [3Xedge[103X
+        (we encode colours by positive integers).[133X
+  
+  [31X2[131X   [33X[0;6YAs a list [3Xcolouring[103X of sets of positive integers. For every colour [3Xcol[103X
+        (the   colours   are   described   by  positive  integers)  the  entry
+        [3Xcolouring[col][103X contains the set of all edges with colour [3Xcol[103X.[133X
+  
+  [33X[0;0YThe more specific variations enforce their more restrictive type on [3Xcomplex[103X,
+  e.g.  [9XEdgeColouredSimplicialSurface[109X  requires  [3Xcomplex[103X  to  be  a simplicial
+  surface.[133X
+  
+  [33X[0;0YNote:  If the given [3Xcomplex[103X is already edge coloured, it will be stripped of
+  this colouring first.[133X
+  
+  [33X[0;0YAs  illustration we colour the pyramid from the start of section [14X19.1[114X in two
+  different ways and use both ways of encoding the colouring.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpyr := PolygonalSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [ , [1,2], [2,3], [3,4], [1,4], [2,10], [3,10], [4,10], [1,10] ],[127X[104X
+    [4X[25X>[125X [27X    [ [2,3,4,5], , [2,6,9], [3,6,7], [4,7,8], [5,8,9] ] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in  terminal  text  We  use the first method of encoding the
+  colouring (based on the edges):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcolPyr1 := EdgeColouredPolygonalComplex(pyr, [,2,1,1,2,3,1,3,2]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted in terminal text We can also pick a different colouring which
+  we will define by the second method of encoding:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcolPyr2 := EdgeColouredPolygonalComplex(pyr, [[2,6],[3,7],,[4,8],[5,9]]);;[127X[104X
   [4X[32X[104X
   
   [33X[0;0YImage omitted in terminal text[133X
   
-  [1X19.1-1 IsEdgeVariColouring[101X
+  [33X[0;0YThe NC-version does not check whether the given [3Xcolouring[103X is consistent with
+  the edges of [3Xcomplex[103X, i.e.[133X
   
-  [33X[1;0Y[29X[2XIsEdgeVariColouring[102X( [3XcolComplex[103X ) [32X property[133X
-  [33X[1;0Y[29X[2XIsEdgeExactColouring[102X( [3XcolComplex[103X ) [32X property[133X
-  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  [30X    [33X[0;6YDoes every edge of [3Xcomplex[103X appear?[133X
   
-  [33X[0;0YThe  property  [9XIsEdgeVariColouring[109X  checks  if  the  edges  of each face are
-  vari-coloured  by  the given edge colouring. This is the case if and only if
-  all edges of each face have different colours.[133X
+  [30X    [33X[0;6YIs every purported edge of [3Xcolouring[103X an edge of [3Xcomplex[103X?[133X
   
-  [33X[0;0YFor  each  face  there  have  to  be  at  least as many colours as there are
-  incident  edges.  Therefore the maximal number of edges in a face is a lower
-  bound  on  the number of colours in such a colouring. If this lower bound is
-  obtained,  we  call  the  colouring  [13Xexact[113X, which is checked by the property
-  [9XIsEdgeExactColouring[109X.  For  a  simplicial  surface this means that there are
-  exactly three colours.[133X
+  [1X19.1-3 TwistedPolygonalComplex[101X
   
-  [33X[0;0YWe  illustrate this on the prism that was introduced at the start of Section
-  [14X19.1[114X.  Image  omitted  in  terminal  text  The  given  edge  colouring  is a
-  vari-colouring but not an exact-colouring.[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalComplex[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XPolygonalComplex[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XSimplicialSurface[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya twisted polygonal complex[133X
   
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XEdgesOfColours( colPrism );[127X[104X
-    [4X[28X[ [ 1, 4 ], [ 3, 6 ], [ 9 ], [ 2, 7 ], [ 5, 8 ] ][128X[104X
-    [4X[25Xgap>[125X [27XIsEdgeVariColouring( colPrism );[127X[104X
-    [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XIsEdgeExactColouring( colPrism );[127X[104X
-    [4X[28Xfalse[128X[104X
-  [4X[32X[104X
+  [33X[0;0YReturn  the underlying twisted polygonal complex of an edge coloured twisted
+  polygonal  complex.  The  other  variants  return  the  same object but will
+  guarantee the more specific type.[133X
   
-  [33X[0;0YSince there are faces with four incident edges, any colouring with less than
-  four  colours  can't  be a vari-colouring. Conversely, a colouring with more
-  than four colours can't be exact.[133X
-  
-  [33X[0;0YIn  fact,  there is no exact vari-colouring for this polygonal surface. TODO
-  refer to comparison with simplicial surface (prove this result there);[133X
-  
-  [1X19.1-2 ColouredEdgesOfFaces[101X
-  
-  [33X[1;0Y[29X[2XColouredEdgesOfFaces[102X( [3XrbComp[103X ) [32X attribute[133X
-  [33X[1;0Y[29X[2XColouredEdgesOfFace[102X( [3XrbComp[103X, [3Xface[103X ) [32X operation[133X
-  [33X[1;0Y[29X[2XColouredEdgesOfFaceNC[102X( [3XrbComp[103X, [3Xface[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya list of (lists of) positive integers[133X
-  
-  [33X[0;0YFor     an    edge    vari-coloured    polygonal    complex    the    method
-  [9XColouredEdgesOfFace[109X([3XrbComp[103X,  [3Xface[103X)  returns  a list of the incident edges of
-  [3Xface[103X  such  that  the  [13Xi[113X-th  entry has the colour [13Xi[113X. The NC-version does not
-  check whether the given [3Xface[103X is an actual face of the coloured complex.[133X
-  
-  [33X[0;0YThe  attribute  [9XColouredEdgesOfFaces[109X  collects  all of these lists in a list
-  indexed  by  the  face  labels,  i.e.  [9XColouredEdgesOfFaces[109X([3XrbComp[103X)[[3Xface[103X]  =
-  [9XColouredEdgesOfFace[109X([3XrbComp[103X, [3Xface[103X). All other positions are unbound.[133X
-  
-  [33X[0;0YConsider  the prism example from the start of Section [14X19.1[114X. Image omitted in
-  terminal text[133X
+  [33X[0;0YFor example both edge coloured pyramids from [14X19.1-2[114X have the same underlying
+  polygonal complex.[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XColoursOfEdges(colPrism);[127X[104X
-    [4X[28X[ 1, 4, 2, 1, 5, 2, 4, 5, 3 ][128X[104X
-    [4X[25Xgap>[125X [27XColouredEdgesOfFace(colPrism, 1);[127X[104X
-    [4X[28X[ 1, 3,, 2 ][128X[104X
-    [4X[25Xgap>[125X [27XColouredEdgesOfFace(colPrism, 4);[127X[104X
-    [4X[28X[ 1, 6,, 7, 5 ][128X[104X
-    [4X[25Xgap>[125X [27XColouredEdgesOfFaces(colPrism);[127X[104X
-    [4X[28X[ [ 1, 3,, 2 ],, [ 4, 3, 9,, 5 ], [ 1, 6,, 7, 5 ], [ 4, 6,, 2, 8 ],, [ ,, 9, 7, 8 ] ][128X[104X
-  [4X[32X[104X
-  
-  
-  [1X19.2 [33X[0;0YPermutation description[133X[101X
-  
-  [33X[0;0YWhile  Section [14X19.1[114X dealt with general edge vari-colourings, this section is
-  restricted  to  edge  vari-colourings  of  polygonal  complexes without edge
-  ramifications. For those there are at most two faces incident to an edge.[133X
-  
-  [33X[0;0YTherefore  every  colour  can  be interpreted as an involution on the set of
-  faces (which swaps two faces that are connected by an edge of that colour).[133X
-  
-  [33X[0;0YFor example, consider a coloured disk (that has a boundary).[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xdisk := PolygonalSurfaceByDownwardIncidence([127X[104X
-    [4X[25X>[125X [27X    [[1,4],[1,2],[2,3],[3,4],[1,5],[1,6],[2,7],[2,8],[3,9],[3,10],[127X[104X
-    [4X[25X>[125X [27X        [4,11],[4,12],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11],[11,12],[5,12]],[127X[104X
-    [4X[25X>[125X [27X    [[13,6,5],[14,7,2,6],[15,8,7],[5,1,12,20],[2,3,4,1],[127X[104X
-    [4X[25X>[125X [27X        [8,16,9,3],[12,11,19],[4,10,18,11],[9,17,10]] );;[127X[104X
-    [4X[25Xgap>[125X [27XIsClosedComplex(disk);[127X[104X
-    [4X[28Xfalse[128X[104X
-    [4X[25Xgap>[125X [27XcolDisk := EdgeColouredPolygonalComplex(disk, [127X[104X
-    [4X[25X>[125X [27X    [[13,15,17,19],,[5,2,8,18],[14,12,4,9],[20,7,3,10],[6,1,11,16]] );;[127X[104X
-    [4X[25Xgap>[125X [27XIsEdgeVariColouring(colDisk);[127X[104X
+    [4X[25Xgap>[125X [27XPolygonalComplex(colPyr1) = PolygonalComplex(colPyr2);[127X[104X
     [4X[28Xtrue[128X[104X
   [4X[32X[104X
   
-  [33X[0;0YImage omitted in terminal text The colour 3 (red in the picture) corresponds
-  to the involution [22X(1,4)(2,5)(3,6)[122X, while the colour 1 (green in the picture)
-  induces  the  trivial permutation since all of its edges are boundary edges.
-  The permutations can be accessed by the [9XColourInvolutions[109X-methods ([14X19.2-1[114X):[133X
+  [1X19.1-4 ColoursOfEdges[101X
+  
+  [33X[1;0Y[29X[2XColoursOfEdges[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XColourOfEdge[102X( [3XcolComplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XColourOfEdgeNC[102X( [3XcolComplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integer[133X
+  
+  [33X[0;0YThe  method  [9XColourOfEdge[109X([3XcolComplex[103X,  [3Xedge[103X)  returns  the  colour  of [3Xedge[103X,
+  represented by a positive integer. The NC-version does not check whether the
+  given [3Xedge[103X is an edge of the underlying twisted polygonal complex.[133X
+  
+  [33X[0;0YThe  attribute [9XColoursOfEdges[109X([3XcolComplex[103X) collects all of those colours in a
+  list     that     is     indexed     by     the     edge     labels,    i.e.
+  [9XColoursOfEdges[109X([3XcolComplex[103X)[[3Xedge[103X] = [9XColourOfEdge[109X([3XcolComplex[103X, [3Xedge[103X). All other
+  positions of this list are not bound.[133X
+  
+  [33X[0;0YFor  example  consider  the coloured pyramid from the start of section [14X19.1[114X.
+  Image omitted in terminal text[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XColourInvolutions(colDisk);[127X[104X
-    [4X[28X[ (),, (1,4)(2,5)(3,6), (4,7)(5,8)(6,9), (2,3)(5,6)(8,9), (1,2)(4,5)(7,8) ][128X[104X
-  [4X[32X[104X
-  
-  [1X19.2-1 ColourInvolutions[101X
-  
-  [33X[1;0Y[29X[2XColourInvolutions[102X( [3XrcRamSurf[103X ) [32X attribute[133X
-  [6XReturns:[106X  [33X[0;10Ya list of involutions[133X
-  
-  [33X[0;0YFor   an   edge   vari-coloured  ([14X19.1-1[114X)  polygonal  complex  without  edge
-  ramifications ([14X2.3-1[114X), return the colour involutions.[133X
-  
-  [33X[0;0YThe  attribute  [9XColourInvolutions[109X([3XrcRamSurf[103X)  returns  a list of involutions
-  (the  position [3Xcol[103X is bound if and only if [3Xcol[103X is a colour of the underlying
-  polygonal complex without edge ramifications).[133X
-  
-  [33X[0;0YFor  a  given  colour  [3Xcol[103X  the  colour  involution encodes the neighbouring
-  relation  of  the  faces  that  is induced by the edges of the colour [3Xcol[103X. A
-  boundary edge induces a fixed point.[133X
-  
-  [33X[0;0YThis  can  be  seen  on  the  example  from the start of section [14X19.2[114X. Image
-  omitted in terminal text[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XColourInvolutions(colDisk);[127X[104X
-    [4X[28X[ (),, (1,4)(2,5)(3,6), (4,7)(5,8)(6,9), (2,3)(5,6)(8,9), (1,2)(4,5)(7,8) ][128X[104X
-  [4X[32X[104X
-  
-  
-  [1X19.3 [33X[0;0YWild coloured surfaces[133X[101X
-  
-  [33X[0;0YWhile  the  previous  sections dealt with general edge vari-colourings, this
-  section focuses exclusively on edge exact-coloured simplicial surfaces, i.e.
-  simplicial  surfaces  whose  edges are coloured with three colours such that
-  the  edges  of  each  face  have  different  colours.  Since these are quite
-  important   structures,  we  will  denote  them  by  [13Xwild-coloured  surfaces[113X
-  ([14X19.3-1[114X).[133X
-  
-  [33X[0;0YIn  this  situation  there  is an additional local symmetry structure on the
-  edges. For every inner edge ([14X9.4-1[114X) there are two possible colourings of the
-  adjacent  faces,  which  can  be described by a symmetry with respect to the
-  edge  between  them. The colours can either be mirrored or rotated into each
-  other.  Image  omitted  in terminal text The first type is called [13Xmirror[113X and
-  the  second  one  [13Xrotation[113X. Together with the [13Xboundary[113X-type for the boundary
-  edges ([14X9.4-3[114X) this defines the [9XLocalSymmetryOfEdges[109X ([14X19.3-3[114X).[133X
-  
-  [33X[0;0YTogether  with  the  edge  colouring,  the  local  symmetry  determines  the
-  underlying simplicial surface.[133X
-  
-  [1X19.3-1 IsWildColouredSurface[101X
-  
-  [33X[1;0Y[29X[2XIsWildColouredSurface[102X( [3XcolSurf[103X ) [32X property[133X
-  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
-  
-  [33X[0;0YCheck if an edge-coloured polygonal complex is a [13Xwild-coloured surface[113X, i.e.[133X
-  
-  [30X    [33X[0;6YIt is a simplicial surface ([14X2.3-5[114X)[133X
-  
-  [30X    [33X[0;6YIt  has  an edge-exact colouring ([14X19.1-1[114X), i.e. the edges are coloured
-        by three colours and the edges of every face have different colours.[133X
-  
-  [33X[0;0YFor example, consider the tetrahedron. This colouring is a wild colouring of
-  the tetrahedron:[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XwildColTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,1]);;[127X[104X
-    [4X[25Xgap>[125X [27XIsWildColouredSurface(wildColTetra);[127X[104X
-    [4X[28Xtrue[128X[104X
-  [4X[32X[104X
-  
-  [33X[0;0YImage  omitted  in  terminal  text  This  colouring of the tetrahedron is an
-  example for a coloring that is not a wild colouring:[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XcolTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,2]);;[127X[104X
-    [4X[25Xgap>[125X [27XIsWildColouredSurface(colTetra);[127X[104X
-    [4X[28Xfalse[128X[104X
-  [4X[32X[104X
-  
-  [33X[0;0YImage  omitted in terminal text Using four colours leads to a colouring that
-  is not a wild colouring:[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XcolFourTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,4]);;[127X[104X
-    [4X[25Xgap>[125X [27XIsWildColouredSurface(colFourTetra);[127X[104X
-    [4X[28Xfalse[128X[104X
-  [4X[32X[104X
-  
-  [33X[0;0YImage omitted in terminal text[133X
-  
-  [1X19.3-2 ColouredUmbrellasOfVertices[101X
-  
-  [33X[1;0Y[29X[2XColouredUmbrellasOfVertices[102X( [3XwildSurf[103X ) [32X attribute[133X
-  [33X[1;0Y[29X[2XColouredUmbrellaOfVertex[102X( [3XwildSurf[103X, [3Xvertex[103X ) [32X operation[133X
-  [33X[1;0Y[29X[2XColouredUmbrellaOfVertexNC[102X( [3XwildSurf[103X, [3Xvertex[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya list of coloured edge-face-paths[133X
-  
-  [33X[0;0YFor      a     wild     coloured     surface     ([14X19.3-1[114X)     the     method
-  [9XColouredUmbrellaOfVertex[109X([3XwildSurf[103X,    [3Xvertex[103X)   returns   an   edge-coloured
-  edge-face   path   for   the  umbrella-path  around  [3Xvertex[103X.  All  of  these
-  umbrella-paths        are       collected       in       the       attribute
-  [9XColouredUmbrellasOfVertices[109X([3XwildSurf[103X),                                  i.e.
-  [9XColouredUmbrellasOfVertices[109X([3XwildSurf[103X)[[3Xvertex[103X]                              =
-  [9XColouredUmbrellaOfVertex[109X([3XwildSurf[103X, [3Xvertex[103X).[133X
-  
-  [33X[0;0YThis  method  extends  [9XUmbrellaPathsOfVertices[109X  ([14X3.4-1[114X).  The  edge-coloured
-  edge-face-paths  behave exactly as regular edge-face-paths but are displayed
-  differently.[133X
-  
-  [33X[0;0YThe  NC-version does not check whether the given [3Xvertex[103X actually is a vertex
-  of [3XwildSurf[103X.[133X
-  
-  [1X19.3-3 LocalSymmetryOfEdges[101X
-  
-  [33X[1;0Y[29X[2XLocalSymmetryOfEdges[102X( [3XcolSurf[103X ) [32X attribute[133X
-  [33X[1;0Y[29X[2XLocalSymmetryOfEdgesAsNumbers[102X( [3XcolSurf[103X ) [32X attribute[133X
-  [6XReturns:[106X  [33X[0;10Ya list of strings[133X
-  
-  [33X[0;0YReturn  the local symmetry of the edges in [3XcolSurf[103X, i.e. whether the colours
-  in the adjacent faces of a given inner edge are mirrored or rotated.[133X
-  
-  [33X[0;0YThe  edges  of  the edge coloured surface [3XcolSurf[103X have a local symmetry. For
-  every  inner  coloured edge ([14X9.4-1[114X) there are two possible colourings of the
-  adjacent  faces,  which  can  be described by a symmetry with respect to the
-  edge  between  them. The colours can either be mirrored or rotated into each
-  other.  Image  omitted  in terminal text The first type is called [13Xmirror[113X and
-  the  second  one  [13Xrotation[113X. Together with the [13Xboundary[113X-type for the boundary
-  edges ([14X9.4-3[114X) this defines the [9XLocalSymmetryOfEdges[109X.[133X
-  
-  [33X[0;0YThis  function returns a list whose [13Xi[113Xth entry is "mirror" if the [13Xi[113Xth edge of
-  [3XcolSurf[103X  is  a  mirror  edge,  or "rotation" if the [13Xi[113Xth edge of [3XcolSurf[103X is a
-  rotation edge, or "boundary" if the [13Xi[113Xth edge of [3XcolSurf[103X is a boundary edge.[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xoct := Octahedron();;[127X[104X
-    [4X[25Xgap>[125X [27Xoct := AllWildColouredSurfaces(oct);;[127X[104X
-    [4X[25Xgap>[125X [27XLocalSymmetryOfEdges(oct[1]);[127X[104X
-    [4X[28X[ "mirror", "mirror", "mirror", "mirror", "mirror", "mirror", "mirror",[128X[104X
-    [4X[28X "mirror", "mirror", "mirror", "mirror", "mirror" ][128X[104X
-    [4X[25Xgap>[125X [27XLocalSymmetryOfEdges(oct[2]);[127X[104X
-    [4X[28X[ "mirror", "rotation", "mirror", "rotation", "mirror", "mirror", "mirror",[128X[104X
-    [4X[28X "mirror", "rotation", "mirror", "mirror", "rotation" ][128X[104X
-  [4X[32X[104X
-  
-  [33X[0;0YOf  particular  interest  are  those  colourings where the local symmetry is
-  equal  for  each edge of the same colour. In comparison to the wild-coloured
-  surfaces these colourings are much better behaved. Therefore they are called
-  [13Xtame-coloured surfaces[113X.[133X
-  
-  [1X19.3-4 IsTameColouredSurface[101X
-  
-  [33X[1;0Y[29X[2XIsTameColouredSurface[102X( [3XcolSurf[103X ) [32X property[133X
-  [33X[1;0Y[29X[2XLocalSymmetryOfColours[102X( [3XcolSurf[103X ) [32X attribute[133X
-  [33X[1;0Y[29X[2XLocalSymmetryOfColoursAsNumbers[102X( [3XcolSurf[103X ) [32X attribute[133X
-  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
-  
-  [33X[0;0YCheck  whether  the  local  symmetry  ([14X19.3-3[114X) of a wild-coloured surface is
-  equal for all edges of the same colour.[133X
-  
-  [33X[0;0YThe method [9XLocalSymmetryOfColours[109X returns a list of local symmetries that is
-  indexed by the colours.[133X
-  
-  [33X[0;0YFor example, consider the octahedron:[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xoct := AllWildColouredSurfaces(Octahedron());;[127X[104X
-    [4X[25Xgap>[125X [27XIsTameColouredSurface(oct[1]);[127X[104X
-    [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XLocalSymmetryOfColours(oct[1]);[127X[104X
-    [4X[28X[ "mirror", "mirror", "mirror" ][128X[104X
-    [4X[25Xgap>[125X [27XLocalSymmetryOfEdgesAsNumbers(oct[1]);[127X[104X
-    [4X[28X[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ][128X[104X
-    [4X[25Xgap>[125X [27XIsTameColouredSurface(oct[1]);[127X[104X
-    [4X[28Xtrue[128X[104X
-    [4X[25Xgap>[125X [27XLocalSymmetryOfColours(oct[2]);[127X[104X
-    [4X[28X[ "mirror", "rotation", "mirror" ][128X[104X
-    [4X[25Xgap>[125X [27XLocalSymmetryOfEdgesAsNumbers(oct[2]);[127X[104X
-    [4X[28X[ 1, 2, 1, 2, 1, 1, 1, 1, 2, 1, 1, 2 ][128X[104X
-  [4X[32X[104X
-  
-  [33X[0;0YConsider the following edge coloured surface:[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xsurface:=SimplicialSurfaceByDownwardIncidence([127X[104X
-    [4X[25X>[125X [27X  [[1,2],[1,3],[2,3],[2,4],[3,4],[3,5],[4,5],[2,4],[2,5],[1,5]],[127X[104X
-    [4X[25X>[125X [27X  [[1,2,3],[3,4,5],[5,6,7],[7,8,9],[9,10,1]]);;[127X[104X
-    [4X[25Xgap>[125X [27XcolSurface:=EdgeColouredSimplicialSurface(surface,[1,2,3,2,1,3,2,1,3,2]);;[127X[104X
-    [4X[25Xgap>[125X [27XIsTameColouredSurface(colSurface);[127X[104X
-    [4X[28Xfalse[128X[104X
-  [4X[32X[104X
-  
-  [33X[0;0YImage omitted in terminal text This is an example for a surface which is not
-  tame coloured, since the blue edges do not have the same symmetry.[133X
-  
-  [1X19.3-5 AllWildColouredSurfaces[101X
-  
-  [33X[1;0Y[29X[2XAllWildColouredSurfaces[102X( [3XsimpSurf[103X[, [3XlocalSymmetry[103X, [3XnoIsom[103X] ) [32X operation[133X
-  [33X[1;0Y[29X[2XAllTameColouredSurfaces[102X( [3XsimpSurf[103X[, [3XlocalSymmetry[103X, [3XnoIsom[103X] ) [32X operation[133X
-  [33X[1;0Y[29X[2XAllWildColouredSurfaces[102X( [3XinvList[103X[, [3XlocalSymmetry[103X, [3XnoIsom[103X] ) [32X operation[133X
-  [33X[1;0Y[29X[2XAllTameColouredSurfaces[102X( [3XinvList[103X[, [3XlocalSymmetry[103X, [3XnoIsom[103X] ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya list of wild-coloured surfaces[133X
-  
-  [33X[0;0YThis  method  computes all wild-coloured surfaces up to isomorphism based on
-  the given information. If the optional parameter [3XnoIsom[103X is set to false, the
-  method  computes  all  wild-coloured  surfaces. This means the returned list
-  contains  isomorphic edge-coloured surfaces. By default, [3XnoIsom[103X is true. The
-  information can be given in one of two forms:[133X
-  
-  [31X1[131X   [33X[0;6YA simplicial surface ([14X2.3-5[114X). The optional argument [3XlocalSymmetry[103X is a
-        list that encodes the local symmetry ([14X19.3-3[114X) of some edges:[133X
-  
-        [30X    [33X[0;12YIf [3XlocalSymmetry[103X[[3Xedge[103X] = 1, then [3Xedge[103X will become a mirror-edge.[133X
-  
-        [30X    [33X[0;12YIf   [3XlocalSymmetry[103X[[3Xedge[103X]   =   2,   then   [3Xedge[103X  will  become  a
-              rotation-edge.[133X
-  
-        [30X    [33X[0;12YUnbound positions and the value 0 are ignored, all other entries
-              will throw errors.[133X
-  
-  [31X2[131X   [33X[0;6YA  list  of  three involutions that will become the colour involutions
-        ([14X19.2-1[114X)  of  all returned wild-coloured surfaces. The involutions can
-        also  be given individually (with colours 1, 2, 3) or as generators of
-        a group.[133X
-  
-        [33X[0;6YThe  optional  argument [3XlocalSymmetry[103X is a list that encodes the local
-        symmetry  ([14X19.3-4[114X) of the colours. The entry [3XlocalSymmetry[103X[[3Xcolour[103X] can
-        be given in one of two forms (all others will throw errors):[133X
-  
-        [31X1[131X   [33X[0;12YIf  the  entry  [3XlocalSymmetry[103X[[3Xcolour[103X]  is 1, then all edges with
-              colour  [3Xcolour[103X  will  be  mirror edges. If it is 2, they will be
-              rotation  edges. If the entry is 0 or unbound, no information is
-              given.[133X
-  
-        [31X2[131X   [33X[0;12YIf the entry [3XlocalSymmetry[103X[[3Xcolour[103X] is again a list, it has to be
-              indexed  by  the  cycles of the involution [3XinvList[103X[[3Xcolour[103X], i.e.
-              the  entry  at position [3Xk[103X encodes the local symmetry of the k-th
-              cycle  (counted  in  [9XCycles[109X([3XinvList[103X[[3Xcolour[103X], [3X[1..n][103X), where [3Xn[103X is
-              the  highest  point moved by the involutions). As usual, 1 means
-              mirror and 2 means rotation.[133X
-  
-  [33X[0;0YThe  method  [9XAllTameColouredSurfaces[109X  works  identical,  except that it only
-  returns the tame-coloured surfaces ([14X19.3-4[114X).[133X
-  
-  [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27XtetWild := AllWildColouredSurfaces(Tetrahedron());;[127X[104X
-    [4X[25Xgap>[125X [27XSize(tetWild);[127X[104X
-    [4X[28X1[128X[104X
-    [4X[25Xgap>[125X [27XtetTame := AllTameColouredSurfaces(Tetrahedron());;[127X[104X
-    [4X[25Xgap>[125X [27XSize(tetTame);[127X[104X
-    [4X[28X1[128X[104X
-    [4X[25Xgap>[125X [27XoctTame := AllTameColouredSurfaces(Octahedron());;[127X[104X
-    [4X[25Xgap>[125X [27XSize(octTame);[127X[104X
+    [4X[25Xgap>[125X [27XColourOfEdge( colPyr, 2 );[127X[104X
     [4X[28X2[128X[104X
-    [4X[25Xgap>[125X [27XoctTameIsom := AllTameColouredSurfaces(Octahedron(),false);;[127X[104X
-    [4X[25Xgap>[125X [27XSize(octTameIsom);[127X[104X
-    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XColourOfEdge( colPyr, 7);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XColoursOfEdges( colPyr );[127X[104X
+    [4X[28X[ , 2, 1, 1, 2, 4, 1, 4, 2 ][128X[104X
   [4X[32X[104X
   
-  [33X[0;0YTODO examples that use local symmetries -> what is interesting (but small)?[133X
+  [1X19.1-5 EdgesOfColours[101X
   
-  [1X19.3-6 SixFoldCover[101X
+  [33X[1;0Y[29X[2XEdgesOfColours[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XEdgesOfColour[102X( [3XcolComplex[103X, [3Xcolour[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
   
-  [33X[1;0Y[29X[2XSixFoldCover[102X( [3XsimpSurf[103X, [3XlocalSymmetry[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya tame coloured surface[133X
+  [33X[0;0YThe  method  [9XEdgesOfColour[109X([3XcolComplex[103X,  [3Xcolour[103X) returns the set of all edges
+  with  colour  [3Xcolour[103X.  If  a  colour  is not used in the given edge coloured
+  twisted polygonal complex, the empty set is returned.[133X
   
-  [33X[0;0YConstruct  the  [13Xsix  fold  cover[113X  of  a  simplicial  surface.  The  argument
-  [3XlocalSymmetry[103X  is a list with three entries, all of them being 1 (mirror) or
-  2 (rotation).[133X
+  [33X[0;0YThe  attribute  [9XEdgesOfColours[109X([3XcolComplex[103X)  collects  all of these sets in a
+  list  that  is  indexed  by  the  colours (given as positive integers), i.e.
+  [9XEdgesOfColours[109X([3XcolComplex[103X)[[3Xcolour[103X]  = [9XEdgesOfColour[109X([3XcolComplex[103X, [3Xcolour[103X). All
+  other positions of this list are not bound.[133X
   
-  [33X[0;0YThe  [13Xsix  fold  cover[113X  of a simplicial surface is a tame coloured simplicial
-  surface that covers the original surface six times.[133X
+  [33X[0;0YFor  example  consider  the coloured pyramid from the start of section [14X19.1[114X.
+  Image omitted in terminal text[133X
   
-  [33X[0;0YIt is constructed in the following way:[133X
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesOfColour( colPyr, 1 );[127X[104X
+    [4X[28X[ 3, 4, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfColour( colPyr, 4);[127X[104X
+    [4X[28X[ 6, 8 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfColour( colPyr, 5 );[127X[104X
+    [4X[28X[][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfColours( colPyr );[127X[104X
+    [4X[28X[ [ 3, 4, 7 ], [ 2, 5, 9 ],, [ 6, 8 ] ][128X[104X
+  [4X[32X[104X
   
-  [30X    [33X[0;6YFor  each  face  [22Xf[122X of [3XsimpSurf[103X (with edges [22Xe_a[122X, [22Xe_b[122X and [22Xe_c[122X) there are
-        six  faces  in  the cover. These have the form [22X(f, e_1, e_2, e_3)[122X with
-        [22X{e_1,e_2,e_3}  = {e_a,e_b,e_c}[122X. Formally they represent the map [22Xe_a ->
-        e_1[122X, [22Xe_b -> e_2[122X, [22Xe_c -> e_3[122X.[133X
+  [1X19.1-6 Colours[101X
   
-  [30X    [33X[0;6YFor each face of the six fold cover and each [22Xi∈{1,2,3}[122X an edge of this
-        face   is   defined.   For   example,  if  [22Xi  =  2[122X  and  the  face  is
-        [22X(f,e_x,e_y,e_z)[122X, we construct the neighbour in the following way:[133X
+  [33X[1;0Y[29X[2XColours[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
   
-        [33X[0;6YFind  the  neighbour  of  [22Xf[122X  with  respect  to  [22Xe_y[122X, denoted by [22Xg[122X. The
-        neighbour  in  the six fold cover will be of the form [22X(g,?,e_y,?)[122X. The
-        content  of  the [22X?[122X depends on the argument [3XlocalSymmetry[103X. Assume [22Xg[122X has
-        the edges [22X{e_y,e_v,e_w}[122X, where [22Xe_x,e_y,e_v[122X share a vertex in [3XsimpSurf[103X.
-        If [3XlocalSymmetry[i] = 1[103X, we perform a [13Xmirroring[113X, so the neighbour will
-        be  [22X(g,e_v,e_y,e_w)[122X.  If [3XlocalSymmetry[i]=2[103X, we perform a [13Xrotation[113X, so
-        the neighbour will be [22X(g,e_w,e_y,e_v)[122X.[133X
+  [33X[0;0YReturn  the set of all edge colours that are used in the given edge coloured
+  twisted polygonal complex.[133X
   
-  [30X    [33X[0;6YTo  define  the vertices, [3XlocalSymmetry[103X is used. All edges with [22Xi=2[122X in
-        the preceding explanation will get the local symmetry [3XlocalSymmetry[2][103X
-        (mirror if it is 1, rotation if it is 2).[133X
+  
+  [1X19.2 [33X[0;0YDrawing edge coloured surfaces[133X[101X
+  
+  [33X[0;0YThe  drawing  functionality  for ramified polygonal surfaces in section [14X17.2[114X
+  can  also  be  used  for  edge  coloured polygonal complexes (as long as the
+  underlying polygonal complex is a ramified polygonal surface).[133X
+  
+  [33X[0;0YThe  main  difference  to  the  previous  method  is  that  it  is much more
+  convenient  to  change  edge  lengths  and  colours.  Consider for example a
+  coloured tetrahedron.[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27Xtetra := Tetrahedron();;[127X[104X
-    [4X[25Xgap>[125X [27XSixFoldCover(tetra);[127X[104X
-    [4X[28X[ tame coloured surface (MMM with 12 vertices, 36 edges and 24 faces), [128X[104X
-    [4X[28X  rec( Description := "[oldFace, [vertices of the oldFace]]", [128X[104X
-    [4X[28X    Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], [128X[104X
-    [4X[28X              [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], [128X[104X
-    [4X[28X              [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], [128X[104X
-    [4X[28X              [ 2, [ 3, 5, 1 ] ], [ 2, [ 5, 1, 3 ] ], [ 2, [ 5, 3, 1 ] ], [128X[104X
-    [4X[28X              [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], [128X[104X
-    [4X[28X              [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], [128X[104X
-    [4X[28X              [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], [128X[104X
-    [4X[28X              [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ],[ 4, [ 6, 3, 2 ] ] ] ) ][128X[104X
-    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(last[1]);[127X[104X
-    [4X[28X1[128X[104X
-    [4X[25Xgap>[125X [27XSixFoldCover(Tetrahedron(), [2,2,2] );[127X[104X
-    [4X[28X[ tame coloured surface (RRR with 24 vertices, 36 edges and 24 faces), [128X[104X
-    [4X[28X  rec( Description := "[oldFace, [vertices of the oldFace]]", [128X[104X
-    [4X[28X   Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], [128X[104X
-    [4X[28X              [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], [128X[104X
-    [4X[28X              [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], [128X[104X
-    [4X[28X              [ 2, [ 3, 5, 1 ] ], [ 2, [ 5, 1, 3 ] ], [ 2, [ 5, 3, 1 ] ], [128X[104X
-    [4X[28X              [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], [128X[104X
-    [4X[28X              [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], [128X[104X
-    [4X[28X              [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], [128X[104X
-    [4X[28X              [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ], [ 4, [ 6, 3, 2 ] ] ] ) ][128X[104X
-    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(last[1]);[127X[104X
-    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XcolTetra := EdgeColouredPolygonalComplex(tetra, [1,2,3,3,2,1]);;[127X[104X
+    [4X[25Xgap>[125X [27Xpr := DrawSurfaceToTikz( colTetra, "ColouredTetrahedron", rec(scale:=2.5) );;[127X[104X
   [4X[32X[104X
   
-  [1X19.3-7 CommonCover[101X
+  [33X[0;0YImage  omitted  in terminal text If we now want to change edge lengths (such
+  that  edges  of  the  same colour have the same length), we can do this very
+  easily:[133X
   
-  [33X[1;0Y[29X[2XCommonCover[102X( [3Xsurf1[103X, [3Xsurf2[103X, [3XlocalSym1[103X, [3XlocalSym2[103X ) [32X operation[133X
-  [6XReturns:[106X  [33X[0;10Ya  pair of a simplicial surface and a record that stores vertices,
-            edges and faces of it[133X
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeColourClassLengths := [5,4,3];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.scale := 1;;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( colTetra, "ColouredTetrahedron_rectangular", pr );;[127X[104X
+  [4X[32X[104X
   
-  [33X[0;0YCompute the [13Xcommon cover[113X of two simplicial surfaces.[133X
+  [33X[0;0YImage  omitted  in terminal text The colours can also be changed in the same
+  fashion.[133X
   
-  [33X[0;0YTODO[133X
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeColourClassColours := ["cyan","olive","magenta"];[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( colTetra, "ColouredTetrahedron_coloured", pr );[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YWhile it is very easy to modify all edges of the same colour simultaneously,
+  it  becomes  harder  to  change them individually. For example we can't just
+  make the first and fourth edge longer.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLengths;[127X[104X
+    [4X[28X[ 5, 4, 3, 3, 4, 5 ][128X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLengths := [4,4,3,4,4,5];;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( colTetra, "ColouredTetrahedron_modLengths", pr );[127X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLengths;[127X[104X
+    [4X[28X[ 5, 4, 3, 3, 4, 5 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo  change individual edges the colour connection has to be ignored. This is
+  possible by using the entry [3XedgeColourClassActive[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeColourClassActive := false;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLengths := [4,4,3,4,4,5];;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( colTetra, "ColouredTetrahedron_modLengths", pr );[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X19.2-1 DrawSurfaceToTikz[101X
+  
+  [33X[1;0Y[29X[2XDrawSurfaceToTikz[102X( [3XcolRamSurf[103X, [3XfileName[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YDraw  the  net  of  the  given [3XcolRamSurf[103X into a tex-file (using TikZ). This
+  method  extends  the  drawing  method  for  polygonal  surfaces without edge
+  ramifications  (compare  [14X17.2-1[114X)  by  respecting  the edge colour classes of
+  [3XcolRamSurf[103X.  An  introduction the the usage of the additional parameters can
+  be found at the start of section [14X19.2[114X.[133X
+  
+  [30X    [33X[0;6YIf  the  given  [3XfileName[103X  does not end in [13X.tex[113X the ending [13X.tex[113X will be
+        added to it.[133X
+  
+  [30X    [33X[0;6YThe  given  file  will  be  overwritten  without  asking if it already
+        exists.  If  you  don't  have  permission  to write in that file, this
+        method will throw an error.[133X
+  
+  [30X    [33X[0;6YThe   particulars   of   the  drawing  are  determined  by  the  given
+        [3XprintRecord[103X. If this is not given, the default settings are used.[133X
+  
+  [30X    [33X[0;6YThe  [3XprintRecord[103X  will  be  modified  and  returned by this method. It
+        contains the data to recreate the drawing of the surface.[133X
+  
+  [33X[0;0YThere  are  several  parameters  to  change  the output of this method, from
+  cosmetic  changes to exactly controlling in which order the faces are drawn.
+  For  the  standard  parameters,  see  [14X17.2-1[114X.  For  edge  coloured  ramified
+  polygonal surfaces the [13XedgeColourClass[113X-parameters are added:[133X
+  
+  [30X    [33X[0;6Y[13XedgeColourClassActive[113X:   If   this   parameter   is  [9Xfalse[109X  the  other
+        [13XedgeColourClass[113X-parameters have no effect. By default, it is [9Xtrue[109X.[133X
+  
+  [30X    [33X[0;6Y[13XedgeColourClassLengths[113X:  This  parameter  is  a list with an entry for
+        every  colour  of [3XcolRamSurf[103X. The entry of a colour defines the length
+        of  all  edges with this colour. This parameter overwrites [13XedgeLengths[113X
+        as long as [13XedgeColourClassActive[113X is [9Xtrue[109X.[133X
+  
+  [30X    [33X[0;6Y[13XedgeColourClassColours[113X:  This  parameter  is  a list with an entry for
+        every  colour of [3XcolRamSurf[103X. The entry of a colour defines the drawing
+        colour  for  all edges of this colour class. This parameter overwrites
+        [13XedgeColours[113X as long as [13XedgeColourClassActive[113X is [9Xtrue[109X.[133X
+  
+  
+  [1X19.3 [33X[0;0YIsomorphisms between edge-coloured polygonal complexes[133X[101X
+  
+  [33X[0;0YAn  edge-coloured  polygonal  complex  can  be  completely  described by the
+  incidence  structure  of its polygonal complex and the edge colouring. These
+  can  be  encoded in an extended incidence graph. To do so, we start with the
+  incidence graph from section [14X15.2[114X and add a vertex for each colour, which is
+  connected to all edges of this colour.[133X
+  
+  [33X[0;0YThen  the  isomorphism  problem can be decided if one of the following graph
+  packages is loaded: [9XDigraphs[109X, [9XGRAPE[109X and [9XNautyTracesInterface[109X.[133X
+  
+  [1X19.3-1 ColourIncidenceDigraphsGraph[101X
+  
+  [33X[1;0Y[29X[2XColourIncidenceDigraphsGraph[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XColourIncidenceGrapeGraph[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XColourIncidenceNautyGraph[102X( [3XcolComplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya graph as defined in the package [9XDigraphs[109X[133X
+  
+  [33X[0;0YReturn the colour-extended incidence graph (a coloured, undirected graph) of
+  the given edge coloured polygonal complex. It is defined as follows:[133X
+  
+  [30X    [33X[0;6YThe  [13Xvertices[113X  are  the  vertices  (colour 0), edges (colour 1), faces
+        (colour  2)  and  colours  (colour  3)  of  [3XcolComplex[103X. The labels are
+        shifted in the following way:[133X
+  
+        [30X    [33X[0;12YThe vertex numbers are not modified[133X
+  
+        [30X    [33X[0;12YThe  edge  numbers  are  shifted  upwards  by the maximal vertex
+              number[133X
+  
+        [30X    [33X[0;12YThe  face  numbers are shifted upwards by the sum of the maximal
+              vertex number and the maximal edge number[133X
+  
+        [30X    [33X[0;12YThe  colour labels are shifted upwards by the sum of the maximal
+              vertex label, the maximal edge label and the maximal face label.[133X
+  
+  [30X    [33X[0;6YThe [13Xedges[113X can be one of these:[133X
+  
+        [30X    [33X[0;12YVertex-edge-pairs  or  edge-face-pairs such that the elements of
+              the pair are incident in the polygonal complex of [3XcolComplex[103X[133X
+  
+        [30X    [33X[0;12Yedge-colour-pairs  such  that  the  edge  has  the corresponding
+              colour in [3XcolComplex[103X.[133X
+  
+  [33X[0;0YThe returned graph can be given in three different formats, corresponding to
+  different graph packages: [9XDigraphs[109X, [9XGRAPE[109X and [9XNautyTracesInterface[109X.[133X
+  
+  [33X[0;0YNote  that  if  [9XColourIncidenceDigraphsGraph[109X  is  used the output is a list,
+  where  the first entry is a digraph and the second a list of vertex colours,
+  with  the  colours  1...5.  There are isolated vertices of the digraph which
+  correspond  to labels of vertices, edges and faces that do not exists in the
+  given  polygonal  complex.  These  are  coloured with colour 5 and the other
+  vertices are coloured as described above but increased by one.[133X
+  
+  [33X[0;0YAs  an  example consider the coloured Tetrahedron: Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcolTetra := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  example  edge  1  is  incident to the vertices 1 and 2, incident to the
+  faces  1  and  2  and  has colour 1. Edge 1 has the label 5 in the incidence
+  graph.  This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12
+  and 15 in the incidence graph:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdigraph:=ColourIncidenceDigraphsGraph(colTetra)[1];;[127X[104X
+    [4X[25Xgap>[125X [27XInNeighboursOfVertex(digraph,5);[127X[104X
+    [4X[28X[ 1, 2, 11, 12, 15 ][128X[104X
+  [4X[32X[104X
+  
+  [1X19.3-2 IsIsomorphicEdgeColouredPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XIsIsomorphicEdgeColouredPolygonalComplex[102X( [3XcolComplex1[103X, [3XcolComplex2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YReturn  whether  the given edge coloured polygonal complexes are isomorphic.
+  They  are  isomorphic  if  their  colour-extended  incidence graphs (compare
+  [14X19.3-1[114X) are isomorphic. Changes of the colour labels are explicitly allowed.[133X
+  
+  [33X[0;0YFor example the two colourings from [14X19.1-2[114X are not isomorphic.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphicEdgeColouredPolygonalComplex(colPyr1, colPyr2);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X19.3-3 EdgeColouredPolygonalComplexIsomorphismRepresentatives[101X
+  
+  [33X[1;0Y[29X[2XEdgeColouredPolygonalComplexIsomorphismRepresentatives[102X( [3XcomplexList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of edge coloured polygonal complexes[133X
+  
+  [33X[0;0YThe  method  [9XEdgeColouredPolygonalComplexIsomorphismRepresentatives[109X  takes a
+  list  of  edge  coloured  polygonal  complexes and returns a reduced list in
+  which no two entries are isomorphic.[133X
+  
+  [33X[0;0YFor example, consider two isomorphic edge-coloured tetrahedra:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcolTetra1 := EdgeColouredPolygonalComplex(Tetrahedron(), [1,2,3,3,2,1]);[127X[104X
+    [4X[28Xtame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XcolTetra2 := EdgeColouredPolygonalComplex(Tetrahedron(), [3,1,2,2,1,3]);[127X[104X
+    [4X[28Xtame coloured surface (RRR with 4 vertices, 6 edges and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphicEdgeColouredPolygonalComplex(colTetra1,colTetra2);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XLength([127X[104X
+    [4X[25X>[125X [27XEdgeColouredPolygonalComplexIsomorphismRepresentatives([colTetra1,colTetra2]));[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
   

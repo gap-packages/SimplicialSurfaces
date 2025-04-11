@@ -312,7 +312,7 @@
   
   [33X[0;0YSince  it  might be useful to see the incidence structure at a glance, every
   one  of those methods features a net of the constructed polygonal structure.
-  Those nets are constructed by the method [9XDrawSurfaceToTikz[109X ([14X16.2-1[114X).[133X
+  Those nets are constructed by the method [9XDrawSurfaceToTikz[109X ([14X17.2-1[114X).[133X
   
   [33X[0;0YIt  also  contains  the  method  [9XAllPlatonicSurfaces[109X  ([14X14.3-1[114X) to find those
   platonic surfaces with specified properties.[133X
@@ -420,7 +420,25 @@
   [33X[0;0YThis section contains all other pre-defined surfaces that are not covered in
   one of the other sections.[133X
   
-  [1X14.4-1 JanusHead[101X
+  [1X14.4-1 OneFace[101X
+  
+  [33X[1;0Y[29X[2XOneFace[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  a  [13Xone-face[113X  as  a  simplicial  surface.  A one-face consists of one
+  triangular face.[133X
+  
+  [1X14.4-2 Butterfly[101X
+  
+  [33X[1;0Y[29X[2XButterfly[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  a  [13Xbutterfly[113X  as  a  simplicial surface. A butterfly consists of two
+  triangular faces that share an edge.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X14.4-3 JanusHead[101X
   
   [33X[1;0Y[29X[2XJanusHead[102X(  ) [32X operation[133X
   [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
@@ -434,7 +452,7 @@
   
   [33X[0;0YImage omitted in terminal text[133X
   
-  [1X14.4-2 SimplicialUmbrella[101X
+  [1X14.4-4 SimplicialUmbrella[101X
   
   [33X[1;0Y[29X[2XSimplicialUmbrella[102X( [3XnrFaces[103X ) [32X operation[133X
   [33X[1;0Y[29X[2XSimplicialGon[102X( [3XnrFaces[103X ) [32X operation[133X
@@ -461,7 +479,7 @@
     [4X[28X[ [ 1, 2, 3 ], [ 1, 2, 4 ] ][128X[104X
   [4X[32X[104X
   
-  [1X14.4-3 SimplicialDoubleUmbrella[101X
+  [1X14.4-5 SimplicialDoubleUmbrella[101X
   
   [33X[1;0Y[29X[2XSimplicialDoubleUmbrella[102X( [3XnrFaces[103X ) [32X operation[133X
   [33X[1;0Y[29X[2XSimplicialDoubleGon[102X( [3XnrFaces[103X ) [32X operation[133X
@@ -487,7 +505,7 @@
     [4X[28Xtrue[128X[104X
   [4X[32X[104X
   
-  [1X14.4-4 SimplicialOpenGeodesic[101X
+  [1X14.4-6 SimplicialOpenGeodesic[101X
   
   [33X[1;0Y[29X[2XSimplicialOpenGeodesic[102X( [3XnrFaces[103X ) [32X operation[133X
   [33X[1;0Y[29X[2XSimplicialStrip[102X( [3XnrFaces[103X ) [32X operation[133X
@@ -518,7 +536,7 @@
     [4X[28X[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ] ][128X[104X
   [4X[32X[104X
   
-  [1X14.4-5 SimplicialClosedGeodesic[101X
+  [1X14.4-7 SimplicialClosedGeodesic[101X
   
   [33X[1;0Y[29X[2XSimplicialClosedGeodesic[102X( [3XnrFaces[103X ) [32X operation[133X
   [33X[1;0Y[29X[2XSimplicialGeodesic[102X( [3XnrFaces[103X ) [32X operation[133X
@@ -546,5 +564,62 @@
     [4X[28X  [ 4, 6 ], [ 5, 6 ], [ 1, 5 ], [ 1, 6 ], [ 2, 6 ] ][128X[104X
     [4X[25Xgap>[125X [27XEdgesOfFaces(geo6);[127X[104X
     [4X[28X[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ], [ 1, 11, 12 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.4-8 SimplexRingByIsomorphismType[101X
+  
+  [33X[1;0Y[29X[2XSimplexRingByIsomorphismType[102X( [3XisomorphismType[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YThis  method  constructs  a  simplex  ring  given  its  isomorphism  type. A
+  simplicial  surface  is  a simplex ring if it is connected and each face has
+  exactly  one  inner  and  two outer edges. They can be described uniquely by
+  their  isomorphism type which is a list [9X[n_1,...,n_k][109X. The simplex ring with
+  isomorphism  type  [9X[n_1,...,n_k][109X  has  [9Xn_1+...+n_k[109X  faces and is constructed
+  based  on  a closed geodesic with [9Xk[109X faces where the i-th faces is subdivided
+  in  [9Xn_i[109X  faces.  How  the  subdivision is defined can be seen in the picture
+  below. The incidences between vertices and faces can also be observed there.[133X
+  
+  [33X[0;0YAs an example consider the simplex ring with isomorphism type [9X[1,2,3][109X, where
+  the  left  and  right  edge have to be identified: Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xring:=SimplexRingByIsomorphismType([1,2,3]);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XUmbrellaDescriptorOfSurface(ring);[127X[104X
+    [4X[28X[ [ 2, 1, 6 ], [ 1, 2, 3, 4 ], [ 2, 3 ], [ 1, 6, 5, 4, 3 ], [ 4, 5 ], [ 5, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(ring);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface(ring);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsSimplexRing(ring);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X14.4-9 SimplexStringByIsomorphismType[101X
+  
+  [33X[1;0Y[29X[2XSimplexStringByIsomorphismType[102X( [3XisomorphismType[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YThis  method  constructs  a  simplex  string  given  its isomorphism type. A
+  simplicial  surface  is a simplex string if it is connected and it is a face
+  or  exactly  two  of  its  faces (end faces) have two boundary edges and all
+  other  faces  have  exactly  one  inner  and  two  outer  edges. They can be
+  described  uniquely by their isomorphism type which is a list [9X[n_1,...,n_k][109X.
+  The simplex string with isomorphism type [9X[n_1,...,n_k][109X has [9Xn_1+...+n_k[109X faces
+  and  is  constructed  based  on a strip with [9Xk[109X faces where the i-th faces is
+  subdivided in [9Xn_i[109X faces, as shown in [14X14.4-8[114X.[133X
+  
+  [33X[0;0YAs an example consider the simplex string with isomorphism type [9X[1,2,3][109X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xstring:=SimplexStringByIsomorphismType([1,2,3]);[127X[104X
+    [4X[28Xsimplicial surface (8 vertices, 13 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XUmbrellaDescriptorOfSurface(string);[127X[104X
+    [4X[28X[ [ 1 ], [ 1, 2 ], [ 4, 3, 2, 1 ], [ 2, 3 ], [ 3, 4, 5, 6 ], [ 4, 5 ], [ 5, 6 ], [128X[104X
+    [4X[28X  [ 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27XIsSimplexString(string);[127X[104X
+    [4X[28Xtrue[128X[104X
   [4X[32X[104X
   

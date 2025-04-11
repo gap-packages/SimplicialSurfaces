@@ -118,6 +118,13 @@
   [33X[0;0YThe returned graph can be given in three different formats, corresponding to
   different graph packages: [9XDigraphs[109X, [9XGRAPE[109X and [9XNautyTracesInterface[109X.[133X
   
+  [33X[0;0YNote  that if [9XIncidenceDigraphsGraph[109X is used the output is a list, where the
+  first  entry  is a digraph and the second a list of vertex colours, with the
+  colours  1...4.  There are isolated vertices of the digraph which correspond
+  to  labels  of  vertices,  edges  and  faces that do not exists in the given
+  polygonal  complex.  These are coloured with colour 4 and the other vertices
+  are coloured as described above but increased by one.[133X
+  
   [33X[0;0YConsider the polygonal complex at the begin of section [14X15.2[114X:[133X
   
   [4X[32X  Example  [32X[104X
@@ -130,18 +137,17 @@
   [33X[0;0YFirst of all look at the graph given by [9XDigraphs[109X:[133X
   
   [4X[32X  Example  [32X[104X
-    [4X[25Xgap>[125X [27Xdigraph := IncidenceDigraphsGraph(complex);;[127X[104X
+    [4X[25Xgap>[125X [27Xdigraph := IncidenceDigraphsGraph(complex)[1];;[127X[104X
     [4X[25Xgap>[125X [27XDigraphVertices(digraph);[127X[104X
-    [4X[28X[ 1 .. 13 ][128X[104X
-    [4X[25Xgap>[125X [27XDigraphVertexLabels(digraph);[127X[104X
-    [4X[28X[ 2, 3, 5, 7, 11, 17, 19, 20, 21, 23, 24, 25, 28 ][128X[104X
+    [4X[28X[ 1 .. 28 ][128X[104X
     [4X[25Xgap>[125X [27XDigraphEdges(digraph);[127X[104X
-    [4X[28X[ [ 1, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 2, 10 ], [ 3, 6 ], [ 3, 8 ],[128X[104X
-    [4X[28X[ 3, 9 ], [ 4, 10 ], [ 4, 11 ], [ 5, 9 ], [ 5, 11 ], [ 6, 1 ], [ 6, 3 ],[128X[104X
-    [4X[28X[ 6, 12 ], [ 7, 1 ], [ 7, 2 ], [ 7, 12 ], [ 8, 2 ], [ 8, 3 ], [ 8, 12 ],[128X[104X
-    [4X[28X[ 8, 13 ], [ 9, 3 ], [ 9, 5 ], [ 9, 13 ], [ 10, 2 ], [ 10, 4 ], [ 10, 13 ],[128X[104X
-    [4X[28X[ 11, 4 ], [ 11, 5 ], [ 11, 13 ], [ 12, 6 ], [ 12, 7 ], [ 12, 8 ], [ 13, 8 ],[128X[104X
-    [4X[28X[ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] [128X[104X
+    [4X[28X[ [ 2, 17 ], [ 2, 19 ], [ 3, 19 ], [ 3, 20 ], [ 3, 23 ], [ 5, 17 ],[128X[104X
+    [4X[28X [ 5, 20 ], [ 5, 21 ], [ 7, 23 ], [ 7, 24 ], [ 11, 21 ], [ 11, 24 ],[128X[104X
+    [4X[28X [ 17, 2 ], [ 17, 5 ], [ 17, 25 ], [ 19, 2 ], [ 19, 3 ], [ 19, 25 ],[128X[104X
+    [4X[28X [ 20, 3 ], [ 20, 5 ], [ 20, 25 ], [ 20, 28 ], [ 21, 5 ], [ 21, 11 ],[128X[104X
+    [4X[28X [ 21, 28 ], [ 23, 3 ], [ 23, 7 ], [ 23, 28 ], [ 24, 7 ], [ 24, 11 ],[128X[104X
+    [4X[28X [ 24, 28 ], [ 25, 17 ], [ 25, 19 ], [ 25, 20 ], [ 28, 20 ], [ 28, 21 ],[128X[104X
+    [4X[28X [ 28, 23 ], [ 28, 24 ] ][128X[104X
   [4X[32X[104X
   
   [33X[0;0YConsider how getting information from a graph given by [9XGRAPE[109X looks like:[133X
@@ -374,8 +380,6 @@
   both   twisted   polygonal  complexes  are  polygonal  complexes,  this  can
   equivalently  be  described  as  isomorphism  between their incidence graphs
   (compare [14X15.2[114X).[133X
-  
-  [33X[0;0YThe isomorphism check needs the package [9XNautyTracesInterface[109X to work.[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XIsIsomorphic( Cube(), Octahedron() );[127X[104X

@@ -390,7 +390,7 @@
   consists only of faces in [3Xcomplex[103X. It also does not check whether the result
   of [9XSubsurfaceByFaces[109X is a surface.[133X
   
-  [33X[0;0YIn  Chapter  [14X18[114X  the  edge  colouring of twisted polygonal complexes will be
+  [33X[0;0YIn  Chapter  [14X19[114X  the  edge  colouring of twisted polygonal complexes will be
   introduced.[133X
   
   [33X[0;0YThe hexagon from above can be coloured as follows:[133X
@@ -732,7 +732,7 @@
   
   [33X[0;0YImage  omitted  in terminal text The only edges that can be joined are those
   with  equal  incident  vertices.  These  can  be found by [9XEdgeAnomalyClasses[109X
-  ([14X16.1-2[114X).[133X
+  ([14X17.1-2[114X).[133X
   
   [4X[32X  Example  [32X[104X
     [4X[25Xgap>[125X [27XEdgeAnomalyClasses(eye);[127X[104X
@@ -1686,7 +1686,7 @@
   [9XSplitMend[109X. For this operation to be well-defined two vertices of these edges
   that   should   be  combined  have  to  be  given  as  well.  The  attribute
   [9XSplitMendableFlagPairs[109X([3Xcomplex[103X)   returns   the   set   of   all   pairs  of
-  vertex-edge-flags ([14X21.1-2[114X) that fulfill the above conditions.[133X
+  vertex-edge-flags ([14X22.1-2[114X) that fulfill the above conditions.[133X
   
   [33X[0;0YIf  two  given  flags  can't  be joined (because two vertices that should be
   joined are connected by an edge), [9Xfail[109X is returned.[133X

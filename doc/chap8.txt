@@ -434,7 +434,7 @@
   
   [33X[0;0YAdditionally,  given  a perimeter path, we sometimes need to access the face
   it  encircles.  For  most surfaces this is unproblematic, but there are some
-  exceptions,  like  the  Janus-head  ([14X14.4-1[114X). For this reason, the attribute
+  exceptions,  like  the  Janus-head  ([14X14.4-3[114X). For this reason, the attribute
   [9XFace[109X ([14X8.2-2[114X) was introduced. Image omitted in terminal text[133X
   
   [4X[32X  Example  [32X[104X
@@ -1190,8 +1190,8 @@
   [33X[0;0YFor a closed geodesic path ([14X8.5-5[114X) construct the [13Xgeodesic flag cycle[113X.[133X
   
   [33X[0;0YIf  [3XclosedGeodesic[103X  is defined on a polygonal complex, this is a permutation
-  on the 3-flags ([14X21.1-1[114X). It can also be obtained as one cycle of the product
-  of  the  Dress involutions ([14X21.2-1[114X), by first applying the one for vertices,
+  on the 3-flags ([14X22.1-1[114X). It can also be obtained as one cycle of the product
+  of  the  Dress involutions ([14X22.2-1[114X), by first applying the one for vertices,
   then edges and finally faces.[133X
   
   [33X[0;0YFor example, consider the torus and the closed geodesic from [14X8.5-7[114X.[133X
