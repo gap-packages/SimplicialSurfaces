@@ -28,9 +28,12 @@ InstallMethod( SetVertexCoordinates3D,
 	return SetVertexCoordinates3DNC(surface, coordinates, printRecord);
     end
 );
-RedispatchOnCondition( SetVertexCoordinates3D, true, 
-    [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsList], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SetVertexCoordinates3D, true, 
+        [IsTwistedPolygonalComplex,IsList,IsRecord], 
+        [IsSimplicialSurface, IsList], 0 );
+fi;
 
 InstallOtherMethod( SetVertexCoordinates3D,
     "for a simplicial surface and a list of coordinates",
@@ -39,9 +42,12 @@ InstallOtherMethod( SetVertexCoordinates3D,
 	return SetVertexCoordinates3D(surface, coordinates, rec());
     end
 );
-RedispatchOnCondition( SetVertexCoordinates3D, true, 
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SetVertexCoordinates3D, true, 
     [IsTwistedPolygonalComplex,IsList], 
     [IsSimplicialSurface, IsList], 0 );
+fi;
 
 InstallMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface, a list of coordinates and a record",
@@ -51,9 +57,13 @@ InstallMethod( SetVertexCoordinates3DNC,
         return printRecord;
     end
 );
-RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
-    [IsTwistedPolygonalComplex,IsList,IsRecord], 
-    [IsSimplicialSurface, IsList], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
+        [IsTwistedPolygonalComplex,IsList,IsRecord], 
+        [IsSimplicialSurface, IsList], 0 );
+fi;
+
 InstallOtherMethod( SetVertexCoordinates3DNC,
     "for a simplicial surface and a list of coordinates",
     [IsSimplicialSurface, IsList],
@@ -61,9 +71,12 @@ InstallOtherMethod( SetVertexCoordinates3DNC,
 	return SetVertexCoordinates3DNC(coordinates, rec());
     end
 );
-RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
-    [IsTwistedPolygonalComplex,IsList], 
-    [IsSimplicialSurface, IsList], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SetVertexCoordinates3DNC, true, 
+        [IsTwistedPolygonalComplex,IsList], 
+        [IsSimplicialSurface, IsList], 0 );
+fi;
 
 InstallMethod( GetVertexCoordinates3D,
     "for a simplicial surface, a vertex and a record",
@@ -75,8 +88,11 @@ InstallMethod( GetVertexCoordinates3D,
 	return GetVertexCoordinates3DNC(surface, vertex, printRecord);
     end
 );
-RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
-    [IsSimplicialSurface], 0);
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition(GetVertexCoordinates3D, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
+        [IsSimplicialSurface], 0);
+fi;
 
 InstallMethod( GetVertexCoordinates3DNC,
     "for a simplicial surface, a vertex and a record",
@@ -85,8 +101,11 @@ InstallMethod( GetVertexCoordinates3DNC,
 	return 1.0*printRecord.vertexCoordinates3D[vertex];
     end
 );
-RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
-    [IsSimplicialSurface], 0);
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition(GetVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsPosInt, IsRecord],
+        [IsSimplicialSurface], 0);
+fi;
 
 InstallMethod( GetAllVertexCoordinates3DNC,
     "for a simplicial surface and a record",
@@ -96,6 +115,10 @@ InstallMethod( GetAllVertexCoordinates3DNC,
     end
 );
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition(GetAllVertexCoordinates3DNC, true, [IsTwistedPolygonalComplex, IsRecord],
+        [IsSimplicialSurface], 0);
+fi;
 
 InstallMethod( CalculateParametersOfInnerCircle,
     "for a simplicial surface and a record",
@@ -168,10 +191,12 @@ InstallMethod( CalculateParametersOfInnerCircle,
 				return printRecord;
     end
 );
-RedispatchOnCondition(CalculateParametersOfInnerCircle, true, 
-    [IsTwistedPolygonalComplex, IsRecord],
-    [IsSimplicialSurface], 0);
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition(CalculateParametersOfInnerCircle, true, 
+        [IsTwistedPolygonalComplex, IsRecord],
+        [IsSimplicialSurface], 0);
+fi;
 	
 
 InstallMethod( ActivateInnerCircles,
@@ -188,10 +213,6 @@ InstallMethod( ActivateInnerCircles,
         return printRecord;
     end
 );
-RedispatchOnCondition( ActivateInnerCircles, true, 
-    [IsTwistedPolygonalComplex, IsRecord],
-    [IsSimplicialSurface], 0);
-
 
 
 InstallMethod( DeactivateInnerCircles,

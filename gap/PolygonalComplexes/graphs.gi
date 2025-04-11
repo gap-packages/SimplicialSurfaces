@@ -150,8 +150,8 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
 
             names := Union( vertices, edges, faces);
-	    colours := [vertices,edges, faces]; # This gives the actual names
-	    incidence := function(x,y)
+	        colours := [vertices,edges, faces]; # This gives the actual names
+	        incidence := function(x,y)
                 if x in vertices and y in edges then
                     return x in VerticesOfEdges(complex)[y-maxVert];
                 elif x in edges and y in vertices then
@@ -181,6 +181,11 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    return rec( graph := graph, colourClasses := colourClasses );   
         end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( IncidenceGrapeGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
+
     InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
@@ -202,6 +207,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    return graph;
         end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( EdgeGrapeGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 fi;
 ##
 ##      End GRAPE
@@ -224,6 +233,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
             return NautyColoredGraphWithNodeLabels( data[1], data[2], data[2] );
         end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( IncidenceNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 
     InstallMethod( ChamberAdjacencyGraph, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
@@ -265,6 +278,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         end
     );
 
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( EdgeNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
+
     InstallMethod(FaceNautyGraph, "for a polygonal complex",[IsPolygonalComplex],
 	function(complex)
 		local i, diedges, loops;
@@ -277,6 +294,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
                 Faces(complex) );
 	end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( FaceNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 fi;
 ##
 ##      End NautyTracesInterface

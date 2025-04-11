@@ -777,9 +777,11 @@ InstallMethod( JoinVertices, "for two polygonal complexes and two vertices",
         return JoinVerticesNC(complex1,v1,complex2,v2);
     end
 );
+
 RedispatchOnCondition( JoinVertices, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsTwistedPolygonalComplex,IsPosInt], 
     [IsPolygonalComplex,,IsPolygonalComplex], 0 );
+
 InstallMethod( JoinVerticesNC, "for two polygonal complexes and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt],
     function(complex1, v1, complex2, v2)
@@ -813,9 +815,11 @@ InstallOtherMethod( JoinVertices,
         return JoinVertices(complex, vertSet, label);
     end
 );
+
 RedispatchOnCondition( JoinVertices, true, 
     [IsTwistedPolygonalComplex,IsList],
     [IsPolygonalComplex], 0 );
+
 InstallOtherMethod( JoinVerticesNC,
     "for a polygonal complex and a list of two vertices",
     [IsPolygonalComplex, IsList],
@@ -831,6 +835,7 @@ InstallOtherMethod( JoinVerticesNC,
         return JoinVerticesNC(complex, vertSet, label);
     end
 );
+
 RedispatchOnCondition( JoinVerticesNC, true, 
     [IsTwistedPolygonalComplex,IsList],
     [IsPolygonalComplex], 0 );
@@ -865,9 +870,11 @@ InstallMethod( JoinVertices,
         fi;
     end
 );
+
 RedispatchOnCondition( JoinVertices, true, 
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
+
 InstallMethod( JoinVerticesNC,
     "for a polygonal complex, a list of two vertices and a new vertex label",
     [IsPolygonalComplex, IsList, IsPosInt],
@@ -882,6 +889,7 @@ InstallMethod( JoinVerticesNC,
         fi;
     end
 );
+
 RedispatchOnCondition( JoinVerticesNC, true, 
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -900,9 +908,11 @@ InstallOtherMethod( JoinVertices,
         return JoinVertices(complex, v1, v2, label);
     end
 );
+
 RedispatchOnCondition( JoinVertices, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
+
 InstallOtherMethod( JoinVerticesNC,
     "for a polygonal complex and two vertices",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
@@ -917,6 +927,7 @@ InstallOtherMethod( JoinVerticesNC,
         return JoinVerticesNC(complex, v1, v2, label);
     end
 );
+
 RedispatchOnCondition( JoinVerticesNC, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -937,9 +948,11 @@ InstallMethod( JoinVertices,
         return JoinVerticesNC(complex, v1, v2, newVertexLabel);
     end
 );
+
 RedispatchOnCondition( JoinVertices, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
+
 InstallMethod( JoinVerticesNC,
     "for a polygonal complex, two vertices and a new vertex label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
@@ -996,10 +1009,10 @@ InstallMethod( JoinVerticesNC,
         return [obj, newVertexLabel];
     end
 );
+
 RedispatchOnCondition( JoinVerticesNC, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
-
 
 
 ## Edges
@@ -1016,9 +1029,11 @@ InstallOtherMethod( JoinEdges, "for a polygonal complex and two edges",
         return JoinEdges(complex, e1, e2, label);
     end
 );
+
 RedispatchOnCondition( JoinEdges, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
+
 InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
     [IsPolygonalComplex, IsPosInt, IsPosInt],
     function(complex, e1, e2)
@@ -1032,6 +1047,7 @@ InstallOtherMethod( JoinEdgesNC, "for a polygonal complex and two edges",
         return JoinEdgesNC(complex, e1, e2, label);
     end
 );
+
 RedispatchOnCondition( JoinEdgesNC, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1060,9 +1076,11 @@ InstallMethod( JoinEdges,
         return JoinEdgesNC(complex, e1, e2, newEdgeLabel);
     end
 );
+
 RedispatchOnCondition( JoinEdges, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
+
 InstallMethod( JoinEdgesNC,
     "for a polygonal complex, two edges and a new edge label",
     [IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt],
@@ -1106,6 +1124,7 @@ InstallMethod( JoinEdgesNC,
         return [obj, newEdgeLabel];
     end
 );
+
 RedispatchOnCondition( JoinEdgesNC, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1125,6 +1144,7 @@ InstallOtherMethod(JoinEdges,
 		return JoinEdges(complex,edgeList,label);
 	end
 );
+
 RedispatchOnCondition( JoinEdges, true, 
     [IsTwistedPolygonalComplex,IsList],
     [IsPolygonalComplex], 0 );
@@ -1144,6 +1164,7 @@ InstallOtherMethod(JoinEdgesNC,
 		return JoinEdgesNC(complex,edgeList,label);
 	end
 );
+
 RedispatchOnCondition( JoinEdgesNC, true, 
     [IsTwistedPolygonalComplex,IsList],
     [IsPolygonalComplex], 0 );
@@ -1171,6 +1192,7 @@ InstallMethod(JoinEdges,
 		
 	end
 );
+
 RedispatchOnCondition( JoinEdges, true, 
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1189,6 +1211,7 @@ InstallMethod(JoinEdgesNC,
 		return JoinEdgesNC(newComplex,newEdge,Last(edgeList),newEdgeLabel);
 	end
 );
+
 RedispatchOnCondition( JoinEdgesNC, true, 
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1207,6 +1230,7 @@ InstallOtherMethod( JoinFaces, "for a polygonal complex and two faces",
         return JoinFaces(complex, F1, F2, label);
     end
 );
+
 RedispatchOnCondition( JoinFaces, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1224,6 +1248,7 @@ InstallOtherMethod( JoinFacesNC, "for a polygonal complex and two faces",
         return JoinFacesNC(complex, F1, F2, label);
     end
 );
+
 RedispatchOnCondition( JoinFacesNC, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1252,6 +1277,7 @@ InstallMethod( JoinFaces,
 		return JoinFacesNC(complex, F1, F2, newFaceLabel);
 	end
 );
+
 RedispatchOnCondition( JoinFaces, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1295,6 +1321,7 @@ InstallMethod( JoinFacesNC,
 		return [obj, newFaceLabel];
 	end
 );
+
 RedispatchOnCondition( JoinFacesNC, true, 
     [IsTwistedPolygonalComplex,IsPosInt,IsPosInt,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1314,6 +1341,7 @@ InstallOtherMethod(JoinFaces,
 		return JoinFaces(complex,faceList,label);
 	end
 );
+
 RedispatchOnCondition( JoinFaces, true, 
     [IsTwistedPolygonalComplex,IsList],
     [IsPolygonalComplex], 0 );
@@ -1333,6 +1361,7 @@ InstallOtherMethod(JoinFacesNC,
                 return JoinFacesNC(complex,faceList,label);
 	end
 );
+
 RedispatchOnCondition( JoinFacesNC, true, 
     [IsTwistedPolygonalComplex,IsList],
     [IsPolygonalComplex], 0 );
@@ -1360,6 +1389,7 @@ InstallMethod(JoinFaces,
 		
 	end
 );
+
 RedispatchOnCondition( JoinFaces, true, 
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1378,6 +1408,7 @@ InstallMethod(JoinFacesNC,
 		return JoinFacesNC(newComplex,newFace,Last(faceList),newFaceLabel);
 	end
 );
+
 RedispatchOnCondition( JoinFacesNC, true, 
     [IsTwistedPolygonalComplex,IsList,IsPosInt],
     [IsPolygonalComplex], 0 );
@@ -1405,6 +1436,7 @@ InstallMethod( JoinVertexEdgePaths,
         return JoinVertexEdgePathsNC(complex1, vePath1, complex2, vePath2);
     end
 );
+
 RedispatchOnCondition( JoinVertexEdgePaths, true, 
     [IsTwistedPolygonalComplex, IsVertexEdgePath, IsTwistedPolygonalComplex, IsVertexEdgePath],
     [IsPolygonalComplex,IsDuplicateFree,IsPolygonalComplex,IsDuplicateFree], 0);
@@ -1427,6 +1459,7 @@ InstallMethod( JoinVertexEdgePathsNC,
         return join;
     end
 );
+
 RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
     [IsTwistedPolygonalComplex, IsVertexEdgePath, IsTwistedPolygonalComplex, IsVertexEdgePath],
     [IsPolygonalComplex,IsDuplicateFree,IsPolygonalComplex,IsDuplicateFree], 0);
@@ -1453,6 +1486,7 @@ InstallMethod( JoinVertexEdgePaths,
         return JoinVertexEdgePathsNC(complex, vePath1, vePath2);
     end
 );
+
 RedispatchOnCondition( JoinVertexEdgePaths, true, 
     [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
     [IsPolygonalComplex,IsDuplicateFree,IsDuplicateFree], 0);
@@ -1522,6 +1556,7 @@ InstallMethod( JoinVertexEdgePathsNC,
         return [swapComplex, VertexEdgePathNC(swapComplex, labelList)];
     end
 );
+
 RedispatchOnCondition( JoinVertexEdgePathsNC, true, 
     [IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath],
     [IsPolygonalComplex,IsDuplicateFree,IsDuplicateFree], 0);
@@ -1543,6 +1578,7 @@ InstallOtherMethod(JoinBoundaries,
         return join;
     end
 );
+
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( JoinBoundaries, true, 
         [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList], 
@@ -1857,6 +1893,7 @@ InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
         return swapSurf;
     end
 );
+
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( SnippOffEars, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 else
@@ -1877,6 +1914,7 @@ InstallMethod( SplitAllVertices, "for a polygonal complex",
         return swapComplex;
     end
 );
+
 RedispatchOnCondition( SplitAllVertices, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
 InstallMethod( ButterflyInsertion,
@@ -2037,7 +2075,9 @@ InstallMethod( CraterCuttableEdges, "for a polygonal complex",
         return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));
     end
 );
+
 RedispatchOnCondition( CraterCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+
 InstallMethod( CraterCut, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -2049,6 +2089,7 @@ InstallMethod( CraterCut, "for a polygonal complex and an edge",
         return SplitEdgeNC(complex, edge)[1];
     end
 );
+
 RedispatchOnCondition( CraterCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
@@ -2062,7 +2103,9 @@ InstallMethod( CraterMendableEdgePairs, "for a polygonal complex",
         return Union(edgePairs);
     end
 );
+
 RedispatchOnCondition( CraterMendableEdgePairs, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+
 InstallMethod( CraterMend, "for a polygonal complex and a pair of edges",
     [IsPolygonalComplex, IsList],
     function(complex, edgePair)
@@ -2074,6 +2117,7 @@ InstallMethod( CraterMend, "for a polygonal complex and a pair of edges",
         return JoinEdgesNC(complex, edgePair)[1];
     end
 );
+
 RedispatchOnCondition( CraterMend, true, [IsTwistedPolygonalComplex,IsList], [IsPolygonalComplex], 0 );
 
 InstallMethod( RipCuttableEdges, "for a polygonal complex", 
@@ -2082,7 +2126,9 @@ InstallMethod( RipCuttableEdges, "for a polygonal complex",
         return EdgesWithVertexProperties(complex,v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));
     end
 );
+
 RedispatchOnCondition( RipCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+
 InstallMethod( RipCut, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -2093,6 +2139,7 @@ InstallMethod( RipCut, "for a polygonal complex and an edge",
         return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
     end
 );
+
 RedispatchOnCondition( RipCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( RipMendableEdgePairs, "for a polygonal complex",
@@ -2113,7 +2160,9 @@ InstallMethod( RipMendableEdgePairs, "for a polygonal complex",
         return Set(pairs);
     end
 );
+
 RedispatchOnCondition( RipMendableEdgePairs, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+
 InstallMethod( RipMend, "for a polygonal complex and a pair of edges",
     [IsPolygonalComplex, IsList],
     function(complex, edgePair)
@@ -2140,8 +2189,8 @@ InstallMethod( RipMend, "for a polygonal complex and a pair of edges",
         fi;
     end
 );
-RedispatchOnCondition( RipMend, true, [IsTwistedPolygonalComplex,IsList], [IsPolygonalComplex], 0 );
 
+RedispatchOnCondition( RipMend, true, [IsTwistedPolygonalComplex,IsList], [IsPolygonalComplex], 0 );
 
 InstallMethod( SplitCuttableEdges, "for a polygonal complex", 
     [IsPolygonalComplex],
@@ -2149,7 +2198,9 @@ InstallMethod( SplitCuttableEdges, "for a polygonal complex",
         return Intersection(InnerEdges(complex), EdgesWithVertexProperty(complex, v -> IsBoundaryVertexNC(complex, v)));
     end
 );
+
 RedispatchOnCondition( SplitCuttableEdges, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+
 InstallMethod( SplitCut, "for a polygonal complex and an edge",
     [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
@@ -2161,8 +2212,8 @@ InstallMethod( SplitCut, "for a polygonal complex and an edge",
         return SplitVertexEdgePathNC(complex, VertexEdgePathByEdgesNC(complex, [edge]))[1];
     end
 );
-RedispatchOnCondition( SplitCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
+RedispatchOnCondition( SplitCut, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
     [IsPolygonalComplex],
@@ -2193,7 +2244,9 @@ InstallMethod( SplitMendableFlagPairs, "for a polygonal complex",
         return Set(flagPairs);
     end
 );
+
 RedispatchOnCondition( SplitMendableFlagPairs, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+
 InstallMethod( SplitMend, 
     "for a polygonal complex and a pair of vertex-edge-flags",
     [IsPolygonalComplex, IsList],
@@ -2240,6 +2293,10 @@ InstallOtherMethod(TetrahedralExtension,
     end
 );
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( TetrahedralExtension, true, [IsTwistedPolygonalComplex,IsPosInt], [IsSimplicialSurface], 0 );
+fi;
+
 InstallMethod( TetrahedralExtension,
     "for a simplicial surface and a face",
     [IsSimplicialSurface, IsPosInt,IsPosInt],
@@ -2275,6 +2332,10 @@ InstallMethod( TetrahedralExtension,
 	return SimplicialSurfaceByDownwardIncidence(VOE,EOF);
 end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( TetrahedralExtension, true, [IsTwistedPolygonalComplex,IsPosInt,IsPosInt], [IsSimplicialSurface], 0 );
+fi;
 
 InstallMethod( TetrahedralReduction,
     "for a simplicial surface and a vertex",
@@ -2318,6 +2379,10 @@ InstallMethod( TetrahedralReduction,
 	return SimplicialSurfaceByDownwardIncidence(voe,eof);
 end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( TetrahedralReduction, true, [IsTwistedPolygonalComplex,IsPosInt], [IsSimplicialSurface], 0 );
+fi;
 
 InstallMethod( InnerMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
@@ -2463,6 +2528,11 @@ InstallOtherMethod(EdgeTurn, "for a simplicial surface and an inner edge",
         return EdgeTurn(surface,edge,edge);
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( EdgeTurn, true, [IsTwistedPolygonalComplex,IsPosInt], [IsSimplicialSurface], 0 );
+fi;
+
 InstallMethod( EdgeTurn, "for a simplicial surface and an edge",
     [IsSimplicialSurface,IsPosInt,IsPosInt],
     function(surface,edge,newedge)
@@ -2495,6 +2565,10 @@ InstallMethod( EdgeTurn, "for a simplicial surface and an edge",
 	fi;
 end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( EdgeTurn, true, [IsTwistedPolygonalComplex,IsPosInt,IsPosInt], [IsSimplicialSurface], 0 );
+fi;
 ##
 ##      End of Edgeturn
 ##
@@ -2524,6 +2598,10 @@ InstallMethod( BuildingBlocks, "for a simplicial surface",
         return ConnectedComponents(surf);
 end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( BuildingBlocks, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+fi;
 
 
 #######################################
@@ -2604,6 +2682,10 @@ InstallMethod( AllToriOfSimplicialSphere,
         return res;
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( AllToriOfSimplicialSphere, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+fi;
 ##
 ##      End of tori construction
 ##

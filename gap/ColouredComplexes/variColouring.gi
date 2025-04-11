@@ -138,9 +138,12 @@ InstallMethod( ColouredUmbrellaOfVertexNC,
         return ColouredUmbrellasOfVertices(wildSurf)[vertex];
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( ColouredUmbrellaOfVertexNC, true, 
         [IsEdgeColouredPolygonalComplex, IsPosInt], 
         [IsWildColouredSurface], 0 );
+fi;
 
 InstallMethod( ColouredUmbrellaOfVertex,
     "for a wild coloured surface and a vertex",
@@ -150,9 +153,12 @@ InstallMethod( ColouredUmbrellaOfVertex,
         return ColouredUmbrellaOfVertexNC(wildSurf,vertex);
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( ColouredUmbrellaOfVertex, true, 
         [IsEdgeColouredPolygonalComplex,IsPosInt], 
         [IsWildColouredSurface], 0 );
+fi;
 
 InstallMethod( ColouredUmbrellasOfVertices,
     "for a wild coloured surface",
@@ -173,9 +179,11 @@ InstallMethod( ColouredUmbrellasOfVertices,
         return colUmbs;
     end
 );
-RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
-    [IsEdgeColouredPolygonalComplex], [IsWildColouredSurface], 0);
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( ColouredUmbrellasOfVertices, true,
+        [IsEdgeColouredPolygonalComplex], [IsWildColouredSurface], 0);
+fi;
 
 #######################################
 ##
@@ -218,9 +226,12 @@ InstallMethod( LocalSymmetryOfEdgesAsNumbers,
         return mr;
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( LocalSymmetryOfEdgesAsNumbers, true, 
         [IsEdgeColouredPolygonalComplex], 
         [IsWildColouredSurface], 0 );
+fi;
 
 BindGlobal( "__SIMPLICIAL_LocalSymmetryNamesOfNumber",
     function( e )
@@ -245,9 +256,12 @@ InstallMethod( LocalSymmetryOfEdges,
         return List(mr, __SIMPLICIAL_LocalSymmetryNamesOfNumber );
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( LocalSymmetryOfEdges, true, 
         [IsEdgeColouredPolygonalComplex], 
         [IsWildColouredSurface], 0 );
+fi;
 
 InstallMethod( IsTameColouredSurface,
     "for an edge-coloured simplicial surface",
@@ -289,9 +303,12 @@ InstallMethod( LocalSymmetryOfColoursAsNumbers,
         return LocalSymmetryOfColoursAsNumbers(colSurf); # The previous check should set the attribute
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( LocalSymmetryOfColoursAsNumbers, true,
         [IsEdgeColouredPolygonalComplex],
         [IsTameColouredSurface], 0);
+fi;
 
 InstallMethod( LocalSymmetryOfColours,
     "for a tame-coloured surface",
@@ -304,11 +321,12 @@ InstallMethod( LocalSymmetryOfColours,
         return List(mr, __SIMPLICIAL_LocalSymmetryNamesOfNumber );
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( LocalSymmetryOfColours, true,
         [IsEdgeColouredPolygonalComplex],
         [IsTameColouredSurface], 0);
-
-
+fi;
 
 #######################################
 ##
@@ -329,7 +347,11 @@ InstallOtherMethod( AllWildColouredSurfaces, "for a simplicial surface and a boo
         return AllWildColouredSurfaces(simpSurf, [], noIsom);
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex], [IsSimplicialSurface], 0);
+fi;
+
 InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surface",
     [IsSimplicialSurface],
     function(simpSurf)
@@ -343,7 +365,10 @@ InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surfaceand a bool
         return AllTameColouredSurfaces(simpSurf, [], noIsom);
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex], [IsSimplicialSurface], 0);
+fi;
 
 BindGlobal( "__SIMPLICIAL_WildTameSurface_FixLocalSymmetry",
     function(surface, localSymmetry, name)
@@ -701,7 +726,10 @@ InstallMethod( AllWildColouredSurfaces, "for a simplicial surface, a list and a 
         fi;
     end
 );
-RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition(AllWildColouredSurfaces, true, [IsPolygonalComplex, IsList], [IsSimplicialSurface], 0);
+fi;
 
 InstallOtherMethod( AllTameColouredSurfaces, "for a simplicial surface and a list",
     [IsSimplicialSurface, IsList],
@@ -724,7 +752,10 @@ InstallMethod( AllTameColouredSurfaces, "for a simplicial surface, a list and a 
 	fi;
     end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition(AllTameColouredSurfaces, true, [IsPolygonalComplex,IsList], [IsSimplicialSurface], 0);
+fi;
 
 ## Involution-variation
 InstallOtherMethod( AllWildColouredSurfaces, "for three involutions",
@@ -1530,11 +1561,12 @@ InstallMethod( CommonCover,
         return [surface, altNames];
     end
 );
-RedispatchOnCondition( CommonCover, true, 
-    [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList], 
-    [IsSimplicialSurface, IsSimplicialSurface], 0 );
 
-
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( CommonCover, true, 
+        [IsPolygonalComplex, IsPolygonalComplex, IsList, IsList], 
+        [IsSimplicialSurface, IsSimplicialSurface], 0 );
+fi;
 
 ##
 ##  End of Common Cover
@@ -1702,7 +1734,10 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         return [wild[1], altNames];
     end
 );
-RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex, IsList], [IsSimplicialSurface], 0 );
+fi;
 
 InstallOtherMethod( SixFoldCover, "for a simplicial surface", 
     [IsSimplicialSurface],
@@ -1710,8 +1745,10 @@ InstallOtherMethod( SixFoldCover, "for a simplicial surface",
         return SixFoldCover(simpSurf, [1,1,1]);
     end
 );
-RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( SixFoldCover, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+fi;
 ##
 ##  End of SixFoldCover
 ##
