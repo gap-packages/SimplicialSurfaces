@@ -95,7 +95,7 @@ SourceRepository := rec( Type := "git", URL := "https://github.com/gap-packages/
 PackageWWWHome := "https://github.com/gap-packages/SimplicialSurfaces",
 
 PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
-README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
+README_URL     := Concatenation( ~.PackageWWWHome, "/README.md" ),
 ArchiveURL      := Concatenation( ~.SourceRepository.URL,
                                  "/releases/download/v", ~.Version,
                                  "/", ~.PackageName, "-", ~.Version ),
