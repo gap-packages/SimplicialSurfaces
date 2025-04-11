@@ -1,16 +1,3 @@
-#############################################################################
-##
-##  SimplicialSurface package
-##
-##  Copyright 2012-2019
-##    Markus Baumeister, RWTH Aachen University
-##    Alice Niemeyer, RWTH Aachen University
-##    Jens Brandt, RWTH Aachen University
-##
-## Licensed under the GPL 3 or later.
-##
-#############################################################################
-
 #! @Chapter Animating surfaces with Java Script
 #! @ChapterLabel AnimationJavaScript
 #!

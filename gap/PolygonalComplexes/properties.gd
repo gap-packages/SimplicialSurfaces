@@ -1,14 +1,4 @@
-#############################################################################
-##
-##  SimplicialSurface package
-##
-##  Copyright 2012-2016
-##    Markus Baumeister, RWTH Aachen University
-##    Alice Niemeyer, RWTH Aachen University 
-##
-## Licensed under the GPL 3 or later.
-##
-#############################################################################
+
 
 ## This chapter contains many diverse aspects of polygonal complexes.
 ## The current order may not be optimal, depending on what the future holds
