@@ -191,7 +191,7 @@
 #! polygonal surface (5 vertices, 6 edges, and 2 faces)
 #! @EndExampleSession
 #! First of all look at the graph given by <K>Digraphs</K>:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> digraph := IncidenceDigraphsGraph(complex);;
 #! gap> DigraphVertices(digraph);
 #! [ 1 .. 13 ]
@@ -204,7 +204,7 @@
 #! [ 8, 13 ], [ 9, 3 ], [ 9, 5 ], [ 9, 13 ], [ 10, 2 ], [ 10, 4 ], [ 10, 13 ],
 #! [ 11, 4 ], [ 11, 5 ], [ 11, 13 ], [ 12, 6 ], [ 12, 7 ], [ 12, 8 ], [ 13, 8 ],
 #! [ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] 
-#! @EndExampleSession
+#! @EndLogSession
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
 #! @BeginLogSession
 #! gap> grape := IncidenceGrapeGraph(complex).graph;;
@@ -628,13 +628,13 @@ DeclareOperation( "CanonicalRepresentativeOfPolygonalSurface", [IsPolygonalSurfa
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> tetra := Tetrahedron();;
 #! gap> IsAutomorphismDefinedByFaces(tetra);
 #! true
 #! gap> AutomorphismGroupOnFaces(tetra);
 #! Group([ (1,2), (2,4), (3,4) ])
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! For the janus-head this is not possible.
 #!  <Alt Only="HTML">

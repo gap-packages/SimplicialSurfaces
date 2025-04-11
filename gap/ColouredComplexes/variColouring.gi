@@ -1247,16 +1247,15 @@ InstallMethod( AllTameColouredSurfaces,
 # The components are returned as a record with two entries:
 # id: A list, for each vertex it gives the number of its connected component
 # comps: A list, which stores the connected components as lists of vertices
-if IsPackageMarkedForLoading( "Digraphs", "0.10.1" ) then
-    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
-        function(adjacencyList)
-            local digraph;
+BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
+    function(adjacencyList)
+        local digraph;
 
-            digraph := DigraphByEdges(adjacencyList);
-            return DigraphConnectedComponents(digraph);
-        end
-    );
-elif IsPackageMarkedForLoading( "GRAPE", "4.7" ) then
+        digraph := DigraphByEdges(adjacencyList);
+        return DigraphConnectedComponents(digraph);
+    end
+);
+if IsPackageMarkedForLoading( "GRAPE", "4.7" ) then
     BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
         function(adjacencyList)
             local symAd, graph, max, pos, pair,
@@ -1286,12 +1285,6 @@ elif IsPackageMarkedForLoading( "GRAPE", "4.7" ) then
             od;
             compRec.id := id;
             return compRec;
-        end
-    );
-else
-    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
-        function(adjacencyList)
-            Error("CommonCover: Neither Digraphs nor GRAPE are loaded.");
         end
     );
 fi;

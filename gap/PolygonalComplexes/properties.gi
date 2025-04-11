@@ -1812,6 +1812,8 @@ BindGlobal( "__SIMPLICIAL_AddFaceToRelation",
 end
 );
 
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
 # the function returns a list of tuples [s,rel] where s is a simplicial surface and the rel is a admissible relation
 # on the given surface 'surface' that gives rise to s. 
 # Note that this function only focuses on admissible relation that yield butterfly friendly epimorphism from surface to s.
@@ -1824,7 +1826,6 @@ end
 # From this information we can also deduce the identified vertices by forming intersection 
 # Strategy: We start from an vertex of the vertex and aim to build admissible relations containing the umbrella of the vertex. And then go on to add the umbrellas of
 # the neighbouring vertices to the umbrella and so on. 
-if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 BindGlobal( "__SIMPLICIAL_AdmissibleRelationsHelp",
 function(surface,relation,bool,bool2)
     local visitedFaces,visitedVertices,remainingVertices,v,vertices,
@@ -1924,7 +1925,6 @@ InstallOtherMethod( AdmissibleRelationsOfSurface,
 end
 );
 fi;
-
 ##
 ##      End of epimorphic images
 ##

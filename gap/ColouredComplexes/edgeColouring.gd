@@ -340,7 +340,7 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! Edge 1 has the label 5 in the incidence graph.
 #! This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12 and 15 in the incidence graph:
 #! @BeginExampleSession
-#! gap> digraph:=ColourIncidenceDigraphsGraph(colTetra);;
+#! gap> digraph:=ColourIncidenceDigraphsGraph(colTetra)[1];;
 #! gap> InNeighboursOfVertex(digraph,5);
 #! [ 1, 2, 11, 12, 15 ]
 #! @EndExampleSession

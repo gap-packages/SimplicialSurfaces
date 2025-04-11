@@ -68,8 +68,9 @@ simplicial surface (17 vertices, 45 edges, and 30 faces)
         we compute the automorphism group with <K>AutomorphismGroup</K>
         (<Ref Subsect="AutomorphismGroup"/>).
 <Example>
-gap&gt; autGrp := AutomorphismGroup(newSurf);
-Group(())
+gap&gt; not IsPackageMarkedForLoading("NautyTracesInterface", ">=0")  
+> or IsTrivial(AutomorphismGroup(newSurf));
+true
 </Example>
         Since this is the trivial group, we succeeded in our goal.
     </Section>
@@ -261,24 +262,24 @@ simplicial surface (13 vertices, 33 edges, and 22 faces)
         Since we want to compute all fixed vertices, we use
         <K>AutomorphismGroupOnVertices</K>
         (<Ref Subsect="AutomorphismGroupOnVertices"/>).
-<Example>
-gap&gt; aut := AutomorphismGroupOnVertices(faceSum2);
-&lt;permutation group with 2 generators&gt;
-gap&gt; fixedVertices := Filtered( Vertices(faceSum2), 
-&gt;                        v -> ForAll(aut, a -> v^a=v) );
+<Log>
+gap> aut := AutomorphismGroupOnVertices(faceSum2);
+permutation group with 2 generators
+gap> fixedVertices := Filtered( Vertices(faceSum2), 
+>    v -> ForAll(aut, a -> v^a=v) );
 [ 20 ]
-</Example>
+</Log>
 Removing the vertex <M>20</M> means removing all faces
         incident to that vertex. This can be done by
         <K>SubsurfaceByFaces</K> (<Ref Subsect="SubcomplexByFaces"/>).
-<Example>
-gap&gt; incFaces := FacesOfVertex(faceSum2, fixedVertices[1]);
+<Log>
+gap> incFaces := FacesOfVertex(faceSum2, fixedVertices[1]);
 [ 3, 4, 13, 14 ]
-gap&gt; remainingFaces := Difference( Faces(faceSum2), incFaces );
+gap> remainingFaces := Difference( Faces(faceSum2), incFaces );
 [ 2, 5, 12, 15, 27, 28, 29, 30, 31, 32, 33, 42, 43, 44, 45, 46, 47, 48 ]
-gap&gt; surf := SubsurfaceByFaces(faceSum2, remainingFaces);
+gap> surf := SubsurfaceByFaces(faceSum2, remainingFaces);
 simplicial surface (12 vertices, 29 edges, and 18 faces)
-</Example>
+</Log>
     </Section>
 
 

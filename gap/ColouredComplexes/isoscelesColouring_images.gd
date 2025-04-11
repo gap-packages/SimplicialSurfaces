@@ -23,8 +23,8 @@ fi;
 #! @BeginChunk Example_ColouredCube
 #! We will illustrate all of these on a cube.
 #! @BeginExample
-cube := Cube();;
-colCube := EdgeColouredPolygonalComplex(cube, [1,2,2,2,1,1,1,1,2,1,2,2]);;
+#! gap> cube := Cube();;
+#! gap> colCube := EdgeColouredPolygonalComplex(cube, [1,2,2,2,1,1,1,1,2,1,2,2]);;
 #! @EndExample
 #! This can be drawn by <K>DrawSurfaceToTikz</K> 
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
@@ -49,9 +49,9 @@ DrawSurfaceToTikz(colCube, "Cube_twocoloured", pr );;
 
 #! @BeginChunk Example_IsoscelesOctahedron
 #! @BeginExample
-oct := Octahedron();;
-colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
-IsIsoscelesColouredSurface(colOct);
+#! gap> oct := Octahedron();;
+#! gap> colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
+#! gap> IsIsoscelesColouredSurface(colOct);
 #! true
 #! @EndExample
 #! This can be drawn by <K>DrawSurfaceToTikz</K> 
@@ -78,9 +78,9 @@ DrawSurfaceToTikz(colOct, "Oct_isosccoloured", pr );;
 #! @BeginChunk Example_WildIsosceles
 #! We consider again the isosceles coloured octahedron from the start of the section.
 #! @BeginExample
-oct := Octahedron();;
-colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
-wildOct := WildColouredSurfaceOfIsoscelesColouredSurface(colOct);;
+#! gap> oct := Octahedron();;
+#! gap> colOct := EdgeColouredPolygonalComplex( oct, [1,1,1,1,2,2,1,2,1,2,1,1]);;
+#! gap> wildOct := WildColouredSurfaceOfIsoscelesColouredSurface(colOct);;
 #! @EndExample
 #! This subdivided surface can be drawn with <K>DrawSurfaceToTikz</K> 
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
@@ -117,12 +117,12 @@ DrawSurfaceToTikz(wildOct, "Octahedron_WildIsosceles", pr );;
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! @BeginExample
-ColourInvolutions( colOct );
+#! @BeginExampleSession
+#! gap> ColourInvolutions( colOct );
 #! [ (1,4)(2,3)(5,8)(6,7)(9,12)(10,11)(13,16)(14,15), 
 #!  (1,3)(2,4)(5,15)(6,12)(7,9)(8,14)(10,16)(11,13), 
 #!  (1,9)(2,10)(3,11)(4,12)(5,13)(6,14)(7,15)(8,16) ]
-#! @EndExample
+#! @EndExampleSession
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_TIKZ_Octahedron_WildIsosceles-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -146,31 +146,31 @@ ColourInvolutions( colOct );
 #! @BeginChunk Example_All_Isosceles 
 #! We determine up to isomorphism all possible isosceles colourings of a surface with 
 #! 10 faces.
-#! @BeginExample
-surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ], 
-[ 1, 4, 6 ], [ 1, 5, 7 ], [ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], 
-[ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
-isosceles := AllIsoscelesColouredSurfaces(surf);;
-Size(isosceles);
+#! @BeginExampleSession
+#! gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 4, 5 ], 
+#! > [ 1, 4, 6 ], [ 1, 5, 7 ], [ 1, 6, 7 ], [ 2, 3, 5 ], [ 2, 3, 6 ], 
+#! > [ 2, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 7 ], [ 3, 6, 7 ] ] );;
+#! gap> isosceles := AllIsoscelesColouredSurfaces(surf);;
+#! gap> Size(isosceles);
 #! 3
-isoscelesAll:=AllIsoscelesColouredSurfaces(surf, false);;
-Size(isoscelesAll);
+#! gap> isoscelesAll:=AllIsoscelesColouredSurfaces(surf, false);;
+#! gap> Size(isoscelesAll);
 #! 11
-Size(EdgeColouredPolygonalComplexIsomorphismRepresentatives(isoscelesAll));
+#! gap> Size(EdgeColouredPolygonalComplexIsomorphismRepresentatives(isoscelesAll));
 #! 3
-#! @EndExample
+#! @EndExampleSession
 #! Given a wild coloured surface, one can find an isosceles coloured surface by
 #! identifying two of the three colours. However, not every isosceles coloured
 #! surface arises in this way from a wild coloured surface. 
 #! For this we also determine the wild colourings and compare them.
-#! @BeginExample
-wilds := AllWildColouredSurfaces(surf);;
-wilds := EdgeColouredPolygonalComplexIsomorphismRepresentatives(wilds);;
-Size(wilds);
+#! @BeginExampleSession
+#! gap> wilds := AllWildColouredSurfaces(surf);;
+#! gap> wilds := EdgeColouredPolygonalComplexIsomorphismRepresentatives(wilds);;
+#! gap> Size(wilds);
 #! 1
-wild := wilds[1];
+#! gap> wild := wilds[1];
 #! wild coloured surface (7 vertices, 15 edges and 10 faces)
-#! @EndExample
+#! @EndExampleSession
 #! To see why there is only one wild colouring, but three isosceles colourings, 
 #! we draw the surfaces:
 #! @BeginLog
@@ -221,7 +221,7 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 
 
 #! @BeginChunk Example_IsoscelesIcosahedron
-#! @BeginExample
+#! @BeginExampleSession
 #! gap> ico := Icosahedron();;
 #! gap> colIco := AllIsoscelesColouredSurfaces(ico)[1];;
 #! gap> counter := CounterOfVerticesByAngle( colIco );
@@ -229,7 +229,7 @@ pr := DrawSurfaceToTikz( wild, "Surf10_Wild", pr );;
 #!      and [ 10, 2 ] multiplicities)
 #! gap> ListCounter(counter);
 #! [ [ [ [ 1, 4 ], [ 2, 1 ] ], 10 ], [ [ [ 2, 5 ] ], 2 ] ]
-#! @EndExample
+#! @EndExampleSession
 #! This can be drawn by <K>DrawSurfaceToTikz</K> 
 #! (<Ref Subsect="DrawSurfaceToTikz_EdgeColoured"/>).
 #! @BeginLog

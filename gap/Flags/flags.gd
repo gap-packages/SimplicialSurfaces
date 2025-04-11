@@ -837,12 +837,12 @@ DeclareOperation("BarycentreOfFace",[IsTwistedPolygonalComplex,IsPosInt]);
 #! * <K>fail</K> if the given <A>tameSurface</A> is not a MMM-surface.
 #!
 #! For example, consider the one face and the corresponding flag surface:
-#! @BeginExampleSession
+#! @BeginLogSession
 #! gap> oneFace:=SimplicialSurfaceByVerticesInFaces([[1,2,3]]);;
 #! gap> flagSurf:=FlagComplex(oneFace);;
 #! gap> IsIsomorphic(IsomorphicFlagSurface(flagSurf),flagSurf);
 #! true
-#! @EndExampleSession
+#! @EndLogSession
 #!
 #! @Returns a flag surface, <K>false</K> or <K>fail</K>
 #! @Arguments tameSurface

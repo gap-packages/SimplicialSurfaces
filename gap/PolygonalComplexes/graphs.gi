@@ -17,62 +17,113 @@
 #####
 #####
 
+BindGlobal( "__SIMPLICIAL_IncidenceGraph",
+    function(complex)
+        local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
+                colSet, vertexList, verts;
+
+            maxVertex := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
+            maxEdge := Edges(complex)[NumberOfEdges(complex)];
+
+            vertexList := ShallowCopy( VerticesAttributeOfComplex(complex) );
+            edgeList := [];
+            colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
+
+            for e in Edges(complex) do
+                # There are two vertices for each edge
+                verts := VerticesOfEdges(complex)[e];
+                Append( edgeList, [ [verts[1], maxVertex+e], [verts[2], maxVertex+e] ] );
+            od;
+            Append(vertexList, Edges(complex) + maxVertex);
+            Append(colourList, ListWithIdenticalEntries( NumberOfEdges(complex), 1 ));
+
+            for f in Faces(complex) do
+                Add(colourList, 2); # done manually since NumberOfFaces is not necessarily computed
+                for e in EdgesOfFaces(complex)[f] do
+                    Add( edgeList, [maxVertex + e, maxVertex + maxEdge + f] );
+                od;
+            od;
+            Append(vertexList, Faces(complex) + maxVertex + maxEdge);
+
+            return [edgeList, colourList, vertexList ];
+    end
+);
+
 
 #######################################
 ##
 ##      Digraphs
 ##
-if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
-    InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
-        [IsPolygonalComplex],
-        function( complex )
-            return Digraph( IncidenceGrapeGraph(complex).graph );
-            #TODO is there a better way? This ignores the colouring
-        end
-    );
+InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function( complex )
+    local data, vertexList, newColours, shift, i, j;
+    data := __SIMPLICIAL_IncidenceGraph(complex);
+    vertexList:=data[3];
 
-    InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
-        [IsPolygonalComplex],
-        function(complex)
-            local arcs, diedges, i, graph;
-		
-	    arcs := [];
-	    diedges := Compacted(VerticesOfEdges(complex));
-	    for i in [1..Length(diedges)] do
-		arcs[2*i-1] := diedges[i];
-		arcs[2*i] := Reversed(diedges[i]);
-	    od;
-            # Digraphs can only create graphs with vertices [1..n]
-            # Therefore we have to take a subgraph of this graph
-            graph := DigraphByEdges( arcs );
-            return InducedSubdigraph( graph, 
-                VerticesAttributeOfComplex(complex) );
-        end
-    );
+    newColours:=[];
+    shift:=0;
+    for i in [1..Length(vertexList)] do
+        if vertexList[i]=i+shift then
+            Add(newColours,data[2][i]+1);
+        else
+            if i=1 then
+                shift:=vertexList[i]-1;
+            else
+                shift:=vertexList[i]-vertexList[i-1]-1;
+            fi;
+            for j in [1..shift] do
+                Add(newColours,4);
+            od;
+            Add(newColours,data[2][i]+1);
+        fi;
+    od;
 
-    InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
-	function(complex)
-		local i, diedges, arcs, loops, graph;
-		
-		arcs := [];
-		diedges := Filtered( FacesOfEdges(complex), i->Length(i)=2);
-		for i in [1..Length(diedges)] do
-			arcs[2*i-1] := diedges[i];
-			arcs[2*i] := Reversed(diedges[i]);
-		od;
-		
-		loops:=Filtered( FacesOfEdges(complex), i->Length(i)=1);
-		for i in [1..Length(loops)] do
-			Add(arcs,[loops[i][1],loops[i][1]]);
-		od;
-		
-		# Digraphs can only create graphs with vertices [1..n]
-		# Therefore we have to take a subgraph of this graph
-		graph:=DigraphByEdges(arcs);
-		return InducedSubdigraph( graph,Faces(complex) );
-	end
+    return [DigraphSymmetricClosure(DigraphByEdges(data[1])), newColours];
+    end
 );
-fi;
+
+InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
+    [IsPolygonalComplex],
+    function(complex)
+        local arcs, diedges, i, graph;
+    
+    arcs := [];
+    diedges := Compacted(VerticesOfEdges(complex));
+    for i in [1..Length(diedges)] do
+    arcs[2*i-1] := diedges[i];
+    arcs[2*i] := Reversed(diedges[i]);
+    od;
+        # Digraphs can only create graphs with vertices [1..n]
+        # Therefore we have to take a subgraph of this graph
+        graph := DigraphByEdges( arcs );
+        return InducedSubdigraph( graph, 
+            VerticesAttributeOfComplex(complex) );
+    end
+);
+
+InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
+function(complex)
+    local i, diedges, arcs, loops, graph;
+    
+    arcs := [];
+    diedges := Filtered( FacesOfEdges(complex), i->Length(i)=2);
+    for i in [1..Length(diedges)] do
+        arcs[2*i-1] := diedges[i];
+        arcs[2*i] := Reversed(diedges[i]);
+    od;
+    
+    loops:=Filtered( FacesOfEdges(complex), i->Length(i)=1);
+    for i in [1..Length(loops)] do
+        Add(arcs,[loops[i][1],loops[i][1]]);
+    od;
+    
+    # Digraphs can only create graphs with vertices [1..n]
+    # Therefore we have to take a subgraph of this graph
+    graph:=DigraphByEdges(arcs);
+    return InducedSubdigraph( graph,Faces(complex) );
+end
+);
 ##
 ##      End Digraphs
 ##
@@ -167,33 +218,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-            local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
-                colSet, vertexList, verts;
+            local data;
+            data := __SIMPLICIAL_IncidenceGraph(complex);
 
-            maxVertex := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
-            maxEdge := Edges(complex)[NumberOfEdges(complex)];
-
-            vertexList := ShallowCopy( VerticesAttributeOfComplex(complex) );
-            edgeList := [];
-            colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
-
-            for e in Edges(complex) do
-                # There are two vertices for each edge
-                verts := VerticesOfEdges(complex)[e];
-                Append( edgeList, [ [verts[1], maxVertex+e], [verts[2], maxVertex+e] ] );
-            od;
-            Append(vertexList, Edges(complex) + maxVertex);
-            Append(colourList, ListWithIdenticalEntries( NumberOfEdges(complex), 1 ));
-
-            for f in Faces(complex) do
-                Add(colourList, 2); # done manually since NumberOfFaces is not necessarily computed
-                for e in EdgesOfFaces(complex)[f] do
-                    Add( edgeList, [maxVertex + e, maxVertex + maxEdge + f] );
-                od;
-            od;
-            Append(vertexList, Faces(complex) + maxVertex + maxEdge);
-
-            return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
+            return NautyColoredGraphWithNodeLabels( data[1], data[2], data[2] );
         end
     );
 
@@ -291,23 +319,33 @@ InstallMethod( AutomorphismGroup, "for a twisted polygonal complex",
     end
 );
 
-if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
-    InstallOtherMethod( IsIsomorphic,
-        "for two polygonal complexes",
-        [IsPolygonalComplex, IsPolygonalComplex],
-        function(complex1, complex2)
-            local inc1, inc2;
-		
-            if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
-                return false;
-            fi;
+InstallOtherMethod( IsIsomorphic,
+    "for two polygonal complexes",
+    [IsPolygonalComplex, IsPolygonalComplex],
+    function(complex1, complex2)
+        local inc1, inc2, g1, g2, iso1, iso2, c1, c2;
+    
+        if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+            return false;
+        fi;
 
-            inc1 := IncidenceDigraphsGraph(complex1);
-            inc2 := IncidenceDigraphsGraph(complex2);
-            return IsIsomorphicDigraph(inc1,inc2);
-        end
-    );
-fi;
+        inc1 := IncidenceDigraphsGraph(complex1);
+        inc2 := IncidenceDigraphsGraph(complex2);
+        g1:=inc1[1];
+        g2:=inc2[1];
+
+        iso1:=Filtered(DigraphVertices(g1),v->OutDegreeOfVertex(g1,v)=0);
+        iso2:=Filtered(DigraphVertices(g2),v->OutDegreeOfVertex(g2,v)=0);
+
+        g1:=DigraphRemoveVertices(g1,iso1);
+        g2:=DigraphRemoveVertices(g2,iso2);
+        
+        c1:=Filtered(inc1[2],c->c<4);
+        c2:=Filtered(inc2[2],c->c<4);
+
+        return IsIsomorphicDigraph(g1,g2,c1,c2);
+    end
+);
 
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     InstallOtherMethod( IsIsomorphic,

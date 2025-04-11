@@ -729,7 +729,6 @@ InstallMethod( AllIsoscelesColouredSurfaces, "for a simplicial surface",
 end
 );
 
-
 ##      End of AllIsosceles ...
 ##
 #######################################

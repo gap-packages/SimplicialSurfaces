@@ -53,10 +53,12 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_Animating();
 
     # Graphs
-    __SIMPLICIAL_Test_IncidenceDigraphsGraph();
+    if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
+        __SIMPLICIAL_Test_IncidenceDigraphsGraph();
+    fi;
     __SIMPLICIAL_Test_EdgeDigraphsGraph();
     __SIMPLICIAL_Test_FaceDigraphsGraph();
-
+    
     if IsPackageMarkedForLoading( "Grape", ">=4.8.2" ) then
         __SIMPLICIAL_Test_IncidenceGrapeGraph();
         __SIMPLICIAL_Test_EdgeGrapeGraph();
