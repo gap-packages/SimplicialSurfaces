@@ -749,6 +749,21 @@ InstallMethod( OnEdgeFacePaths,
 ##
 ##      All Surfaces Of A Graph
 ##
+
+InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
+	[IsDigraph],
+	function(digraph)
+		Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.9.0.");
+	end
+);
+
+InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
+	[IsDigraph,IsBool],
+	function(digraph,vertexFaithful)
+        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version 1.10.0.");
+    end
+);
+
 if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 BindGlobal("__SIMPLICIAL_EdgesFromCycle",
         function(digraph,cycle)

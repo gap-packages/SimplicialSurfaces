@@ -183,3 +183,23 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 		Assert(0, Set(nautyButterfly!.edges)=Set(Filtered(edges,i->Length(i)=2)));
 	end);
 fi;
+
+
+if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
+	BindGlobal( "__SIMPLICIAL_Test_ReembeddingsOfDigraph", function()
+		local digraph, reemb1, reemb2, reemb3;
+		digraph:=CompleteDigraph(4);;
+
+		reemb1:=ReembeddingsOfDigraph(digraph,1,false);
+		Assert(0,Length(reemb1)=1);
+		Assert(0,NumberOfVertices(reemb1[1])=3);
+
+		reemb2:=ReembeddingsOfDigraph(digraph,1,true);
+		Assert(0,reemb2=[]);
+
+		reemb3:=ReembeddingsOfDigraph(digraph,2,false);
+		Assert(0,reemb2=[]);
+	end);
+else
+	BindGlobal( "__SIMPLICIAL_Test_ReembeddingsOfDigraph", function() end);
+fi;
