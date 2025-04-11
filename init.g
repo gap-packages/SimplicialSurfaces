@@ -1,14 +1,3 @@
-#############################################################################
-##
-##  init.g                simplicial surface package
-##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
-##
-##  Reading the declaration part of the simplicial surface package.
-##
-#############################################################################
-
 ReadPackage( "SimplicialSurfaces", "gap/colours.g" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gd" );
 
@@ -25,8 +14,8 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/graphs.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/modification.gd" );
+ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/constructing_families.gd");
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gd" );
-ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gd" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/discs.gd" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Morphisms/morphisms.gd" );

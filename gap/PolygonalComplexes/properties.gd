@@ -1,14 +1,4 @@
-#############################################################################
-##
-##  SimplicialSurface package
-##
-##  Copyright 2012-2016
-##    Markus Baumeister, RWTH Aachen University
-##    Alice Niemeyer, RWTH Aachen University 
-##
-## Licensed under the GPL 3 or later.
-##
-#############################################################################
+
 
 ## This chapter contains many diverse aspects of polygonal complexes.
 ## The current order may not be optimal, depending on what the future holds
@@ -1568,17 +1558,6 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @EndLogSession
 #! 
 #! As an example, consider the butterfly.
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_butfly-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_butfly.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
 #! @BeginLogSession
 #! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
 #! gap> AdmissibleRelationsOfSurface(butterfly,false);

@@ -34,7 +34,7 @@ jobs:
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
-          GAP_PKGS_TO_CLONE: "sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
+          GAP_PKGS_TO_CLONE: "gap-packages/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
           GAPBRANCH: ${{ matrix.gap-branch }}
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
@@ -59,7 +59,7 @@ jobs:
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
-          GAP_PKGS_TO_CLONE: "sebasguts/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
+          GAP_PKGS_TO_CLONE: "gap-packages/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v1
         with:
