@@ -200,4 +200,6 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
 		reemb3:=ReembeddingsOfDigraph(digraph,2,false);
 		Assert(0,reemb2=[]);
 	end);
+else
+	BindGlobal( "__SIMPLICIAL_Test_ReembeddingsOfDigraph", function() end);
 fi;
