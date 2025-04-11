@@ -1,14 +1,3 @@
-#############################################################################
-##
-##  init.g                simplicial surface package
-##
-#Y  Copyright (C) 2016-2017, Alice Niemeyer, Lehrstuhl B für Mathematik,
-#Y  RWTH Aachen
-##
-##  Reading the declaration part of the simplicial surface package.
-##
-#############################################################################
-
 ReadPackage( "SimplicialSurfaces", "gap/colours.g" );
 ReadPackage( "SimplicialSurfaces", "gap/Paths/dual_path.gd" );
 

@@ -1,16 +1,3 @@
-#############################################################################
-##
-##  SimplicialSurface package
-##
-##  Copyright 2012-2024
-##    Alice Niemeyer, RWTH Aachen University 
-##
-## Licensed under the GPL 3 or later.
-##
-#############################################################################
-
-
-
 #! @Chapter Generating certain simplicial surfaces
 #! @ChapterLabel Generating
 
