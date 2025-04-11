@@ -31,6 +31,10 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
         end
     );
 
+    if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( IncidenceDigraphsGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
+
     InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
@@ -49,6 +53,10 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
                 VerticesAttributeOfComplex(complex) );
         end
     );
+
+    if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( EdgeDigraphsGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 
     InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
 	function(complex)
@@ -71,7 +79,11 @@ if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
 		graph:=DigraphByEdges(arcs);
 		return InducedSubdigraph( graph,Faces(complex) );
 	end
-);
+    );
+
+    if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( FaceDigraphsGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 fi;
 ##
 ##      End Digraphs
@@ -99,8 +111,8 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
             faces := List( Faces(complex), f -> f + maxVert + maxEdge );
 
             names := Union( vertices, edges, faces);
-	    colours := [vertices,edges, faces]; # This gives the actual names
-	    incidence := function(x,y)
+	        colours := [vertices,edges, faces]; # This gives the actual names
+	        incidence := function(x,y)
                 if x in vertices and y in edges then
                     return x in VerticesOfEdges(complex)[y-maxVert];
                 elif x in edges and y in vertices then
@@ -130,6 +142,11 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    return rec( graph := graph, colourClasses := colourClasses );   
         end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( IncidenceGrapeGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
+
     InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
@@ -151,6 +168,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 	    return graph;
         end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( EdgeGrapeGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 fi;
 ##
 ##      End GRAPE
@@ -197,6 +218,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         end
     );
 
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( IncidenceNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
+
     InstallMethod( ChamberAdjacencyGraph, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],
         function(complex)
@@ -237,6 +262,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         end
     );
 
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( EdgeNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
+
     InstallMethod(FaceNautyGraph, "for a polygonal complex",[IsPolygonalComplex],
 	function(complex)
 		local i, diedges, loops;
@@ -249,6 +278,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
                 Faces(complex) );
 	end
     );
+
+     if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+        RedispatchOnCondition( FaceNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+    fi;
 fi;
 ##
 ##      End NautyTracesInterface
@@ -262,7 +295,6 @@ fi;
 ##
 ##      Isomorphism test and automorphism group
 ##
-
 
 ## The order of installation describes which of these functions is
 ## preferred - the last one has highest priority.
@@ -278,11 +310,10 @@ InstallOtherMethod( IsIsomorphic, "for two polygonal complexes",
         Error("IsIsomorphic for polygonal complexes: One of the packages NautyTracesInterface or GRAPE have to be available.");
     end
 );
-if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( IsIsomorphic, true, 
-        [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
-        [IsPolygonalComplex, IsPolygonalComplex], 0);
-fi;
+    
+RedispatchOnCondition( IsIsomorphic, true, 
+    [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],
+    [IsPolygonalComplex, IsPolygonalComplex], 0);
 
 InstallMethod( AutomorphismGroup, "for a twisted polygonal complex", 
     [IsTwistedPolygonalComplex],
