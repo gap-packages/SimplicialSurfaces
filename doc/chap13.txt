@@ -1,0 +1,70 @@
+  
+  [1X13 [33X[0;0YGenerating certain simplicial surfaces[133X[101X
+  
+  [33X[0;0YThis chapter introduces methods to find all simplicial surfaces with certain
+  restrictions.[133X
+  
+  
+  [1X13.1 [33X[0;0YEssential discs[133X[101X
+  
+  [33X[0;0YThis section contains the methods to compute all essential simplicial discs.[133X
+  
+  [1X13.1-1 IsEssentialDisc[101X
+  
+  [33X[1;0Y[29X[2XIsEssentialDisc[102X( [3Xdisc[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YThis  function  returns  true if [3Xdisc[103X is an essential disc and false else. A
+  simplicial  surface  [3Xdisc[103X is called an [13Xessential disc[113X if [3Xdisc[103X is a connected
+  simplicial surfaces of Euler characteristic 1 and every circular vertex-edge
+  path of length 3 bounds a face of [3Xdisc[103X, and every boundary vertex has degree
+  at least [3X2[103X and and no inner edge joins two boundary vertices.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdisc := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X [ [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 1, 6 ],[127X[104X
+    [4X[25X>[125X [27X   [ 2, 6 ], [ 2, 7 ], [ 3, 7 ], [ 4, 7 ], [ 4, 8 ], [ 4, 5 ], [ 5, 6 ],[127X[104X
+    [4X[25X>[125X [27X   [ 6, 7 ], [ 7, 8 ], [ 5, 8 ] ],[127X[104X
+    [4X[25X>[125X [27X [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 6, 7, 14 ], [ 2, 7, 8 ], [ 8, 9, 15 ],[127X[104X
+    [4X[25X>[125X [27X   [ 3, 9, 10 ], [ 4, 10, 11 ], [ 11, 12, 16 ], [ 12, 13, 17 ],[127X[104X
+    [4X[25X>[125X [27X   [ 5, 6, 13 ] ] );[127X[104X
+    [4X[28Xsimplicial surface (8 vertices, 17 edges, and 10 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsConnectedSurface(disc);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEulerCharacteristic(disc);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XCounterOfVertices(disc);[127X[104X
+    [4X[28Xcounter of vertices ([ 2, 3, 4, 5 ] degrees, and [ 1, 2, 3, 2 ] multiplicities)[128X[104X
+    [4X[25Xgap>[125X [27XIsEssentialDisc(disc);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X13.1-2 AllSimplicialSurfacesByEssentialButterflyInsertion[101X
+  
+  [33X[1;0Y[29X[2XAllSimplicialSurfacesByEssentialButterflyInsertion[102X( [3Xsurface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of simplicial surfaces[133X
+  
+  [33X[0;0YThis  function  computes  representatives  of the isomorphism classes of all
+  simplicial  surfaces  that can be obtained from the input surface [3Xsurf[103X by an
+  essential  butterfly  insertion.  An  essential  butterfly  insertion  is  a
+  butterfly insertion that does not create a 3-waist.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurface := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[ [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 1, 6 ],[127X[104X
+    [4X[25X>[125X [27X[ 2, 6 ], [ 2, 7 ], [ 3, 7 ], [ 3, 8 ], [ 4, 8 ], [ 4, 5 ],  [ 5, 6 ],[127X[104X
+    [4X[25X>[125X [27X[ 6, 7 ], [ 7, 8 ], [ 5, 8 ] ],[127X[104X
+    [4X[25X>[125X [27X[ [1, 2, 3], [1, 4, 5], [6, 7, 14], [2, 7, 8], [8, 9, 15],[127X[104X
+    [4X[25X>[125X [27X[3, 9, 10], [10, 11, 16], [4, 11, 12], [12, 13, 17], [5, 6, 13] ]);[127X[104X
+    [4X[28Xsimplicial surface (8 vertices, 17 edges, and 10 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsConnectedSurface(surface);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEulerCharacteristic(surface);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSurfacesByEssentialButterflyInsertion(surface);[127X[104X
+    [4X[28X[ simplicial surface (9 vertices, 20 edges, and 12 faces),[128X[104X
+    [4X[28Xsimplicial surface (9 vertices, 20 edges, and 12 faces)[128X[104X
+    [4X[28X    , simplicial surface (9 vertices, 20 edges, and 12 faces), [128X[104X
+    [4X[28X simplicial surface (9 vertices, 20 edges, and 12 faces) ][128X[104X
+  [4X[32X[104X
+  

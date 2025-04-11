@@ -1,0 +1,463 @@
+  
+  [1X11 [33X[0;0YDistances[133X[101X
+  
+  [33X[0;0YThis chapter introduces methods to compute distances between vertices ([14X11.1[114X)
+  and  faces ([14X11.2[114X) of a polygonal complex. Although the two concepts are very
+  similar  to  each other, they will be treated in different sections, to make
+  the explanations more readable and do not let the examples become too long.[133X
+  
+  [33X[0;0YIn  section  [14X11.1[114X,  distances  between  vertices  in a polygonal complex are
+  defined.  A  definition  for distances between faces can be found in section
+  [14X11.2[114X.[133X
+  
+  [33X[0;0YMost  of  the  examples  are  platonic solids. They are already sufficiently
+  complex  to  illustrate  the methods, while remaining conceptually simple to
+  make it easy to follow manipulations on them.[133X
+  
+  
+  [1X11.1 [33X[0;0YCalculating the distance between vertices[133X[101X
+  
+  [33X[0;0YThis section contains the methods to compute distances between vertices in a
+  polygonal  complex  [14X2.1[114X.  It  also contains methods building on the distance
+  calculation,  for  example  to construct neighbourhoods of vertices (compare
+  [14X11.3[114X).[133X
+  
+  [1X11.1-1 DistanceOfVertices[101X
+  
+  [33X[1;0Y[29X[2XDistanceOfVertices[102X( [3XpolygonalComplex[103X, [3Xvertex1[103X, [3Xvertex2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDistanceOfVerticesNC[102X( [3XpolygonalComplex[103X, [3Xvertex1[103X, [3Xvertex2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya non-negative integer, or -1.[133X
+  
+  [33X[0;0YThis  method  computes  the  distance of two vertices in a polygonal complex
+  ([14X2.1[114X)  by determining the length of a minimal vertex-edge-path ([14X8.1[114X) between
+  the given two vertices (the length is the number of edges).[133X
+  
+  [33X[0;0YIf  there  does  not exist any vertex-edge-path between [3Xvertex1[103X and [3Xvertex2[103X,
+  which  means that the vertices are located in different connected components
+  of  [3XpolygonalComplex[103X,  -1  will  be returned. If the vertices are identical,
+  their distance is defined as 0.[133X
+  
+  [33X[0;0YThe  NC-Version  does  not check whether [3Xvertex1[103X and [3Xvertex2[103X are vertices of
+  [3XpolygonalComplex[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := Cube();;[127X[104X
+    [4X[25Xgap>[125X [27XDistanceOfVertices(cube,1,9);[127X[104X
+    [4X[28XError, DistanceOfVertices: Given vertex 9 does not lie in the given complex.[128X[104X
+    [4X[25Xgap>[125X [27XDistanceOfVertices(cube,1,3);[127X[104X
+    [4X[28X2 [128X[104X
+    [4X[25Xgap>[125X [27Xtet := Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XDistanceOfVertices(tet,1,1);[127X[104X
+    [4X[28X0[128X[104X
+    [4X[25Xgap>[125X [27XtwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsPolygonalComplex(twoDisjointTriangles);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XDistanceOfVertices(twoDisjointTriangles,3,4);[127X[104X
+    [4X[28X-1[128X[104X
+  [4X[32X[104X
+  
+  [1X11.1-2 NeighbourVerticesOfVertex[101X
+  
+  [33X[1;0Y[29X[2XNeighbourVerticesOfVertex[102X( [3XpolygonalComplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNeighbourVerticesOfVertexNC[102X( [3XpolygonalComplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YGiven a polygonal complex [3XpolygonalComplex[103X and a vertex, this method returns
+  a list of all vertices of [3XpolygonalComplex[103X, which are connected to [3Xvertex[103X by
+  an edge, i.e. all neighbour-vertices of [3Xvertex[103X.[133X
+  
+  [33X[0;0YThe   NC-Version   does   not   check   whether   [3Xvertex[103X   is  a  vertex  of
+  [3XpolygonalComplex[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := Cube();;[127X[104X
+    [4X[25Xgap>[125X [27XNeighbourVerticesOfVertex(cube,3);[127X[104X
+    [4X[28X[ 2, 4, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XNeighbourVerticesOfVertex(cube,8);[127X[104X
+    [4X[28X[ 4, 7, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XNeighbourVerticesOfVertex(cube,9);[127X[104X
+    [4X[28XError, NeighbourVerticesOfVertex: Given vertex 9 does not lie in the given[128X[104X
+    [4X[28Xcomplex.[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtet:=Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XNeighbourVerticesOfVertex(tet,1);[127X[104X
+    [4X[28X[ 2, 3, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  
+  [1X11.2 [33X[0;0YCalculating the distance between faces[133X[101X
+  
+  [33X[0;0YAnalogously to section [14X11.1[114X, the distance-concept for faces will be treated.[133X
+  
+  [1X11.2-1 DistanceOfFaces[101X
+  
+  [33X[1;0Y[29X[2XDistanceOfFaces[102X( [3XpolygonalComplex[103X, [3Xface1[103X, [3Xface2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDistanceOfFacesNC[102X( [3XpolygonalComplex[103X, [3Xface1[103X, [3Xface2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya non-negative integer, or -1.[133X
+  
+  [33X[0;0YThis method computes the distance of two faces in a polygonal complex ([14X2.1[114X),
+  by  determining  the  length  of  a minimal face-edge-path ([14X8.3[114X) between the
+  given two faces (the length is the number of edges). If there does not exist
+  any  face-edge-path  between [3Xface1[103X and [3Xface2[103X, which means that the faces are
+  located  in  different  connected components of [3XpolygonalComplex[103X, -1 will be
+  returned. If [3Xface1[103X and [3Xface2[103X are identical, their distance is defined as 0.[133X
+  
+  [33X[0;0YThe  NC-Version  does  not  check  whether  [3Xface1[103X  and  [3Xface2[103X  are  faces of
+  [3XpolygonalComplex[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := Cube();;[127X[104X
+    [4X[25Xgap>[125X [27XDistanceOfFaces(cube,1,6);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XDistanceOfFaces(cube,1,5);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XDistanceOfFaces(cube,1,1);[127X[104X
+    [4X[28X0[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XDistanceOfFaces(twoDisjointTriangles,1,3);[127X[104X
+    [4X[28XError, DistanceOfFaces: Given face 3 does not lie in the given complex.[128X[104X
+    [4X[25Xgap>[125X [27XDistanceOfFaces(twoDisjointTriangles,1,2);[127X[104X
+    [4X[28X-1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X11.2-2 NeighbourFacesOfFace[101X
+  
+  [33X[1;0Y[29X[2XNeighbourFacesOfFace[102X( [3XpolygonalComplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNeighbourFacesOfFaceNC[102X( [3XpolygonalComplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YThis  method computes the list of all faces of [3XpolygonalComplex[103X, which share
+  an edge with [3Xface[103X.[133X
+  
+  [33X[0;0YThe NC-Version does not check whether [3Xface[103X is a face of [3XpolygonalComplex[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := Cube();;[127X[104X
+    [4X[25Xgap>[125X [27XNeighbourFacesOfFace(cube,7);[127X[104X
+    [4X[28XError, NeighbourFacesOfFace: Given face 7 does not lie in the given complex.[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFacesOfFace(cube,4);[127X[104X
+    [4X[28X[ 1, 5, 2, 6 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtet:=Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XNeighbourFacesOfFace(tet,1);[127X[104X
+    [4X[28X[ 2, 4, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtriangle := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3]],[[1,2,3]]);;[127X[104X
+    [4X[25Xgap>[125X [27XNeighbourFacesOfFace(triangle,2);[127X[104X
+    [4X[28XError, NeighbourFacesOfFace: Given face 2 does not lie in the given complex.[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFacesOfFace(triangle,1);[127X[104X
+    [4X[28X[ ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  
+  [1X11.3 [33X[0;0YRestricting polygonal complexes[133X[101X
+  
+  [33X[0;0YThis   section   introduces  methods  to  restrict  polygonal  complexes  to
+  sub-complexes. It contains the following methods:[133X
+  
+  [30X    [33X[0;6Y[9XRestrictionToNeighbourhoodOfFaces[109X ([14X11.3-1[114X): Given a polygonal complex,
+        a  distance,  and  some  faces of the polygonal complex, compute a new
+        polygonal complex, where every face has distance at most given [3Xdist[103X to
+        one of the given faces[133X
+  
+  [30X    [33X[0;6Y[9XRestrictionToNeighbourhoodOfVertices[109X   ([14X11.3-2[114X):   Given  a  polygonal
+        complex,  a  distance,  and  some  vertices  of the polygonal complex,
+        compute  a  new  polygonal complex, where every vertex has distance at
+        most given [3Xdist[103X to one of the given vertices.[133X
+  
+  [1X11.3-1 RestrictionToNeighbourhoodOfFaces[101X
+  
+  [33X[1;0Y[29X[2XRestrictionToNeighbourhoodOfFaces[102X( [3XpolygonalComplex[103X, [3Xdist[103X, [3XlistOfFaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRestrictionToNeighbourhoodOfFacesNC[102X( [3XpolygonalComplex[103X, [3Xdist[103X, [3XlistOfFaces[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YGiven  a  polygonal  complex  and  a  list of faces [3XlistOfFaces[103X, this method
+  restricts  [3XpolygonalComplex[103X  to  a  neighbourhood of these faces, defined by
+  dist.  It  is constructed from all faces, that have distance at most [3Xdist[103X to
+  one  of  the  faces in [3XlistOfFaces[103X. The distance of two faces is measured by
+  the length of a minimal face-edge-path between these faces.[133X
+  
+  [33X[0;0YThe  NC-Version  does not check whether the given faces lie in the polygonal
+  complex.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := Cube();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCubeRestriction := RestrictionToNeighbourhoodOfFaces( cube, 2, [1,2,3]);;[127X[104X
+    [4X[25Xgap>[125X [27XCubeRestriction = cube;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRestrictionToNeighbourhoodOfFaces( cube, 2, [3,7,22]);[127X[104X
+    [4X[28XError, RestrictionToNeighbourhoodOfFaces: Given face 7 does not lie in the[128X[104X
+    [4X[28Xgiven complex.[128X[104X
+    [4X[25Xgap>[125X [27XrestrSurf := RestrictionToNeighbourhoodOfFaces(cube,1,[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XFaces(restrSurf);[127X[104X
+    [4X[28X[ 1 .. 5 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges(restrSurf);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ][128X[104X
+    [4X[25Xgap>[125X [27XVertices(restrSurf);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in terminal text It is easy to see that [13XrestrSurf[113X is a cube,
+  where one face (face 6) is missing.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico := Icosahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XrestrIco := RestrictionToNeighbourhoodOfFaces(ico,1,[4]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsSimplicialSurface(restrIco);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFaces(restrIco);[127X[104X
+    [4X[28X[ 3, 4, 5, 9 ][128X[104X
+    [4X[25Xgap>[125X [27XrestrIcoBig := RestrictionToNeighbourhoodOfFaces(ico,2,[4]);;[127X[104X
+    [4X[25Xgap>[125X [27XFaces(restrIcoBig);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 8, 9, 10, 13, 14 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X11.3-2 RestrictionToNeighbourhoodOfVertices[101X
+  
+  [33X[1;0Y[29X[2XRestrictionToNeighbourhoodOfVertices[102X( [3XtriangularComplex[103X, [3Xdist[103X, [3XlistOfVertices[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRestrictionToNeighbourhoodOfVerticesNC[102X( [3XtriangularComplex[103X, [3Xdist[103X, [3XlistOfVertices[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya triangular complex[133X
+  
+  [33X[0;0YThis  method  restricts  a  triangular  complex [14X9.3-2[114X to a sub-complex. This
+  sub-complex consists of:[133X
+  
+  [30X    [33X[0;6Yall  vertices  that  have  distance  at  most [3Xdist[103X to one of the given
+        vertices   in   [3XlistOfVertices[103X,  where  distance  is  measured  as  in
+        [9XDistanceOfVertices[109X ([14X11.1[114X).[133X
+  
+  [30X    [33X[0;6Yall edges that connect two included vertices, and[133X
+  
+  [30X    [33X[0;6Yall faces whose incident edges and vertices are included.[133X
+  
+  [33X[0;0YThe  NC-Version  does not check whether [3XlistOfVertices[103X is a list of vertices
+  of [3XtriangularComplex[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xocta := Octahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XrestrOcta:=RestrictionToNeighbourhoodOfVertices(octa,1,[1]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsSimplicialSurface(restrOcta);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFaces(restrOcta);[127X[104X
+    [4X[28X[ 1, 3, 5, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges(restrOcta);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 8, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XVertices(restrOcta);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5 ][128X[104X
+    [4X[28X[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico := Icosahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XrestrIcoOne := RestrictionToNeighbourhoodOfVerticesNC(ico,1,[4]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsSimplicialSurface(restrIcoOne);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFaces(restrIcoOne);[127X[104X
+    [4X[28X[ 2, 3, 7, 8, 12 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XrestrIcoTwo := RestrictionToNeighbourhoodOfVertices(ico,2,[4]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsSimplicialSurface(restrIcoTwo);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFaces(restrIcoTwo);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 16, 17, 18 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtet := Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xtet=RestrictionToNeighbourhoodOfVerticesNC(tet,1,[1]);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe   method   [9XRestrictionToNeighbourhoodOfVertices[109X   is  only  defined  for
+  triangular  complexes. The reason can be seen easily when looking at a small
+  example: Consider a square.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XmySquare := PolygonalSurfaceByDownwardIncidenceNC([[1,2],[2,3],[3,4],[4,1]],[127X[104X
+    [4X[25X>[125X [27X[[1,2,3,4]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWhen  restricting the square to a neighbourhood of the vertex 1 with maximal
+  distance  1,  the  vertices  2  and  4 need to lie in the polygonal complex.
+  Unfortunately,  vertex  3 does not lie in the restriction, so face 1 can not
+  be  part  of the restriction and so the vertices 2 and 4 are not incident to
+  any face in the restricted polygonal complex, which is not possible.[133X
+  
+  
+  [1X11.4 [33X[0;0YApplication of distance-calculations[133X[101X
+  
+  [33X[0;0YThis  section  contains  some  application for the method [9XDistanceOfVertices[109X
+  ([14X11.1-1[114X)  on  polygonal  complexes.  In the examples the following polygonal
+  complexes are used:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],[127X[104X
+    [4X[25X>[125X [27X[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],[127X[104X
+    [4X[25X>[125X [27X[7,8,9],[9,10,11],[11,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XtwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X11.4-1 EccentricityOfVertex[101X
+  
+  [33X[1;0Y[29X[2XEccentricityOfVertex[102X( [3XpolygonalComplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEccentricityOfVertexNC[102X( [3XpolygonalComplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya non-negative integer or -1[133X
+  
+  [33X[0;0YThis  method  computes  the [13Xeccentricity[113X of a vertex in a polygonal complex.
+  The eccentricity of a vertex is the maximal distance [3Xvertex[103X has to any other
+  vertex  in the polygonal complex. If some vertices have infinite distance to
+  each other, then the eccentricity is defined as -1.[133X
+  
+  [33X[0;0YThe NC-Version does not check whether the given vertex lies in the polygonal
+  complex.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],[127X[104X
+    [4X[25X>[125X [27X[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],[127X[104X
+    [4X[25X>[125X [27X[7,8,9],[9,10,11],[11,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XEccentricityOfVertex(bat,3);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XEccentricityOfVertex(bat,9);[127X[104X
+    [4X[28XError, EccentricityOfVertex: Given vertex 9 does not lie in the given complex.[128X[104X
+    [4X[25Xgap>[125X [27XtwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XEccentricityOfVertex(twoDisjointTriangles,1);[127X[104X
+    [4X[28X-1[128X[104X
+  [4X[32X[104X
+  
+  [1X11.4-2 DiameterOfPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XDiameterOfPolygonalComplex[102X( [3XpolygonalComplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya non-negative integer or -1[133X
+  
+  [33X[0;0YThis  method computes the [13Xdiameter[113X of a polygonal complex. The diameter of a
+  polygonal  complex  is  the  maximal  distance  of  any  two vertices in the
+  polygonal  complex.  If  some  vertices have infinite distance to each other
+  (that  is  when  the eccentricity (compare [14X11.4-1[114X) of one vertex is -1, then
+  the diameter is defined as -1, too.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XBat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],[127X[104X
+    [4X[25X>[125X [27X[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],[127X[104X
+    [4X[25X>[125X [27X[7,8,9],[9,10,11],[11,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XDiameterOfPolygonalComplex(Bat);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XTwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XDiameterOfPolygonalComplex(TwoDisjointTriangles);[127X[104X
+    [4X[28X-1[128X[104X
+  [4X[32X[104X
+  
+  [1X11.4-3 RadiusOfPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XRadiusOfPolygonalComplex[102X( [3XpolygonalComplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya non-negative integer or -1[133X
+  
+  [33X[0;0YThe  method  computes  the  [13Xradius[113X of a polygonal complex. The radius is the
+  minimal  eccentricity  (compare  [14X11.4-1[114X)  of  all  vertices in the polygonal
+  complex. If some vertices have infinite distance to each other (that is when
+  the  eccentricity  of  one  vertex is -1), then the radius is defined as -1,
+  too.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XBat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],[127X[104X
+    [4X[25X>[125X [27X[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],[127X[104X
+    [4X[25X>[125X [27X[7,8,9],[9,10,11],[11,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XRadiusOfPolygonalComplex(Bat);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XTwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XRadiusOfPolygonalComplex(TwoDisjointTriangles);[127X[104X
+    [4X[28X-1[128X[104X
+  [4X[32X[104X
+  
+  [1X11.4-4 CenterOfPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XCenterOfPolygonalComplex[102X( [3XpolygonalComplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers or the empty set[133X
+  
+  [33X[0;0YThis  method  computes  the  [13Xcenter[113X  of a polygonal complex. The center of a
+  polygonal  complex  is  the  set  of all vertices of [3XpolygonalComplex[103X, whose
+  eccentricity  (compare  [14X11.4-1[114X)  is  equal to the radius (compare [14X11.4-3[114X) of
+  [3XpolygonalComplex[103X.  If  some  vertices  have infinite distance to each other,
+  then the center is defined as the empty set [ ].[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XBat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],[127X[104X
+    [4X[25X>[125X [27X[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],[127X[104X
+    [4X[25X>[125X [27X[7,8,9],[9,10,11],[11,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XCenterOfPolygonalComplex(Bat);[127X[104X
+    [4X[28X[ 4, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XTwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],[127X[104X
+    [4X[25X>[125X [27X[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XCenterOfPolygonalComplex(TwoDisjointTriangles);[127X[104X
+    [4X[28X[ ][128X[104X
+  [4X[32X[104X
+  

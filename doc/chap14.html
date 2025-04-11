@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (SimplicialSurfaces) - Chapter 14: Library of predefined surfaces</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap14"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap13.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap15.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap14_mj.html">[MathJax on]</a></p>
+<p><a id="X8544AE207F51DAA5" name="X8544AE207F51DAA5"></a></p>
+<div class="ChapSects"><a href="chap14.html#X8544AE207F51DAA5">14 <span class="Heading">Library of predefined surfaces</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X8737529A87C62218">14.1 <span class="Heading">Accessing all stored complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X84AAC7127A096B00">14.1-1 AllTwistedPolygonalComplexes</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X78631AF881CF3F65">14.2 <span class="Heading">Accessing the classifications</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X86B313C47C8DC372">14.2-1 AllSimplicialSpheres</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7FF374A27903E584">14.2-2 AllGeodesicSelfDualSurfaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X86EED39883D1A5AD">14.2-3 AllDiscs</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X8600649E816E11E5">14.3 <span class="Heading">Platonic solids</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X81631C9F817993DB">14.3-1 AllPlatonicSurfaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7B44DDD485145773">14.3-2 Tetrahedron</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X79F9336684F71FDE">14.3-3 Cube</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X84BE285087AAC1F7">14.3-4 Octahedron</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X81A6D8FE876EB3BE">14.3-5 Dodecahedron</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X83E0EF8F7CCD6979">14.3-6 Icosahedron</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X8619C27683A4D94F">14.4 <span class="Heading">Other pre-defined surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7A7AF0A179BBCD99">14.4-1 JanusHead</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X860EF4C583F576EE">14.4-2 SimplicialUmbrella</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X842C1A7C7D8B7AEA">14.4-3 SimplicialDoubleUmbrella</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7D69D1AD8127CF78">14.4-4 SimplicialOpenGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X86BBEDF179B6626F">14.4-5 SimplicialClosedGeodesic</a></span>
+</div></div>
+</div>
+
+<h3>14 <span class="Heading">Library of predefined surfaces</span></h3>
+
+<p>While chapter <a href="chap4.html#X7C77E62B7FD24306"><span class="RefLink">4</span></a> described how to construct polygonal complexes from their incidence structure, this chapter describes how to access the pre-defined surfaces and complexes in this package.</p>
+
+<p>The library serves two main purposes:</p>
+
+
+<ul>
+<li><p>It is a collection of a large number of polygonal complexes that can be used to test theories. This collection will change over time when new surfaces are added. The collection can be accessed in this way by methods like <code class="keyw">AllSimplicialSurfaces</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>).</p>
+
+</li>
+<li><p>For certain classes of polygonal complexes (like simplicial spheres) it provides a complete classification (within certain bounds). These lists are complete and can be the basis for theorems. They are presented in section <a href="chap14.html#X78631AF881CF3F65"><span class="RefLink">14.2</span></a>.</p>
+
+</li>
+</ul>
+<p>Section <a href="chap14.html#X8737529A87C62218"><span class="RefLink">14.1</span></a> explains the main syntax that is used to access the library. It also contains the methods to access the complete collection of complexes.</p>
+
+<p>Section <a href="chap14.html#X78631AF881CF3F65"><span class="RefLink">14.2</span></a> covers the specific classes of polygonal complexes that are (fully) contained in the package.</p>
+
+<p><a id="X8737529A87C62218" name="X8737529A87C62218"></a></p>
+
+<h4>14.1 <span class="Heading">Accessing all stored complexes</span></h4>
+
+<p>This section explains how all polygonal complexes that are stored in the library can be accessed. This is done by the method <code class="keyw">AllTwistedPolygonalComplexes</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>), but it can also be restricted further, for example by <code class="keyw">AllSimplicialSurfaces</code>.</p>
+
+<p>The syntax of this call can be a bit confusing at first, since it was chosen to give the user much flexibility. We will start with a few examples. The call</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSurfaces( NumberOfFaces, 3 );</span>
+[ simplicial surface (3 vertices, 6 edges, and 3 faces)  ]
+</pre></div>
+
+<p>returns all simplicial surfaces from the library that have exactly three faces.</p>
+
+<p>If we wanted all simplicial surfaces with 6, 8, or 9 edges, we could use</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSurfaces( NumberOfEdges, [6,8,9] );</span>
+[ simplicial surface (3 vertices, 9 edges, and 6 faces),
+  simplicial surface (4 vertices, 6 edges, and 4 faces), 
+  simplicial surface (3 vertices, 6 edges, and 3 faces), 
+  simplicial surface (3 vertices, 6 edges, and 4 faces) ]
+</pre></div>
+
+<p>It is even possible to combine these restrictions. To obtain all simplicial surfaces with 6 edges and 4 faces, we could use</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSurfaces(NumberOfEdges, 6, NumberOfFaces, [4]);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+  simplicial surface (3 vertices, 6 edges, and 4 faces) ]
+</pre></div>
+
+<p>In general, the arguments of <code class="keyw">AllSimplicialSurfaces</code> alternate between a function and its result (or list of possible results). The strength of this syntax derives from its versatility - it is actually possible to use every <em>conceivable</em> function. Obviously, we can use functions defined by this package. For example, the following command returns all predefined tori:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllPolygonalComplexes( IsConnectedComplex, true, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           IsOrientableComplex, true, EulerCharacteristic, 0 );</span>
+[ simplicial surface (3 vertices, 9 edges, and 6 faces), 
+  simplicial surface (9 vertices, 27 edges, and 18 faces), 
+  simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+</pre></div>
+
+<p>Since it is tedious to always write <code class="keyw">true</code>, there is a shortcut implemented that interprets "missing" results as <code class="keyw">true</code>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllPolygonalComplexes( IsConnectedComplex, IsOrientableComplex, EulerCharacteristic, 0 );</span>
+[ simplicial surface (3 vertices, 9 edges, and 6 faces), 
+  simplicial surface (9 vertices, 27 edges, and 18 faces), 
+  simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+</pre></div>
+
+<p>If this is not sufficient, any user can define their own functions to search for specific surfaces. For example, if one was interested in all non-orientable simplicial surfaces such that one vertex in incident to every face, we could find them like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">HasCentralVertex := function(surface)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local intersect;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       intersect := Intersection(VerticesOfFaces(surface));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return Length(intersect) &gt; 0;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">end;</span>
+function( surface ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSurfaces(IsOrientableSurface, false, HasCentralVertex);</span>
+[ simplicial surface (3 vertices, 6 edges, and 3 faces), 
+  simplicial surface (3 vertices, 6 edges, and 4 faces), 
+  simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+</pre></div>
+
+<p><a id="X84AAC7127A096B00" name="X84AAC7127A096B00"></a></p>
+
+<h5>14.1-1 AllTwistedPolygonalComplexes</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllTwistedPolygonalComplexes</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllPolygonalComplexes</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllTriangularComplexes</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllPolygonalSurfaces</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSimplicialSurfaces</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of polygonal complexes</p>
+
+<p>Return all twisted polygonal complexes that are stored in the library with the desired properties.</p>
+
+<p>The number of arguments can be arbitrarily long. In general the arguments have to come in pairs. The first argument in such a pair is a function and the second argument is either the result of that function or a list of accepted results. For example</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientableComplex, false );</span>
+</pre></div>
+
+<p>returns all non-orientable twisted polygonal complexes with 10 or 12 vertices from the library.</p>
+
+<p>To obtain the platonic solids a custom function has to be written:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DegreeRegular := function( complex )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     local degrees;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"> </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     degrees := Set(FaceDegreesOfVertices(complex));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return Size(degrees) = 1 and degrees[1] &gt;= 3;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">plat := AllPolygonalComplexes( IsPolygonalSurface, true,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     EulerCharacteristic, 2, DegreeRegular, true,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     IsConnectedSurface, true, IsClosedSurface, true);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(plat);</span>
+5
+</pre></div>
+
+<p>For user convenience the following simplifications may be used:</p>
+
+
+<ul>
+<li><p>If one of the more specific incarnations, like <code class="keyw">AllSimplicialSurfaces</code> is called, the returned complexes will satisfy this additional requirement (in this case, they will be simplicial surfaces).</p>
+
+</li>
+<li><p>If the function in the first argument pair is <code class="keyw">NrOfFaces</code>, it can be omitted. This is the only possible case in which the first argument is not a function.</p>
+
+</li>
+<li><p>If the second argument of a pair is omitted, it is assumed to be <code class="keyw">true</code>. This is especially useful if the corresponding function is a property.</p>
+
+</li>
+</ul>
+<p>For example, the above command for the platonic solids can be simplified as follows:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">plat := AllPolygonalSurfaces( EulerCharacteristic, 2, DegreeRegular,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     IsConnectedSurface, IsClosedSurface );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(plat);</span>
+5
+</pre></div>
+
+<p>To get just the platonic solids with triangular faces, the following command may be used:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">plat := AllSimplicialSurfaces( EulerCharacteristic, 2, DegreeRegular,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     IsConnectedSurface, IsClosedSurface );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(plat);</span>
+3
+</pre></div>
+
+<p>To obtain just tetrahedron and octahedron, the number of faces can be restricted:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">plat := AllPolygonalComplexes( [4,8], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              EulerCharacteristic, 2, IsConnectedComplex, IsClosedComplex );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(plat);</span>
+2
+</pre></div>
+
+<p><a id="X78631AF881CF3F65" name="X78631AF881CF3F65"></a></p>
+
+<h4>14.2 <span class="Heading">Accessing the classifications</span></h4>
+
+<p>In this section, different classifications of polygonal complexes are described. In most cases, these are infinite families. The documentation of each method explains in detail which part of the classification can be relied upon.</p>
+
+<p>The general syntax is identical to the one from <code class="keyw">AllTwistedPolygonalComplexes</code> or <code class="keyw">AllSimplicialSurfaces</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>).</p>
+
+<p>Currently, the following classes are contained in the package:</p>
+
+
+<ul>
+<li><p><code class="keyw">AllPlatonicSurfaces</code> (<a href="chap14.html#X81631C9F817993DB"><span class="RefLink">14.3-1</span></a>): all platonic solids</p>
+
+</li>
+<li><p><code class="keyw">AllSimplicialSpheres</code> (<a href="chap14.html#X86B313C47C8DC372"><span class="RefLink">14.2-1</span></a>): simplicial spheres without 3--waists (i.e. each of their vertex-edge-paths (<a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>) of length 3 is the perimeter path (<a href="chap8.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a>) of a face).</p>
+
+</li>
+<li><p><code class="keyw">AllGeodesicSelfDualSurfaces</code> (<a href="chap14.html#X7FF374A27903E584"><span class="RefLink">14.2-2</span></a>): geodesic self-dual surfaces</p>
+
+</li>
+</ul>
+<p>TODO needs nicer introduction and streamlining</p>
+
+<p><a id="X86B313C47C8DC372" name="X86B313C47C8DC372"></a></p>
+
+<h5>14.2-1 AllSimplicialSpheres</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSimplicialSpheres</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of simplicial surfaces</p>
+
+<p>This method has the same syntax as <code class="keyw">AllTwistedPolygonalComplexes</code> and <code class="keyw">AllSimplicialSurfaces</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>), but is restricted to the simplicial spheres without 3--waists, i.e.</p>
+
+
+<ul>
+<li><p>simplicial surfaces</p>
+
+</li>
+<li><p>that are homeomorphic to the sphere</p>
+
+</li>
+<li><p>each of their vertex-edge-paths (<a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>) of length 3 is the perimeter path (<a href="chap8.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a>) of a face</p>
+
+</li>
+</ul>
+<p>Since this class is infinite, not all of them can be accessed. Currently, all of those surfaces with at most 28 faces are stored.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSpheres([4,8,10]);</span>
+[ simplicial surface (7 vertices, 15 edges, and 10 faces), 
+  simplicial surface (4 vertices, 6 edges, and 4 faces), 
+  simplicial surface (6 vertices, 12 edges, and 8 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSpheres(NumberOfVertices, 8);</span>
+[ simplicial surface (8 vertices, 18 edges, and 12 faces), 
+  simplicial surface (8 vertices, 18 edges, and 12 faces) ]
+</pre></div>
+
+<p><a id="X7FF374A27903E584" name="X7FF374A27903E584"></a></p>
+
+<h5>14.2-2 AllGeodesicSelfDualSurfaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllGeodesicSelfDualSurfaces</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of simplicial surfaces</p>
+
+<p>This method has the same syntax as <code class="keyw">AllTwistedPolygonalComplexes</code> and <code class="keyw">AllSimplicialSurfaces</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>), but is restricted to the geodesic self-dual surfaces (TODO).</p>
+
+<p>Since these are (probably) infinite, this method currently only gives access to the following surfaces:</p>
+
+
+<ul>
+<li><p>The unique geodesic self-dual surface of degree 5</p>
+
+</li>
+<li><p>Both geodesic self-dual surfaces of degree 6</p>
+
+</li>
+<li><p>The two geodesic self-dual surfaces of degree 8 that arise from a normal subgroup</p>
+
+</li>
+<li><p>The geodesic self-dual surface of degree 9 that arises from the trivial subgroup</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllGeodesicSelfDualSurfaces();</span>
+[ simplicial surface (6 vertices, 15 edges, and 10 faces), 
+  simplicial surface (3 vertices, 9 edges, and 6 faces), 
+  simplicial surface (9 vertices, 27 edges, and 18 faces), 
+  simplicial surface (21 vertices, 84 edges, and 56 faces), 
+  simplicial surface (42 vertices, 168 edges, and 112 faces), 
+  twisted polygonal surface (6 vertices, 24 edges, 16 faces, and 96 chambers),
+  twisted polygonal surface (3 vertices, 12 edges, 8 faces, and 48 chambers), 
+  simplicial surface (190 vertices, 855 edges, and 570 faces), 
+  twisted polygonal surface (38 vertices, 171 edges, 114 faces, and 684 chambers),
+  simplicial surface (10 vertices, 45 edges, and 30 faces) ]
+</pre></div>
+
+<p><a id="X86EED39883D1A5AD" name="X86EED39883D1A5AD"></a></p>
+
+<h5>14.2-3 AllDiscs</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllDiscs</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of simplicial surfaces</p>
+
+<p>This method has the same syntax as <code class="keyw">AllTwistedPolygonalComplexes</code> and <code class="keyw">AllSimplicialSurfaces</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>), but is restricted to simplicial discs. (TODO)</p>
+
+<p>This list is very incomplete at the moment TODO.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">discs := AllDiscs();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(discs);</span>
+87
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllDiscs(function(surf) return 7 in FaceDegreesOfVertices(surf); end);</span>
+[]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(discs, UmbrellaPathsOfVertices);;</span>
+</pre></div>
+
+<p><a id="X8600649E816E11E5" name="X8600649E816E11E5"></a></p>
+
+<h4>14.3 <span class="Heading">Platonic solids</span></h4>
+
+<p>This section covers the platonic solids, i.e.</p>
+
+
+<ul>
+<li><p><code class="keyw">Tetrahedron</code> (<a href="chap14.html#X7B44DDD485145773"><span class="RefLink">14.3-2</span></a>).</p>
+
+</li>
+<li><p><code class="keyw">Cube</code> (<a href="chap14.html#X79F9336684F71FDE"><span class="RefLink">14.3-3</span></a>).</p>
+
+</li>
+<li><p><code class="keyw">Octahedron()</code> (<a href="chap14.html#X84BE285087AAC1F7"><span class="RefLink">14.3-4</span></a>).</p>
+
+</li>
+<li><p><code class="keyw">Dodecahedron()</code> (<a href="chap14.html#X81A6D8FE876EB3BE"><span class="RefLink">14.3-5</span></a>).</p>
+
+</li>
+<li><p><code class="keyw">Icosahedron()</code> (<a href="chap14.html#X83E0EF8F7CCD6979"><span class="RefLink">14.3-6</span></a>).</p>
+
+</li>
+</ul>
+<p>Since it might be useful to see the incidence structure at a glance, every one of those methods features a net of the constructed polygonal structure. Those nets are constructed by the method <code class="keyw">DrawSurfaceToTikz</code> (<a href="chap16.html#X7D14422983FF72ED"><span class="RefLink">16.2-1</span></a>).</p>
+
+<p>It also contains the method <code class="keyw">AllPlatonicSurfaces</code> (<a href="chap14.html#X81631C9F817993DB"><span class="RefLink">14.3-1</span></a>) to find those platonic surfaces with specified properties.</p>
+
+<p><a id="X81631C9F817993DB" name="X81631C9F817993DB"></a></p>
+
+<h5>14.3-1 AllPlatonicSurfaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllPlatonicSurfaces</code>( <var class="Arg">fct1</var>, <var class="Arg">res1</var>, <var class="Arg">fct2</var>, <var class="Arg">res2</var>, <var class="Arg">...</var> )</td><td class="tdright">(&nbsp;function&nbsp;)</td></tr></table></div>
+<p>Returns: a list of polygonal surfaces</p>
+
+<p>This method has the same syntax as <code class="keyw">AllTwistedPolygonalComplexes</code> and <code class="keyw">AllSimplicialSurfaces</code> (<a href="chap14.html#X84AAC7127A096B00"><span class="RefLink">14.1-1</span></a>), but is restricted to the platonic surfaces:</p>
+
+
+<ul>
+<li><p>Tetrahedron</p>
+
+</li>
+<li><p>Cube</p>
+
+</li>
+<li><p>Octahedron</p>
+
+</li>
+<li><p>Dodecahderon</p>
+
+</li>
+<li><p>Icosahedron</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllPlatonicSurfaces();</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+  polygonal surface (8 vertices, 12 edges, and 6 faces), 
+  simplicial surface (6 vertices, 12 edges, and 8 faces), 
+  polygonal surface (20 vertices, 30 edges, and 12 faces), 
+  simplicial surface (12 vertices, 30 edges, and 20 faces) ]
+</pre></div>
+
+<p><a id="X7B44DDD485145773" name="X7B44DDD485145773"></a></p>
+
+<h5>14.3-2 Tetrahedron</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Tetrahedron</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a <em>tetrahedron</em> as a simplicial surface. A tetrahedron is the platonic solid with four triangular faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := Tetrahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X79F9336684F71FDE" name="X79F9336684F71FDE"></a></p>
+
+<h5>14.3-3 Cube</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Cube</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal surface</p>
+
+<p>Return a <em>cube</em> as a polygonal surface. A cube is the platonic solid with six square faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X84BE285087AAC1F7" name="X84BE285087AAC1F7"></a></p>
+
+<h5>14.3-4 Octahedron</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Octahedron</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return an <em>octahedron</em> as a simplicial surface. An octahedron is the platonic solid with eight triangular faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octa := Octahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X81A6D8FE876EB3BE" name="X81A6D8FE876EB3BE"></a></p>
+
+<h5>14.3-5 Dodecahedron</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Dodecahedron</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal surface</p>
+
+<p>Return a <em>dodecahedron</em> as a polygonal surface. A dodecahedron ist the platonic solid with 12 pentagon faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dode := Dodecahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Dodecahedron_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X83E0EF8F7CCD6979" name="X83E0EF8F7CCD6979"></a></p>
+
+<h5>14.3-6 Icosahedron</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Icosahedron</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return an <em>icosahedron</em> as a simplicial surface. An icosahedron is the platonic solid with 20 triangular faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico := Icosahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X8619C27683A4D94F" name="X8619C27683A4D94F"></a></p>
+
+<h4>14.4 <span class="Heading">Other pre-defined surfaces</span></h4>
+
+<p>This section contains all other pre-defined surfaces that are not covered in one of the other sections.</p>
+
+<p><a id="X7A7AF0A179BBCD99" name="X7A7AF0A179BBCD99"></a></p>
+
+<h5>14.4-1 JanusHead</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JanusHead</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a <em>Janus-Head</em> as a simplicial surface. A Janus-Head consists of two triangular faces that share three edges.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">janus := JanusHead();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X860EF4C583F576EE" name="X860EF4C583F576EE"></a></p>
+
+<h5>14.4-2 SimplicialUmbrella</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialUmbrella</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialGon</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">a simplicial surface</code></p>
+
+<p>Return a simplicial surface consisting of one closed umbrella-path with <var class="Arg">nrFaces</var> triangles. The labels are assigned according to the following illustration, in which <span class="SimpleMath">n</span> is <var class="Arg">nrFaces</var>: <br><img src='./images/_Wrapper_library-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">umb4 := SimplicialUmbrella(4);</span>
+simplicial surface (5 vertices, 8 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(umb4);</span>
+[ [ 1, 5 ], [ 2, 5 ], [ 3, 5 ], [ 4, 5 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(umb4);</span>
+[ [ 1, 2, 5 ], [ 2, 3, 6 ], [ 3, 4, 7 ], [ 1, 4, 8 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(umb4);</span>
+[ [ 1, 2, 5 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 1, 4, 5 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">umb2 := SimplicialUmbrella(2);</span>
+simplicial surface (3 vertices, 4 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(umb2);</span>
+[ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(umb2);</span>
+[ [ 1, 2, 3 ], [ 1, 2, 4 ] ]
+</pre></div>
+
+<p><a id="X842C1A7C7D8B7AEA" name="X842C1A7C7D8B7AEA"></a></p>
+
+<h5>14.4-3 SimplicialDoubleUmbrella</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialDoubleUmbrella</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialDoubleGon</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">a simplicial surface</code></p>
+
+<p>Return a simplicial surface consisting of two closed umbrella-paths with <var class="Arg">nrFaces</var> triangles which are joined at their boundary. The labels of one umbrella are assigned according to the illustration for <em>SimplicialUmbrella</em>, the additional vertex is labelled with <var class="Arg">nrFaces+2</var>, the incident edges to this vertex are labelled from <var class="Arg">2*nrFaces+1</var> to <var class="Arg">4*nrFaces</var> and the incident faces are labelled from <var class="Arg">nrFaces+1</var> to <var class="Arg">2*nrFaces</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleumb2:=SimplicialDoubleUmbrella(2);</span>
+simplicial surface (4 vertices, 6 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(doubleumb2);</span>
+[ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ], [ 1, 4 ], [ 2, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(doubleumb2);</span>
+[ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 3, 5, 6 ], [ 4, 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleumb4:=SimplicialDoubleUmbrella(4);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(doubleumb4,Octahedron());</span>
+true
+</pre></div>
+
+<p><a id="X7D69D1AD8127CF78" name="X7D69D1AD8127CF78"></a></p>
+
+<h5>14.4-4 SimplicialOpenGeodesic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialOpenGeodesic</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialStrip</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a simplicial surface consisting of one non-closed geodesic-path with <var class="Arg">nrFaces</var> triangles. The labels are assigned according to the following illustration (for <span class="SimpleMath">n</span> odd), in which <span class="SimpleMath">n</span> is <var class="Arg">nrFaces</var>. <br><img src="./images/_Wrapper_Image_SimplicialOpenGeodesic-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo4 := SimplicialOpenGeodesic(4);</span>
+simplicial surface (6 vertices, 9 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo4);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], 
+  [ 4, 6 ], [ 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo4);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(geo4);</span>
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo5 := SimplicialStrip(5);</span>
+simplicial surface (7 vertices, 11 edges, and 5 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo5);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], 
+  [ 4, 6 ], [ 5, 6 ], [ 5, 7 ], [ 6, 7 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo5);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ] ]
+</pre></div>
+
+<p><a id="X86BBEDF179B6626F" name="X86BBEDF179B6626F"></a></p>
+
+<h5>14.4-5 SimplicialClosedGeodesic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialClosedGeodesic</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialGeodesic</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a simplicial surface consisting of one closed geodesic-path with <var class="Arg">nrFaces</var> triangles (at least 3 faces are needed). The labels are assigned according to the following illustration (for <span class="SimpleMath">n</span> odd), in which <span class="SimpleMath">n</span> is <var class="Arg">nrFaces</var>. <br><img src="./images/_Wrapper_Image_SimplicialClosedGeodesic-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo3 := SimplicialClosedGeodesic(3);</span>
+simplicial surface (3 vertices, 6 edges, and 3 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo3);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo3);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 1, 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(geo3);</span>
+[ [ 1, 2, 3 ], [ 1, 2, 3 ], [ 1, 2, 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo6 := SimplicialGeodesic(6);</span>
+simplicial surface (6 vertices, 12 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo6);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ],
+  [ 4, 6 ], [ 5, 6 ], [ 1, 5 ], [ 1, 6 ], [ 2, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo6);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ], [ 1, 11, 12 ] ]
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap13.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap15.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

@@ -1,11 +1,870 @@
-<!DOCTYPE html>
-<html lang="en">
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-	<meta charset="UTF-8" />
-	<title>Placeholder</title>
+<title>GAP (SimplicialSurfaces) - Contents</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
 </head>
-<body>
-<h1>Placeholder!</h1>
-<a href="..">Back</a>
+<body class="chap0"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap0_mj.html">[MathJax on]</a></p>
+<p><a id="X7D2C85EC87DD46E5" name="X7D2C85EC87DD46E5"></a></p>
+<div class="pcenter">
+
+<h1>SimplicialSurfaces</h1>
+
+
+<h2>Computing with simplicial surfaces and folding processes.</h2>
+
+<p>
+    0.6</p>
+
+<p>
+    23 September 2021
+  </p>
+
+</div>
+<p><b>
+    Alice Niemeyer
+
+
+
+
+  </b>
+<br />Email: <span class="URL"><a href="mailto:Alice.Niemeyer@Mathb.RWTH-Aachen.De">Alice.Niemeyer@Mathb.RWTH-Aachen.De</a></span>
+<br />Homepage: <span class="URL"><a href="http://www.math.rwth-aachen.de/~Alice.Niemeyer/">http://www.math.rwth-aachen.de/~Alice.Niemeyer/</a></span>
+<br />Address: <br />Alice Niemeyer<br /> Lehrstuhl für Algebra und Darstellungstheorie<br /> RWTH Aachen<br /> Pontdriesch 10/16<br /> 52062 Aachen<br /> GERMANY<br />
+</p><p><b>
+    Markus Baumeister
+
+
+
+
+  </b>
+<br />Email: <span class="URL"><a href="mailto:baumeister@mathb.rwth-aachen.de">baumeister@mathb.rwth-aachen.de</a></span>
+<br />Homepage: <span class="URL"><a href="https://markusbaumeister.github.io/">https://markusbaumeister.github.io/</a></span>
+<br />Address: <br />--<br />
+</p><p><b>
+    Reymond Akpanya
+
+
+
+  </b>
+<br />Email: <span class="URL"><a href="mailto:akpanya@art.rwth-aachen.de">akpanya@art.rwth-aachen.de</a></span>
+<br />Address: <br />--<br />
+</p><p><b>
+    Tom Görtzen
+
+
+
+  </b>
+<br />Email: <span class="URL"><a href="mailto:goertzen@art.rwth-aachen.de">goertzen@art.rwth-aachen.de</a></span>
+<br />Address: <br />--<br />
+</p><p><b>
+    Meike Weiß
+
+
+
+  </b>
+<br />Email: <span class="URL"><a href="mailto:weiss@art.rwth-aachen.de">weiss@art.rwth-aachen.de</a></span>
+<br />Address: <br />--<br />
+</p><p><b>
+    Lukas Schnelle
+
+
+
+  </b>
+<br />Email: <span class="URL"><a href="mailto:lukas.schnelle1@rwth-aachen.de">lukas.schnelle1@rwth-aachen.de</a></span>
+<br />Address: <br />--<br />
+</p>
+
+<p><a id="X81488B807F2A1CF1" name="X81488B807F2A1CF1"></a></p>
+<h3>Copyright</h3>
+<p>© 2016-2021 by Alice Niemeyer and Markus Baumeister</p>
+
+<p>This package may be distributed under the terms and conditions of the GNU Public License Version 3 (or higher).</p>
+
+<p>The primary sources for much of the covered material are:</p>
+
+<p>The PhD-thesis "Regularity Aspects for Combinatorial Simplicial Surfaces" of Markus Baumeister</p>
+
+<p>The book "Simplicial Surfaces of Congruent Triangles" by Alice C. Niemeyer, Wilhelm Plesken, Daniel Robertz, and Ansgar W. Strzelczyk (unpublished)</p>
+
+<p><a id="X8537FEB07AF2BEC8" name="X8537FEB07AF2BEC8"></a></p>
+
+<div class="contents">
+<h3>Contents<a id="contents" name="contents"></a></h3>
+
+<div class="ContChap"><a href="chap1.html#X7B1863E17896BCE1">1 <span class="Heading">Getting started</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X782C13F782D16E8D">1.1 <span class="Heading">What can it do?</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X7CECD2937F74E30C">1.2 <span class="Heading">Playing with simplicial surfaces</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X7FF80B7B86551F31">1.3 <span class="Heading">Constructing new surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1.html#X7B11BC267867837D">1.3-1 <span class="Heading">Creating non-triangular faces</span></a>
+</span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X8307C5EE83ABEB23">1.4 <span class="Heading">Playing with vertices and faces.</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X80157B817AE6E7BE">1.5 <span class="Heading">Adding edge numbering</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1.html#X7D7592C678F1BEED">1.6 <span class="Heading">Constructing surfaces with vertex, edge and face data</span></a>
+</span>
+</div>
+</div>
+<div class="ContChap"><a href="chap2.html#X86693EE97EA70D6D">2 <span class="Heading">Polygonal Structures</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2.html#X82D7D2228628B979">2.1 <span class="Heading">Polygonal Complexes (pure incidence geometry)</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X8419E90A7D63E5FE">2.1-1 <span class="Heading">Definition (polygonal complex)</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X87EB933880FCBE88">2.1-2 IsPolygonalComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2.html#X87C1FD2D876D3C82">2.2 <span class="Heading">Twisted polygonal complexes and surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X79BD574087AD18BF">2.2-1 IsTwistedPolygonalComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2.html#X78FF094A8196A963">2.3 <span class="Heading">Polygonal and simplicial surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X81B84AEB7A8ED9EE">2.3-1 IsNotEdgeRamified</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X806616AB7D5705A4">2.3-2 <span class="Heading">Definition (Umbrella-path around a vertex)</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X84C87B45804AB42F">2.3-3 IsNotVertexRamified</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X83D11FC8811CDDE4">2.3-4 IsPolygonalSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2.html#X7F92DEC87FC7923E">2.3-5 IsSimplicialSurface</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap3.html#X864ADF3D7B40CE9B">3 <span class="Heading">Access to the incidence geometry</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X799EBEA57CA1B359">3.1 <span class="Heading">Labels of vertices, edges and faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X78DBCB287CE63399">3.1-1 Vertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X86734C6379D84726">3.1-2 Edges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X781A6AE087EF37F4">3.1-3 Faces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7871A0A17B345BA8">3.2 <span class="Heading">Incidence between vertices, edges, and faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C1E97627C3BA4E8">3.2-1 EdgesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7BB940CF820CD43A">3.2-2 FacesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X86B1B478802C8EFA">3.2-3 VerticesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X862071AD7F5FF297">3.2-4 FacesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X78D892FB7C330942">3.2-5 VerticesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7928464E7DB7BC68">3.2-6 EdgesOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7C20B8D2843FACF7">3.3 <span class="Heading">Face-induced order of incident vertices/edges</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7F895BE281100061">3.3-1 PerimeterPathsOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X794B95B7829292D9">3.4 <span class="Heading">Circular path around a vertex</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C7A78287D84FB52">3.4-1 UmbrellaPathsOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X81FF53CB78BD4695">3.4-2 UmbrellaPathPartitionsOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X8309080A87164A72">3.4-3 Star</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7C5F1A7181E323BF">3.4-4 Link</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3.html#X7C0EA337828908C5">3.5 <span class="Heading">Perimeter around holes in surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3.html#X7893705086D7035A">3.5-1 PerimeterOfHoles</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap4.html#X7C77E62B7FD24306">4 <span class="Heading">Constructing surfaces by their incidence structure</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X84E0B8C47E00294C">4.1 <span class="Heading">DownwardIncidence</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X86072A31828988AC">4.1-1 PolygonalComplexByDownwardIncidence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7FFBAFD68536C448">4.1-2 PolygonalSurfaceByDownwardIncidence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X8499F8DA7F50BCE4">4.1-3 TriangularComplexByDownwardIncidence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X87868FA37F718C86">4.1-4 SimplicialSurfaceByDownwardIncidence</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X81576B0884A43DE7">4.2 <span class="Heading">UpwardIncidence</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X79EB4BD7876291C8">4.2-1 PolygonalComplexByUpwardIncidence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X823576D780DDDD2C">4.2-2 PolygonalSurfaceByUpwardIncidence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X8174B3817FD3842F">4.2-3 TriangularComplexByUpwardIncidence</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7E76D2C17FF2B44D">4.2-4 SimplicialSurfaceByUpwardIncidence</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7E78E04585A36A71">4.3 <span class="Heading">VerticesInFaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X78E09695826CD6ED">4.3-1 PolygonalComplexByVerticesInFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7E4BFA4385D39A09">4.3-2 PolygonalSurfaceByVerticesInFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X85D36E0B876D61E6">4.3-3 TriangularComplexByVerticesInFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X84055BAE874C5184">4.3-4 SimplicialSurfaceByVerticesInFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X877FCE0683FE4660">4.4 <span class="Heading">Umbrella Descriptors</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7C3B252E83E2A73D">4.4-1 UmbrellaDescriptorOfSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7A48C67185BD801E">4.4-2 UmbrellaTipDescriptorOfSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7F53E2328613B49D">4.4-3 SimplicialSurfaceByUmbrellaDescriptor</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7A218DC979F4DC6A">4.4-4 NormedUmbrellaDescriptor</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X79A359EB78D6EA66">4.4-5 DegreeSequenceOfUmbrellaDescriptor</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X86575D907E1EC579">4.4-6 AllUmbrellaDescriptorsOfDegreeSequence</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap4.html#X7F1D30C67983EE96">4.5 <span class="Heading">Constructing surfaces via their Dress Group</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap4.html#X7933327C787B3C7B">4.5-1 SimplicialSurfaceByDressGroup</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap5.html#X85A59ACB87E6E3D7">5 <span class="Heading">Access to twisted polygonal complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X7B4E6EF77A57F717">5.1 <span class="Heading">Chamber incidence</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X792B524482691D64">5.1-1 Chambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7DEA24E07EB1FBBF">5.1-2 VerticesOfChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X86575A1D8396C1E5">5.1-3 ChambersOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7DEE0E0E7CD84BB4">5.1-4 EdgesOfChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X858BB1277EA3A007">5.1-5 ChambersOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7A49D9A382EF3B66">5.1-6 FacesOfChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7BE297A482BC27BF">5.1-7 ChambersOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X8411416478BFEFCA">5.2 <span class="Heading">Chamber adjacency</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7C056FAD7FA2E3DE">5.2-1 ZeroAdjacentChamber</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X787FD7DB835D8FE9">5.2-2 IsZeroAdjacentChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X86DD0CE481C9E7DD">5.2-3 ZeroAdjacencyInvolution</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7AC30B8679E13C7B">5.2-4 ZeroAdjacencyClasses</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7835441983706362">5.2-5 ZeroAdjacencyRelation</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X86EC0F0A78ECBC10">5.3 <span class="Heading">Constructors</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7F95EC8A87DCF2A3">5.3-1 TwistedPolygonalComplexByChamberRelations</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X823AAB367814F56B">5.3-2 TwistedPolygonalComplexByChamberAdjacencies</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7FE3104D7F4E5335">5.3-3 TwistedPolygonalSurfaceByChamberInvolutions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5.html#X822A02BF8020176F">5.4 <span class="Heading">Relation to polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5.html#X7E2877A1825B3568">5.4-1 IsDefaultChamberSystem</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap6.html#X7D93D2807ADCAF05">6 <span class="Heading">Example Applications</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X7903D18F7F8370D6">6.1 <span class="Heading">Constructing a spherical surface with 30 faces and trivial automorphism group</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X85DB2E3B8646E5FF">6.2 <span class="Heading">Analysing a given surface</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap6.html#X8046CA867DCD5BD4">6.3 <span class="Heading">Constructing a complicated surface from a simple one</span></a>
+</span>
+</div>
+</div>
+<div class="ContChap"><a href="chap7.html#X84975388859F203D">7 <span class="Heading">Homomorphisms</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X7937FC407C405232">7.1 <span class="Heading">Construction of Morphisms</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C7EAC6278E1C63A">7.1-1 PolygonalMorphismByLists</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C3E22F881BDFA51">7.1-2 PolygonalMorphismByVertexImages</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8203EEC4862BD7D9">7.1-3 PolygonalIdentityMorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X86C65DCA86A65C7E">7.1-4 CompositionMapping</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X80E3F2697D110BDA">7.1-5 InversePolygonalMorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7AF61B01864730D8">7.1-6 ButterflyFaithfulMonomorphismIntoSimplicialSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X845ECD107B32BCA2">7.1-7 AllButterflyFaithfulMonomorphismsIntoSimplicialSurface</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X7AFAB3B781CCB7AC">7.2 <span class="Heading">Images and pre-images</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X816FDA1278BC8E9B">7.2-1 ImageOfVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7BF9367985229530">7.2-2 ImageOfEdge</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7C04887579FDAB1D">7.2-3 ImageOfFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7AEBE53A7E9EEB9B">7.2-4 PreImagesOfVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X83C0B2607F9376BB">7.2-5 PreImagesOfEdge</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X843D0C6C78A2A854">7.2-6 PreImagesOfFace</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X7BBEAB7D8550B0D4">7.3 <span class="Heading">Consistent labels for vertices, edges, and faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7F340CA578AF70BD">7.3-1 VEFLabels</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X848C7D0E87DC3000">7.3-2 VEFLabelsOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X82122B28792294DA">7.3-3 VEFLabelsOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X806A55377E134A35">7.3-4 VEFLabelsOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X780C1A66782EE7BF">7.3-5 VertexOfVEFLabel</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X782B1E0078485ED9">7.3-6 EdgeOfVEFLabel</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X7EA162E8867F2E0B">7.3-7 FaceOfVEFLabel</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap7.html#X7B89BCFF80E23C51">7.4 <span class="Heading">Components of a morphism</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X87C2DDF77E55BAB3">7.4-1 SourceComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X8055458B859E3487">7.4-2 RangeComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X838ADE8982DB6E4C">7.4-3 VertexMapAsImageList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X78880CC786815722">7.4-4 EdgeMapAsImageList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X79E91DA778B627F0">7.4-5 FaceMapAsImageList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap7.html#X79AD396A7A661488">7.4-6 VEFLabelMapAsImageList</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap8.html#X7CD6881C7CA69A30">8 <span class="Heading">Paths and orientations</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7BA338C9785BE58F">8.1 <span class="Heading">Vertex-Edge-Paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X80FAC97B86FCE83C">8.1-1 VertexEdgePath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B29001E820C4295">8.1-2 VertexEdgePathByVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X83EEA87D796DF50F">8.1-3 VertexEdgePathByEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7EFD048282E65DA4">8.1-4 PathAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7FA29639855B1444">8.1-5 VerticesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B40184280E23918">8.1-6 EdgesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7EAA250D8488B7CD">8.1-7 IsClosedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X793E0D2A821E37DC">8.1-8 ReversedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7C9963CD7CC32327">8.1-9 IsDuplicateFree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8526CDD07E125456">8.1-10 VerticesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X81C443AB7F97AD78">8.1-11 EdgesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D8784917A1646BF">8.1-12 ConcatenationOfPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X82B3413F7993F19F">8.1-13 ShiftCyclicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7A156B4B807D7580">8.1-14 AssociatedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87DC4A427F937D82">8.1-15 AllClosedVertexEdgePaths</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7F8875B57DFA9528">8.2 <span class="Heading">Perimeter paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X872FD9907AC5DAB5">8.2-1 IsPerimeterPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X78A500267C8EE8B2">8.2-2 Face</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X866F3C8285CD079C">8.2-3 PerimeterPath</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7BDEFDE67EBE56D0">8.3 <span class="Heading">Edge-Face-Paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7FFD87417CE9E1EA">8.3-1 EdgeFacePath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CCB33627A51BD70">8.3-2 EdgeFacePathByEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X86320A397C322B73">8.3-3 EdgeFacePathByFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D8E56AE7E3724D5">8.3-4 PathAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7BA0CE1A7F38C7F6">8.3-5 EdgesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CC138B3810FB724">8.3-6 FacesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X79066282796CD4DF">8.3-7 IsClosedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CE218227FFA54CE">8.3-8 ReversedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X82355FFA7A1C878B">8.3-9 IsDuplicateFree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D9D9F51804D5396">8.3-10 EdgesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7AFC69F87E7A2344">8.3-11 FacesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CC9185A7E6B19B6">8.3-12 ConcatenationOfPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X79B1D0C8782149FB">8.3-13 ShiftCyclicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7AFD249B7DD13FE3">8.3-14 AssociatedPolygonalComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X8107A3C583D26D5E">8.4 <span class="Heading">Waists</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X780664627DF286E7">8.4-1 IsWaist</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X874AED787AB88508">8.4-2 AllTwoWaistsOfComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7BE64F057D08D608">8.4-3 AllThreeWaistsOfComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87AEDF767956A44A">8.4-4 AllWaistsOfComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X832F4C7582437538">8.5 <span class="Heading">Geodesic and umbrella paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X83AF9FDB790D02F2">8.5-1 IsUmbrellaPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D5DD05D78C20E31">8.5-2 IsGeodesicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X78A0028281920A57">8.5-3 VertexEdgePathOfGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X808690E87F334733">8.5-4 MaximalGeodesicPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87B46BA479339B3E">8.5-5 IsClosedGeodesicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87042C587EE3AE31">8.5-6 FlagsOfGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X78FA17BD7F4E29A1">8.5-7 MaximalDuplicateFreeGeodesicPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7A336D538633EAF9">8.5-8 GeodesicFlagCycle</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7DB10C2E7AF6F4CD">8.6 <span class="Heading">Connectivity</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7BCB8E3A80E10882">8.6-1 IsConnectedComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X810E12D58661715A">8.6-2 ConnectedComponents</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B657F8079C32240">8.6-3 IsStronglyConnectedComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X82C4302D87C5F651">8.6-4 StronglyConnectedComponents</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X83AF2772853EA9F3">8.6-5 NumberOfConnectedComponents</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X861E4BAD800B2785">8.7 <span class="Heading">Orientability</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X828D14988078FA78">8.7-1 IsOrientableComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8215811E7FDC9D51">8.7-2 Orientation</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CDE00387EA71570">8.7-3 OrientationCover</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap9.html#X7CEB91FB7F6B6689">9 <span class="Heading">Properties of surfaces and complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X87AF9D4F7FD9E820">9.1 <span class="Heading">Invariants</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X83B1CE797E04CEBD">9.1-1 EulerCharacteristic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X8246710587712346">9.1-2 IsClosedComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7D2EEDAE82F82C9B">9.1-3 IsMultiTetrahedralSphere</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7AF1026E7EEE1A01">9.1-4 TetrahedralNumber</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X86AB7C667E387F02">9.1-5 TetrahedralType</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7C460ABB7A1F0CCA">9.1-6 BlockType</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X7FD920957DDB7FF5">9.2 <span class="Heading">Degree-based properties and invariants</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X802345C97EED4C84">9.2-1 EdgeDegreesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X82E938C180DA3C56">9.2-2 FaceDegreesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X85EC7F76844E729B">9.2-3 TotalDefect</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7C7444547DB3BAB5">9.2-4 CounterOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7AC8B8B485BD17C3">9.2-5 CounterOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X84A19E377C2B7500">9.2-6 CounterOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X8617AFC77D01ED73">9.2-7 CounterOfButterflies</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X82172B9F7C36AF0C">9.2-8 CounterOfUmbrellas</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X85DFB7CE8737E2C5">9.2-9 CounterOfThreeFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X87D2C75781E6AD7B">9.2-10 IsCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X8619C2137801C7AA">9.2-11 TypeOfCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7D3833FB86F3A167">9.2-12 AssociatedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7D5D74FF79646933">9.2-13 ListCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7A89DAE18311C0BA">9.2-14 MultiplicitiesOfCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X81CC8E587D8D2FB0">9.2-15 DegreesOfCounter</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X82DF66E47A798D90">9.3 <span class="Heading">Types of faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7B386EF47F489D59">9.3-1 IsFaceHomogeneous</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X8334EFD47C0A4AB8">9.3-2 IsTriangular</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7E7FC36B857C52F9">9.3-3 IsQuadrangular</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X85A814C783EFEF53">9.4 <span class="Heading">Types of edges</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X82A8571280FB4A42">9.4-1 InnerEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X87AE9AD479F3ABEF">9.4-2 TurnableEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7CCB47A67F529D3D">9.4-3 BoundaryEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7D249F2982AAB73F">9.4-4 RamifiedEdges</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X865F34F5814B4D01">9.5 <span class="Heading">Types of vertices</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X789A991584C6EB09">9.5-1 InnerVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X84E56D3087A997F4">9.5-2 BoundaryVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X7C840E847A51BDF6">9.5-3 RamifiedVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X84A3F1F57DB1D28C">9.5-4 ChaoticVertices</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9.html#X7B4412FB7DF3388D">9.6 <span class="Heading">Face-colouring</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X834BF0CD7F377F2E">9.6-1 FaceTwoColouring</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9.html#X82B3B5EB83BCC29D">9.6-2 AdmissibleRelationsOfSurface</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap10.html#X86B3149981F73BBE">10 <span class="Heading">Navigating the incidence structure</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X7E393BC380A60E77">10.1 <span class="Heading">Moving along edges</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7A3B039A797DAF68">10.1-1 IsVerticesAdjacent</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8345F2FC7C29856E">10.1-2 EdgesBetweenVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8745B94A7A363A27">10.1-3 OtherVertexOfEdge</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X861A481A82259208">10.2 <span class="Heading">Moving within a face</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7E99EE1B7DD6E4B1">10.2-1 EdgeInFaceByVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8374BF7C7C54E329">10.2-2 OtherEdgeOfVertexInFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X86A234367B0A44ED">10.2-3 OppositeVertexOfEdgeInTriangle</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8394669F835DAB30">10.2-4 OppositeEdgeOfVertexInTriangle</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X79B2368C87749992">10.3 <span class="Heading">Moving between faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X80528BFB84B6C70C">10.3-1 IsFacesAdjacent</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X84F41A75813420CC">10.3-2 EdgesBetweenFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7C03AF83789F1585">10.3-3 NeighbourFaceByEdge</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X78B121DE81968BF8">10.4 <span class="Heading">Localising subconfigurations with special properties</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X826E6D9D82F06CC8">10.4-1 AdjacentVerticesWithProperties</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X79C3C0C481C6AAF9">10.4-2 EdgesWithVertexProperties</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X86AE834A811D5799">10.4-3 FacesWithVertexProperties</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7C6770B47F682429">10.4-4 FacesWithEdgeProperties</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X81B03E8185F2128F">10.5 <span class="Heading">Determination of common elements</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7877C9AF7A9019AD">10.5-1 CommonVerticesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7E0D4DF78606DE20">10.5-2 CommonEdgesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X78F828287F709AD5">10.5-3 CommonVerticesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8610FD0B7B2B1BDA">10.5-4 CommonEdgesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X78B4F7EA7DF5E702">10.5-5 CommonFacesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7BF7936179655F85">10.5-6 CommonFacesOfVertices</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap11.html#X7ADA443D7FBDD1A5">11 <span class="Heading">Distances</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X836F82A67F951B89">11.1 <span class="Heading">Calculating the distance between vertices</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7A434B2B7E107E66">11.1-1 DistanceOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7C2320A98005131F">11.1-2 NeighbourVerticesOfVertex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X780DF1E67DF22A62">11.2 <span class="Heading">Calculating the distance between faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7BB126E383326ECD">11.2-1 DistanceOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X8645F6A88274C479">11.2-2 NeighbourFacesOfFace</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X87E4BA5282F59C21">11.3 <span class="Heading">Restricting polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X84EA44D5783CCD48">11.3-1 RestrictionToNeighbourhoodOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7A40ED647C91733A">11.3-2 RestrictionToNeighbourhoodOfVertices</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X847E31977ADDB93E">11.4 <span class="Heading">Application of distance-calculations</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X82230E3B7E36BF40">11.4-1 EccentricityOfVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X81BB4A0F836A97D6">11.4-2 DiameterOfPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7E2FDC0381DD83E8">11.4-3 RadiusOfPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7C2C563B8175C95C">11.4-4 CenterOfPolygonalComplex</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap12.html#X8536766C7A03EDD0">12 <span class="Heading">Modification of polygonal complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12.html#X7DFE940685F940F2">12.1 <span class="Heading">Splitting along a path</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7D262240798CC4E0">12.1-1 SplitEdge</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X8699136F83919C6B">12.1-2 SplitVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X8767DC097C35E6B7">12.1-3 SplitVertexEdgePath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7958EBDF7B7DD7F9">12.1-4 SplitEdgePath</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12.html#X87554FB7859A52ED">12.2 <span class="Heading">Removing faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X80D57580835A52AE">12.2-1 SubcomplexByFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7DD564CD84469C39">12.2-2 RemoveFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12.html#X783307707E12765A">12.3 <span class="Heading">Disjoint union</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X8354A32287384685">12.3-1 DisjointUnion</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12.html#X82623EE88772F585">12.4 <span class="Heading">Joining along a path</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7A48F3DD7AC9DD84">12.4-1 JoinVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X818D4B5B7D3572C1">12.4-2 JoinEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X859F0A8A83075E36">12.4-3 JoinFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7D322A4D78BCEFC2">12.4-4 JoinVertexEdgePaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7FAFA27E7CC8A11C">12.4-5 JoinBoundaries</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X8189B2D1840512F8">12.4-6 JoinBoundary</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7D847A427D61C50F">12.4-7 AllToriOfSimplicialSphere</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12.html#X833F700B86646D82">12.5 <span class="Heading">Specific modifications</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X83F38B1383C923D4">12.5-1 ConnectedFaceSum</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7BFD26287D9DF9D5">12.5-2 SnippOffEars</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X82054E997DE14296">12.5-3 SplitAllVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7E735D997B378EEC">12.5-4 ButterflyInsertion</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X84A7365780B5486D">12.5-5 TetrahedralExtension</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X8778AFFD7ADF3451">12.5-6 TetrahedralReduction</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X811EF7DA82EE70C9">12.5-7 InnerMultiTetrahedralSphere</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X866B3C667D794E6A">12.5-8 MultiTetrahedralSymbolOfComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7D506B807C9EFD49">12.5-9 MultiTetrahedralSphereByTetrahedralSymbol</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7D151000879EEE58">12.5-10 EdgeTurn</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7C04FAD87D238117">12.5-11 BuildingBlocks</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12.html#X7F0608448629B4C3">12.6 <span class="Heading">Example: Cut and Mend</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7FBE44697990A77E">12.6-1 CraterCut</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7B4F1A7C84D0DAA4">12.6-2 CraterMend</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X8357990B84E235F3">12.6-3 RipCut</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X848C315B838E2046">12.6-4 RipMend</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X87EC0E6F7F05BFE3">12.6-5 SplitCut</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12.html#X7F56114984CB6B55">12.6-6 SplitMend</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap13.html#X8656316C7B95A918">13 <span class="Heading">Generating certain simplicial surfaces</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap13.html#X7C04B8F37A6FBEBC">13.1 <span class="Heading">Essential discs</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13.html#X7AC31FB382952534">13.1-1 IsEssentialDisc</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13.html#X85E5110D837320B5">13.1-2 AllSimplicialSurfacesByEssentialButterflyInsertion</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap14.html#X8544AE207F51DAA5">14 <span class="Heading">Library of predefined surfaces</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X8737529A87C62218">14.1 <span class="Heading">Accessing all stored complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X84AAC7127A096B00">14.1-1 AllTwistedPolygonalComplexes</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X78631AF881CF3F65">14.2 <span class="Heading">Accessing the classifications</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X86B313C47C8DC372">14.2-1 AllSimplicialSpheres</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7FF374A27903E584">14.2-2 AllGeodesicSelfDualSurfaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X86EED39883D1A5AD">14.2-3 AllDiscs</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X8600649E816E11E5">14.3 <span class="Heading">Platonic solids</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X81631C9F817993DB">14.3-1 AllPlatonicSurfaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7B44DDD485145773">14.3-2 Tetrahedron</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X79F9336684F71FDE">14.3-3 Cube</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X84BE285087AAC1F7">14.3-4 Octahedron</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X81A6D8FE876EB3BE">14.3-5 Dodecahedron</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X83E0EF8F7CCD6979">14.3-6 Icosahedron</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap14.html#X8619C27683A4D94F">14.4 <span class="Heading">Other pre-defined surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7A7AF0A179BBCD99">14.4-1 JanusHead</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X860EF4C583F576EE">14.4-2 SimplicialUmbrella</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X842C1A7C7D8B7AEA">14.4-3 SimplicialDoubleUmbrella</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X7D69D1AD8127CF78">14.4-4 SimplicialOpenGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap14.html#X86BBEDF179B6626F">14.4-5 SimplicialClosedGeodesic</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap15.html#X783CAB6581CAF8A9">15 <span class="Heading">Graphs and isomorphisms</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X7D298F3D84349692">15.1 <span class="Heading">Which graph package should be used?</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X8487449A81FBC8D6">15.2 <span class="Heading">Incidence graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7838DB3187B00B82">15.2-1 IncidenceDigraphsGraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X7CBD81987C95F2FD">15.3 <span class="Heading">Chamber adjacency graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X78F240E879A06C18">15.3-1 ChamberAdjacencyGraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X871404447A0F1732">15.4 <span class="Heading">Edge and Face Graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X84236C2A7A1D3F40">15.4-1 EdgeDigraphsGraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X79CE6AC2842A4F92">15.4-2 FaceDigraphsGraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X872A83387C1992E4">15.4-3 AllSimplicialSurfacesOfDigraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X84D32DE280598654">15.5 <span class="Heading">Isomorphism testing</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7CA89F2681EE2164">15.5-1 IsIsomorphic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7BB270E781CDBD90">15.5-2 IsomorphismRepresentatives</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7901ED90806F4F20">15.5-3 CanonicalRepresentativeOfPolygonalSurface</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X8489C4E47B92C882">15.6 <span class="Heading">Automorphism groups of polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X846C2BB57A331B47">15.6-1 AutomorphismGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X78EA2CDA79ACA463">15.6-2 DisplayAsAutomorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X85C02FE87E3E2FE4">15.6-3 AutomorphismGroupOnVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X870D993883AB91EE">15.6-4 AutomorphismGroupOnEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7964BFBB84492470">15.6-5 AutomorphismGroupOnFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X7E3B533A7FB676AE">15.7 <span class="Heading">Action on paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X815248FA7E68043E">15.7-1 OnVertexEdgePaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7DB2CF267FE85167">15.7-2 OnEdgeFacePaths</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap16.html#X7D4FA5CF87A8C291">16 <span class="Heading">Nets and embeddings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap16.html#X7CECFE7381563C45">16.1 <span class="Heading">Anomalies</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X85509F8A82079CA8">16.1-1 IsAnomalyFree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X841950BD7CABE2C8">16.1-2 EdgeAnomalyClasses</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X83C4C450829C921A">16.1-3 FaceAnomalyClasses</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap16.html#X786563217D3FA669">16.2 <span class="Heading">Drawing a net in TikZ</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7D14422983FF72ED">16.2-1 DrawSurfaceToTikz</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X851A5F35815EF6FA">16.2-2 <span class="Heading">Colours</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X834DA0E979EF427E">16.2-3 <span class="Heading">Labels</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7D6A1712785320EA">16.2-4 <span class="Heading">Lengths and angles</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X812604D980E46C67">16.2-5 <span class="Heading">Draw order</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X801FE64F853E34FA">16.2-6 <span class="Heading">Output control</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7BA03A9F7E116D64">16.2-7 <span class="Heading">Data representation</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7B65C3A27C5D58FF">16.2-8 SetFaceCoordinates2D</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap16.html#X844439697D990770">16.3 <span class="Heading">Drawing a net in SVG</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X78737BB97BA47D35">16.3-1 DrawComplexToSVG</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7B4F6F4D78D93BDB">16.3-2 <span class="Heading">Flaps</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X8048E9A786CF83E3">16.3-3 <span class="Heading">Circles</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X8160040281AC6799">16.3-4 <span class="Heading">Geodesic</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X81BFD8998587BC8E">16.3-5 <span class="Heading">Cricut Maker</span></a>
+</span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap16.html#X84A7C555875BE14A">16.4 <span class="Heading">Drawing the face graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X826734807B47A998">16.4-1 DrawFacegraphToTikz</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X851A5F35815EF6FA">16.4-2 <span class="Heading">Colours</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X834DA0E979EF427E">16.4-3 <span class="Heading">Labels</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X8420D1787FC150CC">16.4-4 <span class="Heading">Scaling</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7FFE2C11788EF6F7">16.4-5 <span class="Heading">Face coordinates</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X86C1095A7A393E82">16.4-6 <span class="Heading">Geodesics</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X801FE64F853E34FA">16.4-7 <span class="Heading">Output control</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap16.html#X7E24F51A7FB2B387">16.4-8 DrawConvexFacegraphToTikz</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap17.html#X85695E9C7DB14390">17 <span class="Heading">Animating surfaces with Java Script</span></a>
+</div>
+<div class="ContChap"><a href="chap18.html#X7EC40052873E6A6E">18 <span class="Heading">Edge colourings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap18.html#X7EB193248443EC68">18.1 <span class="Heading">General definition</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X873E45B578851665">18.1-1 IsEdgeColouredTwistedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X7F71C0FA7E16237F">18.1-2 EdgeColouredTwistedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X7AD6BAAC78356DAA">18.1-3 TwistedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X812FD9A3803F45DA">18.1-4 ColoursOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X7841B3C38620AA52">18.1-5 EdgesOfColours</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X7F21C88B849F476F">18.1-6 Colours</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap18.html#X832DDB857DC02EE0">18.2 <span class="Heading">Drawing edge coloured surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X806F8235854E7CD8">18.2-1 DrawSurfaceToTikz</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap18.html#X7D24868C86D216D5">18.3 <span class="Heading">Isomorphisms between edge-coloured polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X7D18314381B5DCEE">18.3-1 ColourIncidenceDigraphsGraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X7B15939D7F62C52B">18.3-2 IsIsomorphicEdgeColouredPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap18.html#X87D5D8DE79FE2683">18.3-3 EdgeColouredPolygonalComplexIsomorphismRepresentatives</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap19.html#X851E137D7DF6A82D">19 <span class="Heading">Edge vari-colourings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19.html#X829ECEC37C3D02A7">19.1 <span class="Heading">Definition and elementary properties</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X7E818BC2816DD972">19.1-1 IsEdgeVariColouring</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X82F97A4C78598E53">19.1-2 ColouredEdgesOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19.html#X7D6FACC587109AE4">19.2 <span class="Heading">Permutation description</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X8726F36784306F81">19.2-1 ColourInvolutions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap19.html#X8360A8FA79F2DC5E">19.3 <span class="Heading">Wild coloured surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X853F5A1A805C947C">19.3-1 IsWildColouredSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X7C0EFFF283FA0646">19.3-2 ColouredUmbrellasOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X7FCD445D7F228A99">19.3-3 LocalSymmetryOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X7B2CEDA6834072B6">19.3-4 IsTameColouredSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X811F6405841A27A0">19.3-5 AllWildColouredSurfaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X79B2764C86834418">19.3-6 SixFoldCover</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap19.html#X7B07C3117D45EC98">19.3-7 CommonCover</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap20.html#X785FE56A78C1EAEA">20 <span class="Heading">Edge isosceles-colourings</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap20.html#X829ECEC37C3D02A7">20.1 <span class="Heading">Definition and elementary properties</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X84582D367B24B0C1">20.1-1 IsEdgeTwoColouring</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X86464FB986EF958C">20.1-2 ColouredEdgesOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap20.html#X7F5AF9807BD3C3D6">20.2 <span class="Heading">Isosceles coloured surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X8363DB687D30F09F">20.2-1 IsIsoscelesColouredSurface</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap20.html#X87CD3E9284EF14F8">20.3 <span class="Heading">Functions for isosceles coloured Simplicial Surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X8421AA12821817D8">20.3-1 ApexVertexOfFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X81326DE979E072DD">20.3-2 BaseEdgeOfFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X873AD85F8015C692">20.3-3 ColouredUmbrellasOfVertices</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap20.html#X7D6FACC587109AE4">20.4 <span class="Heading">Permutation description</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X8560ADF57CEA80A2">20.4-1 WildColouredSurfaceOfIsoscelesColouredSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X80A285F18688A74B">20.4-2 ColourInvolutions</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X8129B08D8292B8DD">20.4-3 LocalSymmetryOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X8473D5AF7A192CB1">20.4-4 AllIsoscelesColouredSurfaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap20.html#X7A32FAC987471A70">20.4-5 CounterOfVerticesByAngle</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap21.html#X7B1757048405DD29">21 <span class="Heading">Flags</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap21.html#X8348BA867D692703">21.1 <span class="Heading">Computation</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X82975C097EC3C998">21.1-1 Flags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X83D160AB8452BA55">21.1-2 VertexEdgeFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X830F2C5B861CFE0A">21.1-3 VertexFaceFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X85C9777E7A65409B">21.1-4 EdgeFaceFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X7912874D8129C13E">21.1-5 TwoFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X8076830D80E6EF6C">21.1-6 OneFlags</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap21.html#X7EAFC7CE7A9CA734">21.2 <span class="Heading">Dress group</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X81065FFE7E779E4A">21.2-1 DressInvolutions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap21.html#X80EDE46685B43F8E">21.3 <span class="Heading">Flag complex / Barycentric subdivision</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X832B21B57B9F610A">21.3-1 FlagComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X873DCA0E872DB483">21.3-2 IsFlagComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X7F7DD9CE7C54A12C">21.3-3 OriginalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X7C7D322A80EEDADD">21.3-4 OriginalVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X7D97A7917B0EFD82">21.3-5 OriginalEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X7F6EFB357DF925C2">21.3-6 OriginalFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X79E2D7D77FF63CE0">21.3-7 OriginalOneFlag</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X8717333A7E8E2E00">21.3-8 OriginalTwoFlag</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X80C03DEA86B000F6">21.3-9 OriginalThreeFlag</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X879ED8DC85939329">21.3-10 BarycentreOfVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X81D9AEAB82E02EE8">21.3-11 BarycentreOfEdge</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X78A5E22279D17894">21.3-12 BarycentreOfFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X7A25DB2C8495D5CE">21.3-13 IsomorphicFlagSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21.html#X87C9A1D487A60890">21.3-14 DrawSurfaceToTikz</a></span>
+</div></div>
+</div>
+<div class="ContChap"><a href="chap22.html#X7E5F84C07C7F4B0A">22 <span class="Heading">Example Implementations</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap22.html#X828331787A1CE863">22.1 <span class="Heading">StronglyConnectedComponentOfFace</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap22.html#X84E5A4A17CE132B5">22.2 <span class="Heading">VertexCounter</span></a>
+</span>
+</div>
+</div>
+<div class="ContChap"><a href="chapInd.html"><span class="Heading">Index</span></a></div>
+<br />
+</div>
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
 </body>
 </html>

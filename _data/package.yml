@@ -1,76 +1,106 @@
-name: GitHubPagesForGAP
-version: "0.2"
-license: "0BSD"
-date: 2017-02-04
+name: SimplicialSurfaces
+version: "0.6"
+license: "GPL-3.0-or-later"
+date: 2021-09-23
 description: |
-    A GitHub Pages generator for GAP packages
+    Computing with simplicial surfaces and folding processes.
 
 authors:
-    - name: Max Horn
-      url: http://www.quendi.de/math
-    - name: A. U. Thor
+    - name: Alice Niemeyer
+      url: http://www.math.rwth-aachen.de/~Alice.Niemeyer/
+    - name: Markus Baumeister
+      url: https://markusbaumeister.github.io/
+    - name: Reymond Akpanya
+      url: mailto:akpanya@art.rwth-aachen.de
+    - name: Tom Görtzen
+      url: mailto:goertzen@art.rwth-aachen.de
+    - name: Meike Weiß
+      url: mailto:weiss@art.rwth-aachen.de
+    - name: Lukas Schnelle
+      url: mailto:lukas.schnelle1@rwth-aachen.de
 
 maintainers:
-    - name: Max Horn
-      url: http://www.quendi.de/math
-    - name: Jan Itor
+    - name: Alice Niemeyer
+      url: http://www.math.rwth-aachen.de/~Alice.Niemeyer/
+    - name: Reymond Akpanya
+      url: mailto:akpanya@art.rwth-aachen.de
+    - name: Tom Görtzen
+      url: mailto:goertzen@art.rwth-aachen.de
+    - name: Meike Weiß
+      url: mailto:weiss@art.rwth-aachen.de
+    - name: Lukas Schnelle
+      url: mailto:lukas.schnelle1@rwth-aachen.de
+    - name: The GAP Team
+      url: mailto:support@gap-system.org
 
-GAP: ">=4.8.1"
+GAP: ">= 4.12"
 
 needed-pkgs:
-    - name: "GAPDoc"
-      version: ">= 1.2"
-      url: "http://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc"
-    - name: "IO"
-      version: ">= 4.1"
-      url: "https://gap-packages.github.io/io"
+    - name: "Grape"
+      version: ">=4.8.2"
+      url: "https://gap-packages.github.io/grape"
+    - name: "AttributeScheduler"
+      version: ">=2018.08.03"
+      url: "http://TODO/"
+    - name: "Digraphs"
+      version: ">=1.1.1"
+      url: "https://digraphs.github.io/Digraphs"
+    - name: "NautyTracesInterface"
+      version: ">=0.2"
+      url: "https://gap-packages.github.io/NautyTracesInterface/"
 
 suggested-pkgs:
-    - name: "orb"
-      version: ">= 4.2"
-      url: "https://gap-packages.github.io/orb"
+    - name: "GAPDoc"
+      version: ">= 1.6"
+      url: "https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc"
+    - name: "AutoDoc"
+      version: ">=2019.05.20"
+      url: "https://gap-packages.github.io/AutoDoc"
+    - name: "IO"
+      version: ">=2.2"
+      url: "https://gap-packages.github.io/io"
 
-www: https://gap-system.github.io/GitHubPagesForGAP/
-readme: README.md
-packageinfo: https://gap-system.github.io/GitHubPagesForGAP/PackageInfo.g
-github: https://github.com/gap-system/GitHubPagesForGAP
+www: https://github.com/gap-packages/SimplicialSurfaces
+readme: SimplicialSurfacesREADME.md
+packageinfo: https://github.com/gap-packages/SimplicialSurfacesPackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-system/GitHubPagesForGAP/releases/download/v0.2/GitHubPagesForGAP-0.2.tar.gz
-    - name: .tar.bz2
-      url: https://github.com/gap-system/GitHubPagesForGAP/releases/download/v0.2/GitHubPagesForGAP-0.2.tar.bz2
+      url: https://github.com/gap-packages/SimplicialSurfaces/SimplicialSurfaces-0.6.tar.gz
 
 abstract: |
-    This is a pseudo package that contains no actual  <span class="pkgname">GAP</span> code. Instead, it is a template for other  GAP packages that allows to quickly setup GitHub Pages.
+    The <span class='pkgname'>SimplicialSurfaces</span> package provides functionality for working with simplicial surfaces and generalisations
 
-status: other
-doc-html: doc/chap0.html
+status: dev
+doc-html: doc/chap0_mj.html
 doc-pdf: doc/manual.pdf
 keywords: |
-    GitHub Pages, GAP.
+    Simplicial.
 citeas: |
     <p class='BibEntry'>
-    [<span class='BibKey'>HTI17</span>]   <b class='BibAuthor'>Horn, M., Thor, A. U. and Itor, J.</b>,
-     <i class='BibTitle'>GitHubPagesForGAP, A GitHub Pages generator for GAP packages,
-             Version 0.2</i>
-     (<span class='BibYear'>2017</span>)<br />
+    [<span class='BibKey'>NBAGWST21</span>]   <b class='BibAuthor'>Niemeyer, A., Baumeister, M., Akpanya, R., Görtzen, T., Weiß, M., Schnelle, L. and GAP Team, T.</b>,
+     <i class='BibTitle'>SimplicialSurfaces, Computing with simplicial surfaces and folding processes.,
+             Version 0.6</i>
+     (<span class='BibYear'>2021</span>)<br />
     (<span class='BibNote'>GAP package</span>),
-    <span class='BibHowpublished'><a href="https://gap-system.github.io/GitHubPagesForGAP/">https://gap-system.github.io/GitHubPagesForGAP/</a></span>.
+    <span class='BibHowpublished'><a href="https://github.com/gap-packages/SimplicialSurfaces">https://github.com/gap-packages/SimplicialSurfaces</a></span>.
     </p>
     
 
 bibtex: |
-    @misc{ GitHubPagesForGAP0.2,
-      author =           {Horn, M. and Thor, A. U. and Itor, J.},
-      title =            {{GitHubPagesForGAP}, A GitHub Pages generator for GAP packages, {V}ersion 0.2},
-      month =            {Feb},
-      year =             {2017},
+    @misc{ SimplicialSurfaces,
+      author =           {Niemeyer,  A.  and  Baumeister,  M.  and  Akpanya, R. and G{\"o}rtzen, T. and Wei{\ss}, M. and
+                          Schnelle, L. and GAP Team, T.},
+      title =            {{SimplicialSurfaces},  {Computing  with simplicial surfaces and folding processes.}, {V}ersion
+                          0.6},
+      month =            {Sep},
+      year =             {2021},
       note =             {GAP package},
-      howpublished =     {\href                              {https://gap-system.github.io/GitHubPagesForGAP/}
-                          {\texttt{https://gap-system.github.io/}\discretionary
-                          {}{}{}\texttt{GitHubPagesForGAP/}}},
-      keywords =         {GitHub Pages; GAP},
-      printedkey =       {HTI17}
+      howpublished =     {\href                                     {https://github.com/gap-packages/SimplicialSurfaces}
+                          {\texttt{https://github.com/}\discretionary
+                          {}{}{}\texttt{gap\texttt{\symbol{45}}packages/}\discretionary
+                          {}{}{}\texttt{SimplicialSurfaces}}},
+      keywords =         {Simplicial},
+      printedkey =       {NBAGWST21}
     }
 

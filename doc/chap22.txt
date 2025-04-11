@@ -1,0 +1,200 @@
+  
+  [1X22 [33X[0;0YExample Implementations[133X[101X
+  
+  [33X[0;0YThis  chapter contains examples of implementations of some of the methods in
+  the  package  [9XSimplicialSurfaces[109X. We chose examples which illustrate many of
+  the  different  fundamental features and methods of the package while at the
+  same  time  require  only  a  few  lines of code to implement. Every section
+  discusses the implementation of an already existing method by giving:[133X
+  
+  [31X1[131X   [33X[0;6YA short explanation of the method[133X
+  
+  [31X2[131X   [33X[0;6YA presentation of the code[133X
+  
+  [31X3[131X   [33X[0;6YThe development of the code[133X
+  
+  
+  [1X22.1 [33X[0;0YStronglyConnectedComponentOfFace[133X[101X
+  
+  [33X[0;0YThe method [9XStronglyConnectedComponentOfFace[109X ([14X8.6-4[114X) finds all faces that are
+  connected to a given face by edge-face-paths ([14X8.3[114X) and returns the polygonal
+  complex consisting of these faces.[133X
+  
+  [33X[0;0YWe  illustrate  this  with an octahedron ([14X14.3-4[114X): Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xocta := Octahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xocta = StronglyConnectedComponentOfFace(octa,7);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XStrongComponent_custom := function( complex, face )[127X[104X
+    [4X[25X>[125X [27X       local component, f, edge, newFace;[127X[104X
+    [4X[25X>[125X [27X [127X[104X
+    [4X[25X>[125X [27X       component := [ face ];[127X[104X
+    [4X[25X>[125X [27X       for f in component do[127X[104X
+    [4X[25X>[125X [27X           for edge in EdgesOfFace(complex, f) do[127X[104X
+    [4X[25X>[125X [27X               newFace := NeighbourFaceByEdge( complex, f, edge );[127X[104X
+    [4X[25X>[125X [27X               if not newFace in component then[127X[104X
+    [4X[25X>[125X [27X                   Add(component, newFace);[127X[104X
+    [4X[25X>[125X [27X               fi;[127X[104X
+    [4X[25X>[125X [27X           od;[127X[104X
+    [4X[25X>[125X [27X       od;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X       return SubcomplexByFaces( complex, component );[127X[104X
+    [4X[25X>[125X [27X   end;;[127X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XStrongComponent_custom(octa,7) = StronglyConnectedComponentOfFace(octa,7);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo  develop  this  code  we  first  have to find an algorithm to compute the
+  strongly  connected  component  of  an face. We begin with the starting face
+  (for  example 7) and add all faces to the strong component that are adjacent
+  to  it  (so  1,  5 and 6). Then we add the neighbours of those faces (and so
+  on). We will end up with all faces of the strongly connected component of 7.
+  The initialization of this algorithm is easy.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomponent := [ 7 ];[127X[104X
+    [4X[28X[ 7 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor each edge of this face there is a neighbour. Therefore we need the edges
+  of this face.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFace( octa, 7 );[127X[104X
+    [4X[28X[ 2, 3, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  neighbours  can  be  computed by calling the method [9XNeighbourFaceByEdge[109X
+  ([14X10.3-3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XnewFace := NeighbourFaceByEdge( octa, 7, 2 );[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  this  face  is  not  already  accounted  for,  we  have to add it to our
+  component.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xif not newFace in component then[127X[104X
+    [4X[25X>[125X [27X       Add( component, newFace );[127X[104X
+    [4X[25X>[125X [27X   fi;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo check all neighbours, we loop over the incident edges:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xfor edge in EdgesOfFace(octa, 7) do[127X[104X
+    [4X[25X>[125X [27X       newFace := NeighbourFaceByEdge( octa, 7, edge );[127X[104X
+    [4X[25X>[125X [27X       if not newFace in component then[127X[104X
+    [4X[25X>[125X [27X           Add( component, newFace );[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X   od;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFinally  we  have  to loop over all faces in the component. At this point we
+  use  a  feature  of  [5XGAP[105X: We can loop over a list that is changed during the
+  loop. So our algorithm can simply be written as[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xfor f in component do[127X[104X
+    [4X[25X>[125X [27X       for edge in EdgesOfFace(octa, f) do[127X[104X
+    [4X[25X>[125X [27X           newFace := NeighbourFaceByEdge( octa, f, edge );[127X[104X
+    [4X[25X>[125X [27X           if not newFace in component then[127X[104X
+    [4X[25X>[125X [27X               Add(component, newFace);[127X[104X
+    [4X[25X>[125X [27X           fi;[127X[104X
+    [4X[25X>[125X [27X       od;[127X[104X
+    [4X[25X>[125X [27X   od;[127X[104X
+    [4X[25Xgap>[125X [27Xcomponent;[127X[104X
+    [4X[28X[ 7, 1, 5, 6, 3, 4, 8, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNow  we  have  computed all faces of the strongly connected component of our
+  starting  face.  To  make  a  polygonal complex out of it, we use the method
+  [9XSubcomplexByFaces[109X  that  returns  the  induced subcomplex of a given list of
+  faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSubcomplexByFaces( octa, component ) = octa;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X22.2 [33X[0;0YVertexCounter[133X[101X
+  
+  [33X[0;0YThe   method   [9XCounterOfVertices[109X   ([14X9.2-4[114X)   creates   a   list   of   pairs
+  [3X[degree,multiplicity][103X  such  that  the  second entry of each pair counts the
+  number of vertices that have exactly [3Xdegree[103X incident faces.[133X
+  
+  [33X[0;0YWe illustrate it on the example of a pyramid with square base. Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpyr := PolygonalSurfaceByVerticesInFaces( [127X[104X
+    [4X[25X>[125X [27X           [ [3,4,5,6], [1,3,4], [1,4,5], [1,5,6], [1,6,3] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XListCounter(CounterOfVertices( pyr ));[127X[104X
+    [4X[28X[ [ 3, 4 ], [ 4, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexCounter_custom := function( complex )[127X[104X
+    [4X[25X>[125X [27X    local faceDegrees;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X    faceDegrees := List( FacesOfVertices(complex), Size );[127X[104X
+    [4X[25X>[125X [27X    return Collected( Compacted( faceDegrees ) );[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XVertexCounter_custom( pyr );[127X[104X
+    [4X[28X[ [ 3, 4 ], [ 4, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YHow  do  we  arrive  at this code? First of all we have to find the relevant
+  information.  We  want  to  count  how  many faces are incident to a vertex.
+  Therefore  we  use  the method [9XFacesOfVertices[109X ([14X3.2-2[114X) that gives us exactly
+  this  information.  Since we only want to know the [13Xnumber[113X of faces, we apply
+  the method [9XSize[109X to every component.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfaceDegrees := List( FacesOfVertices(pyr), Size );[127X[104X
+    [4X[28X[ 4, , 3, 3, 3, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAlternatively    we    could    have    used    the    specialized    method
+  [9XFaceDegreesOfVertices[109X ([14X9.2-2[114X) directly.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceDegreesOfVertices( pyr );[127X[104X
+    [4X[28X[ 4, , 3, 3, 3, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNow  we  need  to  count how often each entry appears. This can be done by a
+  loop  but  we  will use the [5XGAP[105X-function [9XCollected[109X instead. Unfortunately it
+  only works for lists without holes:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCollected( faceDegrees );[127X[104X
+    [4X[28XError, List Element: <list>[2] must have an assigned value[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  we  want  to program with this package, we have to expect holes. In this
+  case it is sufficient to remove all holes with the [5XGAP[105X-function [9XCompacted[109X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCompacted( faceDegrees );[127X[104X
+    [4X[28X[ 4, 3, 3, 3, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XcolDegrees := Collected( Compacted( faceDegrees ) );[127X[104X
+    [4X[28X[ [ 3, 4 ], [ 4, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis is exactly the result we aimed for.[133X
+  

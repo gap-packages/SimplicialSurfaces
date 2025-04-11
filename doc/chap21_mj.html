@@ -1,0 +1,680 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 21: Flags</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap21"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap20_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap22_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap21.html">[MathJax off]</a></p>
+<p><a id="X7B1757048405DD29" name="X7B1757048405DD29"></a></p>
+<div class="ChapSects"><a href="chap21_mj.html#X7B1757048405DD29">21 <span class="Heading">Flags</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap21_mj.html#X8348BA867D692703">21.1 <span class="Heading">Computation</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X82975C097EC3C998">21.1-1 Flags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X83D160AB8452BA55">21.1-2 VertexEdgeFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X830F2C5B861CFE0A">21.1-3 VertexFaceFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X85C9777E7A65409B">21.1-4 EdgeFaceFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X7912874D8129C13E">21.1-5 TwoFlags</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X8076830D80E6EF6C">21.1-6 OneFlags</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap21_mj.html#X7EAFC7CE7A9CA734">21.2 <span class="Heading">Dress group</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X81065FFE7E779E4A">21.2-1 DressInvolutions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap21_mj.html#X80EDE46685B43F8E">21.3 <span class="Heading">Flag complex / Barycentric subdivision</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X832B21B57B9F610A">21.3-1 FlagComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X873DCA0E872DB483">21.3-2 IsFlagComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X7F7DD9CE7C54A12C">21.3-3 OriginalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X7C7D322A80EEDADD">21.3-4 OriginalVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X7D97A7917B0EFD82">21.3-5 OriginalEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X7F6EFB357DF925C2">21.3-6 OriginalFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X79E2D7D77FF63CE0">21.3-7 OriginalOneFlag</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X8717333A7E8E2E00">21.3-8 OriginalTwoFlag</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X80C03DEA86B000F6">21.3-9 OriginalThreeFlag</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X879ED8DC85939329">21.3-10 BarycentreOfVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X81D9AEAB82E02EE8">21.3-11 BarycentreOfEdge</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X78A5E22279D17894">21.3-12 BarycentreOfFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X7A25DB2C8495D5CE">21.3-13 IsomorphicFlagSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap21_mj.html#X87C9A1D487A60890">21.3-14 DrawSurfaceToTikz</a></span>
+</div></div>
+</div>
+
+<h3>21 <span class="Heading">Flags</span></h3>
+
+<p>This chapter is concerned with the <em>flags</em> of a polygonal complex. A flag is a triple <span class="SimpleMath">\((V,E,F)\)</span> of vertex <span class="SimpleMath">\(V\)</span>, an edge <span class="SimpleMath">\(E\)</span>, and a face <span class="SimpleMath">\(F\)</span> that are incident to each other. They can be computed with the command <code class="keyw">Flags</code> (<a href="chap21_mj.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>). The chambers (<a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a>) for a polygonal complex are equivalent to the flags of the polygonal complex</p>
+
+<p>The elementary flag access functions are described in section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>.</p>
+
+<p>Section <a href="chap21_mj.html#X7EAFC7CE7A9CA734"><span class="RefLink">21.2</span></a> uses the knowledge of the flags to compute the <code class="keyw">DressGroup</code> (<a href="chap21_mj.html#X81065FFE7E779E4A"><span class="RefLink">21.2-1</span></a>) of a polygonal complex without edge ramifications.</p>
+
+<p>In Section <a href="chap21_mj.html#X80EDE46685B43F8E"><span class="RefLink">21.3</span></a> defines a triangular complex whose faces are given by the flags and describes some special functionality for these kinds of complexes.</p>
+
+<p><a id="X8348BA867D692703" name="X8348BA867D692703"></a></p>
+
+<h4>21.1 <span class="Heading">Computation</span></h4>
+
+<p>This section deals with all different types of flags. In general, a flag is a tuple consisting of incident elements of different dimensions, for example a vertex-edge-pair, a vertex-face-pair or a vertex-edge-face-triple.</p>
+
+<p>For example, consider the following polygonal surface: <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[6,8,9], , , [9,10,12,13]]);;</span>
+</pre></div>
+
+<p>Most apparent are the flags that consist of a vertex, an edge, and a face, called <em>3-flags</em> or <em>flags</em> for short.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ThreeFlags(complex);</span>
+[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], 
+  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],
+  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Flags(complex) = last;</span>
+true
+</pre></div>
+
+<p>It is also possible to compute flags of length 2, for example the vertex-face-flags:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexFaceFlags(complex);</span>
+[ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ]
+</pre></div>
+
+<p>Sometimes it is necessary to have a standardized set of all flags that consist of two elements. For that reason the command <code class="keyw">TwoFlags</code> (<a href="chap21_mj.html#X7912874D8129C13E"><span class="RefLink">21.1-5</span></a>) exists.</p>
+
+<p>Since flags of length 1 are just vertices, edges, and faces, the usual access functions of Section <a href="chap3_mj.html#X799EBEA57CA1B359"><span class="RefLink">3.1</span></a> are sufficient most of the time. If they are needed in a combined format, the command <code class="keyw">OneFlags</code> (<a href="chap21_mj.html#X8076830D80E6EF6C"><span class="RefLink">21.1-6</span></a>) is available.</p>
+
+<p><a id="X82975C097EC3C998" name="X82975C097EC3C998"></a></p>
+
+<h5>21.1-1 Flags</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Flags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ThreeFlags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of flags</p>
+
+<p>Return the set of all flags of <var class="Arg">complex</var>. Every flag is a triple [<var class="Arg">vertex</var>,<var class="Arg">edge</var>,<var class="Arg">face</var>] of a vertex, an edge and a face of <var class="Arg">complex</var> that are all incident to each other.</p>
+
+<p>As an example consider the polygonal surface from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Flags(complex);</span>
+[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], 
+  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],
+  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Flags(complex) = ThreeFlags(complex);</span>
+true
+</pre></div>
+
+<p><a id="X83D160AB8452BA55" name="X83D160AB8452BA55"></a></p>
+
+<h5>21.1-2 VertexEdgeFlags</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgeFlags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of vertex-edge-flags</p>
+
+<p>Return the set of all vertex-edge-flags of <var class="Arg">complex</var>. Such a flag is a tuple [<var class="Arg">vertex</var>, <var class="Arg">edge</var>] of a vertex and an edge of <var class="Arg">complex</var> that are incident.</p>
+
+<p>As an example consider the polygonal surface from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src='./images/_Wrapper_flags-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgeFlags(complex);</span>
+[ [ 2, 6 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 3, 12 ], [ 5, 6 ], 
+  [ 5, 9 ], [ 5, 10 ], [ 7, 12 ], [ 7, 13 ], [ 11, 10 ], [ 11, 13 ] ]
+</pre></div>
+
+<p><a id="X830F2C5B861CFE0A" name="X830F2C5B861CFE0A"></a></p>
+
+<h5>21.1-3 VertexFaceFlags</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexFaceFlags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of vertex-face-flags</p>
+
+<p>Return the set of all vertex-face-flags of <var class="Arg">complex</var>. Such a flag is a tuple [<var class="Arg">vertex</var>, <var class="Arg">face</var>] of a vertex and a face of <var class="Arg">complex</var> that are incident.</p>
+
+<p>As an example consider the polygonal surface from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src='./images/_Wrapper_flags-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexFaceFlags(complex);</span>
+[ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ]
+</pre></div>
+
+<p><a id="X85C9777E7A65409B" name="X85C9777E7A65409B"></a></p>
+
+<h5>21.1-4 EdgeFaceFlags</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFaceFlags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of edge-face-flags</p>
+
+<p>Return the set of all edge-face-flags of <var class="Arg">complex</var>. Such a flag is a tuple [<var class="Arg">edge</var>, <var class="Arg">face</var>] of an edge and a face of <var class="Arg">complex</var> that are incident.</p>
+
+<p>As an example consider the polygonal surface from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src='./images/_Wrapper_flags-3-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeFaceFlags(complex);</span>
+[ [ 6, 1 ], [ 8, 1 ], [ 9, 1 ], [ 9, 4 ], [ 10, 4 ], [ 12, 4 ], [ 13, 4 ] ]
+</pre></div>
+
+<p><a id="X7912874D8129C13E" name="X7912874D8129C13E"></a></p>
+
+<h5>21.1-5 TwoFlags</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoFlags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of wrapped two-flags</p>
+
+<p>Return a set of all flags of length 2, i.e. all pairs of vertices, edges and faces that are incident to each other. Since the labels of vertices edges and faces might overlap, special care has to be taken to make sure that every entry of the returned set corresponds to exactly one flag of length 2.</p>
+
+<p>If it is not necessary to have all of the different flags in one set, one should use the methods <code class="keyw">VertexEdgeFlags</code> (<a href="chap21_mj.html#X83D160AB8452BA55"><span class="RefLink">21.1-2</span></a>), <code class="keyw">VertexFaceFlags</code> (<a href="chap21_mj.html#X830F2C5B861CFE0A"><span class="RefLink">21.1-3</span></a>) and <code class="keyw">EdgeFaceFlags</code> (<a href="chap21_mj.html#X85C9777E7A65409B"><span class="RefLink">21.1-4</span></a>) instead.</p>
+
+<p>To make the flags of different types disjoint in the result, every flag is wrapped into a pair containing an index and the flag:</p>
+
+
+<ul>
+<li><p>The vertex-edge-flag [<var class="Arg">vertex</var>,<var class="Arg">edge</var>] is wrapped into [ 1, [<var class="Arg">vertex</var>, <var class="Arg">edge</var>] ].</p>
+
+</li>
+<li><p>The vertex-face-flag [<var class="Arg">vertex</var>,<var class="Arg">face</var>] is wrapped into [ 2, [<var class="Arg">vertex</var>, <var class="Arg">face</var>] ].</p>
+
+</li>
+<li><p>The edge-face-flag [<var class="Arg">edge</var>,<var class="Arg">face</var>] is wrapped into [ 3, [<var class="Arg">edge</var>, <var class="Arg">face</var>] ].</p>
+
+</li>
+</ul>
+<p>As an example consider the polygonal surface from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoFlags(complex);</span>
+[ [ 1, [ 2, 6 ] ], [ 1, [ 2, 8 ] ], [ 1, [ 3, 8 ] ], [ 1, [ 3, 9 ] ], 
+  [ 1, [ 3, 12  ] ], [ 1, [ 5, 6 ] ], [ 1, [ 5, 9 ] ], [ 1, [ 5, 10  ] ], 
+  [ 1, [ 7, 12 ] ], [ 1, [ 7, 13 ] ], [ 1, [ 11, 10 ] ], [ 1, [ 11, 13 ] ],
+  [ 2, [ 2, 1 ] ], [ 2, [ 3, 1 ] ], [ 2, [ 3, 4 ] ], [ 2, [ 5, 1 ] ], 
+  [ 2, [ 5, 4 ] ], [ 2, [ 7, 4 ] ], [ 2, [ 11, 4 ] ], [ 3, [ 6, 1 ] ], 
+  [ 3, [ 8, 1 ] ], [ 3, [ 9, 1 ] ], [ 3, [ 9, 4 ] ], [ 3, [ 10, 4 ] ], 
+  [ 3, [ 12, 4 ] ], [ 3, [ 13, 4 ] ] ]
+</pre></div>
+
+<p><a id="X8076830D80E6EF6C" name="X8076830D80E6EF6C"></a></p>
+
+<h5>21.1-6 OneFlags</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneFlags</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of wrapped one-flags</p>
+
+<p>Return a set of all flags of length 1, i.e. all vertices, edges and faces. Since the labels of vertices edges and faces might overlap, special care has to be taken to make sure that every entry of the returned set corresponds to exactly one of them.</p>
+
+<p>For that reason vertices, edges and faces are wrapped into a list:</p>
+
+
+<ul>
+<li><p>The vertex <var class="Arg">v</var> is wrapped into [ 0, <var class="Arg">v</var> ].</p>
+
+</li>
+<li><p>The edge <var class="Arg">e</var> is wrapped into [ 1, <var class="Arg">e</var> ].</p>
+
+</li>
+<li><p>The face <var class="Arg">f</var> is wrapped into [ 2, <var class="Arg">f</var> ].</p>
+
+</li>
+</ul>
+<p>As an example consider the polygonal surface from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneFlags(complex);</span>
+[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+</pre></div>
+
+<p><a id="X7EAFC7CE7A9CA734" name="X7EAFC7CE7A9CA734"></a></p>
+
+<h4>21.2 <span class="Heading">Dress group</span></h4>
+
+<p>While flags can be defined for any polygonal complex (as was done in section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>), they have additional structure for polygonal complexes without edge ramifications.</p>
+
+<ol>
+<li><p>For every flag <span class="SimpleMath">\([v,e,f]\)</span> there is exactly one other vertex <span class="SimpleMath">\(X\)</span> such that <span class="SimpleMath">\([X,e,f]\)</span> is also a flag.</p>
+
+</li>
+<li><p>For every flag <span class="SimpleMath">\([v,e,f]\)</span> there is exactly one other edge <span class="SimpleMath">\(X\)</span> such that <span class="SimpleMath">\([v,X,f]\)</span> is also a flag.</p>
+
+</li>
+<li><p>For every flag <span class="SimpleMath">\([v,e,f]\)</span> there is <em>at most</em> one other face <span class="SimpleMath">\(X\)</span> such that <span class="SimpleMath">\([v,e,X]\)</span> is also a flag.</p>
+
+</li>
+</ol>
+<p>Each of these observations divides the flags into partitions of at most two elements. Therefore it possible to define involutions that swap these elements. They are called <em>Dress involutions</em>.</p>
+
+<p>To represent them in <strong class="pkg">GAP</strong> the flags have to be encoded as positive integers. The set of flags from <code class="keyw">Flags</code> (<a href="chap21_mj.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>) serves this purpose: Every flag is identified with its position in this set.</p>
+
+<p><a id="X81065FFE7E779E4A" name="X81065FFE7E779E4A"></a></p>
+
+<h5>21.2-1 DressInvolutions</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DressInvolutions</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DressGroup</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of three involutions</p>
+
+<p>Return the three <em>Dress involutions</em> of <var class="Arg">complex</var> as a list or as the generators of a group. The Dress involutions act on the set of flags of <var class="Arg">complex</var>.</p>
+
+<p>The flags of <var class="Arg">complex</var> are identified with their position in the set <code class="keyw">Flags</code>(<var class="Arg">complex</var>). Assuming this identification the Dress involutions are defined as follows:</p>
+
+<ol>
+<li><p>The first Dress involution maps the flag <span class="SimpleMath">\([v,e,f]\)</span> to the flag <span class="SimpleMath">\([X,e,f]\)</span> where <span class="SimpleMath">\(X\)</span> is the unique vertex different from <span class="SimpleMath">\(v\)</span> such that <span class="SimpleMath">\([X,e,f]\)</span> is a flag.</p>
+
+</li>
+<li><p>The second Dress involution maps the flag <span class="SimpleMath">\([v,e,f]\)</span> to the flag <span class="SimpleMath">\([v,X,f]\)</span> where <span class="SimpleMath">\(X\)</span> is the unique edge different from <span class="SimpleMath">\(e\)</span> such that <span class="SimpleMath">\([v,X,f]\)</span> is a flag.</p>
+
+</li>
+<li><p>The third Dress involution maps the flag <span class="SimpleMath">\([v,e,f]\)</span> to the flag <span class="SimpleMath">\([v,e,X]\)</span> if there is a face <span class="SimpleMath">\(X\)</span> different from <span class="SimpleMath">\(f\)</span> such that <span class="SimpleMath">\([v,e,X]\)</span> is a flag. Otherwise it fixes this flag.</p>
+
+</li>
+</ol>
+<p>If <code class="keyw">DressGroup</code> is called, its generators <span class="SimpleMath">\(G.1\)</span>, <span class="SimpleMath">\(G.2\)</span> and <span class="SimpleMath">\(G.3\)</span> are the Dress involutions.</p>
+
+<p>As an example consider the following polygonal surface:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[6,8,9], , , [9,10,12,13]]);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dressInv:=DressInvolutions(complex);</span>
+[ (1,7)(2,3)(4,8)(5,9)(6,11)(10,13)(12,14),
+  (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14),
+  (4,5)(8,9) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Flags(complex)[1];</span>
+[2,6,1]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Flags(complex)[7];</span>
+[5,6,1]
+</pre></div>
+
+<p>This means, for example, that the first dress involution maps the flag <span class="SimpleMath">\([2,6,1]\)</span> to the flag <span class="SimpleMath">\([5,6,1]\)</span>. The dress involutions are equal to the adjacency involution acting on the chamber:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dressInv[1]=ZeroAdjacencyInvolution(complex);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dressInv[2]=OneAdjacencyInvolution(complex);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">dressInv[3]=TwoAdjacencyInvolution(complex);</span>
+true
+</pre></div>
+
+<p><a id="X80EDE46685B43F8E" name="X80EDE46685B43F8E"></a></p>
+
+<h4>21.3 <span class="Heading">Flag complex / Barycentric subdivision</span></h4>
+
+<p>The flags of a polygonal complex can be used to define a subdivision of the polygonal complex, where each face is split into several triangles.</p>
+
+<ol>
+<li><p>The vertices are given by the <code class="keyw">OneFlags</code> (<a href="chap21_mj.html#X8076830D80E6EF6C"><span class="RefLink">21.1-6</span></a>), i.e. there is a new vertex for every original vertex, in the middle of each edge and in the center of gravity for each face.</p>
+
+</li>
+<li><p>The edges are given by the <code class="keyw">TwoFlags</code> (<a href="chap21_mj.html#X7912874D8129C13E"><span class="RefLink">21.1-5</span></a>), e.g. for each incident edge-face-pair there is a new edge between the middle of the edge and the center of gravity of the face. There are also new edges for the vertex-edge- and vertex-face-pairs.</p>
+
+</li>
+<li><p>The faces are given by the <code class="keyw">ThreeFlags</code> (<a href="chap21_mj.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>), i.e. for every flag <span class="SimpleMath">\((V,E,F)\)</span> there is a new face between <span class="SimpleMath">\(V\)</span>, the middle of <span class="SimpleMath">\(E\)</span> and the center of gravity of <span class="SimpleMath">\(F\)</span>.</p>
+
+</li>
+</ol>
+<p>For example consider the polygonal complex from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">flagComp := FlagComplex(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalComplex(flagComp) = complex;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PolygonalComplex(flagComp);;</span>
+</pre></div>
+
+<p>Both the original complex and the uncoloured flag complex can be obtained.</p>
+
+<p>The drawing function treats flag surfaces in a special way. Compare <a href="chap21_mj.html#X87C9A1D487A60890"><span class="RefLink">21.3-14</span></a> for details.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    vertexLabels := OneFlags(complex),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    edgeLabels := TwoFlags(complex),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    faceLabels := ThreeFlags(complex),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    startingFaces := 14));;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_FlagComplex_Labelled-1.svg"> </img> <br></p>
+
+<p>The flag complex is an edge coloured triangular complex. The polygonal hierarchy (compare to chapter <a href="chap2_mj.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a>) is unchanged otherwise, e.g. the flag complex of a polygonal complex is always a simplicial surface.</p>
+
+<p>For the flag complex of a polygonal complex without edge ramifications the Dress involutions (<a href="chap21_mj.html#X81065FFE7E779E4A"><span class="RefLink">21.2-1</span></a>) are the colour involutions for the colouring (compare <a href="chap19_mj.html#X8726F36784306F81"><span class="RefLink">19.2-1</span></a>).</p>
+
+<p><a id="X832B21B57B9F610A" name="X832B21B57B9F610A"></a></p>
+
+<h5>21.3-1 FlagComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FlagComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FlagSurface</code>( <var class="Arg">surf</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a flag complex</p>
+
+<p>Return the flag complex of <var class="Arg">complex</var>. The flag complex is an edge-coloured (<a href="chap18_mj.html#X7EC40052873E6A6E"><span class="RefLink">18</span></a>) twisted triangular complex (<a href="chap9_mj.html#X8334EFD47C0A4AB8"><span class="RefLink">9.3-2</span></a>).</p>
+
+<p>Its vertices are given by the <code class="keyw">OneFlags</code> (<a href="chap21_mj.html#X8076830D80E6EF6C"><span class="RefLink">21.1-6</span></a>), its edges by the <code class="keyw">TwoFlags</code> (<a href="chap21_mj.html#X7912874D8129C13E"><span class="RefLink">21.1-5</span></a>) and its faces by the <code class="keyw">ThreeFlags</code> (<a href="chap21_mj.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>).</p>
+
+<p>As an example consider the polygonal complex from the start of section <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a>. <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">flagSurf := FlagSurface(complex);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_FlagSurface-1.svg"> </img> <br></p>
+
+<p>The more specific command requires <var class="Arg">complex</var> to be a twisted polygonal surface (<a href="chap2_mj.html#X83D11FC8811CDDE4"><span class="RefLink">2.3-4</span></a>).</p>
+
+<p><a id="X873DCA0E872DB483" name="X873DCA0E872DB483"></a></p>
+
+<h5>21.3-2 IsFlagComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFlagComplex</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;filter&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFlagSurface</code>( <var class="Arg">flagComp</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given <var class="Arg">complex</var> is a flag complex. Every flag complex is also an edge-coloured polygonal complex. Besides access to the uncoloured flag complex via <code class="keyw">PolygonalComplex</code> (<a href="chap18_mj.html#X7AD6BAAC78356DAA"><span class="RefLink">18.1-3</span></a>) it also allows access to the original polygonal complex by <code class="keyw">OriginalComplex</code> (<a href="chap21_mj.html#X7F7DD9CE7C54A12C"><span class="RefLink">21.3-3</span></a>).</p>
+
+<p>This will also return <code class="keyw">true</code> if the original complex would just be a <em>twisted</em> complex.</p>
+
+<p>The additional property check if the underlying polygonal complex is a polygonal surface.</p>
+
+<p>For example, consider the complex from the start of this section (<a href="chap21_mj.html#X80EDE46685B43F8E"><span class="RefLink">21.3</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFlagComplex(flagComp);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFlagComplex(complex);</span>
+false
+</pre></div>
+
+<p><a id="X7F7DD9CE7C54A12C" name="X7F7DD9CE7C54A12C"></a></p>
+
+<h5>21.3-3 OriginalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalComplex</code>( <var class="Arg">flagComp</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalSurface</code>( <var class="Arg">flagSurf</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a twisted polygonal complex</p>
+
+<p>Return the original twisted polygonal complex of the given flag complex <var class="Arg">flagComp</var>, i.e. the unique twisted polygonal complex <var class="Arg">complex</var> such that <code class="keyw">FlagComplex</code>(<var class="Arg">complex</var>) = <var class="Arg">flagComp</var>.</p>
+
+<p>The more specific command requires the original complex to be a twisted polygonal surface (<a href="chap2_mj.html#X83D11FC8811CDDE4"><span class="RefLink">2.3-4</span></a>).</p>
+
+<p><a id="X7C7D322A80EEDADD" name="X7C7D322A80EEDADD"></a></p>
+
+<h5>21.3-4 OriginalVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalVertices</code>( <var class="Arg">flagComp</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all vertices contained in the original twisted polygonal complex of the given flag complex <var class="Arg">flagComp</var>, i.e. the vertices of the unique twisted polygonal complex <var class="Arg">complex</var> satisfying <code class="keyw">FlagComplex</code>(<var class="Arg">complex</var>) = <var class="Arg">flagComp</var>. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalVertices(flagComp);</span>
+[ 2, 3, 5, 7, 11 ]
+</pre></div>
+
+<p><a id="X7D97A7917B0EFD82" name="X7D97A7917B0EFD82"></a></p>
+
+<h5>21.3-5 OriginalEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalEdges</code>( <var class="Arg">flagComp</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all edges contained in the original twisted polygonal complex of the given flag complex <var class="Arg">flagComp</var>, i.e. the edges of the unique twisted polygonal complex <var class="Arg">complex</var> satisfying <code class="keyw">FlagComplex</code>(<var class="Arg">complex</var>) = <var class="Arg">flagComp</var>. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalEdges(flagComp);</span>
+[ 6, 8, 9, 10, 12, 13 ]
+</pre></div>
+
+<p><a id="X7F6EFB357DF925C2" name="X7F6EFB357DF925C2"></a></p>
+
+<h5>21.3-6 OriginalFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalFaces</code>( <var class="Arg">flagComp</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all faces contained in the original twisted polygonal complex of the given flag complex <var class="Arg">flagComp</var>, i.e. the faces of the unique twisted polygonal complex <var class="Arg">complex</var> satisfying <code class="keyw">FlagComplex</code>(<var class="Arg">complex</var>) = <var class="Arg">flagComp</var>. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalFaces(flagComp);</span>
+[ 1, 4 ]
+</pre></div>
+
+<p><a id="X79E2D7D77FF63CE0" name="X79E2D7D77FF63CE0"></a></p>
+
+<h5>21.3-7 OriginalOneFlag</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalOneFlag</code>( <var class="Arg">flagComp</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a wrapped one-flag</p>
+
+<p>Return a flag of length 1 of the original twisted polygonal complex of the given flag complex which corresponds to <var class="Arg">vertex</var> in <var class="Arg">flagComp</var>, i.e. the flag <var class="Arg">oneflag</var> of the unique twisted polygonal complex <var class="Arg">complex</var> satisfying <code class="keyw">OneFlags</code>(<var class="Arg">complex</var>)[<code class="keyw">vertex</code>] = <var class="Arg">oneflag</var>. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneFlags(complex);</span>
+[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalOneFlag(flagComp,4);</span>
+[ 0, 7 ]
+</pre></div>
+
+<p><a id="X8717333A7E8E2E00" name="X8717333A7E8E2E00"></a></p>
+
+<h5>21.3-8 OriginalTwoFlag</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalTwoFlag</code>( <var class="Arg">flagComp</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a wrapped two-flag</p>
+
+<p>Return a flag of length 2 of the original twisted polygonal complex of the given flag complex which corresponds to <var class="Arg">edge</var> in <var class="Arg">flagComp</var> i.e. the flag <var class="Arg">twoflag</var> of the unique twisted polygonal complex <var class="Arg">complex</var> satisfying <code class="keyw">TwoFlags</code>(<var class="Arg">complex</var>)[<code class="keyw">edge</code>] = <var class="Arg">twoflag</var>. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoFlags(complex);</span>
+[ [ 1, [ 2, 6 ] ], [ 1, [ 2, 8 ] ], [ 1, [ 3, 8 ] ], [ 1, [ 3, 9 ] ], 
+  [ 1, [ 3, 12  ] ], [ 1, [ 5, 6 ] ], [ 1, [ 5, 9 ] ], [ 1, [ 5, 10  ] ], 
+  [ 1, [ 7, 12 ] ], [ 1, [ 7, 13 ] ], [ 1, [ 11, 10 ] ], [ 1, [ 11, 13 ] ],
+  [ 2, [ 2, 1 ] ], [ 2, [ 3, 1 ] ], [ 2, [ 3, 4 ] ], [ 2, [ 5, 1 ] ], 
+  [ 2, [ 5, 4 ] ], [ 2, [ 7, 4 ] ], [ 2, [ 11, 4 ] ], [ 3, [ 6, 1 ] ], 
+  [ 3, [ 8, 1 ] ], [ 3, [ 9, 1 ] ], [ 3, [ 9, 4 ] ], [ 3, [ 10, 4 ] ], 
+  [ 3, [ 12, 4 ] ], [ 3, [ 13, 4 ] ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalTwoFlag(flagComp,5);</span>
+[ 1, [ 3, 12 ] ]
+</pre></div>
+
+<p><a id="X80C03DEA86B000F6" name="X80C03DEA86B000F6"></a></p>
+
+<h5>21.3-9 OriginalThreeFlag</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OriginalThreeFlag</code>( <var class="Arg">flagComp</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a wrapped three-flag</p>
+
+<p>Return a flag of length 3 of the original twisted polygonal complex of the given flag complex which corresponds to <var class="Arg">face</var> in <var class="Arg">flagComp</var> i.e. the flag <var class="Arg">threeflag</var> of the unique twisted polygonal complex <var class="Arg">complex</var> satisfying <code class="keyw">ThreeFlags</code>(<var class="Arg">complex</var>)[<code class="keyw">face</code>] = <var class="Arg">threeflag</var>. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ThreeFlags(complex);</span>
+[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], 
+  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],
+  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OriginalThreeFlag(flagComp,10);</span>
+[ 5, 10, 4 ]
+</pre></div>
+
+<p><a id="X879ED8DC85939329" name="X879ED8DC85939329"></a></p>
+
+<h5>21.3-10 BarycentreOfVertex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BarycentreOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: positive integer</p>
+
+<p>Return the vertex of the flag complex of <var class="Arg">complex</var> which corresponds to the flag [0,<var class="Arg">vertex</var>] of the given twisted polygonal complex, i.e. the vertex <var class="Arg">v</var> of the flag complex <var class="Arg">flagComp</var> satisfying <code class="keyw">OneFlags</code>(<var class="Arg">complex</var>)[<code class="keyw">v</code>] = [0,<var class="Arg">vertex</var>]. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneFlags(complex);</span>
+[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BarycentreOfVertex(complex,3);</span>
+2
+</pre></div>
+
+<p><a id="X81D9AEAB82E02EE8" name="X81D9AEAB82E02EE8"></a></p>
+
+<h5>21.3-11 BarycentreOfEdge</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BarycentreOfEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer</p>
+
+<p>Return the edge of the flag complex of <var class="Arg">complex</var> which corresponds to the flag [1,<var class="Arg">edge</var>] of the given twisted polygonal complex, i.e. the edge <var class="Arg">e</var> of the flag complex <var class="Arg">flagComp</var> satisfying <code class="keyw">OneFlags</code>(<var class="Arg">complex</var>)[<code class="keyw">e</code>] = [1,<var class="Arg">edge</var>]. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneFlags(complex);</span>
+[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BarycentreOfEdge(complex,12); </span>
+10
+</pre></div>
+
+<p><a id="X78A5E22279D17894" name="X78A5E22279D17894"></a></p>
+
+<h5>21.3-12 BarycentreOfFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BarycentreOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer</p>
+
+<p>Return the face of the flag complex of <var class="Arg">complex</var> which corresponds to the flag [2,<var class="Arg">face</var>] of the given twisted polygonal complex, i.e. the face <var class="Arg">f</var> of the flag complex <var class="Arg">flagComp</var> satisfying <code class="keyw">OneFlags</code>(<var class="Arg">complex</var>)[<code class="keyw">f</code>] = [2,<var class="Arg">face</var>]. As an example consider the polygonal complex from <a href="chap21_mj.html#X8348BA867D692703"><span class="RefLink">21.1</span></a> and its barycentric subdivision from <a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneFlags(complex);</span>
+[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],
+  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BarycentreOfFace(complex,4);</span>
+13
+</pre></div>
+
+<p><a id="X7A25DB2C8495D5CE" name="X7A25DB2C8495D5CE"></a></p>
+
+<h5>21.3-13 IsomorphicFlagSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsomorphicFlagSurface</code>( <var class="Arg">tameSurface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a flag surface, <code class="keyw">false</code> or <code class="keyw">fail</code></p>
+
+<p>Construct a flag surface (<a href="chap21_mj.html#X832B21B57B9F610A"><span class="RefLink">21.3-1</span></a>) that is isomorphic to the given tame-coloured surface, if possible (the first colour involution will become the vertex involution, etc.). It returns:</p>
+
+
+<ul>
+<li><p>a flag surface, if successful</p>
+
+</li>
+<li><p><code class="keyw">false</code> if this is not possible</p>
+
+</li>
+<li><p><code class="keyw">fail</code> if the given <var class="Arg">tameSurface</var> is not a MMM-surface.</p>
+
+</li>
+</ul>
+<p>For example, consider the one face and the corresponding flag surface:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oneFace:=SimplicialSurfaceByVerticesInFaces([[1,2,3]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">flagSurf:=FlagComplex(oneFace);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(IsomorphicFlagSurface(flagSurf),flagSurf);</span>
+true
+</pre></div>
+
+<p><a id="X87C9A1D487A60890" name="X87C9A1D487A60890"></a></p>
+
+<h5>21.3-14 DrawSurfaceToTikz</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DrawSurfaceToTikz</code>( <var class="Arg">flagSurf</var>, <var class="Arg">fileName</var>[, <var class="Arg">printRecord</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a record</p>
+
+<p>Draw the net of the given flag complex that is also a polygonal complex without edge ramifications into a tex-file (using TikZ). The method for flag complexes is the same as the one for edge coloured polygonal complexes without edge ramifications (<a href="chap18_mj.html#X806F8235854E7CD8"><span class="RefLink">18.2-1</span></a>) except for one feature:</p>
+
+
+<ul>
+<li><p>If no edge lengths are given in the printing record, the default edge lengths are set in such a way that the faces are drawn as the barycentric subdivision of the original complex.</p>
+
+</li>
+<li><p>If there are faces with different numbers of edges, the default edge lengths will not be colour invariant. In this case the value <em>edgeColourClassActive</em> will be set to <code class="keyw">false</code>.</p>
+
+</li>
+</ul>
+<p>An example is given at the beginning of this section (<a href="chap21_mj.html#X80EDE46685B43F8E"><span class="RefLink">21.3</span></a>).</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap20_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap22_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

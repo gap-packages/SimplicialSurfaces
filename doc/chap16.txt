@@ -1,0 +1,1529 @@
+  
+  [1X16 [33X[0;0YNets and embeddings[133X[101X
+  
+  [33X[0;0YOne  of  the  central  questions  about  polygonal  complexes and simplicial
+  surfaces (for the detailed definitions see Chapter [14X2[114X) is whether they can be
+  embedded  into  [22Xℝ^3[122X.  This is a very hard question and can currently only be
+  solved for small examples.[133X
+  
+  [33X[0;0YTherefore  the [9XSimplicialSurface[109X-package does not contain methods to compute
+  general  embeddings.  This chapter contains some prerequisite methods in the
+  direction of the general embedding-problem.[133X
+  
+  [33X[0;0YSection  [14X16.1[114X deals with properties that make embeddings impossible. Section
+  [14X16.2[114X contains a method to draw the net of a polygonal complex.[133X
+  
+  
+  [1X16.1 [33X[0;0YAnomalies[133X[101X
+  
+  [33X[0;0YIf  an  embedding of a polygonal complex maps edges to straight lines, it is
+  defined  by  the  images  of its vertices alone. This restricts the possible
+  incidence structures:[133X
+  
+  [33X[0;0YTwo edges that are incident to the same vertices would be mapped to the same
+  line,  contradicting  the  injectivity  of  the embedding. The same argument
+  applies to two faces with the same vertices.[133X
+  
+  [33X[0;0YThose cases are called [13Xedge-anomalies[113X and [13Xface-anomalies[113X. Both are appearing
+  in the example of an open bag: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbag := SimplicialSurfaceByUpwardIncidence( [ [1,2], [1,3,4], [2,3,4] ],[127X[104X
+    [4X[25X>[125X [27X              [ [1,2], [1,2], [2], [1] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsAnomalyFree( bag );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClasses( bag );[127X[104X
+    [4X[28X[ [ 1 ], [ 2 ], [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XFaceAnomalyClasses( bag );[127X[104X
+    [4X[28X[ [ 1, 2 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X16.1-1 IsAnomalyFree[101X
+  
+  [33X[1;0Y[29X[2XIsAnomalyFree[102X( [3Xcomplex[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsVertexFaithful[102X( [3Xcomplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether the given polygonal complex contains anomalies, i.e. pairs of
+  edges or pairs of faces that are incident to the same vertices.[133X
+  
+  [33X[0;0YAs examples, consider a tetrahedron (without any anomalies) and the open bag
+  from the start of section [14X16.1[114X (with anomalies):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsAnomalyFree( Tetrahedron() );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsAnomalyFree( bag );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[28X[128X[104X
+    [4X[25Xgap>[125X [27XIsVertexFaithful( Tetrahedron() );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsVertexFaithful( bag );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X16.1-2 EdgeAnomalyClasses[101X
+  
+  [33X[1;0Y[29X[2XEdgeAnomalyClasses[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XEdgeAnomalyClassOfEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeAnomalyClassOfEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of sets of positive integers[133X
+  
+  [33X[0;0YReturn  the  set of all edge-anomaly-classes of the given polygonal complex.
+  Two edges of [3Xcomplex[103X lie in the same [13Xedge-anomaly-class[113X if they are incident
+  to the same vertices.[133X
+  
+  [33X[0;0YThe method [9XEdgeAnomalyClassOfEdge[109X only returns the edge-anomaly-class of the
+  given  edge  (as  set).  The NC-version does not check if [3Xedge[103X is an edge of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider  the  open  bag  from  the  start of section [14X16.1[114X: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClassOfEdge( bag, 1 );[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClassOfEdge( bag, 3 );[127X[104X
+    [4X[28X[ 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClasses( bag );[127X[104X
+    [4X[28X[ [ 1 ], [ 2 ], [ 3, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X16.1-3 FaceAnomalyClasses[101X
+  
+  [33X[1;0Y[29X[2XFaceAnomalyClasses[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XFaceAnomalyClassOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFaceAnomalyClassOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of sets of positive integers[133X
+  
+  [33X[0;0YReturn  the  set of all face-anomaly-classes of the given polygonal complex.
+  Two faces of [3Xcomplex[103X lie in the same [13Xface-anomaly-class[113X if they are incident
+  to the same vertices.[133X
+  
+  [33X[0;0YThe method [9XFaceAnomalyClassOfFace[109X only returns the face-anomaly-class of the
+  given  face  (as  set).  The  NC-version does not check if [3Xface[103X is a face of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider  the  open  bag  from  the  start of section [14X16.1[114X: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceAnomalyClassOfFace( bag, 1 );[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceAnomalyClasses( bag );[127X[104X
+    [4X[28X[ [ 1, 2 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X16.2 [33X[0;0YDrawing a net in TikZ[133X[101X
+  
+  [33X[0;0YWhile  it  is very hard to compute an embedding into [22Xℝ^3[122X it is quite easy to
+  draw the net of a ramified polygonal surface into a plane.[133X
+  
+  [33X[0;0YFor example, the net of an octahedron can be drawn like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xoct := Octahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( oct, "Octahedron_example" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  will  write a file [13XOctahedron_example.tex[113X that contains the net of the
+  octahedron, written in [9XTikZ[109X: Image omitted in terminal text[133X
+  
+  [33X[0;0YTo  customize  this drawing, a record is used (called the [3XprintRecord[103X). Each
+  call of the drawing method creates one of those:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr := DrawSurfaceToTikz( oct, "Octahedron_example" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YMaybe the edges should not be labelled. Then they can be turned off:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLabelsActive := false;;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  colours  can  also  be  changed  very easily (especially if all colours
+  should be changed at once). For example, let's make all vertices green:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.vertexColours := "green";;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter compiling we get the following net.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in  terminal  text  It should be mentioned that all of these
+  calls modify their [3XprintRecord[103X.[133X
+  
+  [33X[0;0YSince  it is impractical to always call LaTeX for every customization we can
+  call it directly from within [5XGAP[105X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.compileLaTeX := true;;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YStill  the picture looks quite small. To see how big it currently is, we can
+  look at the parameter [3Xscale[103X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.scale;[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSo  the  default  [3Xscale[103X is 2. Since there is a lot of space left, we can set
+  the [3Xscale[103X to 3. Furthermore we label the faces with roman numbers.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.scale := 3;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.faceLabels := ["I","II","III","IV","V","VI","VII","VIII"];;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( oct, "Octahedron_customized.tex", pr );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YNext  we  would like to change the shapes of the triangles. To do so we need
+  to know how long the edges are.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLabelsActive := true;;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( oct, "Octahedron_edgeLabels", pr );;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLengths;[127X[104X
+    [4X[28X[ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YWe want to make the angles around vertex 1 larger, for example:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLengths := [ 1, 1, 1, 1, 1.5, 1.5, 1, 1.5, 1, 1.5, 1, 1 ];;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  the [3XprintRecord[103X also remembers the angles, this information has to be
+  discarded before the recomputation.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XUnbind( pr.angles );[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YWe  can  see  that  the  program chooses to display a different net to avoid
+  self-intersections. If the system can not easily avoid intersections it will
+  split  up the surface and draw these components separately. This feature can
+  be turned off by setting the parameter [3XavoidIntersections[103X to [9Xfalse[109X.[133X
+  
+  [1X16.2-1 DrawSurfaceToTikz[101X
+  
+  [33X[1;0Y[29X[2XDrawSurfaceToTikz[102X( [3XramSurf[103X, [3XfileName[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YDraw  the  net  of  the  given  [3XramSurf[103X  into  a  tex-file  (using TikZ). An
+  introduction  to the use of this method (along with several examples) can be
+  found at the start of section [14X16.2[114X.[133X
+  
+  [30X    [33X[0;6YIf  the  given  [3XfileName[103X  does not end in [13X.tex[113X the ending [13X.tex[113X will be
+        added to it.[133X
+  
+  [30X    [33X[0;6YThe  given  file  will  be  overwritten  without  asking if it already
+        exists.  If  you  don't  have  permission  to write in that file, this
+        method will throw an error.[133X
+  
+  [30X    [33X[0;6YThe   particulars   of   the  drawing  are  determined  by  the  given
+        [3XprintRecord[103X. If this is not given, the default settings are used.[133X
+  
+  [30X    [33X[0;6YThe  [3XprintRecord[103X  will  be  modified  and  returned by this method. It
+        contains the data to recreate the drawing of the surface.[133X
+  
+  [33X[0;0YThere  are  several  parameters  to  change  the output of this method, from
+  cosmetic  changes to exactly controlling in which order the faces are drawn.
+  There are the following classes of parameters:[133X
+  
+  [30X    [33X[0;6Y[13XColours[113X ([14X16.2-2[114X): Change the colours of vertices, edges and faces.[133X
+  
+  [30X    [33X[0;6Y[13XLabels[113X ([14X16.2-3[114X): Modify the labels of vertices, edges and faces.[133X
+  
+  [30X    [33X[0;6Y[13XLengths  and  angles[113X  ([14X16.2-4[114X):  These parameters control the size and
+        shape of the drawing and the individual faces.[133X
+  
+  [30X    [33X[0;6Y[13XDraw  order[113X  ([14X16.2-5[114X):  They  control the order in which the faces are
+        drawn.[133X
+  
+  [30X    [33X[0;6Y[13XOutput  control[113X  ([14X16.2-6[114X): Modify how the LaTeX-output behaves and how
+        much information is printed to the console.[133X
+  
+  [30X    [33X[0;6Y[13XData  representation[113X ([14X16.2-7[114X): These parameters can't be influenced by
+        the user and contain the information to recreate the drawing.[133X
+  
+  
+  [1X16.2-2 [33X[0;0YColours[133X[101X
+  
+  [33X[0;0YThis  subsection  covers  how  to  change the colours of vertices, edges and
+  faces  in  the  drawings  from  [9XDrawSurfaceToTikz[109X  ([14X16.2-1[114X).  It  covers the
+  following parameters:[133X
+  
+  [30X    [33X[0;6Y[13XvertexColours[113X:  Modify the colours of the vertices (the default colour
+        is orange).[133X
+  
+  [30X    [33X[0;6Y[13XedgeColours[113X:  Modify  the  colours of the edges (the default colour is
+        gray).[133X
+  
+  [30X    [33X[0;6Y[13XfaceColours[113X:  Modify  the colours of the face (the default colour is a
+        darker shade of yellow).[133X
+  
+  [33X[0;0YWe  will  exemplify them with the example of a cube. Here the cube has holes
+  in  the  vertex, edge and face sets to make it more clear how the parameters
+  work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := PolygonalComplexByDownwardIncidence([ [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [127X[104X
+    [4X[25X>[125X [27X[ 1, 4 ], [ 2, 7 ], , [ 3, 8 ], [ 4, 9 ], [ 1, 6 ], [ 7, 8 ] ,[ 8, 9 ],[127X[104X
+    [4X[25X>[125X [27X[ 6, 9 ], [ 6, 7 ] ],[ [ 1, 2, 3, 4 ], ,[ 1, 5, 9, 13 ], [ 2, 5, 7, 10 ], [127X[104X
+    [4X[25X>[125X [27X[ 4, 8, 9, 12 ], [ 3, 7, 8, 11 ], [ 10, 11, 12, 13 ] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz(cube, "Cube_example");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XvertexColours[113X:  Modifies  the colours of the vertices. The colours are
+        given  in  a  list  [3Xcolours[103X  such that [3Xcolours[v][103X is the colour of the
+        vertex  [3Xv[103X.  If  vertex [3Xv[103X is not in the surface, the colour is skipped.
+        The colours are strings that are recognizable by LaTeX.[133X
+  
+        [33X[0;6YIt  is  possible  to leave some vertex colours unbound - those will be
+        coloured with the default vertex colour (orange).[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexColours :=[127X[104X
+          [4X[25X>[125X [27X   ["red", "blue", "green",, "pink", "black!20!yellow"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz(cube, "Cube_vertexColouredLocal", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage  omitted in terminal text Instead of giving an entire list it is
+        also  possible  to  give just one string defining a new colour for all
+        vertices. It will be internally converted into a list.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexColours := "blue!60!white" );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeColours[113X:  Modifies the colours of the edges. The colours are given
+        in a list [3Xcolours[103X such that [3Xcolours[e][103X is the colour of the edge [3Xe[103X. If
+        edge  [3Xe[103X  is not in the surface, the colour is skipped. The colours are
+        strings that are recognizable by LaTeX.[133X
+  
+        [33X[0;6YIs  is  possible  to  leave  some edge colours unbound - those will be
+        coloured with the default edge colour (gray).[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeColours :=[127X[104X
+          [4X[25X>[125X [27X   [,,,,"red", "purple", "blue", "green!80!black"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( cube, "Cube_edgeColouredLocal", pr );;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage  omitted in terminal text Instead of giving an entire list it is
+        also  possible  to  give just one string defining a new colour for all
+        edges. It will be internally converted into a list.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeColours := "red" );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceColours[113X:  Modifies the colours of the faces. The colours are given
+        in a list [3Xcolours[103X such that [3Xcolours[f][103X is the colour of the face [3Xf[103X. If
+        face [3Xf[103X is not in the surface, the colour is skipped. It is possible to
+        leave  some  face  colours  unbound  - those will be coloured with the
+        default  face  colour  (a  darker  shape  of yellow, the custom colour
+        [13X\\faceColorY[113X).[133X
+  
+        [33X[0;6YThe  colours can be strings that are recognized by LaTeX, but they can
+        also be one of six pre-defined colours of this package:[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceColours := ["\\faceColorY", "\\faceColorB", [127X[104X
+          [4X[25X>[125X [27X    "\\faceColorC", "\\faceColorR", "\\faceColorG", "\\faceColorO"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( cube, "Cube_faceColouredLocal", pr );;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage  omitted in terminal text Instead of giving an entire list it is
+        also  possible  to  give just one string defining a new colour for all
+        faces. It will be internally converted into a list.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceColours := "olive!20!white" );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( cube, "Cube_faceColouredGlobal", pr );;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.2-3 [33X[0;0YLabels[133X[101X
+  
+  [33X[0;0YThis  subsection  covers  the parameters that change the labels of vertices,
+  edges and faces in the drawings of [9XDrawSurfaceToTikz[109X ([14X16.2-1[114X).[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabelsActive[113X:  Turn the vertex labels on or off (by default they
+        are turned on).[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabels[113X:  Modify  the vertex labels (by default they are labelled
+        by their number).[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabelsActive[113X:  Turn the edge labels on or off (by default they are
+        turned on).[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabels[113X:  Modify  the  edge labels (by default they are labelled by
+        their number).[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabelsActive[113X:  Turn the face labels on or off (by default they are
+        turned on).[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabels[113X:  Modify  the  face labels (by default they are labelled by
+        their number).[133X
+  
+  [33X[0;0YWe will exemplify these parameters on the example of a tetrahedron. Here the
+  tetrahedron  has  holes  in  the  vertex, edge and face sets to make it more
+  clear how the parameters work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [127X[104X
+    [4X[25X>[125X [27X[ 3, 4 ], ,[ 3, 5 ], [ 4, 5 ] ], [ [ 1, 2, 4 ], [ 1, 3, 6 ], ,[127X[104X
+    [4X[25X>[125X [27X[ 4, 6, 7 ], [ 2, 3, 7 ] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_example" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabelsActive[113X:  By  default  all  vertices  are labelled. If they
+        should not be labelled, this parameter can be set to [9Xfalse[109X.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexLabelsActive := false );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabelsOff", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabels[113X:  By  default  the vertices are labelled by their number.
+        This  can be changed with this parameter (if you just want to turn off
+        the labels, use [13XvertexLabelsActive[113X instead).[133X
+  
+        [33X[0;6YThe labels are given as a list [3Xlabels[103X such that [3Xlabels[v][103X is the label
+        of  the  vertex  [3Xv[103X.  If  vertex  [3Xv[103X is not in the surface, the label is
+        skipped.  It  is  possible to leave some vertex labels unbound - those
+        will be labelled with their default label.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexLabels := ["V_1", "X", , "++"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_vertexLabels", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabelsActive[113X:  By  default  all edges are labelled. If they should
+        not be labelled, this parameter can be set to [9Xfalse[109X.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeLabelsActive := false );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabelsOff", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabels[113X:  By  default  the edges are labelled by their number. This
+        can  be  changed with this parameter (if you just want to turn off the
+        labels, use [13XedgeLabelsActive[113X instead).[133X
+  
+        [33X[0;6YThe labels are given as a list [3Xlabels[103X such that [3Xlabels[e][103X is the label
+        of  the edge [3Xe[103X. If edge [3Xe[103X is not in the surface, the label is skipped.
+        It  is  possible  to  leave  some  edge labels unbound - those will be
+        labelled with their default label.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeLabels := ["a", , "e_3", , "?"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_edgeLabels", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabelsActive[113X:  By  default  all faces are labelled. If they should
+        not be labelled, this parameter can be set to [9Xfalse[109X.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceLabelsActive := false );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_faceLabelsOff", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabels[113X:  By  default  the faces are labelled by their number. This
+        can  be  changed with this parameter (if you just want to turn off the
+        labels, use [13XfaceLabelsActive[113X instead).[133X
+  
+        [33X[0;6YThe labels are given as a list [3Xlabels[103X such that [3Xlabels[f][103X is the label
+        of  the face [3Xf[103X. If face [3Xf[103X is not in the surface, the label is skipped.
+        It  is  possible  to  leave  some  face labels unbound - those will be
+        labelled with their default label.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceLabels := ["I", "f_2", "42", ,] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_faceLabels", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.2-4 [33X[0;0YLengths and angles[133X[101X
+  
+  [33X[0;0YThis  subsection  explains the parameters that modify the size and shapes of
+  the  faces  that  are  drawn  by the method [9XDrawSurfaceToTikz[109X ([14X16.2-1[114X). More
+  specifically it explains the following parameters:[133X
+  
+  [30X    [33X[0;6Y[13Xscale[113X: Globally scales the picture. The default is 2.[133X
+  
+  [30X    [33X[0;6Y[13XedgeLengths[113X:  Is  a list [3Xlengths[103X such that [3Xlengths[e][103X is the length of
+        the edge [3Xe[103X. By default, each edge has length 1.[133X
+  
+  [30X    [33X[0;6Y[13Xangles[113X:  This  parameter  controls  the inner angles of the faces. The
+        angles  are  stored as a list [3Xangles[103X such that [3Xangles[f][v][103X represents
+        the  angle  in  face [3Xf[103X at vertex [3Xv[103X. The angle is represented as a list
+        [3X[sin,cos][103X with the sine and cosine of the angle.[133X
+  
+  [30X    [33X[0;6Y[13XfloatAccuracy[113X:  Internal  parameter  to  decide  when  two  floats are
+        regarded  as  equal.  The  default  is 0.001. Usually it should not be
+        necessary to modify this value.[133X
+  
+  [33X[0;0YBy  default,  all  faces  are drawn as regular polygons. To choose different
+  polygons  their edge lengths and inner angles have to be defined (exception:
+  for  triangles  it  is sufficient to define the edge lengths, as long as the
+  angles are not set).[133X
+  
+  [33X[0;0YIf the given information is inconsistent an error is thrown.[133X
+  
+  [33X[0;0YWe  will exemplify the first two parameters on the example of a tetrahedron.
+  Here  the tetrahedron has holes in the vertex, edge and face sets to make it
+  more clear how the parameters work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra := SimplicialSurfaceByDownwardIncidence([ [ 1, 3 ], [ 1, 4 ], [ 1, 5 ],[127X[104X
+    [4X[25X>[125X [27X[ 3, 4 ], ,[ 3, 5 ], [ 4, 5 ] ], [ [ 1, 2, 4 ], [ 1, 3, 6 ], ,[127X[104X
+    [4X[25X>[125X [27X[ 4, 6, 7 ], [ 2, 3, 7 ] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_example" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13Xscale[113X:  By  default  the  scale  is  2.  This can be changed with this
+        parameter.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( scale := 1.5 );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_rescaled", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeLengths[113X:  By  default  each edge has length 1. This can be changed
+        with this parameter.[133X
+  
+        [33X[0;6YThe  lengths  are given as a list [3XedgeLengths[103X such that [3XedgeLengths[e][103X
+        is  the  length  of  the  edge [3Xe[103X. If edge [3Xe[103X is not in the surface, the
+        length is skipped. It is possible to leave some edge lengths unbound -
+        those will have length 1.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeLengths := [1.5, 1.5, 1, 1.5, 2, 1, 1] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( tetra, "Tetrahedron_edgeLengths", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13Xangles[113X: The angles can be changed with this parameter.[133X
+  
+        [33X[0;6YThe  angles  are  given as a list [3Xangles[103X such that [3Xangles[f][v][103X is the
+        inner  angle of vertex [3Xv[103X in face [3Xf[103X. The angle is represented as a list
+        [3X[sin,cos][103X  with  the  sine  and  cosine of the angle. In the case of a
+        triangle,  it  is not possible to change the angles without specifying
+        the edge lengths, as the angles do not describe a unique triangle.[133X
+  
+        [33X[0;6YWe  will  exemplify  this  parameter  on  the  example  of a rectangle
+        example.  In  the  case  of  a rectangle, changing the angles does not
+        change the edge lengths.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xrectangle:=PolygonalSurfaceByVerticesInFaces([[1,2,3,4]]);;[127X[104X
+          [4X[25Xgap>[125X [27Xpr:=DrawSurfaceToTikz( rectangle, "Rectangle_example" );;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr.angles:=[[[ 0.866025, 0.5 ],[ 0.866025, -0.5 ],[ 0.866025, 0.5 ],[127X[104X
+          [4X[25X>[125X [27X[ 0.866025, -0.5 ]]];;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.2-5 [33X[0;0YDraw order[133X[101X
+  
+  [33X[0;0YThis subsection is concerned with the parameters that control the draw order
+  of  the  drawings  from  [9XDrawSurfaceToTikz[109X  ([14X16.2-1[114X).  The  drawing order is
+  decided by the following parameters:[133X
+  
+  [30X    [33X[0;6Y[13XavoidIntersections[113X:   If   this   parameter   is  [9Xtrue[109X  (the  default)
+        intersections  in  the  drawing are avoided if possible. If there is a
+        conflict between a given drawing order and the intersection avoidance,
+        the avoidance will prevail![133X
+  
+  [30X    [33X[0;6Y[13XstartingFaces[113X:  After  drawing  this  list contains one face from each
+        strongly  connected  component.  These  are  the first faces that were
+        drawn from these components. That means that the vertex coordinates of
+        these  faces  are  the  first  to  be  calculated. By giving this list
+        manually  the  first  drawn faces can be customized. The function will
+        auto-correct  the spelling [13XstartingFace[113X into [13XstartingFaces[113X if there is
+        no entry for [13XstartingFaces[113X.[133X
+  
+  [30X    [33X[0;6Y[13XedgeDrawOrder[113X:  After  drawing  this list contains a list of edges for
+        each  strongly  connected  component.  For  each  component, this list
+        explains  the  order  in  which these edges were completed (an edge is
+        completed  if  both  adjacent  faces  are drawn). This means that this
+        parameter  controls which edges are drawn once and which edges need to
+        be  drawn  twice  because  they  cannot  be  completed.  This  can  be
+        customized  and  [9XDrawSurfaceToTikz[109X will try to follow it as closely as
+        possible while avoiding intersections (if [13XavoidIntersections[113X is set).[133X
+  
+  [33X[0;0YWe will exemplify these parameters on different examples.[133X
+  
+  [30X    [33X[0;6Y[13XstartingFaces[113X:  After drawing, this list contains the first faces that
+        were  drawn  from  each  strongly  connected  component.  These can be
+        changed with this parameter.[133X
+  
+        [33X[0;6YFor  example,  consider  the  butterfly  with  two  strongly connected
+        components.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xbutterfly := TriangularComplexByVerticesInFaces( 7, 4, [ [1,2,3], [127X[104X
+          [4X[25X>[125X [27X[1,6,7], [1,3,4], [1,5,6] ]);;[127X[104X
+          [4X[25Xgap>[125X [27Xpr := DrawSurfaceToTikz(butterfly,"Butterfly");;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage  omitted  in  terminal  text  Changing  the  faces  results in a
+        different picture:[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( startingFaces := [3,4] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz( butterfly, "Butterfly_startingFaces", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeDrawOrder[113X:  After  drawing  this list contains a list of edges for
+        each  strongly  connected  component.  For  each  component, this list
+        explains  the  order  in  which these edges were completed (an edge is
+        completed if both adjacent faces are drawn). This order can be changed
+        with this parameter.[133X
+  
+        [33X[0;6YFor example, consider this simplicial surface:[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27XdoubleSixGon:=SimplicialSurfaceByUmbrellaDescriptor([(1,2,3,4,5,6),[127X[104X
+          [4X[25X>[125X [27X(7,8,9,10,11,12),(1,2,8,7),(2,3,9,8),(3,4,10,9),(4,5,11,10),(5,6,12,11),[127X[104X
+          [4X[25X>[125X [27X(6,1,7,12)]);;[127X[104X
+          [4X[25Xgap>[125X [27Xpr:=DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon");;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text Changing the edge draw order results in
+        a different picture:[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr!.edgeDrawOrder:=[[1,2,10,8,6,4,7,15,13,14,18,17,16]];;[127X[104X
+          [4X[25Xgap>[125X [27XDrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.2-6 [33X[0;0YOutput control[133X[101X
+  
+  [33X[0;0YThis  subsection  contains miscellaneous parameters to control the output of
+  [9XDrawSurfaceToTikz[109X ([14X16.2-1[114X). It contains the following options:[133X
+  
+  [30X    [33X[0;6Y[13XcompileLaTeX[113X:  If  this  parameter  is [9Xtrue[109X (the default is [9Xfalse[109X) the
+        generated  tex-file  will  be automatically compiled with [9Xpdflatex[109X. In
+        rare cases the compilation might run into a problem and stop. To abort
+        such  a computation, type 'x' and hit ENTER (this command is passed to
+        [9Xpdflatex[109X).  If this happens, please notify the developers so it can be
+        fixed in a later version.[133X
+  
+  [30X    [33X[0;6Y[13XlatexDocumentclass[113X:  Defines  which  documentclass  is  used  for  the
+        output.  The  default is [9Xarticle[109X. If the picture should not be cropped
+        (and not be printed), [9Xstandalone[109X is recommended.[133X
+  
+  [30X    [33X[0;6Y[13XnoOutput[113X:  If this parameter is [9Xtrue[109X (the default is [9Xfalse[109X) the method
+        [9XDrawSurfaceToTikz[109X will produce no output on the console.[133X
+  
+  [30X    [33X[0;6Y[13XonlyTikzpicture[113X:  If this parameter is [9Xtrue[109X (the default is [9Xfalse[109X) the
+        generated  tex-file  will only consist of a [9Xtikzpicture[109X without header
+        (it is not possible to compile it on its own).[133X
+  
+  
+  [1X16.2-7 [33X[0;0YData representation[133X[101X
+  
+  [33X[0;0YThis subsection contains miscellaneous parameters which cannot be influenced
+  by   the   user   and   contain  information  to  recreate  the  drawing  of
+  [9XDrawSurfaceToTikz[109X   ([14X16.2-1[114X).   These   parameters  are:  [13XvertexCoordinates[113X,
+  [13XedgeEndPoint[113X and [13XfaceVertices[113X.[133X
+  
+  [33X[0;0YFor each vertex [3Xv[103X and each edge [3Xe[103X the components that contain [3Xv[103X respectively
+  [3Xe[103X are sorted in the order in which [3Xv[103X respectively [3Xe[103X were drawn. The variable
+  [3Xindex[103X  will  play  an  essential role in describing the parameters. [3Xindex(v)[103X
+  specifies  the  index of the component in the order described above in which
+  the  drawn  node  is located (analogously for [3Xe[103X). Consider the parameters in
+  detail:[133X
+  
+  [30X    [33X[0;6Y[13XvertexCoordinates[113X:  After  drawing  this list contains a list for each
+        vertex.  For each vertex the list stores the coordinates each time the
+        vertex  is  drawn.  The  coordinates  are  represented as a list [3X[x,y,
+        index][103X.[133X
+  
+  [30X    [33X[0;6Y[13XedgeEndPoint[113X: After drawing this list contains a list for each edge [3Xe[103X.
+        For  each  edge  the  list stores the end vertices of [3Xe[103X for each drawn
+        time. Each entry is represented as [3X[v1,v2,index(e)][103X, with the vertices
+        [3Xv1[103X and [3Xv2[103X are represented as a list [3X[vi, index(vi)][103X.[133X
+  
+  [30X    [33X[0;6Y[13XfaceVertices[113X:  After  drawing this list contains a list for each face.
+        For  each face the list contains in each entry a list of triples, with
+        each  entry  in  the  list  describing  a  vertex.  The  vertices  are
+        represented as [3X[v, index(v)][103X.[133X
+  
+  [1X16.2-8 SetFaceCoordinates2D[101X
+  
+  [33X[1;0Y[29X[2XSetFaceCoordinates2D[102X( [3Xsurface[103X, [3Xcoordinates[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XSetFaceCoordinates2DNC[102X( [3Xsurface[103X, [3Xcoordinates[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ythe updated print record[133X
+  
+  [33X[0;0YSave the given list of 2D-coordinates in the given or an empty print record.
+  If  the  format of the 2D-coordinates (2D-coordinates have to be a list of 2
+  entries  of  floats)  is not correct, then an error is shown. The NC-version
+  does not check the coordinate format.[133X
+  
+  [33X[0;0YFor an example consider the tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XprintRecord:=rec();;[127X[104X
+    [4X[25Xgap>[125X [27XSetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]]);[127X[104X
+    [4X[28Xrec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )[128X[104X
+    [4X[25Xgap>[125X [27XSetFaceCoordinates2D(Tetrahedron(),[[0.,0.],[0.,1.],[1.,1.],[0.,1.]],[127X[104X
+    [4X[25X>[125X [27XprintRecord);;[127X[104X
+    [4X[25Xgap>[125X [27XprintRecord;[127X[104X
+    [4X[28Xrec( faceCoordinates2D := [ [ 0., 0. ], [ 0., 1. ], [ 1., 1. ], [ 0., 1. ] ] )[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X16.3 [33X[0;0YDrawing a net in SVG[133X[101X
+  
+  [33X[0;0YAs  we  saw in [14X16.2[114X it is quite easy to draw the net of a ramified polygonal
+  surface  into  a  plane.  Instead of drawing them in a [13X.tex[113X file we can draw
+  them in a [13X.svg[113X file and add for example flaps so that it is possible to clue
+  the folding plan together to obatin an embedding in [22Xℝ^3[122X.[133X
+  
+  [33X[0;0YFor example, the net of an icosahedron can be drawn like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico:=Icosahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=DrawComplexToSVG(ico,"Icosahedron");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  will  write  a  file  [13XIcosahedron.svg[113X  that  contains  the  net of the
+  isocahedron:    [Image    omitted    in    text   manual.   Check   <package
+  location>/doc/images/Icosahedron_svg.png][133X
+  
+  [33X[0;0YTo customize this drawing, a record is used (called the [3XprintRecord[103X). We can
+  change  the edge lengths to 1,2 and 2 and give a specific edge draw order by
+  the following:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico:=AllWildColouredSurfaces(ico)[1];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=rec();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeDrawOrder:=[[29,26,17,13,3,7,14,24,25,21,8,6,2,5,16,19,20,12,22,30]];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeColourClassLengths:=[1,2,2];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeColourClassColours:=["red","green","blue"];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.AddFlapTriangle:=true;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=DrawComplexToSVG(ico,"Icosahedron_example",pr);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThen  we  obtain  the  following  net:  [Image omitted in text manual. Check
+  <package location>/doc/images/IcosahedronExample_svg.png][133X
+  
+  [1X16.3-1 DrawComplexToSVG[101X
+  
+  [33X[1;0Y[29X[2XDrawComplexToSVG[102X( [3Xcomplex[103X, [3XfileName[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YDraw  the  net  of the given [3Xcomplex[103X into a svg-file. An introduction to the
+  use  of  this method (along with several examples) can be found at the start
+  of section [14X16.3[114X. It is possible to use the [13Xsvg[113X-file as an input for a Cricut
+  Maker  to  create a nice net which can be folded and glued together. A short
+  description for this is written in [14X16.3-5[114X.[133X
+  
+  [30X    [33X[0;6YIf  the  given  [3XfileName[103X  does not end in [13X.svg[113X the ending [13X.svg[113X will be
+        added to it.[133X
+  
+  [30X    [33X[0;6YThe  given  file  will  be  overwritten  without  asking if it already
+        exists.  If  you  don't  have  permission  to write in that file, this
+        method will throw an error.[133X
+  
+  [30X    [33X[0;6YThe   particulars   of   the  drawing  are  determined  by  the  given
+        [3XprintRecord[103X. If this is not given, the default settings are used.[133X
+  
+  [30X    [33X[0;6YThe  [3XprintRecord[103X  will  be  modified  and  returned by this method. It
+        contains the data to recreate the drawing of the surface.[133X
+  
+  [33X[0;0YThere are several parameters to change the output of this method, similar to
+  the  options  of  [9XDrawSurfaceToTikz[109X  as described in [14X16.2[114X. This includes the
+  parameters for changing the colours of edges and faces ([14X16.2-2[114X), the lengths
+  ([14X16.2-4[114X), the edge draw order ([14X16.2-5[114X).[133X
+  
+  [33X[0;0YMoreover,  there  are  additional  parameters especially only for the method
+  [9XDrawComplexToSVG[109X:[133X
+  
+  [30X    [33X[0;6Y[13XFlaps[113X ([14X16.3-2[114X): Draw flaps.[133X
+  
+  [30X    [33X[0;6Y[13XCircles[113X ([14X16.3-3[114X): Draw circles for each face.[133X
+  
+  [30X    [33X[0;6Y[13XGeodesic[113X ([14X16.3-4[114X): Draw Geodesics.[133X
+  
+  [30X    [33X[0;6Y[13XLabels[113X   ([14X???Subsection_DrawSurfaceToSVG_FaceLabels???[114X):   Draw   face
+        labels.[133X
+  
+  
+  [1X16.3-2 [33X[0;0YFlaps[133X[101X
+  
+  [33X[0;0YThis  subsection  contains  parameters  to  add  flaps  to  the  drawing  of
+  [9XDrawComplexToSVG[109X  ([14X16.3-1[114X).  There are two different kind of flaps which can
+  be added:[133X
+  
+  [30X    [33X[0;6Y[13XAddFlaps[113X:  If  this  parameter  is  [9Xtrue[109X  (the  default  is [9Xfalse[109X) the
+        generated [13X.svg[113X file will compute flaps with four corners.[133X
+  
+  [30X    [33X[0;6Y[13XAddFlapTriangle[113X:  If this parameter is [9Xtrue[109X (the default is [9Xfalse[109X) the
+        generated [13X.svg[113X file will compute flaps which are triangles.[133X
+  
+  [33X[0;0YFor  example,  consider  icosahedron  at  the begin of this section. Here we
+  added the flaps with four coners:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico:=Icosahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=rec();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.AddFlaps:=true;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=DrawComplexToSVG(ico,"Icosahedron_Flaps");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y[Image       omitted      in      text      manual.      Check      <package
+  location>/doc/images/IcosahedronFlap_svg.png][133X
+  
+  [33X[0;0YIn the following the triangular flaps are drawn:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico:=Icosahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=rec();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.AddFlapTriangle:=true;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=DrawComplexToSVG(ico,"Icosahedron_FlapTriangle");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y[Image       omitted      in      text      manual.      Check      <package
+  location>/doc/images/IcosahedronFlapTriangle_svg.png][133X
+  
+  
+  [1X16.3-3 [33X[0;0YCircles[133X[101X
+  
+  [33X[0;0YIf the paramterer [13XAddCircle[113X is [9Xtrue[109X (the default is [9Xfalse[109X) circles are drawn
+  at  the center of each face. This can be used, for example, to place magnets
+  in the surfaces that can be constructed by gluing the folding plan together.[133X
+  
+  [33X[0;0YConsider  the  icosahedron at the begin of this section where the circle are
+  drawn:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico:=Icosahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=rec();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.AddCircle:=true;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=DrawComplexToSVG(ico,"Icosahedron_Circle");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y[Image       omitted      in      text      manual.      Check      <package
+  location>/doc/images/IcosahedronCircle_svg.png][133X
+  
+  
+  [1X16.3-4 [33X[0;0YGeodesic[133X[101X
+  
+  [33X[0;0YIf  the  paramterer [13XAddGeodesic[113X is [9Xtrue[109X (the default is [9Xfalse[109X) all geodesics
+  are  drawn  on  the  surface.  This  only  works  for  equilateral triangles
+  otherwise a warning is printed.[133X
+  
+  [33X[0;0YConsider  the  icosahedron  at  the  begin  of this section with equilateral
+  triangle where the geodesics are drawn:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico:=Icosahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=rec();;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.AddGeodesic:=true;;[127X[104X
+    [4X[25Xgap>[125X [27Xpr:=DrawComplexToSVG(ico,"Icosahedron_Geodesic");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y[Image       omitted      in      text      manual.      Check      <package
+  location>/doc/images/IcosahedronGeodesic_svg.png][133X
+  
+  
+  [1X16.3-5 [33X[0;0YCricut Maker[133X[101X
+  
+  [33X[0;0YThis  is  a  short  manual  on how to use the Cricut Maker together with the
+  output   from  the  [9XDrawSurfaceToSVG[109X  method.  After  you  have  created  an
+  output-file  with the name [13Xname.svg[113X you can use the Cricut Maker to create a
+  nice net which can be folded and glued together:[133X
+  
+  [31X1[131X   [33X[0;6YStart Cricut Design Space on your Computer and sign in.[133X
+  
+  [31X2[131X   [33X[0;6YGo to Canvas and then click on [13XUpload[113X.[133X
+  
+  [31X3[131X   [33X[0;6YClick  [13XUpload  Image[113X and upload your SVG file. Then click [13XContinue[113X and
+        then [13XUpload[113X[133X
+  
+  [31X4[131X   [33X[0;6YFirst  you need to select all groups and change the operation to [13XPrint
+        then Cut[113X and then click on [13XAttach[113X.[133X
+  
+  [31X5[131X   [33X[0;6YAdjust  the  size  of your model so that the Cricut Maker supports the
+        size  (currently  up  to 16.54cm x 25.22 cm). You can also rotate your
+        model if that helps.[133X
+  
+  [31X6[131X   [33X[0;6YClick [13XMake[113X and [13XContinue[113X. Choose a printer and then print the file.[133X
+  
+  [31X7[131X   [33X[0;6YThen cancel the [13XMake[113X process to get back to Canvas.[133X
+  
+  [31X8[131X   [33X[0;6YDelete all the groups which do not contain scoring and flap edges.[133X
+  
+  [31X9[131X   [33X[0;6YChange  the  operation for the inner edges to score and keep the print
+        then cut option for the flaps.[133X
+  
+  [31X10[131X  [33X[0;6YClick [13XMake[113X and select then [13XI've already printed[113X option.[133X
+  
+  [31X11[131X  [33X[0;6YChoose the correct paper setting and put the printed paper on the mat.[133X
+  
+  [31X12[131X  [33X[0;6YFirst,  you need to put the scoring wheel into the machine. After some
+        time, the program tells you to switch to the cutter.[133X
+  
+  [31X13[131X  [33X[0;6YAfter the Cricut Maker is done, you can take out the model and glue it
+        together.[133X
+  
+  
+  [1X16.4 [33X[0;0YDrawing the face graph[133X[101X
+  
+  [33X[0;0YThe  face  graph  of a simplicial surface is a graph whereby the vertices of
+  the graph are given by the faces and the edges of the graph are given by the
+  edges  of the given simplicial surface. For more specific access to the face
+  graph   of  a  simplicial  surface,  compare  ([14X15.4-2[114X).  We  can  compute  a
+  straight-line embedding of the face graph by assigning 2D-coordinates to the
+  faces.  Note,  [9XDrawFacegraphToTikz[109X  ([14X16.4-1[114X)  only  computes  face graphs of
+  spherical vertex faithful surfaces.[133X
+  
+  [33X[0;0YFor example the face graph of an octahedron can be drawn like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xoct := Octahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XDrawFacegraphToTikz( oct, "facephgraph_oct_example" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  will  write  a  file  [13Xfacegraph_oct_example.tex[113X that contains the face
+  graph of the octahedron, written in [9XTikZ[109X: Image omitted in terminal text[133X
+  
+  [33X[0;0YTo  customize  this drawing, a record is used (called the [3XprintRecord[103X). Each
+  call of the drawing method creates one of those:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr := DrawFacegraphToTikz( oct, "facegraph_oct" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf the edges should be labelled, they can be turned on as follows:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeLabelsActive := true;;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe labels of the vertices can be turned on with[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.vertexLabelsActive := true;;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe  colours  of  the  edges  and  vertices  can also be changed very easily
+  (especially  if  all  colours should be changed at once). For example, let's
+  make all edges green:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.edgeColours := "green";;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YWe  can  even  compute an embedding of the face graph with the corresponding
+  geodesics of the simplicial surface. Image omitted in terminal text[133X
+  
+  [33X[0;0YIf  we  are  not happy with the position of a face node, we can change it by
+  adjusting the 2D-coordinate of the face.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.faceCoordinates2D[1]:=[-2.,4.];;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YIt  is  even  possible  to compute an embedding of the face graph of a given
+  simplicial  surface by manipulating all face coordinates. For example we can
+  compute  an  embedding so that it is clear to see that the face graph of the
+  octahedron is bipartite.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpr.faceCoordinates2D[1]:=[0.,0.];;pr.faceCoordinates2D[4]:=[4.,0.];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.faceCoordinates2D[3]:=[4.,1.];;pr.faceCoordinates2D[7]:=[4.,2.];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.faceCoordinates2D[2]:=[0.,1.];;pr.faceCoordinates2D[6]:=[0.,2.];;[127X[104X
+    [4X[25Xgap>[125X [27Xpr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X16.4-1 DrawFacegraphToTikz[101X
+  
+  [33X[1;0Y[29X[2XDrawFacegraphToTikz[102X( [3Xsurface[103X, [3Xfile[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YDraw  the  face  graph of the given [3Xsurface[103X into a tex-file (using TikZ). An
+  introduction  to the use of this method (along with several examples) can be
+  found  at  the  start  of  section  [14X16.4[114X.  If [9Xsurface[109X is a simplicial vertex
+  faithful  sphere  and the function is used without the argument [9XprintRecord[109X,
+  then  the  drawing printed into [9Xfile[109X is a planar embedding of the face graph
+  of [9Xsurface[109X, where the vertices of the surface are identified by the faces of
+  the  embedding.  Trying  to  use  the  function  for a surface that is not a
+  vertex-faithful sphere results in returning [9Xfail[109X.[133X
+  
+  [30X    [33X[0;6YIf  the  given [3Xfile[103X does not end in [13X.tex[113X the ending [13X.tex[113X will be added
+        to it.[133X
+  
+  [30X    [33X[0;6YThe  given  file  will  be  overwritten  without  asking if it already
+        exists.  If  you  don't  have  permission  to write in that file, this
+        method will throw an error.[133X
+  
+  [30X    [33X[0;6YThe   particulars   of   the  drawing  are  determined  by  the  given
+        [3XprintRecord[103X.  If this is not given and [3Xsurface[103X is a simplicial sphere,
+        the default settings are used.[133X
+  
+  [30X    [33X[0;6YThe  [3XprintRecord[103X  will  be  modified  and  returned by this method. It
+        contains the data to recreate the drawing of the surface.[133X
+  
+  [33X[0;0YThere  are several parameters to change the output of this method. Since the
+  design  of  the  parameters  is  similar  to the design of the parameters of
+  [9XDrawSurfaceToTikz[109X([14X16.2-1[114X),   one   can   also  refer  to  the  corresponding
+  subsections  for  a better understanding. There are the following classes of
+  parameters:[133X
+  
+  [30X    [33X[0;6Y[13XColours[113X ([14X16.4-2[114X): Change the colours of edges and faces represented as
+        vertices.[133X
+  
+  [30X    [33X[0;6Y[13XLabels[113X ([14X16.2-3[114X): Modify the labels of vertices, edges and faces.[133X
+  
+  [30X    [33X[0;6Y[13XScale[113X ([14X16.4-4[114X): These parameters control the size of the drawing.[133X
+  
+  [30X    [33X[0;6Y[13XfaceCoordinates2D[113X ([14X16.4-5[114X): Modify the 2D-coordinates of the faces.[133X
+  
+  [30X    [33X[0;6Y[13XGeodesics[113X  ([14X16.4-6[114X): Draw the geodesics of the simplicial surface into
+        the file.[133X
+  
+  [30X    [33X[0;6Y[13XOutput  control[113X  ([14X16.4-7[114X): Modify how the LaTeX-output behaves and how
+        much information is printed to the console.[133X
+  
+  [33X[0;0YIf  [9Xsurface[109X  is  a  simplicial  sphere without 2-waists, the function can be
+  called  without specifying the parameter [9XfaceCoordinates2D[109X. In this case the
+  implementation computes coordinates for the faces represented by vertices so
+  that the embedded facegraph is planar.[133X
+  
+  
+  [1X16.4-2 [33X[0;0YColours[133X[101X
+  
+  [33X[0;0YThis  subsection  covers  how  to  change  the  colours  of  edges and faces
+  represented  as  vertices in the drawings from [9XDrawFacegraphToTikz[109X ([14X16.4-1[114X).
+  It covers the following parameters:[133X
+  
+  [30X    [33X[0;6Y[13XfaceColours[113X: Modify the colours of the vertices representing the faces
+        (the default colour is gray).[133X
+  
+  [30X    [33X[0;6Y[13XedgeColours[113X:  Modify  the  colours of the edges (the default colour is
+        gray).[133X
+  
+  [33X[0;0YWe will exemplify them with the tetrahedron to make clear how the parameters
+  work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra :=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],[127X[104X
+    [4X[25X>[125X [27X[1,3,4],[2,3,4]]);;[127X[104X
+    [4X[25Xgap>[125X [27XDrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceColours[113X:  Modifies  the  colours  of the vertices representing the
+        faces. The colours are given in a list [3Xcolours[103X such that [3Xcolours[f][103X is
+        the  colour of the vertex representing face [3Xf[103X. If face [3Xf[103X is not in the
+        surface,  the  colour  is  skipped.  The  colours are strings that are
+        recognizable by LaTeX.[133X
+  
+        [33X[0;6YIt  is  possible  to  leave  some face colours unbound - those will be
+        coloured with the default face colour (gray).[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceColours :=[127X[104X
+          [4X[25X>[125X [27X   ["blue", "green",, "black!20!yellow"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz(tetra, [127X[104X
+          [4X[25X>[125X [27X"facegraph_tetrahedron_vertexColouredLocal", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage  omitted in terminal text Instead of giving an entire list it is
+        also  possible  to  give just one string defining a new colour for all
+        vertices. It will be internally converted into a list.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexColours := "blue!60!white" );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz(tetra, [127X[104X
+          [4X[25X>[125X [27X"facegraph_tetrahedron_vertexColouredGlobal.tex",pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeColours[113X:  Modifies the colours of the edges. The colours are given
+        in a list [3Xcolours[103X such that [3Xcolours[e][103X is the colour of the edge [3Xe[103X. If
+        edge  [3Xe[103X  is not in the surface, the colour is skipped. The colours are
+        strings that are recognizable by LaTeX.[133X
+  
+        [33X[0;6YIs  is  possible  to  leave  some edge colours unbound - those will be
+        coloured with the default edge colour (gray).[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeColours :=[127X[104X
+          [4X[25X>[125X [27X   [,,"red","purple","blue","green!80!black"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz(tetra,[127X[104X
+          [4X[25X>[125X [27X"facegraph_tetrahedron_edgeColouredLocal.tex", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage  omitted in terminal text Instead of giving an entire list it is
+        also  possible  to  give just one string defining a new colour for all
+        edges. It will be internally converted into a list.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeColours := "red" );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( tetra, [127X[104X
+          [4X[25X>[125X [27X"facegraph_tetrahedron_edgeColouredGlobal.tex", pr );;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.4-3 [33X[0;0YLabels[133X[101X
+  
+  [33X[0;0YThis  subsection  covers  the parameters that change the labels of vertices,
+  edges and faces in the drawings of [9XDrawFacegraphToTikz[109X ([14X16.4-1[114X).[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabelsActive[113X:  Turn the vertex labels on or off (by default they
+        are turned off).[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabels[113X:  Modify  the vertex labels (by default they are labelled
+        by their number).[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabelsActive[113X:  Turn the edge labels on or off (by default they are
+        turned off).[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabels[113X:  Modify  the  edge labels (by default they are labelled by
+        their number).[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabelsActive[113X:  Turn the face labels on or off (by default they are
+        turned on).[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabels[113X:  Modify  the  face labels (by default they are labelled by
+        their number).[133X
+  
+  [33X[0;0YWe  will exemplify these parameters on the example of a double-6-gon to make
+  clear how the parameters work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdouble6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],[127X[104X
+    [4X[25X>[125X [27X[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon.tex" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabelsActive[113X:  By default all vertices are not labelled. If they
+        should  be  labelled,  this  parameter  can  be set to [9Xtrue[109X. Note, the
+        vertices  of  the simplicial surface can be identified by the faces of
+        the facegraph.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexLabelsActive := true);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon,"facegraph_Double6Gon_VertexLabelsOn" , pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XvertexLabels[113X:  By  default  the vertices are labelled by their number.
+        This  can be changed with this parameter (if you just want to turn off
+        the labels, use [13XvertexLabelsActive[113X instead).[133X
+  
+        [33X[0;6YThe labels are given as a list [3Xlabels[103X such that [3Xlabels[v][103X is the label
+        of  the  vertex  [3Xv[103X.  If  vertex  [3Xv[103X is not in the surface, the label is
+        skipped.  It  is  possible to leave some vertex labels unbound - those
+        will be labelled with their default label.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( vertexLabels := ["V_1", "X", , "++"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_vertexLabels", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabelsActive[113X:  By  default  all  edges  are  not labelled. If they
+        should be labelled, this parameter can be set to [9Xtrue[109X.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeLabelsActive := true  );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabelsOn", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XedgeLabels[113X:  By  default  the edges are labelled by their number. This
+        can  be  changed with this parameter (if you just want to turn off the
+        labels, use [13XedgeLabelsActive[113X instead).[133X
+  
+        [33X[0;6YThe labels are given as a list [3Xlabels[103X such that [3Xlabels[e][103X is the label
+        of  the edge [3Xe[103X. If edge [3Xe[103X is not in the surface, the label is skipped.
+        It  is  possible  to  leave  some  edge labels unbound - those will be
+        labelled with their default label.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( edgeLabels := ["a", , "e_3", , "?"] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_EdgeLabels", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabelsActive[113X:  By  default  all faces are labelled. If they should
+        not be labelled, this parameter can be set to [9Xfalse[109X.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceLabelsActive := false );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabelsOff", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceLabels[113X:  By  default  the faces are labelled by their number. This
+        can  be  changed with this parameter (if you just want to turn off the
+        labels, use [13XfaceLabelsActive[113X instead).[133X
+  
+        [33X[0;6YThe labels are given as a list [3Xlabels[103X such that [3Xlabels[f][103X is the label
+        of  the face [3Xf[103X. If face [3Xf[103X is not in the surface, the label is skipped.
+        It  is  possible  to  leave  some  face labels unbound - those will be
+        labelled with their default label.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceLabels := ["I", "f_2", "42", ,] );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( double6Gon, "facegraph_Double6Gon_FaceLabels", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.4-4 [33X[0;0YScaling[133X[101X
+  
+  [33X[0;0YThis subsection explains the parameters that modify the size of the drawings
+  produced  by  the  method [9XDrawFacegraphToTikz[109X ([14X16.4-1[114X). More specifically it
+  explains the following parameters:[133X
+  
+  [30X    [33X[0;6Y[13Xscale[113X: Globally scales the picture. The default is 2.[133X
+  
+  [30X    [33X[0;6Y[13XfloatAccuracy[113X:  Internal  parameter  to  decide  when  two  floats are
+        regarded  as  equal.  The  default  is 0.001. Usually it should not be
+        necessary to modify this value.[133X
+  
+  [33X[0;0YWe  will  exemplify  the  parameter  [13Xscale[113X on the octahedron to make it more
+  clear how the parameters works:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xoct:=Octahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XDrawFacegraphToTikz( oct, "facegraph_oct" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13Xscale[113X:  By  default  the  scale  is  2.  This can be changed with this
+        parameter.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( scale := 1.5 );;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( tetra, "facegraph_oct_rescaled", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.4-5 [33X[0;0YFace coordinates[133X[101X
+  
+  [33X[0;0YThis  subsection  covers  how  to  change  the  position of the faces in the
+  drawing  computed  by  [9XDrawFacegraphToTikz[109X ([14X16.4-1[114X). It covers the following
+  parameters:[133X
+  
+  [30X    [33X[0;6Y[13XfaceCoordinates2D[113X:  Modify  the  coordinates  of  the  faces which are
+        represented as vertices in the embedding.[133X
+  
+  [30X    [33X[0;6Y[13Xspread[113X  (Only  available for [9XDrawConvexFacegraphToTikz[109X [14X16.4-8[114X): Modify
+        the spread of the coordinates.[133X
+  
+  [33X[0;0YWe will exemplify them with the tetrahedron to make clear how the parameters
+  work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4],[127X[104X
+    [4X[25X>[125X [27X[1,3,4],[2,3,4]]);;[127X[104X
+    [4X[25Xgap>[125X [27XDrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XfaceCoordinates2D[113X:  Modifies the position of the vertices representing
+        the  faces. The coordinates are given in a list [3XfaceCoordinates2D[103X such
+        that   [3XfaceCoordinates2D[f][103X   is   the  2D-coordinate  of  the  vertex
+        representing    face   [3Xf[103X.   The   list   of   bounded   positions   in
+        [13XfaceCoordinates2D[113X  has  to  be  equal to the set of faces of the given
+        surface, otherwise the function returns an error.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( faceCoordinates2D:=[[0.,0.],[4.,0.],[4.,4.],[0.,4.]]);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz(tetra, [127X[104X
+          [4X[25X>[125X [27X"facegraph_tetrahedron_Coordinates", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13Xspread[113X (Only available for [9XDrawConvexFacegraphToTikz[109X [14X16.4-8[114X): Modifies
+        the  position  of  the  vertices  representing  the  faces. The spread
+        parameter  can  be  chosen as a float in the interval (0, 1). Choosing
+        the  parameter  outside  the  interval results in an error. Choosing a
+        number  close  to  1 modifies the face coordinates such that they tend
+        torwards  the outer ring of the face graph. Choosing a number close to
+        0  modifies  the  face  coordinates  such  that they tend torwards the
+        middle of the face graph. The default spread is set at 0.5.[133X
+  
+        [33X[0;6YWe will exemplify this parameter with the icosahedron.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xicosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], [127X[104X
+          [4X[25X>[125X [27X  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], [127X[104X
+          [4X[25X>[125X [27X  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], [127X[104X
+          [4X[25X>[125X [27X  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], [127X[104X
+          [4X[25X>[125X [27X  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], [127X[104X
+          [4X[25X>[125X [27X  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawConvexFacegraphToTikz(icosahedron, [127X[104X
+          [4X[25X>[125X [27X"convex_facegraph_icosahedron_default_spread");;[127X[104X
+        [4X[32X[104X
+  
+  [30X    [33X[0;6Y[13Xspread[113X (Only available for [9XDrawConvexFacegraphToTikz[109X [14X16.4-8[114X): Modifies
+        the  position  of  the  vertices  representing  the  faces. The spread
+        parameter  can  be  chosen as a float in the interval (0, 1). Choosing
+        the  parameter  outside  the  interval results in an error. Choosing a
+        number  close  to  1 modifies the face coordinates such that they tend
+        torwards  the outer ring of the face graph. Choosing a number close to
+        0  modifies  the  face  coordinates  such  that they tend torwards the
+        middle of the face graph. The default spread is set at 0.5.[133X
+  
+        [33X[0;6YWe will exemplify this parameter with the icosahedron.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xicosahedron := SimplicialSurfaceByVerticesInFaces([ [ 1, 2, 3 ], [127X[104X
+          [4X[25X>[125X [27X  [ 1, 2, 4 ], [ 1, 4, 5 ], [ 1, 5, 6 ], [ 1, 3, 6 ], [ 2, 3, 7 ], [127X[104X
+          [4X[25X>[125X [27X  [ 2, 4, 8 ], [ 4, 5, 9 ], [ 5, 6, 10 ], [ 3, 6, 11 ], [127X[104X
+          [4X[25X>[125X [27X  [ 2, 7, 8 ], [ 4, 8, 9 ], [ 5, 9, 10 ], [ 6, 10, 11 ], [127X[104X
+          [4X[25X>[125X [27X  [ 3, 7, 11 ], [ 7, 8, 12 ], [ 8, 9, 12 ], [ 9, 10, 12 ], [127X[104X
+          [4X[25X>[125X [27X  [ 10, 11, 12 ], [ 7, 11, 12 ] ]);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawConvexFacegraphToTikz(icosahedron, [127X[104X
+          [4X[25X>[125X [27X"convex_facegraph_icosahedron_default_spread");;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec(spread := 0.3);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawConvexFacegraphToTikz(icosahedron,[127X[104X
+          [4X[25X>[125X [27X "convex_facegraph_icosahedron_low_spread", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec(spread := 0.7);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawConvexFacegraphToTikz(icosahedron,[127X[104X
+          [4X[25X>[125X [27X "convex_facegraph_icosahedron_high_spread", pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.4-6 [33X[0;0YGeodesics[133X[101X
+  
+  [33X[0;0YThis  subsection  covers the usage of the parameter that adds geodesics into
+  the drawings of [9XDrawFacegraphToTikz[109X ([14X16.4-1[114X). This parameter is designed for
+  simplicial  surfaces  whose  face  graphs  are embedded with the help of the
+  coordinates computed in the implementations.[133X
+  
+  [33X[0;0YIt covers the following parameters:[133X
+  
+  [30X    [33X[0;6Y[13XgeodesicsActice[113X:  Turn  the  drawing  of  the  geodesics on or off (by
+        default  they  are turned off). A geodesic of a simplicial surface can
+        be  defined  as a face-edge-path. This information can be used to draw
+        the  geodesic as polygon so that edges of the polygon and edges of the
+        embedding of the face graph intersect if and only if the corresponding
+        edge of the simplicial surface lies on the defining face-edge-path.[133X
+  
+  [33X[0;0YWe  will exemplify these parameter on the example of a octahedron to make it
+  more clear how the parameters work:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xoct:=Octahedron();[127X[104X
+    [4X[25Xgap>[125X [27XDrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[13XgeodesicsActive[113X:  By default the geodics are not painted into the .tex
+        file. If they should be shown, this parameter can be set to [9Xtrue[109X. Note
+        the  octahedron  has  four  geodesics which are all represented in the
+        drawing by polygons coloured in red, green, blue and yellow.[133X
+  
+  [4X      [32X  Example  [32X[104X
+          [4X[25Xgap>[125X [27Xpr := rec( geodesicActive := true);;[127X[104X
+          [4X[25Xgap>[125X [27XDrawFacegraphToTikz( oct,[127X[104X
+          [4X[25X>[125X [27X"facegraph_octGeodesics.tex" , pr);;[127X[104X
+        [4X[32X[104X
+  
+        [33X[0;6YImage omitted in terminal text[133X
+  
+  
+  [1X16.4-7 [33X[0;0YOutput control[133X[101X
+  
+  [33X[0;0YThis  subsection  contains miscellaneous parameters to control the output of
+  [9XDrawFacegraphToTikz[109X ([14X16.4-1[114X). It contains the following options:[133X
+  
+  [30X    [33X[0;6Y[13XcompileLaTeX[113X:  If  this  parameter  is [9Xtrue[109X (the default is [9Xfalse[109X) the
+        generated  tex-file  will  be automatically compiled with [9Xpdflatex[109X. In
+        rare cases the compilation might run into a problem and stop. To abort
+        such  a computation, type 'x' and hit ENTER (this command is passed to
+        [9Xpdflatex[109X).  If this happens, please notify the developers so it can be
+        fixed in a later version.[133X
+  
+  [30X    [33X[0;6Y[13XlatexDocumentclass[113X:  Defines  which  documentclass  is  used  for  the
+        output.  The  default is [9Xarticle[109X. If the picture should not be cropped
+        (and not be printed), [9Xstandalone[109X is recommended.[133X
+  
+  [30X    [33X[0;6Y[13XnoOutput[113X:  If this parameter is [9Xtrue[109X (the default is [9Xfalse[109X) the method
+        [9XDrawSurfaceToTikz[109X will produce no output on the console.[133X
+  
+  [30X    [33X[0;6Y[13XonlyTikzpicture[113X:  If this parameter is [9Xtrue[109X (the default is [9Xfalse[109X) the
+        generated  tex-file  will only consist of a [9Xtikzpicture[109X without header
+        (it is not possible to compile it on its own).[133X
+  
+  [1X16.4-8 DrawConvexFacegraphToTikz[101X
+  
+  [33X[1;0Y[29X[2XDrawConvexFacegraphToTikz[102X( [3Xsurface[103X, [3Xfile[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YDraw  the  face  graph of the given [3Xsurface[103X into a tex-file (using TikZ). An
+  introduction  to the use of this method (along with several examples) can be
+  found  at  the  start  of  section  [14X16.4[114X.  If [9Xsurface[109X is a simplicial vertex
+  faithful  sphere  and the function is used without the argument [9XprintRecord[109X,
+  then  the  drawing printed into [9Xfile[109X is a planar embedding of the face graph
+  of [9Xsurface[109X, where the vertices of the surface are identified by the faces of
+  the  embedding.  [9XDrawConvexFacegraphToTikz[109X  differs from [9XDrawFacegraphToTikz[109X
+  ([14X16.4-1[114X)  by  constructing  the  face  graph  by successively manipulating a
+  convex   drawing  plane  and  calculating  new  face  coordinates.  The  new
+  coordinates  are  then  drawn  with  [9XDrawFacegraphToTikz[109X. This results in an
+  embedding  which  maps the faces of one of the largest umbrella paths on the
+  outer  ring  as  a regular polygon. Trying to use the function for a surface
+  that is not a vertex-faithful sphere results in returning [9Xfail[109X.[133X
+  
+  [30X    [33X[0;6YIf  the  given [3Xfile[103X does not end in [13X.tex[113X the ending [13X.tex[113X will be added
+        to it.[133X
+  
+  [30X    [33X[0;6YThe  given  file  will  be  overwritten  without  asking if it already
+        exists.  If  you  don't  have  permission  to write in that file, this
+        method will throw an error.[133X
+  
+  [30X    [33X[0;6YThe   particulars   of   the  drawing  are  determined  by  the  given
+        [3XprintRecord[103X.  If this is not given and [3Xsurface[103X is a simplicial sphere,
+        the default settings are used.[133X
+  
+  [30X    [33X[0;6YThe  [3XprintRecord[103X  will  be  modified  and  returned by this method. It
+        contains the data to recreate the drawing of the surface.[133X
+  
+  [33X[0;0YThere  are several parameters to change the output of this method. Since the
+  design   of   the   parameters   is   the   design   of  the  parameters  of
+  [9XDrawFacegraphToTikz[109X([14X16.4-1[114X),   one  can  also  refer  to  the  corresponding
+  subsections  for  a better understanding. There are the following classes of
+  parameters:[133X
+  
+  [30X    [33X[0;6Y[13XColours[113X ([14X16.4-2[114X): Change the colours of edges and faces represented as
+        vertices.[133X
+  
+  [30X    [33X[0;6Y[13XLabels[113X ([14X16.2-3[114X): Modify the labels of vertices, edges and faces.[133X
+  
+  [30X    [33X[0;6Y[13XScale[113X ([14X16.4-4[114X): These parameters control the size of the drawing.[133X
+  
+  [30X    [33X[0;6Y[13XfaceCoordinates2D[113X ([14X16.4-5[114X): Modify the 2D-coordinates of the faces.[133X
+  
+  [30X    [33X[0;6Y[13XGeodesics[113X  ([14X16.4-6[114X): Draw the geodesics of the simplicial surface into
+        the file.[133X
+  
+  [30X    [33X[0;6Y[13XOutput  control[113X  ([14X16.4-7[114X): Modify how the LaTeX-output behaves and how
+        much information is printed to the console.[133X
+  
+  [33X[0;0YConsider the following example of the double-6-gon:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdouble6Gon := SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,3,4],[1,4,5],[127X[104X
+    [4X[25X>[125X [27X[1,5,6],[1,6,7],[1,2,7],[2,3,8],[3,4,8],[4,5,8],[5,6,8],[6,7,8],[2,7,8]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDrawConvexFacegraphToTikz( double6Gon, "convex_facegraph_Double6Gon.tex" );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  

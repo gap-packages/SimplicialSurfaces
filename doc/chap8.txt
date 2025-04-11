@@ -1,0 +1,1577 @@
+  
+  [1X8 [33X[0;0YPaths and orientations[133X[101X
+  
+  [33X[0;0YIn   sections   [14X3.3[114X   and   [14X3.4[114X   the   concepts  of  vertex-edge-paths  and
+  edge-face-paths  were  introduced.  This chapter documents which methods are
+  available  for  these  paths  (in  sections  [14X8.1[114X and [14X8.3[114X). Then it discusses
+  applications  of  these  paths,  namely connectivity ([14X8.6[114X) and orientability
+  ([14X8.7[114X).[133X
+  
+  
+  [1X8.1 [33X[0;0YVertex-Edge-Paths[133X[101X
+  
+  [33X[0;0YThis  section  describes  all  methods  for  vertex-edge-paths. Intuitively,
+  vertex-edge-paths  describe  all  paths that are realized by walking only on
+  the vertices and edges of a polygonal complex.[133X
+  
+  [33X[0;0YWe  will  illustrate  several  properties  with  vertex-edge-paths  that are
+  defined on this simplicial surface: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xhex := SimplicialSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X     [ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],[127X[104X
+    [4X[25X>[125X [27X     [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;[127X[104X
+  [4X[32X[104X
+  
+  [1X8.1-1 VertexEdgePath[101X
+  
+  [33X[1;0Y[29X[2XVertexEdgePath[102X( [3Xcomplex[103X, [3Xpath[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVertexEdgePathNC[102X( [3Xcomplex[103X, [3Xpath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA VertexEdgePath-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsVertexEdgePath[102X( [3Xobject[103X ) [32X category[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe method [9XVertexEdgePath[109X constructs a new vertex-edge-path from a polygonal
+  complex  and  a  dense  list  of positive integers (alternating vertices and
+  edges).  The method [9XIsVertexEdgePath[109X checks if a given [5XGAP[105X-object represents
+  such a path.[133X
+  
+  [33X[0;0YWe  illustrate  this  with  two  paths  on  the  simplicial surface that was
+  introduced at the start of section [14X8.1[114X. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XalphaPath := VertexEdgePath(hex, [2,2,7,5,5,10,4,9,3,3,7,6,6]);[127X[104X
+    [4X[28X| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |[128X[104X
+    [4X[25Xgap>[125X [27XomegaPath := VertexEdgePath(hex, [3,9,4,10,5,5,7,6,6,12,1,7,2]);[127X[104X
+    [4X[28X| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YA  [13Xvertex-edge-path[113X  in  a polygonal complex is a tuple [22X(v_1, e_1, v_2, e_2,
+  ... ,v_n, e_n, v_{n+1})[122X such that[133X
+  
+  [30X    [33X[0;6YThe [22Xv_i[122X are vertices of the polygonal complex[133X
+  
+  [30X    [33X[0;6YThe [22Xe_j[122X are edges of the polygonal complex[133X
+  
+  [30X    [33X[0;6YFor the edge [22Xe_j[122X the set of incident vertices is [22X{v_j,v_{j+1}}[122X[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcirclePath := VertexEdgePath( hex, [1,7,2,8,3,9,4,10,5,11,6,12,1] );[127X[104X
+    [4X[28X( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XcloverPath := VertexEdgePath( hex, [1,7,2,2,7,5,5,11,6,6,7,3,3,9,4,4,7,1,1] );[127X[104X
+    [4X[28X( v1, E7, v2, E2, v7, E5, v5, E11, v6, E6, v7, E3, v3, E9, v4, E4, v7, E1, v1 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  elements  of  a  vertex-edge-path  can be accessed by using the methods
+  [9XPathAsList[109X ([14X8.1-4[114X), [9XVerticesAsList[109X ([14X8.1-5[114X) and [9XEdgesAsList[109X ([14X8.1-6[114X).[133X
+  
+  [33X[0;0YSome  shorter (but more ambiguous) constructors are [9XVertexEdgePathByVertices[109X
+  ([14X8.1-2[114X) and [9XVertexEdgePathByEdges[109X ([14X8.1-3[114X).[133X
+  
+  [33X[0;0YThe   NC-version   does   not   check   if   the   given   [3Xpath[103X  is  a  list
+  [22X[v_1,e_1,v_2,e_2,...,v_n,e_n,v_{n+1}][122X that fulfills these conditions.[133X
+  
+  [1X8.1-2 VertexEdgePathByVertices[101X
+  
+  [33X[1;0Y[29X[2XVertexEdgePathByVertices[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVertexEdgePathByVerticesNC[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya vertex-edge-path or [9Xfail[109X[133X
+  
+  [33X[0;0YConstruct  a  new  vertex-edge-path  ([14X8.1-1[114X)  from a polygonal complex and a
+  dense  list of vertices. Every two adjacent vertices have to be connected by
+  an  edge.  If there are multiple such edges, the one with the smallest label
+  is used. If the given [3XvertexList[103X is empty, [9Xfail[109X is returned.[133X
+  
+  [33X[0;0YWith this the paths from [14X8.1-1[114X can be defined more compactly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XnewAlpha := VertexEdgePathByVertices( hex, [2,7,5,4,3,7,6] );[127X[104X
+    [4X[28X| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |[128X[104X
+    [4X[25Xgap>[125X [27XalphaPath = newAlpha;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XnewOmega := VertexEdgePathByVertices( hex, [3,4,5,7,6,1,2] );[127X[104X
+    [4X[28X| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |[128X[104X
+    [4X[25Xgap>[125X [27XomegaPath = newOmega;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YAn example of the ambiguous nature is this triangular complex: Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xeye := TriangularComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X           [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByVertices( eye, [1,2,3,4] );[127X[104X
+    [4X[28X| v1, E1, v2, E2, v3, E5, v4 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByVertices( eye, [2,3,2] );[127X[104X
+    [4X[28X( v2, E2, v3, E2, v2 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  the given [3XvertexList[103X consists of
+  vertices in [3Xcomplex[103X and whether every two adjacent vertices are connected by
+  an edge.[133X
+  
+  [1X8.1-3 VertexEdgePathByEdges[101X
+  
+  [33X[1;0Y[29X[2XVertexEdgePathByEdges[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVertexEdgePathByEdgesNC[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya vertex-edge-path[133X
+  
+  [33X[0;0YConstruct  a  new  vertex-edge-path  ([14X8.1-1[114X)  from a polygonal complex and a
+  dense  list  of  edges.  Every  two adjacent edges have to be connected by a
+  vertex. If any vertex position is ambiguous (for example if only one edge is
+  given), the smallest possible vertex is chosen to be traversed first.[133X
+  
+  [33X[0;0YWith this the paths from [14X8.1-1[114X can be defined more compactly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XnewAlpha := VertexEdgePathByEdges( hex, [2,5,10,9,3,6] );[127X[104X
+    [4X[28X| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |[128X[104X
+    [4X[25Xgap>[125X [27XalphaPath = newAlpha;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XnewOmega := VertexEdgePathByEdges( hex, [9,10,5,6,12,7] );[127X[104X
+    [4X[28X| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |[128X[104X
+    [4X[25Xgap>[125X [27XomegaPath = newOmega;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YAn example of the ambiguous nature is this triangular complex: Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xeye := TriangularComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X           [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;[127X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByEdges( eye, [2] );[127X[104X
+    [4X[28X| v2, E2, v3 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByEdges( eye, [2,6] );[127X[104X
+    [4X[28X( v2, E2, v3, E6, v2 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given [3XedgeList[103X consists of edges
+  in [3Xcomplex[103X.[133X
+  
+  [1X8.1-4 PathAsList[101X
+  
+  [33X[1;0Y[29X[2XPathAsList[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YReturn  the  complete  vertex-edge-path  as  a list (with vertices and edges
+  alternating), starting with a vertex.[133X
+  
+  [33X[0;0YFor some examples from [9XVertexEdgePath[109X ([14X8.1-1[114X) in the simplicial surface from
+  the start of section [14X8.1[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XalphaPath;[127X[104X
+    [4X[28X| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |[128X[104X
+    [4X[25Xgap>[125X [27XPathAsList( alphaPath );[127X[104X
+    [4X[28X[ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XomegaPath;[127X[104X
+    [4X[28X| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |[128X[104X
+    [4X[25Xgap>[125X [27XPathAsList( omegaPath );[127X[104X
+    [4X[28X[ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XcirclePath;[127X[104X
+    [4X[28X( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XPathAsList( circlePath );[127X[104X
+    [4X[28X[ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XcloverPath;[127X[104X
+    [4X[28X( v1, E7, v2, E2, v7, E5, v5, E11, v6, E6, v7, E3, v3, E9, v4, E4, v7, E1, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XPathAsList( cloverPath );[127X[104X
+    [4X[28X[ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-5 VerticesAsList[101X
+  
+  [33X[1;0Y[29X[2XVerticesAsList[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YReturn the vertices of the vertex-edge-path as a list.[133X
+  
+  [33X[0;0YFor  the examples from [9XVertexEdgePath[109X ([14X8.1-1[114X) in the simplicial surface from
+  the start of section [14X8.1[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesAsList( alphaPath );[127X[104X
+    [4X[28X[ 2, 7, 5, 4, 3, 7, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesAsList( omegaPath );[127X[104X
+    [4X[28X[ 3, 4, 5, 7, 6, 1, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesAsList( circlePath );[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesAsList( cloverPath );[127X[104X
+    [4X[28X[ 1, 2, 7, 5, 6, 7, 3, 4, 7, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-6 EdgesAsList[101X
+  
+  [33X[1;0Y[29X[2XEdgesAsList[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YReturn the edges of the vertex-edge-path as a list.[133X
+  
+  [33X[0;0YFor  the examples from [9XVertexEdgePath[109X ([14X8.1-1[114X) in the simplicial surface from
+  the start of section [14X8.1[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList( alphaPath );[127X[104X
+    [4X[28X[ 2, 5, 10, 9, 3, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList( omegaPath );[127X[104X
+    [4X[28X[ 9, 10, 5, 6, 12, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList( circlePath );[127X[104X
+    [4X[28X[ 7, 8, 9, 10, 11, 12 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList( cloverPath );[127X[104X
+    [4X[28X[ 7, 2, 5, 11, 6, 3, 9, 4, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-7 IsClosedPath[101X
+  
+  [33X[1;0Y[29X[2XIsClosedPath[102X( [3XvertexEdgePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  the given vertex-edge-path is closed, i.e. whether the first
+  and last vertex in this path are equal.[133X
+  
+  [33X[0;0YFrom  the  example paths (introduced in [14X8.1-1[114X ([9XVertexEdgePath[109X)) only two are
+  closed:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedPath( alphaPath );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedPath( omegaPath );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedPath( circlePath );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedPath( cloverPath );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X8.1-8 ReversedPath[101X
+  
+  [33X[1;0Y[29X[2XReversedPath[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya vertex-edge-path[133X
+  
+  [33X[0;0YReturn the reversed vertex-edge-path to the given path.[133X
+  
+  [33X[0;0YFor  the examples from [9XVertexEdgePath[109X ([14X8.1-1[114X) in the simplicial surface from
+  the start of section [14X8.1[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XReversedPath(alphaPath);[127X[104X
+    [4X[28X| v6, E6, v7, E3, v3, E9, v4, E10, v5, E5, v7, E2, v2 |[128X[104X
+    [4X[25Xgap>[125X [27XReversedPath(omegaPath);[127X[104X
+    [4X[28X| v2, E7, v1, E12, v6, E6, v7, E5, v5, E10, v4, E9, v3 |[128X[104X
+    [4X[25Xgap>[125X [27XReversedPath(circlePath);[127X[104X
+    [4X[28X( v1, E12, v6, E11, v5, E10, v4, E9, v3, E8, v2, E7, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XReversedPath(cloverPath);[127X[104X
+    [4X[28X( v1, E1, v7, E4, v4, E9, v3, E3, v7, E6, v6, E11, v5, E5, v7, E2, v2, E7, v1 ) [128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-9 IsDuplicateFree[101X
+  
+  [33X[1;0Y[29X[2XIsDuplicateFree[102X( [3XvertexEdgePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck whether the given vertex-edge-path is duplicate-free.[133X
+  
+  [33X[0;0YA vertex-edge-path is duplicate-free if no vertices or edges appear twice in
+  it  -  with  one  exception:  if  the path is closed (see [14X8.1-7[114X) it does not
+  matter that the first and last vertex are the same.[133X
+  
+  [33X[0;0YFrom  the  example paths (introduced in [14X8.1-1[114X ([9XVertexEdgePath[109X)) only two are
+  duplicate-free:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree( alphaPath );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree( omegaPath );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree( circlePath );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree( cloverPath );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X8.1-10 VerticesAsPerm[101X
+  
+  [33X[1;0Y[29X[2XVerticesAsPerm[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya permutation[133X
+  
+  [33X[0;0YIf  a  vertex-edge-path  is  closed  and duplicate-free, it induces a cyclic
+  permutation on its vertices. This method returns that permutation.[133X
+  
+  [33X[0;0YWe  illustrate  this with the circle path from [9XVertexEdgePath[109X ([14X8.1-1[114X). Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcirclePath;[127X[104X
+    [4X[28X( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XVerticesAsPerm(circlePath);[127X[104X
+    [4X[28X(1,2,3,4,5,6)[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-11 EdgesAsPerm[101X
+  
+  [33X[1;0Y[29X[2XEdgesAsPerm[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya permutation[133X
+  
+  [33X[0;0YIf  a  vertex-edge-path  is  closed  and duplicate-free, it induces a cyclic
+  permutation on its edges. This method returns that permutation.[133X
+  
+  [33X[0;0YWe  illustrate  this with the circle path from [9XVertexEdgePath[109X ([14X8.1-1[114X). Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcirclePath;[127X[104X
+    [4X[28X( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsPerm(circlePath);[127X[104X
+    [4X[28X(7,8,9,10,11,12)[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-12 ConcatenationOfPaths[101X
+  
+  [33X[1;0Y[29X[2XConcatenationOfPaths[102X( [3Xcomplex[103X, [3XvertexEdgePath[103X, [3XvertexEdgePath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya vertex-edge-path[133X
+  
+  [33X[0;0YReturn  the concatenation of two VertexEdgePath where the last vertex of the
+  first  path  is the first vertex of the second path. We illustrate this with
+  the circle path from [9XVertexEdgePath[109X ([14X8.1-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath1:=VertexEdgePathByVertices(hex,[1,2,3,4]);[127X[104X
+    [4X[28X| v1, E7, v2, E8, v3, E9, v4 |[128X[104X
+    [4X[25Xgap>[125X [27Xpath2:=VertexEdgePathByVertices(hex,[4,5,6,1]);[127X[104X
+    [4X[28X| v4, E10, v5, E11, v6, E12, v1 |[128X[104X
+    [4X[25Xgap>[125X [27Xconcat:=ConcatenationOfPaths(hex,path1,path2);[127X[104X
+    [4X[28X( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )[128X[104X
+    [4X[25Xgap>[125X [27Xconcat=circlePath;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-13 ShiftCyclicPath[101X
+  
+  [33X[1;0Y[29X[2XShiftCyclicPath[102X( [3Xpath[103X, [3Xvertex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XShiftCyclicPathNC[102X( [3Xpath[103X, [3Xvertex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya vertex-edge-path[133X
+  
+  [33X[0;0YShift  the  vertex-edge-path  [3Xpath[103X  such  that the given vertex is the start
+  vertex  and  the given edge is the first edge. The path has to be closed and
+  duplicate-free.[133X
+  
+  [33X[0;0YThis method returns a vertex-edge-path.[133X
+  
+  [33X[0;0YFor  example,  consider  the  following simplicial surface: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfourGon := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X   [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],[127X[104X
+    [4X[25X>[125X [27X   [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;[127X[104X
+    [4X[25Xgap>[125X [27Xpath:=VertexEdgePathByEdges(fourGon,[5,6,7,8]);[127X[104X
+    [4X[28X( v2, E5, v3, E6, v4, E7, v5, E8, v2 )[128X[104X
+    [4X[25Xgap>[125X [27XShiftCyclicPath(path,2,5);[127X[104X
+    [4X[28X( v2, E5, v3, E6, v4, E7, v5, E8, v2 )[128X[104X
+    [4X[25Xgap>[125X [27XShiftCyclicPath(path,4,6);[127X[104X
+    [4X[28X( v4, E6, v3, E5, v2, E8, v5, E7, v4 )[128X[104X
+  [4X[32X[104X
+  
+  [1X8.1-14 AssociatedPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XAssociatedPolygonalComplex[102X( [3XvertexEdgePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YReturn  the  polygonal  complex  for  which  the  given  vertex-edge-path is
+  defined.[133X
+  
+  [1X8.1-15 AllClosedVertexEdgePaths[101X
+  
+  [33X[1;0Y[29X[2XAllClosedVertexEdgePaths[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of vertex-edge-paths[133X
+  
+  [33X[0;0YCompute    for    the   given   polygonal   complex   [3Xcomplex[103X   all   closed
+  vertex-edge-paths.[133X
+  
+  [33X[0;0YFor  example  consider  the  following  triangular complex: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly:=SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);;[127X[104X
+    [4X[25Xgap>[125X [27XAllClosedVertexEdgePaths(butterfly);[127X[104X
+    [4X[28X[ ( v3, E2, v1, E5, v4, E4, v3 ), ( v3, E3, v2, E1, v1, E2, v3 ),[128X[104X
+    [4X[28X ( v3, E3, v2, E1, v1, E5, v4, E4, v3 ) ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X8.2 [33X[0;0YPerimeter paths[133X[101X
+  
+  [33X[0;0YThis  section describes [13Xperimeter paths[113X, which are special vertex-edge-paths
+  that  additionally  store the face which they encircle. They are returned by
+  methods like [9XPerimeterPathsOfFaces[109X ([14X3.3-1[114X) and [9XOrientation[109X ([14X8.7-2[114X).[133X
+  
+  [33X[0;0YMathematically,   a  perimerter  path  is  a  closed  vertex-edge-path  that
+  encircles  a  face.  For  example,  consider the tetrahedron ([14X14.3-2[114X): Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtet := Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27XPerimeterPathOfFace(tet, 1);[127X[104X
+    [4X[28X( v1, E1, v2, E4, v3, E2, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFace(tet, 1);[127X[104X
+    [4X[28X[ 1, 2, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFace(tet, 1);[127X[104X
+    [4X[28X[ 1, 2, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAdditionally,  given  a perimeter path, we sometimes need to access the face
+  it  encircles.  For  most surfaces this is unproblematic, but there are some
+  exceptions,  like  the  Janus-head  ([14X14.4-1[114X). For this reason, the attribute
+  [9XFace[109X ([14X8.2-2[114X) was introduced. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xjanus := JanusHead();;[127X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFace(janus,1) = EdgesOfFace(janus,2);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFace(janus,1) = VerticesOfFace(janus, 2);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xperims := PerimeterPathsOfFaces(janus);[127X[104X
+    [4X[28X[ ( v1, E1, v2, E3, v3, E2, v1 ), ( v1, E1, v2, E3, v3, E2, v1 ) ][128X[104X
+    [4X[25Xgap>[125X [27Xperims[1] = perims[2];[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XFace(perims[1]);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [1X8.2-1 IsPerimeterPath[101X
+  
+  [33X[1;0Y[29X[2XIsPerimeterPath[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XIsPerimeterPath[109X  checks  whether  the  given object is a closed
+  vertex-edge-path that encircles a face.[133X
+  
+  [1X8.2-2 Face[101X
+  
+  [33X[1;0Y[29X[2XFace[102X( [3XperimPath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya face[133X
+  
+  [33X[0;0YReturn the face to which this perimeter path belongs.[133X
+  
+  [1X8.2-3 PerimeterPath[101X
+  
+  [33X[1;0Y[29X[2XPerimeterPath[102X( [3XvePath[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPerimeterPathNC[102X( [3XvePath[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPerimeterPath[102X( [3XvePath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya perimeter path[133X
+  
+  [33X[0;0YConstruct  a  perimeter path from a vertex-edge-path and a face. If the face
+  is  not  given, but can be uniquely reconstructed from the vertex-edge-path,
+  this will be done.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  [3Xface[103X is a face of the underlying
+  complex  and  whether it matches to the given [3XvePath[103X. It also does not check
+  whether the vertex-edge-path is closed.[133X
+  
+  
+  [1X8.3 [33X[0;0YEdge-Face-Paths[133X[101X
+  
+  [33X[0;0YThis  section describes edge-face-paths. Intuitively, an edge-face-path is a
+  sequence of faces that are connected by edges. More formally:[133X
+  
+  [33X[0;0YAn [13Xedge-face-path[113X in a polygonal complex is a tuple [22X(e_1, f_1, e_2, f_2, ...
+  ,e_n, f_n, e_{n+1})[122X such that[133X
+  
+  [30X    [33X[0;6YThe [22Xe_i[122X are edges of the polygonal complex[133X
+  
+  [30X    [33X[0;6YThe [22Xf_j[122X are faces of the polygonal complex[133X
+  
+  [30X    [33X[0;6YThe  edges  [22Xe_j[122X  and  [22Xe_{j+1}[122X  occur in two different positions in the
+        perimeter of the face [22Xf_j[122X.[133X
+  
+  [33X[0;0YFor  polygonal  complexes, it is sufficient to store the alternating list of
+  edges and faces, i.e [9XPathAsList[109X ([14X8.1-4[114X). We illustrate the polygonal case on
+  this simplicial surface: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XthinTorus := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X     [[1,2],[2,3],[1,3],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4],[127X[104X
+    [4X[25X>[125X [27X       [4,5],[5,6],[4,6],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4]],[127X[104X
+    [4X[25X>[125X [27X     [[4,5,10],[1,5,6],[6,7,11],[2,7,8],[8,9,12],[3,4,9],[127X[104X
+    [4X[25X>[125X [27X       [10,13,14],[1,14,15],[11,15,16],[2,16,17],[12,17,18],[3,13,18]]);;[127X[104X
+  [4X[32X[104X
+  
+  [1X8.3-1 EdgeFacePath[101X
+  
+  [33X[1;0Y[29X[2XEdgeFacePath[102X( [3Xcomplex[103X, [3Xpath[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeFacePathNC[102X( [3Xcomplex[103X, [3Xpath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YAn EdgeFacePath-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsEdgeFacePath[102X( [3Xobject[103X ) [32X category[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XEdgeFacePath[109X  constructs  a new edge-face-path from a polygonal
+  complex  and  one  (or  two)  dense  list  of  positive integers. The method
+  [9XIsEdgeFacePath[109X checks if a given [5XGAP[105X-object represents such a path.[133X
+  
+  [33X[0;0YThe  list  [3Xpath[103X  is  an  alternating  list  of  edges and faces of the given
+  polygonal complex [3Xcomplex[103X (starting and ending with an edge).[133X
+  
+  [33X[0;0YWe  illustrate  this with a path on the simplicial surface from the start of
+  section [14X8.3[114X. Image omitted in terminal text[133X
+  
+  [33X[0;0YAn [13Xedge-face-path[113X in a polygonal complex is a tuple [22X(e_1, f_1, e_2, f_2, ...
+  ,e_n, f_n, e_{n+1})[122X such that[133X
+  
+  [30X    [33X[0;6YThe [22Xe_i[122X are edges of the polygonal complex[133X
+  
+  [30X    [33X[0;6YThe [22Xf_j[122X are faces of the polygonal complex[133X
+  
+  [30X    [33X[0;6YThe  edges  [22Xe_j[122X  and  [22Xe_{j+1}[122X  occur in two different positions in the
+        perimeter of the face [22Xf_j[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,5,9] );[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XIsEdgeFacePath(edgeFacePath);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsList(edgeFacePath);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsEdgeFacePath( [13,7,14,8,15,9,11,3,7,4,8,5,9] );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  elements  of  a  vertex-edge-path  can be accessed by using the methods
+  [9XPathAsList[109X ([14X8.3-4[114X), [9XEdgesAsList[109X ([14X8.3-5[114X) and [9XFacesAsList[109X ([14X8.3-6[114X).[133X
+  
+  [33X[0;0YThe   NC-version   does   not   check   if   the   given   [3Xpath[103X  is  a  list
+  [22X[e_1,f_1,e_2,f_2,...,e_n,f_n,e_{n+1}][122X that fulfills these conditions.[133X
+  
+  [1X8.3-2 EdgeFacePathByEdges[101X
+  
+  [33X[1;0Y[29X[2XEdgeFacePathByEdges[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeFacePathByEdgesNC[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya edge-face-path or [9Xfail[109X[133X
+  
+  [33X[0;0YConstruct  a new edge-face-path ([14X8.3-1[114X) from a polygonal complex and a dense
+  list  of  edges. Every two adjacent edges have to be connected by a face. If
+  there  are  multiple such faces, the one with the smallest label is used. If
+  the given [3XedgeList[103X is empty, [9Xfail[109X is returned.[133X
+  
+  [33X[0;0YWith this the paths from [14X8.3-1[114X can be defined more compactly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath:=EdgeFacePathByEdges(thinTorus,[13,14,15,11,7,8,9]);[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XIsEdgeFacePath(edgeFacePath);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given [3XedgeList[103X consists of edges
+  in [3Xcomplex[103X and whether every two adjacent edges are connected by an face.[133X
+  
+  [1X8.3-3 EdgeFacePathByFaces[101X
+  
+  [33X[1;0Y[29X[2XEdgeFacePathByFaces[102X( [3Xcomplex[103X, [3XfaceList[103X[, [3XfirstEdge[103X, [3XlastEdge[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeFacePathByFacesNC[102X( [3Xcomplex[103X, [3XfaceList[103X[, [3XfirstEdge[103X, [3XlastEdge[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya edge-face-path[133X
+  
+  [33X[0;0YConstruct  a new edge-face-path ([14X8.3-1[114X) from a polygonal complex and a dense
+  list of faces. Every two adjacent faces have to be connected by an edge. The
+  first  and  the  last edge are not clearly given by the faces. So by default
+  they  are an edge which is not between the first and the second face and not
+  between  the penultimate and the last edge. If different edges are available
+  inner edges are preferred and the smallest possible edge is chosen.[133X
+  
+  [33X[0;0YWith this the paths from [14X8.3-1[114X can be defined more compactly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath1:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5],10,9);[127X[104X
+    [4X[28X| e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XIsEdgeFacePath(edgeFacePath1);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath2:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5]);[127X[104X
+    [4X[28X| e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XIsEdgeFacePath(edgeFacePath2);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAlso  for  faces  with  the  same  edges you can build the edge-face-path by
+  faces:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeFacePathByFaces(JanusHead(),[1,2]);[127X[104X
+    [4X[28X( e1, F1, e2, F2, e1 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given [3XfaceList[103X consists of faces
+  in [3Xcomplex[103X.[133X
+  
+  [1X8.3-4 PathAsList[101X
+  
+  [33X[1;0Y[29X[2XPathAsList[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YReturn  the  complete  edge-face-path  as  a  list  (with  edges  and  faces
+  alternating), starting with an edge.[133X
+  
+  [33X[0;0YFor  the  examples  from [9XEdgeFacePath[109X ([14X8.3-1[114X) in the simplicial surface from
+  the start of section [14X8.3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath;[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XPathAsList( edgeFacePath );[127X[104X
+    [4X[28X[ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-5 EdgesAsList[101X
+  
+  [33X[1;0Y[29X[2XEdgesAsList[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YReturn the edges of the edge-face-path as a list.[133X
+  
+  [33X[0;0YFor  the  examples  from [9XEdgeFacePath[109X ([14X8.3-1[114X) in the simplicial surface from
+  the start of section [14X8.3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath;[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList( edgeFacePath );[127X[104X
+    [4X[28X[ 13, 14, 15, 11, 7, 8, 9 ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-6 FacesAsList[101X
+  
+  [33X[1;0Y[29X[2XFacesAsList[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YReturn the faces of the edge-face-path as a list.[133X
+  
+  [33X[0;0YFor  the  examples  from [9XEdgeFacePath[109X ([14X8.3-1[114X) in the simplicial surface from
+  the start of section [14X8.3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath;[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XFacesAsList( edgeFacePath );[127X[104X
+    [4X[28X[ 7, 8, 9, 3, 4, 5 ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-7 IsClosedPath[101X
+  
+  [33X[1;0Y[29X[2XIsClosedPath[102X( [3XedgeFacePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck whether the given edge-face-path is closed, i.e. whether the first and
+  last vertex in this path are equal.[133X
+  
+  [33X[0;0YThe  example from [9XEdgeFacePath[109X ([14X8.3-1[114X) is not closed but an extended version
+  of the path is. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeFacePath;[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedPath(edgeFacePath);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XlongPath := EdgeFacePath( thinTorus,[127X[104X
+    [4X[25X>[125X [27X                [13,7,14,8,15,9,11,3,7,4,8,5,12,11,18,12,13]);[127X[104X
+    [4X[28X( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedPath(longPath);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-8 ReversedPath[101X
+  
+  [33X[1;0Y[29X[2XReversedPath[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya edge-face-path[133X
+  
+  [33X[0;0YReturn the reversed edge-face-path to the given path.[133X
+  
+  [33X[0;0YFor  the  examples  from  [9XEdgeFacePath[109X  ([14X8.3-1[114X)  and  the  longer  one  from
+  [9XIsClosedPath[109X  ([14X8.3-7[114X)  in  the  simplicial surface from the start of section
+  [14X8.3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XReversedPath(edgeFacePath);[127X[104X
+    [4X[28X| e9, F5, e8, F4, e7, F3, e11, F9, e15, F8, e14, F7, e13 |[128X[104X
+    [4X[25Xgap>[125X [27XReversedPath(longPath);[127X[104X
+    [4X[28X( e13, F12, e18, F11, e12, F5, e8, F4, e7, F3, e11, F9, e15, F8, e14, F7, e13 )[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-9 IsDuplicateFree[101X
+  
+  [33X[1;0Y[29X[2XIsDuplicateFree[102X( [3XedgeFacePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck whether the given edge-face-path is duplicate-free.[133X
+  
+  [33X[0;0YAn  edge-face-path is duplicate-free if no edges or faces appear twice in it
+  -  with  one exception: if the path is closed (see [14X8.3-7[114X) it does not matter
+  that the first and last edge are the same.[133X
+  
+  [33X[0;0YBoth the path from [9XEdgeFacePath[109X ([14X8.3-1[114X) and the longer one from [9XIsClosedPath[109X
+  ([14X8.3-7[114X) are duplicate-free.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree( edgeFacePath );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree( longPath );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YBut  there are paths in the simplicial surface from the start of section [14X8.3[114X
+  which are not duplicate-free:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath:=EdgeFacePath(thinTorus,[127X[104X
+    [4X[25X>[125X [27X[15,9,11,3,7,4,8,5,12,11,18,12,3,6,9,5,8]);[127X[104X
+    [4X[28X| e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e3, F6, e9, F5, e8 |[128X[104X
+    [4X[25Xgap>[125X [27XIsDuplicateFree(path);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-10 EdgesAsPerm[101X
+  
+  [33X[1;0Y[29X[2XEdgesAsPerm[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya permutation[133X
+  
+  [33X[0;0YIf  an  edge-face-path  is  closed  and  duplicate-free, it induces a cyclic
+  permutation on its edges. This method returns that permutation.[133X
+  
+  [33X[0;0YWe  illustrate this on the long path from [9XIsClosed[109X ([14X8.3-7[114X). Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XlongPath;[127X[104X
+    [4X[28X( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsPerm(longPath);[127X[104X
+    [4X[28X(7,8,12,18,13,14,15,11)[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-11 FacesAsPerm[101X
+  
+  [33X[1;0Y[29X[2XFacesAsPerm[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10YA permutation[133X
+  
+  [33X[0;0YIf  an  edge-face-path  is  closed  and  duplicate-free, it induces a cyclic
+  permutation on its faces. This method returns that permutation.[133X
+  
+  [33X[0;0YWe  illustrate this on the long path from [9XIsClosed[109X ([14X8.3-7[114X). Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XlongPath;[127X[104X
+    [4X[28X( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )[128X[104X
+    [4X[25Xgap>[125X [27XFacesAsPerm(longPath);[127X[104X
+    [4X[28X(3,4,5,11,12,7,8,9)[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-12 ConcatenationOfPaths[101X
+  
+  [33X[1;0Y[29X[2XConcatenationOfPaths[102X( [3Xcomplex[103X, [3XedgeFacePath[103X, [3XedgeFacePath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya edge-face-path[133X
+  
+  [33X[0;0YReturn  the  concatenation  of  two  EdgeFacePath where the last edge of the
+  first  path  is  the  first  edge  of the second path. For the examples from
+  [9XEdgeFacePath[109X  ([14X8.3-1[114X)  in  the  simplicial surface from the start of section
+  [14X8.3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath1:=EdgeFacePath(thinTorus,[13,7,14,8,15,9,11]);[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11 |[128X[104X
+    [4X[25Xgap>[125X [27Xpath2:=EdgeFacePath(thinTorus,[11,3,7,4,8,5,9]);[127X[104X
+    [4X[28X| e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27Xconcat:=ConcatenationOfPaths(thinTorus,path1,path2);[127X[104X
+    [4X[28X| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |[128X[104X
+    [4X[25Xgap>[125X [27Xconcat=edgeFacePath;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-13 ShiftCyclicPath[101X
+  
+  [33X[1;0Y[29X[2XShiftCyclicPath[102X( [3Xpath[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XShiftCyclicPathNC[102X( [3Xpath[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya edge-face-path[133X
+  
+  [33X[0;0YShift the edge-face-path [3Xpath[103X such that the given edge is the start edge and
+  the  given  face  is  the  first  face.  The  path  has  to  be  closed  and
+  duplicate-free.[133X
+  
+  [33X[0;0YThis method returns a edge-face-path.[133X
+  
+  [33X[0;0YFor  example,  consider  the  following simplicial surface: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfourGon := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X   [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],[127X[104X
+    [4X[25X>[125X [27X   [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;[127X[104X
+    [4X[25Xgap>[125X [27Xpath:=EdgeFacePath(fourGon,[1,1,2,2,3,3,4,4,1]);[127X[104X
+    [4X[28X( e1, F1, e2, F2, e3, F3, e4, F4, e1 )[128X[104X
+    [4X[25Xgap>[125X [27XShiftCyclicPath(path,3,3);[127X[104X
+    [4X[28X( e3, F3, e4, F4, e1, F1, e2, F2, e3 )[128X[104X
+    [4X[25Xgap>[125X [27XShiftCyclicPath(path,3,2);[127X[104X
+    [4X[28X( e3, F2, e2, F1, e1, F4, e4, F3, e3 )[128X[104X
+  [4X[32X[104X
+  
+  [1X8.3-14 AssociatedPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XAssociatedPolygonalComplex[102X( [3XedgeFacePath[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YReturn the polygonal complex for which the given edge-face-path is defined.[133X
+  
+  
+  [1X8.4 [33X[0;0YWaists[133X[101X
+  
+  [33X[0;0YThis  section deals with a specific type of closed vertex-edge-paths, namely
+  waists.  In  order  to  introduce  the definition of a waist of a simplicial
+  surface,  we first present the definition of a distance-faithful path. Here,
+  a   closed   edge   path   [22XP[122X   of  a  given  simplicial  surface  is  called
+  distance-faithful  if  for  any  two  vertices  of  the  path [22XP[122X at least one
+  shortest edge path between them is contained in [22XP[122X. Using the above notion we
+  introduce  waists  of  simplicial  surfaces.  Let  therefore  [22Xn[122X be a natural
+  number.  If  [22Xn[122X  is  equal  to  2 or 3, then an [22Xn[122X-waist of a given simplicial
+  surface  is  defined as a circular edge path of length [22Xn[122X such that all edges
+  are  inner  and no two are incident to the same face. Moreover, if the given
+  simplicial  surface  is closed without 3-waists and [22Xn[122X is at least 4, then we
+  define an [22Xn[122X-waist as a closed distance-faithful edge path of length [22Xn[122X.[133X
+  
+  [33X[0;0YThis  will be illustrated on the following simplicial surface constructed by
+  three tetrahedra: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtripleTetra:=SimplicialSurfaceByVerticesInFaces([127X[104X
+    [4X[25X>[125X [27X[[1,3,5],[2,5,6],[2,3,5],[2,3,6],[1,4,5],[3,4,6],[1,3,4],[4,5,6]]);;[127X[104X
+  [4X[32X[104X
+  
+  [1X8.4-1 IsWaist[101X
+  
+  [33X[1;0Y[29X[2XIsWaist[102X( [3Xcomplex[103X, [3XvertexEdgePath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YReturn  whether  the  given  path  [3XvertexEdgePath[103X is a waist in [3Xcomplex[103X. The
+  definition of a waist is given at the beginning of section [14X8.4[114X.[133X
+  
+  [33X[0;0YFor  example, consider the simplicial surface from the start of section [14X8.4[114X.
+  The path around a face is not a waist:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath:=VertexEdgePathByEdges(tripleTetra,[1,3,8]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsWaist(tripleTetra, path);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YA  path  of  length  three,  where  the  edges  are pairwise incident to two
+  different faces, is a waist:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xwaist:=VertexEdgePathByEdges(tripleTetra,[7,8,10]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsWaist(tripleTetra, waist);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe octahedron has a waist of length four:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath:=VertexEdgePathByEdges(Octahedron(),[5,6,10,8]);[127X[104X
+    [4X[28X( v3, E5, v2, E6, v5, E10, v4, E8, v3 )[128X[104X
+    [4X[25Xgap>[125X [27XIsWaist(Octahedron(),path);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.4-2 AllTwoWaistsOfComplex[101X
+  
+  [33X[1;0Y[29X[2XAllTwoWaistsOfComplex[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of closed vertex-edge-paths[133X
+  
+  [33X[0;0YReturn  the  set  of  all  waists of length 2 contained in the given twisted
+  polygonal  complex.  A  waist  of  length  2 is a closed vertex-edge-path in
+  [3Xcomplex[103X  visiting exactly two edges and two vertices. As an example consider
+  the following simplicial surfaces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllTwoWaistsOfComplex(Octahedron());[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[25Xgap>[125X [27Xvoe:=[[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]];;[127X[104X
+    [4X[25Xgap>[125X [27Xeof:=[[1,2,3],[1,4,5],[4,5,6],[2,3,6]];;[127X[104X
+    [4X[25Xgap>[125X [27XdoubleJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof);;[127X[104X
+    [4X[25Xgap>[125X [27XAllTwoWaistsOfComplex(doubleJanus);[127X[104X
+    [4X[28X[ ( v3, E1, v4, E6, v3 )][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X8.4-3 AllThreeWaistsOfComplex[101X
+  
+  [33X[1;0Y[29X[2XAllThreeWaistsOfComplex[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of closed vertex-edge-paths[133X
+  
+  [33X[0;0YReturn  the  set  of  all  waists of length 3 contained in the given twisted
+  polygonal  complex.  A  waist  of  length  3 is a closed vertex-edge-path in
+  [3Xcomplex[103X  visiting  exactly  three  edges and vertices so that there exist no
+  face in [3Xcomplex[103X that is incident to more than one of the visited edges.[133X
+  
+  [33X[0;0YFor example, consider the simplicial surface from the start of section [14X8.4[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllThreeWaistsOfComplex(tripleTetra);[127X[104X
+    [4X[28X[ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ] [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe tetrahedron does not have any 3-waist:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllThreeWaistsOfComplex(Tetrahedron());[127X[104X
+    [4X[28X[  ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs another example we consider the following simplicial surface:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xumbdesc:=[ (1,4,6,7,5,3), (1,7,5,8,2,3), (1,7,6,8,2,4),(2,4,6,8,5,3) ];;[127X[104X
+    [4X[25Xgap>[125X [27Xs:=SimplicialSurfaceByUmbrellaDescriptor(umbdesc);;[127X[104X
+    [4X[25Xgap>[125X [27XAllThreeWaistsOfComplex(s);[127X[104X
+    [4X[28X[ ( v1, E1, v2, E6, v3, E11, v1 ), ( v2, E1, v1, E8, v4, E10, v2 ),[128X[104X
+    [4X[28X  ( v1, E2, v3, E6, v2, E9, v1 ), ( v3, E2, v1, E7, v4, E12, v3 ),[128X[104X
+    [4X[28X  ( v3, E3, v2, E4, v4, E12, v3 ), ( v2, E3, v3, E5, v4, E10, v2 ),[128X[104X
+    [4X[28X  ( v2, E4, v4, E8, v1, E9, v2 ), ( v3, E5, v4, E7, v1, E11, v3 ) ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.4-4 AllWaistsOfComplex[101X
+  
+  [33X[1;0Y[29X[2XAllWaistsOfComplex[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of closed vertex-edge-paths[133X
+  
+  [33X[0;0YReturn  the  set  of  all  waists  contained  in the given polygonal complex
+  [3Xcomplex[103X. The definition of a waist is given at the beginning of section [14X8.4[114X.[133X
+  
+  [33X[0;0YFor example, consider the simplicial surface from the start of section [14X8.4[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllWaistsOfComplex(tripleTetra);[127X[104X
+    [4X[28X[ ( v5, E10, v4, E7, v3, E8, v5 ), ( v5, E12, v6, E9, v3, E8, v5 ) ][128X[104X
+    [4X[25Xgap>[125X [27XAllWaistsOfComplex(Octahedron());[127X[104X
+    [4X[28X[ ( v1, E1, v2, E7, v6, E11, v4, E3, v1 ), ( v3, E2, v1, E4, v5, E12, v6, E9, v3 ),[128X[104X
+    [4X[28X  ( v3, E5, v2, E6, v5, E10, v4, E8, v3 ) ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X8.5 [33X[0;0YGeodesic and umbrella paths[133X[101X
+  
+  [33X[0;0YSection  [14X8.3[114X  introduced  the concept of edge-face-paths. This section deals
+  with  two  specific  types  of edge-face-paths, namely umbrella and geodesic
+  paths.[133X
+  
+  [33X[0;0YThis  will  be illustrated on the following torus: Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtorus := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [ [1,2],[1,2],[1,3],[2,3],[2,4],[1,4],[3,4],[3,4],[1,3],[1,4],[2,4],[2,3] ],[127X[104X
+    [4X[25X>[125X [27X    [ [1,3,4],[4,5,7],[2,5,6],[3,6,8],[7,9,10],[1,10,11],[8,11,12],[2,9,12] ]);;[127X[104X
+  [4X[32X[104X
+  
+  [1X8.5-1 IsUmbrellaPath[101X
+  
+  [33X[1;0Y[29X[2XIsUmbrellaPath[102X( [3XedgeFacePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  the  given  edge-face-path is an umbrella-path, i.e. whether
+  there  is one vertex such that all edges and faces of the edge-face-path are
+  incident to it.[133X
+  
+  [33X[0;0YAs  an  illustration consider the torus from the start of section [14X8.5[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xumb := EdgeFacePath( torus, [7,5,10,6,11,7,8,4,6] );[127X[104X
+    [4X[28X| e7, F5, e10, F6, e11, F7, e8, F4, e6 |[128X[104X
+    [4X[25Xgap>[125X [27XIsUmbrellaPath(umb);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.5-2 IsGeodesicPath[101X
+  
+  [33X[1;0Y[29X[2XIsGeodesicPath[102X( [3XedgeFacePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck whether the given edge-face-path is a geodesic path.[133X
+  
+  [33X[0;0YIf  the edge-face-path is defined on a polygonal complex, this is equivalent
+  to  asking,  whether  each vertex of the path (except those of the first and
+  last  edge)  is incident to exactly three faces of the path. The vertices of
+  the  first  and  the last edge are allowed to be incident to less than three
+  faces of the path.[133X
+  
+  [33X[0;0YAs  an  illustration consider the torus from the start of section [14X8.5[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XclosedGeo := EdgeFacePath( torus, [3,1,4,2,5,3,6,4,3] );[127X[104X
+    [4X[28X( e3, F1, e4, F2, e5, F3, e6, F4, e3 )[128X[104X
+    [4X[25Xgap>[125X [27XIsGeodesicPath(closedGeo);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YGeodesic  paths  do not have to be closed ([14X8.5-5[114X): Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XopenGeo := EdgeFacePath( torus, [9,5,7,2,5,3,2] );[127X[104X
+    [4X[28X| e9, F5, e7, F2, e5, F3, e2 |[128X[104X
+    [4X[25Xgap>[125X [27XIsGeodesicPath(openGeo);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.5-3 VertexEdgePathOfGeodesic[101X
+  
+  [33X[1;0Y[29X[2XVertexEdgePathOfGeodesic[102X( [3Xgeodesic[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya vertex-edge-path[133X
+  
+  [33X[0;0YFor every geodesic path ([14X8.5-2[114X) there is an interwoven vertex-edge-path with
+  the  same  edges  as  the  edge-face-path. All vertices of the geodesic path
+  appear in this vertex-edge-path.[133X
+  
+  [33X[0;0YAs an illustration consider the two geodesic paths from [14X8.5-2[114X: Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathOfGeodesic(closedGeo);[127X[104X
+    [4X[28X( v1, E3, v3, E4, v2, E5, v4, E6, v1 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathOfGeodesic(openGeo);[127X[104X
+    [4X[28X( v1, E9, v3, E7, v4, E5, v2, E2, v1 )[128X[104X
+  [4X[32X[104X
+  
+  [1X8.5-4 MaximalGeodesicPaths[101X
+  
+  [33X[1;0Y[29X[2XMaximalGeodesicPaths[102X( [3XramSurf[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XMaximalGeodesicPathOfFlag[102X( [3XramSurf[103X, [3Xflag[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMaximalGeodesicPathOfFlagNC[102X( [3XramSurf[103X, [3Xflag[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of edge-face-paths[133X
+  
+  [33X[0;0YCompute  the  set  of all maximal geodesic paths of [3XramSurf[103X, i.e. the set of
+  all  geodesic  paths  that  can not be extended further to a larger geodesic
+  path..[133X
+  
+  [33X[0;0YFor  a  polygonal  complex, the operation [9XMaximalGeodesicPathOfFlag[109X([3XramSurf[103X,
+  [3Xflag[103X)  returns the unique maximal geodesic path that is defined by the given
+  [3Xflag[103X.  The  NC-version  does  not check whether the given [3Xflag[103X is actually a
+  flag of [3XramSurf[103X.[133X
+  
+  [33X[0;0YAs  an  illustration consider the torus from the start of section [14X8.5[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XMaximalGeodesicPaths(torus);[127X[104X
+    [4X[28X[ ( e1, F1, e4, F2, e7, F5, e10, F6, e1 ), [128X[104X
+    [4X[28X ( e1, F6, e11, F7, e8, F4, e3, F1, e1 ), [128X[104X
+    [4X[28X ( e2, F3, e5, F2, e7, F5, e9, F8, e2 ), [128X[104X
+    [4X[28X ( e2, F8, e12, F7, e8, F4, e6, F3, e2 ), [128X[104X
+    [4X[28X ( e3, F1, e4, F2, e5, F3, e6, F4, e3 ), [128X[104X
+    [4X[28X ( e9, F8, e12, F7, e11, F6, e10, F5, e9 ) ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFurthermore,  consider  an  example  of  an  surface  with a boundary: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XopenSurface:=SimplicialSurfaceByVerticesInFaces([127X[104X
+    [4X[25X>[125X [27X[[1,2,3],[2,3,4],[2,4,5],[4,5,6],[3,4,9],[4,8,9],[4,6,8],[6,7,8]]);[127X[104X
+    [4X[28Xsimplicial surface (9 vertices, 16 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XMaximalGeodesicPaths(openSurface);[127X[104X
+    [4X[28X[ | e1, F1, e2 |, | e1, F1, e3, F2, e6, F5, e11, F6, e16 |,[128X[104X
+    [4X[28X  | e2, F1, e3, F2, e4, F3, e8, F4, e12 |,[128X[104X
+    [4X[28X  | e5, F3, e4, F2, e6, F5, e7 |, | e5, F3, e8, F4, e9, F7, e14, F8, e15 |,[128X[104X
+    [4X[28X  | e7, F5, e11, F6, e10, F7, e14, F8, e13 |,[128X[104X
+    [4X[28X  | e12, F4, e9, F7, e10, F6, e16 |, | e13, F8, e15 | ][128X[104X
+    [4X[25Xgap>[125X [27XMaximalGeodesicPathOfFlag(torus,[1,1,1]);[127X[104X
+    [4X[28X( e1, F1, e4, F2, e7, F5, e10, F6, e1 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTODO If there are multiple ways to write a geodesic, which is picked?[133X
+  
+  [1X8.5-5 IsClosedGeodesicPath[101X
+  
+  [33X[1;0Y[29X[2XIsClosedGeodesicPath[102X( [3XedgeFacePath[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  the  given  edge-face-path  is  a closed geodesic path, i.e.
+  whether  it  is  a geodesic path ([14X8.5-2[114X) where first and last edge coincide,
+  such that all vertices are incident to exactly three faces of the path.[133X
+  
+  [33X[0;0YAs an illustration consider the two geodesic paths from [14X8.5-2[114X: Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedGeodesicPath(closedGeo);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedGeodesicPath(openGeo);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X8.5-6 FlagsOfGeodesic[101X
+  
+  [33X[1;0Y[29X[2XFlagsOfGeodesic[102X( [3Xgeodesic[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of flags[133X
+  
+  [33X[0;0YReturn the flags of the given geodesic path ([14X8.5-2[114X) as a list.[133X
+  
+  [33X[0;0YIf  the  geodesic  path is defined on a polygonal complex, regular flags are
+  used.[133X
+  
+  [33X[0;0YConsider  the  geodesic  path  [22X[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1][122X.  Image
+  omitted  in  terminal  text  The  flags can be illustrated as follows: Image
+  omitted in terminal text[133X
+  
+  [33X[0;0YAs an illustration consider the two geodesic paths from [14X8.5-2[114X. Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFlagsOfGeodesic(closedGeo);[127X[104X
+    [4X[28X[ [ 1, 3, 1 ], [ 3, 4, 2 ], [ 2, 5, 3 ], [ 4, 6, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFlagsOfGeodesic(openGeo);[127X[104X
+    [4X[28X[ [ 1, 9, 5 ], [ 3, 7, 2 ], [ 4, 5, 3 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.5-7 MaximalDuplicateFreeGeodesicPaths[101X
+  
+  [33X[1;0Y[29X[2XMaximalDuplicateFreeGeodesicPaths[102X( [3XramSurf[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XMaximalDuplicateFreeGeodesicPathOfFlag[102X( [3XramSurf[103X, [3Xflag[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMaximalDuplicateFreeGeodesicPathOfFlagNC[102X( [3XramSurf[103X, [3Xflag[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of duplicate-free geodesic paths[133X
+  
+  [33X[0;0YFor  a given [3Xflag[103X return the maximal duplicate-free geodesic path defined by
+  this   flag,   i.e.   it   is  extended  in  positive  direction  until  one
+  face-duplication arises. Then it is extended in negative direction.[133X
+  
+  [33X[0;0YThe method [9XMaximalDuplicateFreeGeodesicPaths[109X([3XramSurf[103X) returns the set of all
+  those geodesics.[133X
+  
+  [33X[0;0YFor example, consider the torus.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xgeo:=MaximalDuplicateFreeGeodesicPathOfFlag(torus,[1,1,1]);[127X[104X
+    [4X[28X( e1, F1, e4, F2, e7, F5, e10, F6, e1 )[128X[104X
+    [4X[25Xgap>[125X [27Xgeo in MaximalDuplicateFreeGeodesicPaths(torus);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.5-8 GeodesicFlagCycle[101X
+  
+  [33X[1;0Y[29X[2XGeodesicFlagCycle[102X( [3XclosedGeodesic[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya permutation[133X
+  
+  [33X[0;0YFor a closed geodesic path ([14X8.5-5[114X) construct the [13Xgeodesic flag cycle[113X.[133X
+  
+  [33X[0;0YIf  [3XclosedGeodesic[103X  is defined on a polygonal complex, this is a permutation
+  on the 3-flags ([14X21.1-1[114X). It can also be obtained as one cycle of the product
+  of  the  Dress involutions ([14X21.2-1[114X), by first applying the one for vertices,
+  then edges and finally faces.[133X
+  
+  [33X[0;0YFor example, consider the torus and the closed geodesic from [14X8.5-7[114X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XGeodesicFlagCycle(geo);[127X[104X
+    [4X[28X(1,18,30,46)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTODO explain properly with picture[133X
+  
+  
+  [1X8.6 [33X[0;0YConnectivity[133X[101X
+  
+  [33X[0;0YThis  section  contains  methods that deal with the (strong) connectivity of
+  twisted  polygonal  complexes  (which  were  introduced  in  chapter  [14X2[114X as a
+  generalisation  of simplicial surfaces). More specifically it contains these
+  capabilities:[133X
+  
+  [30X    [33X[0;6YDetermine  if  a  twisted  polygonal  complex  is (strongly) connected
+        ([14X8.6-1[114X and [14X8.6-3[114X).[133X
+  
+  [30X    [33X[0;6YDetermine  the  (strongly) connected components of a twisted polygonal
+        complex ([14X8.6-2[114X and [14X8.6-4[114X).[133X
+  
+  [33X[0;0YThe  distinction  between  [13Xconnectivity[113X  and  [13Xstrong  connectivity[113X  is  only
+  relevant  for polygonal complexes that are not also polygonal surfaces. This
+  can be seen in this example: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly := TriangularComplexByVerticesInFaces( 7, 4,[127X[104X
+    [4X[25X>[125X [27X[ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  example  is  connected since its incidence graph (see section [14X15.2[114X) is
+  connected.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsConnectedComplex( butterfly );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YBut  in  several  situations  it  is  convenient  to  regard this example as
+  disconnected,  with  the  following  connected  components: Image omitted in
+  terminal  text  This notion of connectivity is called [13Xstrong connectivity[113X. A
+  polygonal complex is strongly connected if and only if the polygonal complex
+  without   its   vertices  is  connected.  For  a  polygonal  surface  [13Xstrong
+  connectivity[113X  is  equivalent  to  [13Xconnectivity[113X  since  there are no ramified
+  vertices.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsStronglyConnectedComplex( butterfly );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X8.6-1 IsConnectedComplex[101X
+  
+  [33X[1;0Y[29X[2XIsConnectedComplex[102X( [3Xcomplex[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsConnectedSurface[102X( [3Xsurface[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  the  given twisted polygonal complex is connected. A twisted
+  polygonal  complex  is connected if and only if its incidence graph (compare
+  section [14X15.2[114X) is connected.[133X
+  
+  [33X[0;0YFor  example, consider the triangular complex from the start of section [14X8.6[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsConnectedComplex( butterfly );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.6-2 ConnectedComponents[101X
+  
+  [33X[1;0Y[29X[2XConnectedComponents[102X( [3Xcomplex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XConnectedComponentsAttributeOfComplex[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XConnectedComponentOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XConnectedComponentOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of twisted polygonal complexes[133X
+  
+  [33X[0;0YReturn  a  list  of  the connected components of the given twisted polygonal
+  complex   (as   polygonal  complexes).  They  correspond  to  the  connected
+  components of the incidence graph (compare section [14X15.2[114X).[133X
+  
+  [33X[0;0YIf  a  face  of  the  twisted  polygonal  complex  is given as an additional
+  argument, only the connected component containing that face is returned. The
+  NC-version does not check if [3Xface[103X is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YFor  example,  consider  the  ramified  simplicial surface from the start of
+  section [14X8.6[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomp := ConnectedComponents( butterfly );;[127X[104X
+    [4X[25Xgap>[125X [27XSize(comp);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27Xcomp[1] = butterfly;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSplitting  vertex 1 into two vertices leads to a surface which has more than
+  one connected component, more precisely two disjoint butterflies:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtwoButterflies:=SplitVertex(butterfly,1)[1];;[127X[104X
+    [4X[25Xgap>[125X [27XConnectedComponents(twoButterflies);[127X[104X
+    [4X[28X[ simplicial surface (4 vertices, 5 edges, and 2 faces),[128X[104X
+    [4X[28X  simplicial surface (4 vertices, 5 edges, and 2 faces) ] [128X[104X
+  [4X[32X[104X
+  
+  [1X8.6-3 IsStronglyConnectedComplex[101X
+  
+  [33X[1;0Y[29X[2XIsStronglyConnectedComplex[102X( [3Xcomplex[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsStronglyConnectedSurface[102X( [3Xsurf[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  the given twisted polygonal complex is strongly connected. A
+  twisted  polygonal  complex  is strongly connected if and only if one of the
+  following equivalent conditions hold:[133X
+  
+  [30X    [33X[0;6YIt is still connected after removing an arbitary vertex.[133X
+  
+  [30X    [33X[0;6YFor  each  pair  of  faces there is an edge-face-path (compare section
+        [14X3.4[114X) that connects them.[133X
+  
+  [33X[0;0YFor  example, consider the triangular complex from the start of section [14X8.6[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsStronglyConnectedComplex( butterfly );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X8.6-4 StronglyConnectedComponents[101X
+  
+  [33X[1;0Y[29X[2XStronglyConnectedComponents[102X( [3Xcomplex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XStronglyConnectedComponentsAttributeOfComplex[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XStronglyConnectedComponentOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XStronglyConnectedComponentOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of twisted polygonal complexes[133X
+  
+  [33X[0;0YReturn  a  list  of  the  strongly connected components of the given twisted
+  polygonal complex (as polygonal complexes).[133X
+  
+  [33X[0;0YIf  a  face  of  the  twisted  polygonal  complex  is given as an additional
+  argument,  only  the  strongly  connected  component containing that face is
+  returned. The NC-version does not check if [3Xface[103X is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YFor  example,  consider  the  ramified  simplicial surface from the start of
+  section [14X8.6[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomp := StronglyConnectedComponents(butterfly);;[127X[104X
+    [4X[25Xgap>[125X [27XSize(comp);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XFaces( comp[1] );[127X[104X
+    [4X[28X[ 1, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces( comp[2] );[127X[104X
+    [4X[28X[ 2, 4 ][128X[104X
+    [4X[25Xgap>[125X [27Xcomp[1] = StronglyConnectedComponentOfFace(butterfly, 1);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xcomp[2] = StronglyConnectedComponentOfFace(butterfly, 4);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X8.6-5 NumberOfConnectedComponents[101X
+  
+  [33X[1;0Y[29X[2XNumberOfConnectedComponents[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XNumberOfStronglyConnectedComponents[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YReturn  the  number  of (strongly) connected components of the given twisted
+  polygonal  complex. For the definition of connected components see [14X8.6-2[114X and
+  for strongly connected components see [14X8.6-4[114X[133X
+  
+  [33X[0;0YFor  example  consider  the  ramified  simplicial  surface from the start of
+  section [14X8.6[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(butterfly);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfStronglyConnectedComponents(butterfly);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X8.7 [33X[0;0YOrientability[133X[101X
+  
+  [33X[0;0YThis  section  contains  methods that deal with the orientability of twisted
+  polygonal  surfaces  without  edge  ramifications (compare section [14X2.3[114X). For
+  twisted   polygonal   complexes  with  edge  ramifications  the  concept  of
+  orientability  is not well-defined since there is no proper way to deal with
+  edges that are incident to more than two faces.[133X
+  
+  [33X[0;0YA  polygonal  orientation  is  defined  by  choosing  a  direction along the
+  perimeter  of each polygon such that for each edge with exactly two incident
+  faces both directions are defined. This direction is modelled by a perimeter
+  path  (compare  [14X8.2[114X for details). Image omitted in terminal text A polygonal
+  complex  without  edge  ramifications  is  [13Xorientable[113X  if  such  a choice of
+  directions is possible.[133X
+  
+  [33X[0;0YFor  a  given  polygonal  complex  this  orientation  can be computed. Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurface := PolygonalSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],[127X[104X
+    [4X[25X>[125X [27X[ [2,6,12,14],,, [6,8,10],,,,, [10,14,15] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface(surface);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  orientation  of  a face is given as a vertex-edge-path (compare section
+  [14X8.1[114X)  in which vertices and edges are alternating. For the quadrangular face
+  we  could  represent  one of these paths as [22X[3,6,7,14,13,12,5,2,3][122X. From the
+  paths  we  can  also  compute the corresponding permutations of vertices and
+  edges alone.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xorient := Orientation( surface );[127X[104X
+    [4X[28X[ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,,[128X[104X
+    [4X[28X(v7,E14,v13,E15,v11,E10,v7) ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, VerticesAsPerm);[127X[104X
+    [4X[28X[ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, VerticesAsList);[127X[104X
+    [4X[28X[ [3,5,13,7,3],,, [3,7,11,3],,,,, [7,13,11,7] ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, EdgesAsPerm);[127X[104X
+    [4X[28X[ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, EdgesAsList);[127X[104X
+    [4X[28X[ [2,12,14,6],,, [6,10,8],,,,, [14,15,10] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  the orientation for one face is given, this defined the orientations for
+  the   strongly  connected  component  (compare  [14X8.6-4[114X)  of  this  face.  The
+  convention for returning an orientation is as follows:[133X
+  
+  [30X    [33X[0;6YFor  each  strongly  connected  component there is a face with minimal
+        number.[133X
+  
+  [30X    [33X[0;6YThe  orientation  of  this face is equal to [9XPerimeterOfFace[109X ([14X3.3-1[114X) of
+        this face.[133X
+  
+  [33X[0;0YFor  a  general  twisted  polygonal surface there is no concept of perimeter
+  paths. Instead, we can describe orientability by the existence of a map from
+  the  set  of  chambers to {+1,-1} such that adjacent chambers have different
+  values. But we do not consider this case here.[133X
+  
+  [1X8.7-1 IsOrientableComplex[101X
+  
+  [33X[1;0Y[29X[2XIsOrientableComplex[102X( [3Xcomplex[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsOrientableSurface[102X( [3Xsurf[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YReturn   whether   the   given   twisted   polygonal  complex  without  edge
+  ramifications is orientable.[133X
+  
+  [33X[0;0YA  twisted  polygonal complex without edge ramifications is orientable if it
+  is possible to choose a direction along the perimeter of each face such that
+  each pair of adjacent faces defines opposite directions on the shared edge.[133X
+  
+  [33X[0;0YAs an example, consider the polygonal surface from the start of section [14X8.7[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface( surface );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAn example for a non orientable surface is the Möbius-strip:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xmoebius := SimplicialSurfaceByVerticesInFaces( [127X[104X
+    [4X[25X>[125X [27X[[1,2,3],[2,3,4],[3, 4,5],[4,5,1],[5,2,1] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface(moebius); [127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X8.7-2 Orientation[101X
+  
+  [33X[1;0Y[29X[2XOrientation[102X( [3XramSurf[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of vertex-edge-paths[133X
+  
+  [33X[0;0YReturn   the  orientation  of  the  given  polygonal  complex  without  edge
+  ramifications,  if  it  exists  (otherwise  return [9Xfail[109X). The orientation is
+  given as a list with the faces of [3XramSurf[103X as indices.[133X
+  
+  [33X[0;0YFor  each  face,  this  list  contains  a  perimeter-path (see [14X8.2-3[114X for the
+  precise  definition)  of this face. To access perimeter-paths the methods of
+  sections  [14X8.1[114X  and [14X8.2[114X can be used. The perimeter-path describes a direction
+  for  each  edge of the face. For an edge, each pair of adjacent faces has to
+  define opposite directions on this edge.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X8.7[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xorient := Orientation( surface );[127X[104X
+    [4X[28X[ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, [128X[104X
+    [4X[28X(v7,E14,v13,E15,v11,E10,v7) ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, VerticesAsPerm);[127X[104X
+    [4X[28X[ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, VerticesAsList);[127X[104X
+    [4X[28X[ [3,5,13,7,3],,, [3,7,11,3],,,,, [7,13,11,7] ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, EdgesAsPerm);[127X[104X
+    [4X[28X[ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ][128X[104X
+    [4X[25Xgap>[125X [27XList(orient, EdgesAsList);[127X[104X
+    [4X[28X[ [2,12,14,6],,, [6,10,8],,,,, [14,15,10] ][128X[104X
+  [4X[32X[104X
+  
+  [1X8.7-3 OrientationCover[101X
+  
+  [33X[1;0Y[29X[2XOrientationCover[102X( [3XramSurf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  list,  where  the  first  entry  is a polygonal surface and the
+            subsequent entries are its vertices, edges and faces[133X
+  
+  [33X[0;0YCompute   the   [13Xorientation  cover[113X  of  a  polygonal  complex  without  edge
+  ramifications. It is constructed in the following way:[133X
+  
+  [30X    [33X[0;6YFor  each  face  in  [3XramSurf[103X  the  orientation  cover  has  two faces,
+        corresponding  to  the  two  possible orientations of this face. These
+        orientations are represented as [13Xperimeter paths[113X (compare section [14X8.2[114X).[133X
+  
+  [30X    [33X[0;6YTwo  adjacent  faces  with  orientation in [3XramSurf[103X are adjacent in the
+        cover  if  these  orientations  induce  opposite  orientations  on the
+        connecting edge.[133X
+  
+  [30X    [33X[0;6YThe  vertices are defined by going around an umbrella and transforming
+        the orientations correspondingly.[133X
+  
+  [33X[0;0YThis method returns a list with three entries:[133X
+  
+  [30X    [33X[0;6YThe first entry is the covering surface[133X
+  
+  [30X    [33X[0;6YThe  second entry is a map from the covering surface to [3XramSurf[103X. It is
+        given  in the form of three lists: The first list maps the vertices of
+        the  cover  to the vertices of [3XramSurf[103X, the second list maps the edges
+        and the third one maps the faces.[133X
+  
+  [30X    [33X[0;6YThe third entry is a map from the faces of the covering surface to the
+        orientation that was used in defining this face.[133X
+  
+  [33X[0;0YThe  resulting  polygonal  surface  is  always closed ([14X9.1-2[114X) and orientable
+  ([14X8.7-1[114X).  If  the  original  [3XramSurf[103X  was  orientable,  it has two connected
+  components, otherwise just one.[133X
+  
+  [33X[0;0YFor example, consider the tetrahedron:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtetCov := OrientationCover(Tetrahedron())[1];;[127X[104X
+    [4X[25Xgap>[125X [27XNumberOfVertices(tetCov);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(tetCov);[127X[104X
+    [4X[28X12[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfFaces(tetCov);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(tetCov);[127X[104X
+    [4X[28X2 [128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(ConnectedComponents(tetCov)[1],Tetrahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  the tetrahedron is orientable, the covering surface has two connected
+  components  both  isomorphic  to  the tetrahedron. Consider a non orientable
+  surface on four faces: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XprojPlane := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[ [ 2, 3 ], [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ] ],[127X[104X
+    [4X[25X>[125X [27X[ [ 1, 2, 3 ], [ 2, 4, 5 ], [ 3, 4, 6 ], [ 1, 5, 6 ] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XprojCov := OrientationCover(projPlane)[1];;[127X[104X
+    [4X[25Xgap>[125X [27XNumberOfVertices(tetCov);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(tetCov);[127X[104X
+    [4X[28X12[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfFaces(tetCov);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(projCov);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  [3XramSurf[103X  was  not  orientable,  the  covering  surface  has  only one
+  connected component.[133X
+  

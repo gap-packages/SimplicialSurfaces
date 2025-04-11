@@ -1,0 +1,1678 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (SimplicialSurfaces) - Chapter 8: Paths and orientations</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap8"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap8_mj.html">[MathJax on]</a></p>
+<p><a id="X7CD6881C7CA69A30" name="X7CD6881C7CA69A30"></a></p>
+<div class="ChapSects"><a href="chap8.html#X7CD6881C7CA69A30">8 <span class="Heading">Paths and orientations</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7BA338C9785BE58F">8.1 <span class="Heading">Vertex-Edge-Paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X80FAC97B86FCE83C">8.1-1 VertexEdgePath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B29001E820C4295">8.1-2 VertexEdgePathByVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X83EEA87D796DF50F">8.1-3 VertexEdgePathByEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7EFD048282E65DA4">8.1-4 PathAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7FA29639855B1444">8.1-5 VerticesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B40184280E23918">8.1-6 EdgesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7EAA250D8488B7CD">8.1-7 IsClosedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X793E0D2A821E37DC">8.1-8 ReversedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7C9963CD7CC32327">8.1-9 IsDuplicateFree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8526CDD07E125456">8.1-10 VerticesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X81C443AB7F97AD78">8.1-11 EdgesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D8784917A1646BF">8.1-12 ConcatenationOfPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X82B3413F7993F19F">8.1-13 ShiftCyclicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7A156B4B807D7580">8.1-14 AssociatedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87DC4A427F937D82">8.1-15 AllClosedVertexEdgePaths</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7F8875B57DFA9528">8.2 <span class="Heading">Perimeter paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X872FD9907AC5DAB5">8.2-1 IsPerimeterPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X78A500267C8EE8B2">8.2-2 Face</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X866F3C8285CD079C">8.2-3 PerimeterPath</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7BDEFDE67EBE56D0">8.3 <span class="Heading">Edge-Face-Paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7FFD87417CE9E1EA">8.3-1 EdgeFacePath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CCB33627A51BD70">8.3-2 EdgeFacePathByEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X86320A397C322B73">8.3-3 EdgeFacePathByFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D8E56AE7E3724D5">8.3-4 PathAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7BA0CE1A7F38C7F6">8.3-5 EdgesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CC138B3810FB724">8.3-6 FacesAsList</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X79066282796CD4DF">8.3-7 IsClosedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CE218227FFA54CE">8.3-8 ReversedPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X82355FFA7A1C878B">8.3-9 IsDuplicateFree</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D9D9F51804D5396">8.3-10 EdgesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7AFC69F87E7A2344">8.3-11 FacesAsPerm</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CC9185A7E6B19B6">8.3-12 ConcatenationOfPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X79B1D0C8782149FB">8.3-13 ShiftCyclicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7AFD249B7DD13FE3">8.3-14 AssociatedPolygonalComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X8107A3C583D26D5E">8.4 <span class="Heading">Waists</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X780664627DF286E7">8.4-1 IsWaist</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X874AED787AB88508">8.4-2 AllTwoWaistsOfComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7BE64F057D08D608">8.4-3 AllThreeWaistsOfComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87AEDF767956A44A">8.4-4 AllWaistsOfComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X832F4C7582437538">8.5 <span class="Heading">Geodesic and umbrella paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X83AF9FDB790D02F2">8.5-1 IsUmbrellaPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7D5DD05D78C20E31">8.5-2 IsGeodesicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X78A0028281920A57">8.5-3 VertexEdgePathOfGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X808690E87F334733">8.5-4 MaximalGeodesicPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87B46BA479339B3E">8.5-5 IsClosedGeodesicPath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X87042C587EE3AE31">8.5-6 FlagsOfGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X78FA17BD7F4E29A1">8.5-7 MaximalDuplicateFreeGeodesicPaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7A336D538633EAF9">8.5-8 GeodesicFlagCycle</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X7DB10C2E7AF6F4CD">8.6 <span class="Heading">Connectivity</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7BCB8E3A80E10882">8.6-1 IsConnectedComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X810E12D58661715A">8.6-2 ConnectedComponents</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7B657F8079C32240">8.6-3 IsStronglyConnectedComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X82C4302D87C5F651">8.6-4 StronglyConnectedComponents</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X83AF2772853EA9F3">8.6-5 NumberOfConnectedComponents</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap8.html#X861E4BAD800B2785">8.7 <span class="Heading">Orientability</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X828D14988078FA78">8.7-1 IsOrientableComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X8215811E7FDC9D51">8.7-2 Orientation</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap8.html#X7CDE00387EA71570">8.7-3 OrientationCover</a></span>
+</div></div>
+</div>
+
+<h3>8 <span class="Heading">Paths and orientations</span></h3>
+
+<p>In sections <a href="chap3.html#X7C20B8D2843FACF7"><span class="RefLink">3.3</span></a> and <a href="chap3.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a> the concepts of vertex-edge-paths and edge-face-paths were introduced. This chapter documents which methods are available for these paths (in sections <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a> and <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>). Then it discusses applications of these paths, namely connectivity (<a href="chap8.html#X7DB10C2E7AF6F4CD"><span class="RefLink">8.6</span></a>) and orientability (<a href="chap8.html#X861E4BAD800B2785"><span class="RefLink">8.7</span></a>).</p>
+
+<p><a id="X7BA338C9785BE58F" name="X7BA338C9785BE58F"></a></p>
+
+<h4>8.1 <span class="Heading">Vertex-Edge-Paths</span></h4>
+
+<p>This section describes all methods for vertex-edge-paths. Intuitively, vertex-edge-paths describe all paths that are realized by walking only on the vertices and edges of a polygonal complex.</p>
+
+<p>We will illustrate several properties with vertex-edge-paths that are defined on this simplicial surface: <br><img src='./images/_Wrapper_paths-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hex := SimplicialSurfaceByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     [ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;</span>
+</pre></div>
+
+<p><a id="X80FAC97B86FCE83C" name="X80FAC97B86FCE83C"></a></p>
+
+<h5>8.1-1 VertexEdgePath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePath</code>( <var class="Arg">complex</var>, <var class="Arg">path</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePathNC</code>( <var class="Arg">complex</var>, <var class="Arg">path</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A VertexEdgePath-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVertexEdgePath</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;category&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">VertexEdgePath</code> constructs a new vertex-edge-path from a polygonal complex and a dense list of positive integers (alternating vertices and edges). The method <code class="keyw">IsVertexEdgePath</code> checks if a given <strong class="pkg">GAP</strong>-object represents such a path.</p>
+
+<p>We illustrate this with two paths on the simplicial surface that was introduced at the start of section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>. <br><img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">alphaPath := VertexEdgePath(hex, [2,2,7,5,5,10,4,9,3,3,7,6,6]);</span>
+| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">omegaPath := VertexEdgePath(hex, [3,9,4,10,5,5,7,6,6,12,1,7,2]);</span>
+| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
+</pre></div>
+
+<p>A <em>vertex-edge-path</em> in a polygonal complex is a tuple <span class="SimpleMath">(v_1, e_1, v_2, e_2, ... ,v_n, e_n, v_{n+1})</span> such that</p>
+
+
+<ul>
+<li><p>The <span class="SimpleMath">v_i</span> are vertices of the polygonal complex</p>
+
+</li>
+<li><p>The <span class="SimpleMath">e_j</span> are edges of the polygonal complex</p>
+
+</li>
+<li><p>For the edge <span class="SimpleMath">e_j</span> the set of incident vertices is <span class="SimpleMath">{v_j,v_{j+1}}</span></p>
+
+</li>
+</ul>
+<p><br><img src="./images/_Wrapper_Image_SixTriangles_CircleAndClover-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">circlePath := VertexEdgePath( hex, [1,7,2,8,3,9,4,10,5,11,6,12,1] );</span>
+( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cloverPath := VertexEdgePath( hex, [1,7,2,2,7,5,5,11,6,6,7,3,3,9,4,4,7,1,1] );</span>
+( v1, E7, v2, E2, v7, E5, v5, E11, v6, E6, v7, E3, v3, E9, v4, E4, v7, E1, v1 )
+</pre></div>
+
+<p>The elements of a vertex-edge-path can be accessed by using the methods <code class="keyw">PathAsList</code> (<a href="chap8.html#X7EFD048282E65DA4"><span class="RefLink">8.1-4</span></a>), <code class="keyw">VerticesAsList</code> (<a href="chap8.html#X7FA29639855B1444"><span class="RefLink">8.1-5</span></a>) and <code class="keyw">EdgesAsList</code> (<a href="chap8.html#X7B40184280E23918"><span class="RefLink">8.1-6</span></a>).</p>
+
+<p>Some shorter (but more ambiguous) constructors are <code class="keyw">VertexEdgePathByVertices</code> (<a href="chap8.html#X7B29001E820C4295"><span class="RefLink">8.1-2</span></a>) and <code class="keyw">VertexEdgePathByEdges</code> (<a href="chap8.html#X83EEA87D796DF50F"><span class="RefLink">8.1-3</span></a>).</p>
+
+<p>The NC-version does not check if the given <var class="Arg">path</var> is a list <span class="SimpleMath">[v_1,e_1,v_2,e_2,...,v_n,e_n,v_{n+1}]</span> that fulfills these conditions.</p>
+
+<p><a id="X7B29001E820C4295" name="X7B29001E820C4295"></a></p>
+
+<h5>8.1-2 VertexEdgePathByVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePathByVertices</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePathByVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path or <code class="keyw">fail</code></p>
+
+<p>Construct a new vertex-edge-path (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) from a polygonal complex and a dense list of vertices. Every two adjacent vertices have to be connected by an edge. If there are multiple such edges, the one with the smallest label is used. If the given <var class="Arg">vertexList</var> is empty, <code class="keyw">fail</code> is returned.</p>
+
+<p>With this the paths from <a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a> can be defined more compactly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">newAlpha := VertexEdgePathByVertices( hex, [2,7,5,4,3,7,6] );</span>
+| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">alphaPath = newAlpha;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">newOmega := VertexEdgePathByVertices( hex, [3,4,5,7,6,1,2] );</span>
+| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">omegaPath = newOmega;</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> </img> <br></p>
+
+<p>An example of the ambiguous nature is this triangular complex: <br><img src='./images/_Wrapper_paths-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">eye := TriangularComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByVertices( eye, [1,2,3,4] );</span>
+| v1, E1, v2, E2, v3, E5, v4 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByVertices( eye, [2,3,2] );</span>
+( v2, E2, v3, E2, v2 )
+</pre></div>
+
+<p>The NC-version does not check whether the given <var class="Arg">vertexList</var> consists of vertices in <var class="Arg">complex</var> and whether every two adjacent vertices are connected by an edge.</p>
+
+<p><a id="X83EEA87D796DF50F" name="X83EEA87D796DF50F"></a></p>
+
+<h5>8.1-3 VertexEdgePathByEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePathByEdges</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePathByEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path</p>
+
+<p>Construct a new vertex-edge-path (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) from a polygonal complex and a dense list of edges. Every two adjacent edges have to be connected by a vertex. If any vertex position is ambiguous (for example if only one edge is given), the smallest possible vertex is chosen to be traversed first.</p>
+
+<p>With this the paths from <a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a> can be defined more compactly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">newAlpha := VertexEdgePathByEdges( hex, [2,5,10,9,3,6] );</span>
+| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">alphaPath = newAlpha;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">newOmega := VertexEdgePathByEdges( hex, [9,10,5,6,12,7] );</span>
+| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">omegaPath = newOmega;</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SixTriangles_AlphaAndOmega-1.svg"> </img> <br></p>
+
+<p>An example of the ambiguous nature is this triangular complex: <br><img src='./images/_Wrapper_paths-3-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">eye := TriangularComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByEdges( eye, [2] );</span>
+| v2, E2, v3 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByEdges( eye, [2,6] );</span>
+( v2, E2, v3, E6, v2 )
+</pre></div>
+
+<p>The NC-version does not check whether the given <var class="Arg">edgeList</var> consists of edges in <var class="Arg">complex</var>.</p>
+
+<p><a id="X7EFD048282E65DA4" name="X7EFD048282E65DA4"></a></p>
+
+<h5>8.1-4 PathAsList</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PathAsList</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Return the complete vertex-edge-path as a list (with vertices and edges alternating), starting with a vertex.</p>
+
+<p>For some examples from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">alphaPath;</span>
+| v2, E2, v7, E5, v5, E10, v4, E9, v3, E3, v7, E6, v6 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PathAsList( alphaPath );</span>
+[ 2, 2, 7, 5, 5, 10, 4, 9, 3, 3, 7, 6, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">omegaPath;</span>
+| v3, E9, v4, E10, v5, E5, v7, E6, v6, E12, v1, E7, v2 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PathAsList( omegaPath );</span>
+[ 3, 9, 4, 10, 5, 5, 7, 6, 6, 12, 1, 7, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">circlePath;</span>
+( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PathAsList( circlePath );</span>
+[ 1, 7, 2, 8, 3, 9, 4, 10, 5, 11, 6, 12, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cloverPath;</span>
+( v1, E7, v2, E2, v7, E5, v5, E11, v6, E6, v7, E3, v3, E9, v4, E4, v7, E1, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PathAsList( cloverPath );</span>
+[ 1, 7, 2, 2, 7, 5, 5, 11, 6, 6, 7, 3, 3, 9, 4, 4, 7, 1, 1 ]
+</pre></div>
+
+<p><a id="X7FA29639855B1444" name="X7FA29639855B1444"></a></p>
+
+<h5>8.1-5 VerticesAsList</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesAsList</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Return the vertices of the vertex-edge-path as a list.</p>
+
+<p>For the examples from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsList( alphaPath );</span>
+[ 2, 7, 5, 4, 3, 7, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsList( omegaPath );</span>
+[ 3, 4, 5, 7, 6, 1, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsList( circlePath );</span>
+[ 1, 2, 3, 4, 5, 6, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsList( cloverPath );</span>
+[ 1, 2, 7, 5, 6, 7, 3, 4, 7, 1 ]
+</pre></div>
+
+<p><a id="X7B40184280E23918" name="X7B40184280E23918"></a></p>
+
+<h5>8.1-6 EdgesAsList</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesAsList</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Return the edges of the vertex-edge-path as a list.</p>
+
+<p>For the examples from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList( alphaPath );</span>
+[ 2, 5, 10, 9, 3, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList( omegaPath );</span>
+[ 9, 10, 5, 6, 12, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList( circlePath );</span>
+[ 7, 8, 9, 10, 11, 12 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList( cloverPath );</span>
+[ 7, 2, 5, 11, 6, 3, 9, 4, 1 ]
+</pre></div>
+
+<p><a id="X7EAA250D8488B7CD" name="X7EAA250D8488B7CD"></a></p>
+
+<h5>8.1-7 IsClosedPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsClosedPath</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given vertex-edge-path is closed, i.e. whether the first and last vertex in this path are equal.</p>
+
+<p>From the example paths (introduced in <a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a> (<code class="keyw">VertexEdgePath</code>)) only two are closed:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedPath( alphaPath );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedPath( omegaPath );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedPath( circlePath );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedPath( cloverPath );</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SixTriangles_CircleAndClover-1.svg"> </img> <br></p>
+
+<p><a id="X793E0D2A821E37DC" name="X793E0D2A821E37DC"></a></p>
+
+<h5>8.1-8 ReversedPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ReversedPath</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path</p>
+
+<p>Return the reversed vertex-edge-path to the given path.</p>
+
+<p>For the examples from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReversedPath(alphaPath);</span>
+| v6, E6, v7, E3, v3, E9, v4, E10, v5, E5, v7, E2, v2 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReversedPath(omegaPath);</span>
+| v2, E7, v1, E12, v6, E6, v7, E5, v5, E10, v4, E9, v3 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReversedPath(circlePath);</span>
+( v1, E12, v6, E11, v5, E10, v4, E9, v3, E8, v2, E7, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReversedPath(cloverPath);</span>
+( v1, E1, v7, E4, v4, E9, v3, E3, v7, E6, v6, E11, v5, E5, v7, E2, v2, E7, v1 ) 
+</pre></div>
+
+<p><a id="X7C9963CD7CC32327" name="X7C9963CD7CC32327"></a></p>
+
+<h5>8.1-9 IsDuplicateFree</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDuplicateFree</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given vertex-edge-path is duplicate-free.</p>
+
+<p>A vertex-edge-path is duplicate-free if no vertices or edges appear twice in it - with one exception: if the path is closed (see <a href="chap8.html#X7EAA250D8488B7CD"><span class="RefLink">8.1-7</span></a>) it does not matter that the first and last vertex are the same.</p>
+
+<p>From the example paths (introduced in <a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a> (<code class="keyw">VertexEdgePath</code>)) only two are duplicate-free:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree( alphaPath );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree( omegaPath );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree( circlePath );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree( cloverPath );</span>
+false
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SixTriangles_CircleAndOmega-1.svg"> </img> <br></p>
+
+<p><a id="X8526CDD07E125456" name="X8526CDD07E125456"></a></p>
+
+<h5>8.1-10 VerticesAsPerm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesAsPerm</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation</p>
+
+<p>If a vertex-edge-path is closed and duplicate-free, it induces a cyclic permutation on its vertices. This method returns that permutation.</p>
+
+<p>We illustrate this with the circle path from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>). <br><img src="./images/_Wrapper_Image_SixTriangles_Circle-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">circlePath;</span>
+( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsPerm(circlePath);</span>
+(1,2,3,4,5,6)
+</pre></div>
+
+<p><a id="X81C443AB7F97AD78" name="X81C443AB7F97AD78"></a></p>
+
+<h5>8.1-11 EdgesAsPerm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesAsPerm</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation</p>
+
+<p>If a vertex-edge-path is closed and duplicate-free, it induces a cyclic permutation on its edges. This method returns that permutation.</p>
+
+<p>We illustrate this with the circle path from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>). <br><img src="./images/_Wrapper_Image_SixTriangles_Circle-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">circlePath;</span>
+( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsPerm(circlePath);</span>
+(7,8,9,10,11,12)
+</pre></div>
+
+<p><a id="X7D8784917A1646BF" name="X7D8784917A1646BF"></a></p>
+
+<h5>8.1-12 ConcatenationOfPaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConcatenationOfPaths</code>( <var class="Arg">complex</var>, <var class="Arg">vertexEdgePath</var>, <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path</p>
+
+<p>Return the concatenation of two VertexEdgePath where the last vertex of the first path is the first vertex of the second path. We illustrate this with the circle path from <code class="keyw">VertexEdgePath</code> (<a href="chap8.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path1:=VertexEdgePathByVertices(hex,[1,2,3,4]);</span>
+| v1, E7, v2, E8, v3, E9, v4 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path2:=VertexEdgePathByVertices(hex,[4,5,6,1]);</span>
+| v4, E10, v5, E11, v6, E12, v1 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">concat:=ConcatenationOfPaths(hex,path1,path2);</span>
+( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">concat=circlePath;</span>
+true
+</pre></div>
+
+<p><a id="X82B3413F7993F19F" name="X82B3413F7993F19F"></a></p>
+
+<h5>8.1-13 ShiftCyclicPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ShiftCyclicPath</code>( <var class="Arg">path</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ShiftCyclicPathNC</code>( <var class="Arg">path</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path</p>
+
+<p>Shift the vertex-edge-path <var class="Arg">path</var> such that the given vertex is the start vertex and the given edge is the first edge. The path has to be closed and duplicate-free.</p>
+
+<p>This method returns a vertex-edge-path.</p>
+
+<p>For example, consider the following simplicial surface: <br><img src="./images/_Wrapper_Image_FourGon-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fourGon := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=VertexEdgePathByEdges(fourGon,[5,6,7,8]);</span>
+( v2, E5, v3, E6, v4, E7, v5, E8, v2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ShiftCyclicPath(path,2,5);</span>
+( v2, E5, v3, E6, v4, E7, v5, E8, v2 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ShiftCyclicPath(path,4,6);</span>
+( v4, E6, v3, E5, v2, E8, v5, E7, v4 )
+</pre></div>
+
+<p><a id="X7A156B4B807D7580" name="X7A156B4B807D7580"></a></p>
+
+<h5>8.1-14 AssociatedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AssociatedPolygonalComplex</code>( <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Return the polygonal complex for which the given vertex-edge-path is defined.</p>
+
+<p><a id="X87DC4A427F937D82" name="X87DC4A427F937D82"></a></p>
+
+<h5>8.1-15 AllClosedVertexEdgePaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllClosedVertexEdgePaths</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of vertex-edge-paths</p>
+
+<p>Compute for the given polygonal complex <var class="Arg">complex</var> all closed vertex-edge-paths.</p>
+
+<p>For example consider the following triangular complex: <br><img src="./images/_Wrapper_Image_Butterfly-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly:=SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllClosedVertexEdgePaths(butterfly);</span>
+[ ( v3, E2, v1, E5, v4, E4, v3 ), ( v3, E3, v2, E1, v1, E2, v3 ),
+ ( v3, E3, v2, E1, v1, E5, v4, E4, v3 ) ]
+</pre></div>
+
+<p><a id="X7F8875B57DFA9528" name="X7F8875B57DFA9528"></a></p>
+
+<h4>8.2 <span class="Heading">Perimeter paths</span></h4>
+
+<p>This section describes <em>perimeter paths</em>, which are special vertex-edge-paths that additionally store the face which they encircle. They are returned by methods like <code class="keyw">PerimeterPathsOfFaces</code> (<a href="chap3.html#X7F895BE281100061"><span class="RefLink">3.3-1</span></a>) and <code class="keyw">Orientation</code> (<a href="chap8.html#X8215811E7FDC9D51"><span class="RefLink">8.7-2</span></a>).</p>
+
+<p>Mathematically, a perimerter path is a closed vertex-edge-path that encircles a face. For example, consider the tetrahedron (<a href="chap14.html#X7B44DDD485145773"><span class="RefLink">14.3-2</span></a>): <br><img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet := Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PerimeterPathOfFace(tet, 1);</span>
+( v1, E1, v2, E4, v3, E2, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFace(tet, 1);</span>
+[ 1, 2, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFace(tet, 1);</span>
+[ 1, 2, 3 ]
+</pre></div>
+
+<p>Additionally, given a perimeter path, we sometimes need to access the face it encircles. For most surfaces this is unproblematic, but there are some exceptions, like the Janus-head (<a href="chap14.html#X7A7AF0A179BBCD99"><span class="RefLink">14.4-1</span></a>). For this reason, the attribute <code class="keyw">Face</code> (<a href="chap8.html#X78A500267C8EE8B2"><span class="RefLink">8.2-2</span></a>) was introduced. <br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">janus := JanusHead();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFace(janus,1) = EdgesOfFace(janus,2);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFace(janus,1) = VerticesOfFace(janus, 2);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">perims := PerimeterPathsOfFaces(janus);</span>
+[ ( v1, E1, v2, E3, v3, E2, v1 ), ( v1, E1, v2, E3, v3, E2, v1 ) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">perims[1] = perims[2];</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Face(perims[1]);</span>
+1
+</pre></div>
+
+<p><a id="X872FD9907AC5DAB5" name="X872FD9907AC5DAB5"></a></p>
+
+<h5>8.2-1 IsPerimeterPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPerimeterPath</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">IsPerimeterPath</code> checks whether the given object is a closed vertex-edge-path that encircles a face.</p>
+
+<p><a id="X78A500267C8EE8B2" name="X78A500267C8EE8B2"></a></p>
+
+<h5>8.2-2 Face</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Face</code>( <var class="Arg">perimPath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a face</p>
+
+<p>Return the face to which this perimeter path belongs.</p>
+
+<p><a id="X866F3C8285CD079C" name="X866F3C8285CD079C"></a></p>
+
+<h5>8.2-3 PerimeterPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterPath</code>( <var class="Arg">vePath</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterPathNC</code>( <var class="Arg">vePath</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterPath</code>( <var class="Arg">vePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a perimeter path</p>
+
+<p>Construct a perimeter path from a vertex-edge-path and a face. If the face is not given, but can be uniquely reconstructed from the vertex-edge-path, this will be done.</p>
+
+<p>The NC-version does not check whether <var class="Arg">face</var> is a face of the underlying complex and whether it matches to the given <var class="Arg">vePath</var>. It also does not check whether the vertex-edge-path is closed.</p>
+
+<p><a id="X7BDEFDE67EBE56D0" name="X7BDEFDE67EBE56D0"></a></p>
+
+<h4>8.3 <span class="Heading">Edge-Face-Paths</span></h4>
+
+<p>This section describes edge-face-paths. Intuitively, an edge-face-path is a sequence of faces that are connected by edges. More formally:</p>
+
+<p>An <em>edge-face-path</em> in a polygonal complex is a tuple <span class="SimpleMath">(e_1, f_1, e_2, f_2, ... ,e_n, f_n, e_{n+1})</span> such that</p>
+
+
+<ul>
+<li><p>The <span class="SimpleMath">e_i</span> are edges of the polygonal complex</p>
+
+</li>
+<li><p>The <span class="SimpleMath">f_j</span> are faces of the polygonal complex</p>
+
+</li>
+<li><p>The edges <span class="SimpleMath">e_j</span> and <span class="SimpleMath">e_{j+1}</span> occur in two different positions in the perimeter of the face <span class="SimpleMath">f_j</span>.</p>
+
+</li>
+</ul>
+<p>For polygonal complexes, it is sufficient to store the alternating list of edges and faces, i.e <code class="keyw">PathAsList</code> (<a href="chap8.html#X7EFD048282E65DA4"><span class="RefLink">8.1-4</span></a>). We illustrate the polygonal case on this simplicial surface: <br><img src='./images/_Wrapper_paths-4-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">thinTorus := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     [[1,2],[2,3],[1,3],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [4,5],[5,6],[4,6],[1,4],[1,5],[2,5],[2,6],[3,6],[3,4]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     [[4,5,10],[1,5,6],[6,7,11],[2,7,8],[8,9,12],[3,4,9],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [10,13,14],[1,14,15],[11,15,16],[2,16,17],[12,17,18],[3,13,18]]);;</span>
+</pre></div>
+
+<p><a id="X7FFD87417CE9E1EA" name="X7FFD87417CE9E1EA"></a></p>
+
+<h5>8.3-1 EdgeFacePath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFacePath</code>( <var class="Arg">complex</var>, <var class="Arg">path</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFacePathNC</code>( <var class="Arg">complex</var>, <var class="Arg">path</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: An EdgeFacePath-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsEdgeFacePath</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;category&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">EdgeFacePath</code> constructs a new edge-face-path from a polygonal complex and one (or two) dense list of positive integers. The method <code class="keyw">IsEdgeFacePath</code> checks if a given <strong class="pkg">GAP</strong>-object represents such a path.</p>
+
+<p>The list <var class="Arg">path</var> is an alternating list of edges and faces of the given polygonal complex <var class="Arg">complex</var> (starting and ending with an edge).</p>
+
+<p>We illustrate this with a path on the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>. <br><img src='./images/_Wrapper_paths-1-1.svg'> </img> <br></p>
+
+<p>An <em>edge-face-path</em> in a polygonal complex is a tuple <span class="SimpleMath">(e_1, f_1, e_2, f_2, ... ,e_n, f_n, e_{n+1})</span> such that</p>
+
+
+<ul>
+<li><p>The <span class="SimpleMath">e_i</span> are edges of the polygonal complex</p>
+
+</li>
+<li><p>The <span class="SimpleMath">f_j</span> are faces of the polygonal complex</p>
+
+</li>
+<li><p>The edges <span class="SimpleMath">e_j</span> and <span class="SimpleMath">e_{j+1}</span> occur in two different positions in the perimeter of the face <span class="SimpleMath">f_j</span>.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath := EdgeFacePath( thinTorus, [13,7,14,8,15,9,11,3,7,4,8,5,9] );</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeFacePath(edgeFacePath);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsList(edgeFacePath);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeFacePath( [13,7,14,8,15,9,11,3,7,4,8,5,9] );</span>
+false
+</pre></div>
+
+<p>The elements of a vertex-edge-path can be accessed by using the methods <code class="keyw">PathAsList</code> (<a href="chap8.html#X7D8E56AE7E3724D5"><span class="RefLink">8.3-4</span></a>), <code class="keyw">EdgesAsList</code> (<a href="chap8.html#X7BA0CE1A7F38C7F6"><span class="RefLink">8.3-5</span></a>) and <code class="keyw">FacesAsList</code> (<a href="chap8.html#X7CC138B3810FB724"><span class="RefLink">8.3-6</span></a>).</p>
+
+<p>The NC-version does not check if the given <var class="Arg">path</var> is a list <span class="SimpleMath">[e_1,f_1,e_2,f_2,...,e_n,f_n,e_{n+1}]</span> that fulfills these conditions.</p>
+
+<p><a id="X7CCB33627A51BD70" name="X7CCB33627A51BD70"></a></p>
+
+<h5>8.3-2 EdgeFacePathByEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFacePathByEdges</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFacePathByEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a edge-face-path or <code class="keyw">fail</code></p>
+
+<p>Construct a new edge-face-path (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) from a polygonal complex and a dense list of edges. Every two adjacent edges have to be connected by a face. If there are multiple such faces, the one with the smallest label is used. If the given <var class="Arg">edgeList</var> is empty, <code class="keyw">fail</code> is returned.</p>
+
+<p>With this the paths from <a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a> can be defined more compactly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath:=EdgeFacePathByEdges(thinTorus,[13,14,15,11,7,8,9]);</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeFacePath(edgeFacePath);</span>
+true
+</pre></div>
+
+<p>The NC-version does not check whether the given <var class="Arg">edgeList</var> consists of edges in <var class="Arg">complex</var> and whether every two adjacent edges are connected by an face.</p>
+
+<p><a id="X86320A397C322B73" name="X86320A397C322B73"></a></p>
+
+<h5>8.3-3 EdgeFacePathByFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFacePathByFaces</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var>[, <var class="Arg">firstEdge</var>, <var class="Arg">lastEdge</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeFacePathByFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var>[, <var class="Arg">firstEdge</var>, <var class="Arg">lastEdge</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a edge-face-path</p>
+
+<p>Construct a new edge-face-path (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) from a polygonal complex and a dense list of faces. Every two adjacent faces have to be connected by an edge. The first and the last edge are not clearly given by the faces. So by default they are an edge which is not between the first and the second face and not between the penultimate and the last edge. If different edges are available inner edges are preferred and the smallest possible edge is chosen.</p>
+
+<p>With this the paths from <a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a> can be defined more compactly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath1:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5],10,9);</span>
+| e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeFacePath(edgeFacePath1);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath2:=EdgeFacePathByFaces(thinTorus,[7,8,9,3,4,5]);</span>
+| e10, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsEdgeFacePath(edgeFacePath2);</span>
+true
+</pre></div>
+
+<p>Also for faces with the same edges you can build the edge-face-path by faces:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeFacePathByFaces(JanusHead(),[1,2]);</span>
+( e1, F1, e2, F2, e1 )
+</pre></div>
+
+<p>The NC-version does not check whether the given <var class="Arg">faceList</var> consists of faces in <var class="Arg">complex</var>.</p>
+
+<p><a id="X7D8E56AE7E3724D5" name="X7D8E56AE7E3724D5"></a></p>
+
+<h5>8.3-4 PathAsList</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PathAsList</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Return the complete edge-face-path as a list (with edges and faces alternating), starting with an edge.</p>
+
+<p>For the examples from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath;</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PathAsList( edgeFacePath );</span>
+[ 13, 7, 14, 8, 15, 9, 11, 3, 7, 4, 8, 5, 9 ]
+</pre></div>
+
+<p><a id="X7BA0CE1A7F38C7F6" name="X7BA0CE1A7F38C7F6"></a></p>
+
+<h5>8.3-5 EdgesAsList</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesAsList</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Return the edges of the edge-face-path as a list.</p>
+
+<p>For the examples from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath;</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList( edgeFacePath );</span>
+[ 13, 14, 15, 11, 7, 8, 9 ]
+</pre></div>
+
+<p><a id="X7CC138B3810FB724" name="X7CC138B3810FB724"></a></p>
+
+<h5>8.3-6 FacesAsList</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesAsList</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Return the faces of the edge-face-path as a list.</p>
+
+<p>For the examples from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath;</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesAsList( edgeFacePath );</span>
+[ 7, 8, 9, 3, 4, 5 ]
+</pre></div>
+
+<p><a id="X79066282796CD4DF" name="X79066282796CD4DF"></a></p>
+
+<h5>8.3-7 IsClosedPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsClosedPath</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given edge-face-path is closed, i.e. whether the first and last vertex in this path are equal.</p>
+
+<p>The example from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) is not closed but an extended version of the path is. <br><img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeFacePath;</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedPath(edgeFacePath);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">longPath := EdgeFacePath( thinTorus,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                [13,7,14,8,15,9,11,3,7,4,8,5,12,11,18,12,13]);</span>
+( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedPath(longPath);</span>
+true
+</pre></div>
+
+<p><a id="X7CE218227FFA54CE" name="X7CE218227FFA54CE"></a></p>
+
+<h5>8.3-8 ReversedPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ReversedPath</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a edge-face-path</p>
+
+<p>Return the reversed edge-face-path to the given path.</p>
+
+<p>For the examples from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) and the longer one from <code class="keyw">IsClosedPath</code> (<a href="chap8.html#X79066282796CD4DF"><span class="RefLink">8.3-7</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReversedPath(edgeFacePath);</span>
+| e9, F5, e8, F4, e7, F3, e11, F9, e15, F8, e14, F7, e13 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReversedPath(longPath);</span>
+( e13, F12, e18, F11, e12, F5, e8, F4, e7, F3, e11, F9, e15, F8, e14, F7, e13 )
+</pre></div>
+
+<p><a id="X82355FFA7A1C878B" name="X82355FFA7A1C878B"></a></p>
+
+<h5>8.3-9 IsDuplicateFree</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDuplicateFree</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given edge-face-path is duplicate-free.</p>
+
+<p>An edge-face-path is duplicate-free if no edges or faces appear twice in it - with one exception: if the path is closed (see <a href="chap8.html#X79066282796CD4DF"><span class="RefLink">8.3-7</span></a>) it does not matter that the first and last edge are the same.</p>
+
+<p>Both the path from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) and the longer one from <code class="keyw">IsClosedPath</code> (<a href="chap8.html#X79066282796CD4DF"><span class="RefLink">8.3-7</span></a>) are duplicate-free.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree( edgeFacePath );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree( longPath );</span>
+true
+</pre></div>
+
+<p>But there are paths in the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a> which are not duplicate-free:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=EdgeFacePath(thinTorus,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[15,9,11,3,7,4,8,5,12,11,18,12,3,6,9,5,8]);</span>
+| e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e3, F6, e9, F5, e8 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDuplicateFree(path);</span>
+false
+</pre></div>
+
+<p><a id="X7D9D9F51804D5396" name="X7D9D9F51804D5396"></a></p>
+
+<h5>8.3-10 EdgesAsPerm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesAsPerm</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation</p>
+
+<p>If an edge-face-path is closed and duplicate-free, it induces a cyclic permutation on its edges. This method returns that permutation.</p>
+
+<p>We illustrate this on the long path from <code class="keyw">IsClosed</code> (<a href="chap8.html#X79066282796CD4DF"><span class="RefLink">8.3-7</span></a>). <br><img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">longPath;</span>
+( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsPerm(longPath);</span>
+(7,8,12,18,13,14,15,11)
+</pre></div>
+
+<p><a id="X7AFC69F87E7A2344" name="X7AFC69F87E7A2344"></a></p>
+
+<h5>8.3-11 FacesAsPerm</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesAsPerm</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: A permutation</p>
+
+<p>If an edge-face-path is closed and duplicate-free, it induces a cyclic permutation on its faces. This method returns that permutation.</p>
+
+<p>We illustrate this on the long path from <code class="keyw">IsClosed</code> (<a href="chap8.html#X79066282796CD4DF"><span class="RefLink">8.3-7</span></a>). <br><img src="./images/_Wrapper_Image_ThinTorus_longPath-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">longPath;</span>
+( e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e12, F11, e18, F12, e13 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesAsPerm(longPath);</span>
+(3,4,5,11,12,7,8,9)
+</pre></div>
+
+<p><a id="X7CC9185A7E6B19B6" name="X7CC9185A7E6B19B6"></a></p>
+
+<h5>8.3-12 ConcatenationOfPaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConcatenationOfPaths</code>( <var class="Arg">complex</var>, <var class="Arg">edgeFacePath</var>, <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a edge-face-path</p>
+
+<p>Return the concatenation of two EdgeFacePath where the last edge of the first path is the first edge of the second path. For the examples from <code class="keyw">EdgeFacePath</code> (<a href="chap8.html#X7FFD87417CE9E1EA"><span class="RefLink">8.3-1</span></a>) in the simplicial surface from the start of section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path1:=EdgeFacePath(thinTorus,[13,7,14,8,15,9,11]);</span>
+| e13, F7, e14, F8, e15, F9, e11 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path2:=EdgeFacePath(thinTorus,[11,3,7,4,8,5,9]);</span>
+| e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">concat:=ConcatenationOfPaths(thinTorus,path1,path2);</span>
+| e13, F7, e14, F8, e15, F9, e11, F3, e7, F4, e8, F5, e9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">concat=edgeFacePath;</span>
+true
+</pre></div>
+
+<p><a id="X79B1D0C8782149FB" name="X79B1D0C8782149FB"></a></p>
+
+<h5>8.3-13 ShiftCyclicPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ShiftCyclicPath</code>( <var class="Arg">path</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ShiftCyclicPathNC</code>( <var class="Arg">path</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a edge-face-path</p>
+
+<p>Shift the edge-face-path <var class="Arg">path</var> such that the given edge is the start edge and the given face is the first face. The path has to be closed and duplicate-free.</p>
+
+<p>This method returns a edge-face-path.</p>
+
+<p>For example, consider the following simplicial surface: <br><img src="./images/_Wrapper_Image_FourGon-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fourGon := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=EdgeFacePath(fourGon,[1,1,2,2,3,3,4,4,1]);</span>
+( e1, F1, e2, F2, e3, F3, e4, F4, e1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ShiftCyclicPath(path,3,3);</span>
+( e3, F3, e4, F4, e1, F1, e2, F2, e3 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ShiftCyclicPath(path,3,2);</span>
+( e3, F2, e2, F1, e1, F4, e4, F3, e3 )
+</pre></div>
+
+<p><a id="X7AFD249B7DD13FE3" name="X7AFD249B7DD13FE3"></a></p>
+
+<h5>8.3-14 AssociatedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AssociatedPolygonalComplex</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Return the polygonal complex for which the given edge-face-path is defined.</p>
+
+<p><a id="X8107A3C583D26D5E" name="X8107A3C583D26D5E"></a></p>
+
+<h4>8.4 <span class="Heading">Waists</span></h4>
+
+<p>This section deals with a specific type of closed vertex-edge-paths, namely waists. In order to introduce the definition of a waist of a simplicial surface, we first present the definition of a distance-faithful path. Here, a closed edge path <span class="SimpleMath">P</span> of a given simplicial surface is called distance-faithful if for any two vertices of the path <span class="SimpleMath">P</span> at least one shortest edge path between them is contained in <span class="SimpleMath">P</span>. Using the above notion we introduce waists of simplicial surfaces. Let therefore <span class="SimpleMath">n</span> be a natural number. If <span class="SimpleMath">n</span> is equal to 2 or 3, then an <span class="SimpleMath">n</span>-waist of a given simplicial surface is defined as a circular edge path of length <span class="SimpleMath">n</span> such that all edges are inner and no two are incident to the same face. Moreover, if the given simplicial surface is closed without 3-waists and <span class="SimpleMath">n</span> is at least 4, then we define an <span class="SimpleMath">n</span>-waist as a closed distance-faithful edge path of length <span class="SimpleMath">n</span>.</p>
+
+<p>This will be illustrated on the following simplicial surface constructed by three tetrahedra: <img src="./images/_Wrapper_Image_Example3Waist-1.svg"> </img></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tripleTetra:=SimplicialSurfaceByVerticesInFaces(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,3,5],[2,5,6],[2,3,5],[2,3,6],[1,4,5],[3,4,6],[1,3,4],[4,5,6]]);;</span>
+</pre></div>
+
+<p><a id="X780664627DF286E7" name="X780664627DF286E7"></a></p>
+
+<h5>8.4-1 IsWaist</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsWaist</code>( <var class="Arg">complex</var>, <var class="Arg">vertexEdgePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Return whether the given path <var class="Arg">vertexEdgePath</var> is a waist in <var class="Arg">complex</var>. The definition of a waist is given at the beginning of section <a href="chap8.html#X8107A3C583D26D5E"><span class="RefLink">8.4</span></a>.</p>
+
+<p>For example, consider the simplicial surface from the start of section <a href="chap8.html#X8107A3C583D26D5E"><span class="RefLink">8.4</span></a>. The path around a face is not a waist:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=VertexEdgePathByEdges(tripleTetra,[1,3,8]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWaist(tripleTetra, path);</span>
+false
+</pre></div>
+
+<p>A path of length three, where the edges are pairwise incident to two different faces, is a waist:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">waist:=VertexEdgePathByEdges(tripleTetra,[7,8,10]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWaist(tripleTetra, waist);</span>
+true
+</pre></div>
+
+<p>The octahedron has a waist of length four:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=VertexEdgePathByEdges(Octahedron(),[5,6,10,8]);</span>
+( v3, E5, v2, E6, v5, E10, v4, E8, v3 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsWaist(Octahedron(),path);</span>
+true
+</pre></div>
+
+<p><a id="X874AED787AB88508" name="X874AED787AB88508"></a></p>
+
+<h5>8.4-2 AllTwoWaistsOfComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllTwoWaistsOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of closed vertex-edge-paths</p>
+
+<p>Return the set of all waists of length 2 contained in the given twisted polygonal complex. A waist of length 2 is a closed vertex-edge-path in <var class="Arg">complex</var> visiting exactly two edges and two vertices. As an example consider the following simplicial surfaces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllTwoWaistsOfComplex(Octahedron());</span>
+[  ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">voe:=[[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">eof:=[[1,2,3],[1,4,5],[4,5,6],[2,3,6]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllTwoWaistsOfComplex(doubleJanus);</span>
+[ ( v3, E1, v4, E6, v3 )]
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_Example2Waist-1.svg"> </img></p>
+
+<p><a id="X7BE64F057D08D608" name="X7BE64F057D08D608"></a></p>
+
+<h5>8.4-3 AllThreeWaistsOfComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllThreeWaistsOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of closed vertex-edge-paths</p>
+
+<p>Return the set of all waists of length 3 contained in the given twisted polygonal complex. A waist of length 3 is a closed vertex-edge-path in <var class="Arg">complex</var> visiting exactly three edges and vertices so that there exist no face in <var class="Arg">complex</var> that is incident to more than one of the visited edges.</p>
+
+<p>For example, consider the simplicial surface from the start of section <a href="chap8.html#X8107A3C583D26D5E"><span class="RefLink">8.4</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllThreeWaistsOfComplex(tripleTetra);</span>
+[ ( v4, E7, v3, E8, v5, E10, v4 ), ( v5, E8, v3, E9, v6, E12, v5 ) ] 
+</pre></div>
+
+<p>The tetrahedron does not have any 3-waist:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllThreeWaistsOfComplex(Tetrahedron());</span>
+[  ]
+</pre></div>
+
+<p>As another example we consider the following simplicial surface:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">umbdesc:=[ (1,4,6,7,5,3), (1,7,5,8,2,3), (1,7,6,8,2,4),(2,4,6,8,5,3) ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=SimplicialSurfaceByUmbrellaDescriptor(umbdesc);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllThreeWaistsOfComplex(s);</span>
+[ ( v1, E1, v2, E6, v3, E11, v1 ), ( v2, E1, v1, E8, v4, E10, v2 ),
+  ( v1, E2, v3, E6, v2, E9, v1 ), ( v3, E2, v1, E7, v4, E12, v3 ),
+  ( v3, E3, v2, E4, v4, E12, v3 ), ( v2, E3, v3, E5, v4, E10, v2 ),
+  ( v2, E4, v4, E8, v1, E9, v2 ), ( v3, E5, v4, E7, v1, E11, v3 ) ]
+</pre></div>
+
+<p><a id="X87AEDF767956A44A" name="X87AEDF767956A44A"></a></p>
+
+<h5>8.4-4 AllWaistsOfComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllWaistsOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of closed vertex-edge-paths</p>
+
+<p>Return the set of all waists contained in the given polygonal complex <var class="Arg">complex</var>. The definition of a waist is given at the beginning of section <a href="chap8.html#X8107A3C583D26D5E"><span class="RefLink">8.4</span></a>.</p>
+
+<p>For example, consider the simplicial surface from the start of section <a href="chap8.html#X8107A3C583D26D5E"><span class="RefLink">8.4</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllWaistsOfComplex(tripleTetra);</span>
+[ ( v5, E10, v4, E7, v3, E8, v5 ), ( v5, E12, v6, E9, v3, E8, v5 ) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllWaistsOfComplex(Octahedron());</span>
+[ ( v1, E1, v2, E7, v6, E11, v4, E3, v1 ), ( v3, E2, v1, E4, v5, E12, v6, E9, v3 ),
+  ( v3, E5, v2, E6, v5, E10, v4, E8, v3 ) ]
+</pre></div>
+
+<p><a id="X832F4C7582437538" name="X832F4C7582437538"></a></p>
+
+<h4>8.5 <span class="Heading">Geodesic and umbrella paths</span></h4>
+
+<p>Section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a> introduced the concept of edge-face-paths. This section deals with two specific types of edge-face-paths, namely umbrella and geodesic paths.</p>
+
+<p>This will be illustrated on the following torus: <br><img src="./images/_Wrapper_Image_Geodesics-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">torus := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ [1,2],[1,2],[1,3],[2,3],[2,4],[1,4],[3,4],[3,4],[1,3],[1,4],[2,4],[2,3] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ [1,3,4],[4,5,7],[2,5,6],[3,6,8],[7,9,10],[1,10,11],[8,11,12],[2,9,12] ]);;</span>
+</pre></div>
+
+<p><a id="X83AF9FDB790D02F2" name="X83AF9FDB790D02F2"></a></p>
+
+<h5>8.5-1 IsUmbrellaPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsUmbrellaPath</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given edge-face-path is an umbrella-path, i.e. whether there is one vertex such that all edges and faces of the edge-face-path are incident to it.</p>
+
+<p>As an illustration consider the torus from the start of section <a href="chap8.html#X832F4C7582437538"><span class="RefLink">8.5</span></a>: <br><img src='./images/_Wrapper_paths-5-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">umb := EdgeFacePath( torus, [7,5,10,6,11,7,8,4,6] );</span>
+| e7, F5, e10, F6, e11, F7, e8, F4, e6 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsUmbrellaPath(umb);</span>
+true
+</pre></div>
+
+<p><a id="X7D5DD05D78C20E31" name="X7D5DD05D78C20E31"></a></p>
+
+<h5>8.5-2 IsGeodesicPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsGeodesicPath</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given edge-face-path is a geodesic path.</p>
+
+<p>If the edge-face-path is defined on a polygonal complex, this is equivalent to asking, whether each vertex of the path (except those of the first and last edge) is incident to exactly three faces of the path. The vertices of the first and the last edge are allowed to be incident to less than three faces of the path.</p>
+
+<p>As an illustration consider the torus from the start of section <a href="chap8.html#X832F4C7582437538"><span class="RefLink">8.5</span></a>: <br><img src='./images/_Wrapper_paths-6-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">closedGeo := EdgeFacePath( torus, [3,1,4,2,5,3,6,4,3] );</span>
+( e3, F1, e4, F2, e5, F3, e6, F4, e3 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsGeodesicPath(closedGeo);</span>
+true
+</pre></div>
+
+<p>Geodesic paths do not have to be closed (<a href="chap8.html#X87B46BA479339B3E"><span class="RefLink">8.5-5</span></a>): <br><img src='./images/_Wrapper_paths-7-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openGeo := EdgeFacePath( torus, [9,5,7,2,5,3,2] );</span>
+| e9, F5, e7, F2, e5, F3, e2 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsGeodesicPath(openGeo);</span>
+true
+</pre></div>
+
+<p><a id="X78A0028281920A57" name="X78A0028281920A57"></a></p>
+
+<h5>8.5-3 VertexEdgePathOfGeodesic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexEdgePathOfGeodesic</code>( <var class="Arg">geodesic</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path</p>
+
+<p>For every geodesic path (<a href="chap8.html#X7D5DD05D78C20E31"><span class="RefLink">8.5-2</span></a>) there is an interwoven vertex-edge-path with the same edges as the edge-face-path. All vertices of the geodesic path appear in this vertex-edge-path.</p>
+
+<p>As an illustration consider the two geodesic paths from <a href="chap8.html#X7D5DD05D78C20E31"><span class="RefLink">8.5-2</span></a>: <br><img src='./images/_Wrapper_paths-8-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathOfGeodesic(closedGeo);</span>
+( v1, E3, v3, E4, v2, E5, v4, E6, v1 )
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_paths-9-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathOfGeodesic(openGeo);</span>
+( v1, E9, v3, E7, v4, E5, v2, E2, v1 )
+</pre></div>
+
+<p><a id="X808690E87F334733" name="X808690E87F334733"></a></p>
+
+<h5>8.5-4 MaximalGeodesicPaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalGeodesicPaths</code>( <var class="Arg">ramSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalGeodesicPathOfFlag</code>( <var class="Arg">ramSurf</var>, <var class="Arg">flag</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalGeodesicPathOfFlagNC</code>( <var class="Arg">ramSurf</var>, <var class="Arg">flag</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of edge-face-paths</p>
+
+<p>Compute the set of all maximal geodesic paths of <var class="Arg">ramSurf</var>, i.e. the set of all geodesic paths that can not be extended further to a larger geodesic path..</p>
+
+<p>For a polygonal complex, the operation <code class="keyw">MaximalGeodesicPathOfFlag</code>(<var class="Arg">ramSurf</var>, <var class="Arg">flag</var>) returns the unique maximal geodesic path that is defined by the given <var class="Arg">flag</var>. The NC-version does not check whether the given <var class="Arg">flag</var> is actually a flag of <var class="Arg">ramSurf</var>.</p>
+
+<p>As an illustration consider the torus from the start of section <a href="chap8.html#X832F4C7582437538"><span class="RefLink">8.5</span></a>: <br><img src="./images/_Wrapper_Image_Geodesics-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MaximalGeodesicPaths(torus);</span>
+[ ( e1, F1, e4, F2, e7, F5, e10, F6, e1 ), 
+ ( e1, F6, e11, F7, e8, F4, e3, F1, e1 ), 
+ ( e2, F3, e5, F2, e7, F5, e9, F8, e2 ), 
+ ( e2, F8, e12, F7, e8, F4, e6, F3, e2 ), 
+ ( e3, F1, e4, F2, e5, F3, e6, F4, e3 ), 
+ ( e9, F8, e12, F7, e11, F6, e10, F5, e9 ) ]
+</pre></div>
+
+<p>Furthermore, consider an example of an surface with a boundary: <br><img src="./images/_Wrapper_Image_OpenGeodesics-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openSurface:=SimplicialSurfaceByVerticesInFaces(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2,3],[2,3,4],[2,4,5],[4,5,6],[3,4,9],[4,8,9],[4,6,8],[6,7,8]]);</span>
+simplicial surface (9 vertices, 16 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MaximalGeodesicPaths(openSurface);</span>
+[ | e1, F1, e2 |, | e1, F1, e3, F2, e6, F5, e11, F6, e16 |,
+  | e2, F1, e3, F2, e4, F3, e8, F4, e12 |,
+  | e5, F3, e4, F2, e6, F5, e7 |, | e5, F3, e8, F4, e9, F7, e14, F8, e15 |,
+  | e7, F5, e11, F6, e10, F7, e14, F8, e13 |,
+  | e12, F4, e9, F7, e10, F6, e16 |, | e13, F8, e15 | ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MaximalGeodesicPathOfFlag(torus,[1,1,1]);</span>
+( e1, F1, e4, F2, e7, F5, e10, F6, e1 )
+</pre></div>
+
+<p>TODO If there are multiple ways to write a geodesic, which is picked?</p>
+
+<p><a id="X87B46BA479339B3E" name="X87B46BA479339B3E"></a></p>
+
+<h5>8.5-5 IsClosedGeodesicPath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsClosedGeodesicPath</code>( <var class="Arg">edgeFacePath</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given edge-face-path is a closed geodesic path, i.e. whether it is a geodesic path (<a href="chap8.html#X7D5DD05D78C20E31"><span class="RefLink">8.5-2</span></a>) where first and last edge coincide, such that all vertices are incident to exactly three faces of the path.</p>
+
+<p>As an illustration consider the two geodesic paths from <a href="chap8.html#X7D5DD05D78C20E31"><span class="RefLink">8.5-2</span></a>: <br><img src='./images/_Wrapper_paths-10-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedGeodesicPath(closedGeo);</span>
+true
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_paths-11-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedGeodesicPath(openGeo);</span>
+false
+</pre></div>
+
+<p><a id="X87042C587EE3AE31" name="X87042C587EE3AE31"></a></p>
+
+<h5>8.5-6 FlagsOfGeodesic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FlagsOfGeodesic</code>( <var class="Arg">geodesic</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of flags</p>
+
+<p>Return the flags of the given geodesic path (<a href="chap8.html#X7D5DD05D78C20E31"><span class="RefLink">8.5-2</span></a>) as a list.</p>
+
+<p>If the geodesic path is defined on a polygonal complex, regular flags are used.</p>
+
+<p>Consider the geodesic path <span class="SimpleMath">[e_1,f_1,e_2,f_2,e_3,f_3,e_4,f_4,e_1]</span>. <br><img src="./images/_Wrapper_Image_FlagsOfGeodesic-1.svg"> </img> <br> The flags can be illustrated as follows: <br><img src='./images/_Wrapper_paths-12-1.svg'> </img> <br></p>
+
+<p>As an illustration consider the two geodesic paths from <a href="chap8.html#X7D5DD05D78C20E31"><span class="RefLink">8.5-2</span></a>. <br><img src='./images/_Wrapper_paths-13-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FlagsOfGeodesic(closedGeo);</span>
+[ [ 1, 3, 1 ], [ 3, 4, 2 ], [ 2, 5, 3 ], [ 4, 6, 4 ] ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_paths-14-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FlagsOfGeodesic(openGeo);</span>
+[ [ 1, 9, 5 ], [ 3, 7, 2 ], [ 4, 5, 3 ] ]
+</pre></div>
+
+<p><a id="X78FA17BD7F4E29A1" name="X78FA17BD7F4E29A1"></a></p>
+
+<h5>8.5-7 MaximalDuplicateFreeGeodesicPaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalDuplicateFreeGeodesicPaths</code>( <var class="Arg">ramSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalDuplicateFreeGeodesicPathOfFlag</code>( <var class="Arg">ramSurf</var>, <var class="Arg">flag</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MaximalDuplicateFreeGeodesicPathOfFlagNC</code>( <var class="Arg">ramSurf</var>, <var class="Arg">flag</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of duplicate-free geodesic paths</p>
+
+<p>For a given <var class="Arg">flag</var> return the maximal duplicate-free geodesic path defined by this flag, i.e. it is extended in positive direction until one face-duplication arises. Then it is extended in negative direction.</p>
+
+<p>The method <code class="keyw">MaximalDuplicateFreeGeodesicPaths</code>(<var class="Arg">ramSurf</var>) returns the set of all those geodesics.</p>
+
+<p>For example, consider the torus.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo:=MaximalDuplicateFreeGeodesicPathOfFlag(torus,[1,1,1]);</span>
+( e1, F1, e4, F2, e7, F5, e10, F6, e1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo in MaximalDuplicateFreeGeodesicPaths(torus);</span>
+true
+</pre></div>
+
+<p><a id="X7A336D538633EAF9" name="X7A336D538633EAF9"></a></p>
+
+<h5>8.5-8 GeodesicFlagCycle</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; GeodesicFlagCycle</code>( <var class="Arg">closedGeodesic</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation</p>
+
+<p>For a closed geodesic path (<a href="chap8.html#X87B46BA479339B3E"><span class="RefLink">8.5-5</span></a>) construct the <em>geodesic flag cycle</em>.</p>
+
+<p>If <var class="Arg">closedGeodesic</var> is defined on a polygonal complex, this is a permutation on the 3-flags (<a href="chap21.html#X82975C097EC3C998"><span class="RefLink">21.1-1</span></a>). It can also be obtained as one cycle of the product of the Dress involutions (<a href="chap21.html#X81065FFE7E779E4A"><span class="RefLink">21.2-1</span></a>), by first applying the one for vertices, then edges and finally faces.</p>
+
+<p>For example, consider the torus and the closed geodesic from <a href="chap8.html#X78FA17BD7F4E29A1"><span class="RefLink">8.5-7</span></a>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">GeodesicFlagCycle(geo);</span>
+(1,18,30,46)
+</pre></div>
+
+<p>TODO explain properly with picture</p>
+
+<p><a id="X7DB10C2E7AF6F4CD" name="X7DB10C2E7AF6F4CD"></a></p>
+
+<h4>8.6 <span class="Heading">Connectivity</span></h4>
+
+<p>This section contains methods that deal with the (strong) connectivity of twisted polygonal complexes (which were introduced in chapter <a href="chap2.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a> as a generalisation of simplicial surfaces). More specifically it contains these capabilities:</p>
+
+
+<ul>
+<li><p>Determine if a twisted polygonal complex is (strongly) connected (<a href="chap8.html#X7BCB8E3A80E10882"><span class="RefLink">8.6-1</span></a> and <a href="chap8.html#X7B657F8079C32240"><span class="RefLink">8.6-3</span></a>).</p>
+
+</li>
+<li><p>Determine the (strongly) connected components of a twisted polygonal complex (<a href="chap8.html#X810E12D58661715A"><span class="RefLink">8.6-2</span></a> and <a href="chap8.html#X82C4302D87C5F651"><span class="RefLink">8.6-4</span></a>).</p>
+
+</li>
+</ul>
+<p>The distinction between <em>connectivity</em> and <em>strong connectivity</em> is only relevant for polygonal complexes that are not also polygonal surfaces. This can be seen in this example: <br><img src='./images/_Wrapper_paths-15-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly := TriangularComplexByVerticesInFaces( 7, 4,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;</span>
+</pre></div>
+
+<p>This example is connected since its incidence graph (see section <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a>) is connected.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsConnectedComplex( butterfly );</span>
+true
+</pre></div>
+
+<p>But in several situations it is convenient to regard this example as disconnected, with the following connected components: <br><img src='./images/_Wrapper_paths-16-1.svg'> </img> <br> This notion of connectivity is called <em>strong connectivity</em>. A polygonal complex is strongly connected if and only if the polygonal complex without its vertices is connected. For a polygonal surface <em>strong connectivity</em> is equivalent to <em>connectivity</em> since there are no ramified vertices.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsStronglyConnectedComplex( butterfly );</span>
+false
+</pre></div>
+
+<p><a id="X7BCB8E3A80E10882" name="X7BCB8E3A80E10882"></a></p>
+
+<h5>8.6-1 IsConnectedComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsConnectedComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsConnectedSurface</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given twisted polygonal complex is connected. A twisted polygonal complex is connected if and only if its incidence graph (compare section <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a>) is connected.</p>
+
+<p>For example, consider the triangular complex from the start of section <a href="chap8.html#X7DB10C2E7AF6F4CD"><span class="RefLink">8.6</span></a>: <br><img src='./images/_Wrapper_paths-17-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsConnectedComplex( butterfly );</span>
+true
+</pre></div>
+
+<p><a id="X810E12D58661715A" name="X810E12D58661715A"></a></p>
+
+<h5>8.6-2 ConnectedComponents</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedComponents</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedComponentsAttributeOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedComponentOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedComponentOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of twisted polygonal complexes</p>
+
+<p>Return a list of the connected components of the given twisted polygonal complex (as polygonal complexes). They correspond to the connected components of the incidence graph (compare section <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a>).</p>
+
+<p>If a face of the twisted polygonal complex is given as an additional argument, only the connected component containing that face is returned. The NC-version does not check if <var class="Arg">face</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>For example, consider the ramified simplicial surface from the start of section <a href="chap8.html#X7DB10C2E7AF6F4CD"><span class="RefLink">8.6</span></a>: <br><img src='./images/_Wrapper_paths-18-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">comp := ConnectedComponents( butterfly );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(comp);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">comp[1] = butterfly;</span>
+true
+</pre></div>
+
+<p>Splitting vertex 1 into two vertices leads to a surface which has more than one connected component, more precisely two disjoint butterflies:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoButterflies:=SplitVertex(butterfly,1)[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ConnectedComponents(twoButterflies);</span>
+[ simplicial surface (4 vertices, 5 edges, and 2 faces),
+  simplicial surface (4 vertices, 5 edges, and 2 faces) ] 
+</pre></div>
+
+<p><a id="X7B657F8079C32240" name="X7B657F8079C32240"></a></p>
+
+<h5>8.6-3 IsStronglyConnectedComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsStronglyConnectedComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsStronglyConnectedSurface</code>( <var class="Arg">surf</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given twisted polygonal complex is strongly connected. A twisted polygonal complex is strongly connected if and only if one of the following equivalent conditions hold:</p>
+
+
+<ul>
+<li><p>It is still connected after removing an arbitary vertex.</p>
+
+</li>
+<li><p>For each pair of faces there is an edge-face-path (compare section <a href="chap3.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a>) that connects them.</p>
+
+</li>
+</ul>
+<p>For example, consider the triangular complex from the start of section <a href="chap8.html#X7DB10C2E7AF6F4CD"><span class="RefLink">8.6</span></a>: <br><img src='./images/_Wrapper_paths-19-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsStronglyConnectedComplex( butterfly );</span>
+false
+</pre></div>
+
+<p><a id="X82C4302D87C5F651" name="X82C4302D87C5F651"></a></p>
+
+<h5>8.6-4 StronglyConnectedComponents</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StronglyConnectedComponents</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StronglyConnectedComponentsAttributeOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StronglyConnectedComponentOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StronglyConnectedComponentOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of twisted polygonal complexes</p>
+
+<p>Return a list of the strongly connected components of the given twisted polygonal complex (as polygonal complexes).</p>
+
+<p>If a face of the twisted polygonal complex is given as an additional argument, only the strongly connected component containing that face is returned. The NC-version does not check if <var class="Arg">face</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>For example, consider the ramified simplicial surface from the start of section <a href="chap8.html#X7DB10C2E7AF6F4CD"><span class="RefLink">8.6</span></a>: <br><img src='./images/_Wrapper_paths-20-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">comp := StronglyConnectedComponents(butterfly);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(comp);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces( comp[1] );</span>
+[ 1, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces( comp[2] );</span>
+[ 2, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">comp[1] = StronglyConnectedComponentOfFace(butterfly, 1);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">comp[2] = StronglyConnectedComponentOfFace(butterfly, 4);</span>
+true
+</pre></div>
+
+<p><a id="X83AF2772853EA9F3" name="X83AF2772853EA9F3"></a></p>
+
+<h5>8.6-5 NumberOfConnectedComponents</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NumberOfConnectedComponents</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NumberOfStronglyConnectedComponents</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer</p>
+
+<p>Return the number of (strongly) connected components of the given twisted polygonal complex. For the definition of connected components see <a href="chap8.html#X810E12D58661715A"><span class="RefLink">8.6-2</span></a> and for strongly connected components see <a href="chap8.html#X82C4302D87C5F651"><span class="RefLink">8.6-4</span></a></p>
+
+<p>For example consider the ramified simplicial surface from the start of section <a href="chap8.html#X7DB10C2E7AF6F4CD"><span class="RefLink">8.6</span></a>: <br><img src='./images/_Wrapper_paths-21-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(butterfly);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfStronglyConnectedComponents(butterfly);</span>
+2
+</pre></div>
+
+<p><a id="X861E4BAD800B2785" name="X861E4BAD800B2785"></a></p>
+
+<h4>8.7 <span class="Heading">Orientability</span></h4>
+
+<p>This section contains methods that deal with the orientability of twisted polygonal surfaces without edge ramifications (compare section <a href="chap2.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>). For twisted polygonal complexes with edge ramifications the concept of orientability is not well-defined since there is no proper way to deal with edges that are incident to more than two faces.</p>
+
+<p>A polygonal orientation is defined by choosing a direction along the perimeter of each polygon such that for each edge with exactly two incident faces both directions are defined. This direction is modelled by a perimeter path (compare <a href="chap8.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a> for details). <br><img src='./images/_Wrapper_paths-22-1.svg'> </img> <br> A polygonal complex without edge ramifications is <em>orientable</em> if such a choice of directions is possible.</p>
+
+<p>For a given polygonal complex this orientation can be computed. <br><img src='./images/_Wrapper_paths-23-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surface := PolygonalSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[,[3,5],,,,[3,7],,[3,11],,[7,11],,[5,13],,[7,13],[11,13]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [2,6,12,14],,, [6,8,10],,,,, [10,14,15] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOrientableSurface(surface);</span>
+true
+</pre></div>
+
+<p>The orientation of a face is given as a vertex-edge-path (compare section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>) in which vertices and edges are alternating. For the quadrangular face we could represent one of these paths as <span class="SimpleMath">[3,6,7,14,13,12,5,2,3]</span>. From the paths we can also compute the corresponding permutations of vertices and edges alone.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">orient := Orientation( surface );</span>
+[ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,,
+(v7,E14,v13,E15,v11,E10,v7) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, VerticesAsPerm);</span>
+[ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, VerticesAsList);</span>
+[ [3,5,13,7,3],,, [3,7,11,3],,,,, [7,13,11,7] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, EdgesAsPerm);</span>
+[ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, EdgesAsList);</span>
+[ [2,12,14,6],,, [6,10,8],,,,, [14,15,10] ]
+</pre></div>
+
+<p>If the orientation for one face is given, this defined the orientations for the strongly connected component (compare <a href="chap8.html#X82C4302D87C5F651"><span class="RefLink">8.6-4</span></a>) of this face. The convention for returning an orientation is as follows:</p>
+
+
+<ul>
+<li><p>For each strongly connected component there is a face with minimal number.</p>
+
+</li>
+<li><p>The orientation of this face is equal to <code class="keyw">PerimeterOfFace</code> (<a href="chap3.html#X7F895BE281100061"><span class="RefLink">3.3-1</span></a>) of this face.</p>
+
+</li>
+</ul>
+<p>For a general twisted polygonal surface there is no concept of perimeter paths. Instead, we can describe orientability by the existence of a map from the set of chambers to {+1,-1} such that adjacent chambers have different values. But we do not consider this case here.</p>
+
+<p><a id="X828D14988078FA78" name="X828D14988078FA78"></a></p>
+
+<h5>8.7-1 IsOrientableComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsOrientableComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsOrientableSurface</code>( <var class="Arg">surf</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Return whether the given twisted polygonal complex without edge ramifications is orientable.</p>
+
+<p>A twisted polygonal complex without edge ramifications is orientable if it is possible to choose a direction along the perimeter of each face such that each pair of adjacent faces defines opposite directions on the shared edge.</p>
+
+<p>As an example, consider the polygonal surface from the start of section <a href="chap8.html#X861E4BAD800B2785"><span class="RefLink">8.7</span></a>: <br><img src='./images/_Wrapper_paths-24-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOrientableSurface( surface );</span>
+true
+</pre></div>
+
+<p>An example for a non orientable surface is the Möbius-strip:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">moebius := SimplicialSurfaceByVerticesInFaces( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2,3],[2,3,4],[3, 4,5],[4,5,1],[5,2,1] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOrientableSurface(moebius); </span>
+false
+</pre></div>
+
+<p><a id="X8215811E7FDC9D51" name="X8215811E7FDC9D51"></a></p>
+
+<h5>8.7-2 Orientation</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Orientation</code>( <var class="Arg">ramSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of vertex-edge-paths</p>
+
+<p>Return the orientation of the given polygonal complex without edge ramifications, if it exists (otherwise return <code class="keyw">fail</code>). The orientation is given as a list with the faces of <var class="Arg">ramSurf</var> as indices.</p>
+
+<p>For each face, this list contains a perimeter-path (see <a href="chap8.html#X866F3C8285CD079C"><span class="RefLink">8.2-3</span></a> for the precise definition) of this face. To access perimeter-paths the methods of sections <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a> and <a href="chap8.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a> can be used. The perimeter-path describes a direction for each edge of the face. For an edge, each pair of adjacent faces has to define opposite directions on this edge.</p>
+
+<p>For example, consider the polygonal surface from the start of section <a href="chap8.html#X861E4BAD800B2785"><span class="RefLink">8.7</span></a>: <br><img src="./images/_Wrapper_Image_ConstructorExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">orient := Orientation( surface );</span>
+[ (v3,E2,v5,E12,v13,E14,v7,E6,v3),,, (v3,E6,v7,E10,v11,E8,v3),,,,, 
+(v7,E14,v13,E15,v11,E10,v7) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, VerticesAsPerm);</span>
+[ (3,5,13,7),,, (3,7,11),,,,, (7,13,11) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, VerticesAsList);</span>
+[ [3,5,13,7,3],,, [3,7,11,3],,,,, [7,13,11,7] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, EdgesAsPerm);</span>
+[ (2,12,14,6),,, (6,10,8),,,,, (10,14,15) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(orient, EdgesAsList);</span>
+[ [2,12,14,6],,, [6,10,8],,,,, [14,15,10] ]
+</pre></div>
+
+<p><a id="X7CDE00387EA71570" name="X7CDE00387EA71570"></a></p>
+
+<h5>8.7-3 OrientationCover</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OrientationCover</code>( <var class="Arg">ramSurf</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list, where the first entry is a polygonal surface and the subsequent entries are its vertices, edges and faces</p>
+
+<p>Compute the <em>orientation cover</em> of a polygonal complex without edge ramifications. It is constructed in the following way:</p>
+
+
+<ul>
+<li><p>For each face in <var class="Arg">ramSurf</var> the orientation cover has two faces, corresponding to the two possible orientations of this face. These orientations are represented as <em>perimeter paths</em> (compare section <a href="chap8.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a>).</p>
+
+</li>
+<li><p>Two adjacent faces with orientation in <var class="Arg">ramSurf</var> are adjacent in the cover if these orientations induce opposite orientations on the connecting edge.</p>
+
+</li>
+<li><p>The vertices are defined by going around an umbrella and transforming the orientations correspondingly.</p>
+
+</li>
+</ul>
+<p>This method returns a list with three entries:</p>
+
+
+<ul>
+<li><p>The first entry is the covering surface</p>
+
+</li>
+<li><p>The second entry is a map from the covering surface to <var class="Arg">ramSurf</var>. It is given in the form of three lists: The first list maps the vertices of the cover to the vertices of <var class="Arg">ramSurf</var>, the second list maps the edges and the third one maps the faces.</p>
+
+</li>
+<li><p>The third entry is a map from the faces of the covering surface to the orientation that was used in defining this face.</p>
+
+</li>
+</ul>
+<p>The resulting polygonal surface is always closed (<a href="chap9.html#X8246710587712346"><span class="RefLink">9.1-2</span></a>) and orientable (<a href="chap8.html#X828D14988078FA78"><span class="RefLink">8.7-1</span></a>). If the original <var class="Arg">ramSurf</var> was orientable, it has two connected components, otherwise just one.</p>
+
+<p>For example, consider the tetrahedron:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetCov := OrientationCover(Tetrahedron())[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfVertices(tetCov);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(tetCov);</span>
+12
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfFaces(tetCov);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(tetCov);</span>
+2 
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(ConnectedComponents(tetCov)[1],Tetrahedron());</span>
+true
+</pre></div>
+
+<p>Since the tetrahedron is orientable, the covering surface has two connected components both isomorphic to the tetrahedron. Consider a non orientable surface on four faces: <br><img src="./images/_Wrapper_Image_ProjectivePlane-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">projPlane := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [ 2, 3 ], [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [ 1, 2, 3 ], [ 2, 4, 5 ], [ 3, 4, 6 ], [ 1, 5, 6 ] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">projCov := OrientationCover(projPlane)[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfVertices(tetCov);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(tetCov);</span>
+12
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfFaces(tetCov);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(projCov);</span>
+1
+</pre></div>
+
+<p>Since <var class="Arg">ramSurf</var> was not orientable, the covering surface has only one connected component.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap7.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap9.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

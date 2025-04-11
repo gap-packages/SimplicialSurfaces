@@ -1,0 +1,6 @@
+  
+  [1X17 [33X[0;0YAnimating surfaces with Java Script[133X[101X
+  
+  [33X[0;0Y[13X  There  is a new package developed to take over this functionality. You can
+  access it here: [7Xhttps://gap-art-rwth.github.io/GAPic/[107X. [113X[133X
+  

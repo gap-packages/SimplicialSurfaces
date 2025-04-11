@@ -1,0 +1,1787 @@
+  
+  [1X12 [33X[0;0YModification of polygonal complexes[133X[101X
+  
+  [33X[0;0YThis  chapter  is  concerned  with  the  modification of polygonal complexes
+  (introduced  in  chapter [14X2[114X as a generalization of simplicial surfaces). This
+  allows the construction of new complexes from old ones.[133X
+  
+  [33X[0;0YThis  chapter covers the operations of splitting ([14X12.1[114X) and joining ([14X12.4[114X) a
+  polygonal   complex   along  vertices  or  edges  (more  generally  along  a
+  vertex-edge-path, which was introduced in section [14X8.1[114X).[133X
+  
+  [33X[0;0YThe  aim of these operations is to provide a set of tools that allows a user
+  to  develop  their  own  modifications  without  worrying too much about the
+  underlying  incidence  structure. To make this easier, section [14X12.5[114X contains
+  several  useful  modifications,  along  with  an explanation how they can be
+  constructed with the elementary tools.[133X
+  
+  
+  [1X12.1 [33X[0;0YSplitting along a path[133X[101X
+  
+  [33X[0;0YThis  section  contains  the  basic  functionality  for  splitting polygonal
+  complexes  along  edges  ([14X12.1-1[114X)  and vertices ([14X12.1-2[114X). More generally, it
+  also provides methods to split along vertex-edge-paths ([14X12.1-3[114X and [14X12.1-4[114X).[133X
+  
+  [33X[0;0YAfter  splitting  one  element  into  several  elements the label of the old
+  element  is  replaced by new labels. The splitting methods always return the
+  new labels to make further modification easier.[133X
+  
+  [33X[0;0YThis will be illustrated on a hexagon. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xhex := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X     [ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],[127X[104X
+    [4X[25X>[125X [27X     [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor example it is possible to split the inner edge 1 into two boundary edges
+  13 and 14 by [9XSplitEdge[109X ([14X12.1-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeSplit := SplitEdge(hex, 1);;[127X[104X
+    [4X[25Xgap>[125X [27XedgeSplit[2];[127X[104X
+    [4X[28X[ 13, 14 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted in terminal text Conversely, trying to split a boundary edge,
+  like 7, would have made no difference:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XboundSplit := SplitEdge(hex, 7);;[127X[104X
+    [4X[25Xgap>[125X [27XboundSplit[1] = hex;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter  the  edge  split  the  vertex  1 has two umbrellas (compare [14X3.4-2[114X for
+  details). These can be split up by [9XSplitVertex[109X ([14X12.1-2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XvertSplit := SplitVertex( edgeSplit[1], 1 );;[127X[104X
+    [4X[25Xgap>[125X [27XvertSplit[2];[127X[104X
+    [4X[28X[ 8, 9 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThese   two   splitting   operations   can  also  be  combined  by  using  a
+  vertex-edge-path  (introduced  in  section [14X8.1[114X). For example, to cut through
+  the  edges 1 and 4 of the hexagon (along with the incident vertices), we can
+  use [9XSplitVertexEdgePath[109X ([14X12.1-3[114X).[133X
+  
+  [33X[0;0YThe splitting path can be given in multiple ways: via vertices, via edges or
+  by giving an alternating list of both.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcutPath := VertexEdgePath(hex, [4,4,7,1,1]);[127X[104X
+    [4X[28X| v4, E4, v7, E1, v1 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByVertices(hex, [4,7,1]);[127X[104X
+    [4X[28X| v4, E4, v7, E1, v1 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByEdges(hex, [4,1]);[127X[104X
+    [4X[28X| v4, E4, v7, E1, v1 |[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XhexCut := SplitVertexEdgePath( hex, cutPath );;[127X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(hexCut[1]);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YIf instead only the central vertex should be split (such that the edge split
+  "opens" the surface), the method [9XSplitEdgePath[109X ([14X12.1-4[114X) can be used instead.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XhexOpen := SplitEdgePath( hex, cutPath );;[127X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(hexOpen[1]);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X12.1-1 SplitEdge[101X
+  
+  [33X[1;0Y[29X[2XSplitEdge[102X( [3Xcomplex[103X, [3Xedge[103X[, [3XnewEdgeLabels[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XSplitEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X[, [3XnewEdgeLabels[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second entry is a set of the new edge labels.[133X
+  
+  [33X[0;0YSplit  the given [3Xedge[103X in the polygonal complex [3Xcomplex[103X into as many edges as
+  there  are faces incident to [3Xedge[103X. If there was only one incident face (i.e.
+  the  edge  is a boundary edge ([14X9.4-3[114X)) then no labels are changed. Otherwise
+  the old edge label is no longer used and will be replaced by the appropriate
+  number of new labels. The new labels can be defined by the optional argument
+  [3XnewEdgeLabels[103X.  Let [3XnumFaces[103X be the number of incident faces from [3Xedge[103X, i.e.
+  the  number  of  new  edges.  By default, the list [3XnewEdgeLabels[103X is the list
+  [3X[1..numFaces][103X, which is shifted by the maximal edge label in each entry.[133X
+  
+  [33X[0;0YFor  example  consider  the  following  triangular complex: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcloseEye:=SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X           [[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27Xeye:=SplitEdge(closeEye,2);[127X[104X
+    [4X[28X[ triangular complex (4 vertices, 6 edges, and 2 faces), [ 6, 7 ] ] [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y[  6, 7 ] are the new edge labels, because the new edge labels are not given
+  and edge 2 is incident to two faces and the maximal edge label is 5.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe  NC-version does not check whether [3Xedge[103X is an actual edge of [3Xcomplex[103X and
+  whether the new edge labels are actually available.[133X
+  
+  [1X12.1-2 SplitVertex[101X
+  
+  [33X[1;0Y[29X[2XSplitVertex[102X( [3Xcomplex[103X, [3Xvertex[103X[, [3XnewVertexLabels[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XSplitVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X[, [3XnewVertexLabels[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second entry is a set of the new vertex labels.[133X
+  
+  [33X[0;0YSplit  the  given  [3Xvertex[103X  in  the  polygonal  complex  [3Xcomplex[103X into as many
+  vertices  as  necessary such that the incident faces of the new vertices are
+  connected via the incident edges of these vertices.[133X
+  
+  [33X[0;0YFor  a  polygonal  surface  this  corresponds  to adding one vertex for each
+  element of the umbrella partition ([14X3.4-2[114X) of [3Xvertex[103X.[133X
+  
+  [33X[0;0YIf  the  vertex does not have to be split according to this rule (i.e. it is
+  an  inner  ([14X9.5-1[114X)  or  a  boundary ([14X9.5-2[114X) vertex), its label will stay the
+  same.  Otherwise  the  old label will be removed and replaced by new labels.
+  The  new labels can be defined by the optional argument [3XnewVertexLabels[103X. Let
+  [3XnumVert[103X be the number of new vertices that are necessary to split [3Xvertex[103X. By
+  default,  the  list [3XnewEdgeLabels[103X is the list [3X[1..numVert][103X, which is shifted
+  by the maximal vertex label in each entry.[133X
+  
+  [33X[0;0YFor  example  consider  the  following  triangular complex: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XramSurf := PolygonalComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[127X[104X
+    [4X[25X>[125X [27X[1,8],[1,10],[1,12],[8,10],[10,12] ],[127X[104X
+    [4X[25X>[125X [27X[ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XsplittedComplex:=SplitVertex(ramSurf,1);[127X[104X
+    [4X[28X[ simplicial surface (8 vertices, 11 edges, and 5 faces), [ 13, 14 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Y[  13,  14  ]  are  the new vertex labels, because new vertex labels are not
+  given  and  vertex  1  has  two  elements  in the umbrella partition and the
+  maximal  vertex  label  is 12. Splitting the vertex 1 in the complex divides
+  the complex into two components:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(splittedComplex[1]);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe  NC-version does not check whether [3Xvertex[103X is an actual vertex of [3Xcomplex[103X
+  and whether the new vertex labels are actually available.[133X
+  
+  [1X12.1-3 SplitVertexEdgePath[101X
+  
+  [33X[1;0Y[29X[2XSplitVertexEdgePath[102X( [3Xcomplex[103X, [3XvePath[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSplitVertexEdgePathNC[102X( [3Xcomplex[103X, [3XvePath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second entry encodes the label changes[133X
+  
+  [33X[0;0YSplit the given [3Xcomplex[103X along the given [3XvePath[103X. First, all edges of the path
+  are  split by [9XSplitEdge[109X ([14X12.1-1[114X), then all vertices of the path are split by
+  [9XSplitVertex[109X  ([14X12.1-2[114X). If the first and final vertex of [3XvePath[103X should not be
+  split, the method [9XSplitEdgePath[109X ([14X12.1-4[114X) should be used instead.[133X
+  
+  [33X[0;0YThis  method  will change the labels of all affected vertices and edges. All
+  other labels remain unchanged.[133X
+  
+  [33X[0;0YThe  given  [3XvePath[103X  has to be a duplicate-free ([14X8.1-9[114X) vertex-edge-path (for
+  the  definition  see  [14X8.1-1[114X)  of  [3Xcomplex[103X.  Vertex-edge-paths can be created
+  easily:[133X
+  
+  [30X    [33X[0;6YFrom a list of vertices: [9XVertexEdgePathByVertices[109X ([14X8.1-2[114X)[133X
+  
+  [30X    [33X[0;6YFrom a list of edges: [9XVertexEdgePathByEdges[109X ([14X8.1-3[114X)[133X
+  
+  [30X    [33X[0;6YFrom   a   list   in   which   vertices  and  edges  are  alternating:
+        [9XVertexEdgePath[109X ([14X8.1-1[114X)[133X
+  
+  [33X[0;0YThis  method  returns  a pair where the first component is the split [3Xcomplex[103X
+  and  the  second  one contains the changed labels. The second component is a
+  list  of  pairs  [[3XnewPath[103X,  [3XoldPath[103X].  These are computed as follows: If the
+  original  [3XvePath[103X  would  be marked in the split complex, it would show up as
+  multiple vertex-edge-paths. Each of those is a [3XnewPath[103X and the corresponding
+  [3XoldPath[103X is the unique subpath of the original [3XvePath[103X, such that each element
+  of [3XnewPath[103X was obtained from the element at the same position in [3XoldPath[103X.[133X
+  
+  [33X[0;0YFor example consider the following polygonal complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],[127X[104X
+    [4X[25X>[125X [27X[3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath:=VertexEdgePathByEdges(complex,[3,8]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSplitting the complex along this path leads to four one faces:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsplit:=SplitVertexEdgePath(complex,path);[127X[104X
+    [4X[28X[ simplicial surface (12 vertices, 12 edges, and 4 faces),[128X[104X
+    [4X[28X[ [ | v12, E13, v14 |, | v3, E8, v6 | ],[128X[104X
+    [4X[28X  [ | v13, E14, v15 |, | v3, E8, v6 | ],[128X[104X
+    [4X[28X  [ | v8, E11, v10 |, | v1, E3, v3 | ],[128X[104X
+    [4X[28X  [ | v9, E12, v11 |, | v1, E3, v3 | ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(split[1]);[127X[104X
+    [4X[28X4[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe second output shows in which two path the original path was split. Image
+  omitted in terminal text[133X
+  
+  [33X[0;0YThe  NC-versions  do not check whether the given vertex-edge-paths match the
+  given [3Xcomplex[103X.[133X
+  
+  [1X12.1-4 SplitEdgePath[101X
+  
+  [33X[1;0Y[29X[2XSplitEdgePath[102X( [3Xcomplex[103X, [3XvePath[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSplitEdgePathNC[102X( [3Xcomplex[103X, [3XvePath[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second entry encodes the label changes[133X
+  
+  [33X[0;0YSplit the given [3Xcomplex[103X along the given [3XvePath[103X. First, all edges of the path
+  are split by [9XSplitEdge[109X ([14X12.1-1[114X), then all vertices of the path (except first
+  and  last)  are split by [9XSplitVertex[109X ([14X12.1-2[114X). If the first and final vertex
+  of  [3XvePath[103X  should  also  be  split, the method [9XSplitVertexEdgePath[109X ([14X12.1-3[114X)
+  should be used instead.[133X
+  
+  [33X[0;0YThis  method  will change the labels of all affected vertices and edges. All
+  other labels remain unchanged.[133X
+  
+  [33X[0;0YThe  given  [3XvePath[103X  has to be a duplicate-free ([14X8.1-9[114X) vertex-edge-path (for
+  the  definition  see  [14X8.1-1[114X)  of  [3Xcomplex[103X.  Vertex-edge-paths can be created
+  easily:[133X
+  
+  [30X    [33X[0;6YFrom a list of vertices: [9XVertexEdgePathByVertices[109X ([14X8.1-2[114X)[133X
+  
+  [30X    [33X[0;6YFrom a list of edges: [9XVertexEdgePathByEdges[109X ([14X8.1-3[114X)[133X
+  
+  [30X    [33X[0;6YFrom   a   list   in   which   vertices  and  edges  are  alternating:
+        [9XVertexEdgePath[109X ([14X8.1-1[114X)[133X
+  
+  [33X[0;0YThis  method  returns  a pair where the first component is the split [3Xcomplex[103X
+  and  the  second  one contains the changed labels. The second component is a
+  list  of  pairs  [[3XnewPath[103X,  [3XoldPath[103X].  These are computed as follows: If the
+  original  [3XvePath[103X  would  be marked in the split complex, it would show up as
+  multiple vertex-edge-paths. Each of those is a [3XnewPath[103X and the corresponding
+  [3XoldPath[103X is the unique subpath of the original [3XvePath[103X, such that each element
+  of [3XnewPath[103X was obtained from the element at the same position in [3XoldPath[103X.[133X
+  
+  [33X[0;0YFor example consider the following polygonal complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],[127X[104X
+    [4X[25X>[125X [27X[3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath:=VertexEdgePathByEdges(complex,[3,8]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSplitting  the complex along this path without the first and the last vertex
+  leads to two components:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsplit:=SplitEdgePath(complex,path);[127X[104X
+    [4X[28X[ triangular complex (10 vertices, 12 edges, and 4 faces),[128X[104X
+    [4X[28X[ [ | v10, E13, v6 |, | v3, E8, v6 | ],[128X[104X
+    [4X[28X  [ | v11, E14, v6 |, | v3, E8, v6 | ],[128X[104X
+    [4X[28X  [ | v1, E11, v8 |, | v1, E3, v3 | ],[128X[104X
+    [4X[28X  [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(split[1]);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe second output shows in which two path the original path was split. Image
+  omitted in terminal text[133X
+  
+  [33X[0;0YThe  NC-versions  do not check whether the given vertex-edge-paths match the
+  given [3Xcomplex[103X.[133X
+  
+  
+  [1X12.2 [33X[0;0YRemoving faces[133X[101X
+  
+  [33X[0;0YThis section contains the functionality to:[133X
+  
+  [30X    [33X[0;6Yremove faces of a polygonal complex[133X
+  
+  [30X    [33X[0;6Yrestrict a polygonal complex to a subset of faces[133X
+  
+  [33X[0;0YThe  functions  will  be illustrated on a hexagon. Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xhex := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],[127X[104X
+    [4X[25X>[125X [27X[ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor example it is possible to remove the face 1.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XremovedHex := RemoveFace(hex,1);[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 11 edges, and 5 faces) [128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt is also possible to restrict the hexagon to the faces 2 to 6.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XrestrictedHex := SubcomplexByFaces(hex,[2,3,4,5,6]);[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 11 edges, and 5 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThese two surfaces are isomorphic.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(removedHex,restrictedHex);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X12.2-1 SubcomplexByFaces[101X
+  
+  [33X[1;0Y[29X[2XSubcomplexByFaces[102X( [3Xcomplex[103X, [3Xfaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSubcomplexByFacesNC[102X( [3Xcomplex[103X, [3Xfaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSubsurfaceByFaces[102X( [3Xsurface[103X, [3Xfaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSubsurfaceByFacesNC[102X( [3Xsurface[103X, [3Xfaces[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya twisted polygonal complex[133X
+  
+  [33X[0;0YReturn the polygonal complex that is generated by restricting [3Xcomplex[103X to the
+  given  set  of  faces.  This will remove all edges and vertices that are not
+  incident to one of the remaining faces.[133X
+  
+  [33X[0;0YAll  labels of remaining vertices, edges and faces will remain the same. The
+  method  [9XSubsurfaceByFaces[109X is only applicable to surfaces and guarantees that
+  the  returned  subcomplex  is  a  surface.  If  this is not possible [9Xfail[109X is
+  returned.[133X
+  
+  [33X[0;0YFor example consider the hexagon from the start of this chapter:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSubcomplexByFaces(hex,[2,5]);[127X[104X
+    [4X[28Xtriangular complex (5 vertices, 6 edges, and 2 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  the  given set of [3Xfaces[103X actually
+  consists only of faces in [3Xcomplex[103X. It also does not check whether the result
+  of [9XSubsurfaceByFaces[109X is a surface.[133X
+  
+  [33X[0;0YIn  Chapter  [14X18[114X  the  edge  colouring of twisted polygonal complexes will be
+  introduced.[133X
+  
+  [33X[0;0YThe hexagon from above can be coloured as follows:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcolEdges:=[ 1, 2, 1, 2, 1, 2, 3, 3, 3, 3, 3, 3 ];;[127X[104X
+    [4X[25Xgap>[125X [27XcolSurface:=EdgeColouredPolygonalComplex(hex,colEdges);[127X[104X
+    [4X[28Xtame coloured surface (MMB with 7 vertices, 12 edges and 6 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  we  compute  a  subcomplex  of  an  edge-coloured  complex,  it  will be
+  edge-coloured again, induced by the edge-colouring of the given complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSubsurfaceByFaces(colSurface,[1,2]);[127X[104X
+    [4X[28Xtame coloured surface (BMB with 4 vertices, 5 edges and 2 faces)[128X[104X
+  [4X[32X[104X
+  
+  [1X12.2-2 RemoveFaces[101X
+  
+  [33X[1;0Y[29X[2XRemoveFaces[102X( [3Xcomplex[103X, [3Xfaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRemoveFacesNC[102X( [3Xcomplex[103X, [3Xfaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRemoveFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRemoveFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YRemove  the  given faces from [3Xcomplex[103X and return the result. If this removal
+  results  in  vertices or edges that are not incident to any remaining faces,
+  they  will  be  removed as well. The labels of all remaining vertices, edges
+  and faces will remain unaffected.[133X
+  
+  [33X[0;0YFor  example  consider the Tetrahedron and remove one face: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtetraRemoved:=RemoveFace(Tetrahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 6 edges, and 3 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(tetraRemoved);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  the  given set of [3Xfaces[103X actually
+  consists only of faces in [3Xcomplex[103X.[133X
+  
+  
+  [1X12.3 [33X[0;0YDisjoint union[133X[101X
+  
+  [33X[0;0YThis  section  explains  the  conventions  of  disjoint  unions  ([14X12.3-1[114X) of
+  polygonal  complexes.  While this might seem trivial at first, its behaviour
+  has  to  be  stated  clearly  and  unambiguously,  since  all of the joining
+  modifications of section [14X12.4[114X are based on it.[133X
+  
+  [33X[0;0YTo illustrate this, consider the tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra := Tetrahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text Both of these tetrahedra have the same labels
+  for vertices, edges and faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertices(tetra);[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges(tetra);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces(tetra);[127X[104X
+    [4X[28X[ 1 .. 4 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YA  disjoint  union  can't  just combine these labels because it would not be
+  clear  to which component the vertex 2 is belonging. This conflict of labels
+  is a common occurrence and has to be handled delicately.[133X
+  
+  [33X[0;0YThe  [9XSimplicialSurface[109X-package deals with this problem by uniformly shifting
+  the labels of the second argument.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdisjoint := DisjointUnion(tetra, tetra);;[127X[104X
+    [4X[25Xgap>[125X [27XVertices( disjoint[1] );[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 7, 8, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges( disjoint[1] );[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces( disjoint[1] );[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 7, 8, 9, 10 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted in terminal text Notably all labels of the second tetrahedron
+  were  shifted  by  the  same  amount. More precisely they are shifted by the
+  highest label of the first tetrahedron - which is the edge label 6.[133X
+  
+  [33X[0;0YTo  be  able to use this information in further calculations, the used shift
+  is returned as well.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdisjoint[2];[127X[104X
+    [4X[28X6[128X[104X
+  [4X[32X[104X
+  
+  [1X12.3-1 DisjointUnion[101X
+  
+  [33X[1;0Y[29X[2XDisjointUnion[102X( [3Xcomplex1[103X, [3Xcomplex2[103X[, [3Xshift[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second entry is the used shift[133X
+  
+  [33X[0;0YReturn  the  disjoint  union  of  the given two polygonal complexes. In this
+  process  the  labels  of the second complex usually are shifted. The default
+  shift is determined by this procedure:[133X
+  
+  [31X1[131X   [33X[0;6YIf  the labels of vertices, edges and faces do not overlap, the second
+        labels do not need to be shifted. The default shift is 0.[133X
+  
+  [31X2[131X   [33X[0;6YOtherwise  the labels of the second complex are shifted by the highest
+        label  of  the  first complex - which may be the label of a vertex, an
+        edge or a face.[133X
+  
+  [33X[0;0YIf  the  optional  [3Xshift[103X  is  higher than the default shift, it will be used
+  instead. Otherwise it will be ignored.[133X
+  
+  [33X[0;0YAll  labels  of  the  second complex are shifted upwards by the same amount,
+  even if it would not be necessary to shift all of them that much to make the
+  labels disjoint.[133X
+  
+  [33X[0;0YFor example also the disjoint union of two different complexes can be build:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XoneFace:=SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[[1,2],[2,3],[1,3]],[[1,2,3]]);;[127X[104X
+    [4X[25Xgap>[125X [27XDisjointUnion(oneFace, JanusHead());[127X[104X
+    [4X[28X[ simplicial surface (6 vertices, 6 edges, and 3 faces), 3 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X12.4 [33X[0;0YJoining along a path[133X[101X
+  
+  [33X[0;0YThis   section  contains  the  basic  functionality  for  joining  polygonal
+  complexes    along   vertices   and   edges   and   more   generally   along
+  vertex-edge-paths  (for  their definition, compare [14X8.1-1[114X). More specifically
+  the following operations are supported:[133X
+  
+  [30X    [33X[0;6YIdentifying two vertices ([14X12.4-1[114X)[133X
+  
+  [30X    [33X[0;6YIdentifying two edges ([14X12.4-2[114X)[133X
+  
+  [30X    [33X[0;6YIdentifying two vertex-edge-paths ([14X12.4-4[114X)[133X
+  
+  [30X    [33X[0;6YIdentifying the perimeters of two boundaries/holes ([14X12.4-5[114X)[133X
+  
+  [33X[0;0YFor example conisder the following complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex:=SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X           [,[2,7],[3,7],[4,7],[5,7],[6,7],[2,8],[2,3],[3,4],[127X[104X
+    [4X[25X>[125X [27X           [4,5],[5,6],[6,9],[7,8],[7,9]],[127X[104X
+    [4X[25X>[125X [27X           [[2,7,13],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[6,12,14]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in terminal text It is possible to join the vertices 8 and 9
+  and the new vertex will get the label 1.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XvertJoin:=JoinVertices(complex,[8,9],1);;[127X[104X
+    [4X[25Xgap>[125X [27XvertJoin[2];[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in  terminal text After this vertex join the edges 13 and 14
+  can be join to a new edge with label 1.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgeJoin:=JoinEdges(vertJoin[1],13,14,1);;[127X[104X
+    [4X[25Xgap>[125X [27XedgeJoin[2];[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in  terminal  text  These two joining operations can also be
+  combined  by  using a vertex-edge-path (introduced in section [14X8.1[114X). Consider
+  the following complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XhexOpen:=SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X           [,[2,12],[3,12],,[5,13],[6,13],[2,8],[2,3],[3,10],[5,11],[127X[104X
+    [4X[25X>[125X [27X           [5,6],[6,9],[8,12],[9,13],[10,12],[11,13]],[127X[104X
+    [4X[25X>[125X [27X           [[2,7,13],[2,3,8],[3,9,15],[5,10,16],[5,6,11],[6,12,14]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in  terminal  text  The  two  joining  paths can be given in
+  multiple  ways:  via vertices, via edges or by giving an alternating list of
+  both.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpath1:=VertexEdgePath(hexOpen,[10,15,12,13,8]);[127X[104X
+    [4X[28X| v10, E15, v12, E13, v8 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByVertices(hexOpen,[10,12,8]);[127X[104X
+    [4X[28X| v10, E15, v12, E13, v8 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByEdges(hexOpen,[15,13]);[127X[104X
+    [4X[28X| v10, E15, v12, E13, v8 |[128X[104X
+    [4X[25Xgap>[125X [27Xpath2:=VertexEdgePath(hexOpen,[11,16,13,14,9]);[127X[104X
+    [4X[28X| v11, E16, v13, E14, v9 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByVertices(hexOpen,[11,13,9]);[127X[104X
+    [4X[28X| v11, E16, v13, E14, v9 |[128X[104X
+    [4X[25Xgap>[125X [27XVertexEdgePathByEdges(hexOpen,[16,14]);[127X[104X
+    [4X[28X| v11, E16, v13, E14, v9 |[128X[104X
+    [4X[25Xgap>[125X [27Xhex:=JoinVertexEdgePaths(hexOpen,path1,path2);;[127X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(hex[1]);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X12.4-1 JoinVertices[101X
+  
+  [33X[1;0Y[29X[2XJoinVertices[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X[, [3XnewVertexLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVerticesNC[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X[, [3XnewVertexLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVertices[102X( [3Xcomplex[103X, [3XvertexList[103X[, [3XnewVertexLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVerticesNC[102X( [3Xcomplex[103X, [3XvertexList[103X[, [3XnewVertexLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVertices[102X( [3Xcomplex1[103X, [3Xv1[103X, [3Xcomplex2[103X, [3Xv2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVerticesNC[102X( [3Xcomplex1[103X, [3Xv1[103X, [3Xcomplex2[103X, [3Xv2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  list,  where the first entry is a polygonal complex, the second
+            one  is  the  new  vertex label and the third is the shift for the
+            labels of the second input [3Xcomplex2[103X (only if applicable).[133X
+  
+  [33X[0;0YCombine two vertices into one. This method comes in two flavors:[133X
+  
+  [31X1[131X   [33X[0;6YCombine  two  vertices [3Xv1[103X and [3Xv2[103X of a single polygonal complex [3Xcomplex[103X
+        into  one.  This  will  return  [9Xfail[109X if the vertices are incident to a
+        common face.[133X
+  
+        [33X[0;6YThe  optional  argument  [3XnewVertexLabel[103X allows to set the label of the
+        new  vertex. By default, [3XnewVertexLabel[103X is one higher than the maximal
+        vertex  label unless the vertices to be joined are equal or the length
+        of [3XvertexList[103X is one. In these cases the label does not change.[133X
+  
+  [31X2[131X   [33X[0;6YCombine  two  vertices  [3Xv1[103X  and [3Xv2[103X of two distinct polygonal complexes
+        [3Xcomplex1[103X and [3Xcomplex2[103X. This will perform [9XDisjointUnion[109X ([14X12.3-1[114X) on the
+        two complexes to reduce this problem to the first case.[133X
+  
+  [33X[0;0YBoth  methods  return  a  list,  where  the first entry is the new polygonal
+  complex,  the  second  entry is the label of the new vertex and (only in the
+  second  case) the third entry is the used shift of the disjoint union (refer
+  to section [14X12.3[114X for details).[133X
+  
+  [33X[0;0YTo illustrate the first case, consider the octahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xocta := Octahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in terminal text It is possible to join vertices on opposite
+  sides, for example 1 and 6.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XoctJoin := JoinVertices(octa, 1, 6);;[127X[104X
+    [4X[25Xgap>[125X [27XoctJoin = fail;[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  combines  the  vertices  1 and 6 into a new vertex with label 7, which
+  becomes a ramified vertex ([14X9.5-3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XoctJoin[2];[127X[104X
+    [4X[28X7[128X[104X
+    [4X[25Xgap>[125X [27XVertices(octJoin[1]);[127X[104X
+    [4X[28X[ 2, 3, 4, 5, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XRamifiedVertices(octJoin[1]);[127X[104X
+    [4X[28X[ 7 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YOn  the  other  hand,  it  is  not possible to join two vertices if they are
+  connected by an edge.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XJoinVertices(octa, [2,3]);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo  illustrate  the  second  case,  consider  the  following  two simplicial
+  surfaces:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XleftWing := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],,[3,4,5]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XrightWing := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in  terminal text If these two surfaces are joined along the
+  vertices  3  (of the left wing) and 2 (of the right wing), the labels of the
+  second one have to be shifted.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly := JoinVertices(leftWing, 3, rightWing, 2);;[127X[104X
+    [4X[25Xgap>[125X [27Xbutterfly[3];[127X[104X
+    [4X[28X7[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly[2];[127X[104X
+    [4X[28X12[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe NC-versions don't check whether the given vertices are distinct vertices
+  of the corresponding complexes and whether the [3XnewVertexLabel[103X is available.[133X
+  
+  [1X12.4-2 JoinEdges[101X
+  
+  [33X[1;0Y[29X[2XJoinEdges[102X( [3Xcomplex[103X, [3Xe1[103X, [3Xe2[103X[, [3XnewEdgeLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinEdgesNC[102X( [3Xcomplex[103X, [3Xe1[103X, [3Xe2[103X[, [3XnewEdgeLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinEdges[102X( [3Xcomplex[103X, [3XedgeList[103X[, [3XnewEdgeLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinEdgesNC[102X( [3Xcomplex[103X, [3XedgeList[103X[, [3XnewEdgeLabel[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second one is the new edge label[133X
+  
+  [33X[0;0YCombine  two edges [3Xe1[103X and [3Xe2[103X of a polygonal complex into one edge, whose new
+  label  can  be  given  by  the  optional  argument [3XnewEdgeLabel[103X. By default,
+  [3XnewEdgeLabel[103X  is  one higher than the maximal edge label unless the edges to
+  be  joined  are  equal  or the length of [3XedgeList[103X is one. In these cases the
+  label  does  not  change.  The  edges  have  to  have  had the same incident
+  vertices.[133X
+  
+  [33X[0;0YThis  method returns a pair, where the first entry is the modified polygonal
+  complex and the second entry is the label of the new edge.[133X
+  
+  [33X[0;0YFor   example   consider  the  following  triangular  complex  without  edge
+  ramifications:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xeye := TriangularComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted  in terminal text The only edges that can be joined are those
+  with  equal  incident  vertices.  These  can  be found by [9XEdgeAnomalyClasses[109X
+  ([14X16.1-2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClasses(eye);[127X[104X
+    [4X[28X[ [ 1 ], [ 2, 6 ], [ 3 ], [ 4 ], [ 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe only pair of edges with the same incident vertices are 2 and 6.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcloseEye := JoinEdges( eye, 2, 6 );;[127X[104X
+    [4X[25Xgap>[125X [27XcloseEye[2];[127X[104X
+    [4X[28X7[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  6  is  the  maximal edge label, 7 is the label of the new edge. Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClasses(closeEye[1]);[127X[104X
+    [4X[28X[ [ 1 ], [ 3 ], [ 4 ], [ 5 ], [ 7 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe NC-versions do not check whether the given edges are distinct edges with
+  the  same  incident  vertices  of  [3Xcomplex[103X and whether the new edge label is
+  actually valid.[133X
+  
+  [1X12.4-3 JoinFaces[101X
+  
+  [33X[1;0Y[29X[2XJoinFaces[102X( [3Xcomplex[103X, [3XF1[103X, [3XF2[103X[, [3XnewFaceLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinFacesNC[102X( [3Xcomplex[103X, [3XF1[103X, [3XF2[103X[, [3XnewFaceLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinFaces[102X( [3Xcomplex[103X, [3XfaceList[103X[, [3XnewFaceLabel[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinFacesNC[102X( [3Xcomplex[103X, [3XfaceList[103X[, [3XnewFaceLabel[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second one is the new face label[133X
+  
+  [33X[0;0YCombine  two faces [3XF1[103X and [3XF2[103X of a polygonal complex into one face, whose new
+  label  can  be  given  by  the  optional  argument [3XnewFaceLabel[103X. By default,
+  [3XnewFaceLabel[103X  is  one higher than the maximal face label unless the faces to
+  be  joined  are  equal  or the length of [3XfaceList[103X is one. In these cases the
+  label does not change. The faces have to have had the same incident edges.[133X
+  
+  [33X[0;0YThis  method returns a pair, where the first entry is the modified polygonal
+  complex and the second entry is the label of the new face.[133X
+  
+  [33X[0;0YFor example consider the Janus-head. The two faces have equal incident edges
+  so they can be joined: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XJoinFaces(JanusHead(),1,2,1);[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 3 edges, and 1 faces), 1 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  resulting  surface  is  the  one-face. Since 1 is the optional argument
+  [3XnewFaceLabel[103X, 1 is the label of the new face. Image omitted in terminal text[133X
+  
+  [33X[0;0YThe NC-versions do not check whether the given faces are distinct faces with
+  the  same  incident  edges  of  [3Xcomplex[103X  and  whether  the new face label is
+  actually valid.[133X
+  
+  [1X12.4-4 JoinVertexEdgePaths[101X
+  
+  [33X[1;0Y[29X[2XJoinVertexEdgePaths[102X( [3Xcomplex[103X, [3XvePath1[103X, [3XvePath2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVertexEdgePathsNC[102X( [3Xcomplex[103X, [3XvePath1[103X, [3XvePath2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVertexEdgePaths[102X( [3Xcomplex1[103X, [3XvePath1[103X, [3Xcomplex2[103X, [3XvePath2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinVertexEdgePathsNC[102X( [3Xcomplex1[103X, [3XvePath1[103X, [3Xcomplex2[103X, [3XvePath2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second  entry  is  a  vertex-edge-path.  The  optional third entry
+            describes the label shift of [3Xcomplex2[103X (if applicable).[133X
+  
+  [33X[0;0YCombine two duplicate-free ([14X8.1-9[114X) vertex-edge-paths ([14X8.1-1[114X) of equal length
+  into  one.  This  is  done  by  first  joining the corresponding vertices by
+  [9XJoinVertices[109X  ([14X12.4-1[114X)  and  then  identifying  the corresponding edges with
+  [9XJoinEdges[109X  ([14X12.4-2[114X). If two polygonal complexes are given, they are combined
+  with [9XDisjointUnion[109X ([14X12.3-1[114X) before these identifications take place.[133X
+  
+  [33X[0;0YIf some of the vertices can't be identified because they are incident to the
+  same edge, [9Xfail[109X is returned. Otherwise this method returns a pair, where the
+  first   entry   is   a   polygonal   complex  and  the  second  one  is  the
+  vertex-edge-path  in  the  new  polygonal  complex that was generated by the
+  identified vertex-edge-paths.[133X
+  
+  [33X[0;0YOne  thing that can be done is the construction of a ramified edge. Consider
+  just one triangle:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtriangle := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X [[1,2],[1,3],[2,3]],[[1,2,3]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage  omitted in terminal text First we combine two of them, which leads to
+  a butterfly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XjoinPath := VertexEdgePathByVertices(triangle, [1,2]);[127X[104X
+    [4X[28X| v1, E1, v2 |[128X[104X
+    [4X[25Xgap>[125X [27Xjoin := JoinVertexEdgePaths(triangle, joinPath, triangle, joinPath);;[127X[104X
+    [4X[25Xgap>[125X [27Xjoin[2];[127X[104X
+    [4X[28X| v7, E7, v8 |[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YAlong this vertex-edge-path another of the triangles can be added:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,joinPath);;[127X[104X
+    [4X[25Xgap>[125X [27XtripleJoin[2];[127X[104X
+    [4X[28X| v12, E12, v13 |[128X[104X
+    [4X[25Xgap>[125X [27XRamifiedEdges(tripleJoin[1]);[127X[104X
+    [4X[28X[ 12 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  resulting surface is: Image omitted in terminal text The NC-versions do
+  not check whether the given vertex-edge-paths are actually vertex-edge-paths
+  of the polygonal complexes.[133X
+  
+  [1X12.4-5 JoinBoundaries[101X
+  
+  [33X[1;0Y[29X[2XJoinBoundaries[102X( [3Xsurface[103X, [3XveList1[103X, [3XveList2[103X[, [3Xlength[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinBoundariesNC[102X( [3Xsurface[103X, [3XveList1[103X, [3XveList2[103X[, [3Xlength[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinBoundaries[102X( [3Xsurface1[103X, [3XveList1[103X, [3Xsurface2[103X, [3XveList2[103X[, [3Xlength[103X] ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinBoundariesNC[102X( [3Xsurface1[103X, [3XveList1[103X, [3Xsurface2[103X, [3XveList2[103X[, [3Xlength[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  list,  where the first entry is a polygonal surface, the second
+            one  is a vertex-edge-path and the third one is the label shift of
+            [3Xcomplex2[103X (if applicable).[133X
+  
+  [33X[0;0YCombine  two  boundaries  into  one.  This  method  takes  the starts of two
+  vertex-edge-paths ([14X8.1-1[114X) and extends those into vertex-edge-paths along the
+  boundary    of    the    given   polygonal   surfaces.   Then   the   method
+  [9XJoinVertexEdgePaths[109X ([14X12.4-4[114X) will be called on these vertex-edge-paths or if
+  a   length   is   given   it   will   be   called   for  possibly  truncated
+  vertex-edge-paths.[133X
+  
+  [33X[0;0YIf  two  surfaces  should be combined, [9XDisjointUnion[109X ([14X12.3-1[114X) will be called
+  beforehand.[133X
+  
+  [33X[0;0YCurrently the [3XveList[103X has to be given as a list [[3Xvertex[103X, [3Xedge[103X].[133X
+  
+  [33X[0;0YFor  example,  consider  the  following simplicial surface: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfourGon := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X       [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]], [127X[104X
+    [4X[25X>[125X [27X        [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YCombining two of these along their boundaries gives the octahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xoct := JoinBoundaries(fourGon, [3,6], fourGon, [4,7]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(oct[1], Octahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XoctLength := JoinBoundaries(fourGon, [3,6], fourGon, [4,7], 4);;[127X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(octLength[1], Octahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X12.4-6 JoinBoundary[101X
+  
+  [33X[1;0Y[29X[2XJoinBoundary[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XJoinBoundaryNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair,  where  the  first  entry  is a polygonal complex and the
+            second entry is a vertex-edge-path.[133X
+  
+  [33X[0;0YThis  method takes a boundary vertex [3Xv[103X and joins the vertex-edge-path of the
+  boundary where [3Xv[103X lies on if the path has even length. This means, the method
+  splits  the  vertex-edge-path  of the boundary in two parts. Then the method
+  [9XJoinVertexEdgePaths[109X ([14X12.4-4[114X) will be called on these two vertex-edge-paths.[133X
+  
+  [33X[0;0YFor  example,  consider  the  following simplicial surface: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfourGon := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X       [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],[127X[104X
+    [4X[25X>[125X [27X        [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YJoining  the boundary together of this surface gives a closed surface. Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xjoined:=JoinBoundary(fourGon,2);[127X[104X
+    [4X[28X[ simplicial surface (4 vertices, 6 edges, and 4 faces),[128X[104X
+    [4X[28X| v2, E9, v7, E10, v4 | ][128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(joined[1]);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(joined[1],JoinBoundary(fourGon,3)[1]);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X12.4-7 AllToriOfSimplicialSphere[101X
+  
+  [33X[1;0Y[29X[2XAllToriOfSimplicialSphere[102X( [3Xsurface[103X ) [32X operation[133X
+  
+  [33X[0;0YGiven a simplicial sphere this function returns the set of all tori that can
+  be  constructed  by  identifying  two  faces  of  [3Xsurface[103X  and  removing the
+  resulting face from the constructed triangular complex. The function returns
+  [3Xfail[103X,  if  [3Xsurface[103X  is  not  a simplicial sphere. As an example consider the
+  octahedron. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xalltori:=AllToriOfSimplicialSphere(Octahedron());[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 9 edges, and 6 faces)][128X[104X
+    [4X[25Xgap>[125X [27Xtorus:=alltori[1];;[127X[104X
+    [4X[25Xgap>[125X [27XEulerCharacteristic(torus);[127X[104X
+    [4X[28X0[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  simplicial  surface [3Xtorus[103X is constructed by identifying the faces 1 and
+  8.  Since  mending  two  faces  introduces an identification of the incident
+  vertices  and  edges, there are new edge and vertex labels introduced. Image
+  omitted in terminal text[133X
+  
+  
+  [1X12.5 [33X[0;0YSpecific modifications[133X[101X
+  
+  [33X[0;0YThis section contains some specific modifications that are generally useful.
+  To  illustrate  the  power of the modification toolbox that was developed in
+  the previous sections, the fundamental code for each of them is presented as
+  well.  To  make  seeing  the underlying structure easier, this code will not
+  consider border cases or check its inputs for validity.[133X
+  
+  [1X12.5-1 ConnectedFaceSum[101X
+  
+  [33X[1;0Y[29X[2XConnectedFaceSum[102X( [3Xsurface1[103X, [3Xflag1[103X, [3Xsurface2[103X, [3Xflag2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal surface or [9Xfail[109X[133X
+  
+  [33X[0;0YCompute  the  [13Xconnected  face-sum[113X  of  two polygonal surfaces. The connected
+  face-sum  identifies  the  faces  of two polygonal surfaces and removes them
+  afterwards.  The  edges  of  the  identified  faces  can't be boundary edges
+  ([14X9.4-3[114X), otherwise [9Xfail[109X is returned.[133X
+  
+  [33X[0;0YSince  there  are  six different ways how the two faces could be identified,
+  this  methods needs a flag of each complex, i.e. a list of a vertex, an edge
+  and a face that are all incident.[133X
+  
+  [33X[0;0YFor example consider the tetrahedron:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=ConnectedFaceSum(Tetrahedron(),[1,1,1],Tetrahedron(),[1,1,1]);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(doubleTetra);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(doubleTetra);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe central part of this can be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xrem1 := RemoveFace( surface1, flag1[3] );[127X[104X
+    [4X[25Xgap>[125X [27Xrem2 := RemoveFace( surface2, flag2[3] );[127X[104X
+    [4X[25Xgap>[125X [27XconSum := JoinBoundaries(rem1, flag1{[1,2]}, rem2, flag2{[1,2]})[1];[127X[104X
+  [4X[32X[104X
+  
+  [1X12.5-2 SnippOffEars[101X
+  
+  [33X[1;0Y[29X[2XSnippOffEars[102X( [3Xsurface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YRemove  all  "ears" of the given simplicial surface, i.e. all pairs of faces
+  that  share  two  edges.  The  resulting  edge  anomaly  is  also  fixed  by
+  identifying the edges.[133X
+  
+  [33X[0;0YFor example consider the following complex: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex:=SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X            [[1,2],[2,3],[1,3],[1,3],[3,4],[1,4],[4,5],[1,5],[3,5]],[127X[104X
+    [4X[25X>[125X [27X            [[1,2,3],[1,2,4],[3,5,6],[6,7,8],[4,8,9]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFace  1  and  2  share  two edges, that means, they form an ear of the given
+  simplicial surface.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcomplexWithoutEars:=SnippOffEars(complex);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 6 edges, and 3 faces)[128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(complexWithoutEars);[127X[104X
+    [4X[28X[ ,, [ 5, 6, 10 ], [ 6, 7, 8 ], [ 8, 9, 10 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YFor a given face-anomaly [[3Xface1[103X, [3Xface2[103X] this could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcommonEdges := Intersection( [127X[104X
+    [4X[25X>[125X [27X         EdgesOfFace(surface,face1), EdgesOfFace(surface,face2) );[127X[104X
+    [4X[25Xgap>[125X [27Xedge1 := Difference( EdgesOfFace(surface,face1), commonEdges )[1];[127X[104X
+    [4X[25Xgap>[125X [27Xedge2 := Difference( EdgesOfFace(surface,face2), commonEdges )[1];[127X[104X
+    [4X[25Xgap>[125X [27Xrem := RemoveFaces(surface, [face1, face2]);[127X[104X
+    [4X[25Xgap>[125X [27Xsnipp := JoinEdges(rem, edge1, edge2)[1];[127X[104X
+  [4X[32X[104X
+  
+  [1X12.5-3 SplitAllVertices[101X
+  
+  [33X[1;0Y[29X[2XSplitAllVertices[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YSplit  all vertices of the given polygonal complex via [9XSplitVertex[109X ([14X12.1-2[114X).
+  For   polygonal   complexes  without  edge  ramifications  ([14X2.3-1[114X)  this  is
+  equivalent  to  splitting  all  ramified  vertices  ([14X9.5-3[114X).  In this case a
+  polygonal surface will be returned.[133X
+  
+  [33X[0;0YFor example consider the following complex:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtriforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XvertSplit:=SplitAllVertices(triforce);[127X[104X
+    [4X[28Xsimplicial surface (9 vertices, 9 edges, and 3 faces)[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfConnectedComponents(vertSplit);[127X[104X
+    [4X[28X3[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAfter  splitting  all ramified vertices the complex is the disjoint union of
+  three one-faces.[133X
+  
+  [1X12.5-4 ButterflyInsertion[101X
+  
+  [33X[1;0Y[29X[2XButterflyInsertion[102X( [3Xsurface[103X, [3Xlist[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XButterflyInsertion[102X( [3Xsurface[103X, [3Xvertex-edge-path[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya pair, where the first entry is a surface and the second entry is
+            the vertex-edge path encoding changes to the input surface.[133X
+  
+  [33X[0;0YGiven  a  simplicial  surface  [3Xsurface[103X,  a  new  surface  is  constructed by
+  inserting  a butterfly along a edge-path of length 2. The edge-path is given
+  either  as a list of three vertices such that these three vertices determine
+  two  edges  of  [3Xsurface[103X,  meeting  in the middle vertex, or as a list of two
+  adjacent    edges,    or    as    a    vertex-edge   path.   The   operation
+  [13XButterflyInsertionSurface[113X  can  be  viewed as splitting the middle vertex of
+  the  given vertex-edge path in [3Xsurface[103X into two new vertices. The inner edge
+  of  the  butterfly  will  be  inserted  such  that it is adjacent to the new
+  vertices created by splitting the middle vertex.[133X
+  
+  [33X[0;0YThe  function  returns a list, where the first entry is the enlarged surface
+  [3XnewSurface[103X which has two faces more than the input surface. The second entry
+  is  a  vertex-edge  path  in  [3XnewSurface[103X,  which  consisting  of  all  edges
+  corresponding to the input vertex-edge path. The optional third entry is the
+  offset  to  be applied to the butterfly with vertices [1,2,3,4] to locate it
+  in [3XnewSurface[103X.[133X
+  
+  [33X[0;0YInserting a butterfly along the vertex-edge path[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdisc := SimplicialUmbrella(5);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 10 edges, and 5 faces)[128X[104X
+    [4X[25Xgap>[125X [27Xt:= [1,2,6];;[127X[104X
+    [4X[25Xgap>[125X [27Xdiscbig:=ButterflyInsertion(disc,t)[1];[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 13 edges, and 7 faces)[128X[104X
+    [4X[25Xgap>[125X [27XCounterOfVertices(discbig);  [127X[104X
+    [4X[28Xcounter of vertices ([ 2, 3, 6 ] degrees, and [ 3, 3, 1 ] multiplicities)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  following  image  shows  first the simplicial umbrella [3Xdisc[103X, which is a
+  5-gon  and secondly the surface [3Xdiscbig[103X resulting from inserting a butterfly
+  along  the path determined by the vertices [3X 1, 2, 6[103X. Note that the edge with
+  label [3X6[103X, which is the edge with vertices [3X1, 2[103X is a boundary edge of [3Xsurface[103X,
+  whereas  that  the edge with label [3X2[103X, which is the edge with vertices [3X2,6[103X is
+  an inner edge of [3Xsurface[103X. The inserted butterfly of [3Xdiscbig[103X is shown in red.
+  Image omitted in terminal text[133X
+  
+  [1X12.5-5 TetrahedralExtension[101X
+  
+  [33X[1;0Y[29X[2XTetrahedralExtension[102X( [3Xsurface[103X, [3Xface[103X[, [3XnewVertexLable[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya surface[133X
+  
+  [33X[0;0YGiven  a  simplicial surface a new surface can be constructed by attaching a
+  tetrahedron  on  the  given  face.  This can be seen as a subdivision of the
+  given surface which arises by subdividing a face into three new faces. Image
+  omitted  in  terminal  text  So, this modification results in increasing the
+  number of vertices by 1, the number of edges by 3 and the number of faces by
+  2. As an example consider the tetrahedron:[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YSubdividing face 1 of the tetrahedron results in the double tetrahedron:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs:=TetrahedralExtension(Tetrahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XFaces(s);[127X[104X
+    [4X[28X[ 2, 3, 4, 5, 6, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X12.5-6 TetrahedralReduction[101X
+  
+  [33X[1;0Y[29X[2XTetrahedralReduction[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya surface[133X
+  
+  [33X[0;0YGiven  a  simplicial surface and a vertex of face degree 3 a new surface can
+  be  constructed  by  removing  the  faces  incident to [9Xvertex[109X in [9Xsurface[109X and
+  attaching  a  new  face  to  the  resulting boundary edges. Image omitted in
+  terminal  text  So,  this  modification  results in decreasing the number of
+  vertices  by 1, the number of edges by 3 and the number of faces by 2. As an
+  Example consider the double tetrahedron. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;[127X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27Xtet:=TetrahedralReduction(doubleTetra,4);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 6 edges, and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(tet,Tetrahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSo  performing  the  tetrahedral reduction with the double tetrahedron gives
+  rise to the tetrahedron.[133X
+  
+  [1X12.5-7 InnerMultiTetrahedralSphere[101X
+  
+  [33X[1;0Y[29X[2XInnerMultiTetrahedralSphere[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya complex[133X
+  
+  [33X[0;0YReturn  the  inner  multi  tetrahedral  sphere  of a given twisted polygonal
+  complex.  If  [9Xcomplex[109X is a multi tetrahedral sphere, a new multi tetrahedral
+  sphere  can  be obtained by applying a tetrahedral reduction to every vertex
+  in [9Xcomplex[109X with face degree 3. If [9Xcomplex[109X is not a multi tetrahedral sphere,
+  the function returns [9Xfail[109X.[133X
+  
+  [33X[0;0YAs  an  example,  consider the multi tetrahedral sphere obtained by applying
+  exactly  two  tetrahdral  extensions  to the tetrahedron with any two faces.
+  Since this surface has exactly two vertices with face degree 3, removing the
+  attached tetrahedron gives rise to the tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=TetrahedralExtension(Tetrahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XmultiTetra:=TetrahedralExtension(doubleTetra,2);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27Xtetra:=InnerMultiTetrahedralSphere(multiTetra);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 6 edges, and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(tetra,Tetrahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X12.5-8 MultiTetrahedralSymbolOfComplex[101X
+  
+  [33X[1;0Y[29X[2XMultiTetrahedralSymbolOfComplex[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of pairs of positive integers[133X
+  
+  [33X[0;0YReturns  the multi tetrahedral symbol of a given multi tetrahedral sphere or
+  [9Xfail[109X.[133X
+  
+  [33X[0;0YSince  a  multi  tetrahedral  sphere can be constructed by applying a finite
+  number  of  tetrahedral  extionsions to the the tetrahedron, we can define a
+  symbol  describing  the  sphere  by choosing helpful identifications for the
+  faces and vertices of the tetrahedron and thus of the spheres constructed by
+  the given tetrahedral extensions.[133X
+  
+  [33X[0;0YSince  the  symmetry  group  of a tetrahedron is the full symmetric group of
+  four  faces,  it  makes  sense  to  identify  the  faces  with  1,2,3,4. The
+  identifications  of  the  vertices  are  given  in such a way that a face is
+  incident  to  a  vertex if and only if both identifications differ, i.e. the
+  face  with  the  identification  1  is  incident  to  the  vertices with the
+  identifications 2,3 and 4. We insist that attaching a tetrahedron to a given
+  sphere  only  takes place, if the vertices that are being identified through
+  the  tetrahedral  extension  can  be sorted in pairs so that the vertices of
+  each pair have the same identification in the above sense.[133X
+  
+  [33X[0;0YNot  only  vertices  and  faces  are  assigned  to  numbers,  but  also  the
+  tetrahedra.  The numbering of the tetrahedra starts from 1 and the later get
+  numbers  2,3,....  in  the order they are attached to obtain the given multi
+  tetrahedral  sphere.  By using the numbers of the tetrahedra and their faces
+  as indices we can derive the desired symbol.[133X
+  
+  [33X[0;0YSo  for  instance  the  symbol  [22X1_1[122X  describes  the multi tetrahedral sphere
+  constructed by attaching a tetrahedron to the first face of the tetrahedron,
+  whereby  the  symbol  [22X1_2[122X describes the sphere which arises from attaching a
+  tetrahedron to the second face of the face tetrahedron.[133X
+  
+  [33X[0;0YAnd the symbol [22X1_32_4[122X describes the multi tetrahedral sphere computed by the
+  following  steps: At first a tetrahdron is attached to the third face of the
+  first tetrahedron. This results in the double tetrahedron, whereby the faces
+  of  both  tetrahedra putting this double tetrahedron together are identified
+  with  1,2,4.  So now we attach a third tetrahedron to the fourth face of the
+  second tetrahehon.[133X
+  
+  [33X[0;0YIf  [9Xcomplex[109X is not a multi tetrahedral sphere, the function returns [9Xfail[109X. As
+  first examples consider the tetrahedron and the double tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XMultiTetrahedralSymbolOfComplex(Tetrahedron());[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[25Xgap>[125X [27XdoubleTet:=TetrahedralExtension(Tetrahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XMultiTetrahedralSymbolOfComplex(doubleTet);[127X[104X
+    [4X[28X[ [ 1, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  another  example  consider  the  multi tetrahedral sphere constructed by
+  applying tetrahdral extensions ([14X12.5-5[114X) to the tetradedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XmultiTet:=Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xfor f in Faces(multiTet) do[127X[104X
+    [4X[25X>[125X [27XmultiTet:=TetrahedralExtension(multiTet,f);[127X[104X
+    [4X[25X>[125X [27Xod;[127X[104X
+    [4X[25Xgap>[125X [27XFaceDegreesOfVertices(multiTet);[127X[104X
+    [4X[28X[ 6, 6, 6, 6, 3, 3, 3, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XMultiTetrahedralSymbolOfComplex(multiTet);[127X[104X
+    [4X[28X[ [ 1, 4 ], [ 2, 1 ], [ 2, 3 ], [ 2, 2 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  different  symbols  can  give  rise  to  isomorphic  multi tetrahedral
+  spheres.[133X
+  
+  [1X12.5-9 MultiTetrahedralSphereByTetrahedralSymbol[101X
+  
+  [33X[1;0Y[29X[2XMultiTetrahedralSphereByTetrahedralSymbol[102X( [3Xsymbol[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturns  a  multi tetrahedral sphere with the given multi tetrahedral symbol
+  ([14X12.5-8[114X).[133X
+  
+  [33X[0;0YAs examples, consider the following two multi tetrahedral symbols.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 6 edges, and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XListCounter(CounterOfVertices(tetra));[127X[104X
+    [4X[28X[ [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XdoubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XListCounter(CounterOfVertices(doubleTet));[127X[104X
+    [4X[28X[ [ 3, 2 ], [ 4, 3 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X12.5-10 EdgeTurn[101X
+  
+  [33X[1;0Y[29X[2XEdgeTurn[102X( [3Xsurface[103X, [3Xedge[103X[, [3Xnewedge[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface or [9Xfail[109X[133X
+  
+  [33X[0;0YGiven  a  simplicial surface and an inner edge contained in the surface, one
+  can  construct  a  new surface by manipulating the inner edge. If [9Xedge[109X is an
+  inner  edge,  it  gives  rise  to a butterfly (e.g. if the surface is vertex
+  faithful)  and  thus  a  new  surface  can  be created by turning [9Xedge[109X. This
+  results  in replacing [9Xedge[109X by the edge [9Xnewedge[109X which is connecting the other
+  two vertices of the butterfly. So it has the same number of faces, edges and
+  vertices,  but  the vertex degrees in four positions will change by +-1 i.e.
+  the vertex degrees of the vertices incident to [9Xedge[109X decrease and the degrees
+  of the vertices incident to [9Xnewedge[109X increase by 1. If the function is called
+  without  the argument [9Xnewedge[109X, the function simply manipulates the incidence
+  structure  of [9Xedge[109X without relabelling this edge. So after this modification
+  on  the  simplicial  surface  [9Xsurface[109X the set of edges remains the same. For
+  example, consider the octahedron: Image omitted in terminal text Turning the
+  edge 1 results in[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurf:=EdgeTurn(Octahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(surf);[127X[104X
+    [4X[28X[ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],[128X[104X
+    [4X[28X[ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(surf);[127X[104X
+    [4X[28X[ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],[128X[104X
+    [4X[28X[ 2, 3, 8 ], [ 10, 11, 12 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe same process can also be done by relabelling the turned edge.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeTurn(Octahedron(),1,15);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XEdges(last);[127X[104X
+    [4X[28X[ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 ][128X[104X
+  [4X[32X[104X
+  
+  [1X12.5-11 BuildingBlocks[101X
+  
+  [33X[1;0Y[29X[2XBuildingBlocks[102X( [3Xsurface[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of simplicial surfaces[133X
+  
+  [33X[0;0YReturn the building blocks of a vertex-faithful simplicial sphere. Given two
+  closed  simplicial surfaces with euler-characteristic 2 a new surface can be
+  constructed  by  computing the connected-face sum ([14X12.5-1[114X) of this surfaces.
+  This  gives  rise  to  a waist of length 3 in the resulting surface. Given a
+  vertex-faithful simplicial sphere there exists a finite number of simplicial
+  spheres  without  waists  of  length  3,  so  that iteratively computing the
+  connected-face-sum   of   those  surfaces  gives  rise  to  [9Xsurface[109X,  up  to
+  isomorphism. This surfaces which are unique up to isomorphism are called the
+  building blocks of the simplicial sphere [9Xsurface[109X. Since building blocks only
+  exist for vertex-faithful spheres the function returns [9Xfail[109X, if [9Xsurface[109X does
+  not satisfy this property. As an example, consider the octahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XBuildingBlocks(Octahedron());[127X[104X
+    [4X[28X[ simplicial surface (6 vertices, 12 edges, and 8 faces)][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  another  example consider the double tetrahedron. Applying the connected
+  sum  to  two  tetrahedra  with  any  two  faces  gives  rise  to  the double
+  tetrahedron.  So  the double tetrahedron has two building blocks, namely two
+  tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;[127X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XbuildingBlocks:=BuildingBlocks(doubleTetra);[127X[104X
+    [4X[28X[ simplicial surface (4 vertices, 6 edges, and 4 faces)[128X[104X
+    [4X[28X    , [128X[104X
+    [4X[28X  simplicial surface (4 vertices, 6 edges, and 4 faces) [128X[104X
+    [4X[28X ][128X[104X
+    [4X[25Xgap>[125X [27XList(buildingBlocks,g->IsIsomorphic(g,Tetrahedron()));[127X[104X
+    [4X[28X[ true, true ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X12.6 [33X[0;0YExample: Cut and Mend[133X[101X
+  
+  [33X[0;0YWhile  the  previous  sections  talked  about general modifications and some
+  often-used  modifications,  this section shows how these tools could be used
+  in practice. After introducing some modifications of theoretical value it is
+  shown how they could be implemented with the help from the package.[133X
+  
+  [33X[0;0YSpecifically   this   concerns   the  following  operations  (for  polygonal
+  surfaces):[133X
+  
+  [31X1[131X   [33X[0;6Y[9XCraterCut[109X  ([14X12.6-1[114X): For an inner edge ([14X9.4-1[114X) with two incident inner
+        vertices  ([14X9.5-1[114X),  split  the edge in two (while leaving the vertices
+        intact).[133X
+  
+        [33X[0;6YThe inverse operation is the [9XCraterMend[109X ([14X12.6-2[114X).[133X
+  
+  [31X2[131X   [33X[0;6Y[9XRipCut[109X  ([14X12.6-3[114X): For an inner edge ([14X9.4-1[114X), where one of the incident
+        vertices  is  an  inner  vertex  ([14X9.5-1[114X)  and one is a boundary vertex
+        ([14X9.5-2[114X), split the edge and the boundary vertex.[133X
+  
+        [33X[0;6YThe inverse operation is the [9XRipMend[109X ([14X12.6-4[114X).[133X
+  
+  [31X3[131X   [33X[0;6Y[9XSplitCut[109X  ([14X12.6-5[114X):  For  an  inner  edge  with  two incident boundary
+        vertices ([14X9.5-2[114X), split the edge and both incident vertices in two.[133X
+  
+        [33X[0;6YThe inverse operation is the [9XSplitMend[109X ([14X12.6-6[114X).[133X
+  
+  [33X[0;0YBesides  the  actual modification it is also important to have some function
+  available that checks if the conditions are fulfilled.[133X
+  
+  [33X[0;0YEach of these six operations has their own manual entry with a code snippet.
+  These  code  snippets  could  be  put into a file [13XCutMend.g[113X and read into an
+  active [5XGAP[105X-session by[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XRead("CutMend.g");[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWhile  this  is not necessary for the concrete methods in this section, this
+  would be the method of choice for used-defined modifications.[133X
+  
+  [1X12.6-1 CraterCut[101X
+  
+  [33X[1;0Y[29X[2XCraterCut[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCraterCuttableEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YEvery  inner  edge  ([14X9.4-1[114X)  whose incident vertices are both inner vertices
+  ([14X9.5-1[114X)  can  be split into two boundary edges by a [9XCraterCut[109X. The attribute
+  [9XCraterCuttableEdges[109X([3Xcomplex[103X) returns the set of all edges that fulfill these
+  conditions.[133X
+  
+  [33X[0;0YFor  example,  consider  the  Janus-head:  Image  omitted  in  terminal text
+  Applying a crater cut to the Janus-head yields the open bag:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCraterCuttableEdges(JanusHead());[127X[104X
+    [4X[28X[ 1, 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XjanusCrater:=CraterCut(JanusHead(),3);[127X[104X
+    [4X[28Xsimplicial surface (3 vertices, 4 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XopenBag := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(openBag,janusCrater);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCraterCuttableEdges_custom := function(complex)[127X[104X
+    [4X[25X>[125X [27X     return EdgesWithVertexProperty(complex, v -> IsInnerVertexNC(complex, v));[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XCraterCut_custom := function(complex, edge)[127X[104X
+    [4X[25X>[125X [27X      if not edge in CraterCuttableEdges_custom(complex) then[127X[104X
+    [4X[25X>[125X [27X        Error("Given edge has to be crater-cuttable");[127X[104X
+    [4X[25X>[125X [27X      fi;[127X[104X
+    [4X[25X>[125X [27X      [127X[104X
+    [4X[25X>[125X [27X      return SplitEdge(complex, edge)[1];[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, edge ) ... end[128X[104X
+  [4X[32X[104X
+  
+  [1X12.6-2 CraterMend[101X
+  
+  [33X[1;0Y[29X[2XCraterMend[102X( [3Xcomplex[103X, [3XedgePair[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCraterMendableEdgePairs[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YEvery  pair  of boundary edges ([14X9.4-3[114X) with the same incident vertices, that
+  also  are  boundary vertices ([14X9.5-2[114X), can be joined into one inner edge by a
+  [9XCraterMend[109X.  The  attribute [9XCraterMendableEdgePairs[109X([3Xcomplex[103X) returns the set
+  of all edge pairs that fulfill these conditions.[133X
+  
+  [33X[0;0YFor example, consider the open bag: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XopenBag := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YApplying a crater mend to the open bag yields to the Janus-head:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCraterMendableEdgePairs(openBag);[127X[104X
+    [4X[28X[ [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XCraterMend(openBag,[3,4]);[127X[104X
+    [4X[28Xsimplicial surface (3 vertices, 3 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(last,JanusHead());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCraterMendableEdgePairs_custom := function(complex)[127X[104X
+    [4X[25X>[125X [27X       local edgeAnom, edgePairs;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X       edgeAnom := List( EdgeAnomalyClasses(complex), [127X[104X
+    [4X[25X>[125X [27X            cl -> Filtered( cl, [127X[104X
+    [4X[25X>[125X [27X                  e -> IsBoundaryEdgeNC(complex, e) ) );[127X[104X
+    [4X[25X>[125X [27X	    edgePairs:=List(edgeAnom,cl->Combinations(cl, 2) );[127X[104X
+    [4X[25X>[125X [27X       return Union(edgePairs);[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XCraterMend_custom := function(complex, edgePair)[127X[104X
+    [4X[25X>[125X [27X       if not Set(edgePair) in CraterMendableEdgePairs_custom(complex) then[127X[104X
+    [4X[25X>[125X [27X           Error("Given edge-pair has to be crater-mendable.");[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X       return JoinEdgesNC(complex, edgePair)[1];[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, edgePair ) ... end[128X[104X
+  [4X[32X[104X
+  
+  [1X12.6-3 RipCut[101X
+  
+  [33X[1;0Y[29X[2XRipCut[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRipCuttableEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YFor  every  inner  edge ([14X9.4-1[114X) where one incident vertex is an inner vertex
+  ([14X9.5-1[114X)  and one is a boundary vertex ([14X9.5-2[114X) a [13Xrip cut[113X can be performed. In
+  doing  so,  the edge and the boundary vertex are split in two. The attribute
+  [9XRipCuttableEdges[109X([3Xcomplex[103X) returns a set of all edges with these properties.[133X
+  
+  [33X[0;0YFor example, consider the open bag: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XopenBag := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YApplying a rip cut to the open bag yields the butterfly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XRipCuttableEdges(openBag);[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XopenBagRip:=RipCut(openBag,1);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27Xbutterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(openBagRip,butterfly);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XRipCuttableEdges_custom := function(complex)[127X[104X
+    [4X[25X>[125X [27X       return EdgesWithVertexProperties(complex,[127X[104X
+    [4X[25X>[125X [27X             v->IsInnerVertexNC(complex,v), v->IsBoundaryVertexNC(complex,v));[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XRipCut_custom := function(complex, edge)[127X[104X
+    [4X[25X>[125X [27X       if not edge in RipCuttableEdges_custom(complex) then[127X[104X
+    [4X[25X>[125X [27X           Error("Given edge has to be rip-cuttable.");[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X       return SplitVertexEdgePathNC(complex, [127X[104X
+    [4X[25X>[125X [27X             VertexEdgePathByEdgesNC(complex, [edge]))[1];[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, edge ) ... end[128X[104X
+  [4X[32X[104X
+  
+  [1X12.6-4 RipMend[101X
+  
+  [33X[1;0Y[29X[2XRipMend[102X( [3Xcomplex[103X, [3XedgePair[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XRipMendableEdgePairs[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex or [9Xfail[109X[133X
+  
+  [33X[0;0YEvery  pair  of  boundary edges ([14X9.4-3[114X) that has exactly one boundary vertex
+  ([14X9.5-2[114X)  and  no  other  vertex  in  common, can be joined by a [9XRipMend[109X. The
+  attribute  [9XRipMendableEdgePairs[109X([3Xcomplex[103X)  returns  the set of all edge pairs
+  that fulfill these conditions.[133X
+  
+  [33X[0;0YIf  the  joined  vertices  are  connected  by  an  edge, the mend can not be
+  performed and [9Xfail[109X will be returned.[133X
+  
+  [33X[0;0YFor example, consider the butterfly: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YApplying a rip mend to the butterfly yields to the open bag:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XopenBag := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;[127X[104X
+    [4X[25Xgap>[125X [27XRipMendableEdgePairs(butterfly);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 4 ], [ 2, 5 ], [ 4, 5 ] ][128X[104X
+    [4X[25Xgap>[125X [27XRipMend(butterfly,[1,2]);[127X[104X
+    [4X[28Xsimplicial surface (3 vertices, 4 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(last,openBag);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XRipMendableEdgePairs_custom := function(complex)[127X[104X
+    [4X[25X>[125X [27X       local pairs, v, boundEdges, edgePairs;[127X[104X
+    [4X[25X>[125X [27X   [127X[104X
+    [4X[25X>[125X [27X       pairs := [];[127X[104X
+    [4X[25X>[125X [27X       for v in BoundaryVertices(complex) do[127X[104X
+    [4X[25X>[125X [27X           boundEdges := Filtered( EdgesOfVertices(complex)[v], [127X[104X
+    [4X[25X>[125X [27X               e -> IsBoundaryEdgeNC(complex, e) );[127X[104X
+    [4X[25X>[125X [27X           edgePairs := Combinations(boundEdges, 2);[127X[104X
+    [4X[25X>[125X [27X           Append(pairs, Filtered(edgePairs, p -> [127X[104X
+    [4X[25X>[125X [27X               OtherVertexOfEdgeNC(complex,v,p[1]) <> [127X[104X
+    [4X[25X>[125X [27X               OtherVertexOfEdgeNC(complex,v,p[2])));[127X[104X
+    [4X[25X>[125X [27X       od;[127X[104X
+    [4X[25X>[125X [27X   [127X[104X
+    [4X[25X>[125X [27X       return Set(pairs);[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XRipMend_custom := function(complex, edgePair)[127X[104X
+    [4X[25X>[125X [27X       local commonVertex, path1, path2, join;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X       if not edgePair in RipMendableEdgePairs(complex) then[127X[104X
+    [4X[25X>[125X [27X           Error("Given edge-pair has to be rip-mendable.");[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X       commonVertex := Intersection( [127X[104X
+    [4X[25X>[125X [27X           VerticesOfEdge(complex, edgePair[1]), [127X[104X
+    [4X[25X>[125X [27X           VerticesOfEdge(complex, edgePair[2]) )[1];[127X[104X
+    [4X[25X>[125X [27X       path1 := VertexEdgePathNC(complex, [commonVertex, edgePair[1], [127X[104X
+    [4X[25X>[125X [27X               OtherVertexOfEdgeNC(complex, commonVertex, edgePair[1])]);[127X[104X
+    [4X[25X>[125X [27X       path2 := VertexEdgePathNC(complex, [commonVertex, edgePair[2], [127X[104X
+    [4X[25X>[125X [27X               OtherVertexOfEdgeNC(complex, commonVertex, edgePair[2])]);[127X[104X
+    [4X[25X>[125X [27X       join := JoinVertexEdgePathsNC(complex, path1, path2);[127X[104X
+    [4X[25X>[125X [27X       if join = fail then[127X[104X
+    [4X[25X>[125X [27X           return fail;[127X[104X
+    [4X[25X>[125X [27X       else[127X[104X
+    [4X[25X>[125X [27X           return join[1];[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, edgePair ) ... end[128X[104X
+  [4X[32X[104X
+  
+  [1X12.6-5 SplitCut[101X
+  
+  [33X[1;0Y[29X[2XSplitCut[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSplitCuttableEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YAny  inner  edge  ([14X9.4-1[114X) with two incident boundary vertices ([14X9.5-1[114X) can be
+  split   into   two   boundary   edges   by   a   [9XSplitCut[109X.   The   attribute
+  [9XSplitCuttableEdges[109X([3Xcomplex[103X)  returns  the  set  of all edges satisfying this
+  property.[133X
+  
+  [33X[0;0YFor example, consider the butterfly: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YApplying  a  split  cut  to  the butterfly yields to a disjoint union of two
+  one-faces:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSplitCuttableEdges(butterfly);[127X[104X
+    [4X[28X[ 3 ][128X[104X
+    [4X[25Xgap>[125X [27XbutterflySplit:=SplitCut(butterfly,3);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 6 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XoneFace:=SimplicialSurfaceByUmbrellaDescriptor([[1],[1],[1]]);[127X[104X
+    [4X[28Xsimplicial surface (3 vertices, 3 edges, and 1 faces)[128X[104X
+    [4X[25Xgap>[125X [27XtwoOneFaces:=DisjointUnion(oneFace,oneFace)[1];[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 6 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(butterflySplit,twoOneFaces);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSplitCuttableEdges_custom := function(complex)[127X[104X
+    [4X[25X>[125X [27X        return Intersection(InnerEdges(complex), [127X[104X
+    [4X[25X>[125X [27X              EdgesWithVertexProperty(complex, [127X[104X
+    [4X[25X>[125X [27X                    v -> IsBoundaryVertexNC(complex, v)));[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XSplitCut_custom := function(complex, edge)[127X[104X
+    [4X[25X>[125X [27X       if not edge in SplitCuttableEdges_custom(complex) then[127X[104X
+    [4X[25X>[125X [27X           Error("Given edge has to be split-cuttable.");[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X       return SplitVertexEdgePathNC(complex, [127X[104X
+    [4X[25X>[125X [27X             VertexEdgePathByEdgesNC(complex, [edge]))[1];[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, edge ) ... end[128X[104X
+  [4X[32X[104X
+  
+  [1X12.6-6 SplitMend[101X
+  
+  [33X[1;0Y[29X[2XSplitMend[102X( [3Xcomplex[103X, [3XflagPair[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSplitMendableFlagPairs[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex or [9Xfail[109X[133X
+  
+  [33X[0;0YTwo  boundary  edges  ([14X9.4-3[114X)  with  no  shared  vertices  can  be joined by
+  [9XSplitMend[109X. For this operation to be well-defined two vertices of these edges
+  that   should   be  combined  have  to  be  given  as  well.  The  attribute
+  [9XSplitMendableFlagPairs[109X([3Xcomplex[103X)   returns   the   set   of   all   pairs  of
+  vertex-edge-flags ([14X21.1-2[114X) that fulfill the above conditions.[133X
+  
+  [33X[0;0YIf  two  given  flags  can't  be joined (because two vertices that should be
+  joined are connected by an edge), [9Xfail[109X is returned.[133X
+  
+  [33X[0;0YFor  example, consider the disjoint union of two one-faces: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XtwoOneFaces:=DisjointUnion(oneFace,oneFace)[1];[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 6 edges, and 2 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YApplying  a  split mend to the disjoint union of two one-faces yields to the
+  butterfly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XSplitMendableFlagPairs(twoOneFaces);[127X[104X
+    [4X[28X[ [ [ 1, 1 ], [ 4, 4 ] ], [ [ 1, 1 ], [ 4, 5 ] ], [ [ 1, 1 ], [ 5, 5 ] ], [128X[104X
+    [4X[28X  [ [ 1, 1 ], [ 5, 6 ] ], [ [ 1, 1 ], [ 6, 4 ] ], [ [ 1, 1 ], [ 6, 6 ] ],[128X[104X
+    [4X[28X  [ [ 1, 2 ], [ 4, 4 ] ], [ [ 1, 2 ], [ 4, 5 ] ], [ [ 1, 2 ], [ 5, 5 ] ], [128X[104X
+    [4X[28X  [ [ 1, 2 ], [ 5, 6 ] ], [ [ 1, 2 ], [ 6, 4 ] ], [ [ 1, 2 ], [ 6, 6 ] ], [128X[104X
+    [4X[28X  [ [ 2, 2 ], [ 4, 4 ] ], [ [ 2, 2 ], [ 4, 5 ] ], [ [ 2, 2 ], [ 5, 5 ] ],[128X[104X
+    [4X[28X  [ [ 2, 2 ], [ 5, 6 ] ], [ [ 2, 2 ], [ 6, 4 ] ], [ [ 2, 2 ], [ 6, 6 ] ], [128X[104X
+    [4X[28X  [ [ 2, 3 ], [ 4, 4 ] ], [ [ 2, 3 ], [ 4, 5 ] ], [ [ 2, 3 ], [ 5, 5 ] ],[128X[104X
+    [4X[28X  [ [ 2, 3 ], [ 5, 6 ] ], [ [ 2, 3 ], [ 6, 4 ] ], [ [ 2, 3 ], [ 6, 6 ] ],[128X[104X
+    [4X[28X  [ [ 3, 1 ], [ 4, 4 ] ], [ [ 3, 1 ], [ 4, 5 ] ], [ [ 3, 1 ], [ 5, 5 ] ],[128X[104X
+    [4X[28X  [ [ 3, 1 ], [ 5, 6 ] ], [ [ 3, 1 ], [ 6, 4 ] ], [ [ 3, 1 ], [ 6, 6 ] ],[128X[104X
+    [4X[28X  [ [ 3, 3 ], [ 4, 4 ] ], [ [ 3, 3 ], [ 4, 5 ] ], [ [ 3, 3 ], [ 5, 5 ] ],[128X[104X
+    [4X[28X  [ [ 3, 3 ], [ 5, 6 ] ], [ [ 3, 3 ], [ 6, 4 ] ], [ [ 3, 3 ], [ 6, 6 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XSplitMend(twoOneFaces,[[1,1],[4,4]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(last,butterfly);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThis could be implemented like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSplitMendableFlagPairs_custom := function( complex )[127X[104X
+    [4X[25X>[125X [27X       local boundPairs, flagPairs, verts1, verts2, pair;[127X[104X
+    [4X[25X>[125X [27X   [127X[104X
+    [4X[25X>[125X [27X       flagPairs := [];[127X[104X
+    [4X[25X>[125X [27X       boundPairs := Combinations( BoundaryEdges(complex), 2 );[127X[104X
+    [4X[25X>[125X [27X       for pair in boundPairs do[127X[104X
+    [4X[25X>[125X [27X           verts1 := VerticesOfEdges(complex)[pair[1]];[127X[104X
+    [4X[25X>[125X [27X           verts2 := VerticesOfEdges(complex)[pair[2]];[127X[104X
+    [4X[25X>[125X [27X           if IsEmpty(Intersection(verts1, verts2)) then[127X[104X
+    [4X[25X>[125X [27X               if not Set([verts1[1],verts2[1]]) in VerticesOfEdges(complex) and[127X[104X
+    [4X[25X>[125X [27X                  not Set([verts2[1],verts1[1]]) in VerticesOfEdges(complex) then[127X[104X
+    [4X[25X>[125X [27X               	Add(flagPairs,Set([ [ verts1[1], pair[1] ],[127X[104X
+    [4X[25X>[125X [27X				[ verts2[1], pair[2] ] ]));[127X[104X
+    [4X[25X>[125X [27X               fi;[127X[104X
+    [4X[25X>[125X [27X               if not Set([verts1[1],verts2[2]]) in VerticesOfEdges(complex) and[127X[104X
+    [4X[25X>[125X [27X                  not Set([verts2[2],verts1[1]]) in VerticesOfEdges(complex) then[127X[104X
+    [4X[25X>[125X [27X               	Add(flagPairs,Set([ [ verts1[1], pair[1] ],[127X[104X
+    [4X[25X>[125X [27X				[ verts2[2], pair[2] ] ]));[127X[104X
+    [4X[25X>[125X [27X               fi;[127X[104X
+    [4X[25X>[125X [27X               if not Set([verts1[2],verts2[1]]) in VerticesOfEdges(complex) and[127X[104X
+    [4X[25X>[125X [27X                  not Set([verts2[1],verts1[2]]) in VerticesOfEdges(complex) then[127X[104X
+    [4X[25X>[125X [27X               	Add(flagPairs,Set([ [ verts1[2], pair[1] ],[127X[104X
+    [4X[25X>[125X [27X				[ verts2[1], pair[2] ] ]));[127X[104X
+    [4X[25X>[125X [27X               fi;[127X[104X
+    [4X[25X>[125X [27X               if not Set([verts1[2],verts2[2]]) in VerticesOfEdges(complex) and[127X[104X
+    [4X[25X>[125X [27X                  not Set([verts2[2],verts1[2]]) in VerticesOfEdges(complex) then[127X[104X
+    [4X[25X>[125X [27X               	Add(flagPairs,Set([ [ verts1[2], pair[1] ],[127X[104X
+    [4X[25X>[125X [27X				[ verts2[2], pair[2] ] ]));[127X[104X
+    [4X[25X>[125X [27X               fi;[127X[104X
+    [4X[25X>[125X [27X           fi;[127X[104X
+    [4X[25X>[125X [27X       od;[127X[104X
+    [4X[25X>[125X [27X   [127X[104X
+    [4X[25X>[125X [27X       return Set(flagPairs);[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XSplitMend_custom := function( complex, flagPair )[127X[104X
+    [4X[25X>[125X [27X       local path1, path2, join;[127X[104X
+    [4X[25X>[125X [27X   [127X[104X
+    [4X[25X>[125X [27X       if not flagPair in SplitMendableFlagPairs(complex) then[127X[104X
+    [4X[25X>[125X [27X           Error("Given flag-pair has to be split-mendable");[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X   [127X[104X
+    [4X[25X>[125X [27X       path1 := VertexEdgePathNC(complex, [ flagPair[1][1], flagPair[1][2],[127X[104X
+    [4X[25X>[125X [27X           OtherVertexOfEdgeNC(complex, flagPair[1][1], flagPair[1][2])]);[127X[104X
+    [4X[25X>[125X [27X       path2 := VertexEdgePathNC(complex, [ flagPair[2][1], flagPair[2][2],[127X[104X
+    [4X[25X>[125X [27X           OtherVertexOfEdgeNC(complex, flagPair[2][1], flagPair[2][2])]);[127X[104X
+    [4X[25X>[125X [27X       join := JoinVertexEdgePathsNC(complex, path1, path2);[127X[104X
+    [4X[25X>[125X [27X       if join = fail then[127X[104X
+    [4X[25X>[125X [27X           return fail;[127X[104X
+    [4X[25X>[125X [27X       else[127X[104X
+    [4X[25X>[125X [27X           return join[1];[127X[104X
+    [4X[25X>[125X [27X       fi;[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, flagPair ) ... end[128X[104X
+  [4X[32X[104X
+  

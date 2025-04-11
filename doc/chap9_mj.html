@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 9: Properties of surfaces and complexes</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap9"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap8_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap10_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap9.html">[MathJax off]</a></p>
+<p><a id="X7CEB91FB7F6B6689" name="X7CEB91FB7F6B6689"></a></p>
+<div class="ChapSects"><a href="chap9_mj.html#X7CEB91FB7F6B6689">9 <span class="Heading">Properties of surfaces and complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9_mj.html#X87AF9D4F7FD9E820">9.1 <span class="Heading">Invariants</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X83B1CE797E04CEBD">9.1-1 EulerCharacteristic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X8246710587712346">9.1-2 IsClosedComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7D2EEDAE82F82C9B">9.1-3 IsMultiTetrahedralSphere</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7AF1026E7EEE1A01">9.1-4 TetrahedralNumber</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X86AB7C667E387F02">9.1-5 TetrahedralType</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7C460ABB7A1F0CCA">9.1-6 BlockType</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9_mj.html#X7FD920957DDB7FF5">9.2 <span class="Heading">Degree-based properties and invariants</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X802345C97EED4C84">9.2-1 EdgeDegreesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X82E938C180DA3C56">9.2-2 FaceDegreesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X85EC7F76844E729B">9.2-3 TotalDefect</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7C7444547DB3BAB5">9.2-4 CounterOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7AC8B8B485BD17C3">9.2-5 CounterOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X84A19E377C2B7500">9.2-6 CounterOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X8617AFC77D01ED73">9.2-7 CounterOfButterflies</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X82172B9F7C36AF0C">9.2-8 CounterOfUmbrellas</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X85DFB7CE8737E2C5">9.2-9 CounterOfThreeFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X87D2C75781E6AD7B">9.2-10 IsCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X8619C2137801C7AA">9.2-11 TypeOfCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7D3833FB86F3A167">9.2-12 AssociatedPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7D5D74FF79646933">9.2-13 ListCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7A89DAE18311C0BA">9.2-14 MultiplicitiesOfCounter</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X81CC8E587D8D2FB0">9.2-15 DegreesOfCounter</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9_mj.html#X82DF66E47A798D90">9.3 <span class="Heading">Types of faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7B386EF47F489D59">9.3-1 IsFaceHomogeneous</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X8334EFD47C0A4AB8">9.3-2 IsTriangular</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7E7FC36B857C52F9">9.3-3 IsQuadrangular</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9_mj.html#X85A814C783EFEF53">9.4 <span class="Heading">Types of edges</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X82A8571280FB4A42">9.4-1 InnerEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X87AE9AD479F3ABEF">9.4-2 TurnableEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7CCB47A67F529D3D">9.4-3 BoundaryEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7D249F2982AAB73F">9.4-4 RamifiedEdges</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9_mj.html#X865F34F5814B4D01">9.5 <span class="Heading">Types of vertices</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X789A991584C6EB09">9.5-1 InnerVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X84E56D3087A997F4">9.5-2 BoundaryVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X7C840E847A51BDF6">9.5-3 RamifiedVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X84A3F1F57DB1D28C">9.5-4 ChaoticVertices</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap9_mj.html#X7B4412FB7DF3388D">9.6 <span class="Heading">Face-colouring</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X834BF0CD7F377F2E">9.6-1 FaceTwoColouring</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap9_mj.html#X82B3B5EB83BCC29D">9.6-2 AdmissibleRelationsOfSurface</a></span>
+</div></div>
+</div>
+
+<h3>9 <span class="Heading">Properties of surfaces and complexes</span></h3>
+
+<p>In chapter <a href="chap3_mj.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a> we introduced the incidence structures of polygonal complexes. Along with this we can consider various properties of surfaces and complexes that rely on the incidence structure. In section <a href="chap9_mj.html#X87AF9D4F7FD9E820"><span class="RefLink">9.1</span></a> some invariants of polygonal complexes are explained. Section <a href="chap9_mj.html#X7FD920957DDB7FF5"><span class="RefLink">9.2</span></a> describes properties based on the degree of the vertices. Different types of faces, edges and vertices are introduced in section <a href="chap9_mj.html#X82DF66E47A798D90"><span class="RefLink">9.3</span></a>, <a href="chap9_mj.html#X85A814C783EFEF53"><span class="RefLink">9.4</span></a> and <a href="chap9_mj.html#X865F34F5814B4D01"><span class="RefLink">9.5</span></a>.</p>
+
+<p>We will showcase these properties on several examples. One of them is the <em>five-star</em>: <br><img src='./images/_Wrapper_properties-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;</span>
+</pre></div>
+
+<p>Another one is the <em>triforce</em>: <br><img src='./images/_Wrapper_properties-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;</span>
+</pre></div>
+
+<p><a id="X87AF9D4F7FD9E820" name="X87AF9D4F7FD9E820"></a></p>
+
+<h4>9.1 <span class="Heading">Invariants</span></h4>
+
+<p>This section introduces invariants of (twisted) polygonal complexes. Invariants of (twisted) polygonal complexes are properties that are equal for each (twisted) polygonal complex in the same isomorphism class. Examples of such invariants are the Euler-characteristic <a href="chap9_mj.html#X83B1CE797E04CEBD"><span class="RefLink">9.1-1</span></a>, whether a complex is closed or open <a href="chap9_mj.html#X8246710587712346"><span class="RefLink">9.1-2</span></a> and some other properties about multi tetrahedral spheres.</p>
+
+<p><a id="X83B1CE797E04CEBD" name="X83B1CE797E04CEBD"></a></p>
+
+<h5>9.1-1 EulerCharacteristic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EulerCharacteristic</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: an integer</p>
+
+<p>Return the <em>Euler-characteristic</em> of the given twisted polygonal complex. The Euler-characteristic is computed as</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);</span>
+</pre></div>
+
+<p>As an example, consider the five-star that was introduced at the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-3-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfVertices(fiveStar);</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(fiveStar);</span>
+10
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfFaces(fiveStar);</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerCharacteristic(fiveStar);</span>
+1
+</pre></div>
+
+<p><a id="X8246710587712346" name="X8246710587712346"></a></p>
+
+<h5>9.1-2 IsClosedComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsClosedComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsClosedSurface</code>( <var class="Arg">surf</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether the given twisted polygonal complex without edge ramifications is <em>closed</em>. A twisted polygonal complex without edge ramifications is closed if every edge is incident to <em>exactly</em> two faces (whereas the absence of edge ramifications only means that every edge is incident to <em>at most</em> two faces).</p>
+
+<p>For example, the platonic solids are closed.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface( Octahedron() );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface( Dodecahedron() );</span>
+true
+</pre></div>
+
+<p>In contrast, the five-star and the triforce from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a> are not closed. <br><img src='./images/_Wrapper_properties-4-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(fiveStar);</span>
+false
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_properties-5-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedComplex(triforce);</span>
+false
+</pre></div>
+
+<p><a id="X7D2EEDAE82F82C9B" name="X7D2EEDAE82F82C9B"></a></p>
+
+<h5>9.1-3 IsMultiTetrahedralSphere</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsMultiTetrahedralSphere</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>Check whether the given twisted polygonal complex is a multitetrahedral sphere. A multitetrahedral sphere can be obtained by starting with the tetrahedron and performing a finite number of tetrahedral extensions. So multi-tetrahedral spheres are closed simplicial surfaces with euler-characteristic 2. As example consider the tetrahedron and the double tetrahedron. Up to isomorphism there is exactly one multi-tetrahedral sphere with 4 faces, namely the tetradron. <br><img src='./images/_Wrapper_properties-6-1.svg'> </img> <br> And there is exactly one multi-tetrahedral sphere with 6 faces namely the double tetraedron which can be obtained by performing exactly one tetrahedral extension to the tetradron. <br><img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsMultiTetrahedralSphere(Tetrahedron());</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsMultiTetrahedralSphere(doubleTetra);</span>
+true
+</pre></div>
+
+<p>As another example, consider the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsMultiTetrahedralSphere(Octahedron());</span>
+false
+</pre></div>
+
+<p><a id="X7AF1026E7EEE1A01" name="X7AF1026E7EEE1A01"></a></p>
+
+<h5>9.1-4 TetrahedralNumber</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TetrahedralNumber</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: positive integer or fail</p>
+
+<p>Return the number of tetrahedra that are used to construct the given twisted polygonal complex. If <code class="keyw">complex</code> is a multi-tetrahedral sphere, this number is 1 greater than the number of tetrahedral extensions that have to be applied to the tetrahedron to obtain <code class="keyw">complex</code>. If <code class="keyw">complex</code> is not a multi-tetrahedral sphere, the function returns fail.</p>
+
+<p>As example, consider the tetrahedron, the double tetrahedron and the multi-tetrahedral sphere which can be obtained by applying exactly two tetrahedral extensions to the tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=TetrahedralExtension(Tetrahedron(),1);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">multiTetra:=TetrahedralExtension(doubleTetra,2);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TetrahedralNumber(Tetrahedron());</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TetrahedralNumber(doubleTetra);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TetrahedralNumber(multiTetra);</span>
+3
+</pre></div>
+
+<p><a id="X86AB7C667E387F02" name="X86AB7C667E387F02"></a></p>
+
+<h5>9.1-5 TetrahedralType</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TetrahedralType</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a dense list or fail</p>
+
+<p>Return the tetrahedral type of a given twisted polygonal complex or <code class="keyw">fail</code>, if <code class="keyw">complex</code> is not a multi tetrahedral sphere. The tetrahedral type of a multi tetrahedral sphere is a tuple <code class="keyw">[a0,...,ak]</code> satisfying the following property: <code class="keyw">X</code> is a list of multi tetrahedral spheres of length <code class="keyw">k</code> so that <code class="keyw">X[1]=complex</code> and <code class="keyw">X[k]</code> is either isomorphic to the tetrahedron or the double tetrahedron. Furthermore <code class="keyw">X[i]</code> is obtained by applying tetrahedral reductions to all vertices with face degree 3 in <code class="keyw">X[i-1]</code>. So <code class="keyw">ai</code> is the number of vertices with face degree 3 in <code class="keyw">X[i]</code>, if <code class="keyw">X[k]</code> is isomorphic to the tetrahedron, the number <code class="keyw">ak</code> is redefined as 1. As example, consider the tetrahedron, the double tetrahedron and the multi-tetrahedral sphere which can be obtained by applying exactly two tetrahedral extensions to the tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=TetrahedralExtension(Tetrahedron(),1);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">multiTetra:=TetrahedralExtension(doubleTetra,2);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TetrahedralType(Tetrahedron());</span>
+[ 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TetrahedralType(doubleTetra);</span>
+[ 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TetrahedralType(multiTetra);</span>
+[ 2, 1 ]
+</pre></div>
+
+<p><a id="X7C460ABB7A1F0CCA" name="X7C460ABB7A1F0CCA"></a></p>
+
+<h5>9.1-6 BlockType</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BlockType</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: list of pairs or fail</p>
+
+<p>Return the block type of a vertex-faithful simplicial sphere. The block type is a list of pairs <code class="keyw">[num,numOfFaces]</code> where <code class="keyw">num</code> counts the building blocks(<a href="chap12_mj.html#X7C04FAD87D238117"><span class="RefLink">12.5-11</span></a>) of <code class="keyw">surface</code> whose number of faces match <code class="keyw">numOfFaces</code>. Since building blocks only exist for vertex-faithful spheres the function returns <code class="keyw">fail</code>, if <code class="keyw">surface</code> does not satisfy this property.</p>
+
+<p>As examples, consider the tetrahedron and the double tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BlockType(Tetrahedron());</span>
+[ [ 4, 1 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BlockType(doubleTetra);</span>
+[ [ 4, 2 ] ]
+</pre></div>
+
+<p><a id="X7FD920957DDB7FF5" name="X7FD920957DDB7FF5"></a></p>
+
+<h4>9.2 <span class="Heading">Degree-based properties and invariants</span></h4>
+
+<p>This section contains properties and invariants that are based on the degrees of the vertices. We have to distinguish two different definitions for the degree of a vertex - we can either count the number of incident edges of the number of incident faces. These two definitions are distinguished by calling them <code class="keyw">EdgeDegreesOfVertices</code> and <code class="keyw">FaceDegreesOfVertices</code>.</p>
+
+<p>A large part of this chapter are the counters. There are six different counter objects: vertex counter(<a href="chap9_mj.html#X7C7444547DB3BAB5"><span class="RefLink">9.2-4</span></a>), edge counter(<a href="chap9_mj.html#X7AC8B8B485BD17C3"><span class="RefLink">9.2-5</span></a>), face counter(<a href="chap9_mj.html#X84A19E377C2B7500"><span class="RefLink">9.2-6</span></a>), butterfly counter(<a href="chap9_mj.html#X8617AFC77D01ED73"><span class="RefLink">9.2-7</span></a>), umbrella counter(<a href="chap9_mj.html#X82172B9F7C36AF0C"><span class="RefLink">9.2-8</span></a>) and three face counter(<a href="chap9_mj.html#X85DFB7CE8737E2C5"><span class="RefLink">9.2-9</span></a>). For a given surface, the counters save information about the vertex, face or edge degrees. There are different methods to get these information like <var class="Arg">ListCounter</var>(<a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>), <var class="Arg">MultiplicitiesOfCounter</var>(<a href="chap9_mj.html#X7A89DAE18311C0BA"><span class="RefLink">9.2-14</span></a>) and <var class="Arg">DegreesOfCounter</var>(<a href="chap9_mj.html#X81CC8E587D8D2FB0"><span class="RefLink">9.2-15</span></a>).</p>
+
+<p><a id="X802345C97EED4C84" name="X802345C97EED4C84"></a></p>
+
+<h5>9.2-1 EdgeDegreesOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeDegreesOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeDegreeOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeDegreeOfVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>The method <code class="keyw">EdgeDegreeOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>) returns the <em>edge-degree</em> of the given vertex in the given twisted polygonal complex, i.e. the number of incident edges. The NC-version does not check whether <var class="Arg">vertex</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">EdgeDegreesOfVertices</code>(<var class="Arg">complex</var>) collects all of these degrees in a list that is indexed by the vertices, i.e. <code class="keyw">EdgeDegreesOfVertices</code>(<var class="Arg">complex</var>)[<var class="Arg">vertex</var>] = <code class="keyw">EdgeDegreeOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-7-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeDegreeOfVertex( fiveStar, 1 );</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeDegreeOfVertex( fiveStar, 5 );</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeDegreesOfVertices( fiveStar );</span>
+[ 5, 3, 3,, 3,, 3,,,, 3 ]
+</pre></div>
+
+<p><a id="X82E938C180DA3C56" name="X82E938C180DA3C56"></a></p>
+
+<h5>9.2-2 FaceDegreesOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceDegreesOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceDegreeOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceDegreeOfVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreesOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreeOfVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>The method <code class="keyw">FaceDegreeOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>) returns the <em>face-degree</em> of the given vertex in the given twisted polygonal complex, i.e. the number of incident faces. The NC-version does not check whether <var class="Arg">vertex</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">FaceDegreesOfVertices</code>(<var class="Arg">complex</var>) collects all of these degrees in a list that is indexed by the vertices, i.e. <code class="keyw">FaceDegreesOfVertices</code>(<var class="Arg">complex</var>)[<var class="Arg">vertex</var>] = <code class="keyw">FaceDegreeOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-8-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreeOfVertex( fiveStar, 1 );</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreeOfVertex( fiveStar, 5 );</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreesOfVertices( fiveStar );</span>
+[ 5, 2, 2,, 2,, 2,,,, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DegreesOfVertices( fiveStar );</span>
+[ 5, 2, 2,, 2,, 2,,,, 2 ]
+</pre></div>
+
+<p>For convenience, these methods can also be called by the names <code class="keyw">DegreesOfVertices</code> and <code class="keyw">DegreeOfVertex</code>.</p>
+
+<p><a id="X85EC7F76844E729B" name="X85EC7F76844E729B"></a></p>
+
+<h5>9.2-3 TotalDefect</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TotalDefect</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TotalInnerDefect</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: an integer</p>
+
+<p>Return the <em>total (inner) defect</em> of the given simplicial surface. The defect of an inner vertex is <span class="SimpleMath">\(6 - faceDegree\)</span> and the defect of a boundary vertex is <span class="SimpleMath">\(3 - faceDegree\)</span>.</p>
+
+<p>The <em>total defect</em> is the sum over all defects. The <em>total inner defect</em> is the sum over the defects of all inner vertices. As an example, consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-9-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TotalDefect( fiveStar );</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TotalInnerDefect( fiveStar );</span>
+1
+</pre></div>
+
+<p><a id="X7C7444547DB3BAB5" name="X7C7444547DB3BAB5"></a></p>
+
+<h5>9.2-4 CounterOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CounterOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A Counter-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounterOfVertices</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">CounterOfVertices</code> constructs a new vertex counter from a polygonal complex. The method <code class="keyw">IsCounterOfVertices</code> checks if a given <strong class="pkg">GAP</strong>-object represents such a vertex counter. The vertex counter saves the information about how many vertices are incident to how many faces. To get this information there are different possibilities. For example, the method <var class="Arg">ListCounter</var> (<a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>) that returns this information as a list of pairs <em>[degree, multiplicity]</em>, where <em>multiplicity</em> counts the number of vertices with exactly <em>degree</em> incident faces.</p>
+
+<p>As an example, consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List( FacesOfVertices(fiveStar), Size );</span>
+[ 5, 2, 2,, 2,, 2,,,, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">countVert:=CounterOfVertices(fiveStar);</span>
+counter of vertices ([ 2, 5 ] degrees, and [ 5, 1 ] multiplicities)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(countVert);</span>
+[ [ 2, 5 ], [ 5, 1 ] ]
+</pre></div>
+
+<p><a id="X7AC8B8B485BD17C3" name="X7AC8B8B485BD17C3"></a></p>
+
+<h5>9.2-5 CounterOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CounterOfEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A Counter-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounterOfEdges</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">CounterOfEdges</code> constructs a new edge counter from a polygonal complex. The method <code class="keyw">IsCounterOfEdges</code> checks if a given <strong class="pkg">GAP</strong>-object represents such an edge counter. The edge counter saves the information about how many edges have vertices with the same degrees. To get this information there are different possibilities. For example, the method <var class="Arg">ListCounter</var> (<a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>) that returns this information as a list of pairs <em>[degreeList, multiplicity]</em>, where <em>multiplicity</em> counts the number of edges whose vertices are incident to <em>degreeList[1]</em> and <em>degreeList[2]</em> faces. The list <em>degreeList</em> is always sorted but may contain duplicates.</p>
+
+<p>As an example, consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">countEdg := CounterOfEdges(fiveStar);</span>
+counter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(countEdg);</span>
+[ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ]
+</pre></div>
+
+<p><a id="X84A19E377C2B7500" name="X84A19E377C2B7500"></a></p>
+
+<h5>9.2-6 CounterOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CounterOfFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A Counter-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounterOfFaces</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">CounterOfFaces</code> constructs a new face counter from a polygonal complex. The method <code class="keyw">IsCounterOfFaces</code> checks if a given <strong class="pkg">GAP</strong>-object represents such a face counter. The face counter saves the information about how many faces have vertices with the same degrees. To get this information there are different possibilities. For example, the method <var class="Arg">ListCounter</var> (<a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>) that returns this information as a list of pairs <em>[degreeList, multiplicity]</em>, where <em>multiplicity</em> counts the number of faces whose vertex degrees match <em>degreeList</em>, i.e. for every vertex there is exactly one entry of <em>degreeList</em> such that the vertex is incident to this number of faces. The <em>degreeList</em> is always sorted but may contain duplicates.</p>
+
+<p>As an example, consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-3-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">countFac:=CounterOfFaces(fiveStar);</span>
+counter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) 
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(countFac);</span>
+[ [ [ 2, 2, 5 ], 5 ] ]
+</pre></div>
+
+<p><a id="X8617AFC77D01ED73" name="X8617AFC77D01ED73"></a></p>
+
+<h5>9.2-7 CounterOfButterflies</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CounterOfButterflies</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A Counter-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounterOfButterflies</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">CounterOfButterflies</code> constructs a new butterfly counter from a simplicial surface. The method <code class="keyw">IsCounterOfButterflies</code> checks if a given <strong class="pkg">GAP</strong>-object represents such a butterfly counter. The butterfly counter saves the information about how many butterflies have vertices with the same degrees. To get this information there are different possibilities. For example, the method <var class="Arg">ListCounter</var> (<a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>) that returns this information as a list of pairs <em>[[degList1,degList2], multiplicity]</em>, where <em>multiplicity</em> counts the number of butterflies whose vertex degrees match <em>[degList1,degList2]</em>, whereby <em>degList1</em> denotes the vertex degree of the vertices that are incident to the edge inducing the corresponding butterfly and <em>degList2</em> contains the vertex degrees of the two remaining vertices of the butterfly.</p>
+
+<p>As an example, consider the double-5-gon: <img src="./images/_Wrapper_Image_Double5gon-1.svg"> </img></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,4,6],[3,5,7],[3,6,7]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=SimplicialSurfaceByVerticesInFaces(vof);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counter:=CounterOfButterflies(s);</span>
+counter of butterlies ([ [ [ 4, 4 ], [ 5, 5 ] ], [ [ 4, 5 ], [ 4, 4 ] ] ]
+degrees, and [ 5, 10 ] multiplicities) 
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(counter);</span>
+[ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
+</pre></div>
+
+<p><a id="X82172B9F7C36AF0C" name="X82172B9F7C36AF0C"></a></p>
+
+<h5>9.2-8 CounterOfUmbrellas</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CounterOfUmbrellas</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A Counter-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounterOfUmbrellas</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">CounterOfUmbrellas</code> constructs a new umbrella counter from a simplicial surface. The method <code class="keyw">IsCounterOfUmbrellas</code> checks if a given <strong class="pkg">GAP</strong>-object represents such an umbrella counter. The umbrella counter saves the information about how many umbrellas have vertices with the same degrees. To get this information there are different possibilities. For example, the method (<var class="Arg">ListCounter</var> <a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>) that returns this information as a list of pairs <em>[degreeList, multiplicity]</em>, where <em>multiplicity</em> counts the number of umbrellas whose vertex degrees of vertices contained at the boundary of the umbrella match <em>degreeList</em>, i.e. for every vertex contained in the boundary of an umbrella there is exactly one entry of <em>degreeList</em> such that the vertex is incident to this number of faces. The list <em>degreeList</em> is not sorted but may contain duplicates.</p>
+
+<p>As an example, consider the double-6-gon: <img src="./images/_Wrapper_Image_Double6gon-1.svg"> </img></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=SimplicialSurfaceByVerticesInFaces(vof);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counter:=CounterOfUmbrellas(s);</span>
+counter of umbrellas ([ [ 4, 6, 4, 6 ], [ 4, 4, 4, 4, 4, 4 ] ] degrees,
+and [ 6, 2 ] multiplicities)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(counter);</span>
+[ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ]
+</pre></div>
+
+<p><a id="X85DFB7CE8737E2C5" name="X85DFB7CE8737E2C5"></a></p>
+
+<h5>9.2-9 CounterOfThreeFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CounterOfThreeFaces</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A Counter-<strong class="pkg">GAP</strong>-object</p>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounterOfThreeFaces</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">CounterOfThreeFaces</code> constructs a new three face counter from a simplicial surface. The method <code class="keyw">IsCounterOfThreeFaces</code> checks if a given <strong class="pkg">GAP</strong>-object represents such a three face counter. The three-face counter saves the information about how many three-faces have vertices with the same degrees. To get this information there are different possibilities. For example, the method <var class="Arg">ListCounter</var> (<a href="chap9_mj.html#X7D5D74FF79646933"><span class="RefLink">9.2-13</span></a>) that returns this information as a list of pairs <em>[[deg,degreeList1,degreeList2], multiplicity]</em>, whereby <em>[deg,degreeList1,degreeList2]</em> satisfies the following property: Assume that the vertices <em>v1,v2,v3</em> are all incident to the same face and there exist exactly two vertices <em>v4,v5</em> so that <em>v4</em> resp. <em>v5</em> is the remaining vertex of the butterfly induced by the edge incident to the vertices <em>v1</em> and <em>v2</em> resp.<em>v1</em> and <em>v3</em>. <br><img src='./images/_Wrapper_properties-4-1.svg'> </img> <br> So <em>deg</em> denotes the vertex degree of the vertex <em>v1</em>. The first resp. second entry of <em>degreeList1</em> is the vertex degree of <em>v2</em> resp <em>v3</em>. And the first resp. second entry of <em>degreeList2</em> is the vertex degree of <em>v4</em> resp. <em>v5</em>. The integer <em>multiplicity</em> counts the number of adjacent three-faces whose vertex degrees match <em>degreeList</em>.</p>
+
+<p>The different lists in <em>degreeList</em> are not sorted but may contain duplicates.</p>
+
+<p>As an example, consider the double-6-gon: <img src="./images/_Wrapper_Image_Double6gon-1.svg"> </img></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=SimplicialSurfaceByVerticesInFaces(vof);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counter:=CounterOfThreeFaces(s);</span>
+counter of three faces ([ [ 4, [ 4, 6 ], [ 6, 4 ] ], [ 6, [ 4, 4 ], [ 4, 4 ] ] ]
+degrees, and [ 24, 12 ] multiplicities)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(counter);</span>
+[ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ]
+</pre></div>
+
+<p><a id="X87D2C75781E6AD7B" name="X87D2C75781E6AD7B"></a></p>
+
+<h5>9.2-10 IsCounter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsCounter</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method returns if the <em>object</em> is a vertex counter, edge counter, face counter, butterfly counter, umbrella counter or three face counter.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsCounter(CounterOfVertices(fiveStar));</span>
+true
+</pre></div>
+
+<p><a id="X8619C2137801C7AA" name="X8619C2137801C7AA"></a></p>
+
+<h5>9.2-11 TypeOfCounter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TypeOfCounter</code>( <var class="Arg">counter</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns the type of the counter. That means if <var class="Arg">counter</var> is a CounterOfVertices(<a href="chap9_mj.html#X7C7444547DB3BAB5"><span class="RefLink">9.2-4</span></a>), CounterOfEdges(<a href="chap9_mj.html#X7AC8B8B485BD17C3"><span class="RefLink">9.2-5</span></a>), CounterOfFaces(<a href="chap9_mj.html#X84A19E377C2B7500"><span class="RefLink">9.2-6</span></a>), CounterOfButterflies(<a href="chap9_mj.html#X8617AFC77D01ED73"><span class="RefLink">9.2-7</span></a>), CounterOfUmbrellas(<a href="chap9_mj.html#X82172B9F7C36AF0C"><span class="RefLink">9.2-8</span></a>), CounterOfThreeFaces(<a href="chap9_mj.html#X85DFB7CE8737E2C5"><span class="RefLink">9.2-9</span></a>) or a not specified counter object.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counter:=CounterOfVertices(fiveStar);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TypeOfCounter(counter);</span>
+CounterOfVertices
+</pre></div>
+
+<p><a id="X7D3833FB86F3A167" name="X7D3833FB86F3A167"></a></p>
+
+<h5>9.2-12 AssociatedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AssociatedPolygonalComplex</code>( <var class="Arg">counter</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Return the polygonal complex for which the given counter is defined.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">assCom:=AssociatedPolygonalComplex(CounterOfVertices(fiveStar));;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(assCom, fiveStar);</span>
+true
+</pre></div>
+
+<p><a id="X7D5D74FF79646933" name="X7D5D74FF79646933"></a></p>
+
+<h5>9.2-13 ListCounter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ListCounter</code>( <var class="Arg">counter</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a list of pairs</p>
+
+<p>Returns the information about different counters. For a vertex counter the method returns the list of pairs <em>[degree, multiplicity]</em> for <em>counter</em>. For an edge counter, a face counter and an umbrella counter the method returns the list of pairs <em>[degreeList, multiplicity]</em>. For a butterfly counter the method returns the list of pairs <em>[[degList1,degList2], multiplicity]</em> and for a three face counter the method returns the list of pairs <em>[[deg,degList1,degList2], multiplicity]</em>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">countFac:=CounterOfFaces(fiveStar);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(countFac);</span>
+[ [ [ 2, 2, 5 ], 5 ] ]
+</pre></div>
+
+<p><a id="X7A89DAE18311C0BA" name="X7A89DAE18311C0BA"></a></p>
+
+<h5>9.2-14 MultiplicitiesOfCounter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MultiplicitiesOfCounter</code>( <var class="Arg">counter</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MultiplicitiesOfDegrees</code>( <var class="Arg">counterVert</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MultiplicityOfDegree</code>( <var class="Arg">counter</var>, <var class="Arg">degreeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MultiplicityOfDegree</code>( <var class="Arg">counterVert</var>, <var class="Arg">degree</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers/a positive integer</p>
+
+<p>The method <var class="Arg">Multiplicities</var> returns the second entry of the tupels contained in the list obtained from <var class="Arg">ListCounter</var>. This means, for example, that the method returns how many vertices have the same degree if <var class="Arg">counter</var> is a vertex counter. The method <var class="Arg">MultiplicityOfDegree</var> returns the number for the given <var class="Arg">degree</var> or <var class="Arg">degreeList</var> of <var class="Arg">counter</var>. The method <var class="Arg">MultiplicitiesOfDegrees</var> returns a list <var class="Arg">multiplicities</var> for a vertex counter where <var class="Arg">multiplicities[i]</var> is the number of times a vertex has degree <var class="Arg">i</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counterEd:=CounterOfEdges(fiveStar);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MultiplicitiesOfCounter(counterEd);</span>
+[ 5, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MultiplicityOfDegree(counterEd,[2,5]);</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counterVert:=CounterOfVertices(fiveStar);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MultiplicitiesOfDegrees(counterVert);</span>
+[ , 5,,, 1 ]
+</pre></div>
+
+<p><a id="X81CC8E587D8D2FB0" name="X81CC8E587D8D2FB0"></a></p>
+
+<h5>9.2-15 DegreesOfCounter</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreesOfCounter</code>( <var class="Arg">counter</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreesOfMultiplicities</code>( <var class="Arg">counter</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DegreesOfMultiplicity</code>( <var class="Arg">counter</var>, <var class="Arg">multiplicity</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>The method <var class="Arg">Degrees</var> returns the first entry of tupels contained in the list obtained from <var class="Arg">ListCounter</var>. This means, for example, that if <var class="Arg">counter</var> is a vertex counter, the method returns what the different degrees of the vertices are. The method <var class="Arg">DegreesOfMultiplicities</var> returns a list <var class="Arg">degrees</var> for <var class="Arg">counter</var>, where <var class="Arg">degrees[i]</var> is the degree or degreeList that occurs <var class="Arg">i</var> times.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">counterEd:=CounterOfEdges(fiveStar);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DegreesOfCounter(counterEd);</span>
+[ [ 2, 2 ], [ 2, 5 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DegreesOfMultiplicities(counterEd);</span>
+[ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DegreesOfMultiplicity(counterEd,5);</span>
+[ [ 2, 2 ], [ 2, 5 ] ]
+</pre></div>
+
+<p><a id="X82DF66E47A798D90" name="X82DF66E47A798D90"></a></p>
+
+<h4>9.3 <span class="Heading">Types of faces</span></h4>
+
+<p>The faces in a (twisted) polygonal complex are (twisted) polygons. In particular there can be polygons with different numbers of vertices, i.e. triangle, quadrangles, and so on.</p>
+
+<p><a id="X7B386EF47F489D59" name="X7B386EF47F489D59"></a></p>
+
+<h5>9.3-1 IsFaceHomogeneous</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFaceHomogeneous</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether all polygons in this twisted polygonal complex have the same number of vertices.</p>
+
+<p>Consider the following polygonal complex: <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ , , , , , [2,5], , [2,3], [3, 5], [11,5], , [3,7], [7,11] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[6,8,9], , , [9,10,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFaceHomogeneous(complex);</span>
+false
+</pre></div>
+
+<p>This complex is not face homogeneous, since it contains a face with three vertices and a face with four vertices. A tetrahedron is face homogeneous:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFaceHomogeneous(Tetrahedron());</span>
+true
+</pre></div>
+
+<p><a id="X8334EFD47C0A4AB8" name="X8334EFD47C0A4AB8"></a></p>
+
+<h5>9.3-2 IsTriangular</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTriangular</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether all polygons in this twisted polygonal complex are triangles. If this is the case, the twisted polygonal complex is face homogeneous.</p>
+
+<p>The tetrahedron consists only of triangles:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTriangular(Tetrahedron());</span>
+true
+</pre></div>
+
+<p><a id="X7E7FC36B857C52F9" name="X7E7FC36B857C52F9"></a></p>
+
+<h5>9.3-3 IsQuadrangular</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsQuadrangular</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Check whether all polygons in this twisted polygonal complex are quadrangles.</p>
+
+<p>Consider the following polygonal complex: <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ , , , , , [2,5], , [2,3], [3, 5], [11,5], , [3,7], [7,11] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[6,8,9], , , [9,10,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsQuadrangular(complex);</span>
+false
+</pre></div>
+
+<p>This complex is not quadrangular, since it contains a triangle.</p>
+
+<p><a id="X85A814C783EFEF53" name="X85A814C783EFEF53"></a></p>
+
+<h4>9.4 <span class="Heading">Types of edges</span></h4>
+
+<p>The edges of a twisted polygonal complex (defined in <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>) can be in different local positions. This can be seen in the example of the five-star (which was introduced at the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>): <br><img src='./images/_Wrapper_properties-10-1.svg'> </img> <br> The edges that are incident to the vertex 1 are different from the other edges since they lie "inside" the surface. Edges with two incident faces are called <em>inner edges</em> while edges with only one incident face are called <em>boundary edges</em>.</p>
+
+<p>If edge ramifications are not allowed, only those two edge types can appear (by definition there are one or two faces incident to each edge). In general there might appear a third case (more than two faces incident to an edge). This is exemplified in the following example: <br><img src='./images/_Wrapper_properties-11-1.svg'> </img> <br> Edges with more than two incident faces are called <em>ramified edges</em>.</p>
+
+<p><a id="X82A8571280FB4A42" name="X82A8571280FB4A42"></a></p>
+
+<h5>9.4-1 InnerEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InnerEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInnerEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInnerEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all inner edges of the given twisted polygonal complex. An <em>inner edge</em> is an edge that is incident to exactly two faces.</p>
+
+<p>The method <code class="keyw">IsInnerEdge</code> checks whether the given edge is an inner edge of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>Consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src="./images/_Wrapper_Image_FiveTrianglesInCycle-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsInnerEdge( fiveStar, 4 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsInnerEdge( fiveStar, 10 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">InnerEdges( fiveStar );</span>
+[ 1, 2, 3, 4, 5 ]
+</pre></div>
+
+<p><a id="X87AE9AD479F3ABEF" name="X87AE9AD479F3ABEF"></a></p>
+
+<h5>9.4-2 TurnableEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TurnableEdges</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTurnableEdge</code>( <var class="Arg">surface</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTurnableEdgeNC</code>( <var class="Arg">surface</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all turnable edges of the given simplicial surface. Let <var class="Arg">v1,v2</var> be the vertices of the subsurface induced by a given edge which are not incident to this edge. <br><img src="./images/_Wrapper_Image_ButIndEdg-1.svg"> </img> <br> The given edge is a turnable edge, if and only if <var class="Arg">v1</var> is not equal to <var class="Arg">v2</var> and there exist no edge whose incident vertices are exactly <var class="Arg">v1</var> and <var class="Arg">v2</var>. The method <var class="Arg">IsTurnableEdge</var> checks whether the given edge is a turnable edge of the given simplicial surface. The NC-version does not check whether <var class="Arg">edge</var> is an edge of <var class="Arg">surface</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TurnableEdges(Tetrahedron());</span>
+[  ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TurnableEdges(Octahedron());</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTurnableEdge(Tetrahedron(),1);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTurnableEdge(Octahedron(),2);</span>
+true
+</pre></div>
+
+<p>As another example surfaces with boundary edges can be considered.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTurnableEdge(s,1);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTurnableEdge(s,2);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(s);</span>
+[ [ 1, 2, 4 ], [ 1, 3, 5 ] ]
+</pre></div>
+
+<p><a id="X7CCB47A67F529D3D" name="X7CCB47A67F529D3D"></a></p>
+
+<h5>9.4-3 BoundaryEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BoundaryEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundaryEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundaryEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all boundary edges of the given twisted polygonal complex. A <em>boundary edge</em> is an edge that is incident to exactly one face.</p>
+
+<p>The method <code class="keyw">IsBoundaryEdge</code> checks whether the given edge is a boundary edge of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>Consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src="./images/_Wrapper_Image_FiveTrianglesInCycle-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBoundaryEdge( fiveStar, 4 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBoundaryEdge( fiveStar, 10 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundaryEdges( fiveStar );</span>
+[ 6, 7, 8, 9, 10 ]
+</pre></div>
+
+<p><a id="X7D249F2982AAB73F" name="X7D249F2982AAB73F"></a></p>
+
+<h5>9.4-4 RamifiedEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RamifiedEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsRamifiedEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsRamifiedEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all ramified edges of the given twisted polygonal complex. A <em>ramified edge</em> is an edge that is incident to at least three faces.</p>
+
+<p>The method <code class="keyw">IsRamifiedEdge</code> checks whether the given edge is a ramified edge of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>We illustrate it on the following triangular complex: <br><img src='./images/_Wrapper_properties-12-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">branch := TriangularComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,2,7],[3,4,7],[5,6,7]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRamifiedEdge(branch, 1);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRamifiedEdge(branch, 7);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RamifiedEdges(branch);</span>
+[ 7 ]
+</pre></div>
+
+<p><a id="X865F34F5814B4D01" name="X865F34F5814B4D01"></a></p>
+
+<h4>9.5 <span class="Heading">Types of vertices</span></h4>
+
+<p>The vertices of a twisted polygonal complex (defined in <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>) can be in different local positions. This can be seen in the example of the five-star (which was introduced at the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>): <br><img src='./images/_Wrapper_properties-13-1.svg'> </img> <br> The vertex 1 is the only vertex that is completely surrounded by faces. It is called an <em>inner vertex</em> while the other vertices of the five-star are <em>boundary vertices</em>. This classifies all vertices of a twisted polygonal surface.</p>
+
+<p>In general there are more than these two possibilities. In the case of vertex ramifications (defined in <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>) there can be <em>ramified vertices</em>: <br><img src='./images/_Wrapper_properties-14-1.svg'> </img> <br></p>
+
+<p>In the case of edge ramifications (also defined in <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>) there might be edges that are incident to more than two faces. <br><img src='./images/_Wrapper_properties-15-1.svg'> </img> <br> Vertices that are incident to such an edge are called <em>chaotic vertices</em>.</p>
+
+<p><a id="X789A991584C6EB09" name="X789A991584C6EB09"></a></p>
+
+<h5>9.5-1 InnerVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InnerVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInnerVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsInnerVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all inner vertices.</p>
+
+<p>A vertex is an inner vertex if and only if there is exactly one closed umbrella-path around it (compare section <a href="chap3_mj.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a> for the definition of umbrella-paths).</p>
+
+<p>The method <code class="keyw">IsInnerVertex</code> checks whether the given vertex is an inner vertex of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">vertex</var> is an vertex of <var class="Arg">complex</var>.</p>
+
+<p>Consider the five-star from the start of chapter <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-16-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsInnerVertex( fiveStar, 1 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsInnerVertex( fiveStar, 3 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">InnerVertices( fiveStar );</span>
+[ 1 ]
+</pre></div>
+
+<p>For the special case of a twisted polygonal surface the inner vertices have an easier characterisation: a vertex is an inner vertex if and only if every incident edge is incident to exactly two faces (that is, if it only incident to inner edges (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>)).</p>
+
+<p><a id="X84E56D3087A997F4" name="X84E56D3087A997F4"></a></p>
+
+<h5>9.5-2 BoundaryVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BoundaryVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundaryVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsBoundaryVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all boundary vertices.</p>
+
+<p>A vertex is a boundary vertex if and only if there is exactly one non-closed umbrella-path around it (compare section <a href="chap3_mj.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a> for the definition of umbrella-paths).</p>
+
+<p>The method <code class="keyw">IsBoundaryVertex</code> checks whether the given vertex is a boundary vertex of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">vertex</var> is an vertex of <var class="Arg">complex</var>.</p>
+
+<p>Consider the triforce from the start of section <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-17-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBoundaryVertex( triforce, 6 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBoundaryVertex( triforce, 2 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundaryVertices( triforce );</span>
+[ 1, 4, 6 ]
+</pre></div>
+
+<p>For twisted polygonal surfaces the boundary vertices can be described more easily: a vertex is a boundary vertex if and only if it is incident to at least one edge that is incident to exactly one face (i.e. if it is incident to a boundary edge (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>)).</p>
+
+<p>Consider the five-star from the start of section <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-18-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBoundaryVertex( fiveStar, 5 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsBoundaryVertex( fiveStar, 1 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BoundaryVertices( fiveStar );</span>
+[ 2, 3, 5, 7, 11 ]
+</pre></div>
+
+<p><a id="X7C840E847A51BDF6" name="X7C840E847A51BDF6"></a></p>
+
+<h5>9.5-3 RamifiedVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RamifiedVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsRamifiedVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsRamifiedVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all ramified vertices.</p>
+
+<p>A vertex is ramified if and only if there is a well-defined umbrella-path partition around it (compare <a href="chap3_mj.html#X81FF53CB78BD4695"><span class="RefLink">3.4-2</span></a>) and there are at least two umbrella-paths in this partition.</p>
+
+<p>The method <code class="keyw">IsRamifiedVertex</code> checks whether the given vertex is a ramified vertex of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">vertex</var> is an vertex of <var class="Arg">complex</var>.</p>
+
+<p>Consider the triforce from the start of section <a href="chap9_mj.html#X7CEB91FB7F6B6689"><span class="RefLink">9</span></a>: <br><img src='./images/_Wrapper_properties-19-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRamifiedVertex( triforce, 3 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsRamifiedVertex( triforce, 4 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RamifiedVertices( triforce );</span>
+[ 2, 3, 5 ]
+</pre></div>
+
+<p><a id="X84A3F1F57DB1D28C" name="X84A3F1F57DB1D28C"></a></p>
+
+<h5>9.5-4 ChaoticVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChaoticVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsChaoticVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsChaoticVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>Return the set of all chaotic vertices.</p>
+
+<p>A vertex is chaotic if and only if it is incident to an edge that is incident to at least three faces. In other words, there is no well-defined umbrella-path partition (<a href="chap3_mj.html#X81FF53CB78BD4695"><span class="RefLink">3.4-2</span></a>) around a chaotic vertex.</p>
+
+<p>The method <code class="keyw">IsChaoticVertex</code> checks whether the given vertex is a chaotic vertex of the given twisted polygonal complex. The NC-version does not check whether <var class="Arg">vertex</var> is an vertex of <var class="Arg">complex</var>.</p>
+
+<p>As an example, we consider the following triangular complex: <br><img src='./images/_Wrapper_properties-20-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">branch := TriangularComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,2,7],[3,4,7],[5,6,7]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsChaoticVertex(branch, 1);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsChaoticVertex(branch, 3);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChaoticVertices(branch);</span>
+[ 1, 2 ]
+</pre></div>
+
+<p><a id="X7B4412FB7DF3388D" name="X7B4412FB7DF3388D"></a></p>
+
+<h4>9.6 <span class="Heading">Face-colouring</span></h4>
+
+<p><a id="X834BF0CD7F377F2E" name="X834BF0CD7F377F2E"></a></p>
+
+<h5>9.6-1 FaceTwoColouring</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceTwoColouring</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a pair where the first and second entry are sets of positive integers or <code class="keyw">fail</code></p>
+
+<p>If the method is given a polygonal complex, it returns a pair of two sets of faces, which represents a face-2-coloring, if possible. A 2-face-colouring of a polygonal complex is a colouring of the faces with exactly two colours, whereby two neighbouring faces have to be coloured different. If no such coloring exists, the method returns <code class="keyw">fail</code>. In the case that such a colouring exists, the first set of the returned pair contains the face with the smallest label.</p>
+
+<p>As an example, consider the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceTwoColouring(Octahedron());</span>
+[ [ 1, 2, 5, 6 ], [ 3, 4, 7, 8 ] ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_TwoColouredOctahedron-1.svg"> </img> <br></p>
+
+<p><a id="X82B3B5EB83BCC29D" name="X82B3B5EB83BCC29D"></a></p>
+
+<h5>9.6-2 AdmissibleRelationsOfSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AdmissibleRelationsOfSurface</code>( <var class="Arg">surface</var>, <var class="Arg">bool</var>[, <var class="Arg">bool2</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of tuples where the first entry is a surface and the second entry is a list of partitions</p>
+
+<p>An admissible relation of a simplicial surface is an equivalence relation on the surface satisfying the following properties:</p>
+
+
+<ul>
+<li><p>Each equivalence class contains either vertices, edges or faces only.</p>
+
+</li>
+<li><p>We can define an incidence relation as follows: Let <code class="keyw">K</code> and <code class="keyw">L</code> be two equivalence classes. The class <code class="keyw">K</code> is incident to the class <code class="keyw">L</code> if and only if there exist <code class="keyw">k</code> in the class <code class="keyw">K</code> and <code class="keyw">l</code> in the class <code class="keyw">L</code> so that <code class="keyw">k</code> is incident to <code class="keyw">l</code> as elements of the given simplicial surface.</p>
+
+</li>
+<li><p>The equivalence classes together with the introduced relation gives rise to a triangulated surface without ramifications.</p>
+
+</li>
+</ul>
+<p>Note, let <code class="keyw">X</code> be a simplicial surface and <code class="keyw">Y</code> be a simplicial constructed by an admissible relation on <code class="keyw">X</code>. Then there exists an epimorphism from <code class="keyw">X</code> to <code class="keyw">Y</code>. This functions focuses on the admissible relations that yield butterfly friendly epimorphisms. Here, an epimorphism from a simplicial surface <code class="keyw">X</code> to another simplicial surface <code class="keyw">Y</code> is called butterfly friendly, if for each inner edge <code class="keyw">e</code>, the restriction of the epimorphism to the butterfly induced by <code class="keyw">e</code> is surjective. This function returns a list of tuples <code class="keyw">[s,relation]</code>, where <code class="keyw">s</code> is a simplicial surface and <code class="keyw">relation</code> is the admissible relation of the given surface that gives rise to the resulting surface <code class="keyw">X</code>. The relation <code class="keyw">relation</code> is given by the resulting partition of vertices, edges and faces. If <code class="keyw">bool=true</code> then the list which is returned by the function contains all surfaces that can be constructed by forming an admissible relation of the given surface and if <code class="keyw">bool=false</code> then the list only contains isomorphism representatives with their corresponding admissible relations. If <code class="keyw">bool2=false</code> then the function prints how many faces are already visited while computating the admissible relations. As an example, consider the tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AdmissibleRelationsOfSurface(Tetrahedron(),true);</span>
+[ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
+       , 
+      [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
+          [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
+          [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
+</pre></div>
+
+<p>As an example, consider the butterfly. <br><img src="./images/_Wrapper_Image_butfly-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AdmissibleRelationsOfSurface(butterfly,false);</span>
+[ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
+        , 
+      [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],
+          [ [ 1 ], [ 2 ] ] ] ], 
+  [ simplicial surface (3 vertices, 3 edges, and 1 faces),
+      [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
+          [ [ 1, 2 ] ] ] ] ]
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap8_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap10_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

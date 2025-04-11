@@ -1,0 +1,550 @@
+  
+  [1X14 [33X[0;0YLibrary of predefined surfaces[133X[101X
+  
+  [33X[0;0YWhile  chapter  [14X4[114X  described how to construct polygonal complexes from their
+  incidence  structure,  this  chapter describes how to access the pre-defined
+  surfaces and complexes in this package.[133X
+  
+  [33X[0;0YThe library serves two main purposes:[133X
+  
+  [30X    [33X[0;6YIt  is  a collection of a large number of polygonal complexes that can
+        be  used  to test theories. This collection will change over time when
+        new  surfaces are added. The collection can be accessed in this way by
+        methods like [9XAllSimplicialSurfaces[109X ([14X14.1-1[114X).[133X
+  
+  [30X    [33X[0;6YFor  certain  classes of polygonal complexes (like simplicial spheres)
+        it  provides  a complete classification (within certain bounds). These
+        lists  are  complete  and  can  be  the  basis  for theorems. They are
+        presented in section [14X14.2[114X.[133X
+  
+  [33X[0;0YSection [14X14.1[114X explains the main syntax that is used to access the library. It
+  also contains the methods to access the complete collection of complexes.[133X
+  
+  [33X[0;0YSection  [14X14.2[114X  covers  the  specific classes of polygonal complexes that are
+  (fully) contained in the package.[133X
+  
+  
+  [1X14.1 [33X[0;0YAccessing all stored complexes[133X[101X
+  
+  [33X[0;0YThis  section  explains  how  all polygonal complexes that are stored in the
+  library    can    be    accessed.    This    is    done    by   the   method
+  [9XAllTwistedPolygonalComplexes[109X   ([14X14.1-1[114X),  but  it  can  also  be  restricted
+  further, for example by [9XAllSimplicialSurfaces[109X.[133X
+  
+  [33X[0;0YThe syntax of this call can be a bit confusing at first, since it was chosen
+  to  give  the  user much flexibility. We will start with a few examples. The
+  call[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSurfaces( NumberOfFaces, 3 );[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 6 edges, and 3 faces)  ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yreturns  all  simplicial  surfaces  from the library that have exactly three
+  faces.[133X
+  
+  [33X[0;0YIf we wanted all simplicial surfaces with 6, 8, or 9 edges, we could use[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSurfaces( NumberOfEdges, [6,8,9] );[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 9 edges, and 6 faces),[128X[104X
+    [4X[28X  simplicial surface (4 vertices, 6 edges, and 4 faces), [128X[104X
+    [4X[28X  simplicial surface (3 vertices, 6 edges, and 3 faces), [128X[104X
+    [4X[28X  simplicial surface (3 vertices, 6 edges, and 4 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt  is even possible to combine these restrictions. To obtain all simplicial
+  surfaces with 6 edges and 4 faces, we could use[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSurfaces(NumberOfEdges, 6, NumberOfFaces, [4]);[127X[104X
+    [4X[28X[ simplicial surface (4 vertices, 6 edges, and 4 faces), [128X[104X
+    [4X[28X  simplicial surface (3 vertices, 6 edges, and 4 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn  general,  the  arguments  of  [9XAllSimplicialSurfaces[109X  alternate between a
+  function  and its result (or list of possible results). The strength of this
+  syntax  derives  from its versatility - it is actually possible to use every
+  [13Xconceivable[113X  function.  Obviously,  we  can  use  functions  defined by this
+  package. For example, the following command returns all predefined tori:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllPolygonalComplexes( IsConnectedComplex, true, [127X[104X
+    [4X[25X>[125X [27X           IsOrientableComplex, true, EulerCharacteristic, 0 );[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 9 edges, and 6 faces), [128X[104X
+    [4X[28X  simplicial surface (9 vertices, 27 edges, and 18 faces), [128X[104X
+    [4X[28X  simplicial surface (4 vertices, 12 edges, and 8 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  it  is  tedious to always write [9Xtrue[109X, there is a shortcut implemented
+  that interprets "missing" results as [9Xtrue[109X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllPolygonalComplexes( IsConnectedComplex, IsOrientableComplex, EulerCharacteristic, 0 );[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 9 edges, and 6 faces), [128X[104X
+    [4X[28X  simplicial surface (9 vertices, 27 edges, and 18 faces), [128X[104X
+    [4X[28X  simplicial surface (4 vertices, 12 edges, and 8 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf this is not sufficient, any user can define their own functions to search
+  for   specific   surfaces.  For  example,  if  one  was  interested  in  all
+  non-orientable simplicial surfaces such that one vertex in incident to every
+  face, we could find them like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XHasCentralVertex := function(surface)[127X[104X
+    [4X[25X>[125X [27X       local intersect;[127X[104X
+    [4X[25X>[125X [27X       intersect := Intersection(VerticesOfFaces(surface));[127X[104X
+    [4X[25X>[125X [27X       return Length(intersect) > 0;[127X[104X
+    [4X[25X>[125X [27Xend;[127X[104X
+    [4X[28Xfunction( surface ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSurfaces(IsOrientableSurface, false, HasCentralVertex);[127X[104X
+    [4X[28X[ simplicial surface (3 vertices, 6 edges, and 3 faces), [128X[104X
+    [4X[28X  simplicial surface (3 vertices, 6 edges, and 4 faces), [128X[104X
+    [4X[28X  simplicial surface (4 vertices, 12 edges, and 8 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.1-1 AllTwistedPolygonalComplexes[101X
+  
+  [33X[1;0Y[29X[2XAllTwistedPolygonalComplexes[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAllPolygonalComplexes[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAllTriangularComplexes[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAllPolygonalSurfaces[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [33X[1;0Y[29X[2XAllSimplicialSurfaces[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of polygonal complexes[133X
+  
+  [33X[0;0YReturn  all  twisted polygonal complexes that are stored in the library with
+  the desired properties.[133X
+  
+  [33X[0;0YThe  number  of  arguments can be arbitrarily long. In general the arguments
+  have  to  come in pairs. The first argument in such a pair is a function and
+  the  second  argument  is  either  the  result of that function or a list of
+  accepted results. For example[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllTwistedPolygonalComplexes( NumberOfVertices, [10,12], IsOrientableComplex, false );[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yreturns  all  non-orientable  twisted  polygonal  complexes  with  10  or 12
+  vertices from the library.[133X
+  
+  [33X[0;0YTo obtain the platonic solids a custom function has to be written:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDegreeRegular := function( complex )[127X[104X
+    [4X[25X>[125X [27X     local degrees;[127X[104X
+    [4X[25X>[125X [27X [127X[104X
+    [4X[25X>[125X [27X     degrees := Set(FaceDegreesOfVertices(complex));[127X[104X
+    [4X[25X>[125X [27X     return Size(degrees) = 1 and degrees[1] >= 3;[127X[104X
+    [4X[25X>[125X [27X   end;;[127X[104X
+    [4X[25Xgap>[125X [27Xplat := AllPolygonalComplexes( IsPolygonalSurface, true,[127X[104X
+    [4X[25X>[125X [27X     EulerCharacteristic, 2, DegreeRegular, true,[127X[104X
+    [4X[25X>[125X [27X     IsConnectedSurface, true, IsClosedSurface, true);;[127X[104X
+    [4X[25Xgap>[125X [27XSize(plat);[127X[104X
+    [4X[28X5[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor user convenience the following simplifications may be used:[133X
+  
+  [30X    [33X[0;6YIf  one  of the more specific incarnations, like [9XAllSimplicialSurfaces[109X
+        is  called,  the  returned  complexes  will  satisfy  this  additional
+        requirement (in this case, they will be simplicial surfaces).[133X
+  
+  [30X    [33X[0;6YIf  the  function  in  the first argument pair is [9XNrOfFaces[109X, it can be
+        omitted. This is the only possible case in which the first argument is
+        not a function.[133X
+  
+  [30X    [33X[0;6YIf the second argument of a pair is omitted, it is assumed to be [9Xtrue[109X.
+        This is especially useful if the corresponding function is a property.[133X
+  
+  [33X[0;0YFor  example, the above command for the platonic solids can be simplified as
+  follows:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xplat := AllPolygonalSurfaces( EulerCharacteristic, 2, DegreeRegular,[127X[104X
+    [4X[25X>[125X [27X     IsConnectedSurface, IsClosedSurface );;[127X[104X
+    [4X[25Xgap>[125X [27XSize(plat);[127X[104X
+    [4X[28X5[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo get just the platonic solids with triangular faces, the following command
+  may be used:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xplat := AllSimplicialSurfaces( EulerCharacteristic, 2, DegreeRegular,[127X[104X
+    [4X[25X>[125X [27X     IsConnectedSurface, IsClosedSurface );;[127X[104X
+    [4X[25Xgap>[125X [27XSize(plat);[127X[104X
+    [4X[28X3[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo  obtain  just  tetrahedron  and  octahedron,  the  number of faces can be
+  restricted:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xplat := AllPolygonalComplexes( [4,8], [127X[104X
+    [4X[25X>[125X [27X              EulerCharacteristic, 2, IsConnectedComplex, IsClosedComplex );;[127X[104X
+    [4X[25Xgap>[125X [27XSize(plat);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X14.2 [33X[0;0YAccessing the classifications[133X[101X
+  
+  [33X[0;0YIn  this  section,  different  classifications  of  polygonal  complexes are
+  described.  In most cases, these are infinite families. The documentation of
+  each  method  explains  in  detail  which  part of the classification can be
+  relied upon.[133X
+  
+  [33X[0;0YThe general syntax is identical to the one from [9XAllTwistedPolygonalComplexes[109X
+  or [9XAllSimplicialSurfaces[109X ([14X14.1-1[114X).[133X
+  
+  [33X[0;0YCurrently, the following classes are contained in the package:[133X
+  
+  [30X    [33X[0;6Y[9XAllPlatonicSurfaces[109X ([14X14.3-1[114X): all platonic solids[133X
+  
+  [30X    [33X[0;6Y[9XAllSimplicialSpheres[109X  ([14X14.2-1[114X):  simplicial  spheres without 3--waists
+        (i.e.  each  of  their  vertex-edge-paths  ([14X8.1[114X)  of  length  3 is the
+        perimeter path ([14X8.2[114X) of a face).[133X
+  
+  [30X    [33X[0;6Y[9XAllGeodesicSelfDualSurfaces[109X ([14X14.2-2[114X): geodesic self-dual surfaces[133X
+  
+  [33X[0;0YTODO needs nicer introduction and streamlining[133X
+  
+  [1X14.2-1 AllSimplicialSpheres[101X
+  
+  [33X[1;0Y[29X[2XAllSimplicialSpheres[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of simplicial surfaces[133X
+  
+  [33X[0;0YThis   method  has  the  same  syntax  as  [9XAllTwistedPolygonalComplexes[109X  and
+  [9XAllSimplicialSurfaces[109X  ([14X14.1-1[114X), but is restricted to the simplicial spheres
+  without 3--waists, i.e.[133X
+  
+  [30X    [33X[0;6Ysimplicial surfaces[133X
+  
+  [30X    [33X[0;6Ythat are homeomorphic to the sphere[133X
+  
+  [30X    [33X[0;6Yeach  of  their  vertex-edge-paths  ([14X8.1[114X) of length 3 is the perimeter
+        path ([14X8.2[114X) of a face[133X
+  
+  [33X[0;0YSince  this  class  is infinite, not all of them can be accessed. Currently,
+  all of those surfaces with at most 28 faces are stored.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSpheres([4,8,10]);[127X[104X
+    [4X[28X[ simplicial surface (7 vertices, 15 edges, and 10 faces), [128X[104X
+    [4X[28X  simplicial surface (4 vertices, 6 edges, and 4 faces), [128X[104X
+    [4X[28X  simplicial surface (6 vertices, 12 edges, and 8 faces) ][128X[104X
+    [4X[25Xgap>[125X [27XAllSimplicialSpheres(NumberOfVertices, 8);[127X[104X
+    [4X[28X[ simplicial surface (8 vertices, 18 edges, and 12 faces), [128X[104X
+    [4X[28X  simplicial surface (8 vertices, 18 edges, and 12 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.2-2 AllGeodesicSelfDualSurfaces[101X
+  
+  [33X[1;0Y[29X[2XAllGeodesicSelfDualSurfaces[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of simplicial surfaces[133X
+  
+  [33X[0;0YThis   method  has  the  same  syntax  as  [9XAllTwistedPolygonalComplexes[109X  and
+  [9XAllSimplicialSurfaces[109X  ([14X14.1-1[114X), but is restricted to the geodesic self-dual
+  surfaces (TODO).[133X
+  
+  [33X[0;0YSince these are (probably) infinite, this method currently only gives access
+  to the following surfaces:[133X
+  
+  [30X    [33X[0;6YThe unique geodesic self-dual surface of degree 5[133X
+  
+  [30X    [33X[0;6YBoth geodesic self-dual surfaces of degree 6[133X
+  
+  [30X    [33X[0;6YThe  two  geodesic  self-dual  surfaces  of degree 8 that arise from a
+        normal subgroup[133X
+  
+  [30X    [33X[0;6YThe  geodesic  self-dual  surface  of  degree  9  that arises from the
+        trivial subgroup[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllGeodesicSelfDualSurfaces();[127X[104X
+    [4X[28X[ simplicial surface (6 vertices, 15 edges, and 10 faces), [128X[104X
+    [4X[28X  simplicial surface (3 vertices, 9 edges, and 6 faces), [128X[104X
+    [4X[28X  simplicial surface (9 vertices, 27 edges, and 18 faces), [128X[104X
+    [4X[28X  simplicial surface (21 vertices, 84 edges, and 56 faces), [128X[104X
+    [4X[28X  simplicial surface (42 vertices, 168 edges, and 112 faces), [128X[104X
+    [4X[28X  twisted polygonal surface (6 vertices, 24 edges, 16 faces, and 96 chambers),[128X[104X
+    [4X[28X  twisted polygonal surface (3 vertices, 12 edges, 8 faces, and 48 chambers), [128X[104X
+    [4X[28X  simplicial surface (190 vertices, 855 edges, and 570 faces), [128X[104X
+    [4X[28X  twisted polygonal surface (38 vertices, 171 edges, 114 faces, and 684 chambers),[128X[104X
+    [4X[28X  simplicial surface (10 vertices, 45 edges, and 30 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.2-3 AllDiscs[101X
+  
+  [33X[1;0Y[29X[2XAllDiscs[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of simplicial surfaces[133X
+  
+  [33X[0;0YThis   method  has  the  same  syntax  as  [9XAllTwistedPolygonalComplexes[109X  and
+  [9XAllSimplicialSurfaces[109X  ([14X14.1-1[114X),  but  is  restricted  to  simplicial discs.
+  (TODO)[133X
+  
+  [33X[0;0YThis list is very incomplete at the moment TODO.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdiscs := AllDiscs();;[127X[104X
+    [4X[25Xgap>[125X [27XLength(discs);[127X[104X
+    [4X[28X87[128X[104X
+    [4X[25Xgap>[125X [27XAllDiscs(function(surf) return 7 in FaceDegreesOfVertices(surf); end);[127X[104X
+    [4X[28X[][128X[104X
+    [4X[25Xgap>[125X [27XList(discs, UmbrellaPathsOfVertices);;[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X14.3 [33X[0;0YPlatonic solids[133X[101X
+  
+  [33X[0;0YThis section covers the platonic solids, i.e.[133X
+  
+  [30X    [33X[0;6Y[9XTetrahedron[109X ([14X14.3-2[114X).[133X
+  
+  [30X    [33X[0;6Y[9XCube[109X ([14X14.3-3[114X).[133X
+  
+  [30X    [33X[0;6Y[9XOctahedron()[109X ([14X14.3-4[114X).[133X
+  
+  [30X    [33X[0;6Y[9XDodecahedron()[109X ([14X14.3-5[114X).[133X
+  
+  [30X    [33X[0;6Y[9XIcosahedron()[109X ([14X14.3-6[114X).[133X
+  
+  [33X[0;0YSince  it  might be useful to see the incidence structure at a glance, every
+  one  of those methods features a net of the constructed polygonal structure.
+  Those nets are constructed by the method [9XDrawSurfaceToTikz[109X ([14X16.2-1[114X).[133X
+  
+  [33X[0;0YIt  also  contains  the  method  [9XAllPlatonicSurfaces[109X  ([14X14.3-1[114X) to find those
+  platonic surfaces with specified properties.[133X
+  
+  [1X14.3-1 AllPlatonicSurfaces[101X
+  
+  [33X[1;0Y[29X[2XAllPlatonicSurfaces[102X( [3Xfct1[103X, [3Xres1[103X, [3Xfct2[103X, [3Xres2[103X, [3X...[103X ) [32X function[133X
+  [6XReturns:[106X  [33X[0;10Ya list of polygonal surfaces[133X
+  
+  [33X[0;0YThis   method  has  the  same  syntax  as  [9XAllTwistedPolygonalComplexes[109X  and
+  [9XAllSimplicialSurfaces[109X ([14X14.1-1[114X), but is restricted to the platonic surfaces:[133X
+  
+  [30X    [33X[0;6YTetrahedron[133X
+  
+  [30X    [33X[0;6YCube[133X
+  
+  [30X    [33X[0;6YOctahedron[133X
+  
+  [30X    [33X[0;6YDodecahderon[133X
+  
+  [30X    [33X[0;6YIcosahedron[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAllPlatonicSurfaces();[127X[104X
+    [4X[28X[ simplicial surface (4 vertices, 6 edges, and 4 faces), [128X[104X
+    [4X[28X  polygonal surface (8 vertices, 12 edges, and 6 faces), [128X[104X
+    [4X[28X  simplicial surface (6 vertices, 12 edges, and 8 faces), [128X[104X
+    [4X[28X  polygonal surface (20 vertices, 30 edges, and 12 faces), [128X[104X
+    [4X[28X  simplicial surface (12 vertices, 30 edges, and 20 faces) ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.3-2 Tetrahedron[101X
+  
+  [33X[1;0Y[29X[2XTetrahedron[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  a [13Xtetrahedron[113X as a simplicial surface. A tetrahedron is the platonic
+  solid with four triangular faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra := Tetrahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X14.3-3 Cube[101X
+  
+  [33X[1;0Y[29X[2XCube[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal surface[133X
+  
+  [33X[0;0YReturn  a [13Xcube[113X as a polygonal surface. A cube is the platonic solid with six
+  square faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcube := Cube();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X14.3-4 Octahedron[101X
+  
+  [33X[1;0Y[29X[2XOctahedron[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  an [13Xoctahedron[113X as a simplicial surface. An octahedron is the platonic
+  solid with eight triangular faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xocta := Octahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X14.3-5 Dodecahedron[101X
+  
+  [33X[1;0Y[29X[2XDodecahedron[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal surface[133X
+  
+  [33X[0;0YReturn  a  [13Xdodecahedron[113X  as  a  polygonal  surface.  A  dodecahedron ist the
+  platonic solid with 12 pentagon faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdode := Dodecahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X14.3-6 Icosahedron[101X
+  
+  [33X[1;0Y[29X[2XIcosahedron[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  an  [13Xicosahedron[113X  as  a  simplicial  surface.  An  icosahedron is the
+  platonic solid with 20 triangular faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xico := Icosahedron();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  
+  [1X14.4 [33X[0;0YOther pre-defined surfaces[133X[101X
+  
+  [33X[0;0YThis section contains all other pre-defined surfaces that are not covered in
+  one of the other sections.[133X
+  
+  [1X14.4-1 JanusHead[101X
+  
+  [33X[1;0Y[29X[2XJanusHead[102X(  ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  a  [13XJanus-Head[113X  as a simplicial surface. A Janus-Head consists of two
+  triangular faces that share three edges.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xjanus := JanusHead();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X14.4-2 SimplicialUmbrella[101X
+  
+  [33X[1;0Y[29X[2XSimplicialUmbrella[102X( [3XnrFaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSimplicialGon[102X( [3XnrFaces[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xa simplicial surface[109X[133X
+  
+  [33X[0;0YReturn  a  simplicial  surface  consisting  of one closed umbrella-path with
+  [3XnrFaces[103X  triangles.  The  labels  are  assigned  according  to the following
+  illustration, in which [22Xn[122X is [3XnrFaces[103X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xumb4 := SimplicialUmbrella(4);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 8 edges, and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(umb4);[127X[104X
+    [4X[28X[ [ 1, 5 ], [ 2, 5 ], [ 3, 5 ], [ 4, 5 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(umb4);[127X[104X
+    [4X[28X[ [ 1, 2, 5 ], [ 2, 3, 6 ], [ 3, 4, 7 ], [ 1, 4, 8 ] ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(umb4);[127X[104X
+    [4X[28X[ [ 1, 2, 5 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 1, 4, 5 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xumb2 := SimplicialUmbrella(2);[127X[104X
+    [4X[28Xsimplicial surface (3 vertices, 4 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(umb2);[127X[104X
+    [4X[28X[ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(umb2);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 1, 2, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.4-3 SimplicialDoubleUmbrella[101X
+  
+  [33X[1;0Y[29X[2XSimplicialDoubleUmbrella[102X( [3XnrFaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSimplicialDoubleGon[102X( [3XnrFaces[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xa simplicial surface[109X[133X
+  
+  [33X[0;0YReturn  a  simplicial  surface  consisting of two closed umbrella-paths with
+  [3XnrFaces[103X  triangles  which  are  joined  at their boundary. The labels of one
+  umbrella  are assigned according to the illustration for [13XSimplicialUmbrella[113X,
+  the additional vertex is labelled with [3XnrFaces+2[103X, the incident edges to this
+  vertex are labelled from [3X2*nrFaces+1[103X to [3X4*nrFaces[103X and the incident faces are
+  labelled from [3XnrFaces+1[103X to [3X2*nrFaces[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xdoubleumb2:=SimplicialDoubleUmbrella(2);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 6 edges, and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(doubleumb2);[127X[104X
+    [4X[28X[ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ], [ 1, 4 ], [ 2, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(doubleumb2);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 3, 5, 6 ], [ 4, 5, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xdoubleumb4:=SimplicialDoubleUmbrella(4);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(doubleumb4,Octahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X14.4-4 SimplicialOpenGeodesic[101X
+  
+  [33X[1;0Y[29X[2XSimplicialOpenGeodesic[102X( [3XnrFaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSimplicialStrip[102X( [3XnrFaces[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  a simplicial surface consisting of one non-closed geodesic-path with
+  [3XnrFaces[103X  triangles.  The  labels  are  assigned  according  to the following
+  illustration  (for  [22Xn[122X odd), in which [22Xn[122X is [3XnrFaces[103X. Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xgeo4 := SimplicialOpenGeodesic(4);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 9 edges, and 4 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(geo4);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], [128X[104X
+    [4X[28X  [ 4, 6 ], [ 5, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(geo4);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ] ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(geo4);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27Xgeo5 := SimplicialStrip(5);[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 11 edges, and 5 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(geo5);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], [128X[104X
+    [4X[28X  [ 4, 6 ], [ 5, 6 ], [ 5, 7 ], [ 6, 7 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(geo5);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X14.4-5 SimplicialClosedGeodesic[101X
+  
+  [33X[1;0Y[29X[2XSimplicialClosedGeodesic[102X( [3XnrFaces[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XSimplicialGeodesic[102X( [3XnrFaces[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya simplicial surface[133X
+  
+  [33X[0;0YReturn  a  simplicial  surface  consisting  of one closed geodesic-path with
+  [3XnrFaces[103X  triangles  (at  least  3 faces are needed). The labels are assigned
+  according  to the following illustration (for [22Xn[122X odd), in which [22Xn[122X is [3XnrFaces[103X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xgeo3 := SimplicialClosedGeodesic(3);[127X[104X
+    [4X[28Xsimplicial surface (3 vertices, 6 edges, and 3 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(geo3);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(geo3);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 1, 5, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(geo3);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 1, 2, 3 ], [ 1, 2, 3 ] ][128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27Xgeo6 := SimplicialGeodesic(6);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(geo6);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ],[128X[104X
+    [4X[28X  [ 4, 6 ], [ 5, 6 ], [ 1, 5 ], [ 1, 6 ], [ 2, 6 ] ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(geo6);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ], [ 1, 11, 12 ] ][128X[104X
+  [4X[32X[104X
+  

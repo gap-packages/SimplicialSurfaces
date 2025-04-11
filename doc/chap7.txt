@@ -1,0 +1,896 @@
+  
+  [1X7 [33X[0;0YHomomorphisms[133X[101X
+  
+  [33X[0;0YThis  chapter  is  concerned  with  morphisms  between  different  polygonal
+  complexes (morphisms between twisted polygonal complexes are not implemented
+  so far).[133X
+  
+  [33X[0;0YA  morphism  between two polygonal complexes [22X(V_1,E_1,F_1)[122X and [22X(V_2,E_2,F_2)[122X
+  consists of maps [22XV_1 -> V_2[122X, [22XE_1 -> E_2[122X, and [22XF_1 -> F_2[122X, such that[133X
+  
+  [30X    [33X[0;6Yincident elements remain incident[133X
+  
+  [30X    [33X[0;6Ythe two vertices of an edge are mapped to two different vertices[133X
+  
+  [30X    [33X[0;6Ydifferent   vertices/edges   of   a   face  are  mapped  to  different
+        vertices/edges (for example, a face with six edges cannot be mapped to
+        a face with three edges)[133X
+  
+  [33X[0;0YSince  polygonal  morphisms  are  stored as mappings (in the GAP-sense), all
+  methods available for mappings (in particular those from section [14X'Reference:
+  Properties   and  Attributes  of  (General)  Mappings'[114X)  are  available  for
+  polygonal morphisms. In particular, [9XIsInjective[109X, [9XIsSurjective[109X, [9XIsBijective[109X.[133X
+  
+  [33X[0;0YIf  the  edges  and faces of the polygonal complexes are uniquely defined by
+  their  vertices  (which can be tested by [9XIsAnomalyFree[109X, compare [14X16.1-1[114X), the
+  polygonal  morphism  can  be  defined  by  the vertex map (the more flexible
+  constructor  in  [14X7.1-1[114X  requires  all  three  maps).  Consider the following
+  example,  in  which the face 2 is mapped to the face 2, and both the faces 3
+  and 4 are mapped to the face 3:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsource := PolygonalSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X     [[1,2],[2,3],[3,4],,[1,6],,[2,7],[3,7],[4,7],,,[6,7]],[127X[104X
+    [4X[25X>[125X [27X     [,[1,7,12,5],[2,7,8],[3,8,9]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrange := PolygonalSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X     [[1,2],[2,3],,[1,5],[2,5],,[3,6],[3,7],,,[5,6],[6,7]],[127X[104X
+    [4X[25X>[125X [27X     [[1,4,5],[2,5,11,7],[7,8,12]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XpolMor := PolygonalMorphismByVertexImages(source,range, [5,6,7,6,,2,3]);[127X[104X
+    [4X[28X<polygonal morphism>[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  most important aspect of a morphism is determining images and preimages
+  of vertices, edges, and faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XImageOfEdge(polMor, 12);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XImageOfFace(polMor, 4);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfEdge(polMor, 12);[127X[104X
+    [4X[28X[ 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfFace(polMor, 1);[127X[104X
+    [4X[28X[  ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X7.1 [33X[0;0YConstruction of Morphisms[133X[101X
+  
+  [33X[0;0YIn  this section, we give several different ways to construct morphisms from
+  scratch.[133X
+  
+  [1X7.1-1 PolygonalMorphismByLists[101X
+  
+  [33X[1;0Y[29X[2XPolygonalMorphismByLists[102X( [3XsourceComplex[103X, [3XrangeComplex[103X, [3XvertexMap[103X, [3XedgeMap[103X, [3XfaceMap[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPolygonalMorphismByListsNC[102X( [3XsourceComplex[103X, [3XrangeComplex[103X, [3XvertexMap[103X, [3XedgeMap[103X, [3XfaceMap[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal mapping[133X
+  
+  [33X[0;0YConstruct a polygonal morphism by three lists. The necessary arguments are[133X
+  
+  [30X    [33X[0;6Y[3XsourceComplex[103X:  The  polygonal  complex  that become the source of the
+        polygonal morphism.[133X
+  
+  [30X    [33X[0;6Y[3XrangeComplex[103X:  The  polygonal  complex  that  becomes the range of the
+        polygonal morphism.[133X
+  
+  [30X    [33X[0;6Y[3XvertexMap[103X:  A  list, such that for each vertex [3Xv[103X in [3XsourceComplex[103X, the
+        element  [3XvertexMap[v][103X  is  a  vertex in [3XrangeComplex[103X, representing the
+        image under the polygonal morphism.[133X
+  
+  [30X    [33X[0;6Y[3XedgeMap[103X:  A  list,  such  that  for  each edge [3Xe[103X in [3XsourceComplex[103X, the
+        element  [3XedgeMap[v][103X is an edge in [3XrangeComplex[103X, representing the image
+        under the polygonal morphism.[133X
+  
+  [30X    [33X[0;6Y[3XfaceMap[103X:  A  list,  such  that  for  each face [3Xf[103X in [3XsourceComplex[103X, the
+        element  [3XfaceMap[v][103X  is a face in [3XrangeComplex[103X, representing the image
+        under the polygonal morphism.[133X
+  
+  [33X[0;0YAs  an  illustration  we define a polygonal morphisms from a 6-umbrella to a
+  3--umbrella. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsix := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],[127X[104X
+    [4X[25X>[125X [27X    [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xthree := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,1],,[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,5]]);;[127X[104X
+    [4X[25Xgap>[125X [27XvertexMap := [1,2,3,1,2,3,,5];[127X[104X
+    [4X[28X[ 1, 2, 3, 1, 2, 3,, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XedgeMap := [1,2,3,1,2,3,,5,6,7,5,6,7];[127X[104X
+    [4X[28X[ 1, 2, 3, 1, 2, 3,, 5, 6, 7, 5, 6, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XfaceMap := [1,2,3,1,2,3];[127X[104X
+    [4X[28X[ 1, 2, 3, 1, 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XpolMor := PolygonalMorphismByLists(six, three, [127X[104X
+    [4X[25X>[125X [27X                       vertexMap, edgeMap, faceMap);;[127X[104X
+    [4X[25Xgap>[125X [27XSourceComplex(polMor) = six;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRangeComplex(polMor) = three;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(polMor) = vertexMap;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(polMor) = edgeMap;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(polMor) = faceMap;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe NC-version does not check whether:[133X
+  
+  [30X    [33X[0;6YThe   individual   argument   lists   map  every  vertex/edge/face  of
+        [3XsourceComplex[103X to a vertex/edge/face of [3XrangeComplex[103X.[133X
+  
+  [30X    [33X[0;6YThe incidence structure is preserved by the mapping.[133X
+  
+  [30X    [33X[0;6YThe vertices incident to an edge are mappped to different vertices.[133X
+  
+  [30X    [33X[0;6YA polygon is mapped to a polygon with the same number of sides.[133X
+  
+  [30X    [33X[0;6YThe edges incident to a face are mapped to different edges.[133X
+  
+  [30X    [33X[0;6YThe vertices incident to a face are mapped to different vertices.[133X
+  
+  [1X7.1-2 PolygonalMorphismByVertexImages[101X
+  
+  [33X[1;0Y[29X[2XPolygonalMorphismByVertexImages[102X( [3XsourceComplex[103X, [3XrangeComplex[103X, [3XvertexMap[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPolygonalMorphismByVertexImagesNC[102X( [3XsourceComplex[103X, [3XrangeComplex[103X, [3XvertexMap[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal mapping[133X
+  
+  [33X[0;0YGiven  two  vertex-faithful  ([14X16.1-1[114X)  polygonal complexes and a map between
+  their vertices, construct a polygonal morphism extending the vertex map. The
+  arguments are:[133X
+  
+  [30X    [33X[0;6Y[3XsourceComplex[103X:  The  vertex-faithful polygonal complex that become the
+        source of the polygonal morphism.[133X
+  
+  [30X    [33X[0;6Y[3XrangeComplex[103X:  The  vertex-faithful polygonal complex that becomes the
+        range of the polygonal morphism.[133X
+  
+  [30X    [33X[0;6Y[3XvertexMap[103X:  A  list, such that for each vertex [3Xv[103X in [3XsourceComplex[103X, the
+        element  [3XvertexMap[v][103X  is  a  vertex in [3XrangeComplex[103X, representing the
+        image under the polygonal morphism.[133X
+  
+  [33X[0;0YAs  an  illustration  we define a polygonal morphisms from a 6-umbrella to a
+  3--umbrella. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsix := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],[127X[104X
+    [4X[25X>[125X [27X    [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xthree := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,1],,[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,5]]);;[127X[104X
+    [4X[25Xgap>[125X [27XvertexMap := [1,2,3,1,2,3,,5];[127X[104X
+    [4X[28X[ 1, 2, 3, 1, 2, 3,, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XpolMor := PolygonalMorphismByVertexImages(six, three, vertexMap);;[127X[104X
+    [4X[25Xgap>[125X [27XSourceComplex(polMor) = six;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRangeComplex(polMor) = three;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(polMor) = vertexMap;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(polMor);[127X[104X
+    [4X[28X[ 1, 2, 3, 1, 2, 3,, 5, 6, 7, 5, 6, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(polMor);[127X[104X
+    [4X[28X[ 1, 2, 3, 1, 2, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe NC-version does not check whether:[133X
+  
+  [30X    [33X[0;6YThe  list  [3XvertexMap[103X maps every vertex of [3XsourceComplex[103X to a vertex of
+        [3XrangeComplex[103X.[133X
+  
+  [30X    [33X[0;6YThe incidence structure is preserved by the mapping.[133X
+  
+  [30X    [33X[0;6YThe vertices incident to an edge are mappped to different vertices.[133X
+  
+  [30X    [33X[0;6YA polygon is mapped to a polygon with the same number of sides.[133X
+  
+  [30X    [33X[0;6YThe vertices incident to a face are mapped to different vertices.[133X
+  
+  [1X7.1-3 PolygonalIdentityMorphism[101X
+  
+  [33X[1;0Y[29X[2XPolygonalIdentityMorphism[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal mapping[133X
+  
+  [33X[0;0YGiven  a  polygonal  complex,  return the polygonal morphism that sends this
+  complex to itself (the identity morphism).[133X
+  
+  [33X[0;0YAs an example, consider the tetrahedron: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtetra := Tetrahedron();;[127X[104X
+    [4X[25Xgap>[125X [27Xid := PolygonalIdentityMorphism(tetra);;[127X[104X
+    [4X[25Xgap>[125X [27XSourceComplex(id) = tetra;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRangeComplex(id) = tetra;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(id);[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(id);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(id);[127X[104X
+    [4X[28X[ 1, 2, 3, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.1-4 CompositionMapping[101X
+  
+  [33X[1;0Y[29X[2XCompositionMapping[102X( [3XmapLast[103X, [3XmapSecondToLast[103X, [3X...[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCompositionMapping2[102X( [3Xmap2[103X, [3Xmap1[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA polygonal morphism[133X
+  
+  [33X[0;0YCompose  several polygonal morphisms. The method [9XCompositionMapping2[109X returns
+  the  polygonal  morphisms  that  is obtained by first applying [3Xmap1[103X and then
+  applying [3Xmap2[103X.[133X
+  
+  [33X[0;0YThe  method  [9XCompositionMapping[109X can compose an arbitrary number of polygonal
+  morphisms.  Note  that  the  first  argument  is  the  last  map used in the
+  composition.  In addition, it also respects [9XIsInjective[109X and [9XIsSurjective[109X, if
+  applicable.[133X
+  
+  [33X[0;0YIf  the range of the [22Xi[122X-th map is not equal to the source of the [22X(i+1)[122Xth map,
+  an error is raised.[133X
+  
+  [33X[0;0YWe  use a map from a six-umbrella to a three-umbrella as illustration. Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsix := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],[127X[104X
+    [4X[25X>[125X [27X    [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xthree := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,1],,[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,5]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xmor_6_to_6 := PolygonalIdentityMorphism(six);;[127X[104X
+    [4X[25Xgap>[125X [27Xmor_3_to_3 := PolygonalMorphismByLists(three, three,[127X[104X
+    [4X[25X>[125X [27X      [2,3,1,,5], [2,3,1,,6,7,5], [2,3,1]);;[127X[104X
+    [4X[25Xgap>[125X [27Xmor_6_to_3 := PolygonalMorphismByLists(six, three, [127X[104X
+    [4X[25X>[125X [27X   [1,2,3,1,2,3,,5], [1,2,3,1,2,3,,5,6,7,5,6,7], [1,2,3,1,2,3]);;[127X[104X
+    [4X[25Xgap>[125X [27Xcomp := CompositionMapping2(mor_3_to_3, mor_6_to_3);;[127X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(comp);[127X[104X
+    [4X[28X[ 2, 3, 1, 2, 3, 1,, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(comp);[127X[104X
+    [4X[28X[ 2, 3, 1, 2, 3, 1,, 6, 7, 5, 6, 7, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(comp);[127X[104X
+    [4X[28X[ 2, 3, 1, 2, 3, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XCompositionMapping2(mor_6_to_3, mor_6_to_6) = mor_6_to_3;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XCompositionMapping(mor_3_to_3, mor_6_to_3, mor_6_to_6) = comp;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X7.1-5 InversePolygonalMorphism[101X
+  
+  [33X[1;0Y[29X[2XInversePolygonalMorphism[102X( [3XisoMor[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XInverse[102X( [3XautoMor[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XInverseGeneralMapping[102X( [3XisoMor[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10YA polygonal morphism[133X
+  
+  [33X[0;0YGiven  a  bijective  polygonal  morphism, one can define its inverse, i.e. a
+  polygonal  morphism, in which [9XSourceComplex[109X ([14X7.4-1[114X) and [9XRangeComplex[109X ([14X7.4-2[114X)
+  are switched.[133X
+  
+  [33X[0;0YDue  to  the  way  in  which  GAP handles inverses and mappings (compare the
+  introduction  of  section  [14X'Reference:  Arithmetic  Operations  for  General
+  Mappings'[114X), the different methods perform subtly different tasks:[133X
+  
+  [30X    [33X[0;6Y[9XInversePolygonalMorphism[109X([3XisoMor[103X)  constructs the expected inverse map,
+        from [9XRangeComplex[109X([3XisoMor[103X) to [9XSourceComplex[109X([3XisoMor[103X).[133X
+  
+  [30X    [33X[0;6Y[9XInverse[109X([3XautoMor[103X)      [13Xonly[113X     constructs     this     inverse,     if
+        [9XSourceComplex[109X([3XautoMor[103X) and [9XRangeComplex[109X([3XautoMor[103X) coincide.[133X
+  
+  [30X    [33X[0;6Y[9XInverseGeneralMapping[109X  does  the same as [9XInversePolygonalMorphism[109X, but
+        might  be  subject  to  future  change,  if  inverses  are defined for
+        non-bijective morphisms in the future.[133X
+  
+  [33X[0;0YAll of the methods throw errors if their requirements are not met.[133X
+  
+  [33X[0;0YTo  illustrate,  we  use  a relabelling of a five-umbrella. Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xleft := SimplicialSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X        [[1,2],[1,3],[1,4],[1,5],[1,6],[2,3],[3,4],[4,5],[5,6],[6,2]],[127X[104X
+    [4X[25X>[125X [27X        [[1,2,6],[2,3,7],[3,4,8],[4,5,9],[1,5,10]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xright := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X        [,[1,3],[1,4],[1,5],[1,6],[1,7],,[3,4],[4,5],[5,6],[6,7],[3,7]],[127X[104X
+    [4X[25X>[125X [27X        [,,[2,3,8],[3,4,9],[4,5,10],[5,6,11],[2,6,12]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xmorph := PolygonalMorphismByLists(left, right,[127X[104X
+    [4X[25X>[125X [27X    [1,3,4,5,6,7], [2,3,4,5,6,8,9,10,11,12], [3,4,5,6,7]);;[127X[104X
+    [4X[25Xgap>[125X [27Xinv := InversePolygonalMorphism(morph);;[127X[104X
+    [4X[25Xgap>[125X [27XSourceComplex(inv) = right;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRangeComplex(inv) = left;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(inv);[127X[104X
+    [4X[28X[ 1,, 2, 3, 4, 5, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(inv);[127X[104X
+    [4X[28X[ , 1, 2, 3, 4, 5,, 6, 7, 8, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(inv);[127X[104X
+    [4X[28X[,, 1, 2, 3, 4, 5 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.1-6 ButterflyFaithfulMonomorphismIntoSimplicialSurface[101X
+  
+  [33X[1;0Y[29X[2XButterflyFaithfulMonomorphismIntoSimplicialSurface[102X( [3Xsurf1[103X, [3Xsurf2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA polygonal morphism or [9Xfail[109X[133X
+  
+  [33X[0;0YGiven  two  simplicial surfaces [9Xsurf1[109X and [9Xsurf2[109X, return a butterfly-faithful
+  monomorphism  from  [9Xsurf1[109X  to  [9Xsurf2[109X  if it exists. Otherwise return [9Xfail[109X. A
+  homomorphism  of  simplicial  surfaces  is  called butterfly-faithful if the
+  homomorphism when restricted to a butterfly, i.e. restricted to two incident
+  faces of an inner edge, becomes a bijection onto another butterfly. In other
+  words,  every  butterfly of [9Xsurf1[109X is being preserved and does not degenerate
+  in  [9Xsurf2[109X. As an example, consider the 3-half-umbrella and 6-umbrella. Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsix := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],[127X[104X
+    [4X[25X>[125X [27X    [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xthree := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[5,4],[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,4]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xmor_3_to_6 := ButterflyFaithfulMonomorphismIntoSimplicialSurface(three, [127X[104X
+    [4X[25X>[125X [27X    six);;[127X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(mor_3_to_6);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 8 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(mor_3_to_6);[127X[104X
+    [4X[28X[ 1, 2, 3, 11, 8, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(mor_3_to_6);[127X[104X
+    [4X[28X[ 1, 2, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.1-7 AllButterflyFaithfulMonomorphismsIntoSimplicialSurface[101X
+  
+  [33X[1;0Y[29X[2XAllButterflyFaithfulMonomorphismsIntoSimplicialSurface[102X( [3Xsurf1[103X, [3Xsurf2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA list of polygonal morphisms[133X
+  
+  [33X[0;0YGiven  two  simplicial  surfaces  [9Xsurf1[109X  and  [9Xsurf2[109X,  return  a  list of all
+  butterfly-faithful  monomorphisms  from  [9Xsurf1[109X  to  [9Xsurf2[109X. A homomorphism of
+  simplicial  surfaces  is  called butterfly-faithful if the homomorphism when
+  restricted to a butterfly, i.e. restricted to two incident faces of an inner
+  edge,  becomes  a  bijection  onto  another butterfly. In other words, every
+  butterfly  of  [9Xsurf1[109X is being preserved and does not degenerate in [9Xsurf2[109X. As
+  an  example, consider the 3-half-umbrella and 6-umbrella. We would expect 12
+  butterfly-faithful  monomorphisms,  namely  by  aligning the 3-half umbrella
+  with  3 consecutive faces of the 6-umbrella. There are 6 ways to do this and
+  another  6  if  we flip the 3-half-umbrella first. Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsix := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[4,5],[5,6],[6,1],,[1,8],[2,8],[3,8],[4,8],[5,8],[6,8]],[127X[104X
+    [4X[25X>[125X [27X    [[1,8,9],[2,9,10],[3,10,11],[4,11,12],[5,12,13],[6,13,8]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xthree := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [[1,2],[2,3],[3,4],[5,4],[1,5],[2,5],[3,5]], [[1,5,6],[2,6,7],[3,7,4]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xall_mor_3_to_6 := AllButterflyFaithfulMonomorphismsIntoSimplicialSurface( [127X[104X
+    [4X[25X>[125X [27X    three, six);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(all_mor_3_to_6);[127X[104X
+    [4X[28X12[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X7.2 [33X[0;0YImages and pre-images[133X[101X
+  
+  [33X[0;0YThis  section  contains  the  functionality to compute images and preimages.
+  Since  polygonal  morphisms  connect  two  polygonal  complexes, it is often
+  necessary  to  make  this  connection  explicit. For that reason, methods to
+  compute images and preimages are provided.[133X
+  
+  [33X[0;0YCurrently, the following methods are implemented:[133X
+  
+  [30X    [33X[0;6YFor vertices: [9XImageOfVertex[109X ([14X7.2-1[114X) and [9XPreImagesOfVertex[109X ([14X7.2-4[114X).[133X
+  
+  [30X    [33X[0;6YFor edges: [9XImageOfEdge[109X ([14X7.2-2[114X) and [9XPreImagesOfEdge[109X ([14X7.2-5[114X).[133X
+  
+  [30X    [33X[0;6YFor faces: [9XImageOfFace[109X ([14X7.2-3[114X) and [9XPreImagesOfFace[109X ([14X7.2-6[114X).[133X
+  
+  [33X[0;0YWe  illustrate  these  methods  on  the  following polygonal morphism. Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsource := PolygonalComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X               [[1,2],, [2,4],, [4,5], [5,6],, [6,8],, [8,10],, [127X[104X
+    [4X[25X>[125X [27X                [10,12],, [1,12], [2,12], [4,10], [4,6]],[127X[104X
+    [4X[25X>[125X [27X               [[1,14,15], [3,16,12,15],, [16,17,8,10], [5,6,17]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrange := PolygonalComplexByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X [[1,2], [2,3], [3,4], [4,5], [5,6],, [6,8],, [8,1], [2,8], [2,4], [4,6]],[127X[104X
+    [4X[25X>[125X [27X [[1,10,9], [2,3,11],, [11,12,7,10], [4,5,12]]);;[127X[104X
+    [4X[25Xgap>[125X [27XpolMor := PolygonalMorphismByLists( source, range, [127X[104X
+    [4X[25X>[125X [27X     [ 1, 2,, 4, 3, 2,, 8,, 6,, 8 ],[127X[104X
+    [4X[25X>[125X [27X     [ 1,, 11,, 3, 2,, 10,, 7,, 7,, 9, 10, 12, 11 ], [ 1, 4,, 4, 2 ]);;[127X[104X
+  [4X[32X[104X
+  
+  [1X7.2-1 ImageOfVertex[101X
+  
+  [33X[1;0Y[29X[2XImageOfVertex[102X( [3XpolMor[103X, [3Xv[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XImageOfVertexNC[102X( [3XpolMor[103X, [3Xv[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YGiven  a  polygonal  morphism  [3XpolMor[103X  and a vertex [3Xv[103X, return the image of [3Xv[103X
+  under  [3XpolMor[103X. If the given [3Xv[103X is not a vertex of the source complex (compare
+  [14X7.4-1[114X)  of [3XpolMor[103X, an error is raised. The NC-version does not check whether
+  [3Xv[103X is a vertex of the source complex.[133X
+  
+  [33X[0;0YConsider   the   polygonal  morphism  from  the  start  of  section  [14X7.2[114X  as
+  illustration. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XImageOfVertex(polMor, 1);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XImageOfVertex(polMor, 5);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XImageOfVertex(polMor, 6);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [1X7.2-2 ImageOfEdge[101X
+  
+  [33X[1;0Y[29X[2XImageOfEdge[102X( [3XpolMor[103X, [3Xe[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XImageOfEdgeNC[102X( [3XpolMor[103X, [3Xe[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YGiven a polygonal morphism [3XpolMor[103X and an edge [3Xe[103X, return the image of [3Xe[103X under
+  [3XpolMor[103X.  If the given [3Xe[103X is not an edge of the source complex (compare [14X7.4-1[114X)
+  of [3XpolMor[103X, an error is raised. The NC-version does not check whether [3Xe[103X is an
+  edge of the source complex.[133X
+  
+  [33X[0;0YConsider   the   polygonal  morphism  from  the  start  of  section  [14X7.2[114X  as
+  illustration. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XImageOfEdge(polMor, 1);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XImageOfEdge(polMor, 5);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XImageOfEdge(polMor, 8);[127X[104X
+    [4X[28X10[128X[104X
+  [4X[32X[104X
+  
+  [1X7.2-3 ImageOfFace[101X
+  
+  [33X[1;0Y[29X[2XImageOfFace[102X( [3XpolMor[103X, [3Xf[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XImageOfFaceNC[102X( [3XpolMor[103X, [3Xf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YGiven  a polygonal morphism [3XpolMor[103X and a face [3Xf[103X, return the image of [3Xf[103X under
+  [3XpolMor[103X.  If  the given [3Xf[103X is not a face of the source complex (compare [14X7.4-1[114X)
+  of  [3XpolMor[103X, an error is raised. The NC-version does not check whether [3Xf[103X is a
+  face of the source complex.[133X
+  
+  [33X[0;0YConsider   the   polygonal  morphism  from  the  start  of  section  [14X7.2[114X  as
+  illustration. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XImageOfFace(polMor, 1);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XImageOfFace(polMor, 5);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XImageOfFace(polMor, 4);[127X[104X
+    [4X[28X4[128X[104X
+  [4X[32X[104X
+  
+  [1X7.2-4 PreImagesOfVertex[101X
+  
+  [33X[1;0Y[29X[2XPreImagesOfVertex[102X( [3XpolMor[103X, [3Xv[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPreImagesOfVertexNC[102X( [3XpolMor[103X, [3Xv[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YGiven  a  polygonal  morphism  [3XpolMor[103X  and  a  vertex [3Xv[103X of the range complex
+  (compare  [14X7.4-2[114X),  return the set of all preimages of [3Xv[103X under [3XpolMor[103X. If the
+  given vertex [3Xv[103X is not a vertex of the range complexi, an error is raised.[133X
+  
+  [33X[0;0YThe NC-version does not check whether [3Xv[103X is a vertex of the range complex.[133X
+  
+  [33X[0;0YConsider   the   polygonal  morphism  from  the  start  of  section  [14X7.2[114X  as
+  illustration. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfVertex(polMor, 1);[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfVertex(polMor, 2);[127X[104X
+    [4X[28X[ 2, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfVertex(polMor, 5);[127X[104X
+    [4X[28X[ ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.2-5 PreImagesOfEdge[101X
+  
+  [33X[1;0Y[29X[2XPreImagesOfEdge[102X( [3XpolMor[103X, [3Xe[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPreImagesOfEdgeNC[102X( [3XpolMor[103X, [3Xe[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YGiven  a  polygonal  morphism  [3XpolMor[103X  and  an  edge  [3Xe[103X of the range complex
+  (compare  [14X7.4-2[114X),  return the set of all preimages of [3Xe[103X under [3XpolMor[103X. If the
+  given edge [3Xe[103X is not an edge of the range complexi, an error is raised.[133X
+  
+  [33X[0;0YThe NC-version does not check whether [3Xe[103X is an edge of the range complex.[133X
+  
+  [33X[0;0YConsider   the   polygonal  morphism  from  the  start  of  section  [14X7.2[114X  as
+  illustration. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfEdge(polMor, 2);[127X[104X
+    [4X[28X[ 6 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfEdge(polMor, 11);[127X[104X
+    [4X[28X[ 3, 17 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfEdge(polMor, 4);[127X[104X
+    [4X[28X[ ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.2-6 PreImagesOfFace[101X
+  
+  [33X[1;0Y[29X[2XPreImagesOfFace[102X( [3XpolMor[103X, [3Xf[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPreImagesOfFaceNC[102X( [3XpolMor[103X, [3Xf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YGiven a polygonal morphism [3XpolMor[103X and a face [3Xf[103X of the range complex (compare
+  [14X7.4-2[114X), return the set of all preimages of [3Xf[103X under [3XpolMor[103X. If the given face
+  [3Xf[103X is not a face of the range complexi, an error is raised.[133X
+  
+  [33X[0;0YThe NC-version does not check whether [3Xf[103X is a face of the range complex.[133X
+  
+  [33X[0;0YConsider   the   polygonal  morphism  from  the  start  of  section  [14X7.2[114X  as
+  illustration. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfFace(polMor, 2);[127X[104X
+    [4X[28X[ 5 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfFace(polMor, 4);[127X[104X
+    [4X[28X[ 2, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XPreImagesOfFace(polMor, 5);[127X[104X
+    [4X[28X[ ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X7.3 [33X[0;0YConsistent labels for vertices, edges, and faces[133X[101X
+  
+  [33X[0;0YWe  have  defined  polygonal  complexes  in  a  way such that the labels for
+  vertices,  edges,  and  faces do not have to be distinct. While this is more
+  convenient  for  the  casual  user,  it  is  sometimes  practical to enforce
+  distinct  labels.  Notably,  these  cases include morphisms and automorphism
+  groups.[133X
+  
+  [33X[0;0YThe distinct label set is called [9XVEFLabels[109X. Consider the following polygonal
+  surface: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcat := PolygonalSurfaceByUpwardIncidence([127X[104X
+    [4X[25X>[125X [27X       [[1,2,4,5],, [1,7], [2,7,8], [8,9], [4,9,10], [5,10]],[127X[104X
+    [4X[25X>[125X [27X       [[1], [1,2],, [2,4], [4],, [1], [2], [2], [4]]);;[127X[104X
+    [4X[25Xgap>[125X [27XVertices(cat);[127X[104X
+    [4X[28X[ 1, 3, 4, 5, 6, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges(cat);[127X[104X
+    [4X[28X[ 1, 2, 4, 5, 7, 8, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces(cat);[127X[104X
+    [4X[28X[ 1, 2, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XIntersection( Vertices(cat), Edges(cat) );[127X[104X
+    [4X[28X[ 1, 4, 5, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YUsing  the  VEF-labels shifts the labels of edges and faces upwards to avoid
+  intersections. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVEFLabels(cat);[127X[104X
+    [4X[28X[ 1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21 ][128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelsOfVertices(cat);[127X[104X
+    [4X[28X[ 1,, 3, 4, 5, 6, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelsOfEdges(cat);[127X[104X
+    [4X[28X[ 8, 9,, 11, 12,, 14, 15, 16, 17 ][128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelsOfFaces(cat);[127X[104X
+    [4X[28X[ 18, 19,, 21 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.3-1 VEFLabels[101X
+  
+  [33X[1;0Y[29X[2XVEFLabels[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of VEF-labels for the given polygonal complex. The VEF-labels
+  are  a  set  of  labels  that  distinguish vertices, edges, and faces. It is
+  constructed as follows:[133X
+  
+  [30X    [33X[0;6YThe vertex labels stay the same[133X
+  
+  [30X    [33X[0;6YThe edge labels are shifted upwards by the maximal vertex label[133X
+  
+  [30X    [33X[0;6YThe face labels are shifted upwards by the sum of maximal vertex label
+        and maximal edge label[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertices(cat);[127X[104X
+    [4X[28X[ 1, 3, 4, 5, 6, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges(cat);[127X[104X
+    [4X[28X[ 1, 2, 4, 5, 7, 8, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces(cat);[127X[104X
+    [4X[28X[ 1, 2, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XVEFLabels(cat);[127X[104X
+    [4X[28X[ 1, 3, 4, 5, 6, 7, 8, 9, 11, 12, 14, 15, 16, 17, 18, 19, 21 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.3-2 VEFLabelsOfVertices[101X
+  
+  [33X[1;0Y[29X[2XVEFLabelsOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XVEFLabelOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVEFLabelOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integer[133X
+  
+  [33X[0;0YThe  method  [9XVEFLabelOfVertex[109X([3Xcomplex[103X,  [3Xvertex[103X)  returns  the  VEF-label  of
+  [3Xvertex[103X.  The  NC-version does not check whether the given [3Xvertex[103X is a vertex
+  of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe attribute [9XVEFLabelsOfVertices[109X([3Xcomplex[103X) collects all of those labels in a
+  list     that     is     indexed     by     the    vertex    labels,    i.e.
+  [9XVEFLabelsOfOfVertices[109X([3Xcomplex[103X)[[3Xvertex[103X]  = [9XVEFLabelOfVertex[109X([3Xcomplex[103X, [3Xvertex[103X).
+  All other positions of this list are not bound.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVEFLabelOfVertex(cat, 3);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelOfVertex(cat, 6);[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelsOfVertices(cat);[127X[104X
+    [4X[28X[ 1,, 3, 4, 5, 6, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.3-3 VEFLabelsOfEdges[101X
+  
+  [33X[1;0Y[29X[2XVEFLabelsOfEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XVEFLabelOfEdge[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVEFLabelOfEdgeNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integer[133X
+  
+  [33X[0;0YThe  method [9XVEFLabelOfEdge[109X([3Xcomplex[103X, [3Xedge[103X) returns the VEF-label of [3Xedge[103X. The
+  NC-version does not check whether the given [3Xedge[103X is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XVEFLabelsOfEdges[109X([3Xcomplex[103X)  collects all of those labels in a
+  list     that     is     indexed     by     the     edge     labels,    i.e.
+  [9XVEFLabelsOfOfEdges[109X([3Xcomplex[103X)[[3Xedge[103X] = [9XVEFLabelOfEdge[109X([3Xcomplex[103X, [3Xedge[103X). All other
+  positions of this list are not bound.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVEFLabelOfEdge(cat, 2);[127X[104X
+    [4X[28X9[128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelOfEdge(cat, 10);[127X[104X
+    [4X[28X17[128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelsOfEdges(cat);[127X[104X
+    [4X[28X[ 8, 9,, 11, 12,, 14, 15, 16, 17 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.3-4 VEFLabelsOfFaces[101X
+  
+  [33X[1;0Y[29X[2XVEFLabelsOfFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XVEFLabelOfFace[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVEFLabelOfFaceNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integer[133X
+  
+  [33X[0;0YThe  method [9XVEFLabelOfFace[109X([3Xcomplex[103X, [3Xface[103X) returns the VEF-label of [3Xface[103X. The
+  NC-version does not check whether the given [3Xface[103X is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XVEFLabelsOfFaces[109X([3Xcomplex[103X)  collects all of those labels in a
+  list     that     is     indexed     by     the     face     labels,    i.e.
+  [9XVEFLabelsOfOfFaces[109X([3Xcomplex[103X)[[3Xface[103X] = [9XVEFLabelOfFace[109X([3Xcomplex[103X, [3Xface[103X). All other
+  positions of this list are not bound.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVEFLabelOfFace(cat, 2);[127X[104X
+    [4X[28X19[128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelOfFace(cat, 4);[127X[104X
+    [4X[28X21[128X[104X
+    [4X[25Xgap>[125X [27XVEFLabelsOfFaces(cat);[127X[104X
+    [4X[28X[ 18, 19,, 21 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.3-5 VertexOfVEFLabel[101X
+  
+  [33X[1;0Y[29X[2XVertexOfVEFLabel[102X( [3Xcomplex[103X, [3Xlabel[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVertexOfVEFLabelNC[102X( [3Xcomplex[103X, [3Xlabel[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer or [9Xfail[109X[133X
+  
+  [33X[0;0YGiven  a  polygonal  complex  [3Xcomplex[103X  and  a  VEF-label  [3Xlabel[103X,  the method
+  [9XVertexOfVEFLabel[109X([3Xcomplex[103X, [3Xlabel[103X) returns the vertex associated to [3Xlabel[103X.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexOfVEFLabel(cat, 1);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XVertexOfVEFLabel(cat, 2);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XVertexOfVEFLabel(cat, 7);[127X[104X
+    [4X[28X7[128X[104X
+    [4X[25Xgap>[125X [27XVertexOfVEFLabel(cat, 8);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given [3Xlabel[103X is valid. The normal
+  version checks this and returns [9Xfail[109X if [3Xlabel[103X is not valid.[133X
+  
+  [1X7.3-6 EdgeOfVEFLabel[101X
+  
+  [33X[1;0Y[29X[2XEdgeOfVEFLabel[102X( [3Xcomplex[103X, [3Xlabel[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeOfVEFLabelNC[102X( [3Xcomplex[103X, [3Xlabel[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer or [9Xfail[109X[133X
+  
+  [33X[0;0YGiven  a  polygonal  complex  [3Xcomplex[103X  and  a  VEF-label  [3Xlabel[103X,  the method
+  [9XEdgeOfVEFLabel[109X([3Xcomplex[103X, [3Xlabel[103X) returns the edge associated to [3Xlabel[103X.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeOfVEFLabel(cat, 7);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgeOfVEFLabel(cat, 9);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XEdgeOfVEFLabel(cat, 10);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgeOfVEFLabel(cat, 16);[127X[104X
+    [4X[28X9[128X[104X
+    [4X[25Xgap>[125X [27XEdgeOfVEFLabel(cat, 18);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given [3Xlabel[103X is valid. The normal
+  version checks this and returns [9Xfail[109X if [3Xlabel[103X is not valid.[133X
+  
+  [1X7.3-7 FaceOfVEFLabel[101X
+  
+  [33X[1;0Y[29X[2XFaceOfVEFLabel[102X( [3Xcomplex[103X, [3Xlabel[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFaceOfVEFLabelNC[102X( [3Xcomplex[103X, [3Xlabel[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer of [9Xfail[109X[133X
+  
+  [33X[0;0YGiven  a  polygonal  complex  [3Xcomplex[103X  and  a  VEF-label  [3Xlabel[103X,  the method
+  [9XFaceOfVEFLabel[109X([3Xcomplex[103X, [3Xlabel[103X) returns the face associated to [3Xlabel[103X.[133X
+  
+  [33X[0;0YFor  example,  consider the polygonal surface from the start of section [14X7.3[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceOfVEFLabel(cat, 17);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XFaceOfVEFLabel(cat, 18);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XFaceOfVEFLabel(cat, 20);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XFaceOfVEFLabel(cat, 21);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XFaceOfVEFLabel(cat, 22);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given [3Xlabel[103X is valid. The normal
+  version checks this and returns [9Xfail[109X if [3Xlabel[103X is not valid.[133X
+  
+  
+  [1X7.4 [33X[0;0YComponents of a morphism[133X[101X
+  
+  [33X[0;0YThis  section  contains  the  ingredients  within a polygonal morphism, i.e.
+  source and range complex, as well as the maps on vertices, edges, and faces.[133X
+  
+  [33X[0;0YWe  will  illustrate  them on the following polygonal morphism (on the sides
+  are the VEF-labels): Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsource := PolygonalSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X     [[1,2],[2,3],[3,4],,[1,6],,[2,7],[3,7],[4,7],,,[6,7]],[127X[104X
+    [4X[25X>[125X [27X     [,[1,7,12,5],[2,7,8],[3,8,9]]);;[127X[104X
+    [4X[25Xgap>[125X [27Xrange := PolygonalSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X     [[1,2],[2,3],,[1,5],[2,5],,[3,6],[3,7],,,[5,6],[6,7]],[127X[104X
+    [4X[25X>[125X [27X     [[1,4,5],[2,5,11,7],[7,8,12]]);;[127X[104X
+    [4X[25Xgap>[125X [27XpolMor := PolygonalMorphismByLists(source,range,[127X[104X
+    [4X[25X>[125X [27X     [5,6,7,6,,2,3], [11,12,12,,5,,7,8,7,,,2], [,2,3,3]);;[127X[104X
+  [4X[32X[104X
+  
+  [1X7.4-1 SourceComplex[101X
+  
+  [33X[1;0Y[29X[2XSourceComplex[102X( [3XpolMap[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XSourceSurface[102X( [3XpolMap[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YReturn  the polygonal complex (or surface) that is the source of the general
+  polygonal mapping [3XpolMap[103X.[133X
+  
+  [33X[0;0YIf  the  source  is  not a polygonal surface, then [9XSourceSurface[109X will return
+  [9Xfail[109X.[133X
+  
+  [1X7.4-2 RangeComplex[101X
+  
+  [33X[1;0Y[29X[2XRangeComplex[102X( [3XpolMap[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XRangeSurface[102X( [3XpolMap[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YReturn  the  polygonal complex (or surface) that is the range of the general
+  polygonal mapping [3XpolMap[103X.[133X
+  
+  [33X[0;0YIf the range is not a polygonal surface, then [9XRangeSurface[109X will return [9Xfail[109X.[133X
+  
+  [1X7.4-3 VertexMapAsImageList[101X
+  
+  [33X[1;0Y[29X[2XVertexMapAsImageList[102X( [3XpolMor[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YGiven  a polygonal morphism [3XpolMor[103X, return the restriction of the mapping to
+  the  vertices.  The result is a list [3XvMap[103X, such that [3XvMap[v][103X is the image of
+  the vertex [3Xv[103X under the polygonal morphism [3XpolMor[103X. All other list entries are
+  not bound.[133X
+  
+  [33X[0;0YWe  illustrate this on the polygonal morphism from the start of section [14X7.4[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexMapAsImageList(polMor);[127X[104X
+    [4X[28X[ 5, 6, 7, 6,, 2, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.4-4 EdgeMapAsImageList[101X
+  
+  [33X[1;0Y[29X[2XEdgeMapAsImageList[102X( [3XpolMor[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YGiven  a polygonal morphism [3XpolMor[103X, return the restriction of the mapping to
+  the  edges. The result is a list [3XeMap[103X, such that [3XeMap[e][103X is the image of the
+  edge  [3Xe[103X  under the polygonal morphism [3XpolMor[103X. All other list entries are not
+  bound.[133X
+  
+  [33X[0;0YWe  illustrate this on the polygonal morphism from the start of section [14X7.4[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeMapAsImageList(polMor);[127X[104X
+    [4X[28X[ 11, 12, 12,, 5,, 7, 8, 7,,, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.4-5 FaceMapAsImageList[101X
+  
+  [33X[1;0Y[29X[2XFaceMapAsImageList[102X( [3XpolMor[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YGiven  a polygonal morphism [3XpolMor[103X, return the restriction of the mapping to
+  the  faces. The result is a list [3XfMap[103X, such that [3XfMap[f][103X is the image of the
+  face  [3Xf[103X  under the polygonal morphism [3XpolMor[103X. All other list entries are not
+  bound.[133X
+  
+  [33X[0;0YWe  illustrate this on the polygonal morphism from the start of section [14X7.4[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceMapAsImageList(polMor);[127X[104X
+    [4X[28X[ , 2, 3, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [1X7.4-6 VEFLabelMapAsImageList[101X
+  
+  [33X[1;0Y[29X[2XVEFLabelMapAsImageList[102X( [3XpolMor[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list[133X
+  
+  [33X[0;0YA polygonal morphism [3XpolMor[103X can be described by a map between the VEF-labels
+  of source and target complex. This method returns this map as an image list,
+  i.e.  it  returns  a  list  [3XvefMap[103X,  such that [3XvefMap[x][103X is the image of the
+  VEF-label [3Xx[103X. All other list entries are not bound.[133X
+  
+  [33X[0;0YWe  illustrate  this on the polygonal morphism from the start of section [14X7.4[114X
+  (the VEF-labels are drawn on the sides). Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVEFLabelMapAsImageList(polMor);[127X[104X
+    [4X[28X[ 5, 6, 7, 6,, 2, 3, 18, 19, 19,, 12,, 14, 15, 14,,, 9,, 21, 22, 22 ][128X[104X
+  [4X[32X[104X
+  

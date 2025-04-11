@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 22: Example Implementations</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap22"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap21_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapInd_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap22.html">[MathJax off]</a></p>
+<p><a id="X7E5F84C07C7F4B0A" name="X7E5F84C07C7F4B0A"></a></p>
+<div class="ChapSects"><a href="chap22_mj.html#X7E5F84C07C7F4B0A">22 <span class="Heading">Example Implementations</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap22_mj.html#X828331787A1CE863">22.1 <span class="Heading">StronglyConnectedComponentOfFace</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap22_mj.html#X84E5A4A17CE132B5">22.2 <span class="Heading">VertexCounter</span></a>
+</span>
+</div>
+</div>
+
+<h3>22 <span class="Heading">Example Implementations</span></h3>
+
+<p>This chapter contains examples of implementations of some of the methods in the package <code class="keyw">SimplicialSurfaces</code>. We chose examples which illustrate many of the different fundamental features and methods of the package while at the same time require only a few lines of code to implement. Every section discusses the implementation of an already existing method by giving:</p>
+
+<ol>
+<li><p>A short explanation of the method</p>
+
+</li>
+<li><p>A presentation of the code</p>
+
+</li>
+<li><p>The development of the code</p>
+
+</li>
+</ol>
+<p><a id="X828331787A1CE863" name="X828331787A1CE863"></a></p>
+
+<h4>22.1 <span class="Heading">StronglyConnectedComponentOfFace</span></h4>
+
+<p>The method <code class="keyw">StronglyConnectedComponentOfFace</code> (<a href="chap8_mj.html#X82C4302D87C5F651"><span class="RefLink">8.6-4</span></a>) finds all faces that are connected to a given face by edge-face-paths (<a href="chap8_mj.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>) and returns the polygonal complex consisting of these faces.</p>
+
+<p>We illustrate this with an octahedron (<a href="chap14_mj.html#X84BE285087AAC1F7"><span class="RefLink">14.3-4</span></a>): <br><img src="./images/_Wrapper__TIKZ_Octahedron_constructor.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octa := Octahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octa = StronglyConnectedComponentOfFace(octa,7);</span>
+true
+</pre></div>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StrongComponent_custom := function( complex, face )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local component, f, edge, newFace;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"> </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       component := [ face ];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       for f in component do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           for edge in EdgesOfFace(complex, f) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               newFace := NeighbourFaceByEdge( complex, f, edge );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               if not newFace in component then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                   Add(component, newFace);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return SubcomplexByFaces( complex, component );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StrongComponent_custom(octa,7) = StronglyConnectedComponentOfFace(octa,7);</span>
+true
+</pre></div>
+
+<p>To develop this code we first have to find an algorithm to compute the strongly connected component of an face. We begin with the starting face (for example 7) and add all faces to the strong component that are adjacent to it (so 1, 5 and 6). Then we add the neighbours of those faces (and so on). We will end up with all faces of the strongly connected component of 7. The initialization of this algorithm is easy.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">component := [ 7 ];</span>
+[ 7 ]
+</pre></div>
+
+<p>For each edge of this face there is a neighbour. Therefore we need the edges of this face.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFace( octa, 7 );</span>
+[ 2, 3, 8 ]
+</pre></div>
+
+<p>The neighbours can be computed by calling the method <code class="keyw">NeighbourFaceByEdge</code> (<a href="chap10_mj.html#X7C03AF83789F1585"><span class="RefLink">10.3-3</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">newFace := NeighbourFaceByEdge( octa, 7, 2 );</span>
+1
+</pre></div>
+
+<p>If this face is not already accounted for, we have to add it to our component.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">if not newFace in component then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       Add( component, newFace );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   fi;</span>
+</pre></div>
+
+<p>To check all neighbours, we loop over the incident edges:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">for edge in EdgesOfFace(octa, 7) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       newFace := NeighbourFaceByEdge( octa, 7, edge );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if not newFace in component then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Add( component, newFace );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   od;</span>
+</pre></div>
+
+<p>Finally we have to loop over all faces in the component. At this point we use a feature of <strong class="pkg">GAP</strong>: We can loop over a list that is changed during the loop. So our algorithm can simply be written as</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">for f in component do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       for edge in EdgesOfFace(octa, f) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           newFace := NeighbourFaceByEdge( octa, f, edge );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           if not newFace in component then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               Add(component, newFace);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   od;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">component;</span>
+[ 7, 1, 5, 6, 3, 4, 8, 2 ]
+</pre></div>
+
+<p>Now we have computed all faces of the strongly connected component of our starting face. To make a polygonal complex out of it, we use the method <code class="keyw">SubcomplexByFaces</code> that returns the induced subcomplex of a given list of faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SubcomplexByFaces( octa, component ) = octa;</span>
+true
+</pre></div>
+
+<p><a id="X84E5A4A17CE132B5" name="X84E5A4A17CE132B5"></a></p>
+
+<h4>22.2 <span class="Heading">VertexCounter</span></h4>
+
+<p>The method <code class="keyw">CounterOfVertices</code> (<a href="chap9_mj.html#X7C7444547DB3BAB5"><span class="RefLink">9.2-4</span></a>) creates a list of pairs <var class="Arg">[degree,multiplicity]</var> such that the second entry of each pair counts the number of vertices that have exactly <var class="Arg">degree</var> incident faces.</p>
+
+<p>We illustrate it on the example of a pyramid with square base. <br><img src="./images/_Wrapper_Image_SquarePyramid.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pyr := PolygonalSurfaceByVerticesInFaces( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [ [3,4,5,6], [1,3,4], [1,4,5], [1,5,6], [1,6,3] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(CounterOfVertices( pyr ));</span>
+[ [ 3, 4 ], [ 4, 1 ] ]
+</pre></div>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexCounter_custom := function( complex )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    local faceDegrees;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    faceDegrees := List( FacesOfVertices(complex), Size );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    return Collected( Compacted( faceDegrees ) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexCounter_custom( pyr );</span>
+[ [ 3, 4 ], [ 4, 1 ] ]
+</pre></div>
+
+<p>How do we arrive at this code? First of all we have to find the relevant information. We want to count how many faces are incident to a vertex. Therefore we use the method <code class="keyw">FacesOfVertices</code> (<a href="chap3_mj.html#X7BB940CF820CD43A"><span class="RefLink">3.2-2</span></a>) that gives us exactly this information. Since we only want to know the <em>number</em> of faces, we apply the method <code class="keyw">Size</code> to every component.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">faceDegrees := List( FacesOfVertices(pyr), Size );</span>
+[ 4, , 3, 3, 3, 3 ]
+</pre></div>
+
+<p>Alternatively we could have used the specialized method <code class="keyw">FaceDegreesOfVertices</code> (<a href="chap9_mj.html#X82E938C180DA3C56"><span class="RefLink">9.2-2</span></a>) directly.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreesOfVertices( pyr );</span>
+[ 4, , 3, 3, 3, 3 ]
+</pre></div>
+
+<p>Now we need to count how often each entry appears. This can be done by a loop but we will use the <strong class="pkg">GAP</strong>-function <code class="keyw">Collected</code> instead. Unfortunately it only works for lists without holes:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Collected( faceDegrees );</span>
+Error, List Element: &lt;list&gt;[2] must have an assigned value
+</pre></div>
+
+<p>If we want to program with this package, we have to expect holes. In this case it is sufficient to remove all holes with the <strong class="pkg">GAP</strong>-function <code class="keyw">Compacted</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Compacted( faceDegrees );</span>
+[ 4, 3, 3, 3, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colDegrees := Collected( Compacted( faceDegrees ) );</span>
+[ [ 3, 4 ], [ 4, 1 ] ]
+</pre></div>
+
+<p>This is exactly the result we aimed for.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap21_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chapInd_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

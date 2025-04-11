@@ -1,0 +1,1063 @@
+  
+  [1X10 [33X[0;0YNavigating the incidence structure[133X[101X
+  
+  [33X[0;0YChapter  [14X3[114X  introduces  the  elementary  access operations for the incidence
+  geometry.  But  if  one works with those geometries in practice, one notices
+  that some tasks are quite cumbersome with those tools, for example:[133X
+  
+  [30X    [33X[0;6YGiven  a face and an incident edge, what is the other face incident to
+        the edge?[133X
+  
+  [30X    [33X[0;6YGiven a triangular face and an incident vertex, which edge is opposite
+        to that vertex?[133X
+  
+  [30X    [33X[0;6YFor  which  pairs of adjacent vertices do both of the vertices fulfill
+        some property?[133X
+  
+  [33X[0;0YAll of the methods in this chapter only require a few lines of code with the
+  tools  of  chapter  [14X3[114X.  Nevertheless,  having  them  makes programming a bit
+  simpler  as  one  can  focus  on  higher-order structures. In addition, each
+  method  will  feature  an explanation how the desired result can be achieved
+  with  the  tools  from chapter [14X3[114X, so that each user can adapt them for their
+  own special circumstances.[133X
+  
+  [33X[0;0YTODO overview of sections[133X
+  
+  [33X[0;0YWe will use the following polygonal complex to exemplify the methods in this
+  chapter: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X       [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9],[127X[104X
+    [4X[25X>[125X [27X        [8,12],[2,13],[12,13]],[127X[104X
+    [4X[25X>[125X [27X       [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6],[2,9,11,12,13,14]]);;[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X10.1 [33X[0;0YMoving along edges[133X[101X
+  
+  [33X[0;0YThis  section  is  concerned  with  movement  along edges, i.e. the relation
+  between  vertices  and edges. It contains the following methods (illustrated
+  on the polygonal complex from the start of chapter [14X10[114X):[133X
+  
+  [30X    [33X[0;6Y[9XIsVerticesAdjacent[109X  ([14X10.1-1[114X)  checks whether two vertices are adjacent
+        (i.e. connected by an edge).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 1, 2 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 7, 12 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 2, 2 );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XEdge(s)BetweenVertices[109X  ([14X10.1-2[114X)  returns  the edge (or edges) between
+        two vertices.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenVertices( complex, 1, 2 );[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenVertices( complex, 1, 2 );[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenVertices( complex, 2, 6 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenVertices( complex, 2, 6 );[127X[104X
+    [4X[28X[ 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenVertices( complex, 7, 9 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenVertices( complex, 7, 9 );[127X[104X
+    [4X[28X[  ][128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XOtherVertexOfEdge[109X  ([14X10.1-3[114X)  takes  an edge and an incident vertex and
+        returns the other incident vertex of the given edge.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOtherEdgeOfVertexInFace( complex, 1, 5, 2 );[127X[104X
+    [4X[28X7[128X[104X
+  [4X[32X[104X
+  
+  [1X10.1-1 IsVerticesAdjacent[101X
+  
+  [33X[1;0Y[29X[2XIsVerticesAdjacent[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsVerticesAdjacentNC[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe method [9XIsVerticesAdjacent[109X checks whether two given vertices of a twisted
+  polygonal complex are adjacent, i.e. whether they are connected by an edge.[133X
+  
+  [33X[0;0YThe  NC-version  does  not check whether [3Xv1[103X and [3Xv2[103X are vertices of the given
+  twisted polygonal complex.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 1, 2 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 7, 12 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 2, 2 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsVerticesAdjacent( complex, 2, 6 );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis method can be implemented with the methods from chapter [14X3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSet([v1,v2]) in VerticesOfEdges(complex);[127X[104X
+  [4X[32X[104X
+  
+  [1X10.1-2 EdgesBetweenVertices[101X
+  
+  [33X[1;0Y[29X[2XEdgesBetweenVertices[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesBetweenVerticesNC[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeBetweenVertices[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeBetweenVerticesNC[102X( [3Xcomplex[103X, [3Xv1[103X, [3Xv2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA set of edges[133X
+  
+  [33X[0;0YThe  method  [9XEdgesBetweenVertices[109X  returns  the  set  of  all edges that are
+  incident  to both given vertices of a twisted polygonal complex. If there is
+  exactly  one  edge  incident  to both vertices, [9XEdgeBetweenVertices[109X directly
+  returns this edge (or [9Xfail[109X if this is not the case).[133X
+  
+  [33X[0;0YThe  NC-versions  do  not  check whether [3Xv1[103X and [3Xv2[103X are vertices of the given
+  twisted polygonal complex.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenVertices( complex, 1, 2 );[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenVertices( complex, 1, 2 );[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenVertices( complex, 2, 6 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenVertices( complex, 2, 6 );[127X[104X
+    [4X[28X[ 3, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenVertices( complex, 7, 9 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenVertices( complex, 7, 9 );[127X[104X
+    [4X[28X[  ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  method  [9XEdgesBetweenVertices[109X  can  be implemented with the methods from
+  chapter [14X10[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIntersection( EdgesOfVertex(complex,v1), EdgesOfVertex(complex,v2) );[127X[104X
+  [4X[32X[104X
+  
+  [1X10.1-3 OtherVertexOfEdge[101X
+  
+  [33X[1;0Y[29X[2XOtherVertexOfEdge[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOtherVertexOfEdgeNC[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YEvery edge in a polygonal complex is incident to exactly two vertices. Given
+  one  of  them,  this  method  returns the other one. For a twisted polygonal
+  complex,  an  edge  might  only  be incident to one vertex. This method will
+  return the same vertex if it is given.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  the given [3Xedge[103X is an edge of the
+  twisted polygonal complex and whether the given [3Xvertex[103X is incident to it.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOtherVertexOfEdge(complex, 7, 10);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XOtherVertexOfEdge(complex, 1, 5);[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XOtherVertexOfEdge(complex, 6, 8);[127X[104X
+    [4X[28X8[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis method can be implemented with the methods from chapter [14X3[114X. We only give
+  the  implementation  for  polygonal  complexes, since the implementation for
+  twisted polygonal complexes only includes an additional case distinction.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDifference( VerticesOfEdge(complex, edge), [ vertex ] )[1];[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X10.2 [33X[0;0YMoving within a face[133X[101X
+  
+  [33X[0;0YThis  section  is  concerned  with  the  movement  within  a  face, i.e. the
+  computation of related elements in a fixed face. This includes the following
+  methods  (illustrated  with  the polygonal complex from the start of chapter
+  [14X10[114X): Image omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[9XEdgeInFaceByVertices[109X  ([14X10.2-1[114X)  returns  the  edge  of  a face that is
+        incident to two vertices (and [9Xfail[109X otherwise).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices( complex, 5, [2,6] );[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices( complex, 4, [6,9] );[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XOtherEdgeOfVertexInFace[109X  ([14X10.2-2[114X)  is  given  a vertex, an edge, and a
+        face  (all  of  them  incident). It returns the other edge incident to
+        both the vertex and the face (or [9Xfail[109X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOtherEdgeOfVertexInFace( complex, 1, 5, 2 );[127X[104X
+    [4X[28X7[128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XOppositeVertexOfEdgeInTriangle[109X  ([14X10.2-3[114X)  is  given  an  edge  and  an
+        incident  face  (which  has  to  be a triangle) and returns the unique
+        vertex  that  is  incident to the face but not to the edge. Currently,
+        this is only supported for polygonal complexes.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 3, 1 );[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XOppositeEdgeOfVertexInTriangle[109X  ([14X10.2-4[114X)  is  given  a  vertex  and an
+        incident face (which has to be a triangle) and returns the unique edge
+        that is incident to the face but not to the vertex. Currently, this is
+        only supported for polygonal complexes.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 5, 5 );[127X[104X
+    [4X[28X4[128X[104X
+  [4X[32X[104X
+  
+  [1X10.2-1 EdgeInFaceByVertices[101X
+  
+  [33X[1;0Y[29X[2XEdgeInFaceByVertices[102X( [3Xcomplex[103X, [3Xface[103X, [3Xverts[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeInFaceByVerticesNC[102X( [3Xcomplex[103X, [3Xface[103X, [3Xverts[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesInFaceByVertices[102X( [3Xcomplex[103X, [3Xface[103X, [3Xverts[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesInFaceByVerticesNC[102X( [3Xcomplex[103X, [3Xface[103X, [3Xverts[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer or [9Xfail[109X[133X
+  
+  [33X[0;0YIf  the  method  [9XEdgeInFaceByVertices[109X  is  given  a  face  and a list of two
+  vertices  of  a  twisted polygonal complex, it returns the edge that lies in
+  the given face and is incident to the given vertices, if possible.[133X
+  
+  [33X[0;0YIf there is no such edge (because the given vertices are not incident to the
+  given  face or because they are not connected by an edge of the face), or if
+  there  are  several  of these edges (this might happen for twisted polygonal
+  complexes) it returns [9Xfail[109X.[133X
+  
+  [33X[0;0YThe  method  [9XEdgesInFaceByVertices[109X  takes the same arguments but returns the
+  set of all edges fulfilling this specification.[133X
+  
+  [33X[0;0YThe  NC-versions  do  not  check  if  [3Xface[103X  is  a  face of the given twisted
+  polygonal complex.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices(complex, 5, [2,6]);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices(complex, 1, [2,1]);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices(complex, 1, [2,6]);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices(complex, 2, [1,2]);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgeInFaceByVertices(complex, 4, [5,8]);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  method  [9XEdgesInFaceByVertices[109X  can  be  implemented with the methods of
+  chapter [14X3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIntersection( EdgesOfFace(complex, face), [127X[104X
+    [4X[25X>[125X [27X     EdgesOfVertex(complex, verts[1]), EdgesOfVertex(complex, verts[2]) );[127X[104X
+  [4X[32X[104X
+  
+  [1X10.2-2 OtherEdgeOfVertexInFace[101X
+  
+  [33X[1;0Y[29X[2XOtherEdgeOfVertexInFace[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOtherEdgeOfVertexInFaceNC[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOtherEdgesOfVertexInFace[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOtherEdgesOfVertexInFaceNC[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer or [9Xfail[109X[133X
+  
+  [33X[0;0YIf the method [9XOtherEdgeOfVertexInFace[109X is given a vertex, an edge, and a face
+  of  a  twisted  polygonal complex, it returns the other edge incident to the
+  vertex and the face, if possible.[133X
+  
+  [33X[0;0YFor  a  twisted polygonal complex it might happen that only one or more than
+  two  edges  are  incident  to  both  vertex  and  face. In this case [9Xfail[109X is
+  returned.[133X
+  
+  [33X[0;0YThe  method [9XOtherEdgesOfVertexInFace[109X returns the set of all edges satisfying
+  this restriction.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  the given vertex, edge, and face
+  actually lie in the complex and are incident to each other.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOtherEdgeOfVertexInFace(complex, 1, 5, 2);[127X[104X
+    [4X[28X7[128X[104X
+    [4X[25Xgap>[125X [27XOtherEdgeOfVertexInFace(complex, 5, 9, 4);[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XOtherEdgeOfVertexInFace(complex, 1, 5, 1);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  method  [9XOtherEdgesOfVertexInFace[109X can be implemented with the methods of
+  chapter [14X3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDifference( Intersection( EdgesOfFace(complex, face), [127X[104X
+    [4X[25X>[125X [27X                    EdgesOfVertex(complex, vertex) ), [ edge ] );[127X[104X
+  [4X[32X[104X
+  
+  [1X10.2-3 OppositeVertexOfEdgeInTriangle[101X
+  
+  [33X[1;0Y[29X[2XOppositeVertexOfEdgeInTriangle[102X( [3Xcomplex[103X, [3Xedge[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOppositeVertexOfEdgeInTriangleNC[102X( [3Xarg1[103X, [3Xarg2[103X, [3Xarg3[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YIf  the method [9XOppositeVertexOfEdgeInTriangle[109X is given an edge and a face of
+  a polygonal complex, such that the edge is incident to the face and the face
+  is  a  triangle, then it returns the unique vertex incident to the face, but
+  not the edge.[133X
+  
+  [33X[0;0YThe  NC-version  does not check whether the given edge and face actually lie
+  in  the  complex, are incident to each other and whether the given face is a
+  triangle.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 1, 1 );[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 3, 1 );[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 5, 1 );[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 2, 5 );[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 4, 5 );[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XOppositeVertexOfEdgeInTriangle( complex, 6, 5 );[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis method can be implemented with the methods of chapter [14X10[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDifference( VerticesOfFace(complex,face), VerticesOfEdge(complex,edge) );[127X[104X
+  [4X[32X[104X
+  
+  [1X10.2-4 OppositeEdgeOfVertexInTriangle[101X
+  
+  [33X[1;0Y[29X[2XOppositeEdgeOfVertexInTriangle[102X( [3Xcomplex[103X, [3Xvertex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOppositeEdgeOfVertexInTriangleNC[102X( [3Xarg1[103X, [3Xarg2[103X, [3Xarg3[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YIf the method [9XOppositeEdgeOfVertexInTriangle[109X is given a vertex and a face of
+  a  polygonal  complex,  such that the vertex is incident to the face and the
+  face  is  a  triangle, then it returns the unique edge incident to the face,
+  but not the vertex.[133X
+  
+  [33X[0;0YThe NC-version does not check whether the given vertex and face actually lie
+  in  the  complex, are incident to each other and whether the given face is a
+  triangle.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 1, 1 );[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 2, 1 );[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 6, 1 );[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 2, 5 );[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 5, 5 );[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XOppositeEdgeOfVertexInTriangle( complex, 6, 5 );[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis method can be implemented with the methods of chapter [14X10[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDifference( EdgesOfFace(complex,face), EdgesOfVertex(complex,vertex) );[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X10.3 [33X[0;0YMoving between faces[133X[101X
+  
+  [33X[0;0YThis  section  contains methods for the movement between faces, i.e. whether
+  faces  are  adjacent  and,  if  so, by which edge. It includes the following
+  methods (illustrated on the polygonal complex from the start of chapter [14X10[114X):
+  Image omitted in terminal text[133X
+  
+  [30X    [33X[0;6Y[9XIsFacesAdjacent[109X  ([14X10.3-1[114X)  checks whether two faces are adjacent (i.e.
+        if they are different but there is an edge incident to both).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsFacesAdjacent( complex, 1, 2 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsFacesAdjacent( complex, 1, 4 );[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XEdge(s)BetweenFaces[109X  ([14X10.3-2[114X)  returns the edge (or edges) between two
+        faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenFaces( complex, 2, 4 );[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenFaces( complex, 2, 4 );[127X[104X
+    [4X[28X[ 8 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenFaces( complex, 4, 6 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenFaces( complex, 4, 6 );[127X[104X
+    [4X[28X[ 9, 11 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenFaces( complex, 2, 5 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenFaces( complex, 2, 5 );[127X[104X
+    [4X[28X[  ][128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6Y[9XNeighbourFace(s)ByEdge[109X ([14X10.3-3[114X) returns the face (or the set of faces)
+        that is adjacent to the given face (with respect to the given edge).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNeighbourFaceByEdge( complex, 2, 8 );[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFacesByEdge( complex, 2, 8 );[127X[104X
+    [4X[28X[ 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X10.3-1 IsFacesAdjacent[101X
+  
+  [33X[1;0Y[29X[2XIsFacesAdjacent[102X( [3Xcomplex[103X, [3Xf1[103X, [3Xf2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsFacesAdjacentNC[102X( [3Xcomplex[103X, [3Xf1[103X, [3Xf2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XIsFacesAdjacent[109X  checks  whether  two  given faces of a twisted
+  polygonal complex are adjacent, i.e. whether they are connected by an edge.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  [3Xf1[103X and [3Xf2[103X are faces of the given
+  twisted polygonal complex.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsFacesAdjacent( complex, 1, 2 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsFacesAdjacent( complex, 1, 4 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsFacesAdjacent( complex, 2, 2 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsFacesAdjacent( complex, 4, 5 );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis method can be implemented with the methods from chapter [14X3[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XSet([f1,f2]) in FacesOfEdges(complex);[127X[104X
+  [4X[32X[104X
+  
+  [1X10.3-2 EdgesBetweenFaces[101X
+  
+  [33X[1;0Y[29X[2XEdgesBetweenFaces[102X( [3Xcomplex[103X, [3Xf1[103X, [3Xf2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesBetweenFacesNC[102X( [3Xcomplex[103X, [3Xf1[103X, [3Xf2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeBetweenFaces[102X( [3Xcomplex[103X, [3Xf1[103X, [3Xf2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeBetweenFacesNC[102X( [3Xcomplex[103X, [3Xf1[103X, [3Xf2[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA set of edges[133X
+  
+  [33X[0;0YThe  method [9XEdgesBetweenFaces[109X returns the set of all edges that are incident
+  to  both given faces of a twisted polygonal complex. If there is exactly one
+  edge incident to both faces, [9XEdgeBetweenFaces[109X directly returns this edge (or
+  [9Xfail[109X if this is not the case).[133X
+  
+  [33X[0;0YThe  NC-versions  do  not  check  whether  [3Xf1[103X  and [3Xf2[103X are faces of the given
+  twisted polygonal complex.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenFaces( complex, 2, 4 );[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenFaces( complex, 2, 4 );[127X[104X
+    [4X[28X[ 8 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenFaces( complex, 4, 6 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenFaces( complex, 4, 6 );[127X[104X
+    [4X[28X[ 9, 11 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgeBetweenFaces( complex, 2, 5 );[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XEdgesBetweenFaces( complex, 2, 5 );[127X[104X
+    [4X[28X[  ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  method  [9XEdgesBetweenFaces[109X  can  be  implemented  with  the methods from
+  chapter [14X10[114X:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIntersection( EdgesOfFace(complex,f1), EdgesOfFace(complex,f2) );[127X[104X
+  [4X[32X[104X
+  
+  [1X10.3-3 NeighbourFaceByEdge[101X
+  
+  [33X[1;0Y[29X[2XNeighbourFaceByEdge[102X( [3Xcomplex[103X, [3Xface[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNeighbourFaceByEdgeNC[102X( [3Xcomplex[103X, [3Xface[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNeighbourFacesByEdge[102X( [3Xcomplex[103X, [3Xface[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XNeighbourFacesByEdgeNC[102X( [3Xcomplex[103X, [3Xface[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer or [9Xfail[109X[133X
+  
+  [33X[0;0YIf  the  method [9XNeighbourFacesByEdge[109X is given a face and an edge, it returns
+  the  set  of  all  faces that are also incident to this edge. In a polygonal
+  complex,  these  have  to  be  different  from  the given face. In a twisted
+  polygonal complex, this might not be the case.[133X
+  
+  [33X[0;0YIf  the  set  of  these  neighbours  contains exactly one face, this face is
+  returned by [9XNeighbourFaceByEdge[109X. Otherwise, this method returns [9Xfail[109X.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  whether  the given [3Xedge[103X is an edge of the
+  polygonal  complex  and  whether  the  given [3Xface[103X is an incident face of the
+  complex.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNeighbourFaceByEdge(complex, 2, 8);[127X[104X
+    [4X[28X4[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFaceByEdge(complex, 1, 5);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFaceByEdge(complex, 4, 6);[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFaceByEdge(complex, 1, 3);[127X[104X
+    [4X[28Xfail[128X[104X
+    [4X[25Xgap>[125X [27XNeighbourFaceByEdge(complex, 6, 12);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis method can be implemented with the methods from chapter [14X3[114X. We only give
+  the  implementation  for  polygonal  complexes, since the implementation for
+  twisted polygonal complexes only includes an additional case distinction.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDifference( FacesOfEdge(complex, edge), [ face ] )[1];[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X10.4 [33X[0;0YLocalising subconfigurations with special properties[133X[101X
+  
+  [33X[0;0YIn  many  cases  it  is  necessary to find all vertices fulfilling a certain
+  property. Consider the polygonal complex from the start of chapter [14X10[114X: Image
+  omitted  in  terminal text If we want to know all vertices that are incident
+  to exactly three or four faces, we can use the [9XFiltered[109X-command.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFiltered( Vertices(complex), v -> FaceDegreeOfVertex(complex,v) in [3, 4] );[127X[104X
+    [4X[28X[ 2, 5, 6, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWhile  this  is  a  good  method  to  find  vertices,  edges  and faces with
+  individual  properties,  it  quickly becomes complicated if one searches for
+  more complicated structures.[133X
+  
+  [33X[0;0YFor  example, assume we are interested in all edges, whose incident vertices
+  are both incident to three or four faces. We could write a function to check
+  this property:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIs34Edge := function( complex, edge )[127X[104X
+    [4X[25X>[125X [27X     local vertices;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X     vertices := VerticesOfEdge(complex, edge);[127X[104X
+    [4X[25X>[125X [27X     return FaceDegreeOfVertex(complex, vertices[1]) in [3,4] and [127X[104X
+    [4X[25X>[125X [27X        FaceDegreeOfVertex(complex, vertices[2]) in [3,4];[127X[104X
+    [4X[25X>[125X [27X   end;[127X[104X
+    [4X[28Xfunction( complex, edge ) ... end[128X[104X
+    [4X[25Xgap>[125X [27XFiltered( Edges(complex), e -> Is34Edge(complex, e) );[127X[104X
+    [4X[28X[ 2, 3, 4, 6, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWith  the  knowledge  how  sublists  can  be  produced, the condition can be
+  expressed more succintly:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xedge := 8;;[127X[104X
+    [4X[25Xgap>[125X [27Xvertices := VerticesOfEdge(complex, edge);[127X[104X
+    [4X[28X[ 6, 8 ][128X[104X
+    [4X[25Xgap>[125X [27XFaceDegreesOfVertices(complex){vertices};[127X[104X
+    [4X[28X[ 4, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XIsSubset( [3,4], Set(last) );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThen a single [9XFiltered[109X-command could be used as well.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFiltered( Edges(complex), e -> [127X[104X
+    [4X[25X>[125X [27X     IsSubset( [3,4], [127X[104X
+    [4X[25X>[125X [27X       Set(FaceDegreesOfVertices(complex){ VerticesOfEdge(complex, e) } ) [127X[104X
+    [4X[25X>[125X [27X   ) );[127X[104X
+    [4X[28X[ 2, 3, 4, 6, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YBut  even  though  this  is  technically  a  one-liner,  it  is  still quite
+  complicated  for  a  rather  simple-seeming  task.  Therefore  this  section
+  contains some methods to simplify some of these situations.[133X
+  
+  [33X[0;0YUnfortunately,  many  special  situations  will still require writing custom
+  functions,   as  there  is  (as  of  yet)  no  way  to  test  for  arbitrary
+  substructures with arbitrary properties.[133X
+  
+  [33X[0;0YThis section contains the following shortcuts:[133X
+  
+  [30X    [33X[0;6YLocalising  adjacent vertices fulfilling certain properties. These may
+        be  returned as pairs of vertices ([9XAdjacentVerticesWithProperties[109X, see
+        [14X10.4-1[114X) or as edges ([9XEdgesWithVertexProperties[109X, see [14X10.4-2[114X).[133X
+  
+  [30X    [33X[0;6YLocalising faces whose vertices (or edges) fulfill certain properties.
+        The  available  methods  are  [9XFacesWithVertexProperties[109X  ([14X10.4-3[114X)  and
+        [9XFacesWithEdgeProperties[109X ([14X10.4-4[114X).[133X
+  
+  [1X10.4-1 AdjacentVerticesWithProperties[101X
+  
+  [33X[1;0Y[29X[2XAdjacentVerticesWithProperties[102X( [3Xcomplex[103X, [3Xprop1[103X, [3Xprop2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAdjacentVerticesWithProperties[102X( [3Xcomplex[103X, [3XpropList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XAdjacentVerticesWithProperty[102X( [3Xcomplex[103X, [3Xprop[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of tuples of positive integers[133X
+  
+  [33X[0;0YFor    a    given    twisted    polygonal   complex   [3Xcomplex[103X   the   method
+  [9XAdjacentVerticesWithProperties[109X([3Xcomplex[103X,  [3Xprop1[103X,  [3Xprop2[103X) returns all pairs of
+  vertices  [22X[v_1,v_2][122X  such  that [22Xv_1[122X fulfills property [3Xprop1[103X and [22Xv_2[122X fulfills
+  property [3Xprop2[103X.[133X
+  
+  [33X[0;0YThe two properties can be given as list [[3Xprop1[103X, [3Xprop2[103X] as well.[133X
+  
+  [33X[0;0YA property can be given in two ways (otherwise an error will be thrown);[133X
+  
+  [30X    [33X[0;6YAs  a function [3Xprop[103X with two arguments. Then, for a given vertex [22Xv[122X, it
+        is checked whether [3Xprop[103X([3Xcomplex[103X, [22Xv[122X) is [9Xtrue[109X.[133X
+  
+  [30X    [33X[0;6YAs  a  function [3Xprop[103X with one argument. Then, for a given vertex [22Xv[122X, it
+        is  checked whether [3Xprop[103X([22Xv[122X) is [9Xtrue[109X. In particular, it is assumed that
+        the  given function depends on [3Xcomplex[103X (otherwise there can be strange
+        results).[133X
+  
+  [33X[0;0YFor  the  alternative  method  [9XAdjacentVerticesWithProperty[109X  there  are  two
+  differences:[133X
+  
+  [30X    [33X[0;6YBoth vertices have to fulfill the same property[133X
+  
+  [30X    [33X[0;6YIf  [22X[v_1,v_2][122X  is  a  valid  answer,  then  [22X[v_2,v_1][122X  also  would be.
+        Therefore only the smaller one of these is returned.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAdjacentVerticesWithProperty(complex, [127X[104X
+    [4X[25X>[125X [27X     v -> FaceDegreeOfVertex(complex,v) = 3);[127X[104X
+    [4X[28X[ [ 2, 5 ] ][128X[104X
+    [4X[25Xgap>[125X [27XVertexNotIncidentToTriangle := function(complex, vertex)[127X[104X
+    [4X[25X>[125X [27X     local faces;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X     faces := FacesOfVertex(complex, vertex);[127X[104X
+    [4X[25X>[125X [27X     return ForAll( faces, f -> Length(EdgesOfFace(complex,f)) <> 3 );[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[25Xgap>[125X [27XAdjacentVerticesWithProperty( complex, VertexNotIncidentToTriangle );[127X[104X
+    [4X[28X[ [ 7, 8 ], [ 8, 9 ], [ 8, 12 ], [ 12, 13 ] ][128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XAdjacentVerticesWithProperties( complex, [127X[104X
+    [4X[25X>[125X [27X     v -> FaceDegreeOfVertex(complex, v) = 2,[127X[104X
+    [4X[25X>[125X [27X     v -> FaceDegreeOfVertex(complex, v) = 3);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 9, 5 ], [ 9, 8 ] ][128X[104X
+    [4X[25Xgap>[125X [27XAdjacentVerticesWithProperties(complex, VertexNotIncidentToTriangle,[127X[104X
+    [4X[25X>[125X [27X     v -> IsInnerVertex(complex, v));[127X[104X
+    [4X[28X[ [ 8, 9 ], [ 9, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  for  efficient  computations: The only way to provide a general method
+  like  [9XAdjacentVerticesWithProperties[109X  is  by  wrapping  the  properties into
+  functions.  Unfortunately,  calling  a  function  introduces an overhead. In
+  particular,  if the executed instructions are very fast (for example a small
+  computation or a list lookup), then the overhead by the function call may be
+  as  time  intensive as the actual computation. Therefore, if high efficiency
+  is  required  and  the  functionality of this method is time critical, it is
+  probably  more  efficient  to  manually implement the functionality into the
+  code.[133X
+  
+  [1X10.4-2 EdgesWithVertexProperties[101X
+  
+  [33X[1;0Y[29X[2XEdgesWithVertexProperties[102X( [3Xcomplex[103X, [3Xprop1[103X, [3Xprop2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesWithVertexProperties[102X( [3Xcomplex[103X, [3XpropList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesWithVertexProperty[102X( [3Xcomplex[103X, [3Xprop[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YFor    a    given    twisted    polygonal   complex   [3Xcomplex[103X   the   method
+  [9XEdgesWithVertexProperty[109X([3Xcomplex[103X,  [3Xprop[103X)  returns  the  set of all edges such
+  that both of its vertices fulfill property [3Xprop[103X.[133X
+  
+  [33X[0;0YA property can be given in two ways (otherwise an error will be thrown);[133X
+  
+  [30X    [33X[0;6YAs  a function [3Xprop[103X with two arguments. Then, for a given vertex [22Xv[122X, it
+        is checked whether [3Xprop[103X([3Xcomplex[103X, [22Xv[122X) is [9Xtrue[109X.[133X
+  
+  [30X    [33X[0;6YAs  a  function [3Xprop[103X with one argument. Then, for a given vertex [22Xv[122X, it
+        is  checked whether [3Xprop[103X([22Xv[122X) is [9Xtrue[109X. In particular, it is assumed that
+        the  given function depends on [3Xcomplex[103X (otherwise there can be strange
+        results).[133X
+  
+  [33X[0;0YThe  alternative  method  [9XEdgesWithVertexProperties[109X([3Xcomplex[103X,  [3Xprop1[103X,  [3Xprop2[103X)
+  returns  the  set of all edges such that one of the incident vertices in the
+  edge fulfills [3Xprop1[103X and the other fulfills property [3Xprop2[103X.[133X
+  
+  [33X[0;0YThe two properties can be given as list [[3Xprop1[103X, [3Xprop2[103X] as well.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesWithVertexProperty(complex, v -> IsBoundaryVertex(complex, v));[127X[104X
+    [4X[28X[ 5, 7, 8, 10, 12, 14 ][128X[104X
+    [4X[25Xgap>[125X [27XNotAdjacentToInnerVertex := function(complex, vertex)[127X[104X
+    [4X[25X>[125X [27X     local edges, otherVerts;[127X[104X
+    [4X[25X>[125X [27X  [127X[104X
+    [4X[25X>[125X [27X     edges := EdgesOfVertex(complex, vertex);[127X[104X
+    [4X[25X>[125X [27X     otherVerts := List(edges, e -> OtherVertexOfEdge(complex, vertex, e));[127X[104X
+    [4X[25X>[125X [27X     return ForAll( otherVerts, v -> not IsInnerVertex(complex, v) );[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[25Xgap>[125X [27XEdgesWithVertexProperty(complex, NotAdjacentToInnerVertex);[127X[104X
+    [4X[28X[ 7, 14 ][128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XEdgesWithVertexProperties(complex,[127X[104X
+    [4X[25X>[125X [27X     v -> IsBoundaryVertex(complex, v),[127X[104X
+    [4X[25X>[125X [27X     v -> IsRamifiedVertex(complex, v) );[127X[104X
+    [4X[28X[ 1, 3, 4, 13 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesWithVertexProperties(complex, NotAdjacentToInnerVertex,[127X[104X
+    [4X[25X>[125X [27X     v -> IsRamifiedVertex(complex, v));[127X[104X
+    [4X[28X[ 1, 13 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  for  efficient  computations: The only way to provide a general method
+  like [9XEdgesWithVertexProperties[109X is by wrapping the properties into functions.
+  Unfortunately,  calling a function introduces an overhead. In particular, if
+  the  executed instructions are very fast (for example a small computation or
+  a  list  lookup),  then  the  overhead  by  the function call may be as time
+  intensive  as  the  actual  computation.  Therefore,  if  high efficiency is
+  required  and  the  functionality  of  this  method  is time critical, it is
+  probably  more  efficient  to  manually implement the functionality into the
+  code.[133X
+  
+  [1X10.4-3 FacesWithVertexProperties[101X
+  
+  [33X[1;0Y[29X[2XFacesWithVertexProperties[102X( [3Xcomplex[103X, [3XpropList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFacesWithVertexProperty[102X( [3Xcomplex[103X, [3Xprop[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YFor    a    given    twisted    polygonal   complex   [3Xcomplex[103X   the   method
+  [9XFacesWithVertexProperty[109X([3Xcomplex[103X,  [3Xprop[103X)  returns  the  set of all faces such
+  that all of its incident vertices fulfill property [3Xprop[103X.[133X
+  
+  [33X[0;0YA property can be given in two ways (otherwise an error will be thrown);[133X
+  
+  [30X    [33X[0;6YAs  a function [3Xprop[103X with two arguments. Then, for a given vertex [22Xv[122X, it
+        is checked whether [3Xprop[103X([3Xcomplex[103X, [22Xv[122X) is [9Xtrue[109X.[133X
+  
+  [30X    [33X[0;6YAs  a  function [3Xprop[103X with one argument. Then, for a given vertex [22Xv[122X, it
+        is  checked whether [3Xprop[103X([22Xv[122X) is [9Xtrue[109X. In particular, it is assumed that
+        the  given function depends on [3Xcomplex[103X (otherwise there can be strange
+        results).[133X
+  
+  [33X[0;0YThe  alternative method [9XFacesWithVertexProperties[109X([3Xcomplex[103X, [3XpropList[103X) returns
+  the  set  of  all  faces such that each of the incident vertices in the face
+  fulfills  one  property  of  [3XpropList[103X,  such  that  every entry is fulfilled
+  exactly  once  (this  implies  in  particular  that  the  number of incident
+  vertices is equal to [9XLength[109X([3XpropList[103X)).[133X
+  
+  [33X[0;0YEmpty  positions  in  this  list  are  filled  with the function that always
+  returns [9Xtrue[109X.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFacesWithVertexProperty( complex, v -> not IsInnerVertex(complex,v) );[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XTwoBoundaryEdgesIncident := function(complex, vertex)[127X[104X
+    [4X[25X>[125X [27X     local edges, boundEdges;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X     edges := EdgesOfVertex(complex, vertex);[127X[104X
+    [4X[25X>[125X [27X     boundEdges := Filtered(edges, e -> IsBoundaryEdge(complex, e));[127X[104X
+    [4X[25X>[125X [27X     return Length(boundEdges) = 2;[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[25Xgap>[125X [27XFacesWithVertexProperty( complex, TwoBoundaryEdgesIncident );[127X[104X
+    [4X[28X[ 2 ][128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XFacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident,[127X[104X
+    [4X[25X>[125X [27X     v -> IsRamifiedVertex(complex, v),[127X[104X
+    [4X[25X>[125X [27X     v -> FaceDegreeOfVertex(complex, v) = 2 ] );[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident,[127X[104X
+    [4X[25X>[125X [27X     v -> IsRamifiedVertex(complex, v),[127X[104X
+    [4X[25X>[125X [27X     v -> EdgeDegreeOfVertex(complex, v) = 3 ] );[127X[104X
+    [4X[28X[ 1, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident, , ,[127X[104X
+    [4X[25X>[125X [27X     v -> IsInnerVertex(complex, v)] );[127X[104X
+    [4X[28X[ 4 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  for  efficient  computations: The only way to provide a general method
+  like [9XFacesWithVertexProperties[109X is by wrapping the properties into functions.
+  Unfortunately,  calling a function introduces an overhead. In particular, if
+  the  executed instructions are very fast (for example a small computation or
+  a  list  lookup),  then  the  overhead  by  the function call may be as time
+  intensive  as  the  actual  computation.  Therefore,  if  high efficiency is
+  required  and  the  functionality  of  this  method  is time critical, it is
+  probably  more  efficient  to  manually implement the functionality into the
+  code.[133X
+  
+  [1X10.4-4 FacesWithEdgeProperties[101X
+  
+  [33X[1;0Y[29X[2XFacesWithEdgeProperties[102X( [3Xcomplex[103X, [3XpropList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFacesWithEdgeProperty[102X( [3Xcomplex[103X, [3Xprop[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YFor    a    given    twisted    polygonal   complex   [3Xcomplex[103X   the   method
+  [9XFacesWithEdgeProperty[109X([3Xcomplex[103X,  [3Xprop[103X) returns the set of all faces such that
+  all of its incident edges fulfill property [3Xprop[103X.[133X
+  
+  [33X[0;0YA property can be given in two ways (otherwise an error will be thrown);[133X
+  
+  [30X    [33X[0;6YAs a function [3Xprop[103X with two arguments. Then, for a given edge [22Xe[122X, it is
+        checked whether [3Xprop[103X([3Xcomplex[103X, [22Xe[122X) is [9Xtrue[109X.[133X
+  
+  [30X    [33X[0;6YAs  a function [3Xprop[103X with one argument. Then, for a given edge [22Xe[122X, it is
+        checked whether [3Xprop[103X([22Xe[122X) is [9Xtrue[109X. In particular, it is assumed that the
+        given  function  depends  on  [3Xcomplex[103X  (otherwise there can be strange
+        results).[133X
+  
+  [33X[0;0YThe  alternative  method  [9XFacesWithEdgeProperties[109X([3Xcomplex[103X, [3XpropList[103X) returns
+  the  set  of  all  faces  such  that  each of the incident edges in the face
+  fulfills  one  property  of  [3XpropList[103X,  such  that  every entry is fulfilled
+  exactly  once  (this implies in particular that the number of incident edges
+  is equal to [9XLength[109X([3XpropList[103X)).[133X
+  
+  [33X[0;0YEmpty  positions  in  this  list  are  filled  with the function that always
+  returns [9Xtrue[109X.[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of chapter [14X10[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFacesWithEdgeProperty(complex, e -> IsInnerEdge(complex, e));[127X[104X
+    [4X[28X[ 4 ][128X[104X
+    [4X[25Xgap>[125X [27XInnerEdgeOrRamifiedVertex := function( complex, edge )[127X[104X
+    [4X[25X>[125X [27X     local verts;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X     if IsInnerEdge(complex, edge) then[127X[104X
+    [4X[25X>[125X [27X       return true;[127X[104X
+    [4X[25X>[125X [27X     fi;[127X[104X
+    [4X[25X>[125X [27X[127X[104X
+    [4X[25X>[125X [27X     verts := VerticesOfEdge(complex, edge);[127X[104X
+    [4X[25X>[125X [27X     return ForAny(verts, v -> IsRamifiedVertex(complex, v));[127X[104X
+    [4X[25X>[125X [27Xend;;[127X[104X
+    [4X[25Xgap>[125X [27XFacesWithEdgeProperty( complex, InnerEdgeOrRamifiedVertex );[127X[104X
+    [4X[28X[ 1, 4, 5 ][128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XFacesWithEdgeProperties(complex, [ [127X[104X
+    [4X[25X>[125X [27X     e -> IsInnerEdge(complex, e),[127X[104X
+    [4X[25X>[125X [27X     InnerEdgeOrRamifiedVertex,[127X[104X
+    [4X[25X>[125X [27X     e -> IsBoundaryEdge(complex, e)]);[127X[104X
+    [4X[28X[ 1, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesWithEdgeProperties(complex, [ , ,[127X[104X
+    [4X[25X>[125X [27X    e -> IsBoundaryEdge(complex, e), InnerEdgeOrRamifiedVertex]);[127X[104X
+    [4X[28X[ 2 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNote  for  efficient  computations: The only way to provide a general method
+  like  [9XFacesWithEdgeProperties[109X  is by wrapping the properties into functions.
+  Unfortunately,  calling a function introduces an overhead. In particular, if
+  the  executed instructions are very fast (for example a small computation or
+  a  list  lookup),  then  the  overhead  by  the function call may be as time
+  intensive  as  the  actual  computation.  Therefore,  if  high efficiency is
+  required  and  the  functionality  of  this  method  is time critical, it is
+  probably  more  efficient  to  manually implement the functionality into the
+  code.[133X
+  
+  
+  [1X10.5 [33X[0;0YDetermination of common elements[133X[101X
+  
+  [1X10.5-1 CommonVerticesOfEdges[101X
+  
+  [33X[1;0Y[29X[2XCommonVerticesOfEdges[102X( [3Xcomplex[103X, [3Xedge1[103X, [3Xedge2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonVerticesOfEdges[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonVerticesOfEdgesNC[102X( [3Xcomplex[103X, [3Xedge1[103X, [3Xedge2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonVerticesOfEdgesNC[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XCommonVerticesOfEdges[109X([3Xcomplex[103X, [3Xedge1[103X, [3Xedge2[103X) returns the set of
+  all  vertices  that are incident to [3Xedge1[103X and [3Xedge2[103X. The NC-version does not
+  check whether the given [3Xedge1[103X and [3Xedge2[103X is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  method  [9XCommonVerticesOfEdges[109X([3Xcomplex[103X, [3XedgeList[103X) returns the set of all
+  vertices that are incident to all the edges in [3XedgeList[103X. The NC-version does
+  not check whether the given edges in [3XedgeList[103X are an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCommonVerticesOfEdges(complex,8,9);[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[25Xgap>[125X [27XCommonVerticesOfEdges(complex,8,6);[127X[104X
+    [4X[28X[ 6 ][128X[104X
+    [4X[25Xgap>[125X [27XCommonVerticesOfEdges(complex,[8,6,5]);[127X[104X
+    [4X[28X[ 6 ][128X[104X
+  [4X[32X[104X
+  
+  [1X10.5-2 CommonEdgesOfFaces[101X
+  
+  [33X[1;0Y[29X[2XCommonEdgesOfFaces[102X( [3Xcomplex[103X, [3Xface1[103X, [3Xface2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonEdgesOfFaces[102X( [3Xcomplex[103X, [3XfaceList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonEdgesOfFacesNC[102X( [3Xcomplex[103X, [3Xface1[103X, [3Xface2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonEdgesOfFacesNC[102X( [3Xcomplex[103X, [3XfaceList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XCommonEdgesOfFaces[109X([3Xcomplex[103X, [3Xface1[103X, [3Xface2[103X) returns the set of all
+  edges  that  are  incident to [3Xface1[103X and [3Xface2[103X. The NC-version does not check
+  whether the given [3Xface1[103X and [3Xface2[103X is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  method  [9XCommonEdgesOfFaces[109X([3Xcomplex[103X,  [3XfaceList[103X)  returns  the set of all
+  edges  that  are  incident to all the faces in [3XfaceList[103X. The NC-version does
+  not check whether the given faces in [3XfaceList[103X are a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCommonEdgesOfFaces(complex,[6,4]);[127X[104X
+    [4X[28X[ 9, 11 ][128X[104X
+  [4X[32X[104X
+  
+  [1X10.5-3 CommonVerticesOfFaces[101X
+  
+  [33X[1;0Y[29X[2XCommonVerticesOfFaces[102X( [3Xcomplex[103X, [3Xface1[103X, [3Xface2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonVerticesOfFaces[102X( [3Xcomplex[103X, [3XfaceList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonVerticesOfFacesNC[102X( [3Xcomplex[103X, [3Xface1[103X, [3Xface2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonVerticesOfFacesNC[102X( [3Xcomplex[103X, [3XfaceList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XCommonVerticesOfFaces[109X([3Xcomplex[103X, [3Xface1[103X, [3Xface2[103X) returns the set of
+  all  vertices  that are incident to [3Xface1[103X and [3Xface2[103X. The NC-version does not
+  check whether the given [3Xface1[103X and [3Xface2[103X is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  method  [9XCommonEdgesOfFaces[109X([3Xcomplex[103X,  [3XfaceList[103X)  returns  the set of all
+  vertices that are incident to all the faces in [3XfaceList[103X. The NC-version does
+  not check whether the given faces in [3XfaceList[103X are a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCommonVerticesOfFaces(complex,1,4);[127X[104X
+    [4X[28X[ 6 ][128X[104X
+    [4X[25Xgap>[125X [27XCommonVerticesOfFaces(complex,6,4);[127X[104X
+    [4X[28X[ 5, 8, 9 ][128X[104X
+  [4X[32X[104X
+  
+  [1X10.5-4 CommonEdgesOfVertices[101X
+  
+  [33X[1;0Y[29X[2XCommonEdgesOfVertices[102X( [3Xcomplex[103X, [3Xvertex1[103X, [3Xvertex2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonEdgesOfVertices[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonEdgesOfVerticesNC[102X( [3Xcomplex[103X, [3Xvertex1[103X, [3Xvertex2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonEdgesOfVerticesNC[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XCommonEdgesOfVertices[109X([3Xcomplex[103X, [3Xvertex1[103X, [3Xvertex2[103X) returns the set
+  of  all  edges that are incident to [3Xvertex1[103X and [3Xvertex2[103X. The NC-version does
+  not check whether the given [3Xvertex1[103X and [3Xvertex2[103X is a vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe method [9XCommonEdgesOfVertices[109X([3Xcomplex[103X, [3XvertexList[103X) returns the set of all
+  edges  that  are  incident to all the vertices in [3XvertexList[103X. The NC-version
+  does  not  check  whether  the  given vertices in [3XvertexList[103X are a vertex of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27X CommonEdgesOfVertices(complex,6,2);[127X[104X
+    [4X[28X[ 3, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X10.5-5 CommonFacesOfEdges[101X
+  
+  [33X[1;0Y[29X[2XCommonFacesOfEdges[102X( [3Xcomplex[103X, [3Xedge1[103X, [3Xedge2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonFacesOfEdges[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonFacesOfEdgesNC[102X( [3Xcomplex[103X, [3Xedge1[103X, [3Xedge2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonFacesOfEdgesNC[102X( [3Xcomplex[103X, [3XedgeList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XCommonFacesOfEdges[109X([3Xcomplex[103X, [3Xedge1[103X, [3Xedge2[103X) returns the set of all
+  faces  that  are  incident to [3Xedge1[103X and [3Xedge2[103X. The NC-version does not check
+  whether the given [3Xedge1[103X and [3Xedge2[103X is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  method  [9XCommonFacesOfEdges[109X([3Xcomplex[103X,  [3XedgeList[103X)  returns  the set of all
+  faces  that  are  incident to all the edges in [3XedgeList[103X. The NC-version does
+  not check whether the given edges in [3XedgeList[103X are an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCommonFacesOfEdges(complex,9,12);[127X[104X
+    [4X[28X[ 6 ][128X[104X
+    [4X[25Xgap>[125X [27XCommonFacesOfEdges(complex,[9,11]);[127X[104X
+    [4X[28X[ 4, 6 ][128X[104X
+  [4X[32X[104X
+  
+  [1X10.5-6 CommonFacesOfVertices[101X
+  
+  [33X[1;0Y[29X[2XCommonFacesOfVertices[102X( [3Xcomplex[103X, [3Xvertex1[103X, [3Xvertex2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonFacesOfVertices[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonFacesOfVerticesNC[102X( [3Xcomplex[103X, [3Xvertex1[103X, [3Xvertex2[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XCommonFacesOfVerticesNC[102X( [3Xcomplex[103X, [3XvertexList[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XCommonFacesOfVertices[109X([3Xcomplex[103X, [3Xvertex1[103X, [3Xvertex2[103X) returns the set
+  of  all  faces that are incident to [3Xvertex1[103X and [3Xvertex2[103X. The NC-version does
+  not check whether the given [3Xvertex1[103X and [3Xvertex2[103X is a vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe method [9XCommonFacesOfVertices[109X([3Xcomplex[103X, [3XvertexList[103X) returns the set of all
+  faces  that  are  incident to all the vertices in [3XvertexList[103X. The NC-version
+  does  not  check  whether  the  given vertices in [3XvertexList[103X are a vertex of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the start of chapter [14X10[114X:
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XCommonFacesOfVertices(complex,9,5);[127X[104X
+    [4X[28X[ 4, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XCommonFacesOfVertices(complex,[6,8]);[127X[104X
+    [4X[28X[ 2, 4 ][128X[104X
+  [4X[32X[104X
+  

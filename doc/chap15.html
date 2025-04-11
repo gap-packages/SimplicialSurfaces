@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (SimplicialSurfaces) - Chapter 15: Graphs and isomorphisms</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap15"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap14.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap16.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap15_mj.html">[MathJax on]</a></p>
+<p><a id="X783CAB6581CAF8A9" name="X783CAB6581CAF8A9"></a></p>
+<div class="ChapSects"><a href="chap15.html#X783CAB6581CAF8A9">15 <span class="Heading">Graphs and isomorphisms</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X7D298F3D84349692">15.1 <span class="Heading">Which graph package should be used?</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X8487449A81FBC8D6">15.2 <span class="Heading">Incidence graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7838DB3187B00B82">15.2-1 IncidenceDigraphsGraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X7CBD81987C95F2FD">15.3 <span class="Heading">Chamber adjacency graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X78F240E879A06C18">15.3-1 ChamberAdjacencyGraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X871404447A0F1732">15.4 <span class="Heading">Edge and Face Graph</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X84236C2A7A1D3F40">15.4-1 EdgeDigraphsGraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X79CE6AC2842A4F92">15.4-2 FaceDigraphsGraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X872A83387C1992E4">15.4-3 AllSimplicialSurfacesOfDigraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X84D32DE280598654">15.5 <span class="Heading">Isomorphism testing</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7CA89F2681EE2164">15.5-1 IsIsomorphic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7BB270E781CDBD90">15.5-2 IsomorphismRepresentatives</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7901ED90806F4F20">15.5-3 CanonicalRepresentativeOfPolygonalSurface</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X8489C4E47B92C882">15.6 <span class="Heading">Automorphism groups of polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X846C2BB57A331B47">15.6-1 AutomorphismGroup</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X78EA2CDA79ACA463">15.6-2 DisplayAsAutomorphism</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X85C02FE87E3E2FE4">15.6-3 AutomorphismGroupOnVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X870D993883AB91EE">15.6-4 AutomorphismGroupOnEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7964BFBB84492470">15.6-5 AutomorphismGroupOnFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap15.html#X7E3B533A7FB676AE">15.7 <span class="Heading">Action on paths</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X815248FA7E68043E">15.7-1 OnVertexEdgePaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap15.html#X7DB2CF267FE85167">15.7-2 OnEdgeFacePaths</a></span>
+</div></div>
+</div>
+
+<h3>15 <span class="Heading">Graphs and isomorphisms</span></h3>
+
+<p>This chapter is concerned with different graphs associated to (twisted) polygonal complexes, as well as isomorphisms and automorphisms.</p>
+
+<p>A twisted polygonal complex can be completely described by its chamber adjacencies, which can be encoded as an edge-coloured graph. A polygonal complex is completely determined by its incidence structure, which can be encoded as a vertex-coloured graph. Thus, the isomorphism problem between (twisted) polygonal complexes reduces to the graph isomorphism problem.</p>
+
+<p>Most of the methods in this chapter need access to one of the graph packages in <strong class="pkg">GAP</strong> (check the method descriptions to see whether a certain graph package is sufficient to execute the method). Currently supported are the packages <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>. A discussion of their individual merits is postponed to Section <a href="chap15.html#X7D298F3D84349692"><span class="RefLink">15.1</span></a>.</p>
+
+<p>Sections <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a> and <a href="chap15.html#X7CBD81987C95F2FD"><span class="RefLink">15.3</span></a> introduce the incidence graph and the chamber adjacency graph. Although isomorphism testing and automorphism computation relies on them, these sections are in general not necessary in practice.</p>
+
+<p>Section <a href="chap15.html#X871404447A0F1732"><span class="RefLink">15.4</span></a> describes the edge graph and the face graph of a polygonal complex. They are used in practice like in <a href="chap15.html#X872A83387C1992E4"><span class="RefLink">15.4-3</span></a>.</p>
+
+<p>Section <a href="chap15.html#X84D32DE280598654"><span class="RefLink">15.5</span></a> contains the isomorphism method <code class="keyw">IsIsomorphic</code> (<a href="chap15.html#X7CA89F2681EE2164"><span class="RefLink">15.5-1</span></a>).</p>
+
+<p>Section <a href="chap15.html#X8489C4E47B92C882"><span class="RefLink">15.6</span></a> explains in detail how to use the automorphism group of (twisted) polygonal complexes. Section <a href="chap15.html#X7E3B533A7FB676AE"><span class="RefLink">15.7</span></a> explores the action of automorphisms on paths.</p>
+
+<p><a id="X7D298F3D84349692" name="X7D298F3D84349692"></a></p>
+
+<h4>15.1 <span class="Heading">Which graph package should be used?</span></h4>
+
+<p>The <code class="keyw">SimplicialSurface</code>-package supports three different graph packages: <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p>They have different benefits and disadvantages and are therefore recommended for different uses:</p>
+
+
+<ul>
+<li><p><code class="keyw">NautyTracesInterface</code>: This package is designed for the single purpose of enabling a fast interface to <code class="keyw">Nauty/Traces</code>. In this measure it excels. On almost all other measures it does not compete.</p>
+
+<p>Therefore it is recommended to have this package available to make isomorphism testing and automorphism computation fast. For other purposes it is not recommended.</p>
+
+</li>
+<li><p><code class="keyw">GRAPE</code>: This package is designed to work with graphs that have large automorphism groups. Unfortunately it is written in a way that is not fully compatible with modern <strong class="pkg">GAP</strong>. Therefore it is often necessary to perform <code class="keyw">ShallowCopy</code> on a graph before any methods can be applied to it.</p>
+
+<p>Its main advantage is that it works out of the box.</p>
+
+</li>
+<li><p><code class="keyw">Digraphs</code>: This package has the goal of becoming the leading graph package in <strong class="pkg">GAP</strong>. It is still developed further but there are sometimes problems with its installation.</p>
+
+<p>If the installation is working though, it is recommended to use <code class="keyw">Digraphs</code> instead of <code class="keyw">GRAPE</code>.</p>
+
+</li>
+</ul>
+<p>To get information about a graph is for <code class="keyw">NautyTracesInterface</code> and <code class="keyw">GRAPE</code> not so nice as for <code class="keyw">Digraphs</code>. The different ways to get the information are shown in section <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a>.</p>
+
+<p><a id="X8487449A81FBC8D6" name="X8487449A81FBC8D6"></a></p>
+
+<h4>15.2 <span class="Heading">Incidence graph</span></h4>
+
+<p>The incidence relation (which is central to our concept of polygonal complexes, compare chapter <a href="chap2.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a>) can be interpreted as a coloured undirected graph, the <em>incidence graph</em> of the polygonal complex.</p>
+
+<p>The vertices of this incidence graph consist of all vertices (colour 0), edges (colour 1) and faces (colour 2) of the polygonal complex. The edges of the incidence graph are given by pairs of vertices-edges and edges-faces that are incident to each other.</p>
+
+<p>As an example, consider the polygonal surface from section <a href="chap3.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src="./images/_Wrapper_Image_IncidenceGraph-1.svg"> </img> <br></p>
+
+<p>Unfortunately the vertex labels of the graph in <strong class="pkg">GAP</strong> have to be distinct, which is not guaranteed in general. Therefore we shift the labels of the edges by the maximal vertex label and the face labels by the sum of the maximal vertex and edge labels. In the example above the maximal vertex label is 11 and the maximal edge label is 13. It would be modified like this: <br><img src='./images/_Wrapper_graphs-1-1.svg'> </img> <br></p>
+
+<p>The incidence graph is given as a <strong class="pkg">GAP</strong>-graph. Currently these packages are supported: <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p><a id="X7838DB3187B00B82" name="X7838DB3187B00B82"></a></p>
+
+<h5>15.2-1 IncidenceDigraphsGraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IncidenceDigraphsGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IncidenceGrapeGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IncidenceNautyGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a graph as defined in the package <code class="keyw">Digraphs</code>,<code class="keyw">GRAPE</code> or <code class="keyw">NautyTracesInterface</code></p>
+
+<p>Return the incidence graph (a coloured, undirected graph) of the given polygonal complex. The incidence graph is defined as follows:</p>
+
+
+<ul>
+<li><p>The <em>vertices</em> are the vertices (colour 0), edges (colour 1) and faces (colour 2) of <var class="Arg">complex</var>. The labels are shifted in the following way:</p>
+
+
+<ul>
+<li><p>The vertex numbers are not modified</p>
+
+</li>
+<li><p>The edge numbers are shifted upwards by the maximal vertex number</p>
+
+</li>
+<li><p>The face numbers are shifted upwards by the sum of the maximal vertex number and the maximal edge number</p>
+
+</li>
+</ul>
+</li>
+<li><p>The <em>edges</em> are vertex-edge-pairs or edge-face-pairs such that the elements of the pair are incident in <var class="Arg">complex</var>.</p>
+
+</li>
+</ul>
+<p>The returned graph can be given in three different formats, corresponding to different graph packages: <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p>Consider the polygonal complex at the begin of section <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[6,8,9], , , [9,10,12,13]]);</span>
+polygonal surface (5 vertices, 6 edges, and 2 faces)
+</pre></div>
+
+<p>First of all look at the graph given by <code class="keyw">Digraphs</code>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph := IncidenceDigraphsGraph(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DigraphVertices(digraph);</span>
+[ 1 .. 13 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DigraphVertexLabels(digraph);</span>
+[ 2, 3, 5, 7, 11, 17, 19, 20, 21, 23, 24, 25, 28 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DigraphEdges(digraph);</span>
+[ [ 1, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 2, 10 ], [ 3, 6 ], [ 3, 8 ],
+[ 3, 9 ], [ 4, 10 ], [ 4, 11 ], [ 5, 9 ], [ 5, 11 ], [ 6, 1 ], [ 6, 3 ],
+[ 6, 12 ], [ 7, 1 ], [ 7, 2 ], [ 7, 12 ], [ 8, 2 ], [ 8, 3 ], [ 8, 12 ],
+[ 8, 13 ], [ 9, 3 ], [ 9, 5 ], [ 9, 13 ], [ 10, 2 ], [ 10, 4 ], [ 10, 13 ],
+[ 11, 4 ], [ 11, 5 ], [ 11, 13 ], [ 12, 6 ], [ 12, 7 ], [ 12, 8 ], [ 13, 8 ],
+[ 13, 9 ], [ 13, 10 ], [ 13, 11 ] ] 
+</pre></div>
+
+<p>Consider how getting information from a graph given by <code class="keyw">GRAPE</code> looks like:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">grape := IncidenceGrapeGraph(complex).graph;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DirectedEdges(grape)=DigraphEdges(digraph);</span>
+true
+</pre></div>
+
+<p>Finally, consider how getting information from a graph given by <code class="keyw">NautyTracesInterface</code> looks like:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">nauty:=UnderlyingNautyGraph(IncidenceNautyGraph(complex));;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">nautyEdges:=nauty!.edges;</span>
+[ [ 1, 6 ], [ 3, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 5, 9 ],
+[ 2, 10 ], [ 4, 10 ], [ 4, 11 ], [ 5, 11 ], [ 6, 12 ],
+[ 7, 12 ], [ 8, 12 ], [ 8, 13 ], [ 9, 13 ], [ 10, 13 ], [ 11, 13 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">nautyEdges=DigraphEdges(digraph);</span>
+false
+</pre></div>
+
+<p>The edges of the nauty incidence graph are not equal to the edges of the digraph, since the edges from the nauty graph are undirected.</p>
+
+<p><a id="X7CBD81987C95F2FD" name="X7CBD81987C95F2FD"></a></p>
+
+<h4>15.3 <span class="Heading">Chamber adjacency graph</span></h4>
+
+<p>To describe a twisted polygonal complex (compare Section <a href="chap2.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a>), it is sufficient to know its chambers and their adjacencies. These can be encoded as an edge-coloured graph:</p>
+
+
+<ul>
+<li><p>The vertices are the set of chambers.</p>
+
+</li>
+<li><p>If two chambers are <span class="SimpleMath">k</span>-adjacent, there is an edge labelled <span class="SimpleMath">k</span> between these two chambers.</p>
+
+</li>
+</ul>
+<p>In this fashion, we obtain an undirected graph whose edges are coloured with the colours 0, 1, and 2.</p>
+
+<p>Unfortunately, the <strong class="pkg">GAP</strong>-packages <code class="keyw">GRAPE</code> and <code class="keyw">Digraphs</code> do not support edge-coloured graphs. Therefore, only the graphs from the package <code class="keyw">NautyTracesInterface</code> are supported.</p>
+
+<p><a id="X78F240E879A06C18" name="X78F240E879A06C18"></a></p>
+
+<h5>15.3-1 ChamberAdjacencyGraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChamberAdjacencyGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a graph as defined in the package <code class="keyw">NautyTracesInterface</code></p>
+
+<p>Return the chamber adjacency graph (an edge-coloured, undirected graph) of the given twisted polygonal complex. It is defined as follows:</p>
+
+
+<ul>
+<li><p>The <em>vertices</em> are the chambers of <var class="Arg">complex</var>.</p>
+
+</li>
+<li><p>If two chambers are <span class="SimpleMath">k</span>-adjacent in <var class="Arg">complex</var>, there is an edge with colour <span class="SimpleMath">k</span> between the corresponding vertices of this graph.</p>
+
+</li>
+</ul>
+<p>Since <code class="keyw">GRAPE</code> and <code class="keyw">Digraphs</code> currently do not support edge-coloured graphs, the chamber adjacency graph can only be given as a graph from <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p>Note that the vertices of graph from <code class="keyw">NautyTracesInterface</code> have to be the integers from 1 to the number of chambers.</p>
+
+<p>TODO example that also shows how we can get any information out of these graphs</p>
+
+<p><a id="X871404447A0F1732" name="X871404447A0F1732"></a></p>
+
+<h4>15.4 <span class="Heading">Edge and Face Graph</span></h4>
+
+<p>For some purposes it is useful to work with other associated graphs of polygonal complexes. In this section the edge graph of a polygonal complex and the face graph of a polygonal surface is introduced. Both of them are implemented for all supported graph packages: <code class="keyw">Digraphs</code>, <code class="keyw">GRAPE</code> and <code class="keyw">NautyTracesInterface</code>. These graphs are useful if it is not necessary to need all information of the complex. The edge graph only describes the incidence structure of vertices and edges. Instead, the face graph describes the incidence structure of edges and faces. Using method <a href="chap15.html#X872A83387C1992E4"><span class="RefLink">15.4-3</span></a> it is possible to get all surfaces that have a common face graph.</p>
+
+<p>The face graph and the edge graph of a polygonal complex are dual graphs of each other. The dual graph of a planar graph G is a graph that has a vertex for each face of G and an edge for each pair of faces that intersect in at least one edge. For example, consider the ocathedron. The following graph is the face graph of the octahedron: <img src="./images/_Wrapper_Image_FacegraphOct-1.svg"> </img> The edge graph of the octahedron, i.e. the dual of the face graph, is the following graph: <img src="./images/_Wrapper_Image_EdgegraphOct-1.svg"> </img></p>
+
+<p>The face graph of the octahedron is equivalent to the edge graph of the cube and vice versa. That means the dual polyhedron of the cube is the octahedron. In section <a href="chap15.html#X84236C2A7A1D3F40"><span class="RefLink">15.4-1</span></a> and <a href="chap15.html#X79CE6AC2842A4F92"><span class="RefLink">15.4-2</span></a> is an example, where the edge graph respectively the face graph is self dual. That means that the edge graph and the face graph of a polygonal complex are equal.</p>
+
+<p><a id="X84236C2A7A1D3F40" name="X84236C2A7A1D3F40"></a></p>
+
+<h5>15.4-1 EdgeDigraphsGraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeDigraphsGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeGrapeGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeNautyGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a graph as defined in the package <code class="keyw">Digraphs</code>/<code class="keyw">GRAPE</code>/<code class="keyw">NautyTracesInterface</code></p>
+
+<p>Return the edge graph of the given polygonal complex. The vertices of the edge graph are the vertices of <var class="Arg">complex</var> and for every edge in <var class="Arg">complex</var> there is a corresponding edge in the edge graph.</p>
+
+<p>The vertices of the resulting graph are always numbered from 1 to n, where n is the number of the vertices. That means if the vertex list of <var class="Arg">surface</var> is not bounded, the vertices in the graph will have a different number than the vertices of <var class="Arg">surface</var>. The same hold for the edges in Nauty. Since the edges in Digraphs are directed but the edge graph is undirected, each edge of the edge graph is represented by two directed edges in the <code class="keyw">Digraphs</code> package.</p>
+
+<p>For example, consider the edge graph of the tetrahedron:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph:=EdgeDigraphsGraph(Tetrahedron());</span>
+&lt;immutable digraph with 4 vertices, 12 edges&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DigraphEdges(digraph);</span>
+[ [ 1, 2 ], [ 2, 1 ], [ 1, 3 ], [ 3, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 3 ], [ 3, 2 ], 
+[ 2, 4 ], [ 4, 2 ], [ 3, 4 ], [ 4, 3 ] ] 
+</pre></div>
+
+<p>This is the edge graph of the tetrahedron with undirected edges: <br><img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> </img> <br></p>
+
+<p><a id="X79CE6AC2842A4F92" name="X79CE6AC2842A4F92"></a></p>
+
+<h5>15.4-2 FaceDigraphsGraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceDigraphsGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceNautyGraph</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a graph as defined in the package <code class="keyw">Digraphs</code>/<code class="keyw">NautyTracesInterface</code></p>
+
+<p>Return the face graph of a given polygonal complex. The vertices of the face graph are the faces of <var class="Arg">complex</var> and for every edge in <var class="Arg">complex</var> there is a corresponding edge in the face graph.</p>
+
+<p>The returned graph can be given in two different formats, corresponding to different graph packages: <code class="keyw">Digraphs</code> and <code class="keyw">NautyTracesInterface</code></p>
+
+<p>The returned graph cannot be given as a grape graph because the <code class="keyw">GRAPE</code> package does not allow multiple edges.</p>
+
+<p>The vertices of the resulting graph are always numbered from 1 to n, where n is the number of the faces. That means if the face list of <var class="Arg">complex</var> is not bounded, the vertices in the graph will have a different number than the faces of <var class="Arg">complex</var>. The same hold for the edges in Nauty. Since the edges in Digraphs are directed but the face graph is undirected, each edge of the face graph is represented by two directed edges in the <code class="keyw">Digraphs</code> package.</p>
+
+<p>For example, consider the face graph of the tetrahedron:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph:=FaceDigraphsGraph(Tetrahedron());</span>
+&lt;immutable digraph with 4 vertices, 12 edges&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraphEdges:=DigraphEdges(digraph);</span>
+[ [ 1, 2 ], [ 2, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 4 ], [ 4, 2 ], [ 1, 3 ], [ 3, 1 ],
+[ 2, 3 ], [ 3, 2 ], [ 3, 4 ], [ 4, 3 ] ]
+</pre></div>
+
+<p>This is the face graph of the tetrahedron with undirected edges: <br><img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> </img> <br></p>
+
+<p><a id="X872A83387C1992E4" name="X872A83387C1992E4"></a></p>
+
+<h5>15.4-3 AllSimplicialSurfacesOfDigraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSimplicialSurfacesOfDigraph</code>( <var class="Arg">digraph</var>[, <var class="Arg">vertexfaithful</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Return all (vertex-faithful) simplicial surfaces, that have <code class="keyw">digraph</code> as face graph. If <code class="keyw">digraph</code> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned. The parameter <code class="keyw">vertexfaithful</code> indicates whether only vertex-faithful simplicial surfaces are searched. The parameter <code class="keyw">vertexfaithful</code> is by default false. <code class="keyw">digraph</code> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, with the cycles corresponding to the vertices of a simplicial surface.</p>
+
+<p>For example, consider the complete graph on four nodes: <br><img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph:=CompleteDigraph(4);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(tet1[1],Tetrahedron());</span>
+true
+</pre></div>
+
+<p>So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. But there is another simplicial surface, which is not vertex-faithful:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">list := AllSimplicialSurfacesOfDigraph(digraph,false);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+simplicial surface (3 vertices, 6 edges, and 4 faces)]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet2 := Filtered(list,IsVertexFaithful);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(tet2[1],Tetrahedron());</span>
+true
+</pre></div>
+
+<p>Since it takes a long time to compute all cycles, you should only call the method for digraphs with twelve or less nodes for <code class="keyw">vertexfaithful</code> false. For <code class="keyw">vertexfaithful</code> true, the method needs to consider only chordless and non-separating cycles. This makes the method fast for digraphs up to 28 nodes. In general, it is much faster to only look for vertex-faithful simplicial surfaces.</p>
+
+<p><a id="X84D32DE280598654" name="X84D32DE280598654"></a></p>
+
+<h4>15.5 <span class="Heading">Isomorphism testing</span></h4>
+
+<p>The twisted polygonal complexes from Chapter <a href="chap2.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a> can be described by their chamber adjacency structure. The chamber adjacency can be modelled as an undirected, edge-coloured graph (compare Section <a href="chap15.html#X7CBD81987C95F2FD"><span class="RefLink">15.3</span></a>). Thus, the isomorphism problem for twisted polygonal complexes reduces to the graph isomorphism problem.</p>
+
+<p>The graph isomorphism problem is solved by <code class="keyw">Nauty/Bliss</code>, using the <strong class="pkg">GAP</strong>-package <code class="keyw">NautyTracesInterface</code>.</p>
+
+<p><a id="X7CA89F2681EE2164" name="X7CA89F2681EE2164"></a></p>
+
+<h5>15.5-1 IsIsomorphic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsIsomorphic</code>( <var class="Arg">complex1</var>, <var class="Arg">complex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Return whether the given twisted polygonal complexes are isomorphic, i.e. whether their chamber adjacency graphs (compare <a href="chap15.html#X7CBD81987C95F2FD"><span class="RefLink">15.3</span></a>) are isomorphic. If both twisted polygonal complexes are polygonal complexes, this can equivalently be described as isomorphism between their incidence graphs (compare <a href="chap15.html#X8487449A81FBC8D6"><span class="RefLink">15.2</span></a>).</p>
+
+<p>The isomorphism check needs the package <code class="keyw">NautyTracesInterface</code> to work.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic( Cube(), Octahedron() );</span>
+false
+</pre></div>
+
+<p><a id="X7BB270E781CDBD90" name="X7BB270E781CDBD90"></a></p>
+
+<h5>15.5-2 IsomorphismRepresentatives</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsomorphismRepresentatives</code>( <var class="Arg">complexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of twisted polygonal complexes</p>
+
+<p>The method <code class="keyw">IsomorphismRepresentatives</code> takes a list of twisted polygonal complexes and returns a reduced list in which no two entries are isomorphic.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complexList := [ Cube(), JanusHead(), Cube(), Cube() ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(complexList);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">repList := IsomorphismRepresentatives(complexList);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(repList);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Cube() in repList;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JanusHead() in repList;</span>
+true
+</pre></div>
+
+<p>In many cases it is enough to know whether two twisted polygonal complexes are isomorphic. In some cases it is useful to know the concrete isomorphism between them. TODO can something be done about this? Currently the returned isomorphism does not match the labels (and group actions are hard to define);</p>
+
+<p><a id="X7901ED90806F4F20" name="X7901ED90806F4F20"></a></p>
+
+<h5>15.5-3 CanonicalRepresentativeOfPolygonalSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CanonicalRepresentativeOfPolygonalSurface</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A list containing the canonical form of the surface and a polygonal morphism from the canonical surface to the original surface</p>
+
+<p>Find the canonical representative of a polygonal surface, i.e. an isomorphic surface with the following properties:</p>
+
+
+<ul>
+<li><p>The vertices are numbered consecutively from 1 to the number of vertices (and similarly for edges and faces)</p>
+
+</li>
+<li><p>For any isomorphic surface, the same unique representative is returned in each case.</p>
+
+</li>
+</ul>
+<p>Also provides a polygonal morphism (compare chapter <a href="chap7.html#X84975388859F203D"><span class="RefLink">7</span></a>) from the canonical surface to the original surface. The following example illustrates the use of the <code class="keyw">CanonicalRepresentativeOfPolygonalSurface</code> command. We define the cube, but with a labelling of larger than necessary integers. <code class="keyw">CanonicalRepresentativeOfPolygonalSurface</code> is then used to return both the canonical representative of the cube and the maps between the cube and its canonical representative. The faces, edges and vertices are displayed and are clearly now lex least in their ordering. Some checks reveal that the cube is not identical to its canonical representative, it is however isomorphic, and mapping the canonical representative under its preimage map returns the cube again.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">faces := [ 20, 21, 22, 23, 24, 25 ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edges := [ 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertices := [ 12, 13, 14, 15, 16, 17, 18, 19 ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ 12, 13, 14, 15 ] ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ 16, 19 ], [ 16, 17 ] ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := PolygonalSurfaceByDownwardIncidence(vertices, edges, faces, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       verticesOfEdges, edgesOfFaces);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">canon:=canonicalCube[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(canon);</span>
+[ 1 .. 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(canon);</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(canon);</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(canon);</span>
+[ [ 1, 2, 3, 4 ], [ 5, 6, 7, 8 ], [ 1, 5, 9, 10 ], [ 3, 7, 9, 11 ], 
+[ 4, 8, 10, 12 ], [ 2, 6, 11, 12 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(canon);</span>
+[ [ 1, 2 ], [ 3, 4 ], [ 1, 3 ], [ 2, 4 ], [ 5, 6 ], [ 7, 8 ], [ 5, 7 ], [ 6, 8 ], 
+[ 1, 5 ], [ 2, 6 ], [ 3, 7 ], [ 4, 8 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">canon=cube;</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(cube, canon);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">original := RangeSurface(canonicalCube[2]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">original=cube;</span>
+true
+</pre></div>
+
+<p><a id="X8489C4E47B92C882" name="X8489C4E47B92C882"></a></p>
+
+<h4>15.6 <span class="Heading">Automorphism groups of polygonal complexes</span></h4>
+
+<p>This section explains how to compute automorphism groups of twisted polygonal complexes. Since this computation relies on the chamber adjacency graph (compare Section <a href="chap15.html#X7CBD81987C95F2FD"><span class="RefLink">15.3</span></a>), the package <code class="keyw">NautyTracesInterface</code> has to be available.</p>
+
+<p>Working with the automorphism group of a polygonal complex is complicated since any automorphism acts on vertices, edges, and faces simultaneously. In general it is not possible to define an automorphism by defining it just on the vertices (or edges, or faces). Whenever this is possible, the situation becomes much easier. This happens for example with the tetrahedron: <br><img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByFaces(tetra);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnFaces(tetra);</span>
+Group([ (1,2), (2,4), (3,4) ])
+</pre></div>
+
+<p>For the janus-head this is not possible. <br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">janus := JanusHead();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByVertices(janus);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByEdges(janus);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByFaces(janus);</span>
+false
+</pre></div>
+
+<p>Therefore, general automorphisms are not given by their action on vertices, edges, or faces. However, each automorphism is determined uniquely by its action on the chambers of a twisted polygonal complex. Any polygonal complex can be interpreted as a twisted polygonal complex, as shown in Section <a href="chap5.html#X822A02BF8020176F"><span class="RefLink">5.4</span></a>.</p>
+
+<p><br><img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroup(tetra);</span>
+Group([ 
+  (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
+  (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
+  (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(last);</span>
+24
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroup(janus);</span>
+Group([ (1,2)(3,4)(5,6)(7,8)(9,10)(11,12), (1,3)(2,4)(5,9)(6,10)(7,11)(8,12), 
+   (1,5)(2,6)(3,7)(4,8)(9,11)(10,12) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size( last );</span>
+12
+</pre></div>
+
+<p>Unfortunately, this makes it more complicated to understand the automorphisms at a glance. To see the individual action on vertices, edges and faces, the method <code class="keyw">DisplayAsAutomorphism</code> (<a href="chap15.html#X78EA2CDA79ACA463"><span class="RefLink">15.6-2</span></a>) can be used.</p>
+
+<p>For example, the first generator of the tetrahedron automorphism group can be displayed like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"> (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24));</span>
+[ (3,4), (2,3)(4,5), (1,2) ]
+</pre></div>
+
+<p>The first component describes the action on the vertices, the second component shows the action on the edges and the final component represents the action on the faces.</p>
+
+<p>Often, it can be avoided to calculate with such a big group representation since the automorphisms are usually determined by vertices, edges, or faces. For example, consider the open bag. <br><img src="./images/_Wrapper_Image_OpenBag-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openBag := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByVertices(openBag);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByEdges(openBag);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByFaces(openBag);</span>
+false
+</pre></div>
+
+<p>Therefore, the automorphism group is best represented by its action on the edges.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnEdges(openBag);</span>
+Group([ (3,4), (1,2) ])
+</pre></div>
+
+<p><a id="X846C2BB57A331B47" name="X846C2BB57A331B47"></a></p>
+
+<h5>15.6-1 AutomorphismGroup</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AutomorphismGroup</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation group</p>
+
+<p>Compute the automorphism group of the twisted polygonal complex <var class="Arg">complex</var> as a permutation group on the chambers of <var class="Arg">complex</var>. For an introduction into the usage and conventions of automorphism groups in the <code class="keyw">SimplicialSurface</code>-package, compare the start of section <a href="chap15.html#X8489C4E47B92C882"><span class="RefLink">15.6</span></a>.</p>
+
+<p>For the tetrahedron this gives the following result:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(tetra);</span>
+[ 1, 2, 3, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(tetra);</span>
+[ 1, 2, 3, 4, 5, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(tetra);</span>
+[ 1 .. 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Chambers(tetra);</span>
+[ 1 .. 24 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">aut := AutomorphismGroup(tetra);</span>
+Group([ 
+  (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
+  (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
+  (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_TetrahedronChambers-1.svg"> </img> <br></p>
+
+<p>To see the action on vertices, edges, and faces simultaneously, use the method <code class="keyw">DisplayAsAutomorphism</code> (<a href="chap15.html#X78EA2CDA79ACA463"><span class="RefLink">15.6-2</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.1 );</span>
+[ (3,4), (2,3)(4,5), (1,2) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.2 );</span>
+[ (2,3), (1,2)(5,6), (2,4) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.3 );</span>
+[ (1,2), (2,4)(3,5), (3,4) ]
+</pre></div>
+
+<p>To compute the action on vertices, edges or faces individually, use the methods <code class="keyw">AutomorphismGroupOnVertices</code> (<a href="chap15.html#X85C02FE87E3E2FE4"><span class="RefLink">15.6-3</span></a>), <code class="keyw">AutomorphismGroupOnEdges</code> (<a href="chap15.html#X870D993883AB91EE"><span class="RefLink">15.6-4</span></a>) or <code class="keyw">AutomorphismGroupOnFaces</code> (<a href="chap15.html#X7964BFBB84492470"><span class="RefLink">15.6-5</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnVertices(tetra);</span>
+Group([ (3,4), (2,3), (1,2) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnEdges(tetra);</span>
+Group([ (2,3)(4,5), (1,2)(5,6), (2,4)(3,5) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnFaces(tetra);</span>
+Group([ (1,2), (2,4), (3,4) ])
+</pre></div>
+
+<p>For example, the automorphism group of an icosahedron (<a href="chap14.html#X83E0EF8F7CCD6979"><span class="RefLink">14.3-6</span></a>) is the direct product of a cyclic group of order 2 and an alternating group of order 60.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">autIco := AutomorphismGroup( Icosahedron() );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Size(autIco);</span>
+120
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">StructureDescription(autIco);</span>
+"C2 x A5"
+</pre></div>
+
+<p><a id="X78EA2CDA79ACA463" name="X78EA2CDA79ACA463"></a></p>
+
+<h5>15.6-2 DisplayAsAutomorphism</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DisplayAsAutomorphism</code>( <var class="Arg">complex</var>, <var class="Arg">perm</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A list of three permutations</p>
+
+<p>Display an automorphism of the given <var class="Arg">complex</var> by its individual action on vertices, edges, and faces.</p>
+
+<p>An explanation for the necessity of this method is given in section <a href="chap15.html#X8489C4E47B92C882"><span class="RefLink">15.6</span></a>.</p>
+
+<p>We illustrate this on the example of a tetrahedron. <br><img src="./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">aut := AutomorphismGroup( tetra );</span>
+Group([ 
+  (1,2)(3,5)(4,6)(7,8)(9,11)(10,12)(13,19)(14,20)(15,21)(16,22)(17,23)(18,24), 
+  (1,3)(2,4)(5,6)(7,13)(8,14)(9,15)(10,16)(11,18)(12,17)(19,20)(21,24)(22,23), 
+  (1,7)(2,8)(3,9)(4,10)(5,11)(6,12)(13,15)(14,16)(17,18)(19,21)(20,22)(23,24) ])
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.1 );</span>
+[ (3,4), (2,3)(4,5), (1,2) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.2 );</span>
+[ (2,3), (1,2)(5,6), (2,4) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.3 );</span>
+[ (1,2), (2,4)(3,5), (3,4) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisplayAsAutomorphism( tetra, aut.1 );</span>
+[ (3,4), (2,3)(4,5), (1,2) ]
+</pre></div>
+
+<p><a id="X85C02FE87E3E2FE4" name="X85C02FE87E3E2FE4"></a></p>
+
+<h5>15.6-3 AutomorphismGroupOnVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AutomorphismGroupOnVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAutomorphismDefinedByVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation group</p>
+
+<p>The method <code class="keyw">AutomorphismGroupOnVertices</code> returns the action of the automorphism group of <var class="Arg">complex</var> on its vertices. If <code class="keyw">IsAutomorphismDefinedByVertices</code>(<var class="Arg">complex</var>) is <code class="keyw">true</code>, this is isomorphic to the full automorphism group.</p>
+
+<p>For the cube (<a href="chap14.html#X79F9336684F71FDE"><span class="RefLink">14.3-3</span></a>) we get: <br><img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByVertices(cube);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnVertices(cube);</span>
+Group([ (3,6)(4,5), (2,4)(6,8), (1,2)(3,4)(5,6)(7,8) ])
+</pre></div>
+
+<p><a id="X870D993883AB91EE" name="X870D993883AB91EE"></a></p>
+
+<h5>15.6-4 AutomorphismGroupOnEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AutomorphismGroupOnEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAutomorphismDefinedByEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation group</p>
+
+<p>The method <code class="keyw">AutomorphismGroupOnEdges</code> returns the action of the automorphism group of <var class="Arg">complex</var> on its edges. If <code class="keyw">IsAutomorphismDefinedByEdges</code>(<var class="Arg">complex</var>) is <code class="keyw">true</code>, this is isomorphic to the full automorphism group.</p>
+
+<p>For the cube (<a href="chap14.html#X79F9336684F71FDE"><span class="RefLink">14.3-3</span></a>) we get: <br><img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByEdges(cube);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnEdges(cube);</span>
+Group([ (2,5)(3,12)(4,8)(6,9)(7,11), (1,4)(2,3)(5,7)(9,10)(11,12), 
+   (2,4)(5,8)(6,7)(9,11) ])
+</pre></div>
+
+<p><a id="X7964BFBB84492470" name="X7964BFBB84492470"></a></p>
+
+<h5>15.6-5 AutomorphismGroupOnFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AutomorphismGroupOnFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsAutomorphismDefinedByFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: a permutation group</p>
+
+<p>The method <code class="keyw">AutomorphismGroupOnFaces</code> returns the action of the automorphism group of <var class="Arg">complex</var> on its faces. If <code class="keyw">IsAutomorphismDefinedByFaces</code>(<var class="Arg">complex</var>) is <code class="keyw">true</code>, this is isomorphic to the full automorphism group.</p>
+
+<p>For the cube (<a href="chap14.html#X79F9336684F71FDE"><span class="RefLink">14.3-3</span></a>) we get: <br><img src="./images/_Wrapper_TIKZ_Cube_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsAutomorphismDefinedByFaces(cube);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AutomorphismGroupOnFaces(cube);</span>
+Group([ (1,2)(5,6), (2,4)(3,5), (3,4) ])
+</pre></div>
+
+<p><a id="X7E3B533A7FB676AE" name="X7E3B533A7FB676AE"></a></p>
+
+<h4>15.7 <span class="Heading">Action on paths</span></h4>
+
+<p>In section <a href="chap15.html#X8489C4E47B92C882"><span class="RefLink">15.6</span></a> the action of the automorphism group on vertices, edges, and faces was defined. Since these actions are given as permutations, they can be efficiently computed in GAP. Nevertheless, it is sometimes convenient (if slower) to act on some composite objects (like <code class="keyw">VertexEdgePaths</code>) directly.</p>
+
+<p><a id="X815248FA7E68043E" name="X815248FA7E68043E"></a></p>
+
+<h5>15.7-1 OnVertexEdgePaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OnVertexEdgePaths</code>( <var class="Arg">vePath</var>, <var class="Arg">aut</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a vertex-edge-path</p>
+
+<p>Apply the automorphism <var class="Arg">aut</var> to the vertex-edge-path <var class="Arg">vePath</var> (for their definition consult section <a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>). Currently this is only implemented if <var class="Arg">vePath</var> is defined on a polygonal complex.</p>
+
+<p>The automorphism should be given in the form that is returned by <code class="keyw">AutomorphismGroup</code> (<a href="chap15.html#X846C2BB57A331B47"><span class="RefLink">15.6-1</span></a>). If the given automorphism is not well-defined for the given <var class="Arg">vePath</var> (as checked by <code class="keyw">DisplayAsAutomorphism</code>, <a href="chap15.html#X78EA2CDA79ACA463"><span class="RefLink">15.6-2</span></a>), <code class="keyw">fail</code> is returned.</p>
+
+<p>As an example, we consider the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := Octahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> </img> <br></p>
+
+<p>We compute all duplicate-free vertex-edge-paths of length 2.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">paths := [];</span>
+[]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">for v in Vertices(oct) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       for edgePair in Arrangements( EdgesOfVertex(oct,v), 2 ) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Add( paths, VertexEdgePathByEdges(oct, edgePair) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   od;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(paths);</span>
+72
+</pre></div>
+
+<p>The automorphism group has exactly two orbits on this set of paths (either the two edges belong to one triangle, or they don't).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">autOct := AutomorphismGroup(oct);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pathOrbits := Orbits(autOct, paths, OnVertexEdgePaths);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(pathOrbits);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pathOrbits[1][1];</span>
+| v2, E1, v1, E2, v3 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pathOrbits[2][1];</span>
+| v2, E1, v1, E3, v4 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List( pathOrbits, Length );</span>
+[ 48, 24 ]
+</pre></div>
+
+<p><a id="X7DB2CF267FE85167" name="X7DB2CF267FE85167"></a></p>
+
+<h5>15.7-2 OnEdgeFacePaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OnEdgeFacePaths</code>( <var class="Arg">efPath</var>, <var class="Arg">aut</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: an edge-face-path</p>
+
+<p>Apply the automorphism <var class="Arg">aut</var> to the edge-face-path <var class="Arg">efPath</var> (for their definition consult section <a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>). Currently this is only implemented if <var class="Arg">efPath</var> is defined on a polygonal complex.</p>
+
+<p>The automorphism should be given in the form that is returned by <code class="keyw">AutomorphismGroup</code> (<a href="chap15.html#X846C2BB57A331B47"><span class="RefLink">15.6-1</span></a>). If the given automorphism is not well-defined for the given <var class="Arg">vePath</var> (as checked by <code class="keyw">DisplayAsAutomorphism</code>, <a href="chap15.html#X78EA2CDA79ACA463"><span class="RefLink">15.6-2</span></a>), <code class="keyw">fail</code> is returned.</p>
+
+<p>As an example, we consider the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := Octahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> </img> <br></p>
+
+<p>We compute all duplicate-free edge-face-paths of length 2.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">paths := [];</span>
+[]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">for f in Faces(oct) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       for pair in Arrangements( EdgesOfFace(oct, f), 2 ) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           sndFace := NeighbourFaceByEdge(oct, f, pair[2]);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           otherEdges := Difference( EdgesOfFace(oct, sndFace), [pair[2]] );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           for finalEdge in otherEdges do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               Add(paths, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                   EdgeFacePath(oct, [pair[1],f,pair[2],sndFace, finalEdge]));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   od;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(paths);</span>
+96
+</pre></div>
+
+<p>The automorphism group has exactly two orbits on this set of paths.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">autOct := AutomorphismGroup(oct);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pathOrbits := Orbits(autOct, paths, OnEdgeFacePaths);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Length(pathOrbits);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pathOrbits[1][1];</span>
+| e1, F1, e2, F7, e3 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pathOrbits[2][1];</span>
+| e1, F1, e2, F7, e8 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List( pathOrbits, Length );</span>
+[ 48, 48 ]
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap14.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap16.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

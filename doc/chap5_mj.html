@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 5: Access to twisted polygonal complexes</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap5"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap5.html">[MathJax off]</a></p>
+<p><a id="X85A59ACB87E6E3D7" name="X85A59ACB87E6E3D7"></a></p>
+<div class="ChapSects"><a href="chap5_mj.html#X85A59ACB87E6E3D7">5 <span class="Heading">Access to twisted polygonal complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5_mj.html#X7B4E6EF77A57F717">5.1 <span class="Heading">Chamber incidence</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X792B524482691D64">5.1-1 Chambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7DEA24E07EB1FBBF">5.1-2 VerticesOfChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X86575A1D8396C1E5">5.1-3 ChambersOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7DEE0E0E7CD84BB4">5.1-4 EdgesOfChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X858BB1277EA3A007">5.1-5 ChambersOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7A49D9A382EF3B66">5.1-6 FacesOfChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7BE297A482BC27BF">5.1-7 ChambersOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5_mj.html#X8411416478BFEFCA">5.2 <span class="Heading">Chamber adjacency</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7C056FAD7FA2E3DE">5.2-1 ZeroAdjacentChamber</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X787FD7DB835D8FE9">5.2-2 IsZeroAdjacentChambers</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X86DD0CE481C9E7DD">5.2-3 ZeroAdjacencyInvolution</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7AC30B8679E13C7B">5.2-4 ZeroAdjacencyClasses</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7835441983706362">5.2-5 ZeroAdjacencyRelation</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5_mj.html#X86EC0F0A78ECBC10">5.3 <span class="Heading">Constructors</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7F95EC8A87DCF2A3">5.3-1 TwistedPolygonalComplexByChamberRelations</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X823AAB367814F56B">5.3-2 TwistedPolygonalComplexByChamberAdjacencies</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7FE3104D7F4E5335">5.3-3 TwistedPolygonalSurfaceByChamberInvolutions</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap5_mj.html#X822A02BF8020176F">5.4 <span class="Heading">Relation to polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap5_mj.html#X7E2877A1825B3568">5.4-1 IsDefaultChamberSystem</a></span>
+</div></div>
+</div>
+
+<h3>5 <span class="Heading">Access to twisted polygonal complexes</span></h3>
+
+<p>In section <a href="chap2_mj.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a> we introduced the concept of <code class="keyw">TwistedPolygonalComplex</code> that went further than a pure incidence geometry. This chapter describes this additional structure and how to access it.</p>
+
+<p>Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a> covers the extension of the incidence structure for polygonal complexes (compare Section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>) to chambers. Section <a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a> covers the adjacency structure of those chambers. Finally, Section <a href="chap5_mj.html#X86EC0F0A78ECBC10"><span class="RefLink">5.3</span></a> presents some methods to construct twisted polygonal complexes. Finally, Section <a href="chap5_mj.html#X822A02BF8020176F"><span class="RefLink">5.4</span></a> explores the relation between polygonal complexes and twisted polygonal complexes.</p>
+
+<p><a id="X7B4E6EF77A57F717" name="X7B4E6EF77A57F717"></a></p>
+
+<h4>5.1 <span class="Heading">Chamber incidence</span></h4>
+
+<p>Polygonal complexes only focus on the incidence between vertices, edges, and faces. In contrast, twisted polygonal complexes also care about <em>chambers</em>, which can be interpreted as the "small triangles" in a barycentric subdivision.</p>
+
+<p>Each of these chambers is incident to exactly one vertex, one edge, and one face. Thus, we can use *Of*-methods, similar as in Section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>. As an example, we use the following twisted polygonal complex: <br><img src='./images/_Wrapper_twisted_polygonal_complex-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := TwistedPolygonalComplexByChamberRelations(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [3,5,5,5,5,3,5,5,5,7,7,7,7,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [2,2,4,4,2,2,4,4,6,6,8,8,6,6],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [1,1,1,1,1,1,9,9,9,9,9,9,9,9],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       (1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,6],[2,5],[3,8],[4,7],[9,14],[10,13],[11],[12]]);</span>
+twisted polygonal surface (3 vertices, 4 edges, 2 faces, and 14 chambers)
+</pre></div>
+
+<p>The chambers are represented by a set of positive integers.</p>
+
+<p><a id="X792B524482691D64" name="X792B524482691D64"></a></p>
+
+<h5>5.1-1 Chambers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Chambers</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NumberOfChambers</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: A set of positive integers/a non-negative integer</p>
+
+<p>Return the set/number of chambers</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Chambers(complex);</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfChambers(complex);</span>
+14
+</pre></div>
+
+<p><a id="X7DEA24E07EB1FBBF" name="X7DEA24E07EB1FBBF"></a></p>
+
+<h5>5.1-2 VerticesOfChambers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfChambers</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexOfChamber</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VertexOfChamberNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers / a positive integers</p>
+
+<p>The method <code class="keyw">VertexOfChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>) returns the vertex that is incident to <var class="Arg">chamber</var>. The NC-version does not check whether the given <var class="Arg">chamber</var> is a chamber of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">VerticesOfChambers</code>(<var class="Arg">complex</var>) collects all of those vertices in a list that is indexed by the chamber labels, i.e. <code class="keyw">VerticesOfChambers</code>(<var class="Arg">complex</var>)[<var class="Arg">chamber</var>] = <code class="keyw">VertexOfChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>). All other positions of this list are not bound.</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-3-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexOfChamber(complex, 2);</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexOfChamber(complex, 12);</span>
+7
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfChambers(complex);</span>
+[ 3, 5, 5, 5, 5, 3, 5, 5, 5, 7, 7, 7, 7, 5 ]
+</pre></div>
+
+<p><a id="X86575A1D8396C1E5" name="X86575A1D8396C1E5"></a></p>
+
+<h5>5.1-3 ChambersOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">ChambersOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>) returns the set of chambers that are incident to <var class="Arg">vertex</var>. The NC-version does not check whether the given <var class="Arg">vertex</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">ChambersOfVertices</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the vertex labels, i.e. <code class="keyw">ChambersOfVertices</code>(<var class="Arg">complex</var>)[<var class="Arg">vertex</var>] = <code class="keyw">ChambersOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-4-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfVertex(complex, 3);</span>
+[ 1, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfVertex(complex, 7);</span>
+[ 10, 11, 12, 13 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfVertices(complex);</span>
+[ ,, [ 1, 6 ],, [ 2, 3, 4, 5, 7, 8, 9, 14],, [ 10, 11, 12, 13 ] ]
+</pre></div>
+
+<p><a id="X7DEE0E0E7CD84BB4" name="X7DEE0E0E7CD84BB4"></a></p>
+
+<h5>5.1-4 EdgesOfChambers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfChambers</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeOfChamber</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeOfChamberNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers / a positive integers</p>
+
+<p>The method <code class="keyw">EdgeOfChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>) returns the edge that is incident to <var class="Arg">chamber</var>. The NC-version does not check whether the given <var class="Arg">chamber</var> is a chamber of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">EdgesOfChambers</code>(<var class="Arg">complex</var>) collects all of those edges in a list that is indexed by the chamber labels, i.e. <code class="keyw">EdgesOfChambers</code>(<var class="Arg">complex</var>)[<var class="Arg">chamber</var>] = <code class="keyw">EdgeOfChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>). All other positions of this list are not bound.</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-5-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeOfChamber(complex, 2);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeOfChamber(complex, 12);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfChambers(complex);</span>
+[ 2, 2, 4, 4, 2, 2, 4, 4, 6, 6, 8, 8, 6, 6 ]
+</pre></div>
+
+<p><a id="X858BB1277EA3A007" name="X858BB1277EA3A007"></a></p>
+
+<h5>5.1-5 ChambersOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">ChambersOfEdge</code>(<var class="Arg">complex</var>, <var class="Arg">edge</var>) returns the set of chambers that are incident to <var class="Arg">edge</var>. The NC-version does not check whether the given <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">ChambersOfEdges</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the edge labels, i.e. <code class="keyw">ChambersOfEdges</code>(<var class="Arg">complex</var>)[<var class="Arg">edge</var>] = <code class="keyw">ChambersOfEdge</code>(<var class="Arg">complex</var>, <var class="Arg">edge</var>). All other positions of this list are not bound.</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-6-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfEdge(complex, 4);</span>
+[ 3, 4, 7, 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfEdge(complex, 6);</span>
+[ 9, 10, 13, 14 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfEdges(complex);</span>
+[ , [ 1, 2, 5, 6 ],, [ 3, 4, 7, 8 ],, [ 9, 10, 13, 14],, [ 11, 12 ] ]
+</pre></div>
+
+<p><a id="X7A49D9A382EF3B66" name="X7A49D9A382EF3B66"></a></p>
+
+<h5>5.1-6 FacesOfChambers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfChambers</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceOfChamber</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FaceOfChamberNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers / a positive integers</p>
+
+<p>The method <code class="keyw">FaceOfChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>) returns the face that is incident to <var class="Arg">chamber</var>. The NC-version does not check whether the given <var class="Arg">chamber</var> is a chamber of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">FacesOfChambers</code>(<var class="Arg">complex</var>) collects all of those faces in a list that is indexed by the chamber labels, i.e. <code class="keyw">FacesOfChambers</code>(<var class="Arg">complex</var>)[<var class="Arg">chamber</var>] = <code class="keyw">FaceOfChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>). All other positions of this list are not bound.</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-7-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceOfChamber(complex, 2);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceOfChamber(complex, 12);</span>
+9
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfChambers(complex);</span>
+[ 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9 ]
+</pre></div>
+
+<p><a id="X7BE297A482BC27BF" name="X7BE297A482BC27BF"></a></p>
+
+<h5>5.1-7 ChambersOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ChambersOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">ChambersOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>) returns the set of chambers that are incident to <var class="Arg">face</var>. The NC-version does not check whether the given <var class="Arg">face</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">ChambersOfFaces</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the face labels, i.e. <code class="keyw">ChambersOfFaces</code>(<var class="Arg">complex</var>)[<var class="Arg">face</var>] = <code class="keyw">ChambersOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>). All other positions of this list are not bound.</p>
+
+<p>As an example consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X7B4E6EF77A57F717"><span class="RefLink">5.1</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-8-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfFace(complex, 9);</span>
+[ 7, 8, 9, 10, 11, 12, 13, 14 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfFaces(complex);</span>
+[ [ 1, 2, 3, 4, 5, 6 ],,,,,,,, [ 7, 8, 9, 10, 11, 12, 13, 14 ] ]
+</pre></div>
+
+<p><a id="X8411416478BFEFCA" name="X8411416478BFEFCA"></a></p>
+
+<h4>5.2 <span class="Heading">Chamber adjacency</span></h4>
+
+<p>By focussing on chambers, twisted polygonal complexes are much more expressive than polygonal complexes. Thus, chamber manipulation is of paramount importance when dealing with twisted polygonal complexes. The most important aspects of chambers is their adjacency, which we illustrate with the following twisted polygonal complex: <br><img src='./images/_Wrapper_twisted_polygonal_complex-9-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := TwistedPolygonalComplexByChamberAdjacencies(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,6],[2,5],[3,8],[4,7],[9,14,22],[10,13,21],[11,16],[12,15],[17,20],[18,19],[23],[24],[25],[26]]);</span>
+twisted polygonal complex (5 vertices, 7 edges, 4 faces, and 26 chambers)
+</pre></div>
+
+<p>There are three kinds of chamber adjacencies: 0-adjacent, 1-adjacent, and 2-adjacent. We can calculate each of those:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ZeroAdjacentChamber(complex, 9);</span>
+10
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneAdjacentChamber(complex, 9);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChambers(complex,9);</span>
+[ 14, 22 ]
+</pre></div>
+
+<p>For each chamber, there is exactly one 0-adjacent chamber and exactly one 1-adjacent chamber. However, there may be an arbitrary number of 2-adjacent chambers.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChambers(complex, 12);</span>
+[ 15 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChambers(complex, 23);</span>
+[]
+</pre></div>
+
+<p>We can also work with all adjacencies simultaneously. Currently, three different options are supported:</p>
+
+
+<ul>
+<li><p>An equivalence relation on the set of chambers</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e0 := ZeroAdjacencyRelation(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EquivalenceClasses(e0);</span>
+[ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e1 := OneAdjacencyRelation(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EquivalenceClasses(e1);</span>
+[ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e2 := TwoAdjacencyRelation(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EquivalenceClasses(e2);</span>
+[ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ]
+</pre></div>
+
+
+<ul>
+<li><p>A set of equivalence classes</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ZeroAdjacencyClasses(complex);</span>
+[ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], [ 11, 12 ], [ 13, 14 ], 
+  [ 15, 16 ], [ 17, 18 ], [ 19, 20 ], [ 21, 22 ], [ 23, 24 ], [ 25, 26 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneAdjacencyClasses(complex);</span>
+[ [ 1, 6 ], [ 2, 3 ], [ 4, 5 ], [ 7, 14 ], [ 8, 9 ], [ 10, 11 ], [ 12, 13 ],
+  [ 15, 20 ], [ 16, 17 ], [ 18, 19 ], [ 21, 26 ], [ 22, 23 ], [ 24, 25 ]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacencyClasses(complex);</span>
+[ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9, 14, 22 ], [ 10,13 ,21 ],
+  [ 11, 16 ], [ 12, 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ]
+</pre></div>
+
+
+<ul>
+<li><p>An involution (element of the symmetric group on the chambers). This is always possible for 0-adjacency and 1-adjacency. For 2-adjacency, it works if and only if we have a twisted polygonal surface.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ZeroAdjacencyInvolution(complex);</span>
+(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneAdjacencyInvolution(complex);</span>
+(1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25)
+</pre></div>
+
+<p><a id="X7C056FAD7FA2E3DE" name="X7C056FAD7FA2E3DE"></a></p>
+
+<h5>5.2-1 ZeroAdjacentChamber</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeroAdjacentChamber</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeroAdjacentChamberNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneAdjacentChamber</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneAdjacentChamberNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacentChamber</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacentChamberNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacentChambers</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacentChambersNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamber</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer or a list of positive integers</p>
+
+<p>Given a chamber of a twisted polygonal complex <var class="Arg">complex</var>, these methods return the adjacent chambers:</p>
+
+
+<ul>
+<li><p><code class="keyw">ZeroAdjacentChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>) returns the unique chamber that is 0-adjacent to <var class="Arg">chamber</var>.</p>
+
+</li>
+<li><p><code class="keyw">OneAdjacentChamber</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>) returns the unique chamber that is 1-adjacent to <var class="Arg">chamber</var>.</p>
+
+</li>
+<li><p><code class="keyw">TwoAdjacentChambers</code>(<var class="Arg">complex</var>, <var class="Arg">chamber</var>) returns the set of chambers that are 2-adjacent to <var class="Arg">chamber</var>. If this set contains exactly one element, the method <code class="keyw">TwoAdjacentChamber</code> is also applicable (otherwise, an error is raised).</p>
+
+</li>
+</ul>
+<p>The NC-version does not check whether <var class="Arg">chamber</var> is a chamber of <var class="Arg">complex</var>. In the case of <code class="keyw">TwoAdjacentChamberNC</code>, it also does not check the number of 2-adjacent chambers.</p>
+
+<p>As an example, consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-10-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ZeroAdjacentChamber(complex, 4);</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneAdjacentChamber(complex, 4);</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChamber(complex, 4);</span>
+7
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChambers(complex, 4);</span>
+[ 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChambers(complex, 14);</span>
+[ 9, 22 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacentChambers(complex, 23);</span>
+[]
+</pre></div>
+
+<p><a id="X787FD7DB835D8FE9" name="X787FD7DB835D8FE9"></a></p>
+
+<h5>5.2-2 IsZeroAdjacentChambers</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsZeroAdjacentChambers</code>( <var class="Arg">complex</var>, <var class="Arg">chamberA</var>, <var class="Arg">chamberB</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsZeroAdjacentChambersNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamberA</var>, <var class="Arg">chamberB</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsOneAdjacentChambers</code>( <var class="Arg">complex</var>, <var class="Arg">chamberA</var>, <var class="Arg">chamberB</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsOneAdjacentChambersNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamberA</var>, <var class="Arg">chamberB</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTwoAdjacentChambers</code>( <var class="Arg">complex</var>, <var class="Arg">chamberA</var>, <var class="Arg">chamberB</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTwoAdjacentChambersNC</code>( <var class="Arg">complex</var>, <var class="Arg">chamberA</var>, <var class="Arg">chamberB</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Given two chambers of a twisted polygonal complex <var class="Arg">complex</var>, these methods check whether they are 0-adjacent, 1-adjacent, or 2-adjacent.</p>
+
+<p>The NC-version does not check whether <var class="Arg">chamberA</var> and <var class="Arg">chamberB</var> are chambers of <var class="Arg">complex</var>.</p>
+
+<p>As an example, consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-11-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsZeroAdjacentChambers(complex, 4,3);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsZeroAdjacentChambers(complex, 9, 22);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOneAdjacentChambers(complex, 8, 9);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOneAdjacentChambers(complex, 11, 20);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTwoAdjacentChambers(complex, 12, 15);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTwoAdjacentChambers(complex, 13, 21);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsTwoAdjacentChambers(complex, 1, 5);</span>
+false
+</pre></div>
+
+<p><a id="X86DD0CE481C9E7DD" name="X86DD0CE481C9E7DD"></a></p>
+
+<h5>5.2-3 ZeroAdjacencyInvolution</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeroAdjacencyInvolution</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneAdjacencyInvolution</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacencyInvolution</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer, a list of positive integers, or <code class="keyw">fail</code></p>
+
+<p>Given a twisted polygonal complex <var class="Arg">complex</var>, these methods return the involutions that encode adjacency of chambers. The method <code class="keyw">ZeroAdjacencyInvolution</code> returns an involution whose action on a chamber produces the unique chamber that is 0-adjacent to the first one. The method <code class="keyw">OneAdjacencyInvolution</code> does the same for 1-adjacency.</p>
+
+<p>For 2-adjacency, each chamber may have an arbitrary number of 2-adjacent chambers. If each chamber has at most one 2-adjacent chamber (i.e. if <var class="Arg">complex</var> is a twisted polygonal surface), <code class="keyw">TwoAdjacencyInvolution</code> returns the corresponding involution. Otherwise, it returns <code class="keyw">fail</code>.</p>
+
+<p>As an example, consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-12-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ZeroAdjacencyInvolution(complex);</span>
+(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneAdjacencyInvolution(complex);</span>
+(1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacencyInvolution(complex);</span>
+fail
+</pre></div>
+
+<p><a id="X7AC30B8679E13C7B" name="X7AC30B8679E13C7B"></a></p>
+
+<h5>5.2-4 ZeroAdjacencyClasses</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeroAdjacencyClasses</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneAdjacencyClasses</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacencyClasses</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of sets of positive integers</p>
+
+<p>Given a twisted polygonal complex <var class="Arg">complex</var>, these methods return a set of sets encoding the adjacency of chambers.</p>
+
+<p>The method <code class="keyw">ZeroAdjacencyClasses</code> returns a set of pairs, such that the elements of each pair are 0-adjacent. The method <code class="keyw">OneAdjacencyClasses</code> does the same for 1-adjacency.</p>
+
+<p>The method <code class="keyw">TwoAdjacencyClasses</code> is similar, but it returns a set of sets. Every pair of chambers in one of the contained sets is 2-adjacent.</p>
+
+<p>As an example, consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-13-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ZeroAdjacencyClasses(complex);</span>
+[ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], [ 11, 12 ], [ 13, 14 ], 
+  [ 15, 16 ], [ 17, 18 ], [ 19, 20 ], [ 21, 22 ], [ 23, 24 ], [ 25, 26 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OneAdjacencyClasses(complex);</span>
+[ [ 1, 6 ], [ 2, 3 ], [ 4, 5 ], [ 7, 14 ], [ 8, 9 ], [ 10, 11 ], [ 12, 13 ],
+  [ 15, 20 ], [ 16, 17 ], [ 18, 19 ], [ 21, 26 ], [ 22, 23 ], [ 24, 25 ]]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoAdjacencyClasses(complex);</span>
+[ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9 , 14, 22 ], [ 10 ,13 ,21 ],
+  [ 11, 16 ], [ 12 , 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ]
+</pre></div>
+
+<p><a id="X7835441983706362" name="X7835441983706362"></a></p>
+
+<h5>5.2-5 ZeroAdjacencyRelation</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ZeroAdjacencyRelation</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneAdjacencyRelation</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwoAdjacencyRelation</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: an equivalence relation</p>
+
+<p>Given a twisted polygonal complex <var class="Arg">complex</var>, these methods return an equivalence relation encoding the adjacency of chambers.</p>
+
+<p>The method <code class="keyw">ZeroAdjacencyRelation</code> returns an equivalence relation on the set of chambers, such that two chambers are equivalent if and only if they are 0-adjacent or identical.</p>
+
+<p>The methods <code class="keyw">OneAdjacencyRelation</code> and <code class="keyw">TwoAdjacencyRelation</code> do the same for 1-adjacency and 2-adjacency.</p>
+
+<p>As an example, consider the twisted polygonal complex from the beginning of Section <a href="chap5_mj.html#X8411416478BFEFCA"><span class="RefLink">5.2</span></a>: <br><img src='./images/_Wrapper_twisted_polygonal_complex-14-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e0 := ZeroAdjacencyRelation(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EquivalenceClasses(e0);</span>
+[ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e1 := OneAdjacencyRelation(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EquivalenceClasses(e1);</span>
+[ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">e2 := TwoAdjacencyRelation(complex);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EquivalenceClasses(e2);</span>
+[ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ]
+</pre></div>
+
+<p><a id="X86EC0F0A78ECBC10" name="X86EC0F0A78ECBC10"></a></p>
+
+<h4>5.3 <span class="Heading">Constructors</span></h4>
+
+<p>Twisted polygonal complexes can be constructed in several different ways. This section explores several different possible constructions.</p>
+
+
+<ul>
+<li><p><code class="keyw">TwistedPolygonalComplexByChamberRelations</code> (<a href="chap5_mj.html#X7F95EC8A87DCF2A3"><span class="RefLink">5.3-1</span></a>) constructs a twisted polygonal complex from the vertices, edges, and faces that are incident to each chamber, together with the three adjacency relations.</p>
+
+</li>
+<li><p><code class="keyw">TwistedPolygonalComplexByChamberAdjacencies</code> (<a href="chap5_mj.html#X823AAB367814F56B"><span class="RefLink">5.3-2</span></a>) constructs a twisted polygonal complex purely from its chamber adjacencies. The vertices, edges, and faces are deduced from them.</p>
+
+</li>
+<li><p><code class="keyw">TwistedPolygonalSurfaceByChamberInvolutions</code> (<a href="chap5_mj.html#X7FE3104D7F4E5335"><span class="RefLink">5.3-3</span></a>) constructs a twisted polygonal surface from its chamber adjacencies, that have to be given as involutions.</p>
+
+</li>
+</ul>
+<p>To exemplify these methods, all of them construct the twisted polygonal surface illustrated here: <br><img src='./images/_Wrapper_twisted_polygonal_complex-15-1.svg'> </img> <br></p>
+
+<p><a id="X7F95EC8A87DCF2A3" name="X7F95EC8A87DCF2A3"></a></p>
+
+<h5>5.3-1 TwistedPolygonalComplexByChamberRelations</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalComplexByChamberRelations</code>( <var class="Arg">verticesOfChambers</var>, <var class="Arg">edgesOfChambers</var>, <var class="Arg">facesOfChambers</var>, <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalComplexByChamberRelationsNC</code>( <var class="Arg">verticesOfChambers</var>, <var class="Arg">edgesOfChambers</var>, <var class="Arg">facesOfChambers</var>, <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalSurfaceByChamberRelations</code>( <var class="Arg">verticesOfChambers</var>, <var class="Arg">edgesOfChambers</var>, <var class="Arg">facesOfChambers</var>, <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalSurfaceByChamberRelationsNC</code>( <var class="Arg">verticesOfChambers</var>, <var class="Arg">edgesOfChambers</var>, <var class="Arg">facesOfChambers</var>, <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a twisted polygonal complex</p>
+
+<p>This method constructs a twisted polygonal complex (<a href="chap2_mj.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a>). It is based on the set of chambers, which is represented as a set of positive integers. The method takes the following parameters:</p>
+
+
+<ul>
+<li><p><var class="Arg">verticesOfChambers</var>: A list that has an entry for each chamber (a positive integer). The entry is the unique vertex (a positive integer) that is incident to that chamber.</p>
+
+</li>
+<li><p><var class="Arg">edgesOfChambers</var>: A list that has an entry for each chamber (a positive integer). The entry is the unique edge (a positive integer) that is incident to that chamber.</p>
+
+</li>
+<li><p><var class="Arg">facesOfChambers</var>: A list that has an entry for each chamber (a positive integer). The entry is the unique face (a positive integer) that is incident to that chamber.</p>
+
+</li>
+<li><p><var class="Arg">zeroAdjacency</var>: This parameter encodes which chambers are 0-adjacent. It can be given as an involution without fixed points or as a list of pairs of chambers.</p>
+
+</li>
+<li><p><var class="Arg">oneAdjacency</var>: This parameter encodes which chambers are 1-adjacent. It can be given as an involution without fixed points or as a list of pairs of chambers.</p>
+
+</li>
+<li><p><var class="Arg">twoAdjacency</var>: This parameter encodes which chambers are 1-adjacent. It can be given as an involution (only possible for twisted polygonal surfaces) or as a list of lists of chambers.</p>
+
+</li>
+</ul>
+<p>All of these parameters rely on the set of chambers:</p>
+
+
+<ul>
+<li><p>For <var class="Arg">verticesOfChambers</var>, <var class="Arg">edgesOfChambers</var>, and <var class="Arg">facesOfChambers</var>, the set of chambers is the set of bound positions.</p>
+
+</li>
+<li><p>If <var class="Arg">zeroAdjacency</var> or <var class="Arg">oneAdjacency</var> are given as involutions, the set of chambers is the set of moved points.</p>
+
+</li>
+<li><p>If <var class="Arg">twoAdjacency</var> is given as involution, the set of chambers is a superset of the set of moved points.</p>
+
+</li>
+<li><p>If <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, or <var class="Arg">twoAdjacency</var> are given as list of lists, they define a partition of the set of chambers.</p>
+
+</li>
+</ul>
+<p>The NC-version does not check the consistency of this information.</p>
+
+<p>As an example, we construct the following twisted polygonal surface: <br><img src='./images/_Wrapper_twisted_polygonal_complex-16-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwistedPolygonalComplexByChamberRelations(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [3,7,7,5,5,3,5,7,7,5,5,5,5,7,7,3,3,5],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [4,4,6,6,2,2,6,6,10,10,8,8,10,10,12,12,2,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [1,1,1,1,1,1,9,9,9,9,9,9,11,11,11,11,11,11],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1],[2],[3,8],[4,7],[5,18],[6,17],[9,14],[10,13],[11],[12],[15],[16]]);</span>
+twisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)
+</pre></div>
+
+<p><a id="X823AAB367814F56B" name="X823AAB367814F56B"></a></p>
+
+<h5>5.3-2 TwistedPolygonalComplexByChamberAdjacencies</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalComplexByChamberAdjacencies</code>( <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalComplexByChamberAdjacenciesNC</code>( <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalSurfaceByChamberAdjacencies</code>( <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalSurfaceByChamberAdjacenciesNC</code>( <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a twisted polygonal complex</p>
+
+<p>This method constructs a twisted polygonal complex (<a href="chap2_mj.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a>). It is based on the set of chambers, which is represented as a set of positive integers. The method takes the following parameters:</p>
+
+
+<ul>
+<li><p><var class="Arg">zeroAdjacency</var>: This parameter encodes which chambers are 0-adjacent. It can be given as an involution without fixed points or as a list of pairs of chambers.</p>
+
+</li>
+<li><p><var class="Arg">oneAdjacency</var>: This parameter encodes which chambers are 1-adjacent. It can be given as an involution without fixed points or as a list of pairs of chambers.</p>
+
+</li>
+<li><p><var class="Arg">twoAdjacency</var>: This parameter encodes which chambers are 1-adjacent. It can be given as an involution (only possible for twisted polygonal surfaces) or as a list of lists of chambers.</p>
+
+</li>
+</ul>
+<p>Vertices, edges, and faces are constructed automatically.</p>
+
+<p>All of these parameters rely on the set of chambers:</p>
+
+
+<ul>
+<li><p>If <var class="Arg">zeroAdjacency</var> or <var class="Arg">oneAdjacency</var> are given as involutions, the set of chambers is the set of moved points.</p>
+
+</li>
+<li><p>If <var class="Arg">twoAdjacency</var> is given as involution, the set of chambers is a superset of the set of moved points.</p>
+
+</li>
+<li><p>If <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, or <var class="Arg">twoAdjacency</var> are given as list of lists, they define a partition of the set of chambers.</p>
+
+</li>
+</ul>
+<p>The NC-version does not check the consistency of this information.</p>
+
+<p>As an example, we construct the following twisted polygonal surface (the labels of vertices, edges, and faces are the default ones): <br><img src='./images/_Wrapper_twisted_polygonal_complex-17-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := TwistedPolygonalComplexByChamberAdjacencies(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[1],[2],[3,8],[4,7],[5,18],[6,17],[9,14],[10,13],[11],[12],[15],[16]]);</span>
+twisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfVertices(complex);</span>
+[ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfEdges(complex);</span>
+[ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6, 17, 18 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfFaces(complex);</span>
+[ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ]
+</pre></div>
+
+<p><a id="X7FE3104D7F4E5335" name="X7FE3104D7F4E5335"></a></p>
+
+<h5>5.3-3 TwistedPolygonalSurfaceByChamberInvolutions</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalSurfaceByChamberInvolutions</code>( <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TwistedPolygonalSurfaceByChamberInvolutionsNC</code>( <var class="Arg">zeroAdjacency</var>, <var class="Arg">oneAdjacency</var>, <var class="Arg">twoAdjacency</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a twisted polygonal surface</p>
+
+<p>This method constructs a twisted polygonal surface (<a href="chap2_mj.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a>). It is based on the set of chambers, which is represented as a set of positive integers. The method takes the following parameters:</p>
+
+
+<ul>
+<li><p><var class="Arg">zeroAdjacency</var>: This parameter encodes which chambers are 0-adjacent, given as an involution without fixed points.</p>
+
+</li>
+<li><p><var class="Arg">oneAdjacency</var>: This parameter encodes which chambers are 1-adjacent, given as an involution without fixed points.</p>
+
+</li>
+<li><p><var class="Arg">twoAdjacency</var>: This parameter encodes which chambers are 2-adjacent, given as an involution.</p>
+
+</li>
+</ul>
+<p>Vertices, edges, and faces are constructed automatically.</p>
+
+<p>All of these parameters rely on the set of chambers:</p>
+
+
+<ul>
+<li><p>For <var class="Arg">zeroAdjacency</var> and <var class="Arg">oneAdjacency</var>, the set of moved points is the set of chambers.</p>
+
+</li>
+<li><p>For <var class="Arg">twoAdjacency</var>, the set of chambers is a superset of the set of moved points.</p>
+
+</li>
+</ul>
+<p>The NC-version does not check the consistency of this information.</p>
+
+<p>As an example, we construct the following twisted polygonal surface (the labels of vertices, edges, and faces are the default ones): <br><img src='./images/_Wrapper_twisted_polygonal_complex-18-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := TwistedPolygonalSurfaceByChamberInvolutions(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   (3,8)(4,7)(5,18)(6,17)(9,14)(10,13));</span>
+twisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfVertices(complex);</span>
+[ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfEdges(complex);</span>
+[ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6, 17, 18 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ChambersOfFaces(complex);</span>
+[ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ]
+</pre></div>
+
+<p><a id="X822A02BF8020176F" name="X822A02BF8020176F"></a></p>
+
+<h4>5.4 <span class="Heading">Relation to polygonal complexes</span></h4>
+
+<p>Every polygonal complex can be interpreted as a twisted polygonal complex. However, the formalism of polygonal complexes does not mention chambers at all. Thus, if we construct a polygonal complex with one of the methods from Chapter <a href="chap4_mj.html#X7C77E62B7FD24306"><span class="RefLink">4</span></a>, we do not immediately know the chambers. Consider the following polygonal complex: <br><img src="./images/_Wrapper_Image_FlagComplexExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[6,8,9], , , [9,10,12,13]]);</span>
+polygonal surface (5 vertices, 6 edges, and 2 faces)
+</pre></div>
+
+<p>It turns out that it already contains information about its chambers.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Chambers(complex);</span>
+[ 1 .. 14 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfChambers(complex);</span>
+[ 2, 2, 3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 11, 11 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfChambers(complex);</span>
+[ 6, 8, 8, 9, 9, 12, 6, 9, 9, 10, 12, 13, 10, 13 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfChambers(complex);</span>
+[ 1, 1, 1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4 ]
+</pre></div>
+
+<p>Thus, the chambers can be illustrated like this: <br><img src='./images/_Wrapper_twisted_polygonal_complex-19-1.svg'> </img> <br> Although the labels seem random at first, there is a pattern here. In polygonal complexes, each chamber corresponds to exactly one flag (a triple of vertex, edge, face, that are all incident). The flags are given by</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Flags(complex);</span>
+[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], 
+  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],
+  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]]
+</pre></div>
+
+<p>Notably, a chamber <var class="Arg">c</var> corresponds to the flag with position <var class="Arg">c</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfChambers(complex) = List(Flags(complex), f -&gt; f[1]);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfChambers(complex) = List(Flags(complex), f -&gt; f[2]);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfChambers(complex) = List(Flags(complex), f -&gt; f[3]);</span>
+true
+</pre></div>
+
+<p>Polygonal complexes whose chambers are given in this fashion have the property <code class="keyw">IsDefaultChamberSystem</code>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsDefaultChamberSystem(complex);</span>
+true
+</pre></div>
+
+<p><a id="X7E2877A1825B3568" name="X7E2877A1825B3568"></a></p>
+
+<h5>5.4-1 IsDefaultChamberSystem</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsDefaultChamberSystem</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: true or false</p>
+
+<p>A twisted polygonal complex <var class="Arg">complex</var> has the property <code class="keyw">IsDefaultChamberSystem</code> if it is a polygonal complex and the chambers correspond to the flags, in the following sense:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexOfChamber(complex, chamber) = Flags(complex)[chamber][1];</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeOfChamber(complex, chamber) = Flags(complex)[chamber][2];</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceOfChamber(complex, chamber) = Flags(complex)[chamber][3];</span>
+</pre></div>
+
+<p>More detail can be found at the start of Section <a href="chap5_mj.html#X822A02BF8020176F"><span class="RefLink">5.4</span></a>.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap6_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

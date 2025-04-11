@@ -1,0 +1,278 @@
+  
+  [1X6 [33X[0;0YExample Applications[133X[101X
+  
+  [33X[0;0YThis  chapter  contains  examples  of  several advanced applications for the
+  [9XSimplicialSurface[109X--package. It mainly serves as a guideline that shows which
+  problems  can be solved by the package. If it uses many unclear terms, it is
+  recommended to skip this chapter.[133X
+  
+  
+  [1X6.1  [33X[0;0YConstructing a spherical surface with 30 faces and trivial automorphism[101X
+  [1Xgroup[133X[101X
+  
+  [33X[0;0YIn  this  section,  we  want  to  construct  a  simplicial  surface with the
+  following properties:[133X
+  
+  [31X1[131X   [33X[0;6YIt is spherical, i.e. closed, orientable, with Euler-characteristic 2.[133X
+  
+  [31X2[131X   [33X[0;6YIt has exactly 30 faces.[133X
+  
+  [31X3[131X   [33X[0;6YIt has trivial automorphism group.[133X
+  
+  [33X[0;0YA  simple  way  to  construct  large  surfaces is by stacking together small
+  surfaces  with  [9XConnectedFaceSum[109X  ([14X12.5-1[114X). Combining two spherical surfaces
+  with  16  faces  would  create  a spherical surface with 30 faces (since two
+  faces  are  lost  in  the  construction).  We can obtain a list of spherical
+  surfaces   with   16   faces   by   accessing   the   surface-library   with
+  [9XAllSimplicialSpheres[109X ([14X14.2-1[114X):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurf16 := AllSimplicialSpheres(16);;[127X[104X
+    [4X[25Xgap>[125X [27XLength(surf16);[127X[104X
+    [4X[28X10[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  method  [9XConnectedFaceSum[109X  requires  flags  of  the  surfaces we want to
+  combine. We can obtain the set of all flags by calling [9XFlags[109X([14X21.1-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFlags(surf16[1]);[127X[104X
+    [4X[28X[ [ 1, 1, 1 ], [ 1, 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 4 ], [ 1, 3, 1 ], [ 1, 3, 3 ], [128X[104X
+    [4X[28X  [ 1, 4, 2 ], [ 1, 4, 4 ], [ 2, 5, 5 ], [ 2, 5, 6 ], [ 2, 6, 7 ], [ 2, 6, 8 ], [128X[104X
+    [4X[28X  [ 2, 7, 5 ], [ 2, 7, 7 ], [ 2, 8, 6 ], [ 2, 8, 8 ], [ 3, 5, 5 ], [ 3, 5, 6 ], [128X[104X
+    [4X[28X  [ 3, 9, 5 ], [ 3, 9, 9 ], [ 3, 10, 6 ], [ 3, 10, 10 ], [ 3, 11, 9 ], [128X[104X
+    [4X[28X  [ 3, 11, 10 ], [ 4, 6, 7 ], [ 4, 6, 8 ], [ 4, 12, 7 ], [ 4, 12, 11 ], [128X[104X
+    [4X[28X  [ 4, 13, 8 ], [ 4, 13, 12 ], [ 4, 14, 11 ], [ 4, 14, 12 ], [ 5, 7, 5 ], [128X[104X
+    [4X[28X  [ 5, 7, 7 ], [ 5, 9, 5 ], [ 5, 9, 9 ], [ 5, 12, 7 ], [ 5, 12, 11 ], [128X[104X
+    [4X[28X  [ 5, 15, 9 ], [ 5, 15, 13 ], [ 5, 16, 11 ], [ 5, 16, 14 ], [ 5, 17, 13 ], [128X[104X
+    [4X[28X  [ 5, 17, 14 ], [ 6, 8, 6 ], [ 6, 8, 8 ], [ 6, 10, 6 ], [ 6, 10, 10 ], [128X[104X
+    [4X[28X  [ 6, 13, 8 ], [ 6, 13, 12 ], [ 6, 18, 10 ], [ 6, 18, 15 ], [ 6, 19, 12 ], [128X[104X
+    [4X[28X  [ 6, 19, 16 ], [ 6, 20, 15 ], [ 6, 20, 16 ], [ 7, 1, 1 ], [ 7, 1, 2 ], [128X[104X
+    [4X[28X  [ 7, 11, 9 ], [ 7, 11, 10 ], [ 7, 15, 9 ], [ 7, 15, 13 ], [ 7, 18, 10 ], [128X[104X
+    [4X[28X  [ 7, 18, 15 ], [ 7, 21, 1 ], [ 7, 21, 13 ], [ 7, 22, 2 ], [ 7, 22, 15 ], [128X[104X
+    [4X[28X  [ 8, 2, 3 ], [ 8, 2, 4 ], [ 8, 14, 11 ], [ 8, 14, 12 ], [ 8, 16, 11 ], [128X[104X
+    [4X[28X  [ 8, 16, 14 ], [ 8, 19, 12 ], [ 8, 19, 16 ], [ 8, 23, 3 ], [ 8, 23, 14 ], [128X[104X
+    [4X[28X  [ 8, 24, 4 ], [ 8, 24, 16 ], [ 9, 3, 1 ], [ 9, 3, 3 ], [ 9, 17, 13 ], [128X[104X
+    [4X[28X  [ 9, 17, 14 ], [ 9, 21, 1 ], [ 9, 21, 13 ], [ 9, 23, 3 ], [ 9, 23, 14 ], [128X[104X
+    [4X[28X  [ 10, 4, 2 ], [ 10, 4, 4 ], [ 10, 20, 15 ], [ 10, 20, 16 ], [ 10, 22, 2 ], [128X[104X
+    [4X[28X  [ 10, 22, 15 ], [ 10, 24, 4 ], [ 10, 24, 16 ] ][128X[104X
+    [4X[25Xgap>[125X [27XsurfA := surf16[1];;[127X[104X
+    [4X[25Xgap>[125X [27XsurfB := surf16[2];;[127X[104X
+    [4X[25Xgap>[125X [27XnewSurf := ConnectedFaceSum(surfA, Flags(surfA)[1], surfB, Flags(surfB)[1]);[127X[104X
+    [4X[28Xsimplicial surface (17 vertices, 45 edges, and 30 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo check whether this new surface has trivial automorphism group, we compute
+  the automorphism group with [9XAutomorphismGroup[109X ([14X15.6-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XautGrp := AutomorphismGroup(newSurf);[127X[104X
+    [4X[28XGroup(())[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince this is the trivial group, we succeeded in our goal.[133X
+  
+  
+  [1X6.2 [33X[0;0YAnalysing a given surface[133X[101X
+  
+  [33X[0;0YIn  this  section, we present several options to analyse a given surface. As
+  an example, we will use the surface that we constructed in the last section.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XnewSurf;[127X[104X
+    [4X[28Xsimplicial surface (17 vertices, 45 edges, and 30 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  can already read of the number of vertices, edges, and faces. Some other
+  elementary   properties   are   orientability  ([9XIsOrientablComplex[109X,  [14X8.7-1[114X),
+  connectivity   ([9XIsConnectedComplex[109X,   [14X8.6-1[114X),  closedness  ([9XIsClosedComplex[109X,
+  [14X9.1-2[114X), and the Euler-characteristic ([9XEulerCharacteristic[109X, [14X9.1-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface(newSurf);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsConnectedSurface(newSurf);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(newSurf);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEulerCharacteristic(newSurf);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn  our case, we can deduce that the surface [3XnewSurf[103X can be represented as a
+  triangulation  of  the sphere. We might want to know how many vertices there
+  are  of  different degrees. This can be found out by using [9XCounterOfVertices[109X
+  ([14X9.2-4[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XListCounter(CounterOfVertices(newSurf));[127X[104X
+    [4X[28X[ [ 4, 8 ], [ 5, 2 ], [ 6, 5 ], [ 7, 1 ], [ 11, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  tells  us that there are 8 vertices of degree 4, for example. We could
+  be  interested in the distance of the two vertices of degree 5. For that, we
+  have  to find these vertices first. For this, we need to know the degrees of
+  each vertex. This can be calculated by [9XDegreeOfVertex[109X ([14X9.2-2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFiltered( Vertices(newSurf), v -> DegreeOfVertex(newSurf,v) = 5 );[127X[104X
+    [4X[28X[ 31, 33 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  distance between two vertices can be calculated with [9XDistanceOfVertices[109X
+  ([14X11.1-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDistanceOfVertices(newSurf, 31, 33);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTherefore, the two vertices of degree 5 are adjacent.[133X
+  
+  
+  [1X6.3 [33X[0;0YConstructing a complicated surface from a simple one[133X[101X
+  
+  [33X[0;0YIn this section, we want to construct the following surface:[133X
+  
+  [31X1[131X   [33X[0;6YStart  with  a  spherical  surface  that has 10 faces, two vertices of
+        degree  5 and five vertices of degree 4, such that the two vertices of
+        degree 5 are not adjacent.[133X
+  
+  [31X2[131X   [33X[0;6YPick  two  adjacent  faces that are not incident to the same vertex of
+        degree 5 and ``stack'' an octahedron onto them.[133X
+  
+  [31X3[131X   [33X[0;6YCompute the automorphism group of the resulting surface.[133X
+  
+  [31X4[131X   [33X[0;6YRemove  the  unique  vertex  that  is  fixed by the whole automorphism
+        group.[133X
+  
+  [33X[0;0YA  tedious  way  would  be  to  construct  this  surface  by hand, label all
+  vertices,  edges,  and  faces,  and use one of the methods from chapter [14X4[114X to
+  construct  the  surface.  Instead,  we  can  also  follow  the guidelines to
+  construct the surface. First, we have to obtain the spherical surface. Since
+  the  two  vertices  of degree 5 are not adjacent, the faces incident to them
+  are  distinct.  We  can  construct  those  by  the method [9XSimplicialUmbrella[109X
+  ([14X14.4-2[114X):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xumb5 := SimplicialUmbrella(5);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 10 edges, and 5 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  two  of  these umbrellas have 10 faces in total, we can construct the
+  surface  from  two  umbrellas. We can do so by identifying their boundaries.
+  This  process is known as [13Xjoining[113X and the relevant methods are documented in
+  section  [14X12.4[114X. For our purpose, we need [9XJoinBoundaries[109X ([14X12.4-5[114X). This method
+  requires a vertex and an edge of each umbrella, that lie on the boundary and
+  are  incident  to  each  other.  The  easiest  way  would  be to look up the
+  labelling  in  the  documentation of [9XSimplicialUmbrella[109X ([14X14.4-2[114X), but we can
+  also find one of them ourselves:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XboundaryEdges := BoundaryEdges(umb5);[127X[104X
+    [4X[28X[ 6, 7, 8, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27Xverts := VerticesOfEdge(umb5, 6);[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTherefore,  1  is  a  boundary  vertex incident to the boundary edge 6. This
+  allows us to join the boundaries of two umbrellas.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xjoin := JoinBoundaries(umb5, [1,6], umb5, [1,6]);[127X[104X
+    [4X[28X[ simplicial surface (7 vertices, 15 edges, and 10 faces), [128X[104X
+    [4X[28X    ( v17, E21, v18, E22, v19, E23, v20, E24, v21, E25, v17 )[128X[104X
+    [4X[28X    , 10 ][128X[104X
+    [4X[25Xgap>[125X [27XdoubleFiveGon := join[1];[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 15 edges, and 10 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  second  component  of  [3Xjoin[103X is a vertex-edge-path (compare section [14X8.1[114X)
+  that  describes how the old boundary lies in the new surface. In particular,
+  [22XE21[122X tells us that edge 21 was a boundary edge before the joining. Therefore,
+  the  two  faces adjacent to that edge are not incident to the same vertex of
+  degree 5.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XadjFaces := FacesOfEdge(doubleFiveGon, 21);[127X[104X
+    [4X[28X[1, 11][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNext,  we  want  to ``stack'' an octahedron onto each of these faces. We can
+  construct  an octahedron directly by calling [9XOctahedron[109X ([14X14.3-4[114X), and we can
+  ``stack''  two  surfaces  by using [9XConnectedFaceSum[109X ([14X12.5-1[114X). Unfortunately,
+  this method requires a flag of each surface (it needs to know how exactly we
+  want to combine the surfaces). Since the octahedron is highly symmetric, all
+  possible  choices lead to the same surface. For the flag of [3XdoubleFiveGon[103X we
+  already  have  an  edge  (21)  and  a face (1 and 11). We only need a vertex
+  incident to the edge.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdge(doubleFiveGon, 21);[127X[104X
+    [4X[28X[ 17, 18 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  the  octahedron,  we  can  use  any  flag. We can use [9XFlags[109X ([14X21.1-1[114X) to
+  compute all of them.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xocta := Octahedron();[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XoctaFlag := Flags(octa)[1];[127X[104X
+    [4X[28X[ 1, 1, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis allows the first combination.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfaceSum1 := ConnectedFaceSum(doubleFiveGon, [17,21,1], octa, [1,1,1]);[127X[104X
+    [4X[28Xsimplicial surface (10 vertices, 24 edges, and 16 faces)[128X[104X
+    [4X[25Xgap>[125X [27X[ 17, 21, 11 ] in Flags(faceSum1);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSuch  a  combination might force a partial relabelling of the surface and in
+  our  case,  this  has  happened: the triple [22X[17,21,11][122X is no flag of the new
+  surface. Fortunately, it is easy to reconstruct: We are searching for a face
+  whose vertices have degrees [22X[5,6,6][122X. To localise such subconfigurations, the
+  methods  of  Section  [14X10.4[114X  can  be  used.  For  our  purposes,  the  method
+  [9XFacesWithVertexProperties[109X ([14X10.4-3[114X) is appropriate.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xface := FacesWithVertexProperties(faceSum1, [ [127X[104X
+    [4X[25X>[125X [27X               v -> FaceDegreeOfVertex(faceSum1, v) = 5,[127X[104X
+    [4X[25X>[125X [27X               v -> FaceDegreeOfVertex(faceSum1, v) = 6,[127X[104X
+    [4X[25X>[125X [27X               v -> FaceDegreeOfVertex(faceSum1, v) = 6]);[127X[104X
+    [4X[28X[ 11 ][128X[104X
+    [4X[25Xgap>[125X [27Xedge := EdgesOfFace(faceSum1, face[1])[1];[127X[104X
+    [4X[28X11[128X[104X
+    [4X[25Xgap>[125X [27Xvertex := VerticesOfEdge(faceSum1, edge)[1];[127X[104X
+    [4X[28X16[128X[104X
+    [4X[25Xgap>[125X [27XfaceSum2 := ConnectedFaceSum(faceSum1,[vertex, edge, face[1]], octa,[1,1,1]);[127X[104X
+    [4X[28Xsimplicial surface (13 vertices, 33 edges, and 22 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YTo  compute the automorphism group, we can use the methods from Section [14X15.6[114X
+  .    Since    we    want   to   compute   all   fixed   vertices,   we   use
+  [9XAutomorphismGroupOnVertices[109X ([14X15.6-3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xaut := AutomorphismGroupOnVertices(faceSum2);[127X[104X
+    [4X[28X<permutation group with 2 generators>[128X[104X
+    [4X[25Xgap>[125X [27XfixedVertices := Filtered( Vertices(faceSum2), [127X[104X
+    [4X[25X>[125X [27X                       v -> ForAll(aut, a -> v^a=v) );[127X[104X
+    [4X[28X[ 20 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YRemoving  the  vertex  [22X20[122X  means removing all faces incident to that vertex.
+  This can be done by [9XSubsurfaceByFaces[109X ([14X12.2-1[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XincFaces := FacesOfVertex(faceSum2, fixedVertices[1]);[127X[104X
+    [4X[28X[ 3, 4, 13, 14 ][128X[104X
+    [4X[25Xgap>[125X [27XremainingFaces := Difference( Faces(faceSum2), incFaces );[127X[104X
+    [4X[28X[ 2, 5, 12, 15, 27, 28, 29, 30, 31, 32, 33, 42, 43, 44, 45, 46, 47, 48 ][128X[104X
+    [4X[25Xgap>[125X [27Xsurf := SubsurfaceByFaces(faceSum2, remainingFaces);[127X[104X
+    [4X[28Xsimplicial surface (12 vertices, 29 edges, and 18 faces)[128X[104X
+  [4X[32X[104X
+  

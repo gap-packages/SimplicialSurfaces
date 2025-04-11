@@ -1,0 +1,335 @@
+  
+  [1X1 [33X[0;0YGetting started[133X[101X
+  
+  [33X[0;0YTo use this package, it has to be loaded into GAP via[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XLoadPackage("SimplicialSurfaces");[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.1 [33X[0;0YWhat can it do?[133X[101X
+  
+  [33X[0;0YThe [9XSimplicialSurface[109X-package contains the following basic functionality:[133X
+  
+  [31X1[131X   [33X[0;6YIt  allows  computations with simplicial surfaces (and generalisations
+        of  them  like  polygonal  complexes, compare section [14X2[114X), for example:
+        Image omitted in terminal text Instead of working with an embedding of
+        these  structures, we see them as abstract surfaces and represent them
+        by their incidence geometry (for more details see section [14X2.1[114X).[133X
+  
+  [31X2[131X   [33X[0;6YIt  can  work  with edge colourings of simplicial surfaces (in general
+        and for the purpose of an embedding).[133X
+  
+  [33X[0;0YThe  remainder of this chapter is a measured introduction into the main data
+  structure  of  the  package and some simple capabilities. Chapter [14X2[114X contains
+  the  formal  definitions  of  these  concepts.  Chapter [14X6[114X contains some more
+  advanced usage examples.[133X
+  
+  
+  [1X1.2 [33X[0;0YPlaying with simplicial surfaces[133X[101X
+  
+  [33X[0;0YSince  the platonic solids are pre-defined in the [9XSimplicialSurfaces[109X-package
+  we use them to show a few capabilities of this package. We will use the cube
+  as an example. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurface := Cube();;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe can compute elementary properties of the surface[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfVertices(surface);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(surface);[127X[104X
+    [4X[28X12[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfFaces(surface);[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XEulerCharacteristic(surface);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yand  we  can  show that the surface is homeomorphic to a sphere by verifying
+  that it is closed, connected and orientable.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(surface);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsConnectedSurface(surface);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface(surface);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  can also compute more complicated properties like the automorphism group
+  and check for isomorphisms between surfaces.[133X
+  
+  
+  [1X1.3 [33X[0;0YConstructing new surfaces[133X[101X
+  
+  [33X[0;0YIn  most  cases  one  is not interested in the properties of platonic solids
+  (usually  one  already  knows  a lot about them). Therefore we need a way to
+  tell  the package about the surfaces we are interested in. As a test case we
+  consider  a  surface that consists of only three triangles T1, T2 and T3. We
+  want that T2 shares an edge with both T1 and T3, but T1 and T3 should not be
+  connected otherwise. Image omitted in terminal text Disregarding lengths and
+  angles, we can describe this surface quite easily by labelling its faces and
+  vertices. In our case each triangle is determined by its three vertices. The
+  vertex  of  T1 that is not a vertex of T2 will be called V1, the vertex that
+  is  shared  by all triangles is called V2, the final vertex of T1 is V3, the
+  final  vertex  of  T2  is V4 and the last vertex will be called V5. Then the
+  face T1 consists of the vertices V1,V2,V3. The face T2 contains V2,V3,V4 and
+  the  face  T3  has  V2,V4,V5.  Image  omitted in terminal text To encode the
+  incidence  structure of this surface it is sufficient to know which vertices
+  lie  in  which  faces.  We  can encode this information as a list with three
+  entries  (one  for each face). The list entry at position [22Xp[122X is a list of all
+  vertices  that  are  incident  to the face with number [22Xp[122X (their order is not
+  important). In our example this looks like this:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XverticesOfFaces := [ [1,2,3], [2,3,4], [3,5,4] ];[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 5, 4  ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFrom this information we can construct a simplicial surface[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurf := SimplicialSurfaceByVerticesInFaces( verticesOfFaces );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Ythat retains this information (note that the order of the incident lists can
+  change (here for [3, 5, 4]) as they are internally converted into sets):[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(surf);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YA  slightly  more  complicated  example  is a Möbius-strip. Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xmoebius := SimplicialSurfaceByVerticesInFaces([127X[104X
+    [4X[25X>[125X [27X                           [[1,2,3],[2,3,4],[3,4,5],[4,5,1],[5,2,1]]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsOrientableSurface(moebius);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.3-1 [33X[0;0YCreating non-triangular faces[133X[101X
+  
+  [33X[0;0YIf  we  want to construct surfaces with non-triangular faces, we have to use
+  the  method  [9XPolygonalSurfaceByVerticesInFaces[109X.  We  also  have  to  be more
+  careful since this method is a bit more subtle. We consider the example of a
+  pyramid  with  a  square base. Image omitted in terminal text To encode this
+  surface we have to enumerate the faces. But if we try to input the surface[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpyr := PolygonalSurfaceByVerticesInFaces( [127X[104X
+    [4X[25X>[125X [27X                   [[2,3,4,5], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Ywe  notice  something strange: The resulting surface has the wrong number of
+  edges (10 instead of 8) and is not closed.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(pyr);[127X[104X
+    [4X[28X10[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(pyr);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSince  this  seems  strange it would be natural to check the edges. For that
+  the  method  [9XVerticesOfEdges[109X  (which  will  be  explained  in more detail in
+  section [14X1.5[114X) can be used. It shows for each edge its incident vertices.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(pyr);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 4 ], [128X[104X
+    [4X[28X        [ 2, 5 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  shows  that in addition to the expected edges we also have the edges [
+  2, 5 ] and [ 3, 4 ]. How did those edges get added?[133X
+  
+  [33X[0;0YThe problem is: We did not tell the method [9XPolygonalSurfaceByVerticesInFaces[109X
+  what  the edges should be. For triangular faces this is not an issue because
+  there  is  an  edge between any pair of vertices. But for the square face in
+  our example the vertices do [13Xnot[113X determine its edges.[133X
+  
+  [33X[0;0YThe  method [9XPolygonalSurfaceByVerticesInFaces[109X will believe that two adjacent
+  vertices in the given list are also connected by an edge of the face. Above,
+  we  gave  the  list  [2,  3, 4, 5] for the square. If we compare it with our
+  picture  we  can  see that the vertices 2 and 4 are connected in the picture
+  but  not adjacent in our list. Likewise the vertices 2 and 5 are adjacent in
+  the  list  (we  imagine  that  the list wraps around) but don't have an edge
+  between them in the picture.[133X
+  
+  [33X[0;0YInstead we have to give the vertices in a proper cyclic ordering:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpyr :=PolygonalSurfaceByVerticesInFaces(  [127X[104X
+    [4X[25X>[125X [27X                   [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;[127X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(pyr);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(pyr);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.4 [33X[0;0YPlaying with vertices and faces.[133X[101X
+  
+  [33X[0;0YAfter  having  learned  how  to construct a simplicial surface by the method
+  [9XSimplicialSurfaceByVerticesInFaces[109X, we can use the labelling of vertices and
+  faces  to  get  more detailed information about the surface. We will use the
+  example from section [14X1.3[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt  is  easy  to reclaim the complete incidence structure that went into the
+  construction.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertices(surf);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces(surf);[127X[104X
+    [4X[28X[ 1 .. 3 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(surf);[127X[104X
+    [4X[28X[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YBy  using  the incidence-structure we can distinguish vertices that lie in a
+  different number of faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceDegreesOfVertices(surf);[127X[104X
+    [4X[28X[ 1, 2, 3, 2, 1][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe first entry of this list counts the number of faces that are incident to
+  the vertex 1 (in general the [22Xi[122X-th entry counts those for the vertex [22Xi[122X).[133X
+  
+  [33X[0;0YIn  this  case  it  is  apparent  that the third vertex is incident to three
+  different faces and unique with that property. To distinguish vertices 1 and
+  5 (that are incident to one face each), we need to know which faces they are
+  incident to.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFacesOfVertices(surf);[127X[104X
+    [4X[28X[ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 2, 3 ], [ 3 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSo  the  first  vertex  is  incident  to  the face 1 and the fifth vertex is
+  incident  to  face  3. We can also see that the second vertex is incident to
+  the faces 1 and 2.[133X
+  
+  [33X[0;0YAn  additional  advantage  of  the  incidental  information  is  that we can
+  determine  a  concrete global orientation if the surface is orientable. From
+  the  method  [9XOrientation[109X  ([14X8.7-2[114X) we can compute a list of permutations such
+  that the [22Xi[122X-th entry is a cyclic permutation of the vertices in face [22Xi[122X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XList( Orientation(surf), VerticesAsPerm );[127X[104X
+    [4X[28X[ (1,2,3), (2,4,3), (3,4,5) ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.5 [33X[0;0YAdding edge numbering[133X[101X
+  
+  [33X[0;0YUp  until  now  we  did  not care about specific edges because they were not
+  important  for  the  construction  of our examples so far. But let us assume
+  that  we  want  to know which edges are incident to exactly two faces in our
+  example from before. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe can see the edges by calling[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdges(surf);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Ybut this does not tell us where they are. For that we may use[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(surf);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  before,  the first entry of this list contains the vertices of the first
+  edge.  In  our  example the edge with number 1 is incident to the vertices 1
+  and  2.  We can update our picture: Image omitted in terminal text If we now
+  want  to know which edges are incident to exactly two faces, we only have to
+  check[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFacesOfEdges(surf);[127X[104X
+    [4X[28X[ [ 1 ], [ 1 ], [ 1, 2 ], [ 2 ], [ 2, 3 ], [ 3 ], [ 3 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  positions  with lists of two elements are the interesting edges. We can
+  compute them easily by[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFiltered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );[127X[104X
+    [4X[28X[ 3, 5 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X1.6 [33X[0;0YConstructing surfaces with vertex, edge and face data[133X[101X
+  
+  [33X[0;0YThere    are    some    cases    in    which    we   don't   want   to   use
+  [9XSimplicialSurfaceByVerticesInFaces[109X but a more versatile method, for example[133X
+  
+  [31X1[131X   [33X[0;6YWe already have an edge labelling and want to keep it.[133X
+  
+  [31X2[131X   [33X[0;6YThe faces of our surface are not determined by their vertices.[133X
+  
+  [33X[0;0YAn  example  of  the  second  situation is given by two triangles that share
+  exactly two edges. They can be visualized as an "open bag". Image omitted in
+  terminal  text  Since  both  faces  share  the  same  vertices  we can't use
+  [9XSimplicialSurfaceByVerticesInFaces[109X  here. Instead we need to label vertices,
+  edges  and faces individually: Image omitted in terminal text Now we have to
+  tell [5XGAP[105X which vertices are incident to which edges[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XverticesOfEdges := [[1,2],[1,3],[2,3],[2,3]];;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Yand which edges are incident to which face[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XedgesOfFaces := [[1,2,4],[1,2,3]];;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0Ywhich  allows us to use the constructor [9XSimplicialSurfaceByDownwardIncidence[109X
+  (for an explanation of this name, see section [14X4.1[114X)[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbag := SimplicialSurfaceByDownwardIncidence(verticesOfEdges, edgesOfFaces);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt  would  be nice if we were able to easily determine which edges/faces are
+  not  determined  by  their  vertices  alone. For that purpose we can use the
+  following commands:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeAnomalyClasses(bag);[127X[104X
+    [4X[28X[ [ 1 ], [ 2 ], [ 3, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XFaceAnomalyClasses(bag);[127X[104X
+    [4X[28X[ [ 1, 2 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  list  of edge-anomaly-classes is a partition of the edges such that two
+  edges  are  in  the same equivalence class if and only if they have the same
+  vertices.  So  we see here that the edges 3 and 4 have the same vertices. We
+  can  do  the  same  for the faces and see that the two faces share all their
+  vertices.[133X
+  

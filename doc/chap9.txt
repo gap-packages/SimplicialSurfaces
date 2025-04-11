@@ -1,0 +1,1068 @@
+  
+  [1X9 [33X[0;0YProperties of surfaces and complexes[133X[101X
+  
+  [33X[0;0YIn  chapter [14X3[114X we introduced the incidence structures of polygonal complexes.
+  Along with this we can consider various properties of surfaces and complexes
+  that  rely  on  the  incidence  structure. In section [14X9.1[114X some invariants of
+  polygonal complexes are explained. Section [14X9.2[114X describes properties based on
+  the degree of the vertices. Different types of faces, edges and vertices are
+  introduced in section [14X9.3[114X, [14X9.4[114X and [14X9.5[114X.[133X
+  
+  [33X[0;0YWe  will  showcase  these properties on several examples. One of them is the
+  [13Xfive-star[113X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XfiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,[127X[104X
+    [4X[25X>[125X [27X               [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAnother one is the [13Xtriforce[113X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xtriforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;[127X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.1 [33X[0;0YInvariants[133X[101X
+  
+  [33X[0;0YThis   section  introduces  invariants  of  (twisted)  polygonal  complexes.
+  Invariants  of  (twisted)  polygonal complexes are properties that are equal
+  for each (twisted) polygonal complex in the same isomorphism class. Examples
+  of  such invariants are the Euler-characteristic [14X9.1-1[114X, whether a complex is
+  closed  or  open  [14X9.1-2[114X  and  some  other properties about multi tetrahedral
+  spheres.[133X
+  
+  [1X9.1-1 EulerCharacteristic[101X
+  
+  [33X[1;0Y[29X[2XEulerCharacteristic[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Yan integer[133X
+  
+  [33X[0;0YReturn  the [13XEuler-characteristic[113X of the given twisted polygonal complex. The
+  Euler-characteristic is computed as[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfVertices(complex) - NumberOfEdges(complex) + NumberOfFaces(complex);[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs  an  example,  consider the five-star that was introduced at the start of
+  chapter [14X9[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XNumberOfVertices(fiveStar);[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(fiveStar);[127X[104X
+    [4X[28X10[128X[104X
+    [4X[25Xgap>[125X [27XNumberOfFaces(fiveStar);[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XEulerCharacteristic(fiveStar);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [1X9.1-2 IsClosedComplex[101X
+  
+  [33X[1;0Y[29X[2XIsClosedComplex[102X( [3Xcomplex[103X ) [32X property[133X
+  [33X[1;0Y[29X[2XIsClosedSurface[102X( [3Xsurf[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck whether the given twisted polygonal complex without edge ramifications
+  is  [13Xclosed[113X. A twisted polygonal complex without edge ramifications is closed
+  if  every edge is incident to [13Xexactly[113X two faces (whereas the absence of edge
+  ramifications only means that every edge is incident to [13Xat most[113X two faces).[133X
+  
+  [33X[0;0YFor example, the platonic solids are closed.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface( Octahedron() );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface( Dodecahedron() );[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIn  contrast, the five-star and the triforce from the start of chapter [14X9[114X are
+  not closed. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedSurface(fiveStar);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsClosedComplex(triforce);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X9.1-3 IsMultiTetrahedralSphere[101X
+  
+  [33X[1;0Y[29X[2XIsMultiTetrahedralSphere[102X( [3Xcomplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YCheck  whether  the  given  twisted  polygonal complex is a multitetrahedral
+  sphere.  A  multitetrahedral  sphere  can  be  obtained by starting with the
+  tetrahedron  and  performing  a  finite number of tetrahedral extensions. So
+  multi-tetrahedral    spheres    are    closed   simplicial   surfaces   with
+  euler-characteristic  2.  As example consider the tetrahedron and the double
+  tetrahedron. Up to isomorphism there is exactly one multi-tetrahedral sphere
+  with 4 faces, namely the tetradron. Image omitted in terminal text And there
+  is  exactly  one  multi-tetrahedral  sphere  with  6 faces namely the double
+  tetraedron  which  can  be  obtained  by  performing exactly one tetrahedral
+  extension to the tetradron. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsMultiTetrahedralSphere(Tetrahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;[127X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsMultiTetrahedralSphere(doubleTetra);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs another example, consider the octahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsMultiTetrahedralSphere(Octahedron());[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X9.1-4 TetrahedralNumber[101X
+  
+  [33X[1;0Y[29X[2XTetrahedralNumber[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ypositive integer or fail[133X
+  
+  [33X[0;0YReturn the number of tetrahedra that are used to construct the given twisted
+  polygonal  complex. If [9Xcomplex[109X is a multi-tetrahedral sphere, this number is
+  1  greater than the number of tetrahedral extensions that have to be applied
+  to  the tetrahedron to obtain [9Xcomplex[109X. If [9Xcomplex[109X is not a multi-tetrahedral
+  sphere, the function returns fail.[133X
+  
+  [33X[0;0YAs  example,  consider  the  tetrahedron,  the  double  tetrahedron  and the
+  multi-tetrahedral  sphere  which  can  be  obtained  by applying exactly two
+  tetrahedral extensions to the tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=TetrahedralExtension(Tetrahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XmultiTetra:=TetrahedralExtension(doubleTetra,2);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XTetrahedralNumber(Tetrahedron());[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XTetrahedralNumber(doubleTetra);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XTetrahedralNumber(multiTetra);[127X[104X
+    [4X[28X3[128X[104X
+  [4X[32X[104X
+  
+  [1X9.1-5 TetrahedralType[101X
+  
+  [33X[1;0Y[29X[2XTetrahedralType[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya dense list or fail[133X
+  
+  [33X[0;0YReturn the tetrahedral type of a given twisted polygonal complex or [9Xfail[109X, if
+  [9Xcomplex[109X  is  not a multi tetrahedral sphere. The tetrahedral type of a multi
+  tetrahedral sphere is a tuple [9X[a0,...,ak][109X satisfying the following property:
+  [9XX[109X  is  a  list of multi tetrahedral spheres of length [9Xk[109X so that [9XX[1]=complex[109X
+  and  [9XX[k][109X is either isomorphic to the tetrahedron or the double tetrahedron.
+  Furthermore  [9XX[i][109X  is  obtained  by  applying  tetrahedral reductions to all
+  vertices  with face degree 3 in [9XX[i-1][109X. So [9Xai[109X is the number of vertices with
+  face  degree 3 in [9XX[i][109X, if [9XX[k][109X is isomorphic to the tetrahedron, the number
+  [9Xak[109X  is  redefined  as  1.  As  example, consider the tetrahedron, the double
+  tetrahedron  and  the  multi-tetrahedral  sphere  which  can  be obtained by
+  applying exactly two tetrahedral extensions to the tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=TetrahedralExtension(Tetrahedron(),1);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XmultiTetra:=TetrahedralExtension(doubleTetra,2);[127X[104X
+    [4X[28Xsimplicial surface (6 vertices, 12 edges, and 8 faces)[128X[104X
+    [4X[25Xgap>[125X [27XTetrahedralType(Tetrahedron());[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XTetrahedralType(doubleTetra);[127X[104X
+    [4X[28X[ 2 ][128X[104X
+    [4X[25Xgap>[125X [27XTetrahedralType(multiTetra);[127X[104X
+    [4X[28X[ 2, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.1-6 BlockType[101X
+  
+  [33X[1;0Y[29X[2XBlockType[102X( [3Xsurface[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ylist of pairs or fail[133X
+  
+  [33X[0;0YReturn the block type of a vertex-faithful simplicial sphere. The block type
+  is   a  list  of  pairs  [9X[num,numOfFaces][109X  where  [9Xnum[109X  counts  the  building
+  blocks([14X12.5-11[114X)  of  [9Xsurface[109X  whose  number of faces match [9XnumOfFaces[109X. Since
+  building  blocks only exist for vertex-faithful spheres the function returns
+  [9Xfail[109X, if [9Xsurface[109X does not satisfy this property.[133X
+  
+  [33X[0;0YAs examples, consider the tetrahedron and the double tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XBlockType(Tetrahedron());[127X[104X
+    [4X[28X[ [ 4, 1 ] ][128X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;[127X[104X
+    [4X[25Xgap>[125X [27XdoubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);[127X[104X
+    [4X[28Xsimplicial surface (5 vertices, 9 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XBlockType(doubleTetra);[127X[104X
+    [4X[28X[ [ 4, 2 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.2 [33X[0;0YDegree-based properties and invariants[133X[101X
+  
+  [33X[0;0YThis  section  contains  properties  and  invariants  that  are based on the
+  degrees  of  the  vertices. We have to distinguish two different definitions
+  for  the  degree  of  a  vertex - we can either count the number of incident
+  edges   of   the  number  of  incident  faces.  These  two  definitions  are
+  distinguished      by     calling     them     [9XEdgeDegreesOfVertices[109X     and
+  [9XFaceDegreesOfVertices[109X.[133X
+  
+  [33X[0;0YA  large  part  of  this  chapter  are the counters. There are six different
+  counter   objects:   vertex   counter([14X9.2-4[114X),   edge   counter([14X9.2-5[114X),  face
+  counter([14X9.2-6[114X),  butterfly counter([14X9.2-7[114X), umbrella counter([14X9.2-8[114X) and three
+  face  counter([14X9.2-9[114X).  For  a  given  surface, the counters save information
+  about  the  vertex, face or edge degrees. There are different methods to get
+  these  information like [3XListCounter[103X([14X9.2-13[114X), [3XMultiplicitiesOfCounter[103X([14X9.2-14[114X)
+  and [3XDegreesOfCounter[103X([14X9.2-15[114X).[133X
+  
+  [1X9.2-1 EdgeDegreesOfVertices[101X
+  
+  [33X[1;0Y[29X[2XEdgeDegreesOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XEdgeDegreeOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeDegreeOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XEdgeDegreeOfVertex[109X([3Xcomplex[103X,  [3Xvertex[103X) returns the [13Xedge-degree[113X of
+  the  given vertex in the given twisted polygonal complex, i.e. the number of
+  incident  edges. The NC-version does not check whether [3Xvertex[103X is a vertex of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XEdgeDegreesOfVertices[109X([3Xcomplex[103X) collects all of these degrees
+  in     a     list    that    is    indexed    by    the    vertices,    i.e.
+  [9XEdgeDegreesOfVertices[109X([3Xcomplex[103X)[[3Xvertex[103X]     =     [9XEdgeDegreeOfVertex[109X([3Xcomplex[103X,
+  [3Xvertex[103X). All other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the five-star from the start of chapter [14X9[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeDegreeOfVertex( fiveStar, 1 );[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XEdgeDegreeOfVertex( fiveStar, 5 );[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XEdgeDegreesOfVertices( fiveStar );[127X[104X
+    [4X[28X[ 5, 3, 3,, 3,, 3,,,, 3 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-2 FaceDegreesOfVertices[101X
+  
+  [33X[1;0Y[29X[2XFaceDegreesOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XFaceDegreeOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFaceDegreeOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDegreesOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XDegreeOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDegreeOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XFaceDegreeOfVertex[109X([3Xcomplex[103X,  [3Xvertex[103X) returns the [13Xface-degree[113X of
+  the  given vertex in the given twisted polygonal complex, i.e. the number of
+  incident  faces. The NC-version does not check whether [3Xvertex[103X is a vertex of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XFaceDegreesOfVertices[109X([3Xcomplex[103X) collects all of these degrees
+  in     a     list    that    is    indexed    by    the    vertices,    i.e.
+  [9XFaceDegreesOfVertices[109X([3Xcomplex[103X)[[3Xvertex[103X]     =     [9XFaceDegreeOfVertex[109X([3Xcomplex[103X,
+  [3Xvertex[103X). All other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the five-star from the start of chapter [14X9[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceDegreeOfVertex( fiveStar, 1 );[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XFaceDegreeOfVertex( fiveStar, 5 );[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XFaceDegreesOfVertices( fiveStar );[127X[104X
+    [4X[28X[ 5, 2, 2,, 2,, 2,,,, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XDegreesOfVertices( fiveStar );[127X[104X
+    [4X[28X[ 5, 2, 2,, 2,, 2,,,, 2 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor   convenience,   these   methods   can  also  be  called  by  the  names
+  [9XDegreesOfVertices[109X and [9XDegreeOfVertex[109X.[133X
+  
+  [1X9.2-3 TotalDefect[101X
+  
+  [33X[1;0Y[29X[2XTotalDefect[102X( [3Xsurface[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XTotalInnerDefect[102X( [3Xsurface[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Yan integer[133X
+  
+  [33X[0;0YReturn  the [13Xtotal (inner) defect[113X of the given simplicial surface. The defect
+  of  an inner vertex is [22X6 - faceDegree[122X and the defect of a boundary vertex is
+  [22X3 - faceDegree[122X.[133X
+  
+  [33X[0;0YThe  [13Xtotal defect[113X is the sum over all defects. The [13Xtotal inner defect[113X is the
+  sum  over  the  defects  of  all inner vertices. As an example, consider the
+  five-star from the start of chapter [14X9[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTotalDefect( fiveStar );[127X[104X
+    [4X[28X6[128X[104X
+    [4X[25Xgap>[125X [27XTotalInnerDefect( fiveStar );[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-4 CounterOfVertices[101X
+  
+  [33X[1;0Y[29X[2XCounterOfVertices[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA Counter-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsCounterOfVertices[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XCounterOfVertices[109X  constructs  a  new  vertex  counter  from  a
+  polygonal   complex.  The  method  [9XIsCounterOfVertices[109X  checks  if  a  given
+  [5XGAP[105X-object  represents  such  a vertex counter. The vertex counter saves the
+  information  about  how many vertices are incident to how many faces. To get
+  this  information there are different possibilities. For example, the method
+  [3XListCounter[103X  ([14X9.2-13[114X)  that  returns  this  information  as  a list of pairs
+  [13X[degree,  multiplicity][113X,  where  [13Xmultiplicity[113X  counts the number of vertices
+  with exactly [13Xdegree[113X incident faces.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the five-star from the start of chapter [14X9[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XList( FacesOfVertices(fiveStar), Size );[127X[104X
+    [4X[28X[ 5, 2, 2,, 2,, 2,,,, 2 ][128X[104X
+    [4X[25Xgap>[125X [27XcountVert:=CounterOfVertices(fiveStar);[127X[104X
+    [4X[28Xcounter of vertices ([ 2, 5 ] degrees, and [ 5, 1 ] multiplicities)[128X[104X
+    [4X[25Xgap>[125X [27XListCounter(countVert);[127X[104X
+    [4X[28X[ [ 2, 5 ], [ 5, 1 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-5 CounterOfEdges[101X
+  
+  [33X[1;0Y[29X[2XCounterOfEdges[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA Counter-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsCounterOfEdges[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XCounterOfEdges[109X  constructs  a new edge counter from a polygonal
+  complex. The method [9XIsCounterOfEdges[109X checks if a given [5XGAP[105X-object represents
+  such  an edge counter. The edge counter saves the information about how many
+  edges have vertices with the same degrees. To get this information there are
+  different  possibilities.  For example, the method [3XListCounter[103X ([14X9.2-13[114X) that
+  returns  this  information  as  a  list of pairs [13X[degreeList, multiplicity][113X,
+  where [13Xmultiplicity[113X counts the number of edges whose vertices are incident to
+  [13XdegreeList[1][113X  and [13XdegreeList[2][113X faces. The list [13XdegreeList[113X is always sorted
+  but may contain duplicates.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the five-star from the start of chapter [14X9[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcountEdg := CounterOfEdges(fiveStar);[127X[104X
+    [4X[28Xcounter of edges ([ [ 2, 2 ], [ 2, 5 ] ] degrees, and [ 5, 5 ] multiplicities)[128X[104X
+    [4X[25Xgap>[125X [27XListCounter(countEdg);[127X[104X
+    [4X[28X[ [ [ 2, 2 ], 5 ], [ [ 2, 5 ], 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-6 CounterOfFaces[101X
+  
+  [33X[1;0Y[29X[2XCounterOfFaces[102X( [3Xcomplex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA Counter-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsCounterOfFaces[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XCounterOfFaces[109X  constructs  a new face counter from a polygonal
+  complex. The method [9XIsCounterOfFaces[109X checks if a given [5XGAP[105X-object represents
+  such  a  face counter. The face counter saves the information about how many
+  faces have vertices with the same degrees. To get this information there are
+  different  possibilities.  For example, the method [3XListCounter[103X ([14X9.2-13[114X) that
+  returns  this  information  as  a  list of pairs [13X[degreeList, multiplicity][113X,
+  where  [13Xmultiplicity[113X  counts  the  number of faces whose vertex degrees match
+  [13XdegreeList[113X,  i.e.  for every vertex there is exactly one entry of [13XdegreeList[113X
+  such  that the vertex is incident to this number of faces. The [13XdegreeList[113X is
+  always sorted but may contain duplicates.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the five-star from the start of chapter [14X9[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcountFac:=CounterOfFaces(fiveStar);[127X[104X
+    [4X[28Xcounter of faces ([ [ 2, 2, 5 ] ] degrees, and [ 5 ] multiplicities) [128X[104X
+    [4X[25Xgap>[125X [27XListCounter(countFac);[127X[104X
+    [4X[28X[ [ [ 2, 2, 5 ], 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-7 CounterOfButterflies[101X
+  
+  [33X[1;0Y[29X[2XCounterOfButterflies[102X( [3Xsurface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA Counter-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsCounterOfButterflies[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XCounterOfButterflies[109X  constructs a new butterfly counter from a
+  simplicial  surface.  The  method  [9XIsCounterOfButterflies[109X  checks if a given
+  [5XGAP[105X-object  represents such a butterfly counter. The butterfly counter saves
+  the  information  about  how  many  butterflies  have vertices with the same
+  degrees.  To  get  this  information  there are different possibilities. For
+  example,  the method [3XListCounter[103X ([14X9.2-13[114X) that returns this information as a
+  list of pairs [13X[[degList1,degList2], multiplicity][113X, where [13Xmultiplicity[113X counts
+  the  number  of  butterflies whose vertex degrees match [13X[degList1,degList2][113X,
+  whereby [13XdegList1[113X denotes the vertex degree of the vertices that are incident
+  to  the  edge inducing the corresponding butterfly and [13XdegList2[113X contains the
+  vertex degrees of the two remaining vertices of the butterfly.[133X
+  
+  [33X[0;0YAs an example, consider the double-5-gon: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],[127X[104X
+    [4X[25X>[125X [27X[2,4,6],[3,5,7],[3,6,7]];;[127X[104X
+    [4X[25Xgap>[125X [27Xs:=SimplicialSurfaceByVerticesInFaces(vof);;[127X[104X
+    [4X[25Xgap>[125X [27Xcounter:=CounterOfButterflies(s);[127X[104X
+    [4X[28Xcounter of butterlies ([ [ [ 4, 4 ], [ 5, 5 ] ], [ [ 4, 5 ], [ 4, 4 ] ] ][128X[104X
+    [4X[28Xdegrees, and [ 5, 10 ] multiplicities) [128X[104X
+    [4X[25Xgap>[125X [27XListCounter(counter);[127X[104X
+    [4X[28X[ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-8 CounterOfUmbrellas[101X
+  
+  [33X[1;0Y[29X[2XCounterOfUmbrellas[102X( [3Xsurface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA Counter-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsCounterOfUmbrellas[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XCounterOfUmbrellas[109X  constructs  a  new  umbrella counter from a
+  simplicial  surface.  The  method  [9XIsCounterOfUmbrellas[109X  checks  if  a given
+  [5XGAP[105X-object  represents  such an umbrella counter. The umbrella counter saves
+  the  information  about  how  many  umbrellas  have  vertices  with the same
+  degrees.  To  get  this  information  there are different possibilities. For
+  example,  the method ([3XListCounter[103X [14X9.2-13[114X) that returns this information as a
+  list  of  pairs  [13X[degreeList,  multiplicity][113X,  where [13Xmultiplicity[113X counts the
+  number  of  umbrellas  whose  vertex  degrees  of  vertices contained at the
+  boundary  of  the umbrella match [13XdegreeList[113X, i.e. for every vertex contained
+  in the boundary of an umbrella there is exactly one entry of [13XdegreeList[113X such
+  that  the vertex is incident to this number of faces. The list [13XdegreeList[113X is
+  not sorted but may contain duplicates.[133X
+  
+  [33X[0;0YAs an example, consider the double-6-gon: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],[127X[104X
+    [4X[25X>[125X [27X[2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;[127X[104X
+    [4X[25Xgap>[125X [27Xs:=SimplicialSurfaceByVerticesInFaces(vof);;[127X[104X
+    [4X[25Xgap>[125X [27Xcounter:=CounterOfUmbrellas(s);[127X[104X
+    [4X[28Xcounter of umbrellas ([ [ 4, 6, 4, 6 ], [ 4, 4, 4, 4, 4, 4 ] ] degrees,[128X[104X
+    [4X[28Xand [ 6, 2 ] multiplicities)[128X[104X
+    [4X[25Xgap>[125X [27XListCounter(counter);[127X[104X
+    [4X[28X[ [ [ 4, 6, 4, 6 ], 6 ], [ [ 4, 4, 4, 4, 4, 4 ], 2 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-9 CounterOfThreeFaces[101X
+  
+  [33X[1;0Y[29X[2XCounterOfThreeFaces[102X( [3Xsurface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10YA Counter-[5XGAP[105X-object[133X
+  
+  [33X[1;0Y[29X[2XIsCounterOfThreeFaces[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  [9XCounterOfThreeFaces[109X  constructs a new three face counter from a
+  simplicial  surface.  The  method  [9XIsCounterOfThreeFaces[109X  checks  if a given
+  [5XGAP[105X-object  represents  such  a  three  face counter. The three-face counter
+  saves the information about how many three-faces have vertices with the same
+  degrees.  To  get  this  information  there are different possibilities. For
+  example,  the method [3XListCounter[103X ([14X9.2-13[114X) that returns this information as a
+  list   of   pairs   [13X[[deg,degreeList1,degreeList2],  multiplicity][113X,  whereby
+  [13X[deg,degreeList1,degreeList2][113X  satisfies the following property: Assume that
+  the  vertices  [13Xv1,v2,v3[113X  are  all  incident to the same face and there exist
+  exactly  two  vertices  [13Xv4,v5[113X so that [13Xv4[113X resp. [13Xv5[113X is the remaining vertex of
+  the butterfly induced by the edge incident to the vertices [13Xv1[113X and [13Xv2[113X resp.[13Xv1[113X
+  and  [13Xv3[113X.  Image omitted in terminal text So [13Xdeg[113X denotes the vertex degree of
+  the  vertex  [13Xv1[113X.  The  first resp. second entry of [13XdegreeList1[113X is the vertex
+  degree of [13Xv2[113X resp [13Xv3[113X. And the first resp. second entry of [13XdegreeList2[113X is the
+  vertex  degree of [13Xv4[113X resp. [13Xv5[113X. The integer [13Xmultiplicity[113X counts the number of
+  adjacent three-faces whose vertex degrees match [13XdegreeList[113X.[133X
+  
+  [33X[0;0YThe different lists in [13XdegreeList[113X are not sorted but may contain duplicates.[133X
+  
+  [33X[0;0YAs an example, consider the double-6-gon: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xvof:=[[1,5,7],[1,5,8],[1,6,7],[1,6,8],[2,3,5],[2,3,6],[2,4,5],[127X[104X
+    [4X[25X>[125X [27X[2,4,6],[3,5,7],[3,6,7],[4,5,8],[4,6,8]];;[127X[104X
+    [4X[25Xgap>[125X [27Xs:=SimplicialSurfaceByVerticesInFaces(vof);;[127X[104X
+    [4X[25Xgap>[125X [27Xcounter:=CounterOfThreeFaces(s);[127X[104X
+    [4X[28Xcounter of three faces ([ [ 4, [ 4, 6 ], [ 6, 4 ] ], [ 6, [ 4, 4 ], [ 4, 4 ] ] ][128X[104X
+    [4X[28Xdegrees, and [ 24, 12 ] multiplicities)[128X[104X
+    [4X[25Xgap>[125X [27XListCounter(counter);[127X[104X
+    [4X[28X[ [ [ 4, [ 4, 6 ], [ 6, 4 ] ], 24 ], [ [ 6, [ 4, 4 ], [ 4, 4 ] ], 12 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-10 IsCounter[101X
+  
+  [33X[1;0Y[29X[2XIsCounter[102X( [3Xobject[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YThe  method  returns  if  the [13Xobject[113X is a vertex counter, edge counter, face
+  counter, butterfly counter, umbrella counter or three face counter.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsCounter(CounterOfVertices(fiveStar));[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-11 TypeOfCounter[101X
+  
+  [33X[1;0Y[29X[2XTypeOfCounter[102X( [3Xcounter[103X ) [32X operation[133X
+  
+  [33X[0;0YReturns   the   type   of   the   counter.   That  means  if  [3Xcounter[103X  is  a
+  CounterOfVertices([14X9.2-4[114X),    CounterOfEdges([14X9.2-5[114X),   CounterOfFaces([14X9.2-6[114X),
+  CounterOfButterflies([14X9.2-7[114X),                      CounterOfUmbrellas([14X9.2-8[114X),
+  CounterOfThreeFaces([14X9.2-9[114X) or a not specified counter object.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcounter:=CounterOfVertices(fiveStar);;[127X[104X
+    [4X[25Xgap>[125X [27XTypeOfCounter(counter);[127X[104X
+    [4X[28XCounterOfVertices[128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-12 AssociatedPolygonalComplex[101X
+  
+  [33X[1;0Y[29X[2XAssociatedPolygonalComplex[102X( [3Xcounter[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya polygonal complex[133X
+  
+  [33X[0;0YReturn the polygonal complex for which the given counter is defined.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XassCom:=AssociatedPolygonalComplex(CounterOfVertices(fiveStar));;[127X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(assCom, fiveStar);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-13 ListCounter[101X
+  
+  [33X[1;0Y[29X[2XListCounter[102X( [3Xcounter[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of pairs[133X
+  
+  [33X[0;0YReturns  the  information about different counters. For a vertex counter the
+  method  returns the list of pairs [13X[degree, multiplicity][113X for [13Xcounter[113X. For an
+  edge  counter, a face counter and an umbrella counter the method returns the
+  list of pairs [13X[degreeList, multiplicity][113X. For a butterfly counter the method
+  returns  the  list  of  pairs  [13X[[degList1,degList2], multiplicity][113X and for a
+  three    face    counter    the   method   returns   the   list   of   pairs
+  [13X[[deg,degList1,degList2], multiplicity][113X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcountFac:=CounterOfFaces(fiveStar);;[127X[104X
+    [4X[25Xgap>[125X [27XListCounter(countFac);[127X[104X
+    [4X[28X[ [ [ 2, 2, 5 ], 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-14 MultiplicitiesOfCounter[101X
+  
+  [33X[1;0Y[29X[2XMultiplicitiesOfCounter[102X( [3Xcounter[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMultiplicitiesOfDegrees[102X( [3XcounterVert[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMultiplicityOfDegree[102X( [3Xcounter[103X, [3XdegreeList[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XMultiplicityOfDegree[102X( [3XcounterVert[103X, [3Xdegree[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers/a positive integer[133X
+  
+  [33X[0;0YThe  method  [3XMultiplicities[103X returns the second entry of the tupels contained
+  in  the  list  obtained  from [3XListCounter[103X. This means, for example, that the
+  method returns how many vertices have the same degree if [3Xcounter[103X is a vertex
+  counter.  The  method  [3XMultiplicityOfDegree[103X returns the number for the given
+  [3Xdegree[103X  or [3XdegreeList[103X of [3Xcounter[103X. The method [3XMultiplicitiesOfDegrees[103X returns
+  a  list  [3Xmultiplicities[103X  for a vertex counter where [3Xmultiplicities[i][103X is the
+  number of times a vertex has degree [3Xi[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcounterEd:=CounterOfEdges(fiveStar);;[127X[104X
+    [4X[25Xgap>[125X [27XMultiplicitiesOfCounter(counterEd);[127X[104X
+    [4X[28X[ 5, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XMultiplicityOfDegree(counterEd,[2,5]);[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XcounterVert:=CounterOfVertices(fiveStar);;[127X[104X
+    [4X[25Xgap>[125X [27XMultiplicitiesOfDegrees(counterVert);[127X[104X
+    [4X[28X[ , 5,,, 1 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.2-15 DegreesOfCounter[101X
+  
+  [33X[1;0Y[29X[2XDegreesOfCounter[102X( [3Xcounter[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDegreesOfMultiplicities[102X( [3Xcounter[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XDegreesOfMultiplicity[102X( [3Xcounter[103X, [3Xmultiplicity[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers[133X
+  
+  [33X[0;0YThe  method  [3XDegrees[103X returns the first entry of tupels contained in the list
+  obtained  from  [3XListCounter[103X.  This  means, for example, that if [3Xcounter[103X is a
+  vertex  counter,  the  method  returns  what  the  different  degrees of the
+  vertices  are. The method [3XDegreesOfMultiplicities[103X returns a list [3Xdegrees[103X for
+  [3Xcounter[103X, where [3Xdegrees[i][103X is the degree or degreeList that occurs [3Xi[103X times.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XcounterEd:=CounterOfEdges(fiveStar);;[127X[104X
+    [4X[25Xgap>[125X [27XDegreesOfCounter(counterEd);[127X[104X
+    [4X[28X[ [ 2, 2 ], [ 2, 5 ] ][128X[104X
+    [4X[25Xgap>[125X [27XDegreesOfMultiplicities(counterEd);[127X[104X
+    [4X[28X[ ,,,, [ [ 2, 2 ], [ 2, 5 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XDegreesOfMultiplicity(counterEd,5);[127X[104X
+    [4X[28X[ [ 2, 2 ], [ 2, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.3 [33X[0;0YTypes of faces[133X[101X
+  
+  [33X[0;0YThe  faces  in  a  (twisted)  polygonal  complex  are (twisted) polygons. In
+  particular  there  can  be polygons with different numbers of vertices, i.e.
+  triangle, quadrangles, and so on.[133X
+  
+  [1X9.3-1 IsFaceHomogeneous[101X
+  
+  [33X[1;0Y[29X[2XIsFaceHomogeneous[102X( [3Xcomplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  all polygons in this twisted polygonal complex have the same
+  number of vertices.[133X
+  
+  [33X[0;0YConsider the following polygonal complex: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[ , , , , , [2,5], , [2,3], [3, 5], [11,5], , [3,7], [7,11] ],[127X[104X
+    [4X[25X>[125X [27X[[6,8,9], , , [9,10,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsFaceHomogeneous(complex);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  complex  is  not face homogeneous, since it contains a face with three
+  vertices and a face with four vertices. A tetrahedron is face homogeneous:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsFaceHomogeneous(Tetrahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-2 IsTriangular[101X
+  
+  [33X[1;0Y[29X[2XIsTriangular[102X( [3Xcomplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether all polygons in this twisted polygonal complex are triangles.
+  If this is the case, the twisted polygonal complex is face homogeneous.[133X
+  
+  [33X[0;0YThe tetrahedron consists only of triangles:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsTriangular(Tetrahedron());[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X9.3-3 IsQuadrangular[101X
+  
+  [33X[1;0Y[29X[2XIsQuadrangular[102X( [3Xcomplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck   whether   all   polygons  in  this  twisted  polygonal  complex  are
+  quadrangles.[133X
+  
+  [33X[0;0YConsider the following polygonal complex: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X[ , , , , , [2,5], , [2,3], [3, 5], [11,5], , [3,7], [7,11] ],[127X[104X
+    [4X[25X>[125X [27X[[6,8,9], , , [9,10,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsQuadrangular(complex);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis complex is not quadrangular, since it contains a triangle.[133X
+  
+  
+  [1X9.4 [33X[0;0YTypes of edges[133X[101X
+  
+  [33X[0;0YThe  edges  of  a  twisted  polygonal  complex  (defined  in  [14X2.1[114X) can be in
+  different  local positions. This can be seen in the example of the five-star
+  (which  was introduced at the start of chapter [14X9[114X): Image omitted in terminal
+  text  The  edges  that  are  incident to the vertex 1 are different from the
+  other  edges  since  they  lie "inside" the surface. Edges with two incident
+  faces  are  called  [13Xinner  edges[113X while edges with only one incident face are
+  called [13Xboundary edges[113X.[133X
+  
+  [33X[0;0YIf  edge ramifications are not allowed, only those two edge types can appear
+  (by definition there are one or two faces incident to each edge). In general
+  there  might  appear a third case (more than two faces incident to an edge).
+  This is exemplified in the following example: Image omitted in terminal text
+  Edges with more than two incident faces are called [13Xramified edges[113X.[133X
+  
+  [1X9.4-1 InnerEdges[101X
+  
+  [33X[1;0Y[29X[2XInnerEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsInnerEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsInnerEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all inner edges of the given twisted polygonal complex. An
+  [13Xinner edge[113X is an edge that is incident to exactly two faces.[133X
+  
+  [33X[0;0YThe method [9XIsInnerEdge[109X checks whether the given edge is an inner edge of the
+  given  twisted polygonal complex. The NC-version does not check whether [3Xedge[103X
+  is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider  the  five-star  from  the  start  of  chapter  [14X9[114X: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsInnerEdge( fiveStar, 4 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsInnerEdge( fiveStar, 10 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XInnerEdges( fiveStar );[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.4-2 TurnableEdges[101X
+  
+  [33X[1;0Y[29X[2XTurnableEdges[102X( [3Xsurface[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsTurnableEdge[102X( [3Xsurface[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsTurnableEdgeNC[102X( [3Xsurface[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn  the  set  of all turnable edges of the given simplicial surface. Let
+  [3Xv1,v2[103X  be  the  vertices of the subsurface induced by a given edge which are
+  not  incident to this edge. Image omitted in terminal text The given edge is
+  a  turnable  edge,  if  and only if [3Xv1[103X is not equal to [3Xv2[103X and there exist no
+  edge   whose   incident   vertices   are  exactly  [3Xv1[103X  and  [3Xv2[103X.  The  method
+  [3XIsTurnableEdge[103X checks whether the given edge is a turnable edge of the given
+  simplicial surface. The NC-version does not check whether [3Xedge[103X is an edge of
+  [3Xsurface[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTurnableEdges(Tetrahedron());[127X[104X
+    [4X[28X[  ][128X[104X
+    [4X[25Xgap>[125X [27XTurnableEdges(Octahedron());[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ][128X[104X
+    [4X[25Xgap>[125X [27XIsTurnableEdge(Tetrahedron(),1);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsTurnableEdge(Octahedron(),2);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs another example surfaces with boundary edges can be considered.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xs:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[1,2,4]]);[127X[104X
+    [4X[28Xsimplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsTurnableEdge(s,1);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsTurnableEdge(s,2);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(s);[127X[104X
+    [4X[28X[ [ 1, 2, 4 ], [ 1, 3, 5 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.4-3 BoundaryEdges[101X
+  
+  [33X[1;0Y[29X[2XBoundaryEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsBoundaryEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsBoundaryEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all boundary edges of the given twisted polygonal complex.
+  A [13Xboundary edge[113X is an edge that is incident to exactly one face.[133X
+  
+  [33X[0;0YThe  method  [9XIsBoundaryEdge[109X checks whether the given edge is a boundary edge
+  of  the  given  twisted  polygonal  complex.  The  NC-version does not check
+  whether [3Xedge[103X is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider  the  five-star  from  the  start  of  chapter  [14X9[114X: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsBoundaryEdge( fiveStar, 4 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsBoundaryEdge( fiveStar, 10 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XBoundaryEdges( fiveStar );[127X[104X
+    [4X[28X[ 6, 7, 8, 9, 10 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.4-4 RamifiedEdges[101X
+  
+  [33X[1;0Y[29X[2XRamifiedEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsRamifiedEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsRamifiedEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all ramified edges of the given twisted polygonal complex.
+  A [13Xramified edge[113X is an edge that is incident to at least three faces.[133X
+  
+  [33X[0;0YThe  method  [9XIsRamifiedEdge[109X checks whether the given edge is a ramified edge
+  of  the  given  twisted  polygonal  complex.  The  NC-version does not check
+  whether [3Xedge[103X is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YWe  illustrate  it  on  the  following  triangular complex: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbranch := TriangularComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X       [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], [127X[104X
+    [4X[25X>[125X [27X       [[1,2,7],[3,4,7],[5,6,7]]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsRamifiedEdge(branch, 1);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsRamifiedEdge(branch, 7);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XRamifiedEdges(branch);[127X[104X
+    [4X[28X[ 7 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.5 [33X[0;0YTypes of vertices[133X[101X
+  
+  [33X[0;0YThe  vertices  of  a  twisted  polygonal  complex (defined in [14X2.1[114X) can be in
+  different  local positions. This can be seen in the example of the five-star
+  (which  was introduced at the start of chapter [14X9[114X): Image omitted in terminal
+  text The vertex 1 is the only vertex that is completely surrounded by faces.
+  It  is  called an [13Xinner vertex[113X while the other vertices of the five-star are
+  [13Xboundary  vertices[113X.  This  classifies  all  vertices  of a twisted polygonal
+  surface.[133X
+  
+  [33X[0;0YIn  general  there  are  more  than  these two possibilities. In the case of
+  vertex  ramifications (defined in [14X2.3[114X) there can be [13Xramified vertices[113X: Image
+  omitted in terminal text[133X
+  
+  [33X[0;0YIn the case of edge ramifications (also defined in [14X2.3[114X) there might be edges
+  that  are  incident  to  more than two faces. Image omitted in terminal text
+  Vertices that are incident to such an edge are called [13Xchaotic vertices[113X.[133X
+  
+  [1X9.5-1 InnerVertices[101X
+  
+  [33X[1;0Y[29X[2XInnerVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsInnerVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsInnerVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all inner vertices.[133X
+  
+  [33X[0;0YA  vertex  is  an  inner  vertex  if and only if there is exactly one closed
+  umbrella-path   around  it  (compare  section  [14X3.4[114X  for  the  definition  of
+  umbrella-paths).[133X
+  
+  [33X[0;0YThe  method [9XIsInnerVertex[109X checks whether the given vertex is an inner vertex
+  of  the  given  twisted  polygonal  complex.  The  NC-version does not check
+  whether [3Xvertex[103X is an vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider  the  five-star  from  the  start  of  chapter  [14X9[114X: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsInnerVertex( fiveStar, 1 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsInnerVertex( fiveStar, 3 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XInnerVertices( fiveStar );[127X[104X
+    [4X[28X[ 1 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  the special case of a twisted polygonal surface the inner vertices have
+  an easier characterisation: a vertex is an inner vertex if and only if every
+  incident edge is incident to exactly two faces (that is, if it only incident
+  to inner edges ([14X9.4-1[114X)).[133X
+  
+  [1X9.5-2 BoundaryVertices[101X
+  
+  [33X[1;0Y[29X[2XBoundaryVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsBoundaryVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsBoundaryVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all boundary vertices.[133X
+  
+  [33X[0;0YA vertex is a boundary vertex if and only if there is exactly one non-closed
+  umbrella-path   around  it  (compare  section  [14X3.4[114X  for  the  definition  of
+  umbrella-paths).[133X
+  
+  [33X[0;0YThe  method  [9XIsBoundaryVertex[109X  checks whether the given vertex is a boundary
+  vertex of the given twisted polygonal complex. The NC-version does not check
+  whether [3Xvertex[103X is an vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider the triforce from the start of section [14X9[114X: Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsBoundaryVertex( triforce, 6 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsBoundaryVertex( triforce, 2 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XBoundaryVertices( triforce );[127X[104X
+    [4X[28X[ 1, 4, 6 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  twisted  polygonal surfaces the boundary vertices can be described more
+  easily:  a  vertex  is a boundary vertex if and only if it is incident to at
+  least  one edge that is incident to exactly one face (i.e. if it is incident
+  to a boundary edge ([14X9.4-3[114X)).[133X
+  
+  [33X[0;0YConsider  the  five-star  from  the  start  of  section  [14X9[114X: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsBoundaryVertex( fiveStar, 5 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsBoundaryVertex( fiveStar, 1 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XBoundaryVertices( fiveStar );[127X[104X
+    [4X[28X[ 2, 3, 5, 7, 11 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.5-3 RamifiedVertices[101X
+  
+  [33X[1;0Y[29X[2XRamifiedVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsRamifiedVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsRamifiedVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all ramified vertices.[133X
+  
+  [33X[0;0YA  vertex  is  ramified if and only if there is a well-defined umbrella-path
+  partition   around   it   (compare   [14X3.4-2[114X)  and  there  are  at  least  two
+  umbrella-paths in this partition.[133X
+  
+  [33X[0;0YThe  method  [9XIsRamifiedVertex[109X  checks whether the given vertex is a ramified
+  vertex of the given twisted polygonal complex. The NC-version does not check
+  whether [3Xvertex[103X is an vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YConsider the triforce from the start of section [14X9[114X: Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsRamifiedVertex( triforce, 3 );[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsRamifiedVertex( triforce, 4 );[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XRamifiedVertices( triforce );[127X[104X
+    [4X[28X[ 2, 3, 5 ][128X[104X
+  [4X[32X[104X
+  
+  [1X9.5-4 ChaoticVertices[101X
+  
+  [33X[1;0Y[29X[2XChaoticVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XIsChaoticVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsChaoticVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn the set of all chaotic vertices.[133X
+  
+  [33X[0;0YA  vertex  is  chaotic  if  and  only  if  it is incident to an edge that is
+  incident  to  at least three faces. In other words, there is no well-defined
+  umbrella-path partition ([14X3.4-2[114X) around a chaotic vertex.[133X
+  
+  [33X[0;0YThe  method  [9XIsChaoticVertex[109X  checks  whether  the given vertex is a chaotic
+  vertex of the given twisted polygonal complex. The NC-version does not check
+  whether [3Xvertex[103X is an vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an  example, we consider the following triangular complex: Image omitted
+  in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbranch := TriangularComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X       [[2,3],[1,3],[2,4],[1,4],[2,5],[1,5],[1,2]], [127X[104X
+    [4X[25X>[125X [27X       [[1,2,7],[3,4,7],[5,6,7]]);;[127X[104X
+    [4X[25Xgap>[125X [27XIsChaoticVertex(branch, 1);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsChaoticVertex(branch, 3);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XChaoticVertices(branch);[127X[104X
+    [4X[28X[ 1, 2 ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X9.6 [33X[0;0YFace-colouring[133X[101X
+  
+  [1X9.6-1 FaceTwoColouring[101X
+  
+  [33X[1;0Y[29X[2XFaceTwoColouring[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya  pair  where  the  first  and  second entry are sets of positive
+            integers or [9Xfail[109X[133X
+  
+  [33X[0;0YIf the method is given a polygonal complex, it returns a pair of two sets of
+  faces,  which  represents a face-2-coloring, if possible. A 2-face-colouring
+  of a polygonal complex is a colouring of the faces with exactly two colours,
+  whereby  two  neighbouring  faces  have to be coloured different. If no such
+  coloring  exists, the method returns [9Xfail[109X. In the case that such a colouring
+  exists,  the  first  set  of  the  returned  pair contains the face with the
+  smallest label.[133X
+  
+  [33X[0;0YAs an example, consider the octahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceTwoColouring(Octahedron());[127X[104X
+    [4X[28X[ [ 1, 2, 5, 6 ], [ 3, 4, 7, 8 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [1X9.6-2 AdmissibleRelationsOfSurface[101X
+  
+  [33X[1;0Y[29X[2XAdmissibleRelationsOfSurface[102X( [3Xsurface[103X, [3Xbool[103X[, [3Xbool2[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of tuples where the first entry is a surface and the second
+            entry is a list of partitions[133X
+  
+  [33X[0;0YAn admissible relation of a simplicial surface is an equivalence relation on
+  the surface satisfying the following properties:[133X
+  
+  [30X    [33X[0;6YEach equivalence class contains either vertices, edges or faces only.[133X
+  
+  [30X    [33X[0;6YWe  can  define  an  incidence relation as follows: Let [9XK[109X and [9XL[109X be two
+        equivalence  classes.  The  class  [9XK[109X is incident to the class [9XL[109X if and
+        only if there exist [9Xk[109X in the class [9XK[109X and [9Xl[109X in the class [9XL[109X so that [9Xk[109X is
+        incident to [9Xl[109X as elements of the given simplicial surface.[133X
+  
+  [30X    [33X[0;6YThe  equivalence  classes  together with the introduced relation gives
+        rise to a triangulated surface without ramifications.[133X
+  
+  [33X[0;0YNote,  let [9XX[109X be a simplicial surface and [9XY[109X be a simplicial constructed by an
+  admissible relation on [9XX[109X. Then there exists an epimorphism from [9XX[109X to [9XY[109X. This
+  functions  focuses on the admissible relations that yield butterfly friendly
+  epimorphisms.  Here,  an  epimorphism from a simplicial surface [9XX[109X to another
+  simplicial surface [9XY[109X is called butterfly friendly, if for each inner edge [9Xe[109X,
+  the  restriction  of  the  epimorphism  to  the  butterfly  induced  by [9Xe[109X is
+  surjective.  This function returns a list of tuples [9X[s,relation][109X, where [9Xs[109X is
+  a  simplicial  surface  and [9Xrelation[109X is the admissible relation of the given
+  surface that gives rise to the resulting surface [9XX[109X. The relation [9Xrelation[109X is
+  given  by the resulting partition of vertices, edges and faces. If [9Xbool=true[109X
+  then  the  list which is returned by the function contains all surfaces that
+  can  be  constructed  by forming an admissible relation of the given surface
+  and  if  [9Xbool=false[109X  then the list only contains isomorphism representatives
+  with  their  corresponding  admissible  relations.  If  [9Xbool2=false[109X then the
+  function  prints  how  many  faces are already visited while computating the
+  admissible relations. As an example, consider the tetrahedron.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XAdmissibleRelationsOfSurface(Tetrahedron(),true);[127X[104X
+    [4X[28X[ [ simplicial surface (4 vertices, 6 edges, and 4 faces)[128X[104X
+    [4X[28X       , [128X[104X
+    [4X[28X      [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [128X[104X
+    [4X[28X          [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], [128X[104X
+    [4X[28X          [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YAs an example, consider the butterfly. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xbutterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;[127X[104X
+    [4X[25Xgap>[125X [27XAdmissibleRelationsOfSurface(butterfly,false);[127X[104X
+    [4X[28X[ [ simplicial surface (4 vertices, 5 edges, and 2 faces)[128X[104X
+    [4X[28X        , [128X[104X
+    [4X[28X      [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],[128X[104X
+    [4X[28X          [ [ 1 ], [ 2 ] ] ] ], [128X[104X
+    [4X[28X  [ simplicial surface (3 vertices, 3 edges, and 1 faces),[128X[104X
+    [4X[28X      [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], [128X[104X
+    [4X[28X          [ [ 1, 2 ] ] ] ] ][128X[104X
+  [4X[32X[104X
+  

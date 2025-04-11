@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 2: Polygonal Structures</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap2"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap2.html">[MathJax off]</a></p>
+<p><a id="X86693EE97EA70D6D" name="X86693EE97EA70D6D"></a></p>
+<div class="ChapSects"><a href="chap2_mj.html#X86693EE97EA70D6D">2 <span class="Heading">Polygonal Structures</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X82D7D2228628B979">2.1 <span class="Heading">Polygonal Complexes (pure incidence geometry)</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X8419E90A7D63E5FE">2.1-1 <span class="Heading">Definition (polygonal complex)</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X87EB933880FCBE88">2.1-2 IsPolygonalComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X87C1FD2D876D3C82">2.2 <span class="Heading">Twisted polygonal complexes and surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X79BD574087AD18BF">2.2-1 IsTwistedPolygonalComplex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap2_mj.html#X78FF094A8196A963">2.3 <span class="Heading">Polygonal and simplicial surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X81B84AEB7A8ED9EE">2.3-1 IsNotEdgeRamified</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X806616AB7D5705A4">2.3-2 <span class="Heading">Definition (Umbrella-path around a vertex)</span></a>
+</span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X84C87B45804AB42F">2.3-3 IsNotVertexRamified</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X83D11FC8811CDDE4">2.3-4 IsPolygonalSurface</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap2_mj.html#X7F92DEC87FC7923E">2.3-5 IsSimplicialSurface</a></span>
+</div></div>
+</div>
+
+<h3>2 <span class="Heading">Polygonal Structures</span></h3>
+
+<p>This chapter presents the different ways in which surfaces are used in the <code class="keyw">SimplicialSurfaces</code>-package. More accurately, it presents structures that are build from polygons (note that these can be much more general than simplicial surfaces). We employ two different models for these structures:</p>
+
+<ol>
+<li><p>Description by incidence geometry. This leads to the concept of <code class="keyw">PolygonalComplex</code> (section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>). The requirements for these to be surfaces are explained in section <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>.</p>
+
+</li>
+<li><p>If incidence geometry is not sufficient to describe a polygonal structure, additional information (a barycentric subdivision of the faces) can be used. This leads to the concept of <code class="keyw">TwistedPolygonalComplex</code> (section <a href="chap2_mj.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a>).</p>
+
+</li>
+</ol>
+<p><em>Polygonal Complexes</em> are structures that are build from polygons, like shown in the following figure (for the precise definition, see section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>). <br><img src="./images/_Wrapper_Image_ManyExamples.svg"> </img> <br> Surfaces are a special case of polygonal complexes and the package provides functionality to determine whether a polygonal complex is a surface.</p>
+
+<p><a id="X82D7D2228628B979" name="X82D7D2228628B979"></a></p>
+
+<h4>2.1 <span class="Heading">Polygonal Complexes (pure incidence geometry)</span></h4>
+
+<p>A polygonal complex is defined by a two-dimensional incidence geometry that fulfills some regularity conditions (the complete definition will be given at the end of this section in definition <a href="chap2_mj.html#X8419E90A7D63E5FE"><span class="RefLink">2.1-1</span></a>). We will exemplify this by the following surface. <br><img src='./images/_Wrapper_structs-1-1.svg'> </img> <br> In a two-dimensional incidence geometry we have a set <span class="SimpleMath">\(V\)</span> of vertices, a set <span class="SimpleMath">\(E\)</span> of edges and a set <span class="SimpleMath">\(F\)</span> of faces. If we label our surface like this, <br><img src="./images/_Wrapper_Image_StarOfStarExample.svg"> </img> <br> we have the sets</p>
+
+<p><span class="SimpleMath">\(V = \{2, 3, 5, 7, 11\}\)</span></p>
+
+<p><span class="SimpleMath">\(E = \{6, 8, 9, 10, 12, 13\}\)</span></p>
+
+<p><span class="SimpleMath">\(F = \{I, IV\}\)</span>.</p>
+
+<p>These sets can't encode the surface on their own. The relations between vertices, edges, and faces are also necessary. Therefore we define a transitive relation in the union of <span class="SimpleMath">\(V \times E\)</span>, <span class="SimpleMath">\(V \times F\)</span>, and <span class="SimpleMath">\(E \times F\)</span>, where <span class="SimpleMath">\((a,b)\)</span> is in the relation if and only if <span class="SimpleMath">\(a\)</span> is incident to <span class="SimpleMath">\(b\)</span>. Since the relation is transitive, it is sufficient to specify the tuples in <span class="SimpleMath">\(V \times E\)</span> and <span class="SimpleMath">\(E \times F\)</span>. In our example the relation is generated by</p>
+
+<p><span class="SimpleMath">\(\{ (2,6), (2,8), (3,8), (3,9), (3,12), (5,6), (5,9), (5,10), (7,12), (7,13), (11,10), (11,13)\}\)</span></p>
+
+<p>and</p>
+
+<p><span class="SimpleMath">\(\{ (6,I), (8,I), (9,I), (9,IV), (10,IV), (12,IV), (13,IV) \}\)</span>.</p>
+
+<p>However, we do not permit arbitrary incidence relations but only those satisfying certain regularity conditions (like in our example). For example, every edge should consist of exactly two vertices (more formally, for every edge there should be exactly two vertices that are incident to it). <br><img src='./images/_Wrapper_structs-2-1.svg'> </img> <br> If we try to generalize this condition to the faces we encounter some difficulties. For example, if we only enforce that each face has exactly three edges and three vertices, it would be possible that two of those edges share all of their vertices. Therefore even the case of triangles is quite complicated. <br><img src='./images/_Wrapper_structs-3-1.svg'> </img> <br> We will solve this problem by imposing a cyclic ordering on the vertices and edges that are incident to each face, such that those are compatible with the incidence structure. Since this definition is equally valid for all polygons (not just triangles), we formally define:</p>
+
+
+<ul>
+<li><p>For every face the number of incident vertices is equal to the number of incident edges. Additionally there is an enumeration of the vertices (<span class="SimpleMath">\(v_1, v_2, ..., v_k\)</span>) and the edges (<span class="SimpleMath">\(e_1, e_2, ..., e_k\)</span>) such that the vertices <span class="SimpleMath">\(v_i\)</span> and <span class="SimpleMath">\(v_{{i+1}}\)</span> are incident to the edge <span class="SimpleMath">\(e_i\)</span> (where we read indices <span class="SimpleMath">\(\bmod k\)</span>).</p>
+
+</li>
+</ul>
+<p><br><img src='./images/_Wrapper_structs-4-1.svg'> </img> <br> With these conditions we have guaranteed that all edges and faces behave as in our previous example. But they still allow the possibility of an incidence relation where we have vertices but no faces. Since we want to exclude singular cases like this from our considerations, we require that every vertex is incident to at least one edge and that every edge is incident to at least one face.</p>
+
+<p><a id="X8419E90A7D63E5FE" name="X8419E90A7D63E5FE"></a></p>
+
+<h5>2.1-1 <span class="Heading">Definition (polygonal complex)</span></h5>
+
+<p>A <em>polygonal complex</em> is a two-dimensional incidence geometry consisting of vertices, edges, and faces such that the following conditions hold (for a more intuitive explanation see section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>):</p>
+
+<ol>
+<li><p>For every edge there are exactly two vertices that are incident to it.</p>
+
+</li>
+<li><p>For every face the number of incident vertices is equal to the number of incident edges. Additionally there is an enumeration of the vertices (<span class="SimpleMath">\(v_1, v_2, ..., v_k\)</span>) and the edges (<span class="SimpleMath">\(e_1, e_2, ..., e_k\)</span>) such that the vertices <span class="SimpleMath">\(v_i\)</span> and <span class="SimpleMath">\(v_{{i+1}}\)</span> are incident to the edge <span class="SimpleMath">\(e_i\)</span> (where we read indices <span class="SimpleMath">\(\bmod k\)</span>).</p>
+
+</li>
+<li><p>Every vertex is incident to an edge and every edge is incident to a face.</p>
+
+</li>
+</ol>
+<p>It is now easy to verify that the examples in the picture <br><img src="./images/_Wrapper_Image_ManyExamples.svg"> </img> <br> are all polygonal complexes.</p>
+
+<p><a id="X87EB933880FCBE88" name="X87EB933880FCBE88"></a></p>
+
+<h5>2.1-2 IsPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolygonalComplex</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Checks whether <var class="Arg">object</var> is a polygonal complex. A polygonal complex can be informally described as a structure that is constructed from polygons.</p>
+
+<p>More formally (for a more extensive explanation see section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>) a polygonal complex is a two-dimensional incidence geometry of vertices, edges and faces such that the following conditions hold:</p>
+
+<ol>
+<li><p>Every edge has exactly two incident vertices.</p>
+
+</li>
+<li><p>For every face the incident edges and vertices form a polygon (see definition <a href="chap2_mj.html#X8419E90A7D63E5FE"><span class="RefLink">2.1-1</span></a>).</p>
+
+</li>
+<li><p>Every vertex is incident to an edge and every edge is incident to a face.</p>
+
+</li>
+</ol>
+<p><a id="X87C1FD2D876D3C82" name="X87C1FD2D876D3C82"></a></p>
+
+<h4>2.2 <span class="Heading">Twisted polygonal complexes and surfaces</span></h4>
+
+<p>While polygonal complexes are quite general, they can't describe all possible triangulations of a topological surface. For example, we can construct a torus from a single polygon by starting with a square and identifying opposite edges. <br><img src='./images/_Wrapper_structs-5-1.svg'> </img> <br> Since all vertices of the square collapse into a single vertex, it is impossible to describe this situation by a polygonal complex (as every edge needs to be incident to <em>exactly two</em> vertices). Structures like these appear naturally in several cases, for example.</p>
+
+
+<ul>
+<li><p>Construction of surfaces from the coset action of a group.</p>
+
+</li>
+<li><p>Construction of the geodesic dual.</p>
+
+</li>
+</ul>
+<p>In these cases, the more general formalism of <em>twisted polygonal complexes</em> is helpful. To interpret the torus as a twisted polygonal complex, we subdivide it barycentrically. <br><img src='./images/_Wrapper_structs-6-1.svg'> </img> <br> The small triangles within each face are called <em>chambers</em>. A twisted polygonal complex stores the incidences between vertices, edges, and faces (like a polygonal complex). In addition, it also stores a set of chambers, together with their adjacencies. Each chamber can be adjacent to another chamber along each of its edges.</p>
+
+
+<ul>
+<li><p>Along the shortest edge, each chamber is adjacent to exactly one other chamber. We call these chambers <em>0-adjacent</em>. In the torus, the pairs are <span class="SimpleMath">\((1,2)(3,4)(5,6)(7,8)\)</span>.</p>
+
+</li>
+<li><p>Along the longest edge, each chamber is adjacent to exactly one other chamber. We call these chambers <em>1-adjacent</em>. In the torus, the pairs are <span class="SimpleMath">\((1,8)(2,3)(4,5)(6,7)\)</span>.</p>
+
+</li>
+<li><p>Along the middle edge, a chamber may be adjacent to any number of other chambers. All of them are called <em>2-adjacent</em>. In the torus, each chamber is 2-adjacent to exactly one chamber. The pairs are <span class="SimpleMath">\((1,6)(2,5)(3,8)(4,7)\)</span>.</p>
+
+</li>
+</ul>
+<p>Both 0-adjacency and 1-adjacency can be interpreted as involutions without fixed points (i.e. elements from the symmetric group on the chambers). The 2-adjacency can be represented by an equivalence relation on the chambers. Naturally, we cannot pick any involutions and equivalence relations:</p>
+
+
+<ul>
+<li><p>Applying the 0-adjacency-involution does not change the edge and the face of a given chamber.</p>
+
+</li>
+<li><p>Applying the 1-adjacency-involution does not change the vertex and the face of a given chamber.</p>
+
+</li>
+<li><p>If two chambers are 2-adjacent, they have the same vertex and edge. Furthermore, applying the 0-adjacency-involution to both produces 2-adjacent chambers.</p>
+
+</li>
+<li><p>If two chambers have the same edge, they are either 2-adjacent or the first chamber is 2-adjacent to the chamber that arises from applying the 0-adjacency-involution to the second chamber.</p>
+
+</li>
+<li><p>If two chambers have the same face, we can obtain the second chamber from the first chamber by repeatedly applying the 0-adjacency-involution and 1-adjacency-involution.</p>
+
+</li>
+</ul>
+<p><a id="X79BD574087AD18BF" name="X79BD574087AD18BF"></a></p>
+
+<h5>2.2-1 IsTwistedPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsTwistedPolygonalComplex</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Checks whether <var class="Arg">object</var> is a twisted polygonal complex. A twisted polygonal complex can be informally described as a structure that is constructed from polygons, where the polygons may be <em>twisted</em> (e.g. there could be a polygon with one vertex and three edges). More formally (for a more extensive explanation see Section <a href="chap2_mj.html#X87C1FD2D876D3C82"><span class="RefLink">2.2</span></a>) a twisted polygonal complex is TODO</p>
+
+<p>TODO explain how to work with it</p>
+
+<p><a id="X78FF094A8196A963" name="X78FF094A8196A963"></a></p>
+
+<h4>2.3 <span class="Heading">Polygonal and simplicial surfaces</span></h4>
+
+<p>Polygonal surfaces are polygonal complexes (compare section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>) that behave like surfaces (two-dimensional manifolds with boundary). For example, they arise from the discretisation of a continuous surface. Simplicial surfaces are polygonal surfaces, where all polygons are triangles.</p>
+
+<p>There are two properties that distinguish polygonal surfaces from polygonal complexes:</p>
+
+<ol>
+<li><p>There are no ramified edges, i.e. every edge is incident to at most two faces. This excludes cases like three triangles that share one edge. <br><img src='./images/_Wrapper_structs-7-1.svg'> </img> <br></p>
+
+</li>
+<li><p>There are no ramified vertices. We will formalize this below but the aim of this condition is to exclude cases like these: <br><img src="./images/_Wrapper_Image_RamifiedExamples.svg"> </img> <br></p>
+
+</li>
+</ol>
+<p>If only the first condition is fulfilled, we have a <em>polygonal complex without edge ramifications</em>.</p>
+
+<p><a id="X81B84AEB7A8ED9EE" name="X81B84AEB7A8ED9EE"></a></p>
+
+<h5>2.3-1 IsNotEdgeRamified</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsNotEdgeRamified</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Checks whether the twisted polygonal complex <var class="Arg">complex</var> has no edge ramifications.</p>
+
+<p>If <var class="Arg">complex</var> is a polygonal complex, this means that every edge is incident to at most two faces.</p>
+
+<p>If <var class="Arg">complex</var> is a twisted polygonal complex, this means that every chamber is 2-adjacent to at most one other chamber.</p>
+
+<p>We now proceed to formalize the second condition. Intuitively we want to distinguish between the different coloured faces in these examples: <br><img src='./images/_Wrapper_structs-8-1.svg'> </img> <br> They can be distinguished by the fact that faces of the same colour are connected by edges that are incident to the given vertex. More formally:</p>
+
+<p><a id="X806616AB7D5705A4" name="X806616AB7D5705A4"></a></p>
+
+<h5>2.3-2 <span class="Heading">Definition (Umbrella-path around a vertex)</span></h5>
+
+<p>An <em>umbrella-path around the vertex <span class="SimpleMath">\(V\)</span></em> is a tuple <span class="SimpleMath">\((e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})\)</span> such that:</p>
+
+
+<ul>
+<li><p>The <span class="SimpleMath">\(f_i\)</span> are pairwise disjoint faces incident to <span class="SimpleMath">\(V\)</span>.</p>
+
+</li>
+<li><p>The <span class="SimpleMath">\(e_i\)</span> are pairwise disjoint edges incident to <span class="SimpleMath">\(V\)</span> (with the possible exception of <span class="SimpleMath">\(e_1 = e_{{n+1}}\)</span> in the case <span class="SimpleMath">\(n &gt; 1\)</span>).</p>
+
+</li>
+<li><p>The edges <span class="SimpleMath">\(e_i\)</span> and <span class="SimpleMath">\(e_{{i+1}}\)</span> are incident to <span class="SimpleMath">\(f_i\)</span> for all <span class="SimpleMath">\(i\)</span>.</p>
+
+</li>
+</ul>
+<p>If <span class="SimpleMath">\(e_1 = e_{{n+1}}\)</span> the umbrella-path is called <em>closed</em>. <br><img src="./images/_Wrapper_Image_EdgeFacePath.svg"> </img> <br></p>
+
+<p>With this definition in mind we can explicate the second property:</p>
+
+
+<ul>
+<li><p>For every vertex <span class="SimpleMath">\(V\)</span> all incident edges and faces can be arranged in an umbrella-path around <span class="SimpleMath">\(V\)</span> (compare definition <a href="chap2_mj.html#X806616AB7D5705A4"><span class="RefLink">2.3-2</span></a>), i.e. there are no vertex-ramifications.</p>
+
+</li>
+</ul>
+<p>For generic polygonal complexes without edge ramifications we can't expect to get exactly one umbrella. In our examples above all incident edges and faces could be represented by two umbrellas.</p>
+
+<p><a id="X84C87B45804AB42F" name="X84C87B45804AB42F"></a></p>
+
+<h5>2.3-3 IsNotVertexRamified</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsNotVertexRamified</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Checks whether the twisted polygonal complex <var class="Arg">complex</var> has no vertex ramifications, i.e. that there is exactly one maximal umbrella for every vertex.</p>
+
+<p>In general, we can always find a set of umbrella of a vertex such that all edges and faces incident to that vertex lie in exactly one of those umbrellas. This is called the <em>umbrella partition</em> of the vertex (we will talk more about this topic in section <a href="chap3_mj.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a>).</p>
+
+<p><a id="X83D11FC8811CDDE4" name="X83D11FC8811CDDE4"></a></p>
+
+<h5>2.3-4 IsPolygonalSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsPolygonalSurface</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Checks whether <var class="Arg">object</var> (a polygonal complex) is a polygonal surface. Informally a polygonal surface is a surface (with boundary) that is build only from polygons.</p>
+
+<p>More formally (for more details and examples see sections <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a> and <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>) a polygonal surface is a two-dimensional incidence geometry of vertices, edges, and faces such that the following conditions hold:</p>
+
+<ol>
+<li><p>Every edge has exactly two incident vertices.</p>
+
+</li>
+<li><p>For every face the incident edges and vertices form a polygon (see definition <a href="chap2_mj.html#X8419E90A7D63E5FE"><span class="RefLink">2.1-1</span></a>).</p>
+
+</li>
+<li><p>Every vertex is incident to an edge and every edge is incident to a face.</p>
+
+</li>
+<li><p>Every edge is incident to at most two faces, i.e. there are no edge-ramifications.</p>
+
+</li>
+<li><p>For every vertex <span class="SimpleMath">\(V\)</span> all incident edges and faces can be arranged in an umbrella-path around <span class="SimpleMath">\(V\)</span> (compare definition <a href="chap2_mj.html#X806616AB7D5705A4"><span class="RefLink">2.3-2</span></a>), i.e. there are no vertex-ramifications.</p>
+
+</li>
+</ol>
+<p><a id="X7F92DEC87FC7923E" name="X7F92DEC87FC7923E"></a></p>
+
+<h5>2.3-5 IsSimplicialSurface</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsSimplicialSurface</code>( <var class="Arg">object</var> )</td><td class="tdright">(&nbsp;property&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>Checks whether <var class="Arg">object</var> (a polygonal complex) is a simplicial surface. Informally a simplicial surface is a surface (with boundary) that is build only from triangles.</p>
+
+<p>More formally (for more details and examples see sections <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a> and <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>) a simplicial surface is a two-dimensional incidence geometry of vertices, edges, and faces such that the following conditions hold:</p>
+
+<ol>
+<li><p>Every edge has exactly two incident vertices.</p>
+
+</li>
+<li><p>For every face the incident edges and vertices form a triangle (see definition <a href="chap2_mj.html#X8419E90A7D63E5FE"><span class="RefLink">2.1-1</span></a>).</p>
+
+</li>
+<li><p>Every vertex is incident to an edge and every edge is incident to a face.</p>
+
+</li>
+<li><p>Every edge is incident to at most two faces, i.e. there are no edge-ramifications.</p>
+
+</li>
+<li><p>For every vertex <span class="SimpleMath">\(V\)</span> all incident edges and faces can be arranged in an umbrella-path around <span class="SimpleMath">\(V\)</span> (compare definition <a href="chap2_mj.html#X806616AB7D5705A4"><span class="RefLink">2.3-2</span></a>), i.e. there are no vertex-ramifications.</p>
+
+</li>
+</ol>
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap1_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap3_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

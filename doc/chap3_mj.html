@@ -1,0 +1,747 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 3: Access to the incidence geometry</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap3"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap3.html">[MathJax off]</a></p>
+<p><a id="X864ADF3D7B40CE9B" name="X864ADF3D7B40CE9B"></a></p>
+<div class="ChapSects"><a href="chap3_mj.html#X864ADF3D7B40CE9B">3 <span class="Heading">Access to the incidence geometry</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X799EBEA57CA1B359">3.1 <span class="Heading">Labels of vertices, edges and faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X78DBCB287CE63399">3.1-1 Vertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X86734C6379D84726">3.1-2 Edges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X781A6AE087EF37F4">3.1-3 Faces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X7871A0A17B345BA8">3.2 <span class="Heading">Incidence between vertices, edges, and faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C1E97627C3BA4E8">3.2-1 EdgesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7BB940CF820CD43A">3.2-2 FacesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X86B1B478802C8EFA">3.2-3 VerticesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X862071AD7F5FF297">3.2-4 FacesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X78D892FB7C330942">3.2-5 VerticesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7928464E7DB7BC68">3.2-6 EdgesOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X7C20B8D2843FACF7">3.3 <span class="Heading">Face-induced order of incident vertices/edges</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7F895BE281100061">3.3-1 PerimeterPathsOfFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X794B95B7829292D9">3.4 <span class="Heading">Circular path around a vertex</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C7A78287D84FB52">3.4-1 UmbrellaPathsOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X81FF53CB78BD4695">3.4-2 UmbrellaPathPartitionsOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X8309080A87164A72">3.4-3 Star</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7C5F1A7181E323BF">3.4-4 Link</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap3_mj.html#X7C0EA337828908C5">3.5 <span class="Heading">Perimeter around holes in surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap3_mj.html#X7893705086D7035A">3.5-1 PerimeterOfHoles</a></span>
+</div></div>
+</div>
+
+<h3>3 <span class="Heading">Access to the incidence geometry</span></h3>
+
+<p>In Section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>, we introduced incidence geometries to describe polygonal complexes. This chapter describes several different ways to access these incidence structures. Most of these methods are also applicable to twisted polygonal complexes. For more specific access to twisted polygonal complexes, compare Chapter <a href="chap5_mj.html#X85A59ACB87E6E3D7"><span class="RefLink">5</span></a>.</p>
+
+<p>In Section <a href="chap3_mj.html#X799EBEA57CA1B359"><span class="RefLink">3.1</span></a>, the labeling conventions for vertices, edges, and faces are explained. The central incidence relations between them are described in Section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>. Some more specialized applications for incidence can be found in Chapter <a href="chap10_mj.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>.</p>
+
+<p>Finally the sections <a href="chap3_mj.html#X7C20B8D2843FACF7"><span class="RefLink">3.3</span></a>, <a href="chap3_mj.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a>, and <a href="chap3_mj.html#X7C0EA337828908C5"><span class="RefLink">3.5</span></a> deal with variations of incidence that are usually not needed by the standard user.</p>
+
+<p><a id="X799EBEA57CA1B359" name="X799EBEA57CA1B359"></a></p>
+
+<h4>3.1 <span class="Heading">Labels of vertices, edges and faces</span></h4>
+
+<p>In (twisted) polygonal complexes (the most general supported incidence structure, compare Chapter <a href="chap2_mj.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a>) all vertices, edges, and faces are labelled by positive integers.</p>
+
+<p>These labels do not have to be consecutive or disjoint, as shown in the following example: <br><img src="./images/_Wrapper_Image_LabellingExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ , [2,3], [2,5], , [3,7], [5,7] ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [ , , [2,3,5,6] ] );;</span>
+</pre></div>
+
+<p>We can access the sets of all those labels by <code class="keyw">Vertices</code>, <code class="keyw">Edges</code>, and <code class="keyw">Faces</code>. If only the number of vertices is relevant, we can use <code class="keyw">NumberOfVertices</code> instead (likewise for edges and faces).</p>
+
+<p><a id="X78DBCB287CE63399" name="X78DBCB287CE63399"></a></p>
+
+<h5>3.1-1 Vertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Vertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesAttributeOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NumberOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: A set of positive integers/a non-negative integer</p>
+
+<p>Return the set/number of vertices.</p>
+
+<p>As an example consider the polygonal complex from the beginning of Section <a href="chap3_mj.html#X799EBEA57CA1B359"><span class="RefLink">3.1</span></a>: <br><img src="./images/_Wrapper_Image_LabellingExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(complex);</span>
+[ 2, 3, 5, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfVertices(complex);</span>
+4
+</pre></div>
+
+<p>We have separated the operation <code class="keyw">Vertices</code> from the corresponding attribute because there is a naming clash with the package <code class="keyw">grape</code>.</p>
+
+<p><a id="X86734C6379D84726" name="X86734C6379D84726"></a></p>
+
+<h5>3.1-2 Edges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Edges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NumberOfEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: A set of positive integers/a non-negative integer</p>
+
+<p>Return the set/number of edges.</p>
+
+<p>As an example consider the polygonal complex from the beginning of section <a href="chap3_mj.html#X799EBEA57CA1B359"><span class="RefLink">3.1</span></a>: <br><img src="./images/_Wrapper_Image_LabellingExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(complex);</span>
+[ 2, 3, 5, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(complex);</span>
+4
+</pre></div>
+
+<p><a id="X781A6AE087EF37F4" name="X781A6AE087EF37F4"></a></p>
+
+<h5>3.1-3 Faces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Faces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NumberOfFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: A set of positive integers/a non-negative integer</p>
+
+<p>Return the set/number of faces.</p>
+
+<p>As an example consider the polygonal complex from the beginning of section <a href="chap3_mj.html#X799EBEA57CA1B359"><span class="RefLink">3.1</span></a>: <br><img src="./images/_Wrapper_Image_LabellingExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(complex);</span>
+[ 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfFaces(complex);</span>
+1
+</pre></div>
+
+<p><a id="X7871A0A17B345BA8" name="X7871A0A17B345BA8"></a></p>
+
+<h4>3.2 <span class="Heading">Incidence between vertices, edges, and faces</span></h4>
+
+<p>With the labels of vertices, edges and faces (which we can access by the methods of section <a href="chap3_mj.html#X799EBEA57CA1B359"><span class="RefLink">3.1</span></a>) we can describe the incidence structure by lists of sets. All those methods have the form *Of*, e.g. <code class="keyw">VerticesOfFaces</code> and <code class="keyw">EdgesOfVertices</code>.</p>
+
+<p>We will illustrate the general pattern of these methods by showcasing these two methods. For that we will use the following polygonal complex: <br><img src="./images/_Wrapper_Image_StarOfStarExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [[6,8,9], , , [9,10,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(complex);</span>
+[ 2, 3, 5, 7, 11 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(complex);</span>
+[ 6, 8, 9, 10, 12, 13 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(complex);</span>
+[ 1, 4 ]
+</pre></div>
+
+<p>The method <code class="keyw">VerticesOfFaces</code> tells us which vertices are incident to which faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(complex);</span>
+[ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ]
+</pre></div>
+
+<p>The first entry of this list contains a set of all vertices that are incident to face I. The second and third entries are not bound since there are no faces II and III. Finally, the fourth entry contains all vertices that are incident to face IV.</p>
+
+<p>So, we have a list that contains sets of vertices and is indexed by the face labels.</p>
+
+<p>The method <code class="keyw">EdgesOfVertices</code> works in the same way: It returns a list that contains sets of edges and is indexed by the vertex labels.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfVertices(complex);</span>
+[ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ]
+</pre></div>
+
+<p>For example, if we consider the third entry of this list, we find the set [ 8, 9, 12 ]. Those are all edges that are incident to the vertex 3.</p>
+
+<p>In the same way all other *Of*-methods are defined.</p>
+
+<p><a id="X7C1E97627C3BA4E8" name="X7C1E97627C3BA4E8"></a></p>
+
+<h5>3.2-1 EdgesOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">EdgesOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>) returns the set of all edges that are incident to <var class="Arg">vertex</var>. The NC-version does not check whether the given <var class="Arg">vertex</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">EdgesOfVertices</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the vertex labels, i.e. <code class="keyw">EdgesOfVertices</code>(<var class="Arg">complex</var>)[<var class="Arg">vertex</var>] = <code class="keyw">EdgesOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src='./images/_Wrapper_incidence_geometry-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfVertex(complex, 2);</span>
+[ 6, 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfVertex(complex, 5);</span>
+[ 6, 9, 10 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfVertices(complex);</span>
+[ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ]
+</pre></div>
+
+<p><a id="X7BB940CF820CD43A" name="X7BB940CF820CD43A"></a></p>
+
+<h5>3.2-2 FacesOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">FacesOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>) returns the set of all faces that are incident to <var class="Arg">vertex</var>. The NC-version does not check whether the given <var class="Arg">vertex</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">FacesOfVertices</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the vertex labels, i.e. <code class="keyw">FacesOfVertices</code>(<var class="Arg">complex</var>)[<var class="Arg">vertex</var>] = <code class="keyw">FacesOfVertex</code>(<var class="Arg">complex</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src='./images/_Wrapper_incidence_geometry-2-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfVertex(complex, 2);</span>
+[ 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfVertex(complex, 5);</span>
+[ 1, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfVertices(complex);</span>
+[ , [ 1 ], [ 1, 4 ],, [ 1, 4 ],, [ 4 ],,,, [ 4 ] ]
+</pre></div>
+
+<p><a id="X86B1B478802C8EFA" name="X86B1B478802C8EFA"></a></p>
+
+<h5>3.2-3 VerticesOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">VerticesOfEdge</code>(<var class="Arg">complex</var>, <var class="Arg">edge</var>) returns the set of all vertices that are incident to <var class="Arg">edge</var>. The NC-version does not check whether the given <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">VerticesOfEdges</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the edge labels, i.e. <code class="keyw">VerticesOfEdges</code>(<var class="Arg">complex</var>)[<var class="Arg">edge</var>] = <code class="keyw">VerticesOfEdge</code>(<var class="Arg">complex</var>, <var class="Arg">edge</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src='./images/_Wrapper_incidence_geometry-3-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdge(complex, 8);</span>
+[ 2, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdge(complex, 12);</span>
+[ 3, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(complex);</span>
+[ ,,,,, [ 2, 5 ],, [ 2, 3 ], [ 3, 5 ], [ 5, 11 ],, [ 3, 7 ],
+  [ 7, 11 ] ]
+</pre></div>
+
+<p><a id="X862071AD7F5FF297" name="X862071AD7F5FF297"></a></p>
+
+<h5>3.2-4 FacesOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesOfEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">FacesOfEdge</code>(<var class="Arg">complex</var>, <var class="Arg">edge</var>) returns the set of all faces that are incident to <var class="Arg">edge</var>. The NC-version does not check whether the given <var class="Arg">edge</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">FacesOfEdges</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the edge labels, i.e. <code class="keyw">FacesOfEdges</code>(<var class="Arg">complex</var>)[<var class="Arg">edge</var>] = <code class="keyw">FacesOfEdge</code>(<var class="Arg">complex</var>, <var class="Arg">edge</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src='./images/_Wrapper_incidence_geometry-4-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfEdge(complex, 9);</span>
+[ 1, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfEdge(complex, 10);</span>
+[ 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfEdges(complex);</span>
+[ ,,,,, [ 1 ],, [ 1 ], [ 1, 4 ], [ 4 ],, [ 4 ], [ 4 ] ]
+</pre></div>
+
+<p><a id="X78D892FB7C330942" name="X78D892FB7C330942"></a></p>
+
+<h5>3.2-5 VerticesOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; VerticesOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">VerticesOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>) returns the set of all vertices that are incident to <var class="Arg">face</var>. The NC-version does not check whether the given <var class="Arg">face</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">VerticesOfFaces</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the face labels, i.e. <code class="keyw">VerticesOfFaces</code>(<var class="Arg">complex</var>)[<var class="Arg">face</var>] = <code class="keyw">VerticesOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src='./images/_Wrapper_incidence_geometry-5-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFace(complex, 1);</span>
+[ 2, 3, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFace(complex, 4);</span>
+[ 3, 5, 7, 11 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(complex);</span>
+[ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ]
+</pre></div>
+
+<p><a id="X7928464E7DB7BC68" name="X7928464E7DB7BC68"></a></p>
+
+<h5>3.2-6 EdgesOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of positive integers / a set of positive integers</p>
+
+<p>The method <code class="keyw">EdgesOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>) returns the set of all edges that are incident to <var class="Arg">faces</var>. The NC-version does not check whether the given <var class="Arg">face</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>The attribute <code class="keyw">EdgesOfFaces</code>(<var class="Arg">complex</var>) collects all of those sets in a list that is indexed by the face labels, i.e. <code class="keyw">EdgesOfFaces</code>(<var class="Arg">complex</var>)[<var class="Arg">face</var>] = <code class="keyw">EdgesOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>). All other positions of this list are not bound.</p>
+
+<p>As an example, consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a>: <br><img src='./images/_Wrapper_incidence_geometry-6-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFace(complex, 1);</span>
+[ 6, 8, 9 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFace(complex, 4);</span>
+[ 9, 10, 12, 13 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(complex);</span>
+[ [ 6, 8, 9 ],,, [ 9, 10, 12, 13 ] ]
+</pre></div>
+
+<p><a id="X7C20B8D2843FACF7" name="X7C20B8D2843FACF7"></a></p>
+
+<h4>3.3 <span class="Heading">Face-induced order of incident vertices/edges</span></h4>
+
+<p>In section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a> we introduced the methods <code class="keyw">VerticesOfFace</code> (<a href="chap3_mj.html#X78D892FB7C330942"><span class="RefLink">3.2-5</span></a>) and <code class="keyw">EdgesOfFace</code> (<a href="chap3_mj.html#X7928464E7DB7BC68"><span class="RefLink">3.2-6</span></a>) to determine the vertices and edges of a given face. A drawback of those methods is that they always return sets. This might not be sufficient in the case of non-triangular faces, as shown in the following example. #! <br><img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pentagon := PolygonalSurfaceByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [,[3,9],[2,6],[1,9],,[2,3],,[1,6]], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [, [2,3,4,6,8]] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFace(pentagon,2);</span>
+[ 1, 2, 3, 6, 9 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFace(pentagon,2);</span>
+[ 2, 3, 4, 6, 8 ]
+</pre></div>
+
+<p>If we want to know in which order the vertices (or edges) are arranged around the perimeter of the given face, the previous methods are quite clumsy. For that reason the method <code class="keyw">PerimeterPathOfFace</code> was written.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">perim := PerimeterPathOfFace( pentagon, 2 );</span>
+( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )
+</pre></div>
+
+<p>It returns the perimeter of the polygon as a perimeter path (a special vertex-edge-path), not a list (all available methods for vertex-edge-paths and perimeter paths can be found in sections <a href="chap8_mj.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a> and <a href="chap8_mj.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsList(perim);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVertexEdgePath(perim);</span>
+true
+</pre></div>
+
+<p>A <em>vertex-edge-path</em> in a polygonal complex is a tuple <span class="SimpleMath">\((v_1, e_1, v_2, e_2, \ldots ,v_n, e_n, v_{{n+1}})\)</span> such that</p>
+
+
+<ul>
+<li><p>The <span class="SimpleMath">\(v_i\)</span> are vertices of the polygonal complex</p>
+
+</li>
+<li><p>The <span class="SimpleMath">\(e_j\)</span> are edges of the polygonal complex</p>
+
+</li>
+<li><p>For the edge <span class="SimpleMath">\(e_j\)</span> the set of incident vertices is <span class="SimpleMath">\(\{v_j,v_{{j+1}}\}\)</span></p>
+
+</li>
+</ul>
+<p>The order of vertices and edges is best described by a cyclic permutation.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsPerm(perim);</span>
+(1,9,3,2,6)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsPerm(perim);</span>
+(2,6,3,8,4)
+</pre></div>
+
+<p>There are two possible cyclic permutations of vertices and edges (clockwise and counter-clockwise). Since the method has to return a unique value, one of them has to be picked as a convention. We choose this one, since the vertex permutation has the smaller image under 1 (the smallest of the vertices).</p>
+
+<p>While the permutation representation is most natural, in many cases a list would be more convenient (be careful, the first vertex is repeated at the end!).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsList(perim);</span>
+[ 1, 9, 3, 2, 6, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList(perim);</span>
+[ 4, 2, 6, 3, 8 ]
+</pre></div>
+
+<p>While the vertex list starts with the smallest vertex, the edge list will start with an edge incident to the smallest vertex (the other end is the smaller of the two adjacent vertices).</p>
+
+<p><a id="X7F895BE281100061" name="X7F895BE281100061"></a></p>
+
+<h5>3.3-1 PerimeterPathsOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterPathsOfFaces</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterPathOfFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterPathOfFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of vertex-edge-paths</p>
+
+<p>The operation <code class="keyw">PerimeterPathOfFace</code>(<var class="Arg">complex</var>,<var class="Arg">face</var>) returns a perimeter path (section <a href="chap8_mj.html#X7F8875B57DFA9528"><span class="RefLink">8.2</span></a>), i.e. a closed vertex-edge-path (for the exact definition compare <a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a> and <a href="chap8_mj.html#X7EAA250D8488B7CD"><span class="RefLink">8.1-7</span></a>) of all vertices and edges incident to the given <var class="Arg">face</var>.</p>
+
+<p>Since this condition does not define the path uniquely, we further stipulate that perimeter path starts with the smallest vertex and continues with the smallest incident edge. For polygonal complexes, this defines the path uniquely.</p>
+
+<p>The attribute <code class="keyw">PerimeterPathsOfFaces</code>(<var class="Arg">complex</var>) collects all of those vertex-edge-paths in a list that is indexed by the face labels, i.e. <code class="keyw">PerimeterPathsOfFaces</code>(<var class="Arg">complex</var>)[<var class="Arg">face</var>] = <code class="keyw">PerimeterPathOfFace</code>(<var class="Arg">complex</var>, <var class="Arg">face</var>). All other positions of this list are not bound.</p>
+
+<p>The NC-version does not check if the given <var class="Arg">face</var> is a face of the given <var class="Arg">complex</var>. The operations</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of section <a href="chap3_mj.html#X7C20B8D2843FACF7"><span class="RefLink">3.3</span></a>: <br><img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">perim := PerimeterPathOfFace(pentagon, 2);</span>
+( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PathAsList(perim);</span>
+[ 1, 4, 9, 2, 3, 6, 2, 3, 6, 8, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsList(perim);</span>
+[ 1, 9, 3, 2, 6, 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList(perim);</span>
+[ 4, 2, 6, 3, 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesAsPerm(perim);</span>
+(1,9,3,2,6)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsPerm(perim);</span>
+(2,6,3,8,4)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PerimeterPathsOfFaces(pentagon);</span>
+[ , ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 ) ]
+</pre></div>
+
+<p><a id="X794B95B7829292D9" name="X794B95B7829292D9"></a></p>
+
+<h4>3.4 <span class="Heading">Circular path around a vertex</span></h4>
+
+<p>In section <a href="chap3_mj.html#X7871A0A17B345BA8"><span class="RefLink">3.2</span></a> the methods <code class="keyw">EdgesOfVertex</code> (<a href="chap3_mj.html#X7C1E97627C3BA4E8"><span class="RefLink">3.2-1</span></a>) and <code class="keyw">FacesOfVertex</code> (<a href="chap3_mj.html#X7BB940CF820CD43A"><span class="RefLink">3.2-2</span></a>) were introduced. They allow access to the edges and faces incident to a vertex but they don't give any information about the relationship between them.</p>
+
+<p>For polygonal surfaces (described in section <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>) there is a natural ordering of the edges and faces that are incident to a vertex. It is achieved by "travelling around the vertex" while staying on the surface. This order is called <em>umbrella-path</em> and we formalize it by <em>edge-face-paths</em> (section <a href="chap8_mj.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a> contains the methods to access those paths). <br><img src="./images/_Wrapper_Image_EdgeFacePath-1.svg"> </img> <br></p>
+
+<p>An <em>umbrella-path around the vertex <span class="SimpleMath">\(V\)</span></em> is a tuple <span class="SimpleMath">\((e_1,f_1,e_2,f_2, \ldots, e_n, f_n, e_{{n+1}})\)</span> such that:</p>
+
+
+<ul>
+<li><p>The <span class="SimpleMath">\(f_i\)</span> are pairwise disjoint faces incident to <span class="SimpleMath">\(V\)</span>.</p>
+
+</li>
+<li><p>The <span class="SimpleMath">\(e_i\)</span> are pairwise disjoint edges incident to <span class="SimpleMath">\(V\)</span> (with the possible exception of <span class="SimpleMath">\(e_1 = e_{{n+1}}\)</span> in the case <span class="SimpleMath">\(n &gt; 1\)</span>).</p>
+
+</li>
+<li><p>The edges <span class="SimpleMath">\(e_i\)</span> and <span class="SimpleMath">\(e_{{i+1}}\)</span> are incident to <span class="SimpleMath">\(f_i\)</span> for all <span class="SimpleMath">\(i\)</span>.</p>
+
+</li>
+</ul>
+<p>If <span class="SimpleMath">\(e_1 = e_{{n+1}}\)</span> the umbrella-path is called <em>closed</em>.</p>
+
+<p><br><img src='./images/_Wrapper_incidence_geometry-7-1.svg'> </img> <br> In the image above we have two umbrella-paths that contain all edges and faces that are incident to the vertex <span class="SimpleMath">\(V\)</span>, namely <span class="SimpleMath">\((e_1,f_1,e_2,f_2,e_3,f_3,e_4)\)</span> and <span class="SimpleMath">\((e_4,f_3,e_3,f_2,e_2,f_1,e_1)\)</span>. Both of them encode the same information. By convention, we will choose the umbrella-path with the smaller first entry (<span class="SimpleMath">\(e_1\)</span> or <span class="SimpleMath">\(e_4\)</span>) to be <em>the</em> umbrella-path of <span class="SimpleMath">\(V\)</span>.</p>
+
+<p><br><img src='./images/_Wrapper_incidence_geometry-8-1.svg'> </img> <br> In this image we have ten different closed umbrella-paths that contain all edges and faces that are incident to the vertex <span class="SimpleMath">\(V\)</span>, like <span class="SimpleMath">\((e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4, e_5, f_5, e_1)\)</span> and <span class="SimpleMath">\((e_3, f_2, e_2, f_1, e_1, f_5, e_5, f_4, e_4, f_3, e_3)\)</span>. Up to cyclic permutation and inversion they are equivalent (they form an orbit under the dihedral group of order 10).</p>
+
+<p>If we have to pick one by convention, we will choose the first entry to be minimal, say <span class="SimpleMath">\(e_2\)</span>. This leaves us with the two paths <span class="SimpleMath">\((e_2,f_2,\ldots)\)</span> and <span class="SimpleMath">\((e_2,f_1,\ldots)\)</span>. Of those, we pick the one with the smallest second entry (<span class="SimpleMath">\(f_2\)</span> or <span class="SimpleMath">\(f_1\)</span>).</p>
+
+<p><a id="X7C7A78287D84FB52" name="X7C7A78287D84FB52"></a></p>
+
+<h5>3.4-1 UmbrellaPathsOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UmbrellaPathsOfVertices</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UmbrellaPathOfVertex</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UmbrellaPathOfVertexNC</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of edge-face-paths</p>
+
+<p>The method <code class="keyw">UmbrellaPathOfVertex</code>(<var class="Arg">surface</var>,<var class="Arg">vertex</var>) returns an umbrella-path around <var class="Arg">vertex</var> (as defined in section <a href="chap3_mj.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a>) that contains all edges and faces incident to <var class="Arg">vertex</var>, with the following conventions:</p>
+
+
+<ul>
+<li><p>The first entry of the umbrella-path is minimal.</p>
+
+</li>
+<li><p>In the case of a closed umbrella-path, after restricting with the first convention, the second entry of the umbrella-path is minimal</p>
+
+</li>
+</ul>
+<p>If such an umbrella-path does not exist (this might happen if the polygonal complex is edge-ramified) or is not unique (this might happen if the polygonal complex is vertex-ramified), <code class="keyw">fail</code> is returned. To access the contents of the umbrella-paths, the methods from section <a href="chap8_mj.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a> can be used.</p>
+
+<p>The attribute <code class="keyw">UmbrellaPathsOfVertices</code>(<var class="Arg">surface</var>) collects all of those umbrella-paths in a list that is indexed by the vertex labels, i.e. <code class="keyw">UmbrellaPathsOfVertices</code>(<var class="Arg">surface</var>)[<var class="Arg">vertex</var>] = <code class="keyw">UmbrellaPathOfVertex</code>(<var class="Arg">surface</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>The NC-version does not check whether the given <var class="Arg">vertex</var> lies in the given <var class="Arg">surface</var>.</p>
+
+<p>For polygonal complexes with vertex-ramifications the umbrella-paths around a vertex are not unique. The methods from <a href="chap3_mj.html#X81FF53CB78BD4695"><span class="RefLink">3.4-2</span></a> return all of those umbrella-paths.</p>
+
+<p>As example consider the following polygonal surface: <br><img src='./images/_Wrapper_incidence_geometry-9-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surface := PolygonalSurfaceByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">um1 := UmbrellaPathOfVertex(surface, 1);</span>
+( e11, F2, e12, F3, e13, F4, e14, F5, e11 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList(um1);</span>
+[ 11, 12, 13, 14, 11 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsPerm(um1);</span>
+(11,12,13,14)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">um7 := UmbrellaPathOfVertex(surface, 7);</span>
+| e15, F2, e12, F3, e16 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList(um7);</span>
+[ 15, 12, 16 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesAsList(um7);</span>
+[ 2, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UmbrellaPathsOfVertices(surface);</span>
+[ ( e11, F2, e12, F3, e13, F4, e14, F5, e11 ),,,,, | e15, F2, e11, F5, e19 |, 
+     | e15, F2, e12, F3, e16 |, | e16, F3, e17 |, 
+     | e17, F3, e13, F4, e18 |, | e18, F4, e14, F5, e19 | ]
+</pre></div>
+
+<p>For ramified polygonal surfaces it might happen that there is no single umbrella-path that contains all edges and faces that are incident to one vertex. <br><img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> </img> <br> But there is a set of umbrella-paths that <em>partitions</em> the incident edges and faces (i.e. every incident edge or face appears in exactly one umbrella-path). In the above image, the umbrella-path-partition of the vertex 1 is <span class="SimpleMath">\([ [ 14, 2, 18, 4, 16, 3, 14 ], [ 19, 9, 20, 11, 21 ] ]\)</span>.</p>
+
+<p><a id="X81FF53CB78BD4695" name="X81FF53CB78BD4695"></a></p>
+
+<h5>3.4-2 UmbrellaPathPartitionsOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UmbrellaPathPartitionsOfVertices</code>( <var class="Arg">ramSurf</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UmbrellaPathPartitionOfVertex</code>( <var class="Arg">ramSurf</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; UmbrellaPathPartitionOfVertexNC</code>( <var class="Arg">ramSurf</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of sets of edge-face-paths</p>
+
+<p>The method <code class="keyw">UmbrellaPathPartitionOfVertex</code>(<var class="Arg">ramSurf</var>, <var class="Arg">vertex</var>) returns a set of umbrellas-paths around <var class="Arg">vertex</var> (as defined in section <a href="chap3_mj.html#X794B95B7829292D9"><span class="RefLink">3.4</span></a>). The edges and faces incident to <var class="Arg">vertex</var> are partitioned by these umbrella-paths (i.e. each of them appears in exactly one umbrella-path).</p>
+
+<p>The result is determined as follows:</p>
+
+
+<ul>
+<li><p>The partition of edges and faces is unique (reachability by umbrella-paths around <var class="Arg">vertex</var>).</p>
+
+</li>
+<li><p>Every set in this partition consists of the elements of exactly one umbrella-path. For each set there are several options. We choose one of those by this convention:</p>
+
+
+<ul>
+<li><p>The first entry of the returned umbrella-path will be as small as possible.</p>
+
+</li>
+<li><p>The second entry of the returned umbrella-path will be as small as possible (after having minimized the first entry). This condition is non-trivial only for closed umbrella-paths .</p>
+
+</li>
+</ul>
+</li>
+</ul>
+<p>If there is no such set of umbrella-paths (which can happen for polygonal complexes with edge-ramifications), <code class="keyw">fail</code> is returned instead.</p>
+
+<p>The attribute <code class="keyw">UmbrellaPathPartitionsOfVertices</code>(<var class="Arg">ramSurf</var>) collects these partitions in a list (indexed by the vertex labels), i.e. <code class="keyw">UmbrellaPathPartitionsOfVertices</code>(<var class="Arg">ramSurf</var>)[<var class="Arg">vertex</var>] = <code class="keyw">UmbrellaPathPartitionOfVertex</code>(<var class="Arg">ramSurf</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>For a <em>surface</em>, all partitions will only consist of one element. In this case, the methods in <a href="chap3_mj.html#X7C7A78287D84FB52"><span class="RefLink">3.4-1</span></a> will only return these unique umbrella-paths.</p>
+
+<p>The NC-version does not check whether <var class="Arg">vertex</var> lies in <var class="Arg">ramSurf</var>.</p>
+
+<p>As example consider the following polygonal complex with vertex-ramifications (but no edge-ramifications). <br><img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ramSurf := PolygonalComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [1,8],[1,10],[1,12],[8,10],[10,12] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UmbrellaPathPartitionOfVertex(ramSurf, 1);</span>
+[ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UmbrellaPathPartitionOfVertex(ramSurf, 5);</span>
+[ | e13, F3, e14, F2, e15 | ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UmbrellaPathPartitionsOfVertices(ramSurf);</span>
+[ [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ],,,,
+  [ | e13, F3, e14, F2, e15 | ], [ | e13, F3, e16, F4, e17 | ],
+  [ | e15, F2, e18, F4, e17 | ], [ | e19, F9, e22 | ],,
+  [ | e22, F9, e20, F11, e23 | ],, [ | e21, F11, e23 | ] ]
+</pre></div>
+
+<p><a id="X8309080A87164A72" name="X8309080A87164A72"></a></p>
+
+<h5>3.4-3 Star</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Star</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StarNC</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Star</code>( <var class="Arg">surface</var>, <var class="Arg">vertices</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; StarNC</code>( <var class="Arg">surface</var>, <var class="Arg">vertices</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a subsurface</p>
+
+<p>The method <code class="keyw">Star</code>(<var class="Arg">surface</var>, <var class="Arg">vertex</var>) returns for <var class="Arg">vertex</var> the subcomplex which is determined by the faces around <var class="Arg">vertex</var>. The method <code class="keyw">Star</code>(<var class="Arg">surface</var>, <var class="Arg">vertices</var>) returns the subcomplex which is determined by the faces around all the vertices in <var class="Arg">vertices</var>. The NC-version does not check whether the given <var class="Arg">vertex</var> is a vertex of <var class="Arg">surface</var>.</p>
+
+<p>For example, consider the hexagon: <br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hex := SimplicialSurfaceByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">star1:=Star(hex,7);</span>
+simplicial surface (7 vertices, 12 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(star1,hex);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">star2:=Star(hex,[1,7]);</span>
+simplicial surface (7 vertices, 12 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(star2,hex);</span>
+true
+</pre></div>
+
+<p>The star of vertex 7 and the star of vertex 1 and 7 is the same as the hexagon.</p>
+
+<p><a id="X7C5F1A7181E323BF" name="X7C5F1A7181E323BF"></a></p>
+
+<h5>3.4-4 Link</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Link</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Link</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; LinkNC</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of vertex-edge-paths</p>
+
+<p>The method <code class="keyw">Link</code>(<var class="Arg">surface</var>, <var class="Arg">vertex</var>) returns for <var class="Arg">vertex</var> the vertex-edge-path around the vertex which contains the edges not incident to <var class="Arg">vertex</var>. That means the vertex-edge-path is the boundary of the umbrella of <var class="Arg">vertex</var> respectively the boundary of <code class="keyw">Star</code>(<var class="Arg">surface</var>, <var class="Arg">vertex</var>). The NC-version does not check whether the given <var class="Arg">vertex</var> is a vertex of <var class="Arg">surface</var>.</p>
+
+<p>The attribute <code class="keyw">Link</code>(<var class="Arg">surface</var>) collects all of those paths in a list that is indexed by the edge labels, i.e. <code class="keyw">Link</code>(<var class="Arg">surface</var>)[<var class="Arg">vertex</var>] = <code class="keyw">Link</code>(<var class="Arg">surface</var>, <var class="Arg">vertex</var>). All other positions of this list are not bound.</p>
+
+<p>For example, consider the hexagon: <br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hex := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">link:=Link(hex,7);</span>
+( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Link(hex)[7]=link;</span>
+true
+</pre></div>
+
+<p>The link of vertex 7 is the same as the boundary of the hexagon.</p>
+
+<p><a id="X7C0EA337828908C5" name="X7C0EA337828908C5"></a></p>
+
+<h4>3.5 <span class="Heading">Perimeter around holes in surfaces</span></h4>
+
+<p>If a (twisted) polygonal surface (introduced in <a href="chap2_mj.html#X78FF094A8196A963"><span class="RefLink">2.3</span></a>) is not closed, it has at least one "hole". For example the open pyramid and the open bag each have one hole:</p>
+
+<p><br><img src='./images/_Wrapper_incidence_geometry-10-1.svg'> </img> <br></p>
+
+<p>Informally, a hole can be characterised by the vertices and edges along its perimeter. These can be given as an alternating path of vertices and edges that starts and stops with the same vertex. This notion is formalized by <em>vertex-edge-paths</em> which are defined in more detail in section <a href="chap8_mj.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>.</p>
+
+<p>For example, consider the following polygonal surface: <br><img src="./images/_Wrapper_Image_HoleExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">holeSurf := PolygonalSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ [1,4],[1,6],[1,7],[1,2],[2,8],[2,5],[2,3],[4,6],[6,7],[7,8],[5,8],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      [3,5],[4,9],[6,9],[6,7],[8,10],[5,10],[3,13],[9,11],[6,11],[7,11],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      [11,12],[8,12],[10,12],[12,13],[10,13] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [ [1,2,8],[2,3,9],[3,4,5,10],[5,6,11],[6,7,12],[8,13,14],,,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      [12,17,18,26],[14,19,20],[15,20,21],[10,21,22,23],[16,23,24],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      [24,25,26] ]);;</span>
+</pre></div>
+
+<p>This polygonal surface has three holes. Two of them are easy to see and consist of two and three edges each. The third one is limited by the outer boundary of the visualisation and consists of eight edges.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PerimeterOfHoles(holeSurf);</span>
+[ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, 
+    E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ]
+</pre></div>
+
+<p>If we want to know which edges are part of the outer boundary, we need to access the inner workings of vertex-edge-paths.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">boundary := PerimeterOfHoles(holeSurf)[1];</span>
+( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, E4, v1 )
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesAsList(boundary);</span>
+[ 1, 13, 19, 22, 25, 18, 7, 4 ]
+</pre></div>
+
+<p><a id="X7893705086D7035A" name="X7893705086D7035A"></a></p>
+
+<h5>3.5-1 PerimeterOfHoles</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; PerimeterOfHoles</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of closed vertex-edge-paths[, edge]</p>
+
+<p>Return a set of closed vertex-edge-paths (compare <a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a> and <a href="chap8_mj.html#X7EAA250D8488B7CD"><span class="RefLink">8.1-7</span></a> for the exact definitions) that represent the holes in the given polygonal surface.</p>
+
+<p>For each hole there is a unique perimeter of boundary vertices and edges. To each of these we associate a unique closed vertex-edge-path by the following conventions:</p>
+
+
+<ul>
+<li><p>It starts with the smallest vertex on the perimeter</p>
+
+</li>
+<li><p>The first edge (incident to the smallest vertex) is minimal</p>
+
+</li>
+</ul>
+<p>All of those vertex-edge-paths are returned as a set.</p>
+
+<p>If the optional parameter <var class="Arg">edge</var> is given, the method returns the unique perimeter path of the hole including <var class="Arg">edge</var>. Each edge can be in only one boundary path.</p>
+
+<p>As an example, consider the surface from the start of section <a href="chap3_mj.html#X7C0EA337828908C5"><span class="RefLink">3.5</span></a>: <br><img src="./images/_Wrapper_Image_HoleExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PerimeterOfHoles(holeSurf);</span>
+[ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, 
+    E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">PerimeterOfHoles(holeSurf,15);</span>
+( v6, E9, v7, E15, v6 )
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap4_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

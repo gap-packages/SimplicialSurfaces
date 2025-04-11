@@ -1,0 +1,658 @@
+  
+  
+  [1XIndex[101X
+  
+  [2XAdjacentVerticesWithProperties[102X, for IsTwistedPolygonalComplex, IsFunction, IsFunction 10.4-1 
+      for IsTwistedPolygonalComplex, IsList 10.4-1 
+  [2XAdjacentVerticesWithProperty[102X, for IsTwistedPolygonalComplex, IsFunction 10.4-1 
+  [2XAdmissibleRelationsOfSurface[102X, for IsSimplicialSurface,IsBool,IsBool 9.6-2 
+  [2XAllButterflyFaithfulMonomorphismsIntoSimplicialSurface[102X, for two simplicial surfaces 7.1-7 
+  [2XAllClosedVertexEdgePaths[102X, for IsTwistedPolygonalComplex 8.1-15 
+  [2XAllDiscs[102X 14.2-3 
+  [2XAllGeodesicSelfDualSurfaces[102X 14.2-2 
+  [2XAllIsoscelesColouredSurfaces[102X, for IsSimplicialSurface, IsBool 20.4-4 
+  [2XAllPlatonicSurfaces[102X 14.3-1 
+  [2XAllPolygonalComplexes[102X 14.1-1 
+  [2XAllPolygonalSurfaces[102X 14.1-1 
+  [2XAllSimplicialSpheres[102X 14.2-1 
+  [2XAllSimplicialSurfaces[102X 14.1-1 
+  [2XAllSimplicialSurfacesByEssentialButterflyInsertion[102X, for IsSimplicialSurface 13.1-2 
+  [2XAllSimplicialSurfacesOfDigraph[102X, for IsDigraph, IsBool 15.4-3 
+  [2XAllTameColouredSurfaces[102X, for IsList, IsList, IsBool 19.3-5 
+      for IsSimplicialSurface, IsList, IsBool 19.3-5 
+  [2XAllThreeWaistsOfComplex[102X, for IsTwistedPolygonalComplex 8.4-3 
+  [2XAllToriOfSimplicialSphere[102X, for IsSimplicialSurface 12.4-7 
+  [2XAllTriangularComplexes[102X 14.1-1 
+  [2XAllTwistedPolygonalComplexes[102X 14.1-1 
+  [2XAllTwoWaistsOfComplex[102X, for IsTwistedPolygonalComplex 8.4-2 
+  [2XAllUmbrellaDescriptorsOfDegreeSequence[102X, for IsList 4.4-6 
+  [2XAllWaistsOfComplex[102X, for IsTwistedPolygonalComplex 8.4-4 
+  [2XAllWildColouredSurfaces[102X, for IsList, IsList, IsBool 19.3-5 
+      for IsSimplicialSurface, IsList, IsBool 19.3-5 
+  [2XApexVertexOfFace[102X, for IsIsoscelesColouredSurface, IsPosInt 20.3-1 
+  [2XAssociatedPolygonalComplex[102X, for IsCounter 9.2-12 
+      for IsEdgeFacePath 8.3-14 
+      for IsVertexEdgePath 8.1-14 
+  [2XAutomorphismGroup[102X, for IsTwistedPolygonalComplex 15.6-1 
+  [2XAutomorphismGroupOnEdges[102X, for IsTwistedPolygonalComplex 15.6-4 
+  [2XAutomorphismGroupOnFaces[102X, for IsTwistedPolygonalComplex 15.6-5 
+  [2XAutomorphismGroupOnVertices[102X, for IsTwistedPolygonalComplex 15.6-3 
+  [2XBarycentreOfEdge[102X, for IsTwistedPolygonalComplex,IsPosInt 21.3-11 
+  [2XBarycentreOfFace[102X, for IsTwistedPolygonalComplex,IsPosInt 21.3-12 
+  [2XBarycentreOfVertex[102X, for IsTwistedPolygonalComplex,IsPosInt 21.3-10 
+  [2XBaseEdgeOfFace[102X, for IsIsoscelesColouredSurface, IsPosInt 20.3-2 
+  [2XBlockType[102X, for IsSimplicialSurface 9.1-6 
+  [2XBoundaryEdges[102X, for IsTwistedPolygonalComplex 9.4-3 
+  [2XBoundaryVertices[102X, for IsTwistedPolygonalComplex 9.5-2 
+  [2XBuildingBlocks[102X, for IsSimplicialSurface 12.5-11 
+  [2XButterflyFaithfulMonomorphismIntoSimplicialSurface[102X, for two simplicial surfaces 7.1-6 
+  [2XButterflyInsertion[102X, for IsSimplicialSurface, IsList 12.5-4 
+      for IsSimplicialSurface, IsVertexEdgePath 12.5-4 
+  [2XCanonicalRepresentativeOfPolygonalSurface[102X, for IsPolygonalSurface 15.5-3 
+  [2XCenterOfPolygonalComplex[102X, for IsPolygonalComplex 11.4-4 
+  [2XChamberAdjacencyGraph[102X, for IsTwistedPolygonalComplex 15.3-1 
+  [2XChambers[102X, for IsTwistedPolygonalComplex 5.1-1 
+  [2XChambersOfEdge[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-5 
+  [2XChambersOfEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-5 
+  [2XChambersOfEdges[102X, for IsTwistedPolygonalComplex 5.1-5 
+  [2XChambersOfFace[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-7 
+  [2XChambersOfFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-7 
+  [2XChambersOfFaces[102X, for IsTwistedPolygonalComplex 5.1-7 
+  [2XChambersOfVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-3 
+  [2XChambersOfVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-3 
+  [2XChambersOfVertices[102X, for IsTwistedPolygonalComplex 5.1-3 
+  [2XChaoticVertices[102X, for IsTwistedPolygonalComplex 9.5-4 
+  [2XColouredEdgesOfFace[102X, for IsEdgeColouredPolygonalComplex and IsEdgeTwoColouring, IsPosInt 20.1-2 
+      for IsEdgeColouredPolygonalComplex and IsEdgeVariColouring, IsPosInt 19.1-2 
+  [2XColouredEdgesOfFaceNC[102X, for IsEdgeColouredPolygonalComplex and IsEdgeTwoColouring, IsPosInt 20.1-2 
+      for IsEdgeColouredPolygonalComplex and IsEdgeVariColouring, IsPosInt 19.1-2 
+  [2XColouredEdgesOfFaces[102X, for IsEdgeColouredPolygonalComplex and IsEdgeTwoColouring 20.1-2 
+      for IsEdgeColouredPolygonalComplex and IsEdgeVariColouring 19.1-2 
+  [2XColouredUmbrellaOfVertex[102X, for IsIsoscelesColouredSurface, IsPosInt 20.3-3 
+      for IsWildColouredSurface, IsPosInt 19.3-2 
+  [2XColouredUmbrellaOfVertexNC[102X, for IsIsoscelesColouredSurface, IsPosInt 20.3-3 
+      for IsWildColouredSurface, IsPosInt 19.3-2 
+  [2XColouredUmbrellasOfVertices[102X, for IsIsoscelesColouredSurface 20.3-3 
+      for IsWildColouredSurface 19.3-2 
+  [2XColourIncidenceDigraphsGraph[102X, for IsEdgeColouredPolygonalComplex 18.3-1 
+  [2XColourIncidenceGrapeGraph[102X, for IsEdgeColouredPolygonalComplex 18.3-1 
+  [2XColourIncidenceNautyGraph[102X, for IsEdgeColouredPolygonalComplex 18.3-1 
+  [2XColourInvolutions[102X, for IsEdgeColouredPolygonalComplex and IsNotEdgeRamified and IsEdgeVariColouring 19.2-1 
+      for IsIsoscelesColouredSurface 20.4-2 
+  [2XColourOfEdge[102X, for IsEdgeColouredTwistedPolygonalComplex, IsPosInt 18.1-4 
+  [2XColourOfEdgeNC[102X, for IsEdgeColouredTwistedPolygonalComplex, IsPosInt 18.1-4 
+  [2XColours[102X, for IsEdgeColouredTwistedPolygonalComplex 18.1-6 
+  [2XColoursOfEdges[102X, for IsEdgeColouredTwistedPolygonalComplex 18.1-4 
+  [2XCommonCover[102X, for IsSimplicialSurface, IsSimplicialSurface, IsList, IsList 19.3-7 
+  [2XCommonEdgesOfFaces[102X, for IsTwistedPolygonalComplex, IsList 10.5-2 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-2 
+  [2XCommonEdgesOfFacesNC[102X, for IsTwistedPolygonalComplex, IsList 10.5-2 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-2 
+  [2XCommonEdgesOfVertices[102X, for IsTwistedPolygonalComplex, IsList 10.5-4 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-4 
+  [2XCommonEdgesOfVerticesNC[102X, for IsTwistedPolygonalComplex, IsList 10.5-4 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-4 
+  [2XCommonFacesOfEdges[102X, for IsTwistedPolygonalComplex, IsList 10.5-5 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-5 
+  [2XCommonFacesOfEdgesNC[102X, for IsTwistedPolygonalComplex, IsList 10.5-5 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-5 
+  [2XCommonFacesOfVertices[102X, for IsTwistedPolygonalComplex, IsList 10.5-6 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-6 
+  [2XCommonFacesOfVerticesNC[102X, for IsTwistedPolygonalComplex, IsList 10.5-6 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-6 
+  [2XCommonVerticesOfEdges[102X, for IsTwistedPolygonalComplex, IsList 10.5-1 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-1 
+  [2XCommonVerticesOfEdgesNC[102X, for IsTwistedPolygonalComplex, IsList 10.5-1 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-1 
+  [2XCommonVerticesOfFaces[102X, for IsTwistedPolygonalComplex, IsList 10.5-3 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-3 
+  [2XCommonVerticesOfFacesNC[102X, for IsTwistedPolygonalComplex, IsList 10.5-3 
+      for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.5-3 
+  [2XCompositionMapping[102X, for IsPolygonalMorphism, IsPolygonalMorphism, ... 7.1-4 
+  [2XCompositionMapping2[102X, for two polygonal morphisms 7.1-4 
+  [2XConcatenationOfPaths[102X, for IsTwistedPolygonalComplex, IsEdgeFacePath, IsEdgeFacePath 8.3-12 
+      for IsTwistedPolygonalComplex, IsVertexEdgePath, IsVertexEdgePath 8.1-12 
+  [2XConnectedComponentOfFace[102X, for IsTwistedPolygonalComplex, IsPosInt 8.6-2 
+  [2XConnectedComponentOfFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt 8.6-2 
+  [2XConnectedComponents[102X, for IsTwistedPolygonalComplex 8.6-2 
+  [2XConnectedComponentsAttributeOfComplex[102X, for IsTwistedPolygonalComplex 8.6-2 
+  [2XConnectedFaceSum[102X, for IsPolygonalComplex, IsList, IsPolygonalComplex, IsList 12.5-1 
+  [2XCounterOfButterflies[102X, for IsSimplicialSurface 9.2-7 
+  [2XCounterOfEdges[102X, for IsTwistedPolygonalComplex 9.2-5 
+  [2XCounterOfFaces[102X, for IsTwistedPolygonalComplex 9.2-6 
+  [2XCounterOfThreeFaces[102X, for IsSimplicialSurface 9.2-9 
+  [2XCounterOfUmbrellas[102X, for IsSimplicialSurface 9.2-8 
+  [2XCounterOfVertices[102X, for IsTwistedPolygonalComplex 9.2-4 
+  [2XCounterOfVerticesByAngle[102X, for IsEdgeColouredSimplicialSurface 20.4-5 
+  [2XCraterCut[102X, for IsPolygonalComplex, IsPosInt 12.6-1 
+  [2XCraterCuttableEdges[102X, for IsPolygonalComplex 12.6-1 
+  [2XCraterMend[102X, for IsPolygonalComplex, IsList 12.6-2 
+  [2XCraterMendableEdgePairs[102X, for IsPolygonalComplex 12.6-2 
+  [2XCube[102X 14.3-3 
+  [2XDegreeOfVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.2-2 
+  [2XDegreeOfVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.2-2 
+  [2XDegreeSequenceOfUmbrellaDescriptor[102X, for IsList 4.4-5 
+  [2XDegreesOfCounter[102X, for IsCounter 9.2-15 
+  [2XDegreesOfMultiplicities[102X, for IsCounter 9.2-15 
+  [2XDegreesOfMultiplicity[102X, for IsCounter, IsPosInt 9.2-15 
+  [2XDegreesOfVertices[102X, for IsTwistedPolygonalComplex 9.2-2 
+  [2XDiameterOfPolygonalComplex[102X, for IsPolygonalComplex 11.4-2 
+  [2XDisjointUnion[102X, for IsPolygonalComplex, IsPolygonalComplex, IsInt 12.3-1 
+  [2XDisplayAsAutomorphism[102X, for IsTwistedPolygonalComplex, IsPerm 15.6-2 
+  [2XDistanceOfFaces[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 11.2-1 
+  [2XDistanceOfFacesNC[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 11.2-1 
+  [2XDistanceOfVertices[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 11.1-1 
+  [2XDistanceOfVerticesNC[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 11.1-1 
+  [2XDodecahedron[102X 14.3-5 
+  [2XDrawComplexToSVG[102X, for IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord 16.3-1 
+  [2XDrawConvexFacegraphToTikz[102X, for IsSimplicialSurface, IsString, IsRecord 16.4-8 
+  [2XDrawFacegraphToTikz[102X, for IsSimplicialSurface ,IsString,IsRecord 16.4-1 
+  [2XDrawSurfaceToTikz[102X, for IsEdgeColouredPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord 18.2-1 
+      for IsFlagComplex and IsNotEdgeRamified, IsString, IsRecord 21.3-14 
+      for IsPolygonalComplex and IsNotEdgeRamified, IsString, IsRecord 16.2-1 
+  [2XDressGroup[102X, for IsPolygonalComplex and IsNotEdgeRamified 21.2-1 
+  [2XDressInvolutions[102X, for IsPolygonalComplex and IsNotEdgeRamified 21.2-1 
+  [2XEccentricityOfVertex[102X, for IsPolygonalComplex, IsPosInt 11.4-1 
+  [2XEccentricityOfVertexNC[102X, for IsPolygonalComplex, IsPosInt 11.4-1 
+  [2XEdgeAnomalyClasses[102X, for IsPolygonalComplex 16.1-2 
+  [2XEdgeAnomalyClassOfEdge[102X, for IsPolygonalComplex, IsPosInt 16.1-2 
+  [2XEdgeAnomalyClassOfEdgeNC[102X, for IsPolygonalComplex, IsPosInt 16.1-2 
+  [2XEdgeBetweenFaces[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-2 
+  [2XEdgeBetweenFacesNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-2 
+  [2XEdgeBetweenVertices[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-2 
+  [2XEdgeBetweenVerticesNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-2 
+  [2XEdgeColouredPolygonalComplex[102X, for IsTwistedPolygonalComplex, IsList 18.1-2 
+  [2XEdgeColouredPolygonalComplexIsomorphismRepresentatives[102X, for IsList 18.3-3 
+  [2XEdgeColouredPolygonalComplexNC[102X, for IsTwistedPolygonalComplex, IsList 18.1-2 
+  [2XEdgeColouredSimplicialSurface[102X, for IsTwistedPolygonalComplex, IsList 18.1-2 
+  [2XEdgeColouredSimplicialSurfaceNC[102X, for IsTwistedPolygonalComplex, IsList 18.1-2 
+  [2XEdgeColouredTwistedPolygonalComplex[102X, for IsTwistedPolygonalComplex, IsList 18.1-2 
+  [2XEdgeColouredTwistedPolygonalComplexNC[102X, for IsTwistedPolygonalComplex, IsList 18.1-2 
+  [2XEdgeDegreeOfVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.2-1 
+  [2XEdgeDegreeOfVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.2-1 
+  [2XEdgeDegreesOfVertices[102X, for IsTwistedPolygonalComplex 9.2-1 
+  [2XEdgeDigraphsGraph[102X, for IsPolygonalComplex 15.4-1 
+  [2XEdgeFaceFlags[102X, for IsPolygonalComplex 21.1-4 
+  [2XEdgeFacePath[102X, for IsPolygonalComplex and IsDenseList 8.3-1 
+  [2XEdgeFacePathByEdges[102X, for IsPolygonalComplex, IsDenseList 8.3-2 
+  [2XEdgeFacePathByEdgesNC[102X, for IsPolygonalComplex, IsDenseList 8.3-2 
+  [2XEdgeFacePathByFaces[102X, for IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt 8.3-3 
+  [2XEdgeFacePathByFacesNC[102X, for IsPolygonalComplex, IsDenseList, IsPosInt, IsPosInt 8.3-3 
+  [2XEdgeFacePathNC[102X, for IsPolygonalComplex and IsDenseList 8.3-1 
+  [2XEdgeGrapeGraph[102X, for IsPolygonalComplex 15.4-1 
+  [2XEdgeInFaceByVertices[102X, for IsTwistedPolygonalComplex, IsPosInt, IsList 10.2-1 
+  [2XEdgeInFaceByVerticesNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsList 10.2-1 
+  [2XEdgeMapAsImageList[102X, for IsPolygonalMorphism 7.4-4 
+  [2XEdgeNautyGraph[102X, for IsPolygonalComplex 15.4-1 
+  [2XEdgeOfChamber[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-4 
+  [2XEdgeOfChamberNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-4 
+  [2XEdgeOfVEFLabel[102X, for IsPolygonalComplex, IsPosInt 7.3-6 
+  [2XEdgeOfVEFLabelNC[102X, for IsPolygonalComplex, IsPosInt 7.3-6 
+  [2XEdges[102X, for IsTwistedPolygonalComplex 3.1-2 
+  [2XEdgesAsList[102X, for IsEdgeFacePath 8.3-5 
+      for IsVertexEdgePath 8.1-6 
+  [2XEdgesAsPerm[102X, for IsEdgeFacePath 8.3-10 
+      for IsVertexEdgePath 8.1-11 
+  [2XEdgesBetweenFaces[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-2 
+  [2XEdgesBetweenFacesNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-2 
+  [2XEdgesBetweenVertices[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-2 
+  [2XEdgesBetweenVerticesNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-2 
+  [2XEdgesInFaceByVertices[102X, for IsTwistedPolygonalComplex, IsPosInt, IsList 10.2-1 
+  [2XEdgesInFaceByVerticesNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsList 10.2-1 
+  [2XEdgesOfChambers[102X, for IsTwistedPolygonalComplex 5.1-4 
+  [2XEdgesOfColour[102X, for IsEdgeColouredTwistedPolygonalComplex, IsPosInt 18.1-5 
+  [2XEdgesOfColours[102X, for IsEdgeColouredTwistedPolygonalComplex 18.1-5 
+  [2XEdgesOfFace[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-6 
+  [2XEdgesOfFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-6 
+  [2XEdgesOfFaces[102X, for IsTwistedPolygonalComplex 3.2-6 
+  [2XEdgesOfVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-1 
+  [2XEdgesOfVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-1 
+  [2XEdgesOfVertices[102X, for IsTwistedPolygonalComplex 3.2-1 
+  [2XEdgesWithVertexProperties[102X, for IsTwistedPolygonalComplex, IsFunction, IsFunction 10.4-2 
+      for IsTwistedPolygonalComplex, IsList 10.4-2 
+  [2XEdgesWithVertexProperty[102X, for IsTwistedPolygonalComplex, IsFunction 10.4-2 
+  [2XEdgeTurn[102X, for IsSimplicialSurface, IsPosInt,IsPosInt 12.5-10 
+  [2XEulerCharacteristic[102X, for IsTwistedPolygonalComplex 9.1-1 
+  [2XFace[102X, for IsPerimeterPath 8.2-2 
+  [2XFaceAnomalyClasses[102X, for IsPolygonalComplex 16.1-3 
+  [2XFaceAnomalyClassOfFace[102X, for IsPolygonalComplex, IsPosInt 16.1-3 
+  [2XFaceAnomalyClassOfFaceNC[102X, for IsPolygonalComplex, IsPosInt 16.1-3 
+  [2XFaceDegreeOfVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.2-2 
+  [2XFaceDegreeOfVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.2-2 
+  [2XFaceDegreesOfVertices[102X, for IsTwistedPolygonalComplex 9.2-2 
+  [2XFaceDigraphsGraph[102X, for IsPolygonalComplex 15.4-2 
+  [2XFaceMapAsImageList[102X, for IsPolygonalMorphism 7.4-5 
+  [2XFaceNautyGraph[102X, for IsPolygonalComplex 15.4-2 
+  [2XFaceOfChamber[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-6 
+  [2XFaceOfChamberNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-6 
+  [2XFaceOfVEFLabel[102X, for IsPolygonalComplex, IsPosInt 7.3-7 
+  [2XFaceOfVEFLabelNC[102X, for IsPolygonalComplex, IsPosInt 7.3-7 
+  [2XFaces[102X, for IsTwistedPolygonalComplex 3.1-3 
+  [2XFacesAsList[102X, for IsEdgeFacePath 8.3-6 
+  [2XFacesAsPerm[102X, for IsEdgeFacePath 8.3-11 
+  [2XFacesOfChambers[102X, for IsTwistedPolygonalComplex 5.1-6 
+  [2XFacesOfEdge[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-4 
+  [2XFacesOfEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-4 
+  [2XFacesOfEdges[102X, for IsTwistedPolygonalComplex 3.2-4 
+  [2XFacesOfVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-2 
+  [2XFacesOfVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-2 
+  [2XFacesOfVertices[102X, for IsTwistedPolygonalComplex 3.2-2 
+  [2XFacesWithEdgeProperties[102X, for IsTwistedPolygonalComplex, IsList 10.4-4 
+  [2XFacesWithEdgeProperty[102X, for IsTwistedPolygonalComplex, IsFunction 10.4-4 
+  [2XFacesWithVertexProperties[102X, for IsTwistedPolygonalComplex, IsList 10.4-3 
+  [2XFacesWithVertexProperty[102X, for IsTwistedPolygonalComplex, IsFunction 10.4-3 
+  [2XFaceTwoColouring[102X, for IsPolygonalComplex 9.6-1 
+  [2XFlagComplex[102X, for IsTwistedPolygonalComplex 21.3-1 
+  [2XFlags[102X, for IsPolygonalComplex 21.1-1 
+  [2XFlagsOfGeodesic[102X, for IsEdgeFacePath and IsGeodesicPath 8.5-6 
+  [2XFlagSurface[102X, for IsTwistedPolygonalSurface 21.3-1 
+  [2XGeodesicFlagCycle[102X, for IsEdgeFacePath and IsClosedGeodesicPath 8.5-8 
+  [2XIcosahedron[102X 14.3-6 
+  [2XImageOfEdge[102X, for IsPolygonalMorphism, IsPosInt 7.2-2 
+  [2XImageOfEdgeNC[102X, for IsPolygonalMorphism, IsPosInt 7.2-2 
+  [2XImageOfFace[102X, for IsPolygonalMorphism, IsPosInt 7.2-3 
+  [2XImageOfFaceNC[102X, for IsPolygonalMorphism, IsPosInt 7.2-3 
+  [2XImageOfVertex[102X, for IsPolygonalMorphism, IsPosInt 7.2-1 
+  [2XImageOfVertexNC[102X, for IsPolygonalMorphism, IsPosInt 7.2-1 
+  [2XIncidenceDigraphsGraph[102X, for IsPolygonalComplex 15.2-1 
+  [2XIncidenceGrapeGraph[102X, for IsPolygonalComplex 15.2-1 
+  [2XIncidenceNautyGraph[102X, for IsPolygonalComplex 15.2-1 
+  [2XInnerEdges[102X, for IsTwistedPolygonalComplex 9.4-1 
+  [2XInnerMultiTetrahedralSphere[102X, for IsTwistedPolygonalComplex 12.5-7 
+  [2XInnerVertices[102X, for IsTwistedPolygonalComplex 9.5-1 
+  [2XInverse[102X, for a bijective polygonal morphisms with identical source and range 7.1-5 
+  [2XInverseGeneralMapping[102X, for a bijective polygonal morphism 7.1-5 
+  [2XInversePolygonalMorphism[102X, for IsPolygonalMorphism and IsBijective 7.1-5 
+  [2XIsAnomalyFree[102X, for IsPolygonalComplex 16.1-1 
+  [2XIsAutomorphismDefinedByEdges[102X, for IsTwistedPolygonalComplex 15.6-4 
+  [2XIsAutomorphismDefinedByFaces[102X, for IsTwistedPolygonalComplex 15.6-5 
+  [2XIsAutomorphismDefinedByVertices[102X, for IsTwistedPolygonalComplex 15.6-3 
+  [2XIsBoundaryEdge[102X, for IsTwistedPolygonalComplex, IsPosInt 9.4-3 
+  [2XIsBoundaryEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.4-3 
+  [2XIsBoundaryVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-2 
+  [2XIsBoundaryVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-2 
+  [2XIsChaoticVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-4 
+  [2XIsChaoticVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-4 
+  [2XIsClosedComplex[102X, for IsTwistedPolygonalComplex and IsNotEdgeRamified 9.1-2 
+  [2XIsClosedGeodesicPath[102X, for IsEdgeFacePath 8.5-5 
+  [2XIsClosedPath[102X, for IsEdgeFacePath 8.3-7 
+      for IsVertexEdgePath 8.1-7 
+  [2XIsClosedSurface[102X, for IsPolygonalSurface 9.1-2 
+  [2XIsConnectedComplex[102X, for IsTwistedPolygonalComplex 8.6-1 
+  [2XIsConnectedSurface[102X, for IsPolygonalSurface 8.6-1 
+  [2XIsCounter[102X, for IsObject 9.2-10 
+  [2XIsCounterOfButterflies[102X, for IsObject 9.2-7 
+  [2XIsCounterOfEdges[102X, for IsObject 9.2-5 
+  [2XIsCounterOfFaces[102X, for IsObject 9.2-6 
+  [2XIsCounterOfThreeFaces[102X, for IsObject 9.2-9 
+  [2XIsCounterOfUmbrellas[102X, for IsObject 9.2-8 
+  [2XIsCounterOfVertices[102X, for IsObject 9.2-4 
+  [2XIsCounterOfVerticesByAngle[102X, for IsObject 20.4-5 
+  [2XIsDefaultChamberSystem[102X, for IsTwistedPolygonalComplex 5.4-1 
+  [2XIsDuplicateFree[102X, for IsEdgeFacePath 8.3-9 
+      for IsVertexEdgePath 8.1-9 
+  [2XIsEdgeColouredPolygonalComplex[102X, for IsEdgeColouredTwistedPolygonalComplex 18.1-1 
+  [2XIsEdgeColouredSimplicialSurface[102X, for IsEdgeColouredPolygonalComplex 18.1-1 
+  [2XIsEdgeColouredTwistedPolygonalComplex[102X, for IsTwistedPolygonalComplex 18.1-1 
+  [2XIsEdgeExactColouring[102X, for IsEdgeColouredPolygonalComplex 19.1-1 
+  [2XIsEdgeFacePath[102X, for IsObject 8.3-1 
+  [2XIsEdgeTwoColouring[102X, for IsEdgeColouredPolygonalComplex 20.1-1 
+  [2XIsEdgeVariColouring[102X, for IsEdgeColouredPolygonalComplex 19.1-1 
+  [2XIsEssentialDisc[102X, for IsTwistedPolygonalComplex 13.1-1 
+  [2XIsFaceHomogeneous[102X, for IsTwistedPolygonalComplex 9.3-1 
+  [2XIsFacesAdjacent[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-1 
+  [2XIsFacesAdjacentNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-1 
+  [2XIsFlagComplex[102X, for IsEdgeColouredTwistedPolygonalComplex 21.3-2 
+  [2XIsFlagSurface[102X, for IsFlagComplex 21.3-2 
+  [2XIsGeodesicPath[102X, for IsEdgeFacePath 8.5-2 
+  [2XIsInnerEdge[102X, for IsTwistedPolygonalComplex, IsPosInt 9.4-1 
+  [2XIsInnerEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.4-1 
+  [2XIsInnerVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-1 
+  [2XIsInnerVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-1 
+  [2XIsIsomorphic[102X, for IsTwistedPolygonalComplex, IsTwistedPolygonalComplex 15.5-1 
+  [2XIsIsomorphicEdgeColouredPolygonalComplex[102X, for IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex 18.3-2 
+  [2XIsIsoscelesColouredSurface[102X, for IsEdgeColouredPolygonalComplex 20.2-1 
+  [2XIsMultiTetrahedralSphere[102X, for IsTwistedPolygonalComplex 9.1-3 
+  [2XIsNotEdgeRamified[102X, for a TwistedPolygonalComplex 2.3-1 
+  [2XIsNotVertexRamified[102X 2.3-3 
+  [2XIsomorphicFlagSurface[102X, for IsTameColouredSurface 21.3-13 
+  [2XIsomorphismRepresentatives[102X, for IsList 15.5-2 
+  [2XIsOneAdjacentChambers[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 5.2-2 
+  [2XIsOneAdjacentChambersNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 5.2-2 
+  [2XIsOrientableComplex[102X, for IsTwistedPolygonalComplex and IsNotEdgeRamified 8.7-1 
+  [2XIsOrientableSurface[102X, for IsPolygonalSurface 8.7-1 
+  [2XIsPerimeterPath[102X, for IsObject 8.2-1 
+  [2XIsPolygonalComplex[102X, for IsObject 2.1-2 
+  [2XIsPolygonalSurface[102X 2.3-4 
+  [2XIsQuadrangular[102X, for IsTwistedPolygonalComplex 9.3-3 
+  [2XIsRamifiedEdge[102X, for IsTwistedPolygonalComplex, IsPosInt 9.4-4 
+  [2XIsRamifiedEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.4-4 
+  [2XIsRamifiedVertex[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-3 
+  [2XIsRamifiedVertexNC[102X, for IsTwistedPolygonalComplex, IsPosInt 9.5-3 
+  [2XIsSimplicialSurface[102X 2.3-5 
+  [2XIsStronglyConnectedComplex[102X, for IsTwistedPolygonalComplex 8.6-3 
+  [2XIsStronglyConnectedSurface[102X, for IsPolygonalSurface 8.6-3 
+  [2XIsTameColouredSurface[102X, for IsEdgeColouredPolygonalComplex 19.3-4 
+  [2XIsTriangular[102X, for IsTwistedPolygonalComplex 9.3-2 
+  [2XIsTurnableEdge[102X, for IsSimplicialSurface, IsPosInt 9.4-2 
+  [2XIsTurnableEdgeNC[102X, for IsSimplicialSurface, IsPosInt 9.4-2 
+  [2XIsTwistedPolygonalComplex[102X, for IsObject 2.2-1 
+  [2XIsTwoAdjacentChambers[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 5.2-2 
+  [2XIsTwoAdjacentChambersNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 5.2-2 
+  [2XIsUmbrellaPath[102X, for IsEdgeFacePath 8.5-1 
+  [2XIsVertexEdgePath[102X, for IsObject 8.1-1 
+  [2XIsVertexFaithful[102X 16.1-1 
+  [2XIsVerticesAdjacent[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-1 
+  [2XIsVerticesAdjacentNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-1 
+  [2XIsWaist[102X, for IsTwistedPolygonalComplex, IsVertexEdgePath 8.4-1 
+  [2XIsWildColouredSurface[102X, for IsEdgeColouredPolygonalComplex 19.3-1 
+  [2XIsZeroAdjacentChambers[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 5.2-2 
+  [2XIsZeroAdjacentChambersNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 5.2-2 
+  [2XJanusHead[102X 14.4-1 
+  [2XJoinBoundaries[102X, for IsPolygonalComplex, IsList, IsList, IsInt 12.4-5 
+      for IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt 12.4-5 
+  [2XJoinBoundariesNC[102X, for IsPolygonalComplex, IsList, IsList, IsInt 12.4-5 
+      for IsPolygonalComplex, IsList, IsPolygonalComplex, IsList, IsInt 12.4-5 
+  [2XJoinBoundary[102X, for IsPolygonalComplex, IsInt 12.4-6 
+  [2XJoinBoundaryNC[102X, for IsPolygonalComplex, IsInt 12.4-6 
+  [2XJoinEdges[102X, for IsPolygonalComplex, IsList, IsPosInt 12.4-2 
+      for IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 12.4-2 
+  [2XJoinEdgesNC[102X, for IsPolygonalComplex, IsList, IsPosInt 12.4-2 
+      for IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 12.4-2 
+  [2XJoinFaces[102X, for IsPolygonalComplex, IsList, IsPosInt 12.4-3 
+      for IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 12.4-3 
+  [2XJoinFacesNC[102X, for IsPolygonalComplex, IsList, IsPosInt 12.4-3 
+      for IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 12.4-3 
+  [2XJoinVertexEdgePaths[102X, for IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree,IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree 12.4-4 
+      for IsPolygonalComplex,IsVertexEdgePath and IsDuplicateFree,IsVertexEdgePath and IsDuplicateFree 12.4-4 
+  [2XJoinVertexEdgePathsNC[102X, for IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree,IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree 12.4-4 
+      for IsPolygonalComplex,IsVertexEdgePath and IsDuplicateFree,IsVertexEdgePath and IsDuplicateFree 12.4-4 
+  [2XJoinVertices[102X, for IsPolygonalComplex, IsList, IsPosInt 12.4-1 
+      for IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt 12.4-1 
+      for IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 12.4-1 
+  [2XJoinVerticesNC[102X, for IsPolygonalComplex, IsList, IsPosInt 12.4-1 
+      for IsPolygonalComplex, IsPosInt, IsPolygonalComplex, IsPosInt 12.4-1 
+      for IsPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 12.4-1 
+  [2XLink[102X, for IsPolygonalSurface 3.4-4 
+      for IsPolygonalSurface,IsInt 3.4-4 
+  [2XLinkNC[102X, for IsPolygonalSurface,IsInt 3.4-4 
+  [2XListCounter[102X, for IsCounter 9.2-13 
+  [2XLocalSymmetryOfColours[102X, for IsTameColouredSurface 19.3-4 
+  [2XLocalSymmetryOfColoursAsNumbers[102X, for IsTameColouredSurface 19.3-4 
+  [2XLocalSymmetryOfEdges[102X, for IsIsoscelesColouredSurface 20.4-3 
+      for IsWildColouredSurface 19.3-3 
+  [2XLocalSymmetryOfEdgesAsNumbers[102X, for IsIsoscelesColouredSurface 20.4-3 
+      for IsWildColouredSurface 19.3-3 
+  [2XMaximalDuplicateFreeGeodesicPathOfFlag[102X, for IsPolygonalComplex and IsNotEdgeRamified, IsList 8.5-7 
+  [2XMaximalDuplicateFreeGeodesicPathOfFlagNC[102X, for IsPolygonalComplex and IsNotEdgeRamified, IsList 8.5-7 
+  [2XMaximalDuplicateFreeGeodesicPaths[102X, for IsPolygonalComplex and IsNotEdgeRamified 8.5-7 
+  [2XMaximalGeodesicPathOfFlag[102X, for IsPolygonalComplex and IsNotEdgeRamified, IsList 8.5-4 
+  [2XMaximalGeodesicPathOfFlagNC[102X, for IsPolygonalComplex and IsNotEdgeRamified, IsList 8.5-4 
+  [2XMaximalGeodesicPaths[102X, for IsPolygonalComplex and IsNotEdgeRamified 8.5-4 
+  [2XMultiplicitiesOfCounter[102X, for IsCounter 9.2-14 
+  [2XMultiplicitiesOfDegrees[102X, for IsCounterOfVertices 9.2-14 
+  [2XMultiplicityOfDegree[102X, for IsCounter, IsList 9.2-14 
+      for IsCounterOfVertices, IsPosInt 9.2-14 
+  [2XMultiTetrahedralSphereByTetrahedralSymbol[102X, for IsDenseList 12.5-9 
+  [2XMultiTetrahedralSymbolOfComplex[102X, for IsTwistedPolygonalComplex 12.5-8 
+  [2XNeighbourFaceByEdge[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-3 
+  [2XNeighbourFaceByEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-3 
+  [2XNeighbourFacesByEdge[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-3 
+  [2XNeighbourFacesByEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.3-3 
+  [2XNeighbourFacesOfFace[102X, for IsPolygonalComplex, IsPosInt 11.2-2 
+  [2XNeighbourFacesOfFaceNC[102X, for IsPolygonalComplex, IsPosInt 11.2-2 
+  [2XNeighbourVerticesOfVertex[102X, for IsPolygonalComplex, IsPosInt 11.1-2 
+  [2XNeighbourVerticesOfVertexNC[102X, for IsPolygonalComplex, IsPosInt 11.1-2 
+  [2XNormedUmbrellaDescriptor[102X, for IsList,IsPosInt 4.4-4 
+      for IsList,IsPosInt,IsList 4.4-4 
+  [2XNumberOfChambers[102X, for IsTwistedPolygonalComplex 5.1-1 
+  [2XNumberOfConnectedComponents[102X, for IsTwistedPolygonalComplex 8.6-5 
+  [2XNumberOfEdges[102X, for IsTwistedPolygonalComplex 3.1-2 
+  [2XNumberOfFaces[102X, for IsTwistedPolygonalComplex 3.1-3 
+  [2XNumberOfStronglyConnectedComponents[102X, for IsTwistedPolygonalComplex 8.6-5 
+  [2XNumberOfVertices[102X, for IsTwistedPolygonalComplex 3.1-1 
+  [2XOctahedron[102X 14.3-4 
+  [2XOneAdjacencyClasses[102X, for IsTwistedPolygonalComplex 5.2-4 
+  [2XOneAdjacencyInvolution[102X, for IsTwistedPolygonalComplex 5.2-3 
+  [2XOneAdjacencyRelation[102X, for IsTwistedPolygonalComplex 5.2-5 
+  [2XOneAdjacentChamber[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XOneAdjacentChamberNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XOnEdgeFacePaths[102X, for IsEdgeFacePath , IsPerm 15.7-2 
+  [2XOneFlags[102X, for IsPolygonalComplex 21.1-6 
+  [2XOnVertexEdgePaths[102X, for IsVertexEdgePath , IsPerm 15.7-1 
+  [2XOppositeEdgeOfVertexInTriangle[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 10.2-4 
+  [2XOppositeEdgeOfVertexInTriangleNC[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 10.2-4 
+  [2XOppositeVertexOfEdgeInTriangle[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 10.2-3 
+  [2XOppositeVertexOfEdgeInTriangleNC[102X, for IsPolygonalComplex, IsPosInt, IsPosInt 10.2-3 
+  [2XOrientation[102X, for IsPolygonalComplex and IsNotEdgeRamified 8.7-2 
+  [2XOrientationCover[102X, for IsPolygonalComplex and IsNotEdgeRamified 8.7-3 
+  [2XOriginalComplex[102X, for IsFlagComplex 21.3-3 
+  [2XOriginalEdges[102X, for IsFlagComplex 21.3-5 
+  [2XOriginalFaces[102X, for IsFlagComplex 21.3-6 
+  [2XOriginalOneFlag[102X, for IsFlagComplex,IsPosInt 21.3-7 
+  [2XOriginalSurface[102X, for IsFlagSurface 21.3-3 
+  [2XOriginalThreeFlag[102X, for IsFlagComplex,IsPosInt 21.3-9 
+  [2XOriginalTwoFlag[102X, for IsFlagComplex,IsPosInt 21.3-8 
+  [2XOriginalVertices[102X, for IsFlagComplex 21.3-4 
+  [2XOtherEdgeOfVertexInFace[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 10.2-2 
+  [2XOtherEdgeOfVertexInFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 10.2-2 
+  [2XOtherEdgesOfVertexInFace[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 10.2-2 
+  [2XOtherEdgesOfVertexInFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt, IsPosInt 10.2-2 
+  [2XOtherVertexOfEdge[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-3 
+  [2XOtherVertexOfEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt, IsPosInt 10.1-3 
+  [2XPathAsList[102X, for IsEdgeFacePath 8.3-4 
+      for IsVertexEdgePath 8.1-4 
+  [2XPerimeterOfHoles[102X, for IsTwistedPolygonalComplex,IsInt 3.5-1 
+  [2XPerimeterPath[102X, for IsVertexEdgePath 8.2-3 
+      for IsVertexEdgePath, IsPosInt 8.2-3 
+  [2XPerimeterPathNC[102X, for IsVertexEdgePath, IsPosInt 8.2-3 
+  [2XPerimeterPathOfFace[102X, for IsPolygonalComplex, IsPosInt 3.3-1 
+  [2XPerimeterPathOfFaceNC[102X, for IsPolygonalComplex, IsPosInt 3.3-1 
+  [2XPerimeterPathsOfFaces[102X, for IsPolygonalComplex 3.3-1 
+  [2XPolygonalComplex[102X, for IsEdgeColouredPolygonalComplex 18.1-3 
+  [2XPolygonalComplexByDownwardIncidence[102X, for IsList, IsList 4.1-1 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-1 
+  [2XPolygonalComplexByDownwardIncidenceNC[102X, for IsList, IsList 4.1-1 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-1 
+  [2XPolygonalComplexByUpwardIncidence[102X, for IsList, IsList 4.2-1 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-1 
+  [2XPolygonalComplexByUpwardIncidenceNC[102X, for IsList, IsList 4.2-1 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-1 
+  [2XPolygonalComplexByVerticesInFaces[102X, for IsList 4.3-1 
+      for IsSet, IsSet, IsList 4.3-1 
+  [2XPolygonalComplexByVerticesInFacesNC[102X, for IsList 4.3-1 
+      for IsSet, IsSet, IsList 4.3-1 
+  [2XPolygonalIdentityMorphism[102X, for IsPolygonalComplex 7.1-3 
+  [2XPolygonalMorphismByLists[102X, for IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList 7.1-1 
+  [2XPolygonalMorphismByListsNC[102X, for IsPolygonalComplex, IsPolygonalComplex, IsList, IsList, IsList 7.1-1 
+  [2XPolygonalMorphismByVertexImages[102X, for IsPolygonalComplex and IsAnomalyFree, IsPolygonalComplex and IsAnomalyFree, IsList 7.1-2 
+  [2XPolygonalMorphismByVertexImagesNC[102X, for IsPolygonalComplex and IsAnomalyFree, IsPolygonalComplex and IsAnomalyFree, IsList 7.1-2 
+  [2XPolygonalSurfaceByDownwardIncidence[102X, for IsList, IsList 4.1-2 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-2 
+  [2XPolygonalSurfaceByDownwardIncidenceNC[102X, for IsList, IsList 4.1-2 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-2 
+  [2XPolygonalSurfaceByUpwardIncidence[102X, for IsList, IsList 4.2-2 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-2 
+  [2XPolygonalSurfaceByUpwardIncidenceNC[102X, for IsList, IsList 4.2-2 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-2 
+  [2XPolygonalSurfaceByVerticesInFaces[102X, for IsList 4.3-2 
+      for IsSet, IsSet, IsList 4.3-2 
+  [2XPolygonalSurfaceByVerticesInFacesNC[102X, for IsList 4.3-2 
+      for IsSet, IsSet, IsList 4.3-2 
+  [2XPreImagesOfEdge[102X, for IsPolygonalMorphism, IsPosInt 7.2-5 
+  [2XPreImagesOfEdgeNC[102X, for IsPolygonalMorphism, IsPosInt 7.2-5 
+  [2XPreImagesOfFace[102X, for IsPolygonalMorphism, IsPosInt 7.2-6 
+  [2XPreImagesOfFaceNC[102X, for IsPolygonalMorphism, IsPosInt 7.2-6 
+  [2XPreImagesOfVertex[102X, for IsPolygonalMorphism, IsPosInt 7.2-4 
+  [2XPreImagesOfVertexNC[102X, for IsPolygonalMorphism, IsPosInt 7.2-4 
+  [2XRadiusOfPolygonalComplex[102X, for IsPolygonalComplex 11.4-3 
+  [2XRamifiedEdges[102X, for IsTwistedPolygonalComplex 9.4-4 
+  [2XRamifiedVertices[102X, for IsTwistedPolygonalComplex 9.5-3 
+  [2XRangeComplex[102X, for IsGeneralPolygonalMorphism 7.4-2 
+  [2XRangeSurface[102X, for IsGeneralPolygonalMorphism 7.4-2 
+  [2XRemoveFace[102X, for IsTwistedPolygonalComplex, IsPosInt 12.2-2 
+  [2XRemoveFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt 12.2-2 
+  [2XRemoveFaces[102X, for IsTwistedPolygonalComplex, IsSet 12.2-2 
+  [2XRemoveFacesNC[102X, for IsTwistedPolygonalComplex, IsSet 12.2-2 
+  [2XRestrictionToNeighbourhoodOfFaces[102X, for IsPolygonalComplex, IsPosInt, IsList 11.3-1 
+  [2XRestrictionToNeighbourhoodOfFacesNC[102X, for IsPolygonalComplex, IsPosInt, IsList 11.3-1 
+  [2XRestrictionToNeighbourhoodOfVertices[102X, for IsTriangularComplex, IsPosInt, IsList 11.3-2 
+  [2XRestrictionToNeighbourhoodOfVerticesNC[102X, for IsTriangularComplex, IsPosInt, IsList 11.3-2 
+  [2XReversedPath[102X, for IsEdgeFacePath 8.3-8 
+      for IsVertexEdgePath 8.1-8 
+  [2XRipCut[102X, for IsPolygonalComplex, IsPosInt 12.6-3 
+  [2XRipCuttableEdges[102X, for IsPolygonalComplex 12.6-3 
+  [2XRipMend[102X, for IsPolygonalComplex, IsList 12.6-4 
+  [2XRipMendableEdgePairs[102X, for IsPolygonalComplex 12.6-4 
+  [2XSetFaceCoordinates2D[102X, for IsSimplicialSurface,IsList,IsRecord 16.2-8 
+  [2XSetFaceCoordinates2DNC[102X, for IsSimplicialSurface, IsList,IsRecord 16.2-8 
+  [2XShiftCyclicPath[102X, for IsEdgeFacePath, IsPosInt, IsPosInt 8.3-13 
+      for IsVertexEdgePath, IsPosInt, IsPosInt 8.1-13 
+  [2XShiftCyclicPathNC[102X, for IsEdgeFacePath, IsPosInt, IsPosInt 8.3-13 
+      for IsVertexEdgePath, IsPosInt, IsPosInt 8.1-13 
+  [2XSimplicialClosedGeodesic[102X, for IsPosInt 14.4-5 
+  [2XSimplicialDoubleGon[102X 14.4-3 
+  [2XSimplicialDoubleUmbrella[102X, for IsPosInt 14.4-3 
+  [2XSimplicialGeodesic[102X, for IsPosInt 14.4-5 
+  [2XSimplicialGon[102X 14.4-2 
+  [2XSimplicialOpenGeodesic[102X, for IsPosInt 14.4-4 
+  [2XSimplicialStrip[102X, for IsPosInt 14.4-4 
+  [2XSimplicialSurface[102X, for IsEdgeColouredSimplicialSurface 18.1-3 
+  [2XSimplicialSurfaceByDownwardIncidence[102X, for IsList, IsList 4.1-4 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-4 
+  [2XSimplicialSurfaceByDownwardIncidenceNC[102X, for IsList, IsList 4.1-4 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-4 
+  [2XSimplicialSurfaceByDressGroup[102X, for IsPermGroup 4.5-1 
+  [2XSimplicialSurfaceByUmbrellaDescriptor[102X, for IsList 4.4-3 
+  [2XSimplicialSurfaceByUpwardIncidence[102X, for IsList, IsList 4.2-4 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-4 
+  [2XSimplicialSurfaceByUpwardIncidenceNC[102X, for IsList, IsList 4.2-4 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-4 
+  [2XSimplicialSurfaceByVerticesInFaces[102X, for IsList 4.3-4 
+      for IsSet, IsSet, IsList 4.3-4 
+  [2XSimplicialSurfaceByVerticesInFacesNC[102X, for IsList 4.3-4 
+      for IsSet, IsSet, IsList 4.3-4 
+  [2XSimplicialUmbrella[102X, for IsPosInt 14.4-2 
+  [2XSixFoldCover[102X, for IsSimplicialSurface, IsList 19.3-6 
+  [2XSnippOffEars[102X, for IsSimplicialSurface 12.5-2 
+  [2XSourceComplex[102X, for IsGeneralPolygonalMorphism 7.4-1 
+  [2XSourceSurface[102X, for IsGeneralPolygonalMorphism 7.4-1 
+  [2XSplitAllVertices[102X, for IsPolygonalComplex 12.5-3 
+  [2XSplitCut[102X, for IsPolygonalComplex, IsPosInt 12.6-5 
+  [2XSplitCuttableEdges[102X, for IsPolygonalComplex 12.6-5 
+  [2XSplitEdge[102X, for IsPolygonalComplex, IsPosInt, IsList 12.1-1 
+  [2XSplitEdgeNC[102X, for IsPolygonalComplex, IsPosInt, IsList 12.1-1 
+  [2XSplitEdgePath[102X, for IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree 12.1-4 
+  [2XSplitEdgePathNC[102X, for IsPolygonalComplex, IsVertexEdgePath and IsDuplicateFree 12.1-4 
+  [2XSplitMend[102X, for IsPolygonalComplex, IsList 12.6-6 
+  [2XSplitMendableFlagPairs[102X, for IsPolygonalComplex 12.6-6 
+  [2XSplitVertex[102X, for IsPolygonalComplex, IsPosInt, IsList 12.1-2 
+  [2XSplitVertexEdgePath[102X, for IsPolygonalComplex, IsVertexEdgePath 12.1-3 
+  [2XSplitVertexEdgePathNC[102X, for IsPolygonalComplex, IsVertexEdgePath 12.1-3 
+  [2XSplitVertexNC[102X, for IsPolygonalComplex, IsPosInt, IsList 12.1-2 
+  [2XStar[102X, for IsPolygonalComplex,IsInt 3.4-3 
+      for IsPolygonalComplex,IsList 3.4-3 
+  [2XStarNC[102X, for IsPolygonalComplex,IsInt 3.4-3 
+      for IsPolygonalComplex,IsList 3.4-3 
+  [2XStronglyConnectedComponentOfFace[102X, for IsTwistedPolygonalComplex, IsPosInt 8.6-4 
+  [2XStronglyConnectedComponentOfFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt 8.6-4 
+  [2XStronglyConnectedComponents[102X, for IsTwistedPolygonalComplex 8.6-4 
+  [2XStronglyConnectedComponentsAttributeOfComplex[102X, for IsTwistedPolygonalComplex 8.6-4 
+  [2XSubcomplexByFaces[102X, for IsTwistedPolygonalComplex, IsSet 12.2-1 
+  [2XSubcomplexByFacesNC[102X, for IsTwistedPolygonalComplex, IsSet 12.2-1 
+  [2XSubsurfaceByFaces[102X, for IsTwistedPolygonalComplex, IsSet 12.2-1 
+  [2XSubsurfaceByFacesNC[102X, for IsTwistedPolygonalComplex, IsSet 12.2-1 
+  [2XTetrahedralExtension[102X, for IsSimplicialSurface, IsPosInt,IsPosInt 12.5-5 
+  [2XTetrahedralNumber[102X, for IsTwistedPolygonalComplex 9.1-4 
+  [2XTetrahedralReduction[102X, for IsSimplicialSurface,IsPosInt 12.5-6 
+  [2XTetrahedralType[102X, for IsTwistedPolygonalComplex 9.1-5 
+  [2XTetrahedron[102X 14.3-2 
+  [2XThreeFlags[102X, for IsPolygonalComplex 21.1-1 
+  [2XTotalDefect[102X, for IsSimplicialSurface 9.2-3 
+  [2XTotalInnerDefect[102X, for IsSimplicialSurface 9.2-3 
+  [2XTriangularComplexByDownwardIncidence[102X, for IsList, IsList 4.1-3 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-3 
+  [2XTriangularComplexByDownwardIncidenceNC[102X, for IsList, IsList 4.1-3 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.1-3 
+  [2XTriangularComplexByUpwardIncidence[102X, for IsList, IsList 4.2-3 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-3 
+  [2XTriangularComplexByUpwardIncidenceNC[102X, for IsList, IsList 4.2-3 
+      for IsSet, IsSet, IsSet, IsList, IsList 4.2-3 
+  [2XTriangularComplexByVerticesInFaces[102X, for IsList 4.3-3 
+      for IsSet, IsSet, IsList 4.3-3 
+  [2XTriangularComplexByVerticesInFacesNC[102X, for IsList 4.3-3 
+      for IsSet, IsSet, IsList 4.3-3 
+  [2XTurnableEdges[102X, for IsSimplicialSurface 9.4-2 
+  [2XTwistedPolygonalComplex[102X, for IsEdgeColouredTwistedPolygonalComplex 18.1-3 
+  [2XTwistedPolygonalComplexByChamberAdjacencies[102X, for IsList, IsList, IsList 5.3-2 
+  [2XTwistedPolygonalComplexByChamberAdjacenciesNC[102X, for IsList, IsList, IsList 5.3-2 
+  [2XTwistedPolygonalComplexByChamberRelations[102X, for IsList, IsList, IsList, IsList, IsList, IsList 5.3-1 
+  [2XTwistedPolygonalComplexByChamberRelationsNC[102X, for IsList, IsList, IsList, IsList, IsList, IsList 5.3-1 
+  [2XTwistedPolygonalSurfaceByChamberAdjacencies[102X, for IsList, IsList, IsList 5.3-2 
+  [2XTwistedPolygonalSurfaceByChamberAdjacenciesNC[102X, for IsList, IsList, IsList 5.3-2 
+  [2XTwistedPolygonalSurfaceByChamberInvolutions[102X, for IsPerm, IsPerm, IsPerm 5.3-3 
+  [2XTwistedPolygonalSurfaceByChamberInvolutionsNC[102X, for IsPerm, IsPerm, IsPerm 5.3-3 
+  [2XTwistedPolygonalSurfaceByChamberRelations[102X, for IsList, IsList, IsList, IsList, IsList, IsList 5.3-1 
+  [2XTwistedPolygonalSurfaceByChamberRelationsNC[102X, for IsList, IsList, IsList, IsList, IsList, IsList 5.3-1 
+  [2XTwoAdjacencyClasses[102X, for IsTwistedPolygonalComplex 5.2-4 
+  [2XTwoAdjacencyInvolution[102X, for IsTwistedPolygonalComplex 5.2-3 
+  [2XTwoAdjacencyRelation[102X, for IsTwistedPolygonalComplex 5.2-5 
+  [2XTwoAdjacentChamber[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XTwoAdjacentChamberNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XTwoAdjacentChambers[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XTwoAdjacentChambersNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XTwoFlags[102X, for IsPolygonalComplex 21.1-5 
+  [2XTypeOfCounter[102X, for IsCounter 9.2-11 
+  [2XUmbrellaDescriptorOfSurface[102X, for IsSimplicialSurface 4.4-1 
+  [2XUmbrellaPathOfVertex[102X, for IsPolygonalComplex, IsPosInt 3.4-1 
+  [2XUmbrellaPathOfVertexNC[102X, for IsPolygonalComplex, IsPosInt 3.4-1 
+  [2XUmbrellaPathPartitionOfVertex[102X, for IsPolygonalComplex, IsPosInt 3.4-2 
+  [2XUmbrellaPathPartitionOfVertexNC[102X, for IsPolygonalComplex, IsPosInt 3.4-2 
+  [2XUmbrellaPathPartitionsOfVertices[102X, for IsPolygonalComplex 3.4-2 
+  [2XUmbrellaPathsOfVertices[102X, for IsPolygonalComplex 3.4-1 
+  [2XUmbrellaTipDescriptorOfSurface[102X, for IsSimplicialSurface 4.4-2 
+  [2XVEFLabelMapAsImageList[102X, for IsPolygonalMorphism 7.4-6 
+  [2XVEFLabelOfEdge[102X, for IsPolygonalComplex, IsPosInt 7.3-3 
+  [2XVEFLabelOfEdgeNC[102X, for IsPolygonalComplex, IsPosInt 7.3-3 
+  [2XVEFLabelOfFace[102X, for IsPolygonalComplex, IsPosInt 7.3-4 
+  [2XVEFLabelOfFaceNC[102X, for IsPolygonalComplex, IsPosInt 7.3-4 
+  [2XVEFLabelOfVertex[102X, for IsPolygonalComplex, IsPosInt 7.3-2 
+  [2XVEFLabelOfVertexNC[102X, for IsPolygonalComplex, IsPosInt 7.3-2 
+  [2XVEFLabels[102X, for IsPolygonalComplex 7.3-1 
+  [2XVEFLabelsOfEdges[102X, for IsPolygonalComplex 7.3-3 
+  [2XVEFLabelsOfFaces[102X, for IsPolygonalComplex 7.3-4 
+  [2XVEFLabelsOfVertices[102X, for IsPolygonalComplex 7.3-2 
+  [2XVertexEdgeFlags[102X, for IsPolygonalComplex 21.1-2 
+  [2XVertexEdgePath[102X, for IsPolygonalComplex and IsDenseList 8.1-1 
+  [2XVertexEdgePathByEdges[102X, for IsPolygonalComplex, IsDenseList 8.1-3 
+  [2XVertexEdgePathByEdgesNC[102X, for IsPolygonalComplex, IsDenseList 8.1-3 
+  [2XVertexEdgePathByVertices[102X, for IsPolygonalComplex, IsDenseList 8.1-2 
+  [2XVertexEdgePathByVerticesNC[102X, for IsPolygonalComplex, IsDenseList 8.1-2 
+  [2XVertexEdgePathNC[102X, for IsPolygonalComplex and IsDenseList 8.1-1 
+  [2XVertexEdgePathOfGeodesic[102X, for IsEdgeFacePath and IsGeodesicPath 8.5-3 
+  [2XVertexFaceFlags[102X, for IsPolygonalComplex 21.1-3 
+  [2XVertexMapAsImageList[102X, for IsPolygonalMorphism 7.4-3 
+  [2XVertexOfChamber[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-2 
+  [2XVertexOfChamberNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.1-2 
+  [2XVertexOfVEFLabel[102X, for IsPolygonalComplex, IsPosInt 7.3-5 
+  [2XVertexOfVEFLabelNC[102X, for IsPolygonalComplex, IsPosInt 7.3-5 
+  [2XVertices[102X, for IsTwistedPolygonalComplex 3.1-1 
+  [2XVerticesAsList[102X, for IsVertexEdgePath 8.1-5 
+  [2XVerticesAsPerm[102X, for IsVertexEdgePath 8.1-10 
+  [2XVerticesAttributeOfComplex[102X, for IsTwistedPolygonalComplex 3.1-1 
+  [2XVerticesOfChambers[102X, for IsTwistedPolygonalComplex 5.1-2 
+  [2XVerticesOfEdge[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-3 
+  [2XVerticesOfEdgeNC[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-3 
+  [2XVerticesOfEdges[102X, for IsTwistedPolygonalComplex 3.2-3 
+  [2XVerticesOfFace[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-5 
+  [2XVerticesOfFaceNC[102X, for IsTwistedPolygonalComplex, IsPosInt 3.2-5 
+  [2XVerticesOfFaces[102X, for IsTwistedPolygonalComplex 3.2-5 
+  [2XWildColouredSurfaceOfIsoscelesColouredSurface[102X, for IsIsoscelesColouredSurface 20.4-1 
+  [2XZeroAdjacencyClasses[102X, for IsTwistedPolygonalComplex 5.2-4 
+  [2XZeroAdjacencyInvolution[102X, for IsTwistedPolygonalComplex 5.2-3 
+  [2XZeroAdjacencyRelation[102X, for IsTwistedPolygonalComplex 5.2-5 
+  [2XZeroAdjacentChamber[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  [2XZeroAdjacentChamberNC[102X, for IsTwistedPolygonalComplex, IsPosInt 5.2-1 
+  
+  
+  -------------------------------------------------------

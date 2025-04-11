@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (SimplicialSurfaces) - Chapter 11: Distances</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap11"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap10.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap12.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap11_mj.html">[MathJax on]</a></p>
+<p><a id="X7ADA443D7FBDD1A5" name="X7ADA443D7FBDD1A5"></a></p>
+<div class="ChapSects"><a href="chap11.html#X7ADA443D7FBDD1A5">11 <span class="Heading">Distances</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X836F82A67F951B89">11.1 <span class="Heading">Calculating the distance between vertices</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7A434B2B7E107E66">11.1-1 DistanceOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7C2320A98005131F">11.1-2 NeighbourVerticesOfVertex</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X780DF1E67DF22A62">11.2 <span class="Heading">Calculating the distance between faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7BB126E383326ECD">11.2-1 DistanceOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X8645F6A88274C479">11.2-2 NeighbourFacesOfFace</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X87E4BA5282F59C21">11.3 <span class="Heading">Restricting polygonal complexes</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X84EA44D5783CCD48">11.3-1 RestrictionToNeighbourhoodOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7A40ED647C91733A">11.3-2 RestrictionToNeighbourhoodOfVertices</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap11.html#X847E31977ADDB93E">11.4 <span class="Heading">Application of distance-calculations</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X82230E3B7E36BF40">11.4-1 EccentricityOfVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X81BB4A0F836A97D6">11.4-2 DiameterOfPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7E2FDC0381DD83E8">11.4-3 RadiusOfPolygonalComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap11.html#X7C2C563B8175C95C">11.4-4 CenterOfPolygonalComplex</a></span>
+</div></div>
+</div>
+
+<h3>11 <span class="Heading">Distances</span></h3>
+
+<p>This chapter introduces methods to compute distances between vertices (<a href="chap11.html#X836F82A67F951B89"><span class="RefLink">11.1</span></a>) and faces (<a href="chap11.html#X780DF1E67DF22A62"><span class="RefLink">11.2</span></a>) of a polygonal complex. Although the two concepts are very similar to each other, they will be treated in different sections, to make the explanations more readable and do not let the examples become too long.</p>
+
+<p>In section <a href="chap11.html#X836F82A67F951B89"><span class="RefLink">11.1</span></a>, distances between vertices in a polygonal complex are defined. A definition for distances between faces can be found in section <a href="chap11.html#X780DF1E67DF22A62"><span class="RefLink">11.2</span></a>.</p>
+
+<p>Most of the examples are platonic solids. They are already sufficiently complex to illustrate the methods, while remaining conceptually simple to make it easy to follow manipulations on them.</p>
+
+<p><a id="X836F82A67F951B89" name="X836F82A67F951B89"></a></p>
+
+<h4>11.1 <span class="Heading">Calculating the distance between vertices</span></h4>
+
+<p>This section contains the methods to compute distances between vertices in a polygonal complex <a href="chap2.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>. It also contains methods building on the distance calculation, for example to construct neighbourhoods of vertices (compare <a href="chap11.html#X87E4BA5282F59C21"><span class="RefLink">11.3</span></a>).</p>
+
+<p><a id="X7A434B2B7E107E66" name="X7A434B2B7E107E66"></a></p>
+
+<h5>11.1-1 DistanceOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DistanceOfVertices</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DistanceOfVerticesNC</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a non-negative integer, or -1.</p>
+
+<p>This method computes the distance of two vertices in a polygonal complex (<a href="chap2.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>) by determining the length of a minimal vertex-edge-path (<a href="chap8.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>) between the given two vertices (the length is the number of edges).</p>
+
+<p>If there does not exist any vertex-edge-path between <var class="Arg">vertex1</var> and <var class="Arg">vertex2</var>, which means that the vertices are located in different connected components of <var class="Arg">polygonalComplex</var>, -1 will be returned. If the vertices are identical, their distance is defined as 0.</p>
+
+<p>The NC-Version does not check whether <var class="Arg">vertex1</var> and <var class="Arg">vertex2</var> are vertices of <var class="Arg">polygonalComplex</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfVertices(cube,1,9);</span>
+Error, DistanceOfVertices: Given vertex 9 does not lie in the given complex.
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfVertices(cube,1,3);</span>
+2 
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet := Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfVertices(tet,1,1);</span>
+0
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theTwoDisjointTriangles-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsPolygonalComplex(twoDisjointTriangles);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfVertices(twoDisjointTriangles,3,4);</span>
+-1
+</pre></div>
+
+<p><a id="X7C2320A98005131F" name="X7C2320A98005131F"></a></p>
+
+<h5>11.1-2 NeighbourVerticesOfVertex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourVerticesOfVertex</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourVerticesOfVertexNC</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>Given a polygonal complex <var class="Arg">polygonalComplex</var> and a vertex, this method returns a list of all vertices of <var class="Arg">polygonalComplex</var>, which are connected to <var class="Arg">vertex</var> by an edge, i.e. all neighbour-vertices of <var class="Arg">vertex</var>.</p>
+
+<p>The NC-Version does not check whether <var class="Arg">vertex</var> is a vertex of <var class="Arg">polygonalComplex</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourVerticesOfVertex(cube,3);</span>
+[ 2, 4, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourVerticesOfVertex(cube,8);</span>
+[ 4, 7, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourVerticesOfVertex(cube,9);</span>
+Error, NeighbourVerticesOfVertex: Given vertex 9 does not lie in the given
+complex.
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet:=Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourVerticesOfVertex(tet,1);</span>
+[ 2, 3, 4 ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg'> </img> <br></p>
+
+<p><a id="X780DF1E67DF22A62" name="X780DF1E67DF22A62"></a></p>
+
+<h4>11.2 <span class="Heading">Calculating the distance between faces</span></h4>
+
+<p>Analogously to section <a href="chap11.html#X836F82A67F951B89"><span class="RefLink">11.1</span></a>, the distance-concept for faces will be treated.</p>
+
+<p><a id="X7BB126E383326ECD" name="X7BB126E383326ECD"></a></p>
+
+<h5>11.2-1 DistanceOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DistanceOfFaces</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DistanceOfFacesNC</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a non-negative integer, or -1.</p>
+
+<p>This method computes the distance of two faces in a polygonal complex (<a href="chap2.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>), by determining the length of a minimal face-edge-path (<a href="chap8.html#X7BDEFDE67EBE56D0"><span class="RefLink">8.3</span></a>) between the given two faces (the length is the number of edges). If there does not exist any face-edge-path between <var class="Arg">face1</var> and <var class="Arg">face2</var>, which means that the faces are located in different connected components of <var class="Arg">polygonalComplex</var>, -1 will be returned. If <var class="Arg">face1</var> and <var class="Arg">face2</var> are identical, their distance is defined as 0.</p>
+
+<p>The NC-Version does not check whether <var class="Arg">face1</var> and <var class="Arg">face2</var> are faces of <var class="Arg">polygonalComplex</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfFaces(cube,1,6);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfFaces(cube,1,5);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfFaces(cube,1,1);</span>
+0
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfFaces(twoDisjointTriangles,1,3);</span>
+Error, DistanceOfFaces: Given face 3 does not lie in the given complex.
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DistanceOfFaces(twoDisjointTriangles,1,2);</span>
+-1
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theTwoDisjointTriangles-1.svg"> </img> <br></p>
+
+<p><a id="X8645F6A88274C479" name="X8645F6A88274C479"></a></p>
+
+<h5>11.2-2 NeighbourFacesOfFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourFacesOfFace</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourFacesOfFaceNC</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of positive integers</p>
+
+<p>This method computes the list of all faces of <var class="Arg">polygonalComplex</var>, which share an edge with <var class="Arg">face</var>.</p>
+
+<p>The NC-Version does not check whether <var class="Arg">face</var> is a face of <var class="Arg">polygonalComplex</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFacesOfFace(cube,7);</span>
+Error, NeighbourFacesOfFace: Given face 7 does not lie in the given complex.
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFacesOfFace(cube,4);</span>
+[ 1, 5, 2, 6 ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet:=Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFacesOfFace(tet,1);</span>
+[ 2, 4, 3 ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Tetrahedron_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">triangle := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3]],[[1,2,3]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFacesOfFace(triangle,2);</span>
+Error, NeighbourFacesOfFace: Given face 2 does not lie in the given complex.
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFacesOfFace(triangle,1);</span>
+[ ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theTriangle-1.svg"> </img> <br></p>
+
+<p><a id="X87E4BA5282F59C21" name="X87E4BA5282F59C21"></a></p>
+
+<h4>11.3 <span class="Heading">Restricting polygonal complexes</span></h4>
+
+<p>This section introduces methods to restrict polygonal complexes to sub-complexes. It contains the following methods:</p>
+
+
+<ul>
+<li><p><code class="keyw">RestrictionToNeighbourhoodOfFaces</code> (<a href="chap11.html#X84EA44D5783CCD48"><span class="RefLink">11.3-1</span></a>): Given a polygonal complex, a distance, and some faces of the polygonal complex, compute a new polygonal complex, where every face has distance at most given <var class="Arg">dist</var> to one of the given faces</p>
+
+</li>
+<li><p><code class="keyw">RestrictionToNeighbourhoodOfVertices</code> (<a href="chap11.html#X7A40ED647C91733A"><span class="RefLink">11.3-2</span></a>): Given a polygonal complex, a distance, and some vertices of the polygonal complex, compute a new polygonal complex, where every vertex has distance at most given <var class="Arg">dist</var> to one of the given vertices.</p>
+
+</li>
+</ul>
+<p><a id="X84EA44D5783CCD48" name="X84EA44D5783CCD48"></a></p>
+
+<h5>11.3-1 RestrictionToNeighbourhoodOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RestrictionToNeighbourhoodOfFaces</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">dist</var>, <var class="Arg">listOfFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RestrictionToNeighbourhoodOfFacesNC</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">dist</var>, <var class="Arg">listOfFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Given a polygonal complex and a list of faces <var class="Arg">listOfFaces</var>, this method restricts <var class="Arg">polygonalComplex</var> to a neighbourhood of these faces, defined by dist. It is constructed from all faces, that have distance at most <var class="Arg">dist</var> to one of the faces in <var class="Arg">listOfFaces</var>. The distance of two faces is measured by the length of a minimal face-edge-path between these faces.</p>
+
+<p>The NC-Version does not check whether the given faces lie in the polygonal complex.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cube := Cube();;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Cube_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CubeRestriction := RestrictionToNeighbourhoodOfFaces( cube, 2, [1,2,3]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CubeRestriction = cube;</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RestrictionToNeighbourhoodOfFaces( cube, 2, [3,7,22]);</span>
+Error, RestrictionToNeighbourhoodOfFaces: Given face 7 does not lie in the
+given complex.
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrSurf := RestrictionToNeighbourhoodOfFaces(cube,1,[1]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(restrSurf);</span>
+[ 1 .. 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(restrSurf);</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(restrSurf);</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8 ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theRestrSurf-1.svg"> </img> <br> It is easy to see that <em>restrSurf</em> is a cube, where one face (face 6) is missing.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico := Icosahedron();;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrIco := RestrictionToNeighbourhoodOfFaces(ico,1,[4]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSimplicialSurface(restrIco);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(restrIco);</span>
+[ 3, 4, 5, 9 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrIcoBig := RestrictionToNeighbourhoodOfFaces(ico,2,[4]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(restrIcoBig);</span>
+[ 1, 2, 3, 4, 5, 8, 9, 10, 13, 14 ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theRestrIco-1.svg"> </img> <br></p>
+
+<p><a id="X7A40ED647C91733A" name="X7A40ED647C91733A"></a></p>
+
+<h5>11.3-2 RestrictionToNeighbourhoodOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RestrictionToNeighbourhoodOfVertices</code>( <var class="Arg">triangularComplex</var>, <var class="Arg">dist</var>, <var class="Arg">listOfVertices</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RestrictionToNeighbourhoodOfVerticesNC</code>( <var class="Arg">triangularComplex</var>, <var class="Arg">dist</var>, <var class="Arg">listOfVertices</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a triangular complex</p>
+
+<p>This method restricts a triangular complex <a href="chap9.html#X8334EFD47C0A4AB8"><span class="RefLink">9.3-2</span></a> to a sub-complex. This sub-complex consists of:</p>
+
+
+<ul>
+<li><p>all vertices that have distance at most <var class="Arg">dist</var> to one of the given vertices in <var class="Arg">listOfVertices</var>, where distance is measured as in <code class="keyw">DistanceOfVertices</code> (<a href="chap11.html#X836F82A67F951B89"><span class="RefLink">11.1</span></a>).</p>
+
+</li>
+<li><p>all edges that connect two included vertices, and</p>
+
+</li>
+<li><p>all faces whose incident edges and vertices are included.</p>
+
+</li>
+</ul>
+<p>The NC-Version does not check whether <var class="Arg">listOfVertices</var> is a list of vertices of <var class="Arg">triangularComplex</var>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octa := Octahedron();;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrOcta:=RestrictionToNeighbourhoodOfVertices(octa,1,[1]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSimplicialSurface(restrOcta);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(restrOcta);</span>
+[ 1, 3, 5, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(restrOcta);</span>
+[ 1, 2, 3, 4, 5, 6, 8, 10 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(restrOcta);</span>
+[ 1, 2, 3, 4, 5 ]
+
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theRestrOcta-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ico := Icosahedron();;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_TIKZ_Icosahedron_constructor-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrIcoOne := RestrictionToNeighbourhoodOfVerticesNC(ico,1,[4]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSimplicialSurface(restrIcoOne);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(restrIcoOne);</span>
+[ 2, 3, 7, 8, 12 ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theRestrIcoOne-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrIcoTwo := RestrictionToNeighbourhoodOfVertices(ico,2,[4]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSimplicialSurface(restrIcoTwo);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(restrIcoTwo);</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13, 16, 17, 18 ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theRestrIcoTwo-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet := Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet=RestrictionToNeighbourhoodOfVerticesNC(tet,1,[1]);</span>
+true
+</pre></div>
+
+<p>The method <code class="keyw">RestrictionToNeighbourhoodOfVertices</code> is only defined for triangular complexes. The reason can be seen easily when looking at a small example: Consider a square.</p>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theSquare-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">mySquare := PolygonalSurfaceByDownwardIncidenceNC([[1,2],[2,3],[3,4],[4,1]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2,3,4]]);;</span>
+</pre></div>
+
+<p>When restricting the square to a neighbourhood of the vertex 1 with maximal distance 1, the vertices 2 and 4 need to lie in the polygonal complex. Unfortunately, vertex 3 does not lie in the restriction, so face 1 can not be part of the restriction and so the vertices 2 and 4 are not incident to any face in the restricted polygonal complex, which is not possible.</p>
+
+<p><a id="X847E31977ADDB93E" name="X847E31977ADDB93E"></a></p>
+
+<h4>11.4 <span class="Heading">Application of distance-calculations</span></h4>
+
+<p>This section contains some application for the method <code class="keyw">DistanceOfVertices</code> (<a href="chap11.html#X7A434B2B7E107E66"><span class="RefLink">11.1-1</span></a>) on polygonal complexes. In the examples the following polygonal complexes are used:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[7,8,9],[9,10,11],[11,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theBat-1.svg"> </img> <br></p>
+
+<p><br><img src="./images/_Wrapper_TIKZ_theTwoDisjointTriangles-1.svg"> </img> <br></p>
+
+<p><a id="X82230E3B7E36BF40" name="X82230E3B7E36BF40"></a></p>
+
+<h5>11.4-1 EccentricityOfVertex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EccentricityOfVertex</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EccentricityOfVertexNC</code>( <var class="Arg">polygonalComplex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a non-negative integer or -1</p>
+
+<p>This method computes the <em>eccentricity</em> of a vertex in a polygonal complex. The eccentricity of a vertex is the maximal distance <var class="Arg">vertex</var> has to any other vertex in the polygonal complex. If some vertices have infinite distance to each other, then the eccentricity is defined as -1.</p>
+
+<p>The NC-Version does not check whether the given vertex lies in the polygonal complex.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[7,8,9],[9,10,11],[11,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EccentricityOfVertex(bat,3);</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EccentricityOfVertex(bat,9);</span>
+Error, EccentricityOfVertex: Given vertex 9 does not lie in the given complex.
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EccentricityOfVertex(twoDisjointTriangles,1);</span>
+-1
+</pre></div>
+
+<p><a id="X81BB4A0F836A97D6" name="X81BB4A0F836A97D6"></a></p>
+
+<h5>11.4-2 DiameterOfPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DiameterOfPolygonalComplex</code>( <var class="Arg">polygonalComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a non-negative integer or -1</p>
+
+<p>This method computes the <em>diameter</em> of a polygonal complex. The diameter of a polygonal complex is the maximal distance of any two vertices in the polygonal complex. If some vertices have infinite distance to each other (that is when the eccentricity (compare <a href="chap11.html#X82230E3B7E36BF40"><span class="RefLink">11.4-1</span></a>) of one vertex is -1, then the diameter is defined as -1, too.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[7,8,9],[9,10,11],[11,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DiameterOfPolygonalComplex(Bat);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DiameterOfPolygonalComplex(TwoDisjointTriangles);</span>
+-1
+</pre></div>
+
+<p><a id="X7E2FDC0381DD83E8" name="X7E2FDC0381DD83E8"></a></p>
+
+<h5>11.4-3 RadiusOfPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RadiusOfPolygonalComplex</code>( <var class="Arg">polygonalComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a non-negative integer or -1</p>
+
+<p>The method computes the <em>radius</em> of a polygonal complex. The radius is the minimal eccentricity (compare <a href="chap11.html#X82230E3B7E36BF40"><span class="RefLink">11.4-1</span></a>) of all vertices in the polygonal complex. If some vertices have infinite distance to each other (that is when the eccentricity of one vertex is -1), then the radius is defined as -1, too.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[7,8,9],[9,10,11],[11,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RadiusOfPolygonalComplex(Bat);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RadiusOfPolygonalComplex(TwoDisjointTriangles);</span>
+-1
+</pre></div>
+
+<p><a id="X7C2C563B8175C95C" name="X7C2C563B8175C95C"></a></p>
+
+<h5>11.4-4 CenterOfPolygonalComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CenterOfPolygonalComplex</code>( <var class="Arg">polygonalComplex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers or the empty set</p>
+
+<p>This method computes the <em>center</em> of a polygonal complex. The center of a polygonal complex is the set of all vertices of <var class="Arg">polygonalComplex</var>, whose eccentricity (compare <a href="chap11.html#X82230E3B7E36BF40"><span class="RefLink">11.4-1</span></a>) is equal to the radius (compare <a href="chap11.html#X7E2FDC0381DD83E8"><span class="RefLink">11.4-3</span></a>) of <var class="Arg">polygonalComplex</var>. If some vertices have infinite distance to each other, then the center is defined as the empty set [ ].</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,5],[4,5],[5,6],[4,6],[4,7],[6,7],[6,8],[7,8]],[[1,2,3],[3,4,5],[5,6,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[7,8,9],[9,10,11],[11,12,13]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CenterOfPolygonalComplex(Bat);</span>
+[ 4, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoDisjointTriangles := SimplicialSurfaceByDownwardIncidence([[1,2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[2,3],[1,3],[4,5],[5,6],[4,6]],[[1,2,3],[4,5,6]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CenterOfPolygonalComplex(TwoDisjointTriangles);</span>
+[ ]
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap10.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap12.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

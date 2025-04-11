@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 1: Getting started</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap1"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap1.html">[MathJax off]</a></p>
+<p><a id="X7B1863E17896BCE1" name="X7B1863E17896BCE1"></a></p>
+<div class="ChapSects"><a href="chap1_mj.html#X7B1863E17896BCE1">1 <span class="Heading">Getting started</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X782C13F782D16E8D">1.1 <span class="Heading">What can it do?</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7CECD2937F74E30C">1.2 <span class="Heading">Playing with simplicial surfaces</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7FF80B7B86551F31">1.3 <span class="Heading">Constructing new surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap1_mj.html#X7B11BC267867837D">1.3-1 <span class="Heading">Creating non-triangular faces</span></a>
+</span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X8307C5EE83ABEB23">1.4 <span class="Heading">Playing with vertices and faces.</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X80157B817AE6E7BE">1.5 <span class="Heading">Adding edge numbering</span></a>
+</span>
+</div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap1_mj.html#X7D7592C678F1BEED">1.6 <span class="Heading">Constructing surfaces with vertex, edge and face data</span></a>
+</span>
+</div>
+</div>
+
+<h3>1 <span class="Heading">Getting started</span></h3>
+
+<p>To use this package, it has to be loaded into GAP via</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">LoadPackage("SimplicialSurfaces");</span>
+true
+</pre></div>
+
+<p><a id="X782C13F782D16E8D" name="X782C13F782D16E8D"></a></p>
+
+<h4>1.1 <span class="Heading">What can it do?</span></h4>
+
+<p>The <code class="keyw">SimplicialSurface</code>-package contains the following basic functionality:</p>
+
+<ol>
+<li><p>It allows computations with simplicial surfaces (and generalisations of them like polygonal complexes, compare section <a href="chap2_mj.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a>), for example: <br><img src="./images/_Wrapper_Image_ManyExamples.svg"> </img> <br> Instead of working with an embedding of these structures, we see them as abstract surfaces and represent them by their incidence geometry (for more details see section <a href="chap2_mj.html#X82D7D2228628B979"><span class="RefLink">2.1</span></a>).</p>
+
+</li>
+<li><p>It can work with edge colourings of simplicial surfaces (in general and for the purpose of an embedding).</p>
+
+</li>
+</ol>
+<p>The remainder of this chapter is a measured introduction into the main data structure of the package and some simple capabilities. Chapter <a href="chap2_mj.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a> contains the formal definitions of these concepts. Chapter <a href="chap6_mj.html#X7D93D2807ADCAF05"><span class="RefLink">6</span></a> contains some more advanced usage examples.</p>
+
+<p><a id="X7CECD2937F74E30C" name="X7CECD2937F74E30C"></a></p>
+
+<h4>1.2 <span class="Heading">Playing with simplicial surfaces</span></h4>
+
+<p>Since the platonic solids are pre-defined in the <code class="keyw">SimplicialSurfaces</code>-package we use them to show a few capabilities of this package. We will use the cube as an example. <br><img src='./images/_Wrapper_intro-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surface := Cube();;</span>
+</pre></div>
+
+<p>We can compute elementary properties of the surface</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfVertices(surface);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(surface);</span>
+12
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfFaces(surface);</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerCharacteristic(surface);</span>
+2
+</pre></div>
+
+<p>and we can show that the surface is homeomorphic to a sphere by verifying that it is closed, connected and orientable.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(surface);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsConnectedSurface(surface);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOrientableSurface(surface);</span>
+true
+</pre></div>
+
+<p>We can also compute more complicated properties like the automorphism group and check for isomorphisms between surfaces.</p>
+
+<p><a id="X7FF80B7B86551F31" name="X7FF80B7B86551F31"></a></p>
+
+<h4>1.3 <span class="Heading">Constructing new surfaces</span></h4>
+
+<p>In most cases one is not interested in the properties of platonic solids (usually one already knows a lot about them). Therefore we need a way to tell the package about the surfaces we are interested in. As a test case we consider a surface of three triangles that are connected by edges, like this: <br><img src='./images/_Wrapper_intro-2-1.svg'> </img> <br> Disregarding lengths and angles, we can describe this surface quite easily by labelling its faces and vertices. In our case each triangle is determined by its three vertices. <br><img src='./images/_Wrapper_intro-3-1.svg'> </img> <br> For example the face I consists of the vertices [1, 2, 3] and the face III has the vertices [3, 4, 5]. To encode the incidence structure of this surface it is sufficient to know which vertices lie in which faces. We can encode this information as a list with three entries (one for each face). The list entry at position <span class="SimpleMath">\(p\)</span> is a list of all vertices that are incident to the face with number <span class="SimpleMath">\(p\)</span> (their order is not important). In our example this looks like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">verticesOfFaces := [ [1,2,3], [2,3,4], [3,5,4] ];</span>
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 5, 4  ] ]
+</pre></div>
+
+<p>From this information we can construct a simplicial surface</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surf := SimplicialSurfaceByVerticesInFaces( verticesOfFaces );;</span>
+</pre></div>
+
+<p>that retains this information (note that the order of the incident lists can change (here for [3, 5, 4]) as they are internally converted into sets):</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(surf);</span>
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ]
+</pre></div>
+
+<p>A slightly more complicated example is a Möbius-strip. <br><img src='./images/_Wrapper_intro-5-1.svg'> </img> <br> In this case the left-most and right-most edges are identified.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">moebius := SimplicialSurfaceByVerticesInFaces(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                           [[1,2,3],[2,3,4],[3,4,5],[4,5,1],[5,2,1]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOrientableSurface(moebius);</span>
+false
+</pre></div>
+
+<p><a id="X7B11BC267867837D" name="X7B11BC267867837D"></a></p>
+
+<h5>1.3-1 <span class="Heading">Creating non-triangular faces</span></h5>
+
+<p>If we want to construct surfaces with non-triangular faces, we have to use the method <code class="keyw">PolygonalSurfaceByVerticesInFaces</code>. We also have to be more careful since this method is a bit more subtle. We consider the example of a pyramid with a square base. <br><img src='./images/_Wrapper_intro-6-1.svg'> </img> <br> To encode this surface we have to enumerate the faces. But if we try to input the surface</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pyr := PolygonalSurfaceByVerticesInFaces( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                   [[2,3,4,5], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;</span>
+</pre></div>
+
+<p>we notice something strange: The resulting surface has the wrong number of edges (10 instead of 8) and is not closed.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(pyr);</span>
+10
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(pyr);</span>
+false
+</pre></div>
+
+<p>Since this seems strange it would be natural to check the edges. For that the method <code class="keyw">VerticesOfEdges</code> (which will be explained in more detail in section <a href="chap1_mj.html#X80157B817AE6E7BE"><span class="RefLink">1.5</span></a>) can be used. It shows for each edge its incident vertices.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(pyr);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 4 ], 
+        [ 2, 5 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ]
+</pre></div>
+
+<p>This shows that in addition to the expected edges we also have the edges [ 2, 5 ] and [ 3, 4 ]. How did those edges get added?</p>
+
+<p>The problem is: We did not tell the method <code class="keyw">PolygonalSurfaceByVerticesInFaces</code> what the edges should be. For triangular faces this is not an issue because there is an edge between any pair of vertices. But for the square face in our example the vertices do <em>not</em> determine its edges.</p>
+
+<p>The method <code class="keyw">PolygonalSurfaceByVerticesInFaces</code> will believe that two adjacent vertices in the given list are also connected by an edge of the face. Above, we gave the list [2, 3, 4, 5] for the square. If we compare it with our picture we can see that the vertices 2 and 4 are connected in the picture but not adjacent in our list. Likewise the vertices 2 and 5 are adjacent in the list (we imagine that the list wraps around) but don't have an edge between them in the picture.</p>
+
+<p>Instead we have to give the vertices in a proper cyclic ordering:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">pyr :=PolygonalSurfaceByVerticesInFaces(  </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                   [[2,3,5,4], [1,2,3], [1,3,5], [1,5,4],[1,2,4]] );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfEdges(pyr);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(pyr);</span>
+true
+</pre></div>
+
+<p><a id="X8307C5EE83ABEB23" name="X8307C5EE83ABEB23"></a></p>
+
+<h4>1.4 <span class="Heading">Playing with vertices and faces.</span></h4>
+
+<p>After having learned how to construct a simplicial surface by the method <code class="keyw">SimplicialSurfaceByVerticesInFaces</code>, we can use the labelling of vertices and faces to get more detailed information about the surface. We will use the example from section <a href="chap1_mj.html#X7FF80B7B86551F31"><span class="RefLink">1.3</span></a>: <br><img src='./images/_Wrapper_intro-4-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;</span>
+</pre></div>
+
+<p>It is easy to reclaim the complete incidence structure that went into the construction.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(surf);</span>
+[ 1, 2, 3, 4, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(surf);</span>
+[ 1 .. 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(surf);</span>
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ] ]
+</pre></div>
+
+<p>By using the incidence-structure we can distinguish vertices that lie in a different number of faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreesOfVertices(surf);</span>
+[ 1, 2, 3, 2, 1]
+</pre></div>
+
+<p>The first entry of this list counts the number of faces that are incident to the vertex 1 (in general the <span class="SimpleMath">\(i\)</span>-th entry counts those for the vertex <span class="SimpleMath">\(i\)</span>).</p>
+
+<p>In this case it is apparent that the third vertex is incident to three different faces and unique with that property. To distinguish vertices 1 and 5 (that are incident to one face each), we need to know which faces they are incident to.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfVertices(surf);</span>
+[ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 2, 3 ], [ 3 ] ]
+</pre></div>
+
+<p>So the first vertex is incident to the face 1 and the fifth vertex is incident to face 3. We can also see that the second vertex is incident to the faces 1 and 2.</p>
+
+<p>An additional advantage of the incidental information is that we can determine a concrete global orientation if the surface is orientable. From the method <code class="keyw">Orientation</code> (<a href="chap8_mj.html#X8215811E7FDC9D51"><span class="RefLink">8.7-2</span></a>) we can compute a list of permutations such that the <span class="SimpleMath">\(i\)</span>-th entry is a cyclic permutation of the vertices in face <span class="SimpleMath">\(i\)</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List( Orientation(surf), VerticesAsPerm );</span>
+[ (1,2,3), (2,4,3), (3,4,5) ]
+</pre></div>
+
+<p><a id="X80157B817AE6E7BE" name="X80157B817AE6E7BE"></a></p>
+
+<h4>1.5 <span class="Heading">Adding edge numbering</span></h4>
+
+<p>Up until now we did not care about specific edges because they were not important for the construction of our examples so far. But let us assume that we want to know which edges are incident to exactly two faces in our example from before. <br><img src='./images/_Wrapper_intro-7-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );;</span>
+</pre></div>
+
+<p>We can see the edges by calling</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(surf);</span>
+[ 1, 2, 3, 4, 5, 6, 7 ]
+</pre></div>
+
+<p>but this does not tell us where they are. For that we may use</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(surf);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ]
+</pre></div>
+
+<p>As before, the first entry of this list contains the vertices of the first edge. In our example the edge with number 1 is incident to the vertices 1 and 2. We can update our picture: <br><img src='./images/_Wrapper_Image_ThreeTrianglesInLine.svg'> </img> <br> If we now want to know which edges are incident to exactly two faces, we only have to check</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesOfEdges(surf);</span>
+[ [ 1 ], [ 1 ], [ 1, 2 ], [ 2 ], [ 2, 3 ], [ 3 ], [ 3 ] ]
+</pre></div>
+
+<p>The positions with lists of two elements are the interesting edges. We can compute them easily by</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Filtered( Edges(surf), e -&gt; Size(FacesOfEdges(surf)[e]) = 2 );</span>
+[ 3, 5 ]
+</pre></div>
+
+<p><a id="X7D7592C678F1BEED" name="X7D7592C678F1BEED"></a></p>
+
+<h4>1.6 <span class="Heading">Constructing surfaces with vertex, edge and face data</span></h4>
+
+<p>There are some cases in which we don't want to use <code class="keyw">SimplicialSurfaceByVerticesInFaces</code> but a more versatile method, for example</p>
+
+<ol>
+<li><p>We already have an edge labelling and want to keep it.</p>
+
+</li>
+<li><p>The faces of our surface are not determined by their vertices.</p>
+
+</li>
+</ol>
+<p>An example of the second situation is given by two triangles that share exactly two edges. They can be visualized as an "open bag". <br><img src='./images/_Wrapper_intro-8-1.svg'> </img> <br> Since both faces share the same vertices we can't use <code class="keyw">SimplicialSurfaceByVerticesInFaces</code> here. Instead we need to label vertices, edges and faces individually: <br><img src="./images/_Wrapper_Image_OpenBag.svg"> </img> <br> Now we have to tell <strong class="pkg">GAP</strong> which vertices are incident to which edges</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">verticesOfEdges := [[1,2],[1,3],[2,3],[2,3]];;</span>
+</pre></div>
+
+<p>and which edges are incident to which face</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgesOfFaces := [[1,2,4],[1,2,3]];;</span>
+</pre></div>
+
+<p>which allows us to use the constructor <code class="keyw">SimplicialSurfaceByDownwardIncidence</code> (for an explanation of this name, see section <a href="chap4_mj.html#X84E0B8C47E00294C"><span class="RefLink">4.1</span></a>)</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">bag := SimplicialSurfaceByDownwardIncidence(verticesOfEdges, edgesOfFaces);;</span>
+</pre></div>
+
+<p>It would be nice if we were able to easily determine which edges/faces are not determined by their vertices alone. For that purpose we can use the following commands:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClasses(bag);</span>
+[ [ 1 ], [ 2 ], [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceAnomalyClasses(bag);</span>
+[ [ 1, 2 ] ]
+</pre></div>
+
+<p>The list of edge-anomaly-classes is a partition of the edges such that two edges are in the same equivalence class if and only if they have the same vertices. So we see here that the edges 3 and 4 have the same vertices. We can do the same for the faces and see that the two faces share all their vertices.</p>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap0_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap2_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

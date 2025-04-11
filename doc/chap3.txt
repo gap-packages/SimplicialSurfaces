@@ -1,0 +1,756 @@
+  
+  [1X3 [33X[0;0YAccess to the incidence geometry[133X[101X
+  
+  [33X[0;0YIn  Section  [14X2.1[114X,  we  introduced incidence geometries to describe polygonal
+  complexes.  This  chapter  describes  several different ways to access these
+  incidence  structures.  Most of these methods are also applicable to twisted
+  polygonal   complexes.   For  more  specific  access  to  twisted  polygonal
+  complexes, compare Chapter [14X5[114X.[133X
+  
+  [33X[0;0YIn  Section [14X3.1[114X, the labeling conventions for vertices, edges, and faces are
+  explained.  The  central  incidence  relations between them are described in
+  Section  [14X3.2[114X.  Some more specialized applications for incidence can be found
+  in Chapter [14X10[114X.[133X
+  
+  [33X[0;0YFinally  the  sections  [14X3.3[114X,  [14X3.4[114X, and [14X3.5[114X deal with variations of incidence
+  that are usually not needed by the standard user.[133X
+  
+  
+  [1X3.1 [33X[0;0YLabels of vertices, edges and faces[133X[101X
+  
+  [33X[0;0YIn  (twisted)  polygonal  complexes  (the  most  general supported incidence
+  structure, compare Chapter [14X2[114X) all vertices, edges, and faces are labelled by
+  positive integers.[133X
+  
+  [33X[0;0YThese  labels  do  not  have  to be consecutive or disjoint, as shown in the
+  following example: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X       [ , [2,3], [2,5], , [3,7], [5,7] ], [127X[104X
+    [4X[25X>[125X [27X       [ , , [2,3,5,6] ] );;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe can access the sets of all those labels by [9XVertices[109X, [9XEdges[109X, and [9XFaces[109X. If
+  only the number of vertices is relevant, we can use [9XNumberOfVertices[109X instead
+  (likewise for edges and faces).[133X
+  
+  [1X3.1-1 Vertices[101X
+  
+  [33X[1;0Y[29X[2XVertices[102X( [3Xcomplex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVerticesAttributeOfComplex[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XNumberOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10YA set of positive integers/a non-negative integer[133X
+  
+  [33X[0;0YReturn the set/number of vertices.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the beginning of Section
+  [14X3.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertices(complex);[127X[104X
+    [4X[28X[ 2, 3, 5, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XNumberOfVertices(complex);[127X[104X
+    [4X[28X4[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  have  separated  the operation [9XVertices[109X from the corresponding attribute
+  because there is a naming clash with the package [9Xgrape[109X.[133X
+  
+  [1X3.1-2 Edges[101X
+  
+  [33X[1;0Y[29X[2XEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XNumberOfEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10YA set of positive integers/a non-negative integer[133X
+  
+  [33X[0;0YReturn the set/number of edges.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the beginning of section
+  [14X3.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdges(complex);[127X[104X
+    [4X[28X[ 2, 3, 5, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XNumberOfEdges(complex);[127X[104X
+    [4X[28X4[128X[104X
+  [4X[32X[104X
+  
+  [1X3.1-3 Faces[101X
+  
+  [33X[1;0Y[29X[2XFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XNumberOfFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10YA set of positive integers/a non-negative integer[133X
+  
+  [33X[0;0YReturn the set/number of faces.[133X
+  
+  [33X[0;0YAs  an  example consider the polygonal complex from the beginning of section
+  [14X3.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaces(complex);[127X[104X
+    [4X[28X[ 3 ][128X[104X
+    [4X[25Xgap>[125X [27XNumberOfFaces(complex);[127X[104X
+    [4X[28X1[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.2 [33X[0;0YIncidence between vertices, edges, and faces[133X[101X
+  
+  [33X[0;0YWith  the  labels  of  vertices, edges and faces (which we can access by the
+  methods  of section [14X3.1[114X) we can describe the incidence structure by lists of
+  sets.  All  those  methods  have  the  form  *Of*,  e.g. [9XVerticesOfFaces[109X and
+  [9XEdgesOfVertices[109X.[133X
+  
+  [33X[0;0YWe  will illustrate the general pattern of these methods by showcasing these
+  two  methods.  For  that  we will use the following polygonal complex: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], [127X[104X
+    [4X[25X>[125X [27X   [[6,8,9], , , [9,10,12,13]]);;[127X[104X
+    [4X[25Xgap>[125X [27XVertices(complex);[127X[104X
+    [4X[28X[ 2, 3, 5, 7, 11 ][128X[104X
+    [4X[25Xgap>[125X [27XEdges(complex);[127X[104X
+    [4X[28X[ 6, 8, 9, 10, 12, 13 ][128X[104X
+    [4X[25Xgap>[125X [27XFaces(complex);[127X[104X
+    [4X[28X[ 1, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  method  [9XVerticesOfFaces[109X  tells  us which vertices are incident to which
+  faces.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(complex);[127X[104X
+    [4X[28X[ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  first  entry  of  this  list  contains  a  set of all vertices that are
+  incident  to  face I. The second and third entries are not bound since there
+  are  no  faces  II  and III. Finally, the fourth entry contains all vertices
+  that are incident to face IV.[133X
+  
+  [33X[0;0YSo, we have a list that contains sets of vertices and is indexed by the face
+  labels.[133X
+  
+  [33X[0;0YThe  method  [9XEdgesOfVertices[109X  works  in the same way: It returns a list that
+  contains sets of edges and is indexed by the vertex labels.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesOfVertices(complex);[127X[104X
+    [4X[28X[ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  example, if we consider the third entry of this list, we find the set [
+  8, 9, 12 ]. Those are all edges that are incident to the vertex 3.[133X
+  
+  [33X[0;0YIn the same way all other *Of*-methods are defined.[133X
+  
+  [1X3.2-1 EdgesOfVertices[101X
+  
+  [33X[1;0Y[29X[2XEdgesOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XEdgesOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XEdgesOfVertex[109X([3Xcomplex[103X, [3Xvertex[103X) returns the set of all edges that
+  are  incident  to  [3Xvertex[103X.  The  NC-version does not check whether the given
+  [3Xvertex[103X is a vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XEdgesOfVertices[109X([3Xcomplex[103X) collects all of those sets in a list
+  that  is indexed by the vertex labels, i.e. [9XEdgesOfVertices[109X([3Xcomplex[103X)[[3Xvertex[103X]
+  =  [9XEdgesOfVertex[109X([3Xcomplex[103X,  [3Xvertex[103X). All other positions of this list are not
+  bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the polygonal complex that was introduced at the
+  start of section [14X3.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesOfVertex(complex, 2);[127X[104X
+    [4X[28X[ 6, 8 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfVertex(complex, 5);[127X[104X
+    [4X[28X[ 6, 9, 10 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfVertices(complex);[127X[104X
+    [4X[28X[ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-2 FacesOfVertices[101X
+  
+  [33X[1;0Y[29X[2XFacesOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XFacesOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFacesOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XFacesOfVertex[109X([3Xcomplex[103X, [3Xvertex[103X) returns the set of all faces that
+  are  incident  to  [3Xvertex[103X.  The  NC-version does not check whether the given
+  [3Xvertex[103X is a vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XFacesOfVertices[109X([3Xcomplex[103X) collects all of those sets in a list
+  that  is indexed by the vertex labels, i.e. [9XFacesOfVertices[109X([3Xcomplex[103X)[[3Xvertex[103X]
+  =  [9XFacesOfVertex[109X([3Xcomplex[103X,  [3Xvertex[103X). All other positions of this list are not
+  bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the polygonal complex that was introduced at the
+  start of section [14X3.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFacesOfVertex(complex, 2);[127X[104X
+    [4X[28X[ 1 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesOfVertex(complex, 5);[127X[104X
+    [4X[28X[ 1, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesOfVertices(complex);[127X[104X
+    [4X[28X[ , [ 1 ], [ 1, 4 ],, [ 1, 4 ],, [ 4 ],,,, [ 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-3 VerticesOfEdges[101X
+  
+  [33X[1;0Y[29X[2XVerticesOfEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XVerticesOfEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVerticesOfEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XVerticesOfEdge[109X([3Xcomplex[103X,  [3Xedge[103X)  returns the set of all vertices
+  that  are  incident to [3Xedge[103X. The NC-version does not check whether the given
+  [3Xedge[103X is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XVerticesOfEdges[109X([3Xcomplex[103X) collects all of those sets in a list
+  that  is  indexed  by the edge labels, i.e. [9XVerticesOfEdges[109X([3Xcomplex[103X)[[3Xedge[103X] =
+  [9XVerticesOfEdge[109X([3Xcomplex[103X,  [3Xedge[103X).  All  other  positions  of this list are not
+  bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the polygonal complex that was introduced at the
+  start of section [14X3.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdge(complex, 8);[127X[104X
+    [4X[28X[ 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdge(complex, 12);[127X[104X
+    [4X[28X[ 3, 7 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfEdges(complex);[127X[104X
+    [4X[28X[ ,,,,, [ 2, 5 ],, [ 2, 3 ], [ 3, 5 ], [ 5, 11 ],, [ 3, 7 ],[128X[104X
+    [4X[28X  [ 7, 11 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-4 FacesOfEdges[101X
+  
+  [33X[1;0Y[29X[2XFacesOfEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XFacesOfEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFacesOfEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XFacesOfEdge[109X([3Xcomplex[103X, [3Xedge[103X) returns the set of all faces that are
+  incident to [3Xedge[103X. The NC-version does not check whether the given [3Xedge[103X is an
+  edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XFacesOfEdges[109X([3Xcomplex[103X)  collects  all of those sets in a list
+  that  is  indexed  by  the  edge  labels, i.e. [9XFacesOfEdges[109X([3Xcomplex[103X)[[3Xedge[103X] =
+  [9XFacesOfEdge[109X([3Xcomplex[103X, [3Xedge[103X). All other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the polygonal complex that was introduced at the
+  start of section [14X3.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFacesOfEdge(complex, 9);[127X[104X
+    [4X[28X[ 1, 4 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesOfEdge(complex, 10);[127X[104X
+    [4X[28X[ 4 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesOfEdges(complex);[127X[104X
+    [4X[28X[ ,,,,, [ 1 ],, [ 1 ], [ 1, 4 ], [ 4 ],, [ 4 ], [ 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-5 VerticesOfFaces[101X
+  
+  [33X[1;0Y[29X[2XVerticesOfFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XVerticesOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVerticesOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XVerticesOfFace[109X([3Xcomplex[103X,  [3Xface[103X)  returns the set of all vertices
+  that  are  incident to [3Xface[103X. The NC-version does not check whether the given
+  [3Xface[103X is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XVerticesOfFaces[109X([3Xcomplex[103X) collects all of those sets in a list
+  that  is  indexed  by the face labels, i.e. [9XVerticesOfFaces[109X([3Xcomplex[103X)[[3Xface[103X] =
+  [9XVerticesOfFace[109X([3Xcomplex[103X,  [3Xface[103X).  All  other  positions  of this list are not
+  bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the polygonal complex that was introduced at the
+  start of section [14X3.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFace(complex, 1);[127X[104X
+    [4X[28X[ 2, 3, 5 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFace(complex, 4);[127X[104X
+    [4X[28X[ 3, 5, 7, 11 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFaces(complex);[127X[104X
+    [4X[28X[ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.2-6 EdgesOfFaces[101X
+  
+  [33X[1;0Y[29X[2XEdgesOfFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XEdgesOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgesOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method [9XEdgesOfFace[109X([3Xcomplex[103X, [3Xface[103X) returns the set of all edges that are
+  incident to [3Xfaces[103X. The NC-version does not check whether the given [3Xface[103X is a
+  face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XEdgesOfFaces[109X([3Xcomplex[103X)  collects  all of those sets in a list
+  that  is  indexed  by  the  face  labels, i.e. [9XEdgesOfFaces[109X([3Xcomplex[103X)[[3Xface[103X] =
+  [9XEdgesOfFace[109X([3Xcomplex[103X, [3Xface[103X). All other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the polygonal complex that was introduced at the
+  start of section [14X3.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFace(complex, 1);[127X[104X
+    [4X[28X[ 6, 8, 9 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFace(complex, 4);[127X[104X
+    [4X[28X[ 9, 10, 12, 13 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFaces(complex);[127X[104X
+    [4X[28X[ [ 6, 8, 9 ],,, [ 9, 10, 12, 13 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.3 [33X[0;0YFace-induced order of incident vertices/edges[133X[101X
+  
+  [33X[0;0YIn  section  [14X3.2[114X  we  introduced  the  methods  [9XVerticesOfFace[109X  ([14X3.2-5[114X)  and
+  [9XEdgesOfFace[109X  ([14X3.2-6[114X)  to determine the vertices and edges of a given face. A
+  drawback of those methods is that they always return sets. This might not be
+  sufficient  in  the  case of non-triangular faces, as shown in the following
+  example. Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xpentagon := PolygonalSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X   [,[3,9],[2,6],[1,9],,[2,3],,[1,6]], [127X[104X
+    [4X[25X>[125X [27X   [, [2,3,4,6,8]] );;[127X[104X
+    [4X[25Xgap>[125X [27XVerticesOfFace(pentagon,2);[127X[104X
+    [4X[28X[ 1, 2, 3, 6, 9 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfFace(pentagon,2);[127X[104X
+    [4X[28X[ 2, 3, 4, 6, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  we  want  to  know  in  which order the vertices (or edges) are arranged
+  around  the  perimeter  of  the  given  face, the previous methods are quite
+  clumsy. For that reason the method [9XPerimeterPathOfFace[109X was written.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xperim := PerimeterPathOfFace( pentagon, 2 );[127X[104X
+    [4X[28X( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt  returns  the  perimeter  of  the  polygon as a perimeter path (a special
+  vertex-edge-path),  not  a list (all available methods for vertex-edge-paths
+  and perimeter paths can be found in sections [14X8.1[114X and [14X8.2[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsList(perim);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsVertexEdgePath(perim);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YA  [13Xvertex-edge-path[113X  in  a polygonal complex is a tuple [22X(v_1, e_1, v_2, e_2,
+  ... ,v_n, e_n, v_{n+1})[122X such that[133X
+  
+  [30X    [33X[0;6YThe [22Xv_i[122X are vertices of the polygonal complex[133X
+  
+  [30X    [33X[0;6YThe [22Xe_j[122X are edges of the polygonal complex[133X
+  
+  [30X    [33X[0;6YFor the edge [22Xe_j[122X the set of incident vertices is [22X{v_j,v_{j+1}}[122X[133X
+  
+  [33X[0;0YThe order of vertices and edges is best described by a cyclic permutation.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesAsPerm(perim);[127X[104X
+    [4X[28X(1,9,3,2,6)[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsPerm(perim);[127X[104X
+    [4X[28X(2,6,3,8,4)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThere  are two possible cyclic permutations of vertices and edges (clockwise
+  and  counter-clockwise).  Since the method has to return a unique value, one
+  of  them  has  to  be  picked as a convention. We choose this one, since the
+  vertex  permutation  has  the  smaller  image  under  1 (the smallest of the
+  vertices).[133X
+  
+  [33X[0;0YWhile  the  permutation representation is most natural, in many cases a list
+  would  be  more  convenient (be careful, the first vertex is repeated at the
+  end!).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesAsList(perim);[127X[104X
+    [4X[28X[ 1, 9, 3, 2, 6, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList(perim);[127X[104X
+    [4X[28X[ 4, 2, 6, 3, 8 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWhile  the  vertex  list starts with the smallest vertex, the edge list will
+  start  with  an  edge  incident to the smallest vertex (the other end is the
+  smaller of the two adjacent vertices).[133X
+  
+  [1X3.3-1 PerimeterPathsOfFaces[101X
+  
+  [33X[1;0Y[29X[2XPerimeterPathsOfFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XPerimeterPathOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XPerimeterPathOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of vertex-edge-paths[133X
+  
+  [33X[0;0YThe  operation  [9XPerimeterPathOfFace[109X([3Xcomplex[103X,[3Xface[103X)  returns  a perimeter path
+  (section  [14X8.2[114X),  i.e.  a  closed  vertex-edge-path (for the exact definition
+  compare  [14X8.1-1[114X  and  [14X8.1-7[114X)  of all vertices and edges incident to the given
+  [3Xface[103X.[133X
+  
+  [33X[0;0YSince this condition does not define the path uniquely, we further stipulate
+  that  perimeter  path starts with the smallest vertex and continues with the
+  smallest  incident  edge.  For  polygonal  complexes,  this defines the path
+  uniquely.[133X
+  
+  [33X[0;0YThe   attribute   [9XPerimeterPathsOfFaces[109X([3Xcomplex[103X)   collects   all  of  those
+  vertex-edge-paths  in  a  list  that  is  indexed  by  the face labels, i.e.
+  [9XPerimeterPathsOfFaces[109X([3Xcomplex[103X)[[3Xface[103X]  =  [9XPerimeterPathOfFace[109X([3Xcomplex[103X, [3Xface[103X).
+  All other positions of this list are not bound.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check  if  the given [3Xface[103X is a face of the given
+  [3Xcomplex[103X. The operations[133X
+  
+  [33X[0;0YAs  an  example  consider  the  polygonal complex that was introduced at the
+  start of section [14X3.3[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xperim := PerimeterPathOfFace(pentagon, 2);[127X[104X
+    [4X[28X( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XPathAsList(perim);[127X[104X
+    [4X[28X[ 1, 4, 9, 2, 3, 6, 2, 3, 6, 8, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesAsList(perim);[127X[104X
+    [4X[28X[ 1, 9, 3, 2, 6, 1 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList(perim);[127X[104X
+    [4X[28X[ 4, 2, 6, 3, 8 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesAsPerm(perim);[127X[104X
+    [4X[28X(1,9,3,2,6)[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsPerm(perim);[127X[104X
+    [4X[28X(2,6,3,8,4)[128X[104X
+    [4X[25Xgap>[125X [27XPerimeterPathsOfFaces(pentagon);[127X[104X
+    [4X[28X[ , ( v1, E4, v9, E2, v3, E6, v2, E3, v6, E8, v1 ) ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X3.4 [33X[0;0YCircular path around a vertex[133X[101X
+  
+  [33X[0;0YIn  section  [14X3.2[114X the methods [9XEdgesOfVertex[109X ([14X3.2-1[114X) and [9XFacesOfVertex[109X ([14X3.2-2[114X)
+  were  introduced.  They  allow  access  to the edges and faces incident to a
+  vertex  but  they  don't give any information about the relationship between
+  them.[133X
+  
+  [33X[0;0YFor  polygonal  surfaces  (described  in  section  [14X2.3[114X)  there  is a natural
+  ordering  of  the  edges  and  faces  that  are  incident to a vertex. It is
+  achieved  by  "travelling  around  the vertex" while staying on the surface.
+  This  order  is  called [13Xumbrella-path[113X and we formalize it by [13Xedge-face-paths[113X
+  (section  [14X8.3[114X  contains the methods to access those paths). Image omitted in
+  terminal text[133X
+  
+  [33X[0;0YAn  [13Xumbrella-path around the vertex [22XV[122X[113X is a tuple [22X(e_1,f_1,e_2,f_2, ..., e_n,
+  f_n, e_{n+1})[122X such that:[133X
+  
+  [30X    [33X[0;6YThe [22Xf_i[122X are pairwise disjoint faces incident to [22XV[122X.[133X
+  
+  [30X    [33X[0;6YThe  [22Xe_i[122X  are pairwise disjoint edges incident to [22XV[122X (with the possible
+        exception of [22Xe_1 = e_{n+1}[122X in the case [22Xn > 1[122X).[133X
+  
+  [30X    [33X[0;6YThe edges [22Xe_i[122X and [22Xe_{i+1}[122X are incident to [22Xf_i[122X for all [22Xi[122X.[133X
+  
+  [33X[0;0YIf [22Xe_1 = e_{n+1}[122X the umbrella-path is called [13Xclosed[113X.[133X
+  
+  [33X[0;0YImage omitted in terminal text In the image above we have two umbrella-paths
+  that  contain  all edges and faces that are incident to the vertex [22XV[122X, namely
+  [22X(e_1,f_1,e_2,f_2,e_3,f_3,e_4)[122X  and  [22X(e_4,f_3,e_3,f_2,e_2,f_1,e_1)[122X.  Both  of
+  them  encode  the  same  information.  By  convention,  we  will  choose the
+  umbrella-path  with  the  smaller  first  entry  ([22Xe_1[122X  or  [22Xe_4[122X)  to  be  [13Xthe[113X
+  umbrella-path of [22XV[122X.[133X
+  
+  [33X[0;0YImage  omitted  in  terminal text In this image we have ten different closed
+  umbrella-paths  that  contain  all  edges and faces that are incident to the
+  vertex  [22XV[122X,  like [22X(e_1, f_1, e_2, f_2, e_3, f_3, e_4, f_4, e_5, f_5, e_1)[122X and
+  [22X(e_3,  f_2,  e_2,  f_1,  e_1,  f_5,  e_5,  f_4, e_4, f_3, e_3)[122X. Up to cyclic
+  permutation  and inversion they are equivalent (they form an orbit under the
+  dihedral group of order 10).[133X
+  
+  [33X[0;0YIf  we  have to pick one by convention, we will choose the first entry to be
+  minimal,  say  [22Xe_2[122X.  This  leaves  us  with  the two paths [22X(e_2,f_2,...)[122X and
+  [22X(e_2,f_1,...)[122X. Of those, we pick the one with the smallest second entry ([22Xf_2[122X
+  or [22Xf_1[122X).[133X
+  
+  [1X3.4-1 UmbrellaPathsOfVertices[101X
+  
+  [33X[1;0Y[29X[2XUmbrellaPathsOfVertices[102X( [3Xsurface[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XUmbrellaPathOfVertex[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XUmbrellaPathOfVertexNC[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of edge-face-paths[133X
+  
+  [33X[0;0YThe  method  [9XUmbrellaPathOfVertex[109X([3Xsurface[103X,[3Xvertex[103X)  returns  an umbrella-path
+  around  [3Xvertex[103X (as defined in section [14X3.4[114X) that contains all edges and faces
+  incident to [3Xvertex[103X, with the following conventions:[133X
+  
+  [30X    [33X[0;6YThe first entry of the umbrella-path is minimal.[133X
+  
+  [30X    [33X[0;6YIn  the  case  of  a  closed umbrella-path, after restricting with the
+        first convention, the second entry of the umbrella-path is minimal[133X
+  
+  [33X[0;0YIf  such an umbrella-path does not exist (this might happen if the polygonal
+  complex  is  edge-ramified)  or  is  not  unique  (this  might happen if the
+  polygonal  complex  is  vertex-ramified),  [9Xfail[109X  is  returned. To access the
+  contents of the umbrella-paths, the methods from section [14X8.3[114X can be used.[133X
+  
+  [33X[0;0YThe   attribute   [9XUmbrellaPathsOfVertices[109X([3Xsurface[103X)  collects  all  of  those
+  umbrella-paths  in  a  list  that  is  indexed  by  the  vertex labels, i.e.
+  [9XUmbrellaPathsOfVertices[109X([3Xsurface[103X)[[3Xvertex[103X]   =   [9XUmbrellaPathOfVertex[109X([3Xsurface[103X,
+  [3Xvertex[103X). All other positions of this list are not bound.[133X
+  
+  [33X[0;0YThe  NC-version  does  not  check whether the given [3Xvertex[103X lies in the given
+  [3Xsurface[103X.[133X
+  
+  [33X[0;0YFor  polygonal complexes with vertex-ramifications the umbrella-paths around
+  a  vertex  are  not  unique.  The  methods  from  [14X3.4-2[114X  return all of those
+  umbrella-paths.[133X
+  
+  [33X[0;0YAs  example  consider  the  following  polygonal  surface:  Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xsurface := PolygonalSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X   [,,,,,,,,,, [1,6],[1,7],[1,9],[1,10],[6,7],[7,8],[8,9],[9,10],[10,6]],[127X[104X
+    [4X[25X>[125X [27X   [,[11,12,15],[12,13,16,17],[14,13,18],[11,19,14]] );;[127X[104X
+    [4X[25Xgap>[125X [27Xum1 := UmbrellaPathOfVertex(surface, 1);[127X[104X
+    [4X[28X( e11, F2, e12, F3, e13, F4, e14, F5, e11 )[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList(um1);[127X[104X
+    [4X[28X[ 11, 12, 13, 14, 11 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsPerm(um1);[127X[104X
+    [4X[28X(11,12,13,14)[128X[104X
+    [4X[25Xgap>[125X [27Xum7 := UmbrellaPathOfVertex(surface, 7);[127X[104X
+    [4X[28X| e15, F2, e12, F3, e16 |[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList(um7);[127X[104X
+    [4X[28X[ 15, 12, 16 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesAsList(um7);[127X[104X
+    [4X[28X[ 2, 3 ][128X[104X
+    [4X[25Xgap>[125X [27XUmbrellaPathsOfVertices(surface);[127X[104X
+    [4X[28X[ ( e11, F2, e12, F3, e13, F4, e14, F5, e11 ),,,,, | e15, F2, e11, F5, e19 |, [128X[104X
+    [4X[28X     | e15, F2, e12, F3, e16 |, | e16, F3, e17 |, [128X[104X
+    [4X[28X     | e17, F3, e13, F4, e18 |, | e18, F4, e14, F5, e19 | ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  ramified  polygonal  surfaces  it  might happen that there is no single
+  umbrella-path  that  contains  all  edges and faces that are incident to one
+  vertex.  Image omitted in terminal text But there is a set of umbrella-paths
+  that  [13Xpartitions[113X  the  incident edges and faces (i.e. every incident edge or
+  face  appears  in  exactly  one  umbrella-path).  In  the  above  image, the
+  umbrella-path-partition  of the vertex 1 is [22X[ [ 14, 2, 18, 4, 16, 3, 14 ], [
+  19, 9, 20, 11, 21 ] ][122X.[133X
+  
+  [1X3.4-2 UmbrellaPathPartitionsOfVertices[101X
+  
+  [33X[1;0Y[29X[2XUmbrellaPathPartitionsOfVertices[102X( [3XramSurf[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XUmbrellaPathPartitionOfVertex[102X( [3XramSurf[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XUmbrellaPathPartitionOfVertexNC[102X( [3XramSurf[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of edge-face-paths[133X
+  
+  [33X[0;0YThe  method  [9XUmbrellaPathPartitionOfVertex[109X([3XramSurf[103X, [3Xvertex[103X) returns a set of
+  umbrellas-paths  around  [3Xvertex[103X  (as  defined in section [14X3.4[114X). The edges and
+  faces  incident to [3Xvertex[103X are partitioned by these umbrella-paths (i.e. each
+  of them appears in exactly one umbrella-path).[133X
+  
+  [33X[0;0YThe result is determined as follows:[133X
+  
+  [30X    [33X[0;6YThe   partition   of  edges  and  faces  is  unique  (reachability  by
+        umbrella-paths around [3Xvertex[103X).[133X
+  
+  [30X    [33X[0;6YEvery  set  in  this partition consists of the elements of exactly one
+        umbrella-path.  For  each set there are several options. We choose one
+        of those by this convention:[133X
+  
+        [30X    [33X[0;12YThe  first  entry of the returned umbrella-path will be as small
+              as possible.[133X
+  
+        [30X    [33X[0;12YThe  second entry of the returned umbrella-path will be as small
+              as  possible  (after  having  minimized  the  first entry). This
+              condition is non-trivial only for closed umbrella-paths .[133X
+  
+  [33X[0;0YIf  there  is  no such set of umbrella-paths (which can happen for polygonal
+  complexes with edge-ramifications), [9Xfail[109X is returned instead.[133X
+  
+  [33X[0;0YThe   attribute   [9XUmbrellaPathPartitionsOfVertices[109X([3XramSurf[103X)  collects  these
+  partitions    in   a   list   (indexed   by   the   vertex   labels),   i.e.
+  [9XUmbrellaPathPartitionsOfVertices[109X([3XramSurf[103X)[[3Xvertex[103X]                          =
+  [9XUmbrellaPathPartitionOfVertex[109X([3XramSurf[103X,  [3Xvertex[103X). All other positions of this
+  list are not bound.[133X
+  
+  [33X[0;0YFor  a  [13Xsurface[113X,  all  partitions  will only consist of one element. In this
+  case, the methods in [14X3.4-1[114X will only return these unique umbrella-paths.[133X
+  
+  [33X[0;0YThe NC-version does not check whether [3Xvertex[103X lies in [3XramSurf[103X.[133X
+  
+  [33X[0;0YAs    example    consider    the    following    polygonal    complex   with
+  vertex-ramifications  (but no edge-ramifications). Image omitted in terminal
+  text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XramSurf := PolygonalComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X   [ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],[127X[104X
+    [4X[25X>[125X [27X       [1,8],[1,10],[1,12],[8,10],[10,12] ],[127X[104X
+    [4X[25X>[125X [27X   [ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;[127X[104X
+    [4X[25Xgap>[125X [27XUmbrellaPathPartitionOfVertex(ramSurf, 1);[127X[104X
+    [4X[28X[ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ][128X[104X
+    [4X[25Xgap>[125X [27XUmbrellaPathPartitionOfVertex(ramSurf, 5);[127X[104X
+    [4X[28X[ | e13, F3, e14, F2, e15 | ][128X[104X
+    [4X[25Xgap>[125X [27XUmbrellaPathPartitionsOfVertices(ramSurf);[127X[104X
+    [4X[28X[ [ ( e14, F2, e18, F4, e16, F3, e14 ), | e19, F9, e20, F11, e21 | ],,,,[128X[104X
+    [4X[28X  [ | e13, F3, e14, F2, e15 | ], [ | e13, F3, e16, F4, e17 | ],[128X[104X
+    [4X[28X  [ | e15, F2, e18, F4, e17 | ], [ | e19, F9, e22 | ],,[128X[104X
+    [4X[28X  [ | e22, F9, e20, F11, e23 | ],, [ | e21, F11, e23 | ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.4-3 Star[101X
+  
+  [33X[1;0Y[29X[2XStar[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XStarNC[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XStar[102X( [3Xsurface[103X, [3Xvertices[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XStarNC[102X( [3Xsurface[103X, [3Xvertices[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya subsurface[133X
+  
+  [33X[0;0YThe  method [9XStar[109X([3Xsurface[103X, [3Xvertex[103X) returns for [3Xvertex[103X the subcomplex which is
+  determined  by  the  faces around [3Xvertex[103X. The method [9XStar[109X([3Xsurface[103X, [3Xvertices[103X)
+  returns  the  subcomplex  which  is  determined  by the faces around all the
+  vertices in [3Xvertices[103X. The NC-version does not check whether the given [3Xvertex[103X
+  is a vertex of [3Xsurface[103X.[133X
+  
+  [33X[0;0YFor example, consider the hexagon: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xhex := SimplicialSurfaceByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X   [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ], [127X[104X
+    [4X[25X>[125X [27X   [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;[127X[104X
+    [4X[25Xgap>[125X [27Xstar1:=Star(hex,7);[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 12 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(star1,hex);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27Xstar2:=Star(hex,[1,7]);[127X[104X
+    [4X[28Xsimplicial surface (7 vertices, 12 edges, and 6 faces)[128X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(star2,hex);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe  star  of  vertex  7  and  the star of vertex 1 and 7 is the same as the
+  hexagon.[133X
+  
+  [1X3.4-4 Link[101X
+  
+  [33X[1;0Y[29X[2XLink[102X( [3Xsurface[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XLink[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XLinkNC[102X( [3Xsurface[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of vertex-edge-paths[133X
+  
+  [33X[0;0YThe  method  [9XLink[109X([3Xsurface[103X,  [3Xvertex[103X)  returns for [3Xvertex[103X the vertex-edge-path
+  around  the  vertex  which  contains  the edges not incident to [3Xvertex[103X. That
+  means  the  vertex-edge-path  is  the  boundary  of  the  umbrella of [3Xvertex[103X
+  respectively  the boundary of [9XStar[109X([3Xsurface[103X, [3Xvertex[103X). The NC-version does not
+  check whether the given [3Xvertex[103X is a vertex of [3Xsurface[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XLink[109X([3Xsurface[103X)  collects all of those paths in a list that is
+  indexed  by  the  edge  labels,  i.e.  [9XLink[109X([3Xsurface[103X)[[3Xvertex[103X] = [9XLink[109X([3Xsurface[103X,
+  [3Xvertex[103X). All other positions of this list are not bound.[133X
+  
+  [33X[0;0YFor example, consider the hexagon: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xhex := SimplicialSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X   [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ],[127X[104X
+    [4X[25X>[125X [27X   [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;[127X[104X
+    [4X[25Xgap>[125X [27Xlink:=Link(hex,7);[127X[104X
+    [4X[28X( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XLink(hex)[7]=link;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe link of vertex 7 is the same as the boundary of the hexagon.[133X
+  
+  
+  [1X3.5 [33X[0;0YPerimeter around holes in surfaces[133X[101X
+  
+  [33X[0;0YIf  a  (twisted) polygonal surface (introduced in [14X2.3[114X) is not closed, it has
+  at least one "hole". For example the open pyramid and the open bag each have
+  one hole:[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YInformally,  a hole can be characterised by the vertices and edges along its
+  perimeter.  These  can be given as an alternating path of vertices and edges
+  that  starts  and  stops  with the same vertex. This notion is formalized by
+  [13Xvertex-edge-paths[113X which are defined in more detail in section [14X8.1[114X.[133X
+  
+  [33X[0;0YFor  example,  consider  the  following  polygonal surface: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XholeSurf := PolygonalSurfaceByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X    [ [1,4],[1,6],[1,7],[1,2],[2,8],[2,5],[2,3],[4,6],[6,7],[7,8],[5,8],[127X[104X
+    [4X[25X>[125X [27X      [3,5],[4,9],[6,9],[6,7],[8,10],[5,10],[3,13],[9,11],[6,11],[7,11],[127X[104X
+    [4X[25X>[125X [27X      [11,12],[8,12],[10,12],[12,13],[10,13] ],[127X[104X
+    [4X[25X>[125X [27X    [ [1,2,8],[2,3,9],[3,4,5,10],[5,6,11],[6,7,12],[8,13,14],,,[127X[104X
+    [4X[25X>[125X [27X      [12,17,18,26],[14,19,20],[15,20,21],[10,21,22,23],[16,23,24],[127X[104X
+    [4X[25X>[125X [27X      [24,25,26] ]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  polygonal  surface  has  three  holes. Two of them are easy to see and
+  consist  of  two and three edges each. The third one is limited by the outer
+  boundary of the visualisation and consists of eight edges.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPerimeterOfHoles(holeSurf);[127X[104X
+    [4X[28X[ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, [128X[104X
+    [4X[28X    E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIf  we  want  to know which edges are part of the outer boundary, we need to
+  access the inner workings of vertex-edge-paths.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xboundary := PerimeterOfHoles(holeSurf)[1];[127X[104X
+    [4X[28X( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, E4, v1 )[128X[104X
+    [4X[25Xgap>[125X [27XEdgesAsList(boundary);[127X[104X
+    [4X[28X[ 1, 13, 19, 22, 25, 18, 7, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X3.5-1 PerimeterOfHoles[101X
+  
+  [33X[1;0Y[29X[2XPerimeterOfHoles[102X( [3Xsurface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of closed vertex-edge-paths[, edge][133X
+  
+  [33X[0;0YReturn  a  set  of closed vertex-edge-paths (compare [14X8.1-1[114X and [14X8.1-7[114X for the
+  exact definitions) that represent the holes in the given polygonal surface.[133X
+  
+  [33X[0;0YFor each hole there is a unique perimeter of boundary vertices and edges. To
+  each of these we associate a unique closed vertex-edge-path by the following
+  conventions:[133X
+  
+  [30X    [33X[0;6YIt starts with the smallest vertex on the perimeter[133X
+  
+  [30X    [33X[0;6YThe first edge (incident to the smallest vertex) is minimal[133X
+  
+  [33X[0;0YAll of those vertex-edge-paths are returned as a set.[133X
+  
+  [33X[0;0YIf  the  optional  parameter  [3Xedge[103X  is  given, the method returns the unique
+  perimeter  path  of  the  hole  including [3Xedge[103X. Each edge can be in only one
+  boundary path.[133X
+  
+  [33X[0;0YAs  an  example,  consider  the surface from the start of section [14X3.5[114X: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XPerimeterOfHoles(holeSurf);[127X[104X
+    [4X[28X[ ( v1, E1, v4, E13, v9, E19, v11, E22, v12, E25, v13, E18, v3, E7, v2, [128X[104X
+    [4X[28X    E4, v1 ), ( v5, E11, v8, E16, v10, E17, v5 ), ( v6, E9, v7, E15, v6 ) ][128X[104X
+    [4X[25Xgap>[125X [27XPerimeterOfHoles(holeSurf,15);[127X[104X
+    [4X[28X( v6, E9, v7, E15, v6 )[128X[104X
+  [4X[32X[104X
+  

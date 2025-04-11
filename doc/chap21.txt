@@ -1,0 +1,629 @@
+  
+  [1X21 [33X[0;0YFlags[133X[101X
+  
+  [33X[0;0YThis chapter is concerned with the [13Xflags[113X of a polygonal complex. A flag is a
+  triple  [22X(V,E,F)[122X  of  vertex  [22XV[122X, an edge [22XE[122X, and a face [22XF[122X that are incident to
+  each  other.  They  can  be  computed  with  the command [9XFlags[109X ([14X21.1-1[114X). The
+  chambers  ([14X5.2[114X)  for  a polygonal complex are equivalent to the flags of the
+  polygonal complex[133X
+  
+  [33X[0;0YThe elementary flag access functions are described in section [14X21.1[114X.[133X
+  
+  [33X[0;0YSection  [14X21.2[114X  uses  the  knowledge  of  the flags to compute the [9XDressGroup[109X
+  ([14X21.2-1[114X) of a polygonal complex without edge ramifications.[133X
+  
+  [33X[0;0YIn  Section  [14X21.3[114X  defines a triangular complex whose faces are given by the
+  flags and describes some special functionality for these kinds of complexes.[133X
+  
+  
+  [1X21.1 [33X[0;0YComputation[133X[101X
+  
+  [33X[0;0YThis  section deals with all different types of flags. In general, a flag is
+  a tuple consisting of incident elements of different dimensions, for example
+  a vertex-edge-pair, a vertex-face-pair or a vertex-edge-face-triple.[133X
+  
+  [33X[0;0YFor  example,  consider  the  following  polygonal surface: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], [127X[104X
+    [4X[25X>[125X [27X   [[6,8,9], , , [9,10,12,13]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YMost  apparent  are the flags that consist of a vertex, an edge, and a face,
+  called [13X3-flags[113X or [13Xflags[113X for short.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XThreeFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], [128X[104X
+    [4X[28X  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],[128X[104X
+    [4X[28X  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]][128X[104X
+    [4X[25Xgap>[125X [27XFlags(complex) = last;[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt  is  also  possible  to  compute  flags  of  length  2,  for  example the
+  vertex-face-flags:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexFaceFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YSometimes  it  is  necessary  to  have  a standardized set of all flags that
+  consist  of  two  elements.  For  that  reason the command [9XTwoFlags[109X ([14X21.1-5[114X)
+  exists.[133X
+  
+  [33X[0;0YSince  flags  of  length  1  are  just vertices, edges, and faces, the usual
+  access functions of Section [14X3.1[114X are sufficient most of the time. If they are
+  needed in a combined format, the command [9XOneFlags[109X ([14X21.1-6[114X) is available.[133X
+  
+  [1X21.1-1 Flags[101X
+  
+  [33X[1;0Y[29X[2XFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XThreeFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of flags[133X
+  
+  [33X[0;0YReturn   the   set  of  all  flags  of  [3Xcomplex[103X.  Every  flag  is  a  triple
+  [[3Xvertex[103X,[3Xedge[103X,[3Xface[103X]  of  a vertex, an edge and a face of [3Xcomplex[103X that are all
+  incident to each other.[133X
+  
+  [33X[0;0YAs an example consider the polygonal surface from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], [128X[104X
+    [4X[28X  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],[128X[104X
+    [4X[28X  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]][128X[104X
+    [4X[25Xgap>[125X [27XFlags(complex) = ThreeFlags(complex);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X21.1-2 VertexEdgeFlags[101X
+  
+  [33X[1;0Y[29X[2XVertexEdgeFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of vertex-edge-flags[133X
+  
+  [33X[0;0YReturn  the  set of all vertex-edge-flags of [3Xcomplex[103X. Such a flag is a tuple
+  [[3Xvertex[103X, [3Xedge[103X] of a vertex and an edge of [3Xcomplex[103X that are incident.[133X
+  
+  [33X[0;0YAs an example consider the polygonal surface from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexEdgeFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 6 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 3, 12 ], [ 5, 6 ], [128X[104X
+    [4X[28X  [ 5, 9 ], [ 5, 10 ], [ 7, 12 ], [ 7, 13 ], [ 11, 10 ], [ 11, 13 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.1-3 VertexFaceFlags[101X
+  
+  [33X[1;0Y[29X[2XVertexFaceFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of vertex-face-flags[133X
+  
+  [33X[0;0YReturn  the  set of all vertex-face-flags of [3Xcomplex[103X. Such a flag is a tuple
+  [[3Xvertex[103X, [3Xface[103X] of a vertex and a face of [3Xcomplex[103X that are incident.[133X
+  
+  [33X[0;0YAs an example consider the polygonal surface from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexFaceFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.1-4 EdgeFaceFlags[101X
+  
+  [33X[1;0Y[29X[2XEdgeFaceFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of edge-face-flags[133X
+  
+  [33X[0;0YReturn  the  set  of  all edge-face-flags of [3Xcomplex[103X. Such a flag is a tuple
+  [[3Xedge[103X, [3Xface[103X] of an edge and a face of [3Xcomplex[103X that are incident.[133X
+  
+  [33X[0;0YAs an example consider the polygonal surface from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeFaceFlags(complex);[127X[104X
+    [4X[28X[ [ 6, 1 ], [ 8, 1 ], [ 9, 1 ], [ 9, 4 ], [ 10, 4 ], [ 12, 4 ], [ 13, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.1-5 TwoFlags[101X
+  
+  [33X[1;0Y[29X[2XTwoFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of wrapped two-flags[133X
+  
+  [33X[0;0YReturn a set of all flags of length 2, i.e. all pairs of vertices, edges and
+  faces  that  are  incident to each other. Since the labels of vertices edges
+  and  faces  might  overlap,  special  care has to be taken to make sure that
+  every entry of the returned set corresponds to exactly one flag of length 2.[133X
+  
+  [33X[0;0YIf  it  is  not necessary to have all of the different flags in one set, one
+  should  use  the  methods [9XVertexEdgeFlags[109X ([14X21.1-2[114X), [9XVertexFaceFlags[109X ([14X21.1-3[114X)
+  and [9XEdgeFaceFlags[109X ([14X21.1-4[114X) instead.[133X
+  
+  [33X[0;0YTo  make  the flags of different types disjoint in the result, every flag is
+  wrapped into a pair containing an index and the flag:[133X
+  
+  [30X    [33X[0;6YThe vertex-edge-flag [[3Xvertex[103X,[3Xedge[103X] is wrapped into [ 1, [[3Xvertex[103X, [3Xedge[103X]
+        ].[133X
+  
+  [30X    [33X[0;6YThe vertex-face-flag [[3Xvertex[103X,[3Xface[103X] is wrapped into [ 2, [[3Xvertex[103X, [3Xface[103X]
+        ].[133X
+  
+  [30X    [33X[0;6YThe edge-face-flag [[3Xedge[103X,[3Xface[103X] is wrapped into [ 3, [[3Xedge[103X, [3Xface[103X] ].[133X
+  
+  [33X[0;0YAs an example consider the polygonal surface from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTwoFlags(complex);[127X[104X
+    [4X[28X[ [ 1, [ 2, 6 ] ], [ 1, [ 2, 8 ] ], [ 1, [ 3, 8 ] ], [ 1, [ 3, 9 ] ], [128X[104X
+    [4X[28X  [ 1, [ 3, 12  ] ], [ 1, [ 5, 6 ] ], [ 1, [ 5, 9 ] ], [ 1, [ 5, 10  ] ], [128X[104X
+    [4X[28X  [ 1, [ 7, 12 ] ], [ 1, [ 7, 13 ] ], [ 1, [ 11, 10 ] ], [ 1, [ 11, 13 ] ],[128X[104X
+    [4X[28X  [ 2, [ 2, 1 ] ], [ 2, [ 3, 1 ] ], [ 2, [ 3, 4 ] ], [ 2, [ 5, 1 ] ], [128X[104X
+    [4X[28X  [ 2, [ 5, 4 ] ], [ 2, [ 7, 4 ] ], [ 2, [ 11, 4 ] ], [ 3, [ 6, 1 ] ], [128X[104X
+    [4X[28X  [ 3, [ 8, 1 ] ], [ 3, [ 9, 1 ] ], [ 3, [ 9, 4 ] ], [ 3, [ 10, 4 ] ], [128X[104X
+    [4X[28X  [ 3, [ 12, 4 ] ], [ 3, [ 13, 4 ] ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.1-6 OneFlags[101X
+  
+  [33X[1;0Y[29X[2XOneFlags[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of wrapped one-flags[133X
+  
+  [33X[0;0YReturn  a  set of all flags of length 1, i.e. all vertices, edges and faces.
+  Since the labels of vertices edges and faces might overlap, special care has
+  to be taken to make sure that every entry of the returned set corresponds to
+  exactly one of them.[133X
+  
+  [33X[0;0YFor that reason vertices, edges and faces are wrapped into a list:[133X
+  
+  [30X    [33X[0;6YThe vertex [3Xv[103X is wrapped into [ 0, [3Xv[103X ].[133X
+  
+  [30X    [33X[0;6YThe edge [3Xe[103X is wrapped into [ 1, [3Xe[103X ].[133X
+  
+  [30X    [33X[0;6YThe face [3Xf[103X is wrapped into [ 2, [3Xf[103X ].[133X
+  
+  [33X[0;0YAs an example consider the polygonal surface from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOneFlags(complex);[127X[104X
+    [4X[28X[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],[128X[104X
+    [4X[28X  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X21.2 [33X[0;0YDress group[133X[101X
+  
+  [33X[0;0YWhile flags can be defined for any polygonal complex (as was done in section
+  [14X21.1[114X),  they  have additional structure for polygonal complexes without edge
+  ramifications.[133X
+  
+  [31X1[131X   [33X[0;6YFor  every  flag [22X[v,e,f][122X there is exactly one other vertex [22XX[122X such that
+        [22X[X,e,f][122X is also a flag.[133X
+  
+  [31X2[131X   [33X[0;6YFor  every  flag  [22X[v,e,f][122X  there is exactly one other edge [22XX[122X such that
+        [22X[v,X,f][122X is also a flag.[133X
+  
+  [31X3[131X   [33X[0;6YFor  every  flag  [22X[v,e,f][122X  there is [13Xat most[113X one other face [22XX[122X such that
+        [22X[v,e,X][122X is also a flag.[133X
+  
+  [33X[0;0YEach  of these observations divides the flags into partitions of at most two
+  elements.  Therefore  it  possible  to  define  involutions  that swap these
+  elements. They are called [13XDress involutions[113X.[133X
+  
+  [33X[0;0YTo  represent them in [5XGAP[105X the flags have to be encoded as positive integers.
+  The  set  of  flags  from  [9XFlags[109X ([14X21.1-1[114X) serves this purpose: Every flag is
+  identified with its position in this set.[133X
+  
+  [1X21.2-1 DressInvolutions[101X
+  
+  [33X[1;0Y[29X[2XDressInvolutions[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XDressGroup[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya list of three involutions[133X
+  
+  [33X[0;0YReturn the three [13XDress involutions[113X of [3Xcomplex[103X as a list or as the generators
+  of a group. The Dress involutions act on the set of flags of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  flags  of  [3Xcomplex[103X  are  identified  with  their  position  in  the set
+  [9XFlags[109X([3Xcomplex[103X).  Assuming  this  identification  the  Dress  involutions are
+  defined as follows:[133X
+  
+  [31X1[131X   [33X[0;6YThe  first  Dress involution maps the flag [22X[v,e,f][122X to the flag [22X[X,e,f][122X
+        where  [22XX[122X  is the unique vertex different from [22Xv[122X such that [22X[X,e,f][122X is a
+        flag.[133X
+  
+  [31X2[131X   [33X[0;6YThe  second Dress involution maps the flag [22X[v,e,f][122X to the flag [22X[v,X,f][122X
+        where  [22XX[122X  is  the  unique edge different from [22Xe[122X such that [22X[v,X,f][122X is a
+        flag.[133X
+  
+  [31X3[131X   [33X[0;6YThe  third  Dress involution maps the flag [22X[v,e,f][122X to the flag [22X[v,e,X][122X
+        if  there  is  a  face [22XX[122X different from [22Xf[122X such that [22X[v,e,X][122X is a flag.
+        Otherwise it fixes this flag.[133X
+  
+  [33X[0;0YIf  [9XDressGroup[109X  is  called,  its  generators  [22XG.1[122X, [22XG.2[122X and [22XG.3[122X are the Dress
+  involutions.[133X
+  
+  [33X[0;0YAs an example consider the following polygonal surface:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence([127X[104X
+    [4X[25X>[125X [27X   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ],[127X[104X
+    [4X[25X>[125X [27X   [[6,8,9], , , [9,10,12,13]]);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XdressInv:=DressInvolutions(complex);[127X[104X
+    [4X[28X[ (1,7)(2,3)(4,8)(5,9)(6,11)(10,13)(12,14),[128X[104X
+    [4X[28X  (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14),[128X[104X
+    [4X[28X  (4,5)(8,9) ][128X[104X
+    [4X[25Xgap>[125X [27XFlags(complex)[1];[127X[104X
+    [4X[28X[2,6,1][128X[104X
+    [4X[25Xgap>[125X [27XFlags(complex)[7];[127X[104X
+    [4X[28X[5,6,1][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThis  means,  for  example,  that  the  first dress involution maps the flag
+  [22X[2,6,1][122X  to  the  flag  [22X[5,6,1][122X.  The  dress  involutions  are  equal to the
+  adjacency involution acting on the chamber:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XdressInv[1]=ZeroAdjacencyInvolution(complex);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XdressInv[2]=OneAdjacencyInvolution(complex);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XdressInv[3]=TwoAdjacencyInvolution(complex);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  
+  [1X21.3 [33X[0;0YFlag complex / Barycentric subdivision[133X[101X
+  
+  [33X[0;0YThe  flags of a polygonal complex can be used to define a subdivision of the
+  polygonal complex, where each face is split into several triangles.[133X
+  
+  [31X1[131X   [33X[0;6YThe  vertices  are given by the [9XOneFlags[109X ([14X21.1-6[114X), i.e. there is a new
+        vertex  for  every  original vertex, in the middle of each edge and in
+        the center of gravity for each face.[133X
+  
+  [31X2[131X   [33X[0;6YThe  edges  are given by the [9XTwoFlags[109X ([14X21.1-5[114X), e.g. for each incident
+        edge-face-pair  there is a new edge between the middle of the edge and
+        the  center  of  gravity of the face. There are also new edges for the
+        vertex-edge- and vertex-face-pairs.[133X
+  
+  [31X3[131X   [33X[0;6YThe  faces  are  given by the [9XThreeFlags[109X ([14X21.1-1[114X), i.e. for every flag
+        [22X(V,E,F)[122X  there is a new face between [22XV[122X, the middle of [22XE[122X and the center
+        of gravity of [22XF[122X.[133X
+  
+  [33X[0;0YFor  example  consider the polygonal complex from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XflagComp := FlagComplex(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XOriginalComplex(flagComp) = complex;[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XPolygonalComplex(flagComp);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YBoth the original complex and the uncoloured flag complex can be obtained.[133X
+  
+  [33X[0;0YThe  drawing function treats flag surfaces in a special way. Compare [14X21.3-14[114X
+  for details.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XDrawSurfaceToTikz(flagComp, "FlagComplex_Labelled", rec( scale:=5,[127X[104X
+    [4X[25X>[125X [27X    vertexLabels := OneFlags(complex),[127X[104X
+    [4X[25X>[125X [27X    edgeLabels := TwoFlags(complex),[127X[104X
+    [4X[25X>[125X [27X    faceLabels := ThreeFlags(complex),[127X[104X
+    [4X[25X>[125X [27X    startingFaces := 14));;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe  flag  complex  is  an  edge  coloured triangular complex. The polygonal
+  hierarchy  (compare  to  chapter  [14X2[114X)  is  unchanged otherwise, e.g. the flag
+  complex of a polygonal complex is always a simplicial surface.[133X
+  
+  [33X[0;0YFor  the  flag complex of a polygonal complex without edge ramifications the
+  Dress  involutions  ([14X21.2-1[114X)  are  the  colour involutions for the colouring
+  (compare [14X19.2-1[114X).[133X
+  
+  [1X21.3-1 FlagComplex[101X
+  
+  [33X[1;0Y[29X[2XFlagComplex[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XFlagSurface[102X( [3Xsurf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya flag complex[133X
+  
+  [33X[0;0YReturn  the  flag  complex  of [3Xcomplex[103X. The flag complex is an edge-coloured
+  ([14X18[114X) twisted triangular complex ([14X9.3-2[114X).[133X
+  
+  [33X[0;0YIts  vertices  are given by the [9XOneFlags[109X ([14X21.1-6[114X), its edges by the [9XTwoFlags[109X
+  ([14X21.1-5[114X) and its faces by the [9XThreeFlags[109X ([14X21.1-1[114X).[133X
+  
+  [33X[0;0YAs an example consider the polygonal complex from the start of section [14X21.1[114X.
+  Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XflagSurf := FlagSurface(complex);;[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [33X[0;0YThe more specific command requires [3Xcomplex[103X to be a twisted polygonal surface
+  ([14X2.3-4[114X).[133X
+  
+  [1X21.3-2 IsFlagComplex[101X
+  
+  [33X[1;0Y[29X[2XIsFlagComplex[102X( [3Xobject[103X ) [32X filter[133X
+  [33X[1;0Y[29X[2XIsFlagSurface[102X( [3XflagComp[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YCheck  whether  the  given  [3Xcomplex[103X is a flag complex. Every flag complex is
+  also  an  edge-coloured  polygonal complex. Besides access to the uncoloured
+  flag  complex  via  [9XPolygonalComplex[109X  ([14X18.1-3[114X)  it also allows access to the
+  original polygonal complex by [9XOriginalComplex[109X ([14X21.3-3[114X).[133X
+  
+  [33X[0;0YThis  will  also return [9Xtrue[109X if the original complex would just be a [13Xtwisted[113X
+  complex.[133X
+  
+  [33X[0;0YThe  additional  property  check  if  the  underlying polygonal complex is a
+  polygonal surface.[133X
+  
+  [33X[0;0YFor example, consider the complex from the start of this section ([14X21.3[114X).[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsFlagComplex(flagComp);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsFlagComplex(complex);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-3 OriginalComplex[101X
+  
+  [33X[1;0Y[29X[2XOriginalComplex[102X( [3XflagComp[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XOriginalSurface[102X( [3XflagSurf[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya twisted polygonal complex[133X
+  
+  [33X[0;0YReturn  the  original  twisted  polygonal  complex of the given flag complex
+  [3XflagComp[103X,  i.e.  the  unique  twisted  polygonal  complex  [3Xcomplex[103X such that
+  [9XFlagComplex[109X([3Xcomplex[103X) = [3XflagComp[103X.[133X
+  
+  [33X[0;0YThe  more  specific  command  requires  the original complex to be a twisted
+  polygonal surface ([14X2.3-4[114X).[133X
+  
+  [1X21.3-4 OriginalVertices[101X
+  
+  [33X[1;0Y[29X[2XOriginalVertices[102X( [3XflagComp[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn  the  set of all vertices contained in the original twisted polygonal
+  complex  of the given flag complex [3XflagComp[103X, i.e. the vertices of the unique
+  twisted   polygonal   complex   [3Xcomplex[103X  satisfying  [9XFlagComplex[109X([3Xcomplex[103X)  =
+  [3XflagComp[103X.  As  an  example  consider the polygonal complex from [14X21.1[114X and its
+  barycentric subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOriginalVertices(flagComp);[127X[104X
+    [4X[28X[ 2, 3, 5, 7, 11 ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-5 OriginalEdges[101X
+  
+  [33X[1;0Y[29X[2XOriginalEdges[102X( [3XflagComp[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn  the  set  of  all  edges contained in the original twisted polygonal
+  complex  of  the  given  flag complex [3XflagComp[103X, i.e. the edges of the unique
+  twisted   polygonal   complex   [3Xcomplex[103X  satisfying  [9XFlagComplex[109X([3Xcomplex[103X)  =
+  [3XflagComp[103X.  As  an  example  consider the polygonal complex from [14X21.1[114X and its
+  barycentric subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOriginalEdges(flagComp);[127X[104X
+    [4X[28X[ 6, 8, 9, 10, 12, 13 ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-6 OriginalFaces[101X
+  
+  [33X[1;0Y[29X[2XOriginalFaces[102X( [3XflagComp[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya set of positive integers[133X
+  
+  [33X[0;0YReturn  the  set  of  all  faces contained in the original twisted polygonal
+  complex  of  the  given  flag complex [3XflagComp[103X, i.e. the faces of the unique
+  twisted   polygonal   complex   [3Xcomplex[103X  satisfying  [9XFlagComplex[109X([3Xcomplex[103X)  =
+  [3XflagComp[103X.  As  an  example  consider the polygonal complex from [14X21.1[114X and its
+  barycentric subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOriginalFaces(flagComp);[127X[104X
+    [4X[28X[ 1, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-7 OriginalOneFlag[101X
+  
+  [33X[1;0Y[29X[2XOriginalOneFlag[102X( [3XflagComp[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya wrapped one-flag[133X
+  
+  [33X[0;0YReturn  a  flag of length 1 of the original twisted polygonal complex of the
+  given  flag  complex  which corresponds to [3Xvertex[103X in [3XflagComp[103X, i.e. the flag
+  [3Xoneflag[103X   of   the  unique  twisted  polygonal  complex  [3Xcomplex[103X  satisfying
+  [9XOneFlags[109X([3Xcomplex[103X)[[9Xvertex[109X]  =  [3Xoneflag[103X.  As an example consider the polygonal
+  complex from [14X21.1[114X and its barycentric subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOneFlags(complex);[127X[104X
+    [4X[28X[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],[128X[104X
+    [4X[28X  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XOriginalOneFlag(flagComp,4);[127X[104X
+    [4X[28X[ 0, 7 ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-8 OriginalTwoFlag[101X
+  
+  [33X[1;0Y[29X[2XOriginalTwoFlag[102X( [3XflagComp[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya wrapped two-flag[133X
+  
+  [33X[0;0YReturn  a  flag of length 2 of the original twisted polygonal complex of the
+  given  flag  complex  which  corresponds  to  [3Xedge[103X in [3XflagComp[103X i.e. the flag
+  [3Xtwoflag[103X   of   the  unique  twisted  polygonal  complex  [3Xcomplex[103X  satisfying
+  [9XTwoFlags[109X([3Xcomplex[103X)[[9Xedge[109X]  =  [3Xtwoflag[103X.  As  an  example consider the polygonal
+  complex from [14X21.1[114X and its barycentric subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTwoFlags(complex);[127X[104X
+    [4X[28X[ [ 1, [ 2, 6 ] ], [ 1, [ 2, 8 ] ], [ 1, [ 3, 8 ] ], [ 1, [ 3, 9 ] ], [128X[104X
+    [4X[28X  [ 1, [ 3, 12  ] ], [ 1, [ 5, 6 ] ], [ 1, [ 5, 9 ] ], [ 1, [ 5, 10  ] ], [128X[104X
+    [4X[28X  [ 1, [ 7, 12 ] ], [ 1, [ 7, 13 ] ], [ 1, [ 11, 10 ] ], [ 1, [ 11, 13 ] ],[128X[104X
+    [4X[28X  [ 2, [ 2, 1 ] ], [ 2, [ 3, 1 ] ], [ 2, [ 3, 4 ] ], [ 2, [ 5, 1 ] ], [128X[104X
+    [4X[28X  [ 2, [ 5, 4 ] ], [ 2, [ 7, 4 ] ], [ 2, [ 11, 4 ] ], [ 3, [ 6, 1 ] ], [128X[104X
+    [4X[28X  [ 3, [ 8, 1 ] ], [ 3, [ 9, 1 ] ], [ 3, [ 9, 4 ] ], [ 3, [ 10, 4 ] ], [128X[104X
+    [4X[28X  [ 3, [ 12, 4 ] ], [ 3, [ 13, 4 ] ] ][128X[104X
+    [4X[25Xgap>[125X [27XOriginalTwoFlag(flagComp,5);[127X[104X
+    [4X[28X[ 1, [ 3, 12 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-9 OriginalThreeFlag[101X
+  
+  [33X[1;0Y[29X[2XOriginalThreeFlag[102X( [3XflagComp[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya wrapped three-flag[133X
+  
+  [33X[0;0YReturn  a  flag of length 3 of the original twisted polygonal complex of the
+  given  flag  complex  which  corresponds  to  [3Xface[103X in [3XflagComp[103X i.e. the flag
+  [3Xthreeflag[103X  of  the  unique  twisted  polygonal  complex  [3Xcomplex[103X  satisfying
+  [9XThreeFlags[109X([3Xcomplex[103X)[[9Xface[109X]  = [3Xthreeflag[103X. As an example consider the polygonal
+  complex from [14X21.1[114X and its barycentric subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XThreeFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], [128X[104X
+    [4X[28X  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],[128X[104X
+    [4X[28X  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]][128X[104X
+    [4X[25Xgap>[125X [27XOriginalThreeFlag(flagComp,10);[127X[104X
+    [4X[28X[ 5, 10, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-10 BarycentreOfVertex[101X
+  
+  [33X[1;0Y[29X[2XBarycentreOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ypositive integer[133X
+  
+  [33X[0;0YReturn  the  vertex  of the flag complex of [3Xcomplex[103X which corresponds to the
+  flag [0,[3Xvertex[103X] of the given twisted polygonal complex, i.e. the vertex [3Xv[103X of
+  the  flag  complex [3XflagComp[103X satisfying [9XOneFlags[109X([3Xcomplex[103X)[[9Xv[109X] = [0,[3Xvertex[103X]. As
+  an  example  consider  the  polygonal  complex from [14X21.1[114X and its barycentric
+  subdivision from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOneFlags(complex);[127X[104X
+    [4X[28X[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],[128X[104X
+    [4X[28X  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XBarycentreOfVertex(complex,3);[127X[104X
+    [4X[28X2[128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-11 BarycentreOfEdge[101X
+  
+  [33X[1;0Y[29X[2XBarycentreOfEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YReturn the edge of the flag complex of [3Xcomplex[103X which corresponds to the flag
+  [1,[3Xedge[103X] of the given twisted polygonal complex, i.e. the edge [3Xe[103X of the flag
+  complex  [3XflagComp[103X  satisfying [9XOneFlags[109X([3Xcomplex[103X)[[9Xe[109X] = [1,[3Xedge[103X]. As an example
+  consider  the  polygonal  complex  from [14X21.1[114X and its barycentric subdivision
+  from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOneFlags(complex);[127X[104X
+    [4X[28X[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],[128X[104X
+    [4X[28X  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XBarycentreOfEdge(complex,12); [127X[104X
+    [4X[28X10[128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-12 BarycentreOfFace[101X
+  
+  [33X[1;0Y[29X[2XBarycentreOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer[133X
+  
+  [33X[0;0YReturn the face of the flag complex of [3Xcomplex[103X which corresponds to the flag
+  [2,[3Xface[103X] of the given twisted polygonal complex, i.e. the face [3Xf[103X of the flag
+  complex  [3XflagComp[103X  satisfying [9XOneFlags[109X([3Xcomplex[103X)[[9Xf[109X] = [2,[3Xface[103X]. As an example
+  consider  the  polygonal  complex  from [14X21.1[114X and its barycentric subdivision
+  from [14X21.3-1[114X.[133X
+  
+  [33X[0;0YImage omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XOneFlags(complex);[127X[104X
+    [4X[28X[ [ 0, 2 ], [ 0, 3 ], [ 0, 5 ], [ 0, 7 ], [ 0, 11 ], [ 1, 6 ], [ 1, 8 ],[128X[104X
+    [4X[28X  [ 1, 9 ], [ 1, 10 ], [ 1, 12 ], [ 1, 13 ], [ 2, 1 ], [ 2, 4 ] ][128X[104X
+    [4X[25Xgap>[125X [27XBarycentreOfFace(complex,4);[127X[104X
+    [4X[28X13[128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-13 IsomorphicFlagSurface[101X
+  
+  [33X[1;0Y[29X[2XIsomorphicFlagSurface[102X( [3XtameSurface[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya flag surface, [9Xfalse[109X or [9Xfail[109X[133X
+  
+  [33X[0;0YConstruct   a  flag  surface  ([14X21.3-1[114X)  that  is  isomorphic  to  the  given
+  tame-coloured  surface, if possible (the first colour involution will become
+  the vertex involution, etc.). It returns:[133X
+  
+  [30X    [33X[0;6Ya flag surface, if successful[133X
+  
+  [30X    [33X[0;6Y[9Xfalse[109X if this is not possible[133X
+  
+  [30X    [33X[0;6Y[9Xfail[109X if the given [3XtameSurface[103X is not a MMM-surface.[133X
+  
+  [33X[0;0YFor example, consider the one face and the corresponding flag surface:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XoneFace:=SimplicialSurfaceByVerticesInFaces([[1,2,3]]);;[127X[104X
+    [4X[25Xgap>[125X [27XflagSurf:=FlagComplex(oneFace);;[127X[104X
+    [4X[25Xgap>[125X [27XIsIsomorphic(IsomorphicFlagSurface(flagSurf),flagSurf);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X21.3-14 DrawSurfaceToTikz[101X
+  
+  [33X[1;0Y[29X[2XDrawSurfaceToTikz[102X( [3XflagSurf[103X, [3XfileName[103X[, [3XprintRecord[103X] ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya record[133X
+  
+  [33X[0;0YDraw  the  net  of  the  given flag complex that is also a polygonal complex
+  without edge ramifications into a tex-file (using TikZ). The method for flag
+  complexes  is  the  same  as  the  one for edge coloured polygonal complexes
+  without edge ramifications ([14X18.2-1[114X) except for one feature:[133X
+  
+  [30X    [33X[0;6YIf  no edge lengths are given in the printing record, the default edge
+        lengths  are  set  in  such  a  way  that  the  faces are drawn as the
+        barycentric subdivision of the original complex.[133X
+  
+  [30X    [33X[0;6YIf  there  are faces with different numbers of edges, the default edge
+        lengths  will  not  be  colour  invariant.  In  this  case  the  value
+        [13XedgeColourClassActive[113X will be set to [9Xfalse[109X.[133X
+  
+  [33X[0;0YAn example is given at the beginning of this section ([14X21.3[114X).[133X
+  

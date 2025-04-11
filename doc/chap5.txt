@@ -1,0 +1,755 @@
+  
+  [1X5 [33X[0;0YAccess to twisted polygonal complexes[133X[101X
+  
+  [33X[0;0YIn  section  [14X2.2[114X  we  introduced the concept of [9XTwistedPolygonalComplex[109X that
+  went  further  than  a  pure incidence geometry. This chapter describes this
+  additional structure and how to access it.[133X
+  
+  [33X[0;0YSection  [14X5.1[114X  covers  the extension of the incidence structure for polygonal
+  complexes  (compare  Section  [14X3.2[114X)  to  chambers.  Section  [14X5.2[114X  covers  the
+  adjacency  structure  of  those chambers. Finally, Section [14X5.3[114X presents some
+  methods  to  construct  twisted  polygonal  complexes.  Finally, Section [14X5.4[114X
+  explores  the  relation  between  polygonal  complexes and twisted polygonal
+  complexes.[133X
+  
+  
+  [1X5.1 [33X[0;0YChamber incidence[133X[101X
+  
+  [33X[0;0YPolygonal complexes only focus on the incidence between vertices, edges, and
+  faces.  In  contrast,  twisted polygonal complexes also care about [13Xchambers[113X,
+  which  can  be  interpreted  as  the  "small  triangles"  in  a  barycentric
+  subdivision.[133X
+  
+  [33X[0;0YEach  of these chambers is incident to exactly one vertex, one edge, and one
+  face.  Thus,  we  can  use  *Of*-methods,  similar  as in Section [14X3.2[114X. As an
+  example,  we  use  the following twisted polygonal complex: Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := TwistedPolygonalComplexByChamberRelations([127X[104X
+    [4X[25X>[125X [27X       [3,5,5,5,5,3,5,5,5,7,7,7,7,5],[127X[104X
+    [4X[25X>[125X [27X       [2,2,4,4,2,2,4,4,6,6,8,8,6,6],[127X[104X
+    [4X[25X>[125X [27X       [1,1,1,1,1,1,9,9,9,9,9,9,9,9],[127X[104X
+    [4X[25X>[125X [27X       (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14),[127X[104X
+    [4X[25X>[125X [27X       (1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13),[127X[104X
+    [4X[25X>[125X [27X       [[1,6],[2,5],[3,8],[4,7],[9,14],[10,13],[11],[12]]);[127X[104X
+    [4X[28Xtwisted polygonal surface (3 vertices, 4 edges, 2 faces, and 14 chambers)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThe chambers are represented by a set of positive integers.[133X
+  
+  [1X5.1-1 Chambers[101X
+  
+  [33X[1;0Y[29X[2XChambers[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XNumberOfChambers[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10YA set of positive integers/a non-negative integer[133X
+  
+  [33X[0;0YReturn the set/number of chambers[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XChambers(complex);[127X[104X
+    [4X[28X[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ][128X[104X
+    [4X[25Xgap>[125X [27XNumberOfChambers(complex);[127X[104X
+    [4X[28X14[128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-2 VerticesOfChambers[101X
+  
+  [33X[1;0Y[29X[2XVerticesOfChambers[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XVertexOfChamber[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XVertexOfChamberNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integers[133X
+  
+  [33X[0;0YThe  method  [9XVertexOfChamber[109X([3Xcomplex[103X,  [3Xchamber[103X)  returns  the vertex that is
+  incident to [3Xchamber[103X. The NC-version does not check whether the given [3Xchamber[103X
+  is a chamber of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XVerticesOfChambers[109X([3Xcomplex[103X) collects all of those vertices in
+  a    list    that    is    indexed    by    the    chamber    labels,   i.e.
+  [9XVerticesOfChambers[109X([3Xcomplex[103X)[[3Xchamber[103X]  =  [9XVertexOfChamber[109X([3Xcomplex[103X,  [3Xchamber[103X).
+  All other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexOfChamber(complex, 2);[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27XVertexOfChamber(complex, 12);[127X[104X
+    [4X[28X7[128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfChambers(complex);[127X[104X
+    [4X[28X[ 3, 5, 5, 5, 5, 3, 5, 5, 5, 7, 7, 7, 7, 5 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-3 ChambersOfVertices[101X
+  
+  [33X[1;0Y[29X[2XChambersOfVertices[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XChambersOfVertex[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XChambersOfVertexNC[102X( [3Xcomplex[103X, [3Xvertex[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XChambersOfVertex[109X([3Xcomplex[103X,  [3Xvertex[103X)  returns the set of chambers
+  that are incident to [3Xvertex[103X. The NC-version does not check whether the given
+  [3Xvertex[103X is a vertex of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute  [9XChambersOfVertices[109X([3Xcomplex[103X)  collects all of those sets in a
+  list     that     is     indexed     by     the    vertex    labels,    i.e.
+  [9XChambersOfVertices[109X([3Xcomplex[103X)[[3Xvertex[103X] = [9XChambersOfVertex[109X([3Xcomplex[103X, [3Xvertex[103X). All
+  other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XChambersOfVertex(complex, 3);[127X[104X
+    [4X[28X[ 1, 6 ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfVertex(complex, 7);[127X[104X
+    [4X[28X[ 10, 11, 12, 13 ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfVertices(complex);[127X[104X
+    [4X[28X[ ,, [ 1, 6 ],, [ 2, 3, 4, 5, 7, 8, 9, 14],, [ 10, 11, 12, 13 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-4 EdgesOfChambers[101X
+  
+  [33X[1;0Y[29X[2XEdgesOfChambers[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XEdgeOfChamber[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XEdgeOfChamberNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integers[133X
+  
+  [33X[0;0YThe method [9XEdgeOfChamber[109X([3Xcomplex[103X, [3Xchamber[103X) returns the edge that is incident
+  to  [3Xchamber[103X.  The  NC-version  does not check whether the given [3Xchamber[103X is a
+  chamber of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe attribute [9XEdgesOfChambers[109X([3Xcomplex[103X) collects all of those edges in a list
+  that      is      indexed      by      the      chamber     labels,     i.e.
+  [9XEdgesOfChambers[109X([3Xcomplex[103X)[[3Xchamber[103X]  =  [9XEdgeOfChamber[109X([3Xcomplex[103X,  [3Xchamber[103X).  All
+  other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XEdgeOfChamber(complex, 2);[127X[104X
+    [4X[28X2[128X[104X
+    [4X[25Xgap>[125X [27XEdgeOfChamber(complex, 12);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfChambers(complex);[127X[104X
+    [4X[28X[ 2, 2, 4, 4, 2, 2, 4, 4, 6, 6, 8, 8, 6, 6 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-5 ChambersOfEdges[101X
+  
+  [33X[1;0Y[29X[2XChambersOfEdges[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XChambersOfEdge[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XChambersOfEdgeNC[102X( [3Xcomplex[103X, [3Xedge[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XChambersOfEdge[109X([3Xcomplex[103X,  [3Xedge[103X) returns the set of chambers that
+  are  incident  to [3Xedge[103X. The NC-version does not check whether the given [3Xedge[103X
+  is an edge of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XChambersOfEdges[109X([3Xcomplex[103X) collects all of those sets in a list
+  that  is  indexed  by the edge labels, i.e. [9XChambersOfEdges[109X([3Xcomplex[103X)[[3Xedge[103X] =
+  [9XChambersOfEdge[109X([3Xcomplex[103X,  [3Xedge[103X).  All  other  positions  of this list are not
+  bound.[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XChambersOfEdge(complex, 4);[127X[104X
+    [4X[28X[ 3, 4, 7, 8 ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfEdge(complex, 6);[127X[104X
+    [4X[28X[ 9, 10, 13, 14 ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfEdges(complex);[127X[104X
+    [4X[28X[ , [ 1, 2, 5, 6 ],, [ 3, 4, 7, 8 ],, [ 9, 10, 13, 14],, [ 11, 12 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-6 FacesOfChambers[101X
+  
+  [33X[1;0Y[29X[2XFacesOfChambers[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XFaceOfChamber[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XFaceOfChamberNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of positive integers / a positive integers[133X
+  
+  [33X[0;0YThe method [9XFaceOfChamber[109X([3Xcomplex[103X, [3Xchamber[103X) returns the face that is incident
+  to  [3Xchamber[103X.  The  NC-version  does not check whether the given [3Xchamber[103X is a
+  chamber of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe attribute [9XFacesOfChambers[109X([3Xcomplex[103X) collects all of those faces in a list
+  that      is      indexed      by      the      chamber     labels,     i.e.
+  [9XFacesOfChambers[109X([3Xcomplex[103X)[[3Xchamber[103X]  =  [9XFaceOfChamber[109X([3Xcomplex[103X,  [3Xchamber[103X).  All
+  other positions of this list are not bound.[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFaceOfChamber(complex, 2);[127X[104X
+    [4X[28X1[128X[104X
+    [4X[25Xgap>[125X [27XFaceOfChamber(complex, 12);[127X[104X
+    [4X[28X9[128X[104X
+    [4X[25Xgap>[125X [27XFacesOfChambers(complex);[127X[104X
+    [4X[28X[ 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9 ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.1-7 ChambersOfFaces[101X
+  
+  [33X[1;0Y[29X[2XChambersOfFaces[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XChambersOfFace[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XChambersOfFaceNC[102X( [3Xcomplex[103X, [3Xface[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya list of sets of positive integers / a set of positive integers[133X
+  
+  [33X[0;0YThe  method  [9XChambersOfFace[109X([3Xcomplex[103X,  [3Xface[103X) returns the set of chambers that
+  are  incident  to [3Xface[103X. The NC-version does not check whether the given [3Xface[103X
+  is a face of [3Xcomplex[103X.[133X
+  
+  [33X[0;0YThe  attribute [9XChambersOfFaces[109X([3Xcomplex[103X) collects all of those sets in a list
+  that  is  indexed  by the face labels, i.e. [9XChambersOfFaces[109X([3Xcomplex[103X)[[3Xface[103X] =
+  [9XChambersOfFace[109X([3Xcomplex[103X,  [3Xface[103X).  All  other  positions  of this list are not
+  bound.[133X
+  
+  [33X[0;0YAs  an  example consider the twisted polygonal complex from the beginning of
+  Section [14X5.1[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XChambersOfFace(complex, 9);[127X[104X
+    [4X[28X[ 7, 8, 9, 10, 11, 12, 13, 14 ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfFaces(complex);[127X[104X
+    [4X[28X[ [ 1, 2, 3, 4, 5, 6 ],,,,,,,, [ 7, 8, 9, 10, 11, 12, 13, 14 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X5.2 [33X[0;0YChamber adjacency[133X[101X
+  
+  [33X[0;0YBy  focussing  on  chambers,  twisted  polygonal  complexes  are  much  more
+  expressive  than  polygonal  complexes.  Thus,  chamber  manipulation  is of
+  paramount importance when dealing with twisted polygonal complexes. The most
+  important  aspects  of chambers is their adjacency, which we illustrate with
+  the following twisted polygonal complex: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := TwistedPolygonalComplexByChamberAdjacencies([127X[104X
+    [4X[25X>[125X [27X   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26),[127X[104X
+    [4X[25X>[125X [27X   (1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25),[127X[104X
+    [4X[25X>[125X [27X   [[1,6],[2,5],[3,8],[4,7],[9,14,22],[10,13,21],[11,16],[12,15],[17,20],[18,19],[23],[24],[25],[26]]);[127X[104X
+    [4X[28Xtwisted polygonal complex (5 vertices, 7 edges, 4 faces, and 26 chambers)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThere  are  three  kinds of chamber adjacencies: 0-adjacent, 1-adjacent, and
+  2-adjacent. We can calculate each of those:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XZeroAdjacentChamber(complex, 9);[127X[104X
+    [4X[28X10[128X[104X
+    [4X[25Xgap>[125X [27XOneAdjacentChamber(complex, 9);[127X[104X
+    [4X[28X8[128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChambers(complex,9);[127X[104X
+    [4X[28X[ 14, 22 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YFor  each  chamber,  there is exactly one 0-adjacent chamber and exactly one
+  1-adjacent  chamber. However, there may be an arbitrary number of 2-adjacent
+  chambers.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChambers(complex, 12);[127X[104X
+    [4X[28X[ 15 ][128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChambers(complex, 23);[127X[104X
+    [4X[28X[][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YWe  can  also  work  with  all  adjacencies simultaneously. Currently, three
+  different options are supported:[133X
+  
+  [30X    [33X[0;6YAn equivalence relation on the set of chambers[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe0 := ZeroAdjacencyRelation(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XEquivalenceClasses(e0);[127X[104X
+    [4X[28X[ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ][128X[104X
+    [4X[25Xgap>[125X [27Xe1 := OneAdjacencyRelation(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XEquivalenceClasses(e1);[127X[104X
+    [4X[28X[ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ][128X[104X
+    [4X[25Xgap>[125X [27Xe2 := TwoAdjacencyRelation(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XEquivalenceClasses(e2);[127X[104X
+    [4X[28X[ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ][128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6YA set of equivalence classes[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XZeroAdjacencyClasses(complex);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], [ 11, 12 ], [ 13, 14 ], [128X[104X
+    [4X[28X  [ 15, 16 ], [ 17, 18 ], [ 19, 20 ], [ 21, 22 ], [ 23, 24 ], [ 25, 26 ] ][128X[104X
+    [4X[25Xgap>[125X [27XOneAdjacencyClasses(complex);[127X[104X
+    [4X[28X[ [ 1, 6 ], [ 2, 3 ], [ 4, 5 ], [ 7, 14 ], [ 8, 9 ], [ 10, 11 ], [ 12, 13 ],[128X[104X
+    [4X[28X  [ 15, 20 ], [ 16, 17 ], [ 18, 19 ], [ 21, 26 ], [ 22, 23 ], [ 24, 25 ]][128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacencyClasses(complex);[127X[104X
+    [4X[28X[ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9, 14, 22 ], [ 10,13 ,21 ],[128X[104X
+    [4X[28X  [ 11, 16 ], [ 12, 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ][128X[104X
+  [4X[32X[104X
+  
+  [30X    [33X[0;6YAn  involution  (element of the symmetric group on the chambers). This
+        is  always  possible for 0-adjacency and 1-adjacency. For 2-adjacency,
+        it works if and only if we have a twisted polygonal surface.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XZeroAdjacencyInvolution(complex);[127X[104X
+    [4X[28X(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26)[128X[104X
+    [4X[25Xgap>[125X [27XOneAdjacencyInvolution(complex);[127X[104X
+    [4X[28X(1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25)[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-1 ZeroAdjacentChamber[101X
+  
+  [33X[1;0Y[29X[2XZeroAdjacentChamber[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XZeroAdjacentChamberNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOneAdjacentChamber[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XOneAdjacentChamberNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwoAdjacentChamber[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwoAdjacentChamberNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwoAdjacentChambers[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwoAdjacentChambersNC[102X( [3Xcomplex[103X, [3Xchamber[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer or a list of positive integers[133X
+  
+  [33X[0;0YGiven a chamber of a twisted polygonal complex [3Xcomplex[103X, these methods return
+  the adjacent chambers:[133X
+  
+  [30X    [33X[0;6Y[9XZeroAdjacentChamber[109X([3Xcomplex[103X,  [3Xchamber[103X) returns the unique chamber that
+        is 0-adjacent to [3Xchamber[103X.[133X
+  
+  [30X    [33X[0;6Y[9XOneAdjacentChamber[109X([3Xcomplex[103X,  [3Xchamber[103X)  returns the unique chamber that
+        is 1-adjacent to [3Xchamber[103X.[133X
+  
+  [30X    [33X[0;6Y[9XTwoAdjacentChambers[109X([3Xcomplex[103X, [3Xchamber[103X) returns the set of chambers that
+        are  2-adjacent  to [3Xchamber[103X. If this set contains exactly one element,
+        the  method [9XTwoAdjacentChamber[109X is also applicable (otherwise, an error
+        is raised).[133X
+  
+  [33X[0;0YThe  NC-version  does  not check whether [3Xchamber[103X is a chamber of [3Xcomplex[103X. In
+  the  case  of  [9XTwoAdjacentChamberNC[109X,  it  also  does not check the number of
+  2-adjacent chambers.[133X
+  
+  [33X[0;0YAs  an example, consider the twisted polygonal complex from the beginning of
+  Section [14X5.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XZeroAdjacentChamber(complex, 4);[127X[104X
+    [4X[28X3[128X[104X
+    [4X[25Xgap>[125X [27XOneAdjacentChamber(complex, 4);[127X[104X
+    [4X[28X5[128X[104X
+    [4X[25Xgap>[125X [27X[127X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChamber(complex, 4);[127X[104X
+    [4X[28X7[128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChambers(complex, 4);[127X[104X
+    [4X[28X[ 7 ][128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChambers(complex, 14);[127X[104X
+    [4X[28X[ 9, 22 ][128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacentChambers(complex, 23);[127X[104X
+    [4X[28X[][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-2 IsZeroAdjacentChambers[101X
+  
+  [33X[1;0Y[29X[2XIsZeroAdjacentChambers[102X( [3Xcomplex[103X, [3XchamberA[103X, [3XchamberB[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsZeroAdjacentChambersNC[102X( [3Xcomplex[103X, [3XchamberA[103X, [3XchamberB[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsOneAdjacentChambers[102X( [3Xcomplex[103X, [3XchamberA[103X, [3XchamberB[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsOneAdjacentChambersNC[102X( [3Xcomplex[103X, [3XchamberA[103X, [3XchamberB[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsTwoAdjacentChambers[102X( [3Xcomplex[103X, [3XchamberA[103X, [3XchamberB[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XIsTwoAdjacentChambersNC[102X( [3Xcomplex[103X, [3XchamberA[103X, [3XchamberB[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Y[9Xtrue[109X or [9Xfalse[109X[133X
+  
+  [33X[0;0YGiven  two  chambers  of  a twisted polygonal complex [3Xcomplex[103X, these methods
+  check whether they are 0-adjacent, 1-adjacent, or 2-adjacent.[133X
+  
+  [33X[0;0YThe  NC-version does not check whether [3XchamberA[103X and [3XchamberB[103X are chambers of
+  [3Xcomplex[103X.[133X
+  
+  [33X[0;0YAs  an example, consider the twisted polygonal complex from the beginning of
+  Section [14X5.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsZeroAdjacentChambers(complex, 4,3);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsZeroAdjacentChambers(complex, 9, 22);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsOneAdjacentChambers(complex, 8, 9);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsOneAdjacentChambers(complex, 11, 20);[127X[104X
+    [4X[28Xfalse[128X[104X
+    [4X[25Xgap>[125X [27XIsTwoAdjacentChambers(complex, 12, 15);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsTwoAdjacentChambers(complex, 13, 21);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XIsTwoAdjacentChambers(complex, 1, 5);[127X[104X
+    [4X[28Xfalse[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-3 ZeroAdjacencyInvolution[101X
+  
+  [33X[1;0Y[29X[2XZeroAdjacencyInvolution[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XOneAdjacencyInvolution[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XTwoAdjacencyInvolution[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya positive integer, a list of positive integers, or [9Xfail[109X[133X
+  
+  [33X[0;0YGiven  a  twisted  polygonal  complex  [3Xcomplex[103X,  these  methods  return  the
+  involutions    that    encode    adjacency    of    chambers.   The   method
+  [9XZeroAdjacencyInvolution[109X  returns  an  involution  whose  action on a chamber
+  produces  the unique chamber that is 0-adjacent to the first one. The method
+  [9XOneAdjacencyInvolution[109X does the same for 1-adjacency.[133X
+  
+  [33X[0;0YFor  2-adjacency,  each  chamber  may have an arbitrary number of 2-adjacent
+  chambers.  If  each  chamber  has  at  most  one 2-adjacent chamber (i.e. if
+  [3Xcomplex[103X  is a twisted polygonal surface), [9XTwoAdjacencyInvolution[109X returns the
+  corresponding involution. Otherwise, it returns [9Xfail[109X.[133X
+  
+  [33X[0;0YAs  an example, consider the twisted polygonal complex from the beginning of
+  Section [14X5.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XZeroAdjacencyInvolution(complex);[127X[104X
+    [4X[28X(1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18)(19,20)(21,22)(23,24)(25,26)[128X[104X
+    [4X[25Xgap>[125X [27XOneAdjacencyInvolution(complex);[127X[104X
+    [4X[28X(1,6)(2,3)(4,5)(7,14)(8,9)(10,11)(12,13)(15,20)(16,17)(18,19)(21,26)(22,23)(24,25)[128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacencyInvolution(complex);[127X[104X
+    [4X[28Xfail[128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-4 ZeroAdjacencyClasses[101X
+  
+  [33X[1;0Y[29X[2XZeroAdjacencyClasses[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XOneAdjacencyClasses[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XTwoAdjacencyClasses[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Ya set of sets of positive integers[133X
+  
+  [33X[0;0YGiven  a  twisted  polygonal  complex [3Xcomplex[103X, these methods return a set of
+  sets encoding the adjacency of chambers.[133X
+  
+  [33X[0;0YThe  method  [9XZeroAdjacencyClasses[109X  returns  a  set  of  pairs, such that the
+  elements  of  each  pair are 0-adjacent. The method [9XOneAdjacencyClasses[109X does
+  the same for 1-adjacency.[133X
+  
+  [33X[0;0YThe  method  [9XTwoAdjacencyClasses[109X  is  similar, but it returns a set of sets.
+  Every pair of chambers in one of the contained sets is 2-adjacent.[133X
+  
+  [33X[0;0YAs  an example, consider the twisted polygonal complex from the beginning of
+  Section [14X5.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XZeroAdjacencyClasses(complex);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7, 8 ], [ 9, 10 ], [ 11, 12 ], [ 13, 14 ], [128X[104X
+    [4X[28X  [ 15, 16 ], [ 17, 18 ], [ 19, 20 ], [ 21, 22 ], [ 23, 24 ], [ 25, 26 ] ][128X[104X
+    [4X[25Xgap>[125X [27XOneAdjacencyClasses(complex);[127X[104X
+    [4X[28X[ [ 1, 6 ], [ 2, 3 ], [ 4, 5 ], [ 7, 14 ], [ 8, 9 ], [ 10, 11 ], [ 12, 13 ],[128X[104X
+    [4X[28X  [ 15, 20 ], [ 16, 17 ], [ 18, 19 ], [ 21, 26 ], [ 22, 23 ], [ 24, 25 ]][128X[104X
+    [4X[25Xgap>[125X [27XTwoAdjacencyClasses(complex);[127X[104X
+    [4X[28X[ [ 1, 6 ], [ 2, 5 ], [ 3, 8 ], [ 4, 7 ], [ 9 , 14, 22 ], [ 10 ,13 ,21 ],[128X[104X
+    [4X[28X  [ 11, 16 ], [ 12 , 15 ], [ 17, 20 ], [ 18, 19 ], [ 23 ], [ 24 ], [ 25 ], [ 26 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.2-5 ZeroAdjacencyRelation[101X
+  
+  [33X[1;0Y[29X[2XZeroAdjacencyRelation[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XOneAdjacencyRelation[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [33X[1;0Y[29X[2XTwoAdjacencyRelation[102X( [3Xcomplex[103X ) [32X attribute[133X
+  [6XReturns:[106X  [33X[0;10Yan equivalence relation[133X
+  
+  [33X[0;0YGiven   a  twisted  polygonal  complex  [3Xcomplex[103X,  these  methods  return  an
+  equivalence relation encoding the adjacency of chambers.[133X
+  
+  [33X[0;0YThe  method [9XZeroAdjacencyRelation[109X returns an equivalence relation on the set
+  of  chambers,  such that two chambers are equivalent if and only if they are
+  0-adjacent or identical.[133X
+  
+  [33X[0;0YThe  methods  [9XOneAdjacencyRelation[109X  and [9XTwoAdjacencyRelation[109X do the same for
+  1-adjacency and 2-adjacency.[133X
+  
+  [33X[0;0YAs  an example, consider the twisted polygonal complex from the beginning of
+  Section [14X5.2[114X: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xe0 := ZeroAdjacencyRelation(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XEquivalenceClasses(e0);[127X[104X
+    [4X[28X[ {1}, {3}, {5}, {7}, {9}, {11}, {13}, {15}, {17}, {19}, {21}, {23}, {25} ][128X[104X
+    [4X[25Xgap>[125X [27Xe1 := OneAdjacencyRelation(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XEquivalenceClasses(e1);[127X[104X
+    [4X[28X[ {1}, {2}, {4}, {7}, {8}, {10}, {12}, {15}, {16}, {18}, {21}, {22}, {24} ][128X[104X
+    [4X[25Xgap>[125X [27Xe2 := TwoAdjacencyRelation(complex);;[127X[104X
+    [4X[25Xgap>[125X [27XEquivalenceClasses(e2);[127X[104X
+    [4X[28X[ {1}, {2}, {3}, {4}, {9}, {10}, {11}, {12}, {17}, {18}, {23}, {24}, {25}, {26} ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X5.3 [33X[0;0YConstructors[133X[101X
+  
+  [33X[0;0YTwisted  polygonal  complexes  can be constructed in several different ways.
+  This section explores several different possible constructions.[133X
+  
+  [30X    [33X[0;6Y[9XTwistedPolygonalComplexByChamberRelations[109X ([14X5.3-1[114X) constructs a twisted
+        polygonal  complex  from  the  vertices,  edges,  and  faces  that are
+        incident to each chamber, together with the three adjacency relations.[133X
+  
+  [30X    [33X[0;6Y[9XTwistedPolygonalComplexByChamberAdjacencies[109X   ([14X5.3-2[114X)   constructs   a
+        twisted  polygonal  complex  purely  from its chamber adjacencies. The
+        vertices, edges, and faces are deduced from them.[133X
+  
+  [30X    [33X[0;6Y[9XTwistedPolygonalSurfaceByChamberInvolutions[109X   ([14X5.3-3[114X)   constructs   a
+        twisted  polygonal  surface from its chamber adjacencies, that have to
+        be given as involutions.[133X
+  
+  [33X[0;0YTo  exemplify  these  methods,  all  of them construct the twisted polygonal
+  surface illustrated here: Image omitted in terminal text[133X
+  
+  [1X5.3-1 TwistedPolygonalComplexByChamberRelations[101X
+  
+  [33X[1;0Y[29X[2XTwistedPolygonalComplexByChamberRelations[102X( [3XverticesOfChambers[103X, [3XedgesOfChambers[103X, [3XfacesOfChambers[103X, [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalComplexByChamberRelationsNC[102X( [3XverticesOfChambers[103X, [3XedgesOfChambers[103X, [3XfacesOfChambers[103X, [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalSurfaceByChamberRelations[102X( [3XverticesOfChambers[103X, [3XedgesOfChambers[103X, [3XfacesOfChambers[103X, [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalSurfaceByChamberRelationsNC[102X( [3XverticesOfChambers[103X, [3XedgesOfChambers[103X, [3XfacesOfChambers[103X, [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya twisted polygonal complex[133X
+  
+  [33X[0;0YThis method constructs a twisted polygonal complex ([14X2.2[114X). It is based on the
+  set  of  chambers,  which  is represented as a set of positive integers. The
+  method takes the following parameters:[133X
+  
+  [30X    [33X[0;6Y[3XverticesOfChambers[103X:  A  list  that  has  an  entry for each chamber (a
+        positive integer). The entry is the unique vertex (a positive integer)
+        that is incident to that chamber.[133X
+  
+  [30X    [33X[0;6Y[3XedgesOfChambers[103X: A list that has an entry for each chamber (a positive
+        integer).  The  entry  is the unique edge (a positive integer) that is
+        incident to that chamber.[133X
+  
+  [30X    [33X[0;6Y[3XfacesOfChambers[103X: A list that has an entry for each chamber (a positive
+        integer).  The  entry  is the unique face (a positive integer) that is
+        incident to that chamber.[133X
+  
+  [30X    [33X[0;6Y[3XzeroAdjacency[103X:  This  parameter encodes which chambers are 0-adjacent.
+        It  can be given as an involution without fixed points or as a list of
+        pairs of chambers.[133X
+  
+  [30X    [33X[0;6Y[3XoneAdjacency[103X: This parameter encodes which chambers are 1-adjacent. It
+        can  be  given  as  an involution without fixed points or as a list of
+        pairs of chambers.[133X
+  
+  [30X    [33X[0;6Y[3XtwoAdjacency[103X: This parameter encodes which chambers are 1-adjacent. It
+        can  be  given  as  an involution (only possible for twisted polygonal
+        surfaces) or as a list of lists of chambers.[133X
+  
+  [33X[0;0YAll of these parameters rely on the set of chambers:[133X
+  
+  [30X    [33X[0;6YFor  [3XverticesOfChambers[103X, [3XedgesOfChambers[103X, and [3XfacesOfChambers[103X, the set
+        of chambers is the set of bound positions.[133X
+  
+  [30X    [33X[0;6YIf  [3XzeroAdjacency[103X or [3XoneAdjacency[103X are given as involutions, the set of
+        chambers is the set of moved points.[133X
+  
+  [30X    [33X[0;6YIf  [3XtwoAdjacency[103X  is  given  as  involution,  the set of chambers is a
+        superset of the set of moved points.[133X
+  
+  [30X    [33X[0;6YIf  [3XzeroAdjacency[103X,  [3XoneAdjacency[103X, or [3XtwoAdjacency[103X are given as list of
+        lists, they define a partition of the set of chambers.[133X
+  
+  [33X[0;0YThe NC-version does not check the consistency of this information.[133X
+  
+  [33X[0;0YAs  an  example, we construct the following twisted polygonal surface: Image
+  omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XTwistedPolygonalComplexByChamberRelations([127X[104X
+    [4X[25X>[125X [27X   [3,7,7,5,5,3,5,7,7,5,5,5,5,7,7,3,3,5],[127X[104X
+    [4X[25X>[125X [27X   [4,4,6,6,2,2,6,6,10,10,8,8,10,10,12,12,2,2],[127X[104X
+    [4X[25X>[125X [27X   [1,1,1,1,1,1,9,9,9,9,9,9,11,11,11,11,11,11],[127X[104X
+    [4X[25X>[125X [27X   [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],[127X[104X
+    [4X[25X>[125X [27X   (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),[127X[104X
+    [4X[25X>[125X [27X   [[1],[2],[3,8],[4,7],[5,18],[6,17],[9,14],[10,13],[11],[12],[15],[16]]);[127X[104X
+    [4X[28Xtwisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)[128X[104X
+  [4X[32X[104X
+  
+  [1X5.3-2 TwistedPolygonalComplexByChamberAdjacencies[101X
+  
+  [33X[1;0Y[29X[2XTwistedPolygonalComplexByChamberAdjacencies[102X( [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalComplexByChamberAdjacenciesNC[102X( [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalSurfaceByChamberAdjacencies[102X( [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalSurfaceByChamberAdjacenciesNC[102X( [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya twisted polygonal complex[133X
+  
+  [33X[0;0YThis method constructs a twisted polygonal complex ([14X2.2[114X). It is based on the
+  set  of  chambers,  which  is represented as a set of positive integers. The
+  method takes the following parameters:[133X
+  
+  [30X    [33X[0;6Y[3XzeroAdjacency[103X:  This  parameter encodes which chambers are 0-adjacent.
+        It  can be given as an involution without fixed points or as a list of
+        pairs of chambers.[133X
+  
+  [30X    [33X[0;6Y[3XoneAdjacency[103X: This parameter encodes which chambers are 1-adjacent. It
+        can  be  given  as  an involution without fixed points or as a list of
+        pairs of chambers.[133X
+  
+  [30X    [33X[0;6Y[3XtwoAdjacency[103X: This parameter encodes which chambers are 1-adjacent. It
+        can  be  given  as  an involution (only possible for twisted polygonal
+        surfaces) or as a list of lists of chambers.[133X
+  
+  [33X[0;0YVertices, edges, and faces are constructed automatically.[133X
+  
+  [33X[0;0YAll of these parameters rely on the set of chambers:[133X
+  
+  [30X    [33X[0;6YIf  [3XzeroAdjacency[103X or [3XoneAdjacency[103X are given as involutions, the set of
+        chambers is the set of moved points.[133X
+  
+  [30X    [33X[0;6YIf  [3XtwoAdjacency[103X  is  given  as  involution,  the set of chambers is a
+        superset of the set of moved points.[133X
+  
+  [30X    [33X[0;6YIf  [3XzeroAdjacency[103X,  [3XoneAdjacency[103X, or [3XtwoAdjacency[103X are given as list of
+        lists, they define a partition of the set of chambers.[133X
+  
+  [33X[0;0YThe NC-version does not check the consistency of this information.[133X
+  
+  [33X[0;0YAs  an  example,  we  construct the following twisted polygonal surface (the
+  labels of vertices, edges, and faces are the default ones): Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := TwistedPolygonalComplexByChamberAdjacencies([127X[104X
+    [4X[25X>[125X [27X   [[1,2],[3,4],[5,6],[7,8],[9,10],[11,12],[13,14],[15,16],[17,18]],[127X[104X
+    [4X[25X>[125X [27X   (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),[127X[104X
+    [4X[25X>[125X [27X   [[1],[2],[3,8],[4,7],[5,18],[6,17],[9,14],[10,13],[11],[12],[15],[16]]);[127X[104X
+    [4X[28Xtwisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)[128X[104X
+    [4X[25Xgap>[125X [27XChambersOfVertices(complex);[127X[104X
+    [4X[28X[ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfEdges(complex);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6, 17, 18 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ] ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfFaces(complex);[127X[104X
+    [4X[28X[ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ][128X[104X
+  [4X[32X[104X
+  
+  [1X5.3-3 TwistedPolygonalSurfaceByChamberInvolutions[101X
+  
+  [33X[1;0Y[29X[2XTwistedPolygonalSurfaceByChamberInvolutions[102X( [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [33X[1;0Y[29X[2XTwistedPolygonalSurfaceByChamberInvolutionsNC[102X( [3XzeroAdjacency[103X, [3XoneAdjacency[103X, [3XtwoAdjacency[103X ) [32X operation[133X
+  [6XReturns:[106X  [33X[0;10Ya twisted polygonal surface[133X
+  
+  [33X[0;0YThis method constructs a twisted polygonal surface ([14X2.2[114X). It is based on the
+  set  of  chambers,  which  is represented as a set of positive integers. The
+  method takes the following parameters:[133X
+  
+  [30X    [33X[0;6Y[3XzeroAdjacency[103X:  This  parameter encodes which chambers are 0-adjacent,
+        given as an involution without fixed points.[133X
+  
+  [30X    [33X[0;6Y[3XoneAdjacency[103X:  This  parameter  encodes which chambers are 1-adjacent,
+        given as an involution without fixed points.[133X
+  
+  [30X    [33X[0;6Y[3XtwoAdjacency[103X:  This  parameter  encodes which chambers are 2-adjacent,
+        given as an involution.[133X
+  
+  [33X[0;0YVertices, edges, and faces are constructed automatically.[133X
+  
+  [33X[0;0YAll of these parameters rely on the set of chambers:[133X
+  
+  [30X    [33X[0;6YFor [3XzeroAdjacency[103X and [3XoneAdjacency[103X, the set of moved points is the set
+        of chambers.[133X
+  
+  [30X    [33X[0;6YFor  [3XtwoAdjacency[103X,  the  set  of  chambers is a superset of the set of
+        moved points.[133X
+  
+  [33X[0;0YThe NC-version does not check the consistency of this information.[133X
+  
+  [33X[0;0YAs  an  example,  we  construct the following twisted polygonal surface (the
+  labels of vertices, edges, and faces are the default ones): Image omitted in
+  terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := TwistedPolygonalSurfaceByChamberInvolutions([127X[104X
+    [4X[25X>[125X [27X   (1,2)(3,4)(5,6)(7,8)(9,10)(11,12)(13,14)(15,16)(17,18),[127X[104X
+    [4X[25X>[125X [27X   (1,6)(2,3)(4,5)(7,12)(8,9)(10,11)(13,18)(14,15)(16,17),[127X[104X
+    [4X[25X>[125X [27X   (3,8)(4,7)(5,18)(6,17)(9,14)(10,13));[127X[104X
+    [4X[28Xtwisted polygonal surface (3 vertices, 6 edges, 3 faces, and 18 chambers)[128X[104X
+    [4X[25Xgap>[125X [27XChambersOfVertices(complex);[127X[104X
+    [4X[28X[ [ 1, 6, 16, 17 ], [ 2, 3, 8, 9, 14, 15 ], [ 4, 5, 7, 10, 11, 12, 13, 18 ] ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfEdges(complex);[127X[104X
+    [4X[28X[ [ 1, 2 ], [ 3, 4, 7, 8 ], [ 5, 6, 17, 18 ], [ 9, 10, 13, 14 ], [ 11, 12 ], [ 15, 16 ] ][128X[104X
+    [4X[25Xgap>[125X [27XChambersOfFaces(complex);[127X[104X
+    [4X[28X[ [ 1, 2, 3, 4, 5, 6 ], [ 7, 8, 9, 10, 11, 12 ], [ 13, 14, 15, 16, 17, 18 ] ][128X[104X
+  [4X[32X[104X
+  
+  
+  [1X5.4 [33X[0;0YRelation to polygonal complexes[133X[101X
+  
+  [33X[0;0YEvery  polygonal  complex can be interpreted as a twisted polygonal complex.
+  However,  the  formalism of polygonal complexes does not mention chambers at
+  all.  Thus, if we construct a polygonal complex with one of the methods from
+  Chapter  [14X4[114X,  we do not immediately know the chambers. Consider the following
+  polygonal complex: Image omitted in terminal text[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27Xcomplex := PolygonalComplexByDownwardIncidence( [127X[104X
+    [4X[25X>[125X [27X   [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], [127X[104X
+    [4X[25X>[125X [27X   [[6,8,9], , , [9,10,12,13]]);[127X[104X
+    [4X[28Xpolygonal surface (5 vertices, 6 edges, and 2 faces)[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YIt turns out that it already contains information about its chambers.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XChambers(complex);[127X[104X
+    [4X[28X[ 1 .. 14 ][128X[104X
+    [4X[25Xgap>[125X [27XVerticesOfChambers(complex);[127X[104X
+    [4X[28X[ 2, 2, 3, 3, 3, 3, 5, 5, 5, 5, 7, 7, 11, 11 ][128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfChambers(complex);[127X[104X
+    [4X[28X[ 6, 8, 8, 9, 9, 12, 6, 9, 9, 10, 12, 13, 10, 13 ][128X[104X
+    [4X[25Xgap>[125X [27XFacesOfChambers(complex);[127X[104X
+    [4X[28X[ 1, 1, 1, 1, 4, 4, 1, 1, 4, 4, 4, 4, 4, 4 ][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YThus,  the  chambers can be illustrated like this: Image omitted in terminal
+  text  Although  the labels seem random at first, there is a pattern here. In
+  polygonal  complexes, each chamber corresponds to exactly one flag (a triple
+  of vertex, edge, face, that are all incident). The flags are given by[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XFlags(complex);[127X[104X
+    [4X[28X[ [ 2, 6, 1 ], [ 2, 8, 1 ], [ 3, 8, 1 ], [ 3, 9, 1 ], [ 3, 9, 4 ], [128X[104X
+    [4X[28X  [ 3, 12, 4 ], [ 5, 6, 1 ], [ 5, 9, 1 ], [ 5, 9, 4 ], [ 5, 10, 4 ],[128X[104X
+    [4X[28X  [ 7, 12, 4 ], [ 7, 13, 4 ], [ 11, 10, 4 ], [ 11, 13, 4 ]][128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YNotably, a chamber [3Xc[103X corresponds to the flag with position [3Xc[103X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVerticesOfChambers(complex) = List(Flags(complex), f -> f[1]);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XEdgesOfChambers(complex) = List(Flags(complex), f -> f[2]);[127X[104X
+    [4X[28Xtrue[128X[104X
+    [4X[25Xgap>[125X [27XFacesOfChambers(complex) = List(Flags(complex), f -> f[3]);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YPolygonal  complexes  whose  chambers  are  given  in  this fashion have the
+  property [9XIsDefaultChamberSystem[109X.[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XIsDefaultChamberSystem(complex);[127X[104X
+    [4X[28Xtrue[128X[104X
+  [4X[32X[104X
+  
+  [1X5.4-1 IsDefaultChamberSystem[101X
+  
+  [33X[1;0Y[29X[2XIsDefaultChamberSystem[102X( [3Xcomplex[103X ) [32X property[133X
+  [6XReturns:[106X  [33X[0;10Ytrue or false[133X
+  
+  [33X[0;0YA  twisted polygonal complex [3Xcomplex[103X has the property [9XIsDefaultChamberSystem[109X
+  if  it  is  a polygonal complex and the chambers correspond to the flags, in
+  the following sense:[133X
+  
+  [4X[32X  Example  [32X[104X
+    [4X[25Xgap>[125X [27XVertexOfChamber(complex, chamber) = Flags(complex)[chamber][1];[127X[104X
+    [4X[25Xgap>[125X [27XEdgeOfChamber(complex, chamber) = Flags(complex)[chamber][2];[127X[104X
+    [4X[25Xgap>[125X [27XFaceOfChamber(complex, chamber) = Flags(complex)[chamber][3];[127X[104X
+  [4X[32X[104X
+  
+  [33X[0;0YMore detail can be found at the start of Section [14X5.4[114X.[133X
+  

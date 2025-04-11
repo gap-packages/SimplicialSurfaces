@@ -1,0 +1,1084 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<title>GAP (SimplicialSurfaces) - Chapter 10: Navigating the incidence structure</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap10"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap9.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap11.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap10_mj.html">[MathJax on]</a></p>
+<p><a id="X86B3149981F73BBE" name="X86B3149981F73BBE"></a></p>
+<div class="ChapSects"><a href="chap10.html#X86B3149981F73BBE">10 <span class="Heading">Navigating the incidence structure</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X7E393BC380A60E77">10.1 <span class="Heading">Moving along edges</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7A3B039A797DAF68">10.1-1 IsVerticesAdjacent</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8345F2FC7C29856E">10.1-2 EdgesBetweenVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8745B94A7A363A27">10.1-3 OtherVertexOfEdge</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X861A481A82259208">10.2 <span class="Heading">Moving within a face</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7E99EE1B7DD6E4B1">10.2-1 EdgeInFaceByVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8374BF7C7C54E329">10.2-2 OtherEdgeOfVertexInFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X86A234367B0A44ED">10.2-3 OppositeVertexOfEdgeInTriangle</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8394669F835DAB30">10.2-4 OppositeEdgeOfVertexInTriangle</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X79B2368C87749992">10.3 <span class="Heading">Moving between faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X80528BFB84B6C70C">10.3-1 IsFacesAdjacent</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X84F41A75813420CC">10.3-2 EdgesBetweenFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7C03AF83789F1585">10.3-3 NeighbourFaceByEdge</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X78B121DE81968BF8">10.4 <span class="Heading">Localising subconfigurations with special properties</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X826E6D9D82F06CC8">10.4-1 AdjacentVerticesWithProperties</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X79C3C0C481C6AAF9">10.4-2 EdgesWithVertexProperties</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X86AE834A811D5799">10.4-3 FacesWithVertexProperties</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7C6770B47F682429">10.4-4 FacesWithEdgeProperties</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap10.html#X81B03E8185F2128F">10.5 <span class="Heading">Determination of common elements</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7877C9AF7A9019AD">10.5-1 CommonVerticesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7E0D4DF78606DE20">10.5-2 CommonEdgesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X78F828287F709AD5">10.5-3 CommonVerticesOfFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X8610FD0B7B2B1BDA">10.5-4 CommonEdgesOfVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X78B4F7EA7DF5E702">10.5-5 CommonFacesOfEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap10.html#X7BF7936179655F85">10.5-6 CommonFacesOfVertices</a></span>
+</div></div>
+</div>
+
+<h3>10 <span class="Heading">Navigating the incidence structure</span></h3>
+
+<p>Chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a> introduces the elementary access operations for the incidence geometry. But if one works with those geometries in practice, one notices that some tasks are quite cumbersome with those tools, for example:</p>
+
+
+<ul>
+<li><p>Given a face and an incident edge, what is the other face incident to the edge?</p>
+
+</li>
+<li><p>Given a triangular face and an incident vertex, which edge is opposite to that vertex?</p>
+
+</li>
+<li><p>For which pairs of adjacent vertices do both of the vertices fulfill some property?</p>
+
+</li>
+</ul>
+<p>All of the methods in this chapter only require a few lines of code with the tools of chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>. Nevertheless, having them makes programming a bit simpler as one can focus on higher-order structures. In addition, each method will feature an explanation how the desired result can be achieved with the tools from chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>, so that each user can adapt them for their own special circumstances.</p>
+
+<p>TODO overview of sections</p>
+
+<p>We will use the following polygonal complex to exemplify the methods in this chapter: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex := PolygonalComplexByDownwardIncidence( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,2],[2,5],[2,6],[2,6],[1,6],[5,6],[1,7],[6,8],[5,9],[7,8],[8,9],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        [8,12],[2,13],[12,13]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,3,5],[5,7,8,10],,[6,8,9,11],[2,4,6],[2,9,11,12,13,14]]);;</span>
+</pre></div>
+
+<p><a id="X7E393BC380A60E77" name="X7E393BC380A60E77"></a></p>
+
+<h4>10.1 <span class="Heading">Moving along edges</span></h4>
+
+<p>This section is concerned with movement along edges, i.e. the relation between vertices and edges. It contains the following methods (illustrated on the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>):</p>
+
+
+<ul>
+<li><p><code class="keyw">IsVerticesAdjacent</code> (<a href="chap10.html#X7A3B039A797DAF68"><span class="RefLink">10.1-1</span></a>) checks whether two vertices are adjacent (i.e. connected by an edge).</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 1, 2 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 7, 12 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 2, 2 );</span>
+false
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">Edge(s)BetweenVertices</code> (<a href="chap10.html#X8345F2FC7C29856E"><span class="RefLink">10.1-2</span></a>) returns the edge (or edges) between two vertices.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenVertices( complex, 1, 2 );</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenVertices( complex, 1, 2 );</span>
+[ 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenVertices( complex, 2, 6 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenVertices( complex, 2, 6 );</span>
+[ 3, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenVertices( complex, 7, 9 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenVertices( complex, 7, 9 );</span>
+[  ]
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">OtherVertexOfEdge</code> (<a href="chap10.html#X8745B94A7A363A27"><span class="RefLink">10.1-3</span></a>) takes an edge and an incident vertex and returns the other incident vertex of the given edge.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherEdgeOfVertexInFace( complex, 1, 5, 2 );</span>
+7
+</pre></div>
+
+<p><a id="X7A3B039A797DAF68" name="X7A3B039A797DAF68"></a></p>
+
+<h5>10.1-1 IsVerticesAdjacent</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVerticesAdjacent</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsVerticesAdjacentNC</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">IsVerticesAdjacent</code> checks whether two given vertices of a twisted polygonal complex are adjacent, i.e. whether they are connected by an edge.</p>
+
+<p>The NC-version does not check whether <var class="Arg">v1</var> and <var class="Arg">v2</var> are vertices of the given twisted polygonal complex.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 1, 2 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 7, 12 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 2, 2 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsVerticesAdjacent( complex, 2, 6 );</span>
+true
+</pre></div>
+
+<p>This method can be implemented with the methods from chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Set([v1,v2]) in VerticesOfEdges(complex);</span>
+</pre></div>
+
+<p><a id="X8345F2FC7C29856E" name="X8345F2FC7C29856E"></a></p>
+
+<h5>10.1-2 EdgesBetweenVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesBetweenVertices</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesBetweenVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeBetweenVertices</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeBetweenVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A set of edges</p>
+
+<p>The method <code class="keyw">EdgesBetweenVertices</code> returns the set of all edges that are incident to both given vertices of a twisted polygonal complex. If there is exactly one edge incident to both vertices, <code class="keyw">EdgeBetweenVertices</code> directly returns this edge (or <code class="keyw">fail</code> if this is not the case).</p>
+
+<p>The NC-versions do not check whether <var class="Arg">v1</var> and <var class="Arg">v2</var> are vertices of the given twisted polygonal complex.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenVertices( complex, 1, 2 );</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenVertices( complex, 1, 2 );</span>
+[ 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenVertices( complex, 2, 6 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenVertices( complex, 2, 6 );</span>
+[ 3, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenVertices( complex, 7, 9 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenVertices( complex, 7, 9 );</span>
+[  ]
+</pre></div>
+
+<p>The method <code class="keyw">EdgesBetweenVertices</code> can be implemented with the methods from chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Intersection( EdgesOfVertex(complex,v1), EdgesOfVertex(complex,v2) );</span>
+</pre></div>
+
+<p><a id="X8745B94A7A363A27" name="X8745B94A7A363A27"></a></p>
+
+<h5>10.1-3 OtherVertexOfEdge</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OtherVertexOfEdge</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OtherVertexOfEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer</p>
+
+<p>Every edge in a polygonal complex is incident to exactly two vertices. Given one of them, this method returns the other one. For a twisted polygonal complex, an edge might only be incident to one vertex. This method will return the same vertex if it is given.</p>
+
+<p>The NC-version does not check whether the given <var class="Arg">edge</var> is an edge of the twisted polygonal complex and whether the given <var class="Arg">vertex</var> is incident to it.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherVertexOfEdge(complex, 7, 10);</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherVertexOfEdge(complex, 1, 5);</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherVertexOfEdge(complex, 6, 8);</span>
+8
+</pre></div>
+
+<p>This method can be implemented with the methods from chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>. We only give the implementation for polygonal complexes, since the implementation for twisted polygonal complexes only includes an additional case distinction.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Difference( VerticesOfEdge(complex, edge), [ vertex ] )[1];</span>
+</pre></div>
+
+<p><a id="X861A481A82259208" name="X861A481A82259208"></a></p>
+
+<h4>10.2 <span class="Heading">Moving within a face</span></h4>
+
+<p>This section is concerned with the movement within a face, i.e. the computation of related elements in a fixed face. This includes the following methods (illustrated with the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>): <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><code class="keyw">EdgeInFaceByVertices</code> (<a href="chap10.html#X7E99EE1B7DD6E4B1"><span class="RefLink">10.2-1</span></a>) returns the edge of a face that is incident to two vertices (and <code class="keyw">fail</code> otherwise).</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices( complex, 5, [2,6] );</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices( complex, 4, [6,9] );</span>
+fail
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">OtherEdgeOfVertexInFace</code> (<a href="chap10.html#X8374BF7C7C54E329"><span class="RefLink">10.2-2</span></a>) is given a vertex, an edge, and a face (all of them incident). It returns the other edge incident to both the vertex and the face (or <code class="keyw">fail</code>).</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherEdgeOfVertexInFace( complex, 1, 5, 2 );</span>
+7
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">OppositeVertexOfEdgeInTriangle</code> (<a href="chap10.html#X86A234367B0A44ED"><span class="RefLink">10.2-3</span></a>) is given an edge and an incident face (which has to be a triangle) and returns the unique vertex that is incident to the face but not to the edge. Currently, this is only supported for polygonal complexes.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 3, 1 );</span>
+1
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">OppositeEdgeOfVertexInTriangle</code> (<a href="chap10.html#X8394669F835DAB30"><span class="RefLink">10.2-4</span></a>) is given a vertex and an incident face (which has to be a triangle) and returns the unique edge that is incident to the face but not to the vertex. Currently, this is only supported for polygonal complexes.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 5, 5 );</span>
+4
+</pre></div>
+
+<p><a id="X7E99EE1B7DD6E4B1" name="X7E99EE1B7DD6E4B1"></a></p>
+
+<h5>10.2-1 EdgeInFaceByVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeInFaceByVertices</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">verts</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeInFaceByVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">verts</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesInFaceByVertices</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">verts</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesInFaceByVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">verts</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer or <code class="keyw">fail</code></p>
+
+<p>If the method <code class="keyw">EdgeInFaceByVertices</code> is given a face and a list of two vertices of a twisted polygonal complex, it returns the edge that lies in the given face and is incident to the given vertices, if possible.</p>
+
+<p>If there is no such edge (because the given vertices are not incident to the given face or because they are not connected by an edge of the face), or if there are several of these edges (this might happen for twisted polygonal complexes) it returns <code class="keyw">fail</code>.</p>
+
+<p>The method <code class="keyw">EdgesInFaceByVertices</code> takes the same arguments but returns the set of all edges fulfilling this specification.</p>
+
+<p>The NC-versions do not check if <var class="Arg">face</var> is a face of the given twisted polygonal complex.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices(complex, 5, [2,6]);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices(complex, 1, [2,1]);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices(complex, 1, [2,6]);</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices(complex, 2, [1,2]);</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeInFaceByVertices(complex, 4, [5,8]);</span>
+fail
+</pre></div>
+
+<p>The method <code class="keyw">EdgesInFaceByVertices</code> can be implemented with the methods of chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Intersection( EdgesOfFace(complex, face), </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     EdgesOfVertex(complex, verts[1]), EdgesOfVertex(complex, verts[2]) );</span>
+</pre></div>
+
+<p><a id="X8374BF7C7C54E329" name="X8374BF7C7C54E329"></a></p>
+
+<h5>10.2-2 OtherEdgeOfVertexInFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OtherEdgeOfVertexInFace</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OtherEdgeOfVertexInFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OtherEdgesOfVertexInFace</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OtherEdgesOfVertexInFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer or <code class="keyw">fail</code></p>
+
+<p>If the method <code class="keyw">OtherEdgeOfVertexInFace</code> is given a vertex, an edge, and a face of a twisted polygonal complex, it returns the other edge incident to the vertex and the face, if possible.</p>
+
+<p>For a twisted polygonal complex it might happen that only one or more than two edges are incident to both vertex and face. In this case <code class="keyw">fail</code> is returned.</p>
+
+<p>The method <code class="keyw">OtherEdgesOfVertexInFace</code> returns the set of all edges satisfying this restriction.</p>
+
+<p>The NC-version does not check whether the given vertex, edge, and face actually lie in the complex and are incident to each other.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherEdgeOfVertexInFace(complex, 1, 5, 2);</span>
+7
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherEdgeOfVertexInFace(complex, 5, 9, 4);</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OtherEdgeOfVertexInFace(complex, 1, 5, 1);</span>
+1
+</pre></div>
+
+<p>The method <code class="keyw">OtherEdgesOfVertexInFace</code> can be implemented with the methods of chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Difference( Intersection( EdgesOfFace(complex, face), </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                    EdgesOfVertex(complex, vertex) ), [ edge ] );</span>
+</pre></div>
+
+<p><a id="X86A234367B0A44ED" name="X86A234367B0A44ED"></a></p>
+
+<h5>10.2-3 OppositeVertexOfEdgeInTriangle</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OppositeVertexOfEdgeInTriangle</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OppositeVertexOfEdgeInTriangleNC</code>( <var class="Arg">arg1</var>, <var class="Arg">arg2</var>, <var class="Arg">arg3</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer</p>
+
+<p>If the method <code class="keyw">OppositeVertexOfEdgeInTriangle</code> is given an edge and a face of a polygonal complex, such that the edge is incident to the face and the face is a triangle, then it returns the unique vertex incident to the face, but not the edge.</p>
+
+<p>The NC-version does not check whether the given edge and face actually lie in the complex, are incident to each other and whether the given face is a triangle.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 1, 1 );</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 3, 1 );</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 5, 1 );</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 2, 5 );</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 4, 5 );</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeVertexOfEdgeInTriangle( complex, 6, 5 );</span>
+2
+</pre></div>
+
+<p>This method can be implemented with the methods of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Difference( VerticesOfFace(complex,face), VerticesOfEdge(complex,edge) );</span>
+</pre></div>
+
+<p><a id="X8394669F835DAB30" name="X8394669F835DAB30"></a></p>
+
+<h5>10.2-4 OppositeEdgeOfVertexInTriangle</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OppositeEdgeOfVertexInTriangle</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OppositeEdgeOfVertexInTriangleNC</code>( <var class="Arg">arg1</var>, <var class="Arg">arg2</var>, <var class="Arg">arg3</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer</p>
+
+<p>If the method <code class="keyw">OppositeEdgeOfVertexInTriangle</code> is given a vertex and a face of a polygonal complex, such that the vertex is incident to the face and the face is a triangle, then it returns the unique edge incident to the face, but not the vertex.</p>
+
+<p>The NC-version does not check whether the given vertex and face actually lie in the complex, are incident to each other and whether the given face is a triangle.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 1, 1 );</span>
+3
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 2, 1 );</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 6, 1 );</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 2, 5 );</span>
+6
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 5, 5 );</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">OppositeEdgeOfVertexInTriangle( complex, 6, 5 );</span>
+2
+</pre></div>
+
+<p>This method can be implemented with the methods of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Difference( EdgesOfFace(complex,face), EdgesOfVertex(complex,vertex) );</span>
+</pre></div>
+
+<p><a id="X79B2368C87749992" name="X79B2368C87749992"></a></p>
+
+<h4>10.3 <span class="Heading">Moving between faces</span></h4>
+
+<p>This section contains methods for the movement between faces, i.e. whether faces are adjacent and, if so, by which edge. It includes the following methods (illustrated on the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>): <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<ul>
+<li><p><code class="keyw">IsFacesAdjacent</code> (<a href="chap10.html#X80528BFB84B6C70C"><span class="RefLink">10.3-1</span></a>) checks whether two faces are adjacent (i.e. if they are different but there is an edge incident to both).</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFacesAdjacent( complex, 1, 2 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFacesAdjacent( complex, 1, 4 );</span>
+false
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">Edge(s)BetweenFaces</code> (<a href="chap10.html#X84F41A75813420CC"><span class="RefLink">10.3-2</span></a>) returns the edge (or edges) between two faces.</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenFaces( complex, 2, 4 );</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenFaces( complex, 2, 4 );</span>
+[ 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenFaces( complex, 4, 6 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenFaces( complex, 4, 6 );</span>
+[ 9, 11 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenFaces( complex, 2, 5 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenFaces( complex, 2, 5 );</span>
+[  ]
+</pre></div>
+
+
+<ul>
+<li><p><code class="keyw">NeighbourFace(s)ByEdge</code> (<a href="chap10.html#X7C03AF83789F1585"><span class="RefLink">10.3-3</span></a>) returns the face (or the set of faces) that is adjacent to the given face (with respect to the given edge).</p>
+
+</li>
+</ul>
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFaceByEdge( complex, 2, 8 );</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFacesByEdge( complex, 2, 8 );</span>
+[ 4 ]
+</pre></div>
+
+<p><a id="X80528BFB84B6C70C" name="X80528BFB84B6C70C"></a></p>
+
+<h5>10.3-1 IsFacesAdjacent</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFacesAdjacent</code>( <var class="Arg">complex</var>, <var class="Arg">f1</var>, <var class="Arg">f2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; IsFacesAdjacentNC</code>( <var class="Arg">complex</var>, <var class="Arg">f1</var>, <var class="Arg">f2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">true</code> or <code class="keyw">false</code></p>
+
+<p>The method <code class="keyw">IsFacesAdjacent</code> checks whether two given faces of a twisted polygonal complex are adjacent, i.e. whether they are connected by an edge.</p>
+
+<p>The NC-version does not check whether <var class="Arg">f1</var> and <var class="Arg">f2</var> are faces of the given twisted polygonal complex.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFacesAdjacent( complex, 1, 2 );</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFacesAdjacent( complex, 1, 4 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFacesAdjacent( complex, 2, 2 );</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsFacesAdjacent( complex, 4, 5 );</span>
+true
+</pre></div>
+
+<p>This method can be implemented with the methods from chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Set([f1,f2]) in FacesOfEdges(complex);</span>
+</pre></div>
+
+<p><a id="X84F41A75813420CC" name="X84F41A75813420CC"></a></p>
+
+<h5>10.3-2 EdgesBetweenFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesBetweenFaces</code>( <var class="Arg">complex</var>, <var class="Arg">f1</var>, <var class="Arg">f2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesBetweenFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">f1</var>, <var class="Arg">f2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeBetweenFaces</code>( <var class="Arg">complex</var>, <var class="Arg">f1</var>, <var class="Arg">f2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeBetweenFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">f1</var>, <var class="Arg">f2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: A set of edges</p>
+
+<p>The method <code class="keyw">EdgesBetweenFaces</code> returns the set of all edges that are incident to both given faces of a twisted polygonal complex. If there is exactly one edge incident to both faces, <code class="keyw">EdgeBetweenFaces</code> directly returns this edge (or <code class="keyw">fail</code> if this is not the case).</p>
+
+<p>The NC-versions do not check whether <var class="Arg">f1</var> and <var class="Arg">f2</var> are faces of the given twisted polygonal complex.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenFaces( complex, 2, 4 );</span>
+8
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenFaces( complex, 2, 4 );</span>
+[ 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenFaces( complex, 4, 6 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenFaces( complex, 4, 6 );</span>
+[ 9, 11 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeBetweenFaces( complex, 2, 5 );</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesBetweenFaces( complex, 2, 5 );</span>
+[  ]
+</pre></div>
+
+<p>The method <code class="keyw">EdgesBetweenFaces</code> can be implemented with the methods from chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Intersection( EdgesOfFace(complex,f1), EdgesOfFace(complex,f2) );</span>
+</pre></div>
+
+<p><a id="X7C03AF83789F1585" name="X7C03AF83789F1585"></a></p>
+
+<h5>10.3-3 NeighbourFaceByEdge</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourFaceByEdge</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourFaceByEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourFacesByEdge</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NeighbourFacesByEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a positive integer or <code class="keyw">fail</code></p>
+
+<p>If the method <code class="keyw">NeighbourFacesByEdge</code> is given a face and an edge, it returns the set of all faces that are also incident to this edge. In a polygonal complex, these have to be different from the given face. In a twisted polygonal complex, this might not be the case.</p>
+
+<p>If the set of these neighbours contains exactly one face, this face is returned by <code class="keyw">NeighbourFaceByEdge</code>. Otherwise, this method returns <code class="keyw">fail</code>.</p>
+
+<p>The NC-version does not check whether the given <var class="Arg">edge</var> is an edge of the polygonal complex and whether the given <var class="Arg">face</var> is an incident face of the complex.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFaceByEdge(complex, 2, 8);</span>
+4
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFaceByEdge(complex, 1, 5);</span>
+2
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFaceByEdge(complex, 4, 6);</span>
+5
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFaceByEdge(complex, 1, 3);</span>
+fail
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NeighbourFaceByEdge(complex, 6, 12);</span>
+fail
+</pre></div>
+
+<p>This method can be implemented with the methods from chapter <a href="chap3.html#X864ADF3D7B40CE9B"><span class="RefLink">3</span></a>. We only give the implementation for polygonal complexes, since the implementation for twisted polygonal complexes only includes an additional case distinction.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Difference( FacesOfEdge(complex, edge), [ face ] )[1];</span>
+</pre></div>
+
+<p><a id="X78B121DE81968BF8" name="X78B121DE81968BF8"></a></p>
+
+<h4>10.4 <span class="Heading">Localising subconfigurations with special properties</span></h4>
+
+<p>In many cases it is necessary to find all vertices fulfilling a certain property. Consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br> If we want to know all vertices that are incident to exactly three or four faces, we can use the <code class="keyw">Filtered</code>-command.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Filtered( Vertices(complex), v -&gt; FaceDegreeOfVertex(complex,v) in [3, 4] );</span>
+[ 2, 5, 6, 8 ]
+</pre></div>
+
+<p>While this is a good method to find vertices, edges and faces with individual properties, it quickly becomes complicated if one searches for more complicated structures.</p>
+
+<p>For example, assume we are interested in all edges, whose incident vertices are both incident to three or four faces. We could write a function to check this property:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Is34Edge := function( complex, edge )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     local vertices;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     vertices := VerticesOfEdge(complex, edge);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return FaceDegreeOfVertex(complex, vertices[1]) in [3,4] and </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        FaceDegreeOfVertex(complex, vertices[2]) in [3,4];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, edge ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Filtered( Edges(complex), e -&gt; Is34Edge(complex, e) );</span>
+[ 2, 3, 4, 6, 8 ]
+</pre></div>
+
+<p>With the knowledge how sublists can be produced, the condition can be expressed more succintly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edge := 8;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertices := VerticesOfEdge(complex, edge);</span>
+[ 6, 8 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreesOfVertices(complex){vertices};</span>
+[ 4, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSubset( [3,4], Set(last) );</span>
+true
+</pre></div>
+
+<p>Then a single <code class="keyw">Filtered</code>-command could be used as well.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Filtered( Edges(complex), e -&gt; </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     IsSubset( [3,4], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       Set(FaceDegreesOfVertices(complex){ VerticesOfEdge(complex, e) } ) </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   ) );</span>
+[ 2, 3, 4, 6, 8 ]
+</pre></div>
+
+<p>But even though this is technically a one-liner, it is still quite complicated for a rather simple-seeming task. Therefore this section contains some methods to simplify some of these situations.</p>
+
+<p>Unfortunately, many special situations will still require writing custom functions, as there is (as of yet) no way to test for arbitrary substructures with arbitrary properties.</p>
+
+<p>This section contains the following shortcuts:</p>
+
+
+<ul>
+<li><p>Localising adjacent vertices fulfilling certain properties. These may be returned as pairs of vertices (<code class="keyw">AdjacentVerticesWithProperties</code>, see <a href="chap10.html#X826E6D9D82F06CC8"><span class="RefLink">10.4-1</span></a>) or as edges (<code class="keyw">EdgesWithVertexProperties</code>, see <a href="chap10.html#X79C3C0C481C6AAF9"><span class="RefLink">10.4-2</span></a>).</p>
+
+</li>
+<li><p>Localising faces whose vertices (or edges) fulfill certain properties. The available methods are <code class="keyw">FacesWithVertexProperties</code> (<a href="chap10.html#X86AE834A811D5799"><span class="RefLink">10.4-3</span></a>) and <code class="keyw">FacesWithEdgeProperties</code> (<a href="chap10.html#X7C6770B47F682429"><span class="RefLink">10.4-4</span></a>).</p>
+
+</li>
+</ul>
+<p><a id="X826E6D9D82F06CC8" name="X826E6D9D82F06CC8"></a></p>
+
+<h5>10.4-1 AdjacentVerticesWithProperties</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AdjacentVerticesWithProperties</code>( <var class="Arg">complex</var>, <var class="Arg">prop1</var>, <var class="Arg">prop2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AdjacentVerticesWithProperties</code>( <var class="Arg">complex</var>, <var class="Arg">propList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AdjacentVerticesWithProperty</code>( <var class="Arg">complex</var>, <var class="Arg">prop</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of tuples of positive integers</p>
+
+<p>For a given twisted polygonal complex <var class="Arg">complex</var> the method <code class="keyw">AdjacentVerticesWithProperties</code>(<var class="Arg">complex</var>, <var class="Arg">prop1</var>, <var class="Arg">prop2</var>) returns all pairs of vertices <span class="SimpleMath">[v_1,v_2]</span> such that <span class="SimpleMath">v_1</span> fulfills property <var class="Arg">prop1</var> and <span class="SimpleMath">v_2</span> fulfills property <var class="Arg">prop2</var>.</p>
+
+<p>The two properties can be given as list [<var class="Arg">prop1</var>, <var class="Arg">prop2</var>] as well.</p>
+
+<p>A property can be given in two ways (otherwise an error will be thrown);</p>
+
+
+<ul>
+<li><p>As a function <var class="Arg">prop</var> with two arguments. Then, for a given vertex <span class="SimpleMath">v</span>, it is checked whether <var class="Arg">prop</var>(<var class="Arg">complex</var>, <span class="SimpleMath">v</span>) is <code class="keyw">true</code>.</p>
+
+</li>
+<li><p>As a function <var class="Arg">prop</var> with one argument. Then, for a given vertex <span class="SimpleMath">v</span>, it is checked whether <var class="Arg">prop</var>(<span class="SimpleMath">v</span>) is <code class="keyw">true</code>. In particular, it is assumed that the given function depends on <var class="Arg">complex</var> (otherwise there can be strange results).</p>
+
+</li>
+</ul>
+<p>For the alternative method <code class="keyw">AdjacentVerticesWithProperty</code> there are two differences:</p>
+
+
+<ul>
+<li><p>Both vertices have to fulfill the same property</p>
+
+</li>
+<li><p>If <span class="SimpleMath">[v_1,v_2]</span> is a valid answer, then <span class="SimpleMath">[v_2,v_1]</span> also would be. Therefore only the smaller one of these is returned.</p>
+
+</li>
+</ul>
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AdjacentVerticesWithProperty(complex, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; FaceDegreeOfVertex(complex,v) = 3);</span>
+[ [ 2, 5 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexNotIncidentToTriangle := function(complex, vertex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     local faces;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     faces := FacesOfVertex(complex, vertex);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return ForAll( faces, f -&gt; Length(EdgesOfFace(complex,f)) &lt;&gt; 3 );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AdjacentVerticesWithProperty( complex, VertexNotIncidentToTriangle );</span>
+[ [ 7, 8 ], [ 8, 9 ], [ 8, 12 ], [ 12, 13 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AdjacentVerticesWithProperties( complex, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; FaceDegreeOfVertex(complex, v) = 2,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; FaceDegreeOfVertex(complex, v) = 3);</span>
+[ [ 1, 2 ], [ 9, 5 ], [ 9, 8 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AdjacentVerticesWithProperties(complex, VertexNotIncidentToTriangle,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsInnerVertex(complex, v));</span>
+[ [ 8, 9 ], [ 9, 5 ] ]
+</pre></div>
+
+<p>Note for efficient computations: The only way to provide a general method like <code class="keyw">AdjacentVerticesWithProperties</code> is by wrapping the properties into functions. Unfortunately, calling a function introduces an overhead. In particular, if the executed instructions are very fast (for example a small computation or a list lookup), then the overhead by the function call may be as time intensive as the actual computation. Therefore, if high efficiency is required and the functionality of this method is time critical, it is probably more efficient to manually implement the functionality into the code.</p>
+
+<p><a id="X79C3C0C481C6AAF9" name="X79C3C0C481C6AAF9"></a></p>
+
+<h5>10.4-2 EdgesWithVertexProperties</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesWithVertexProperties</code>( <var class="Arg">complex</var>, <var class="Arg">prop1</var>, <var class="Arg">prop2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesWithVertexProperties</code>( <var class="Arg">complex</var>, <var class="Arg">propList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgesWithVertexProperty</code>( <var class="Arg">complex</var>, <var class="Arg">prop</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>For a given twisted polygonal complex <var class="Arg">complex</var> the method <code class="keyw">EdgesWithVertexProperty</code>(<var class="Arg">complex</var>, <var class="Arg">prop</var>) returns the set of all edges such that both of its vertices fulfill property <var class="Arg">prop</var>.</p>
+
+<p>A property can be given in two ways (otherwise an error will be thrown);</p>
+
+
+<ul>
+<li><p>As a function <var class="Arg">prop</var> with two arguments. Then, for a given vertex <span class="SimpleMath">v</span>, it is checked whether <var class="Arg">prop</var>(<var class="Arg">complex</var>, <span class="SimpleMath">v</span>) is <code class="keyw">true</code>.</p>
+
+</li>
+<li><p>As a function <var class="Arg">prop</var> with one argument. Then, for a given vertex <span class="SimpleMath">v</span>, it is checked whether <var class="Arg">prop</var>(<span class="SimpleMath">v</span>) is <code class="keyw">true</code>. In particular, it is assumed that the given function depends on <var class="Arg">complex</var> (otherwise there can be strange results).</p>
+
+</li>
+</ul>
+<p>The alternative method <code class="keyw">EdgesWithVertexProperties</code>(<var class="Arg">complex</var>, <var class="Arg">prop1</var>, <var class="Arg">prop2</var>) returns the set of all edges such that one of the incident vertices in the edge fulfills <var class="Arg">prop1</var> and the other fulfills property <var class="Arg">prop2</var>.</p>
+
+<p>The two properties can be given as list [<var class="Arg">prop1</var>, <var class="Arg">prop2</var>] as well.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesWithVertexProperty(complex, v -&gt; IsBoundaryVertex(complex, v));</span>
+[ 5, 7, 8, 10, 12, 14 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NotAdjacentToInnerVertex := function(complex, vertex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     local edges, otherVerts;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">  </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     edges := EdgesOfVertex(complex, vertex);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     otherVerts := List(edges, e -&gt; OtherVertexOfEdge(complex, vertex, e));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return ForAll( otherVerts, v -&gt; not IsInnerVertex(complex, v) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesWithVertexProperty(complex, NotAdjacentToInnerVertex);</span>
+[ 7, 14 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesWithVertexProperties(complex,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsBoundaryVertex(complex, v),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsRamifiedVertex(complex, v) );</span>
+[ 1, 3, 4, 13 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesWithVertexProperties(complex, NotAdjacentToInnerVertex,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsRamifiedVertex(complex, v));</span>
+[ 1, 13 ]
+</pre></div>
+
+<p>Note for efficient computations: The only way to provide a general method like <code class="keyw">EdgesWithVertexProperties</code> is by wrapping the properties into functions. Unfortunately, calling a function introduces an overhead. In particular, if the executed instructions are very fast (for example a small computation or a list lookup), then the overhead by the function call may be as time intensive as the actual computation. Therefore, if high efficiency is required and the functionality of this method is time critical, it is probably more efficient to manually implement the functionality into the code.</p>
+
+<p><a id="X86AE834A811D5799" name="X86AE834A811D5799"></a></p>
+
+<h5>10.4-3 FacesWithVertexProperties</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesWithVertexProperties</code>( <var class="Arg">complex</var>, <var class="Arg">propList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesWithVertexProperty</code>( <var class="Arg">complex</var>, <var class="Arg">prop</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>For a given twisted polygonal complex <var class="Arg">complex</var> the method <code class="keyw">FacesWithVertexProperty</code>(<var class="Arg">complex</var>, <var class="Arg">prop</var>) returns the set of all faces such that all of its incident vertices fulfill property <var class="Arg">prop</var>.</p>
+
+<p>A property can be given in two ways (otherwise an error will be thrown);</p>
+
+
+<ul>
+<li><p>As a function <var class="Arg">prop</var> with two arguments. Then, for a given vertex <span class="SimpleMath">v</span>, it is checked whether <var class="Arg">prop</var>(<var class="Arg">complex</var>, <span class="SimpleMath">v</span>) is <code class="keyw">true</code>.</p>
+
+</li>
+<li><p>As a function <var class="Arg">prop</var> with one argument. Then, for a given vertex <span class="SimpleMath">v</span>, it is checked whether <var class="Arg">prop</var>(<span class="SimpleMath">v</span>) is <code class="keyw">true</code>. In particular, it is assumed that the given function depends on <var class="Arg">complex</var> (otherwise there can be strange results).</p>
+
+</li>
+</ul>
+<p>The alternative method <code class="keyw">FacesWithVertexProperties</code>(<var class="Arg">complex</var>, <var class="Arg">propList</var>) returns the set of all faces such that each of the incident vertices in the face fulfills one property of <var class="Arg">propList</var>, such that every entry is fulfilled exactly once (this implies in particular that the number of incident vertices is equal to <code class="keyw">Length</code>(<var class="Arg">propList</var>)).</p>
+
+<p>Empty positions in this list are filled with the function that always returns <code class="keyw">true</code>.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithVertexProperty( complex, v -&gt; not IsInnerVertex(complex,v) );</span>
+[ 1, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">TwoBoundaryEdgesIncident := function(complex, vertex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     local edges, boundEdges;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     edges := EdgesOfVertex(complex, vertex);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     boundEdges := Filtered(edges, e -&gt; IsBoundaryEdge(complex, e));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return Length(boundEdges) = 2;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithVertexProperty( complex, TwoBoundaryEdgesIncident );</span>
+[ 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsRamifiedVertex(complex, v),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; FaceDegreeOfVertex(complex, v) = 2 ] );</span>
+[ 1 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsRamifiedVertex(complex, v),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; EdgeDegreeOfVertex(complex, v) = 3 ] );</span>
+[ 1, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithVertexProperties( complex, [ TwoBoundaryEdgesIncident, , ,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     v -&gt; IsInnerVertex(complex, v)] );</span>
+[ 4 ]
+</pre></div>
+
+<p>Note for efficient computations: The only way to provide a general method like <code class="keyw">FacesWithVertexProperties</code> is by wrapping the properties into functions. Unfortunately, calling a function introduces an overhead. In particular, if the executed instructions are very fast (for example a small computation or a list lookup), then the overhead by the function call may be as time intensive as the actual computation. Therefore, if high efficiency is required and the functionality of this method is time critical, it is probably more efficient to manually implement the functionality into the code.</p>
+
+<p><a id="X7C6770B47F682429" name="X7C6770B47F682429"></a></p>
+
+<h5>10.4-4 FacesWithEdgeProperties</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesWithEdgeProperties</code>( <var class="Arg">complex</var>, <var class="Arg">propList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; FacesWithEdgeProperty</code>( <var class="Arg">complex</var>, <var class="Arg">prop</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>For a given twisted polygonal complex <var class="Arg">complex</var> the method <code class="keyw">FacesWithEdgeProperty</code>(<var class="Arg">complex</var>, <var class="Arg">prop</var>) returns the set of all faces such that all of its incident edges fulfill property <var class="Arg">prop</var>.</p>
+
+<p>A property can be given in two ways (otherwise an error will be thrown);</p>
+
+
+<ul>
+<li><p>As a function <var class="Arg">prop</var> with two arguments. Then, for a given edge <span class="SimpleMath">e</span>, it is checked whether <var class="Arg">prop</var>(<var class="Arg">complex</var>, <span class="SimpleMath">e</span>) is <code class="keyw">true</code>.</p>
+
+</li>
+<li><p>As a function <var class="Arg">prop</var> with one argument. Then, for a given edge <span class="SimpleMath">e</span>, it is checked whether <var class="Arg">prop</var>(<span class="SimpleMath">e</span>) is <code class="keyw">true</code>. In particular, it is assumed that the given function depends on <var class="Arg">complex</var> (otherwise there can be strange results).</p>
+
+</li>
+</ul>
+<p>The alternative method <code class="keyw">FacesWithEdgeProperties</code>(<var class="Arg">complex</var>, <var class="Arg">propList</var>) returns the set of all faces such that each of the incident edges in the face fulfills one property of <var class="Arg">propList</var>, such that every entry is fulfilled exactly once (this implies in particular that the number of incident edges is equal to <code class="keyw">Length</code>(<var class="Arg">propList</var>)).</p>
+
+<p>Empty positions in this list are filled with the function that always returns <code class="keyw">true</code>.</p>
+
+<p>As an example consider the polygonal complex that was introduced at the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithEdgeProperty(complex, e -&gt; IsInnerEdge(complex, e));</span>
+[ 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">InnerEdgeOrRamifiedVertex := function( complex, edge )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     local verts;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     if IsInnerEdge(complex, edge) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return true;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     verts := VerticesOfEdge(complex, edge);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return ForAny(verts, v -&gt; IsRamifiedVertex(complex, v));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">end;;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithEdgeProperty( complex, InnerEdgeOrRamifiedVertex );</span>
+[ 1, 4, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithEdgeProperties(complex, [ </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     e -&gt; IsInnerEdge(complex, e),</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     InnerEdgeOrRamifiedVertex,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     e -&gt; IsBoundaryEdge(complex, e)]);</span>
+[ 1, 5 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FacesWithEdgeProperties(complex, [ , ,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    e -&gt; IsBoundaryEdge(complex, e), InnerEdgeOrRamifiedVertex]);</span>
+[ 2 ]
+</pre></div>
+
+<p>Note for efficient computations: The only way to provide a general method like <code class="keyw">FacesWithEdgeProperties</code> is by wrapping the properties into functions. Unfortunately, calling a function introduces an overhead. In particular, if the executed instructions are very fast (for example a small computation or a list lookup), then the overhead by the function call may be as time intensive as the actual computation. Therefore, if high efficiency is required and the functionality of this method is time critical, it is probably more efficient to manually implement the functionality into the code.</p>
+
+<p><a id="X81B03E8185F2128F" name="X81B03E8185F2128F"></a></p>
+
+<h4>10.5 <span class="Heading">Determination of common elements</span></h4>
+
+<p><a id="X7877C9AF7A9019AD" name="X7877C9AF7A9019AD"></a></p>
+
+<h5>10.5-1 CommonVerticesOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfEdges</code>( <var class="Arg">complex</var>, <var class="Arg">edge1</var>, <var class="Arg">edge2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfEdges</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge1</var>, <var class="Arg">edge2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>The method <code class="keyw">CommonVerticesOfEdges</code>(<var class="Arg">complex</var>, <var class="Arg">edge1</var>, <var class="Arg">edge2</var>) returns the set of all vertices that are incident to <var class="Arg">edge1</var> and <var class="Arg">edge2</var>. The NC-version does not check whether the given <var class="Arg">edge1</var> and <var class="Arg">edge2</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>The method <code class="keyw">CommonVerticesOfEdges</code>(<var class="Arg">complex</var>, <var class="Arg">edgeList</var>) returns the set of all vertices that are incident to all the edges in <var class="Arg">edgeList</var>. The NC-version does not check whether the given edges in <var class="Arg">edgeList</var> are an edge of <var class="Arg">complex</var>.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonVerticesOfEdges(complex,8,9);</span>
+[  ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonVerticesOfEdges(complex,8,6);</span>
+[ 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonVerticesOfEdges(complex,[8,6,5]);</span>
+[ 6 ]
+</pre></div>
+
+<p><a id="X7E0D4DF78606DE20" name="X7E0D4DF78606DE20"></a></p>
+
+<h5>10.5-2 CommonEdgesOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfFaces</code>( <var class="Arg">complex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfFaces</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>The method <code class="keyw">CommonEdgesOfFaces</code>(<var class="Arg">complex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var>) returns the set of all edges that are incident to <var class="Arg">face1</var> and <var class="Arg">face2</var>. The NC-version does not check whether the given <var class="Arg">face1</var> and <var class="Arg">face2</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>The method <code class="keyw">CommonEdgesOfFaces</code>(<var class="Arg">complex</var>, <var class="Arg">faceList</var>) returns the set of all edges that are incident to all the faces in <var class="Arg">faceList</var>. The NC-version does not check whether the given faces in <var class="Arg">faceList</var> are a face of <var class="Arg">complex</var>.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonEdgesOfFaces(complex,[6,4]);</span>
+[ 9, 11 ]
+</pre></div>
+
+<p><a id="X78F828287F709AD5" name="X78F828287F709AD5"></a></p>
+
+<h5>10.5-3 CommonVerticesOfFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfFaces</code>( <var class="Arg">complex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfFaces</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonVerticesOfFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>The method <code class="keyw">CommonVerticesOfFaces</code>(<var class="Arg">complex</var>, <var class="Arg">face1</var>, <var class="Arg">face2</var>) returns the set of all vertices that are incident to <var class="Arg">face1</var> and <var class="Arg">face2</var>. The NC-version does not check whether the given <var class="Arg">face1</var> and <var class="Arg">face2</var> is a face of <var class="Arg">complex</var>.</p>
+
+<p>The method <code class="keyw">CommonEdgesOfFaces</code>(<var class="Arg">complex</var>, <var class="Arg">faceList</var>) returns the set of all vertices that are incident to all the faces in <var class="Arg">faceList</var>. The NC-version does not check whether the given faces in <var class="Arg">faceList</var> are a face of <var class="Arg">complex</var>.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonVerticesOfFaces(complex,1,4);</span>
+[ 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonVerticesOfFaces(complex,6,4);</span>
+[ 5, 8, 9 ]
+</pre></div>
+
+<p><a id="X8610FD0B7B2B1BDA" name="X8610FD0B7B2B1BDA"></a></p>
+
+<h5>10.5-4 CommonEdgesOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfVertices</code>( <var class="Arg">complex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfVertices</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonEdgesOfVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>The method <code class="keyw">CommonEdgesOfVertices</code>(<var class="Arg">complex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var>) returns the set of all edges that are incident to <var class="Arg">vertex1</var> and <var class="Arg">vertex2</var>. The NC-version does not check whether the given <var class="Arg">vertex1</var> and <var class="Arg">vertex2</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The method <code class="keyw">CommonEdgesOfVertices</code>(<var class="Arg">complex</var>, <var class="Arg">vertexList</var>) returns the set of all edges that are incident to all the vertices in <var class="Arg">vertexList</var>. The NC-version does not check whether the given vertices in <var class="Arg">vertexList</var> are a vertex of <var class="Arg">complex</var>.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"> CommonEdgesOfVertices(complex,6,2);</span>
+[ 3, 4 ]
+</pre></div>
+
+<p><a id="X78B4F7EA7DF5E702" name="X78B4F7EA7DF5E702"></a></p>
+
+<h5>10.5-5 CommonFacesOfEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfEdges</code>( <var class="Arg">complex</var>, <var class="Arg">edge1</var>, <var class="Arg">edge2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfEdges</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge1</var>, <var class="Arg">edge2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>The method <code class="keyw">CommonFacesOfEdges</code>(<var class="Arg">complex</var>, <var class="Arg">edge1</var>, <var class="Arg">edge2</var>) returns the set of all faces that are incident to <var class="Arg">edge1</var> and <var class="Arg">edge2</var>. The NC-version does not check whether the given <var class="Arg">edge1</var> and <var class="Arg">edge2</var> is an edge of <var class="Arg">complex</var>.</p>
+
+<p>The method <code class="keyw">CommonFacesOfEdges</code>(<var class="Arg">complex</var>, <var class="Arg">edgeList</var>) returns the set of all faces that are incident to all the edges in <var class="Arg">edgeList</var>. The NC-version does not check whether the given edges in <var class="Arg">edgeList</var> are an edge of <var class="Arg">complex</var>.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonFacesOfEdges(complex,9,12);</span>
+[ 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonFacesOfEdges(complex,[9,11]);</span>
+[ 4, 6 ]
+</pre></div>
+
+<p><a id="X7BF7936179655F85" name="X7BF7936179655F85"></a></p>
+
+<h5>10.5-6 CommonFacesOfVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfVertices</code>( <var class="Arg">complex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfVertices</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CommonFacesOfVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a set of positive integers</p>
+
+<p>The method <code class="keyw">CommonFacesOfVertices</code>(<var class="Arg">complex</var>, <var class="Arg">vertex1</var>, <var class="Arg">vertex2</var>) returns the set of all faces that are incident to <var class="Arg">vertex1</var> and <var class="Arg">vertex2</var>. The NC-version does not check whether the given <var class="Arg">vertex1</var> and <var class="Arg">vertex2</var> is a vertex of <var class="Arg">complex</var>.</p>
+
+<p>The method <code class="keyw">CommonFacesOfVertices</code>(<var class="Arg">complex</var>, <var class="Arg">vertexList</var>) returns the set of all faces that are incident to all the vertices in <var class="Arg">vertexList</var>. The NC-version does not check whether the given vertices in <var class="Arg">vertexList</var> are a vertex of <var class="Arg">complex</var>.</p>
+
+<p>As an example consider the polygonal complex from the start of chapter <a href="chap10.html#X86B3149981F73BBE"><span class="RefLink">10</span></a>: <br><img src="./images/_Wrapper_Image_EyeStone-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonFacesOfVertices(complex,9,5);</span>
+[ 4, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CommonFacesOfVertices(complex,[6,8]);</span>
+[ 2, 4 ]
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0.html">[Top of Book]</a>&nbsp;  <a href="chap0.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap9.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap11.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0.html">Top</a>  <a href="chap1.html">1</a>  <a href="chap2.html">2</a>  <a href="chap3.html">3</a>  <a href="chap4.html">4</a>  <a href="chap5.html">5</a>  <a href="chap6.html">6</a>  <a href="chap7.html">7</a>  <a href="chap8.html">8</a>  <a href="chap9.html">9</a>  <a href="chap10.html">10</a>  <a href="chap11.html">11</a>  <a href="chap12.html">12</a>  <a href="chap13.html">13</a>  <a href="chap14.html">14</a>  <a href="chap15.html">15</a>  <a href="chap16.html">16</a>  <a href="chap17.html">17</a>  <a href="chap18.html">18</a>  <a href="chap19.html">19</a>  <a href="chap20.html">20</a>  <a href="chap21.html">21</a>  <a href="chap22.html">22</a>  <a href="chapInd.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>

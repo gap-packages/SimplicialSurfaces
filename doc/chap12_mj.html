@@ -1,0 +1,1727 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 12: Modification of polygonal complexes</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap12"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap11_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap13_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap12.html">[MathJax off]</a></p>
+<p><a id="X8536766C7A03EDD0" name="X8536766C7A03EDD0"></a></p>
+<div class="ChapSects"><a href="chap12_mj.html#X8536766C7A03EDD0">12 <span class="Heading">Modification of polygonal complexes</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12_mj.html#X7DFE940685F940F2">12.1 <span class="Heading">Splitting along a path</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7D262240798CC4E0">12.1-1 SplitEdge</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X8699136F83919C6B">12.1-2 SplitVertex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X8767DC097C35E6B7">12.1-3 SplitVertexEdgePath</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7958EBDF7B7DD7F9">12.1-4 SplitEdgePath</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12_mj.html#X87554FB7859A52ED">12.2 <span class="Heading">Removing faces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X80D57580835A52AE">12.2-1 SubcomplexByFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7DD564CD84469C39">12.2-2 RemoveFaces</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12_mj.html#X783307707E12765A">12.3 <span class="Heading">Disjoint union</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X8354A32287384685">12.3-1 DisjointUnion</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12_mj.html#X82623EE88772F585">12.4 <span class="Heading">Joining along a path</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7A48F3DD7AC9DD84">12.4-1 JoinVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X818D4B5B7D3572C1">12.4-2 JoinEdges</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X859F0A8A83075E36">12.4-3 JoinFaces</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7D322A4D78BCEFC2">12.4-4 JoinVertexEdgePaths</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7FAFA27E7CC8A11C">12.4-5 JoinBoundaries</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X8189B2D1840512F8">12.4-6 JoinBoundary</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7D847A427D61C50F">12.4-7 AllToriOfSimplicialSphere</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12_mj.html#X833F700B86646D82">12.5 <span class="Heading">Specific modifications</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X83F38B1383C923D4">12.5-1 ConnectedFaceSum</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7BFD26287D9DF9D5">12.5-2 SnippOffEars</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X82054E997DE14296">12.5-3 SplitAllVertices</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7E735D997B378EEC">12.5-4 ButterflyInsertion</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X84A7365780B5486D">12.5-5 TetrahedralExtension</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X8778AFFD7ADF3451">12.5-6 TetrahedralReduction</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X811EF7DA82EE70C9">12.5-7 InnerMultiTetrahedralSphere</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X866B3C667D794E6A">12.5-8 MultiTetrahedralSymbolOfComplex</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7D506B807C9EFD49">12.5-9 MultiTetrahedralSphereByTetrahedralSymbol</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7D151000879EEE58">12.5-10 EdgeTurn</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7C04FAD87D238117">12.5-11 BuildingBlocks</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap12_mj.html#X7F0608448629B4C3">12.6 <span class="Heading">Example: Cut and Mend</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7FBE44697990A77E">12.6-1 CraterCut</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7B4F1A7C84D0DAA4">12.6-2 CraterMend</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X8357990B84E235F3">12.6-3 RipCut</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X848C315B838E2046">12.6-4 RipMend</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X87EC0E6F7F05BFE3">12.6-5 SplitCut</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap12_mj.html#X7F56114984CB6B55">12.6-6 SplitMend</a></span>
+</div></div>
+</div>
+
+<h3>12 <span class="Heading">Modification of polygonal complexes</span></h3>
+
+<p>This chapter is concerned with the modification of polygonal complexes (introduced in chapter <a href="chap2_mj.html#X86693EE97EA70D6D"><span class="RefLink">2</span></a> as a generalization of simplicial surfaces). This allows the construction of new complexes from old ones.</p>
+
+<p>This chapter covers the operations of splitting (<a href="chap12_mj.html#X7DFE940685F940F2"><span class="RefLink">12.1</span></a>) and joining (<a href="chap12_mj.html#X82623EE88772F585"><span class="RefLink">12.4</span></a>) a polygonal complex along vertices or edges (more generally along a vertex-edge-path, which was introduced in section <a href="chap8_mj.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>).</p>
+
+<p>The aim of these operations is to provide a set of tools that allows a user to develop their own modifications without worrying too much about the underlying incidence structure. To make this easier, section <a href="chap12_mj.html#X833F700B86646D82"><span class="RefLink">12.5</span></a> contains several useful modifications, along with an explanation how they can be constructed with the elementary tools.</p>
+
+<p><a id="X7DFE940685F940F2" name="X7DFE940685F940F2"></a></p>
+
+<h4>12.1 <span class="Heading">Splitting along a path</span></h4>
+
+<p>This section contains the basic functionality for splitting polygonal complexes along edges (<a href="chap12_mj.html#X7D262240798CC4E0"><span class="RefLink">12.1-1</span></a>) and vertices (<a href="chap12_mj.html#X8699136F83919C6B"><span class="RefLink">12.1-2</span></a>). More generally, it also provides methods to split along vertex-edge-paths (<a href="chap12_mj.html#X8767DC097C35E6B7"><span class="RefLink">12.1-3</span></a> and <a href="chap12_mj.html#X7958EBDF7B7DD7F9"><span class="RefLink">12.1-4</span></a>).</p>
+
+<p>After splitting one element into several elements the label of the old element is replaced by new labels. The splitting methods always return the new labels to make further modification easier.</p>
+
+<p>This will be illustrated on a hexagon. <br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hex := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     [ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;</span>
+</pre></div>
+
+<p>For example it is possible to split the inner edge 1 into two boundary edges 13 and 14 by <code class="keyw">SplitEdge</code> (<a href="chap12_mj.html#X7D262240798CC4E0"><span class="RefLink">12.1-1</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeSplit := SplitEdge(hex, 1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeSplit[2];</span>
+[ 13, 14 ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-1-1.svg'> </img> <br> Conversely, trying to split a boundary edge, like 7, would have made no difference:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">boundSplit := SplitEdge(hex, 7);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">boundSplit[1] = hex;</span>
+true
+</pre></div>
+
+<p>After the edge split the vertex 1 has two umbrellas (compare <a href="chap3_mj.html#X81FF53CB78BD4695"><span class="RefLink">3.4-2</span></a> for details). These can be split up by <code class="keyw">SplitVertex</code> (<a href="chap12_mj.html#X8699136F83919C6B"><span class="RefLink">12.1-2</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertSplit := SplitVertex( edgeSplit[1], 1 );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertSplit[2];</span>
+[ 8, 9 ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-2-1.svg'> </img> <br></p>
+
+<p>These two splitting operations can also be combined by using a vertex-edge-path (introduced in section <a href="chap8_mj.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>). For example, to cut through the edges 1 and 4 of the hexagon (along with the incident vertices), we can use <code class="keyw">SplitVertexEdgePath</code> (<a href="chap12_mj.html#X8767DC097C35E6B7"><span class="RefLink">12.1-3</span></a>).</p>
+
+<p>The splitting path can be given in multiple ways: via vertices, via edges or by giving an alternating list of both.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">cutPath := VertexEdgePath(hex, [4,4,7,1,1]);</span>
+| v4, E4, v7, E1, v1 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByVertices(hex, [4,7,1]);</span>
+| v4, E4, v7, E1, v1 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByEdges(hex, [4,1]);</span>
+| v4, E4, v7, E1, v1 |
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hexCut := SplitVertexEdgePath( hex, cutPath );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(hexCut[1]);</span>
+2
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-3-1.svg'> </img> <br></p>
+
+<p>If instead only the central vertex should be split (such that the edge split "opens" the surface), the method <code class="keyw">SplitEdgePath</code> (<a href="chap12_mj.html#X7958EBDF7B7DD7F9"><span class="RefLink">12.1-4</span></a>) can be used instead.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hexOpen := SplitEdgePath( hex, cutPath );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(hexOpen[1]);</span>
+1
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-4-1.svg'> </img> <br></p>
+
+<p><a id="X7D262240798CC4E0" name="X7D262240798CC4E0"></a></p>
+
+<h5>12.1-1 SplitEdge</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitEdge</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var>[, <var class="Arg">newEdgeLabels</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitEdgeNC</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var>[, <var class="Arg">newEdgeLabels</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry is a set of the new edge labels.</p>
+
+<p>Split the given <var class="Arg">edge</var> in the polygonal complex <var class="Arg">complex</var> into as many edges as there are faces incident to <var class="Arg">edge</var>. If there was only one incident face (i.e. the edge is a boundary edge (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>)) then no labels are changed. Otherwise the old edge label is no longer used and will be replaced by the appropriate number of new labels. The new labels can be defined by the optional argument <var class="Arg">newEdgeLabels</var>. Let <var class="Arg">numFaces</var> be the number of incident faces from <var class="Arg">edge</var>, i.e. the number of new edges. By default, the list <var class="Arg">newEdgeLabels</var> is the list <var class="Arg">[1..numFaces]</var>, which is shifted by the maximal edge label in each entry.</p>
+
+<p>For example consider the following triangular complex: <br><img src='./images/_Wrapper_modification-5-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">closeEye:=SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [[1,2],[1,3],[2,3],[3,4],[1,4]],[[1,2,3],[2,4,5]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">eye:=SplitEdge(closeEye,2);</span>
+[ triangular complex (4 vertices, 6 edges, and 2 faces), [ 6, 7 ] ] 
+</pre></div>
+
+<p>[ 6, 7 ] are the new edge labels, because the new edge labels are not given and edge 2 is incident to two faces and the maximal edge label is 5.</p>
+
+<p><br><img src="./images/_Wrapper_Image_Eye_Open-1.svg"> </img> <br></p>
+
+<p>The NC-version does not check whether <var class="Arg">edge</var> is an actual edge of <var class="Arg">complex</var> and whether the new edge labels are actually available.</p>
+
+<p><a id="X8699136F83919C6B" name="X8699136F83919C6B"></a></p>
+
+<h5>12.1-2 SplitVertex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitVertex</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>[, <var class="Arg">newVertexLabels</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitVertexNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var>[, <var class="Arg">newVertexLabels</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry is a set of the new vertex labels.</p>
+
+<p>Split the given <var class="Arg">vertex</var> in the polygonal complex <var class="Arg">complex</var> into as many vertices as necessary such that the incident faces of the new vertices are connected via the incident edges of these vertices.</p>
+
+<p>For a polygonal surface this corresponds to adding one vertex for each element of the umbrella partition (<a href="chap3_mj.html#X81FF53CB78BD4695"><span class="RefLink">3.4-2</span></a>) of <var class="Arg">vertex</var>.</p>
+
+<p>If the vertex does not have to be split according to this rule (i.e. it is an inner (<a href="chap9_mj.html#X789A991584C6EB09"><span class="RefLink">9.5-1</span></a>) or a boundary (<a href="chap9_mj.html#X84E56D3087A997F4"><span class="RefLink">9.5-2</span></a>) vertex), its label will stay the same. Otherwise the old label will be removed and replaced by new labels. The new labels can be defined by the optional argument <var class="Arg">newVertexLabels</var>. Let <var class="Arg">numVert</var> be the number of new vertices that are necessary to split <var class="Arg">vertex</var>. By default, the list <var class="Arg">newEdgeLabels</var> is the list <var class="Arg">[1..numVert]</var>, which is shifted by the maximal vertex label in each entry.</p>
+
+<p>For example consider the following triangular complex: <br><img src="./images/_Wrapper_Image_EdgeFacePath_ramified-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ramSurf := PolygonalComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ ,,,,,,,,,,,,[6,5],[1,5],[5,7],[6,1],[6,7],[1,7],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[1,8],[1,10],[1,12],[8,10],[10,12] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ , [14,15,18],[13,14,16],[16,17,18],,,,,[19,22,20],,[20,21,23] ]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">splittedComplex:=SplitVertex(ramSurf,1);</span>
+[ simplicial surface (8 vertices, 11 edges, and 5 faces), [ 13, 14 ] ]
+</pre></div>
+
+<p>[ 13, 14 ] are the new vertex labels, because new vertex labels are not given and vertex 1 has two elements in the umbrella partition and the maximal vertex label is 12. Splitting the vertex 1 in the complex divides the complex into two components:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(splittedComplex[1]);</span>
+2
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-6-1.svg'> </img> <br></p>
+
+<p>The NC-version does not check whether <var class="Arg">vertex</var> is an actual vertex of <var class="Arg">complex</var> and whether the new vertex labels are actually available.</p>
+
+<p><a id="X8767DC097C35E6B7" name="X8767DC097C35E6B7"></a></p>
+
+<h5>12.1-3 SplitVertexEdgePath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitVertexEdgePath</code>( <var class="Arg">complex</var>, <var class="Arg">vePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitVertexEdgePathNC</code>( <var class="Arg">complex</var>, <var class="Arg">vePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry encodes the label changes</p>
+
+<p>Split the given <var class="Arg">complex</var> along the given <var class="Arg">vePath</var>. First, all edges of the path are split by <code class="keyw">SplitEdge</code> (<a href="chap12_mj.html#X7D262240798CC4E0"><span class="RefLink">12.1-1</span></a>), then all vertices of the path are split by <code class="keyw">SplitVertex</code> (<a href="chap12_mj.html#X8699136F83919C6B"><span class="RefLink">12.1-2</span></a>). If the first and final vertex of <var class="Arg">vePath</var> should not be split, the method <code class="keyw">SplitEdgePath</code> (<a href="chap12_mj.html#X7958EBDF7B7DD7F9"><span class="RefLink">12.1-4</span></a>) should be used instead.</p>
+
+<p>This method will change the labels of all affected vertices and edges. All other labels remain unchanged.</p>
+
+<p>The given <var class="Arg">vePath</var> has to be a duplicate-free (<a href="chap8_mj.html#X7C9963CD7CC32327"><span class="RefLink">8.1-9</span></a>) vertex-edge-path (for the definition see <a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) of <var class="Arg">complex</var>. Vertex-edge-paths can be created easily:</p>
+
+
+<ul>
+<li><p>From a list of vertices: <code class="keyw">VertexEdgePathByVertices</code> (<a href="chap8_mj.html#X7B29001E820C4295"><span class="RefLink">8.1-2</span></a>)</p>
+
+</li>
+<li><p>From a list of edges: <code class="keyw">VertexEdgePathByEdges</code> (<a href="chap8_mj.html#X83EEA87D796DF50F"><span class="RefLink">8.1-3</span></a>)</p>
+
+</li>
+<li><p>From a list in which vertices and edges are alternating: <code class="keyw">VertexEdgePath</code> (<a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>)</p>
+
+</li>
+</ul>
+<p>This method returns a pair where the first component is the split <var class="Arg">complex</var> and the second one contains the changed labels. The second component is a list of pairs [<var class="Arg">newPath</var>, <var class="Arg">oldPath</var>]. These are computed as follows: If the original <var class="Arg">vePath</var> would be marked in the split complex, it would show up as multiple vertex-edge-paths. Each of those is a <var class="Arg">newPath</var> and the corresponding <var class="Arg">oldPath</var> is the unique subpath of the original <var class="Arg">vePath</var>, such that each element of <var class="Arg">newPath</var> was obtained from the element at the same position in <var class="Arg">oldPath</var>.</p>
+
+<p>For example consider the following polygonal complex:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SplitEdgePath-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=VertexEdgePathByEdges(complex,[3,8]);;</span>
+</pre></div>
+
+<p>Splitting the complex along this path leads to four one faces:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">split:=SplitVertexEdgePath(complex,path);</span>
+[ simplicial surface (12 vertices, 12 edges, and 4 faces),
+[ [ | v12, E13, v14 |, | v3, E8, v6 | ],
+  [ | v13, E14, v15 |, | v3, E8, v6 | ],
+  [ | v8, E11, v10 |, | v1, E3, v3 | ],
+  [ | v9, E12, v11 |, | v1, E3, v3 | ] ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(split[1]);</span>
+4
+</pre></div>
+
+<p>The second output shows in which two path the original path was split. <img src="./images/_Wrapper_Image_SplittedVertexEdgePath-1.svg"> </img></p>
+
+<p>The NC-versions do not check whether the given vertex-edge-paths match the given <var class="Arg">complex</var>.</p>
+
+<p><a id="X7958EBDF7B7DD7F9" name="X7958EBDF7B7DD7F9"></a></p>
+
+<h5>12.1-4 SplitEdgePath</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitEdgePath</code>( <var class="Arg">complex</var>, <var class="Arg">vePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitEdgePathNC</code>( <var class="Arg">complex</var>, <var class="Arg">vePath</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry encodes the label changes</p>
+
+<p>Split the given <var class="Arg">complex</var> along the given <var class="Arg">vePath</var>. First, all edges of the path are split by <code class="keyw">SplitEdge</code> (<a href="chap12_mj.html#X7D262240798CC4E0"><span class="RefLink">12.1-1</span></a>), then all vertices of the path (except first and last) are split by <code class="keyw">SplitVertex</code> (<a href="chap12_mj.html#X8699136F83919C6B"><span class="RefLink">12.1-2</span></a>). If the first and final vertex of <var class="Arg">vePath</var> should also be split, the method <code class="keyw">SplitVertexEdgePath</code> (<a href="chap12_mj.html#X8767DC097C35E6B7"><span class="RefLink">12.1-3</span></a>) should be used instead.</p>
+
+<p>This method will change the labels of all affected vertices and edges. All other labels remain unchanged.</p>
+
+<p>The given <var class="Arg">vePath</var> has to be a duplicate-free (<a href="chap8_mj.html#X7C9963CD7CC32327"><span class="RefLink">8.1-9</span></a>) vertex-edge-path (for the definition see <a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) of <var class="Arg">complex</var>. Vertex-edge-paths can be created easily:</p>
+
+
+<ul>
+<li><p>From a list of vertices: <code class="keyw">VertexEdgePathByVertices</code> (<a href="chap8_mj.html#X7B29001E820C4295"><span class="RefLink">8.1-2</span></a>)</p>
+
+</li>
+<li><p>From a list of edges: <code class="keyw">VertexEdgePathByEdges</code> (<a href="chap8_mj.html#X83EEA87D796DF50F"><span class="RefLink">8.1-3</span></a>)</p>
+
+</li>
+<li><p>From a list in which vertices and edges are alternating: <code class="keyw">VertexEdgePath</code> (<a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>)</p>
+
+</li>
+</ul>
+<p>This method returns a pair where the first component is the split <var class="Arg">complex</var> and the second one contains the changed labels. The second component is a list of pairs [<var class="Arg">newPath</var>, <var class="Arg">oldPath</var>]. These are computed as follows: If the original <var class="Arg">vePath</var> would be marked in the split complex, it would show up as multiple vertex-edge-paths. Each of those is a <var class="Arg">newPath</var> and the corresponding <var class="Arg">oldPath</var> is the unique subpath of the original <var class="Arg">vePath</var>, such that each element of <var class="Arg">newPath</var> was obtained from the element at the same position in <var class="Arg">oldPath</var>.</p>
+
+<p>For example consider the following polygonal complex:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex:=PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[1,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3,4],[3,5],[5,6],[3,6],[3,7],[6,7]],[[1,2,3],[3,4,5],[6,7,8],[8,9,10]]);;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SplitEdgePath-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path:=VertexEdgePathByEdges(complex,[3,8]);;</span>
+</pre></div>
+
+<p>Splitting the complex along this path without the first and the last vertex leads to two components:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">split:=SplitEdgePath(complex,path);</span>
+[ triangular complex (10 vertices, 12 edges, and 4 faces),
+[ [ | v10, E13, v6 |, | v3, E8, v6 | ],
+  [ | v11, E14, v6 |, | v3, E8, v6 | ],
+  [ | v1, E11, v8 |, | v1, E3, v3 | ],
+  [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(split[1]);</span>
+2
+</pre></div>
+
+<p>The second output shows in which two path the original path was split. <br><img src="./images/_Wrapper_Image_SplittedEdgePath-1.svg"> </img> <br></p>
+
+<p>The NC-versions do not check whether the given vertex-edge-paths match the given <var class="Arg">complex</var>.</p>
+
+<p><a id="X87554FB7859A52ED" name="X87554FB7859A52ED"></a></p>
+
+<h4>12.2 <span class="Heading">Removing faces</span></h4>
+
+<p>This section contains the functionality to:</p>
+
+
+<ul>
+<li><p>remove faces of a polygonal complex</p>
+
+</li>
+<li><p>restrict a polygonal complex to a subset of faces</p>
+
+</li>
+</ul>
+<p>The functions will be illustrated on a hexagon. <br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hex := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [1,7],[2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6],[1,6] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;</span>
+</pre></div>
+
+<p>For example it is possible to remove the face 1.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">removedHex := RemoveFace(hex,1);</span>
+simplicial surface (7 vertices, 11 edges, and 5 faces) 
+</pre></div>
+
+<p>It is also possible to restrict the hexagon to the faces 2 to 6.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">restrictedHex := SubcomplexByFaces(hex,[2,3,4,5,6]);</span>
+simplicial surface (7 vertices, 11 edges, and 5 faces)
+</pre></div>
+
+<p>These two surfaces are isomorphic.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(removedHex,restrictedHex);</span>
+true
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-7-1.svg'> </img> <br></p>
+
+<p><a id="X80D57580835A52AE" name="X80D57580835A52AE"></a></p>
+
+<h5>12.2-1 SubcomplexByFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SubcomplexByFaces</code>( <var class="Arg">complex</var>, <var class="Arg">faces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SubcomplexByFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">faces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SubsurfaceByFaces</code>( <var class="Arg">surface</var>, <var class="Arg">faces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SubsurfaceByFacesNC</code>( <var class="Arg">surface</var>, <var class="Arg">faces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a twisted polygonal complex</p>
+
+<p>Return the polygonal complex that is generated by restricting <var class="Arg">complex</var> to the given set of faces. This will remove all edges and vertices that are not incident to one of the remaining faces.</p>
+
+<p>All labels of remaining vertices, edges and faces will remain the same. The method <code class="keyw">SubsurfaceByFaces</code> is only applicable to surfaces and guarantees that the returned subcomplex is a surface. If this is not possible <code class="keyw">fail</code> is returned.</p>
+
+<p>For example consider the hexagon from the start of this chapter:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SubcomplexByFaces(hex,[2,5]);</span>
+triangular complex (5 vertices, 6 edges, and 2 faces)
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_Hexagon_RemovedFace-1.svg"> </img> <br></p>
+
+<p>The NC-version does not check whether the given set of <var class="Arg">faces</var> actually consists only of faces in <var class="Arg">complex</var>. It also does not check whether the result of <code class="keyw">SubsurfaceByFaces</code> is a surface.</p>
+
+<p>In Chapter <a href="chap18_mj.html#X7EC40052873E6A6E"><span class="RefLink">18</span></a> the edge colouring of twisted polygonal complexes will be introduced.</p>
+
+<p>The hexagon from above can be coloured as follows:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colEdges:=[ 1, 2, 1, 2, 1, 2, 3, 3, 3, 3, 3, 3 ];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">colSurface:=EdgeColouredPolygonalComplex(hex,colEdges);</span>
+tame coloured surface (MMB with 7 vertices, 12 edges and 6 faces)
+</pre></div>
+
+<p>If we compute a subcomplex of an edge-coloured complex, it will be edge-coloured again, induced by the edge-colouring of the given complex:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SubsurfaceByFaces(colSurface,[1,2]);</span>
+tame coloured surface (BMB with 4 vertices, 5 edges and 2 faces)
+</pre></div>
+
+<p><a id="X7DD564CD84469C39" name="X7DD564CD84469C39"></a></p>
+
+<h5>12.2-2 RemoveFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveFaces</code>( <var class="Arg">complex</var>, <var class="Arg">faces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">faces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveFace</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RemoveFaceNC</code>( <var class="Arg">complex</var>, <var class="Arg">face</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Remove the given faces from <var class="Arg">complex</var> and return the result. If this removal results in vertices or edges that are not incident to any remaining faces, they will be removed as well. The labels of all remaining vertices, edges and faces will remain unaffected.</p>
+
+<p>For example consider the Tetrahedron and remove one face: <br><img src='./images/_Wrapper_modification-8-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetraRemoved:=RemoveFace(Tetrahedron(),1);</span>
+simplicial surface (4 vertices, 6 edges, and 3 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(tetraRemoved);</span>
+false
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_Tetra_RemovedFace-1.svg"> </img> <br></p>
+
+<p>The NC-version does not check whether the given set of <var class="Arg">faces</var> actually consists only of faces in <var class="Arg">complex</var>.</p>
+
+<p><a id="X783307707E12765A" name="X783307707E12765A"></a></p>
+
+<h4>12.3 <span class="Heading">Disjoint union</span></h4>
+
+<p>This section explains the conventions of disjoint unions (<a href="chap12_mj.html#X8354A32287384685"><span class="RefLink">12.3-1</span></a>) of polygonal complexes. While this might seem trivial at first, its behaviour has to be stated clearly and unambiguously, since all of the joining modifications of section <a href="chap12_mj.html#X82623EE88772F585"><span class="RefLink">12.4</span></a> are based on it.</p>
+
+<p>To illustrate this, consider the tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra := Tetrahedron();;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-9-1.svg'> </img> <br> Both of these tetrahedra have the same labels for vertices, edges and faces.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(tetra);</span>
+[ 1, 2, 3, 4 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(tetra);</span>
+[ 1, 2, 3, 4, 5, 6 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(tetra);</span>
+[ 1 .. 4 ]
+</pre></div>
+
+<p>A disjoint union can't just combine these labels because it would not be clear to which component the vertex 2 is belonging. This conflict of labels is a common occurrence and has to be handled delicately.</p>
+
+<p>The <code class="keyw">SimplicialSurface</code>-package deals with this problem by uniformly shifting the labels of the second argument.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">disjoint := DisjointUnion(tetra, tetra);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices( disjoint[1] );</span>
+[ 1, 2, 3, 4, 7, 8, 9, 10 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges( disjoint[1] );</span>
+[ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces( disjoint[1] );</span>
+[ 1, 2, 3, 4, 7, 8, 9, 10 ]
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-10-1.svg'> </img> <br> Notably all labels of the second tetrahedron were shifted by the same amount. More precisely they are shifted by the highest label of the first tetrahedron - which is the edge label 6.</p>
+
+<p>To be able to use this information in further calculations, the used shift is returned as well.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">disjoint[2];</span>
+6
+</pre></div>
+
+<p><a id="X8354A32287384685" name="X8354A32287384685"></a></p>
+
+<h5>12.3-1 DisjointUnion</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; DisjointUnion</code>( <var class="Arg">complex1</var>, <var class="Arg">complex2</var>[, <var class="Arg">shift</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry is the used shift</p>
+
+<p>Return the disjoint union of the given two polygonal complexes. In this process the labels of the second complex usually are shifted. The default shift is determined by this procedure:</p>
+
+<ol>
+<li><p>If the labels of vertices, edges and faces do not overlap, the second labels do not need to be shifted. The default shift is 0.</p>
+
+</li>
+<li><p>Otherwise the labels of the second complex are shifted by the highest label of the first complex - which may be the label of a vertex, an edge or a face.</p>
+
+</li>
+</ol>
+<p>If the optional <var class="Arg">shift</var> is higher than the default shift, it will be used instead. Otherwise it will be ignored.</p>
+
+<p>All labels of the second complex are shifted upwards by the same amount, even if it would not be necessary to shift all of them that much to make the labels disjoint.</p>
+
+<p>For example also the disjoint union of two different complexes can be build:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oneFace:=SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2],[2,3],[1,3]],[[1,2,3]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">DisjointUnion(oneFace, JanusHead());</span>
+[ simplicial surface (6 vertices, 6 edges, and 3 faces), 3 ]
+</pre></div>
+
+<p><a id="X82623EE88772F585" name="X82623EE88772F585"></a></p>
+
+<h4>12.4 <span class="Heading">Joining along a path</span></h4>
+
+<p>This section contains the basic functionality for joining polygonal complexes along vertices and edges and more generally along vertex-edge-paths (for their definition, compare <a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>). More specifically the following operations are supported:</p>
+
+
+<ul>
+<li><p>Identifying two vertices (<a href="chap12_mj.html#X7A48F3DD7AC9DD84"><span class="RefLink">12.4-1</span></a>)</p>
+
+</li>
+<li><p>Identifying two edges (<a href="chap12_mj.html#X818D4B5B7D3572C1"><span class="RefLink">12.4-2</span></a>)</p>
+
+</li>
+<li><p>Identifying two vertex-edge-paths (<a href="chap12_mj.html#X7D322A4D78BCEFC2"><span class="RefLink">12.4-4</span></a>)</p>
+
+</li>
+<li><p>Identifying the perimeters of two boundaries/holes (<a href="chap12_mj.html#X7FAFA27E7CC8A11C"><span class="RefLink">12.4-5</span></a>)</p>
+
+</li>
+</ul>
+<p>For example conisder the following complex:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex:=SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [,[2,7],[3,7],[4,7],[5,7],[6,7],[2,8],[2,3],[3,4],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [4,5],[5,6],[6,9],[7,8],[7,9]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [[2,7,13],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[6,12,14]]);;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-11-1.svg'> </img> <br> It is possible to join the vertices 8 and 9 and the new vertex will get the label 1.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertJoin:=JoinVertices(complex,[8,9],1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertJoin[2];</span>
+1
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-12-1.svg'> </img> <br> After this vertex join the edges 13 and 14 can be join to a new edge with label 1.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeJoin:=JoinEdges(vertJoin[1],13,14,1);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edgeJoin[2];</span>
+1
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br> These two joining operations can also be combined by using a vertex-edge-path (introduced in section <a href="chap8_mj.html#X7BA338C9785BE58F"><span class="RefLink">8.1</span></a>). Consider the following complex:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hexOpen:=SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [,[2,12],[3,12],,[5,13],[6,13],[2,8],[2,3],[3,10],[5,11],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [5,6],[6,9],[8,12],[9,13],[10,12],[11,13]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           [[2,7,13],[2,3,8],[3,9,15],[5,10,16],[5,6,11],[6,12,14]]);;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-13-1.svg'> </img> <br> The two joining paths can be given in multiple ways: via vertices, via edges or by giving an alternating list of both.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path1:=VertexEdgePath(hexOpen,[10,15,12,13,8]);</span>
+| v10, E15, v12, E13, v8 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByVertices(hexOpen,[10,12,8]);</span>
+| v10, E15, v12, E13, v8 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByEdges(hexOpen,[15,13]);</span>
+| v10, E15, v12, E13, v8 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">path2:=VertexEdgePath(hexOpen,[11,16,13,14,9]);</span>
+| v11, E16, v13, E14, v9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByVertices(hexOpen,[11,13,9]);</span>
+| v11, E16, v13, E14, v9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VertexEdgePathByEdges(hexOpen,[16,14]);</span>
+| v11, E16, v13, E14, v9 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">hex:=JoinVertexEdgePaths(hexOpen,path1,path2);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(hex[1]);</span>
+1
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_SplitExample-1.svg"> </img> <br></p>
+
+<p><a id="X7A48F3DD7AC9DD84" name="X7A48F3DD7AC9DD84"></a></p>
+
+<h5>12.4-1 JoinVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertices</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var>[, <var class="Arg">newVertexLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">v1</var>, <var class="Arg">v2</var>[, <var class="Arg">newVertexLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertices</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var>[, <var class="Arg">newVertexLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVerticesNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertexList</var>[, <var class="Arg">newVertexLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertices</code>( <var class="Arg">complex1</var>, <var class="Arg">v1</var>, <var class="Arg">complex2</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVerticesNC</code>( <var class="Arg">complex1</var>, <var class="Arg">v1</var>, <var class="Arg">complex2</var>, <var class="Arg">v2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list, where the first entry is a polygonal complex, the second one is the new vertex label and the third is the shift for the labels of the second input <var class="Arg">complex2</var> (only if applicable).</p>
+
+<p>Combine two vertices into one. This method comes in two flavors:</p>
+
+<ol>
+<li><p>Combine two vertices <var class="Arg">v1</var> and <var class="Arg">v2</var> of a single polygonal complex <var class="Arg">complex</var> into one. This will return <code class="keyw">fail</code> if the vertices are incident to a common face.</p>
+
+<p>The optional argument <var class="Arg">newVertexLabel</var> allows to set the label of the new vertex. By default, <var class="Arg">newVertexLabel</var> is one higher than the maximal vertex label unless the vertices to be joined are equal or the length of <var class="Arg">vertexList</var> is one. In these cases the label does not change.</p>
+
+</li>
+<li><p>Combine two vertices <var class="Arg">v1</var> and <var class="Arg">v2</var> of two distinct polygonal complexes <var class="Arg">complex1</var> and <var class="Arg">complex2</var>. This will perform <code class="keyw">DisjointUnion</code> (<a href="chap12_mj.html#X8354A32287384685"><span class="RefLink">12.3-1</span></a>) on the two complexes to reduce this problem to the first case.</p>
+
+</li>
+</ol>
+<p>Both methods return a list, where the first entry is the new polygonal complex, the second entry is the label of the new vertex and (only in the second case) the third entry is the used shift of the disjoint union (refer to section <a href="chap12_mj.html#X783307707E12765A"><span class="RefLink">12.3</span></a> for details).</p>
+
+<p>To illustrate the first case, consider the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octa := Octahedron();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> </img> <br> It is possible to join vertices on opposite sides, for example 1 and 6.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octJoin := JoinVertices(octa, 1, 6);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octJoin = fail;</span>
+false
+</pre></div>
+
+<p>This combines the vertices 1 and 6 into a new vertex with label 7, which becomes a ramified vertex (<a href="chap9_mj.html#X7C840E847A51BDF6"><span class="RefLink">9.5-3</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octJoin[2];</span>
+7
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Vertices(octJoin[1]);</span>
+[ 2, 3, 4, 5, 7 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RamifiedVertices(octJoin[1]);</span>
+[ 7 ]
+</pre></div>
+
+<p>On the other hand, it is not possible to join two vertices if they are connected by an edge.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JoinVertices(octa, [2,3]);</span>
+fail
+</pre></div>
+
+<p>To illustrate the second case, consider the following two simplicial surfaces:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">leftWing := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],,[3,4,5]] );;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-14-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rightWing := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4]] );;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-15-1.svg'> </img> <br> If these two surfaces are joined along the vertices 3 (of the left wing) and 2 (of the right wing), the labels of the second one have to be shifted.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly := JoinVertices(leftWing, 3, rightWing, 2);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly[3];</span>
+7
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-16-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly[2];</span>
+12
+</pre></div>
+
+<p>The NC-versions don't check whether the given vertices are distinct vertices of the corresponding complexes and whether the <var class="Arg">newVertexLabel</var> is available.</p>
+
+<p><a id="X818D4B5B7D3572C1" name="X818D4B5B7D3572C1"></a></p>
+
+<h5>12.4-2 JoinEdges</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinEdges</code>( <var class="Arg">complex</var>, <var class="Arg">e1</var>, <var class="Arg">e2</var>[, <var class="Arg">newEdgeLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">e1</var>, <var class="Arg">e2</var>[, <var class="Arg">newEdgeLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinEdges</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var>[, <var class="Arg">newEdgeLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinEdgesNC</code>( <var class="Arg">complex</var>, <var class="Arg">edgeList</var>[, <var class="Arg">newEdgeLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second one is the new edge label</p>
+
+<p>Combine two edges <var class="Arg">e1</var> and <var class="Arg">e2</var> of a polygonal complex into one edge, whose new label can be given by the optional argument <var class="Arg">newEdgeLabel</var>. By default, <var class="Arg">newEdgeLabel</var> is one higher than the maximal edge label unless the edges to be joined are equal or the length of <var class="Arg">edgeList</var> is one. In these cases the label does not change. The edges have to have had the same incident vertices.</p>
+
+<p>This method returns a pair, where the first entry is the modified polygonal complex and the second entry is the label of the new edge.</p>
+
+<p>For example consider the following triangular complex without edge ramifications:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">eye := TriangularComplexByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">    [[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]], [[1,2,3],[4,5,6]]);;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-17-1.svg'> </img> <br> The only edges that can be joined are those with equal incident vertices. These can be found by <code class="keyw">EdgeAnomalyClasses</code> (<a href="chap16_mj.html#X841950BD7CABE2C8"><span class="RefLink">16.1-2</span></a>).</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClasses(eye);</span>
+[ [ 1 ], [ 2, 6 ], [ 3 ], [ 4 ], [ 5 ] ]
+</pre></div>
+
+<p>The only pair of edges with the same incident vertices are 2 and 6.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">closeEye := JoinEdges( eye, 2, 6 );;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">closeEye[2];</span>
+7
+</pre></div>
+
+<p>Since 6 is the maximal edge label, 7 is the label of the new edge. <br><img src="./images/_Wrapper_Image_Eye_OpenClosed-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeAnomalyClasses(closeEye[1]);</span>
+[ [ 1 ], [ 3 ], [ 4 ], [ 5 ], [ 7 ] ]
+</pre></div>
+
+<p>The NC-versions do not check whether the given edges are distinct edges with the same incident vertices of <var class="Arg">complex</var> and whether the new edge label is actually valid.</p>
+
+<p><a id="X859F0A8A83075E36" name="X859F0A8A83075E36"></a></p>
+
+<h5>12.4-3 JoinFaces</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinFaces</code>( <var class="Arg">complex</var>, <var class="Arg">F1</var>, <var class="Arg">F2</var>[, <var class="Arg">newFaceLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">F1</var>, <var class="Arg">F2</var>[, <var class="Arg">newFaceLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinFaces</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var>[, <var class="Arg">newFaceLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinFacesNC</code>( <var class="Arg">complex</var>, <var class="Arg">faceList</var>[, <var class="Arg">newFaceLabel</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second one is the new face label</p>
+
+<p>Combine two faces <var class="Arg">F1</var> and <var class="Arg">F2</var> of a polygonal complex into one face, whose new label can be given by the optional argument <var class="Arg">newFaceLabel</var>. By default, <var class="Arg">newFaceLabel</var> is one higher than the maximal face label unless the faces to be joined are equal or the length of <var class="Arg">faceList</var> is one. In these cases the label does not change. The faces have to have had the same incident edges.</p>
+
+<p>This method returns a pair, where the first entry is the modified polygonal complex and the second entry is the label of the new face.</p>
+
+<p>For example consider the Janus-head. The two faces have equal incident edges so they can be joined: <br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">JoinFaces(JanusHead(),1,2,1);</span>
+[ simplicial surface (3 vertices, 3 edges, and 1 faces), 1 ]
+</pre></div>
+
+<p>The resulting surface is the one-face. Since 1 is the optional argument <var class="Arg">newFaceLabel</var>, 1 is the label of the new face. <br><img src="./images/_Wrapper_TIKZ_theTriangle-1.svg"> </img> <br></p>
+
+<p>The NC-versions do not check whether the given faces are distinct faces with the same incident edges of <var class="Arg">complex</var> and whether the new face label is actually valid.</p>
+
+<p><a id="X7D322A4D78BCEFC2" name="X7D322A4D78BCEFC2"></a></p>
+
+<h5>12.4-4 JoinVertexEdgePaths</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertexEdgePaths</code>( <var class="Arg">complex</var>, <var class="Arg">vePath1</var>, <var class="Arg">vePath2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertexEdgePathsNC</code>( <var class="Arg">complex</var>, <var class="Arg">vePath1</var>, <var class="Arg">vePath2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertexEdgePaths</code>( <var class="Arg">complex1</var>, <var class="Arg">vePath1</var>, <var class="Arg">complex2</var>, <var class="Arg">vePath2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinVertexEdgePathsNC</code>( <var class="Arg">complex1</var>, <var class="Arg">vePath1</var>, <var class="Arg">complex2</var>, <var class="Arg">vePath2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry is a vertex-edge-path. The optional third entry describes the label shift of <var class="Arg">complex2</var> (if applicable).</p>
+
+<p>Combine two duplicate-free (<a href="chap8_mj.html#X7C9963CD7CC32327"><span class="RefLink">8.1-9</span></a>) vertex-edge-paths (<a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) of equal length into one. This is done by first joining the corresponding vertices by <code class="keyw">JoinVertices</code> (<a href="chap12_mj.html#X7A48F3DD7AC9DD84"><span class="RefLink">12.4-1</span></a>) and then identifying the corresponding edges with <code class="keyw">JoinEdges</code> (<a href="chap12_mj.html#X818D4B5B7D3572C1"><span class="RefLink">12.4-2</span></a>). If two polygonal complexes are given, they are combined with <code class="keyw">DisjointUnion</code> (<a href="chap12_mj.html#X8354A32287384685"><span class="RefLink">12.3-1</span></a>) before these identifications take place.</p>
+
+<p>If some of the vertices can't be identified because they are incident to the same edge, <code class="keyw">fail</code> is returned. Otherwise this method returns a pair, where the first entry is a polygonal complex and the second one is the vertex-edge-path in the new polygonal complex that was generated by the identified vertex-edge-paths.</p>
+
+<p>One thing that can be done is the construction of a ramified edge. Consider just one triangle:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">triangle := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"> [[1,2],[1,3],[2,3]],[[1,2,3]] );;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-18-1.svg'> </img> <br> First we combine two of them, which leads to a butterfly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">joinPath := VertexEdgePathByVertices(triangle, [1,2]);</span>
+| v1, E1, v2 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">join := JoinVertexEdgePaths(triangle, joinPath, triangle, joinPath);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">join[2];</span>
+| v7, E7, v8 |
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-19-1.svg'> </img> <br></p>
+
+<p>Along this vertex-edge-path another of the triangles can be added:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tripleJoin := JoinVertexEdgePaths(join[1],join[2],triangle,joinPath);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tripleJoin[2];</span>
+| v12, E12, v13 |
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RamifiedEdges(tripleJoin[1]);</span>
+[ 12 ]
+</pre></div>
+
+<p>The resulting surface is: <br><img src='./images/_Wrapper_modification-20-1.svg'> </img> <br> The NC-versions do not check whether the given vertex-edge-paths are actually vertex-edge-paths of the polygonal complexes.</p>
+
+<p><a id="X7FAFA27E7CC8A11C" name="X7FAFA27E7CC8A11C"></a></p>
+
+<h5>12.4-5 JoinBoundaries</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinBoundaries</code>( <var class="Arg">surface</var>, <var class="Arg">veList1</var>, <var class="Arg">veList2</var>[, <var class="Arg">length</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinBoundariesNC</code>( <var class="Arg">surface</var>, <var class="Arg">veList1</var>, <var class="Arg">veList2</var>[, <var class="Arg">length</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinBoundaries</code>( <var class="Arg">surface1</var>, <var class="Arg">veList1</var>, <var class="Arg">surface2</var>, <var class="Arg">veList2</var>[, <var class="Arg">length</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinBoundariesNC</code>( <var class="Arg">surface1</var>, <var class="Arg">veList1</var>, <var class="Arg">surface2</var>, <var class="Arg">veList2</var>[, <var class="Arg">length</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list, where the first entry is a polygonal surface, the second one is a vertex-edge-path and the third one is the label shift of <var class="Arg">complex2</var> (if applicable).</p>
+
+<p>Combine two boundaries into one. This method takes the starts of two vertex-edge-paths (<a href="chap8_mj.html#X80FAC97B86FCE83C"><span class="RefLink">8.1-1</span></a>) and extends those into vertex-edge-paths along the boundary of the given polygonal surfaces. Then the method <code class="keyw">JoinVertexEdgePaths</code> (<a href="chap12_mj.html#X7D322A4D78BCEFC2"><span class="RefLink">12.4-4</span></a>) will be called on these vertex-edge-paths or if a length is given it will be called for possibly truncated vertex-edge-paths.</p>
+
+<p>If two surfaces should be combined, <code class="keyw">DisjointUnion</code> (<a href="chap12_mj.html#X8354A32287384685"><span class="RefLink">12.3-1</span></a>) will be called beforehand.</p>
+
+<p>Currently the <var class="Arg">veList</var> has to be given as a list [<var class="Arg">vertex</var>, <var class="Arg">edge</var>].</p>
+
+<p>For example, consider the following simplicial surface: <br><img src="./images/_Wrapper_Image_FourGon-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fourGon := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;</span>
+</pre></div>
+
+<p>Combining two of these along their boundaries gives the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct := JoinBoundaries(fourGon, [3,6], fourGon, [4,7]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(oct[1], Octahedron());</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">octLength := JoinBoundaries(fourGon, [3,6], fourGon, [4,7], 4);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(octLength[1], Octahedron());</span>
+true
+</pre></div>
+
+<p><a id="X8189B2D1840512F8" name="X8189B2D1840512F8"></a></p>
+
+<h5>12.4-6 JoinBoundary</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinBoundary</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JoinBoundaryNC</code>( <var class="Arg">complex</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a polygonal complex and the second entry is a vertex-edge-path.</p>
+
+<p>This method takes a boundary vertex <var class="Arg">v</var> and joins the vertex-edge-path of the boundary where <var class="Arg">v</var> lies on if the path has even length. This means, the method splits the vertex-edge-path of the boundary in two parts. Then the method <code class="keyw">JoinVertexEdgePaths</code> (<a href="chap12_mj.html#X7D322A4D78BCEFC2"><span class="RefLink">12.4-4</span></a>) will be called on these two vertex-edge-paths.</p>
+
+<p>For example, consider the following simplicial surface: <br><img src="./images/_Wrapper_Image_FourGon-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">fourGon := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );;</span>
+</pre></div>
+
+<p>Joining the boundary together of this surface gives a closed surface. <br><img src='./images/_Wrapper_modification-21-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">joined:=JoinBoundary(fourGon,2);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces),
+| v2, E9, v7, E10, v4 | ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(joined[1]);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(joined[1],JoinBoundary(fourGon,3)[1]);</span>
+true
+</pre></div>
+
+<p><a id="X7D847A427D61C50F" name="X7D847A427D61C50F"></a></p>
+
+<h5>12.4-7 AllToriOfSimplicialSphere</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllToriOfSimplicialSphere</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Given a simplicial sphere this function returns the set of all tori that can be constructed by identifying two faces of <var class="Arg">surface</var> and removing the resulting face from the constructed triangular complex. The function returns <var class="Arg">fail</var>, if <var class="Arg">surface</var> is not a simplicial sphere. As an example consider the octahedron. <br><img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">alltori:=AllToriOfSimplicialSphere(Octahedron());</span>
+[ simplicial surface (3 vertices, 9 edges, and 6 faces)]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">torus:=alltori[1];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerCharacteristic(torus);</span>
+0
+</pre></div>
+
+<p>The simplicial surface <var class="Arg">torus</var> is constructed by identifying the faces 1 and 8. Since mending two faces introduces an identification of the incident vertices and edges, there are new edge and vertex labels introduced. <br><img src="./images/_Wrapper_Image_TorusOcta-1.svg"> </img> <br></p>
+
+<p><a id="X833F700B86646D82" name="X833F700B86646D82"></a></p>
+
+<h4>12.5 <span class="Heading">Specific modifications</span></h4>
+
+<p>This section contains some specific modifications that are generally useful. To illustrate the power of the modification toolbox that was developed in the previous sections, the fundamental code for each of them is presented as well. To make seeing the underlying structure easier, this code will not consider border cases or check its inputs for validity.</p>
+
+<p><a id="X83F38B1383C923D4" name="X83F38B1383C923D4"></a></p>
+
+<h5>12.5-1 ConnectedFaceSum</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ConnectedFaceSum</code>( <var class="Arg">surface1</var>, <var class="Arg">flag1</var>, <var class="Arg">surface2</var>, <var class="Arg">flag2</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal surface or <code class="keyw">fail</code></p>
+
+<p>Compute the <em>connected face-sum</em> of two polygonal surfaces. The connected face-sum identifies the faces of two polygonal surfaces and removes them afterwards. The edges of the identified faces can't be boundary edges (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>), otherwise <code class="keyw">fail</code> is returned.</p>
+
+<p>Since there are six different ways how the two faces could be identified, this methods needs a flag of each complex, i.e. a list of a vertex, an edge and a face that are all incident.</p>
+
+<p>For example consider the tetrahedron:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=ConnectedFaceSum(Tetrahedron(),[1,1,1],Tetrahedron(),[1,1,1]);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(doubleTetra);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(doubleTetra);</span>
+1
+</pre></div>
+
+<p>The central part of this can be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rem1 := RemoveFace( surface1, flag1[3] );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rem2 := RemoveFace( surface2, flag2[3] );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">conSum := JoinBoundaries(rem1, flag1{[1,2]}, rem2, flag2{[1,2]})[1];</span>
+</pre></div>
+
+<p><a id="X7BFD26287D9DF9D5" name="X7BFD26287D9DF9D5"></a></p>
+
+<h5>12.5-2 SnippOffEars</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SnippOffEars</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Remove all "ears" of the given simplicial surface, i.e. all pairs of faces that share two edges. The resulting edge anomaly is also fixed by identifying the edges.</p>
+
+<p>For example consider the following complex: <br><img src='./images/_Wrapper_modification-22-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complex:=SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">            [[1,2],[2,3],[1,3],[1,3],[3,4],[1,4],[4,5],[1,5],[3,5]],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">            [[1,2,3],[1,2,4],[3,5,6],[6,7,8],[4,8,9]]);;</span>
+</pre></div>
+
+<p>Face 1 and 2 share two edges, that means, they form an ear of the given simplicial surface.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">complexWithoutEars:=SnippOffEars(complex);</span>
+simplicial surface (4 vertices, 6 edges, and 3 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(complexWithoutEars);</span>
+[ ,, [ 5, 6, 10 ], [ 6, 7, 8 ], [ 8, 9, 10 ] ]
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_ComplexWithEar-1.svg"> </img></p>
+
+<p>For a given face-anomaly [<var class="Arg">face1</var>, <var class="Arg">face2</var>] this could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">commonEdges := Intersection( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">         EdgesOfFace(surface,face1), EdgesOfFace(surface,face2) );</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edge1 := Difference( EdgesOfFace(surface,face1), commonEdges )[1];</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">edge2 := Difference( EdgesOfFace(surface,face2), commonEdges )[1];</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">rem := RemoveFaces(surface, [face1, face2]);</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">snipp := JoinEdges(rem, edge1, edge2)[1];</span>
+</pre></div>
+
+<p><a id="X82054E997DE14296" name="X82054E997DE14296"></a></p>
+
+<h5>12.5-3 SplitAllVertices</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitAllVertices</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Split all vertices of the given polygonal complex via <code class="keyw">SplitVertex</code> (<a href="chap12_mj.html#X8699136F83919C6B"><span class="RefLink">12.1-2</span></a>). For polygonal complexes without edge ramifications (<a href="chap2_mj.html#X81B84AEB7A8ED9EE"><span class="RefLink">2.3-1</span></a>) this is equivalent to splitting all ramified vertices (<a href="chap9_mj.html#X7C840E847A51BDF6"><span class="RefLink">9.5-3</span></a>). In this case a polygonal surface will be returned.</p>
+
+<p>For example consider the following complex:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">triforce := PolygonalComplexByVerticesInFaces([[1,2,3],[2,4,5],[3,5,6]]);;</span>
+</pre></div>
+
+<p><br><img src='./images/_Wrapper_modification-23-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vertSplit:=SplitAllVertices(triforce);</span>
+simplicial surface (9 vertices, 9 edges, and 3 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NumberOfConnectedComponents(vertSplit);</span>
+3
+</pre></div>
+
+<p>After splitting all ramified vertices the complex is the disjoint union of three one-faces.</p>
+
+<p><a id="X7E735D997B378EEC" name="X7E735D997B378EEC"></a></p>
+
+<h5>12.5-4 ButterflyInsertion</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ButterflyInsertion</code>( <var class="Arg">surface</var>, <var class="Arg">list</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ButterflyInsertion</code>( <var class="Arg">surface</var>, <var class="Arg">vertex-edge-path</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.</p>
+
+<p>Given a simplicial surface <var class="Arg">surface</var>, a new surface is constructed by inserting a butterfly along a edge-path of length 2. The edge-path is given either as a list of three vertices such that these three vertices determine two edges of <var class="Arg">surface</var>, meeting in the middle vertex, or as a list of two adjacent edges, or as a vertex-edge path. The operation <em>ButterflyInsertionSurface</em> can be viewed as splitting the middle vertex of the given vertex-edge path in <var class="Arg">surface</var> into two new vertices. The inner edge of the butterfly will be inserted such that it is adjacent to the new vertices created by splitting the middle vertex.</p>
+
+<p>The function returns a list, where the first entry is the enlarged surface <var class="Arg">newSurface</var> which has two faces more than the input surface. The second entry is a vertex-edge path in <var class="Arg">newSurface</var>, which consisting of all edges corresponding to the input vertex-edge path. The optional third entry is the offset to be applied to the butterfly with vertices [1,2,3,4] to locate it in <var class="Arg">newSurface</var>.</p>
+
+<p>Inserting a butterfly along the vertex-edge path</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">disc := SimplicialUmbrella(5);</span>
+simplicial surface (6 vertices, 10 edges, and 5 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">t:= [1,2,6];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">discbig:=ButterflyInsertion(disc,t)[1];</span>
+simplicial surface (7 vertices, 13 edges, and 7 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CounterOfVertices(discbig);  </span>
+counter of vertices ([ 2, 3, 6 ] degrees, and [ 3, 3, 1 ] multiplicities)
+</pre></div>
+
+<p>The following image shows first the simplicial umbrella <var class="Arg">disc</var>, which is a 5-gon and secondly the surface <var class="Arg">discbig</var> resulting from inserting a butterfly along the path determined by the vertices <var class="Arg"> 1, 2, 6</var>. Note that the edge with label <var class="Arg">6</var>, which is the edge with vertices <var class="Arg">1, 2</var> is a boundary edge of <var class="Arg">surface</var>, whereas that the edge with label <var class="Arg">2</var>, which is the edge with vertices <var class="Arg">2,6</var> is an inner edge of <var class="Arg">surface</var>. The inserted butterfly of <var class="Arg">discbig</var> is shown in red. <br><img src="./images/_Wrapper_Image_ButterflyInsertion-1.svg"> </img> <br></p>
+
+<p><a id="X84A7365780B5486D" name="X84A7365780B5486D"></a></p>
+
+<h5>12.5-5 TetrahedralExtension</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TetrahedralExtension</code>( <var class="Arg">surface</var>, <var class="Arg">face</var>[, <var class="Arg">newVertexLable</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a surface</p>
+
+<p>Given a simplicial surface a new surface can be constructed by attaching a tetrahedron on the given face. This can be seen as a subdivision of the given surface which arises by subdividing a face into three new faces. <br><img src="./images/_Wrapper_Image_TetraExt-1.svg"> </img> <br> So, this modification results in increasing the number of vertices by 1, the number of edges by 3 and the number of faces by 2. As an example consider the tetrahedron:</p>
+
+<p><br><img src="./images/_Wrapper_Image_Tetrahedron_Net-1.svg"> </img> <br></p>
+
+<p>Subdividing face 1 of the tetrahedron results in the double tetrahedron:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">s:=TetrahedralExtension(Tetrahedron(),1);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Faces(s);</span>
+[ 2, 3, 4, 5, 6, 7 ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_TetrahedralExtension-1.svg"> </img> <br></p>
+
+<p><a id="X8778AFFD7ADF3451" name="X8778AFFD7ADF3451"></a></p>
+
+<h5>12.5-6 TetrahedralReduction</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; TetrahedralReduction</code>( <var class="Arg">surface</var>, <var class="Arg">vertex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a surface</p>
+
+<p>Given a simplicial surface and a vertex of face degree 3 a new surface can be constructed by removing the faces incident to <code class="keyw">vertex</code> in <code class="keyw">surface</code> and attaching a new face to the resulting boundary edges. <br><img src="./images/_Wrapper_Image_TetraRed-1.svg"> </img> <br> So, this modification results in decreasing the number of vertices by 1, the number of edges by 3 and the number of faces by 2. As an Example consider the double tetrahedron. <br><img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet:=TetrahedralReduction(doubleTetra,4);</span>
+simplicial surface (4 vertices, 6 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(tet,Tetrahedron());</span>
+true
+</pre></div>
+
+<p>So performing the tetrahedral reduction with the double tetrahedron gives rise to the tetrahedron.</p>
+
+<p><a id="X811EF7DA82EE70C9" name="X811EF7DA82EE70C9"></a></p>
+
+<h5>12.5-7 InnerMultiTetrahedralSphere</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; InnerMultiTetrahedralSphere</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a complex</p>
+
+<p>Return the inner multi tetrahedral sphere of a given twisted polygonal complex. If <code class="keyw">complex</code> is a multi tetrahedral sphere, a new multi tetrahedral sphere can be obtained by applying a tetrahedral reduction to every vertex in <code class="keyw">complex</code> with face degree 3. If <code class="keyw">complex</code> is not a multi tetrahedral sphere, the function returns <code class="keyw">fail</code>.</p>
+
+<p>As an example, consider the multi tetrahedral sphere obtained by applying exactly two tetrahdral extensions to the tetrahedron with any two faces. Since this surface has exactly two vertices with face degree 3, removing the attached tetrahedron gives rise to the tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=TetrahedralExtension(Tetrahedron(),1);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">multiTetra:=TetrahedralExtension(doubleTetra,2);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra:=InnerMultiTetrahedralSphere(multiTetra);</span>
+simplicial surface (4 vertices, 6 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(tetra,Tetrahedron());</span>
+true
+</pre></div>
+
+<p><a id="X866B3C667D794E6A" name="X866B3C667D794E6A"></a></p>
+
+<h5>12.5-8 MultiTetrahedralSymbolOfComplex</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MultiTetrahedralSymbolOfComplex</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of pairs of positive integers</p>
+
+<p>Returns the multi tetrahedral symbol of a given multi tetrahedral sphere or <code class="keyw">fail</code>.</p>
+
+<p>Since a multi tetrahedral sphere can be constructed by applying a finite number of tetrahedral extionsions to the the tetrahedron, we can define a symbol describing the sphere by choosing helpful identifications for the faces and vertices of the tetrahedron and thus of the spheres constructed by the given tetrahedral extensions.</p>
+
+<p>Since the symmetry group of a tetrahedron is the full symmetric group of four faces, it makes sense to identify the faces with 1,2,3,4. The identifications of the vertices are given in such a way that a face is incident to a vertex if and only if both identifications differ, i.e. the face with the identification 1 is incident to the vertices with the identifications 2,3 and 4. We insist that attaching a tetrahedron to a given sphere only takes place, if the vertices that are being identified through the tetrahedral extension can be sorted in pairs so that the vertices of each pair have the same identification in the above sense.</p>
+
+<p>Not only vertices and faces are assigned to numbers, but also the tetrahedra. The numbering of the tetrahedra starts from 1 and the later get numbers 2,3,.... in the order they are attached to obtain the given multi tetrahedral sphere. By using the numbers of the tetrahedra and their faces as indices we can derive the desired symbol.</p>
+
+<p>So for instance the symbol <span class="SimpleMath">\(1_1\)</span> describes the multi tetrahedral sphere constructed by attaching a tetrahedron to the first face of the tetrahedron, whereby the symbol <span class="SimpleMath">\(1_2\)</span> describes the sphere which arises from attaching a tetrahedron to the second face of the face tetrahedron.</p>
+
+<p>And the symbol <span class="SimpleMath">\(1_32_4\)</span> describes the multi tetrahedral sphere computed by the following steps: At first a tetrahdron is attached to the third face of the first tetrahedron. This results in the double tetrahedron, whereby the faces of both tetrahedra putting this double tetrahedron together are identified with 1,2,4. So now we attach a third tetrahedron to the fourth face of the second tetrahehon.</p>
+
+<p>If <code class="keyw">complex</code> is not a multi tetrahedral sphere, the function returns <code class="keyw">fail</code>. As first examples consider the tetrahedron and the double tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MultiTetrahedralSymbolOfComplex(Tetrahedron());</span>
+[  ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTet:=TetrahedralExtension(Tetrahedron(),1);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MultiTetrahedralSymbolOfComplex(doubleTet);</span>
+[ [ 1, 4 ] ]
+</pre></div>
+
+<p>As another example consider the multi tetrahedral sphere constructed by applying tetrahdral extensions (<a href="chap12_mj.html#X84A7365780B5486D"><span class="RefLink">12.5-5</span></a>) to the tetradedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">multiTet:=Tetrahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">for f in Faces(multiTet) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">multiTet:=TetrahedralExtension(multiTet,f);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">od;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">FaceDegreesOfVertices(multiTet);</span>
+[ 6, 6, 6, 6, 3, 3, 3, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">MultiTetrahedralSymbolOfComplex(multiTet);</span>
+[ [ 1, 4 ], [ 2, 1 ], [ 2, 3 ], [ 2, 2 ] ]
+</pre></div>
+
+<p>Note different symbols can give rise to isomorphic multi tetrahedral spheres.</p>
+
+<p><a id="X7D506B807C9EFD49" name="X7D506B807C9EFD49"></a></p>
+
+<h5>12.5-9 MultiTetrahedralSphereByTetrahedralSymbol</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; MultiTetrahedralSphereByTetrahedralSymbol</code>( <var class="Arg">symbol</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Returns a multi tetrahedral sphere with the given multi tetrahedral symbol (<a href="chap12_mj.html#X866B3C667D794E6A"><span class="RefLink">12.5-8</span></a>).</p>
+
+<p>As examples, consider the following two multi tetrahedral symbols.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tetra:=MultiTetrahedralSphereByTetrahedralSymbol([]);</span>
+simplicial surface (4 vertices, 6 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(CounterOfVertices(tetra));</span>
+[ [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTet:=MultiTetrahedralSphereByTetrahedralSymbol([[1,1]]);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ListCounter(CounterOfVertices(doubleTet));</span>
+[ [ 3, 2 ], [ 4, 3 ] ]
+</pre></div>
+
+<p><a id="X7D151000879EEE58" name="X7D151000879EEE58"></a></p>
+
+<h5>12.5-10 EdgeTurn</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; EdgeTurn</code>( <var class="Arg">surface</var>, <var class="Arg">edge</var>[, <var class="Arg">newedge</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface or <code class="keyw">fail</code></p>
+
+<p>Given a simplicial surface and an inner edge contained in the surface, one can construct a new surface by manipulating the inner edge. If <code class="keyw">edge</code> is an inner edge, it gives rise to a butterfly (e.g. if the surface is vertex faithful) and thus a new surface can be created by turning <code class="keyw">edge</code>. This results in replacing <code class="keyw">edge</code> by the edge <code class="keyw">newedge</code> which is connecting the other two vertices of the butterfly. So it has the same number of faces, edges and vertices, but the vertex degrees in four positions will change by +-1 i.e. the vertex degrees of the vertices incident to <code class="keyw">edge</code> decrease and the degrees of the vertices incident to <code class="keyw">newedge</code> increase by 1. If the function is called without the argument <code class="keyw">newedge</code>, the function simply manipulates the incidence structure of <code class="keyw">edge</code> without relabelling this edge. So after this modification on the simplicial surface <code class="keyw">surface</code> the set of edges remains the same. For example, consider the octahedron: <br><img src="./images/_Wrapper_TIKZ_Octahedron_constructor-1.svg"> </img> <br> Turning the edge 1 results in</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surf:=EdgeTurn(Octahedron(),1);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(surf);</span>
+[ [ 3, 5 ], [ 1, 3 ], [ 1, 4 ], [ 1, 5 ], [ 2, 3 ], [ 2, 5 ], [ 2, 6 ], [ 3, 4 ],
+[ 3, 6 ], [ 4, 5 ], [ 4, 6 ], [ 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(surf);</span>
+[ [ 1, 2, 4 ], [ 6, 7, 12 ], [ 1, 5, 6 ], [ 5, 7, 9 ], [ 3, 4, 10 ], [ 8, 9, 11 ],
+[ 2, 3, 8 ], [ 10, 11, 12 ] ]
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_ETOctahedron-1.svg"> </img> <br></p>
+
+<p>The same process can also be done by relabelling the turned edge.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgeTurn(Octahedron(),1,15);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Edges(last);</span>
+[ 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15 ]
+</pre></div>
+
+<p><a id="X7C04FAD87D238117" name="X7C04FAD87D238117"></a></p>
+
+<h5>12.5-11 BuildingBlocks</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; BuildingBlocks</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a set of simplicial surfaces</p>
+
+<p>Return the building blocks of a vertex-faithful simplicial sphere. Given two closed simplicial surfaces with euler-characteristic 2 a new surface can be constructed by computing the connected-face sum (<a href="chap12_mj.html#X83F38B1383C923D4"><span class="RefLink">12.5-1</span></a>) of this surfaces. This gives rise to a waist of length 3 in the resulting surface. Given a vertex-faithful simplicial sphere there exists a finite number of simplicial spheres without waists of length 3, so that iteratively computing the connected-face-sum of those surfaces gives rise to <code class="keyw">surface</code>, up to isomorphism. This surfaces which are unique up to isomorphism are called the building blocks of the simplicial sphere <code class="keyw">surface</code>. Since building blocks only exist for vertex-faithful spheres the function returns <code class="keyw">fail</code>, if <code class="keyw">surface</code> does not satisfy this property. As an example, consider the octahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">BuildingBlocks(Octahedron());</span>
+[ simplicial surface (6 vertices, 12 edges, and 8 faces)]
+</pre></div>
+
+<p>As another example consider the double tetrahedron. Applying the connected sum to two tetrahedra with any two faces gives rise to the double tetrahedron. So the double tetrahedron has two building blocks, namely two tetrahedron.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">vof:=[[1,2,4],[2,3,4],[1,3,4],[1,2,5],[1,3,5],[2,3,5]];;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleTetra:=SimplicialSurfaceByVerticesInFaces(vof);</span>
+simplicial surface (5 vertices, 9 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">buildingBlocks:=BuildingBlocks(doubleTetra);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces)
+    , 
+  simplicial surface (4 vertices, 6 edges, and 4 faces) 
+ ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">List(buildingBlocks,g-&gt;IsIsomorphic(g,Tetrahedron()));</span>
+[ true, true ]
+</pre></div>
+
+<p><a id="X7F0608448629B4C3" name="X7F0608448629B4C3"></a></p>
+
+<h4>12.6 <span class="Heading">Example: Cut and Mend</span></h4>
+
+<p>While the previous sections talked about general modifications and some often-used modifications, this section shows how these tools could be used in practice. After introducing some modifications of theoretical value it is shown how they could be implemented with the help from the package.</p>
+
+<p>Specifically this concerns the following operations (for polygonal surfaces):</p>
+
+<ol>
+<li><p><code class="keyw">CraterCut</code> (<a href="chap12_mj.html#X7FBE44697990A77E"><span class="RefLink">12.6-1</span></a>): For an inner edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>) with two incident inner vertices (<a href="chap9_mj.html#X789A991584C6EB09"><span class="RefLink">9.5-1</span></a>), split the edge in two (while leaving the vertices intact).</p>
+
+<p>The inverse operation is the <code class="keyw">CraterMend</code> (<a href="chap12_mj.html#X7B4F1A7C84D0DAA4"><span class="RefLink">12.6-2</span></a>).</p>
+
+</li>
+<li><p><code class="keyw">RipCut</code> (<a href="chap12_mj.html#X8357990B84E235F3"><span class="RefLink">12.6-3</span></a>): For an inner edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>), where one of the incident vertices is an inner vertex (<a href="chap9_mj.html#X789A991584C6EB09"><span class="RefLink">9.5-1</span></a>) and one is a boundary vertex (<a href="chap9_mj.html#X84E56D3087A997F4"><span class="RefLink">9.5-2</span></a>), split the edge and the boundary vertex.</p>
+
+<p>The inverse operation is the <code class="keyw">RipMend</code> (<a href="chap12_mj.html#X848C315B838E2046"><span class="RefLink">12.6-4</span></a>).</p>
+
+</li>
+<li><p><code class="keyw">SplitCut</code> (<a href="chap12_mj.html#X87EC0E6F7F05BFE3"><span class="RefLink">12.6-5</span></a>): For an inner edge with two incident boundary vertices (<a href="chap9_mj.html#X84E56D3087A997F4"><span class="RefLink">9.5-2</span></a>), split the edge and both incident vertices in two.</p>
+
+<p>The inverse operation is the <code class="keyw">SplitMend</code> (<a href="chap12_mj.html#X7F56114984CB6B55"><span class="RefLink">12.6-6</span></a>).</p>
+
+</li>
+</ol>
+<p>Besides the actual modification it is also important to have some function available that checks if the conditions are fulfilled.</p>
+
+<p>Each of these six operations has their own manual entry with a code snippet. These code snippets could be put into a file <em>CutMend.g</em> and read into an active <strong class="pkg">GAP</strong>-session by</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">Read("CutMend.g");</span>
+</pre></div>
+
+<p>While this is not necessary for the concrete methods in this section, this would be the method of choice for used-defined modifications.</p>
+
+<p><a id="X7FBE44697990A77E" name="X7FBE44697990A77E"></a></p>
+
+<h5>12.6-1 CraterCut</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CraterCut</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CraterCuttableEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Every inner edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>) whose incident vertices are both inner vertices (<a href="chap9_mj.html#X789A991584C6EB09"><span class="RefLink">9.5-1</span></a>) can be split into two boundary edges by a <code class="keyw">CraterCut</code>. The attribute <code class="keyw">CraterCuttableEdges</code>(<var class="Arg">complex</var>) returns the set of all edges that fulfill these conditions.</p>
+
+<p>For example, consider the Janus-head: <br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br> Applying a crater cut to the Janus-head yields the open bag:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterCuttableEdges(JanusHead());</span>
+[ 1, 2, 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">janusCrater:=CraterCut(JanusHead(),3);</span>
+simplicial surface (3 vertices, 4 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openBag := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(openBag,janusCrater);</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_OpenBag-1.svg"> </img> <br></p>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterCuttableEdges_custom := function(complex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">     return EdgesWithVertexProperty(complex, v -&gt; IsInnerVertexNC(complex, v));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterCut_custom := function(complex, edge)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      if not edge in CraterCuttableEdges_custom(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        Error("Given edge has to be crater-cuttable");</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">      return SplitEdge(complex, edge)[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, edge ) ... end
+</pre></div>
+
+<p><a id="X7B4F1A7C84D0DAA4" name="X7B4F1A7C84D0DAA4"></a></p>
+
+<h5>12.6-2 CraterMend</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CraterMend</code>( <var class="Arg">complex</var>, <var class="Arg">edgePair</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; CraterMendableEdgePairs</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Every pair of boundary edges (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>) with the same incident vertices, that also are boundary vertices (<a href="chap9_mj.html#X84E56D3087A997F4"><span class="RefLink">9.5-2</span></a>), can be joined into one inner edge by a <code class="keyw">CraterMend</code>. The attribute <code class="keyw">CraterMendableEdgePairs</code>(<var class="Arg">complex</var>) returns the set of all edge pairs that fulfill these conditions.</p>
+
+<p>For example, consider the open bag: <br><img src="./images/_Wrapper_Image_OpenBag-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openBag := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;</span>
+</pre></div>
+
+<p>Applying a crater mend to the open bag yields to the Janus-head:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterMendableEdgePairs(openBag);</span>
+[ [ 3, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterMend(openBag,[3,4]);</span>
+simplicial surface (3 vertices, 3 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(last,JanusHead());</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br></p>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterMendableEdgePairs_custom := function(complex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local edgeAnom, edgePairs;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       edgeAnom := List( EdgeAnomalyClasses(complex), </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">            cl -&gt; Filtered( cl, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                  e -&gt; IsBoundaryEdgeNC(complex, e) ) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">	    edgePairs:=List(edgeAnom,cl-&gt;Combinations(cl, 2) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return Union(edgePairs);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">CraterMend_custom := function(complex, edgePair)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if not Set(edgePair) in CraterMendableEdgePairs_custom(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Error("Given edge-pair has to be crater-mendable.");</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return JoinEdgesNC(complex, edgePair)[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, edgePair ) ... end
+</pre></div>
+
+<p><a id="X8357990B84E235F3" name="X8357990B84E235F3"></a></p>
+
+<h5>12.6-3 RipCut</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RipCut</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RipCuttableEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>For every inner edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>) where one incident vertex is an inner vertex (<a href="chap9_mj.html#X789A991584C6EB09"><span class="RefLink">9.5-1</span></a>) and one is a boundary vertex (<a href="chap9_mj.html#X84E56D3087A997F4"><span class="RefLink">9.5-2</span></a>) a <em>rip cut</em> can be performed. In doing so, the edge and the boundary vertex are split in two. The attribute <code class="keyw">RipCuttableEdges</code>(<var class="Arg">complex</var>) returns a set of all edges with these properties.</p>
+
+<p>For example, consider the open bag: <br><img src="./images/_Wrapper_Image_OpenBag-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openBag := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;</span>
+</pre></div>
+
+<p>Applying a rip cut to the open bag yields the butterfly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipCuttableEdges(openBag);</span>
+[ 1, 2 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openBagRip:=RipCut(openBag,1);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(openBagRip,butterfly);</span>
+true
+</pre></div>
+
+<p><img src="./images/_Wrapper_Image_Butterfly-1.svg"> </img></p>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipCuttableEdges_custom := function(complex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return EdgesWithVertexProperties(complex,</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">             v-&gt;IsInnerVertexNC(complex,v), v-&gt;IsBoundaryVertexNC(complex,v));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipCut_custom := function(complex, edge)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if not edge in RipCuttableEdges_custom(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Error("Given edge has to be rip-cuttable.");</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return SplitVertexEdgePathNC(complex, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">             VertexEdgePathByEdgesNC(complex, [edge]))[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, edge ) ... end
+</pre></div>
+
+<p><a id="X848C315B838E2046" name="X848C315B838E2046"></a></p>
+
+<h5>12.6-4 RipMend</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RipMend</code>( <var class="Arg">complex</var>, <var class="Arg">edgePair</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; RipMendableEdgePairs</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex or <code class="keyw">fail</code></p>
+
+<p>Every pair of boundary edges (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>) that has exactly one boundary vertex (<a href="chap9_mj.html#X84E56D3087A997F4"><span class="RefLink">9.5-2</span></a>) and no other vertex in common, can be joined by a <code class="keyw">RipMend</code>. The attribute <code class="keyw">RipMendableEdgePairs</code>(<var class="Arg">complex</var>) returns the set of all edge pairs that fulfill these conditions.</p>
+
+<p>If the joined vertices are connected by an edge, the mend can not be performed and <code class="keyw">fail</code> will be returned.</p>
+
+<p>For example, consider the butterfly: <br><img src="./images/_Wrapper_Image_Butterfly-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+</pre></div>
+
+<p>Applying a rip mend to the butterfly yields to the open bag:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">openBag := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[[1,2],[1,3],[2,3],[2,3]], [[1,2,4],[1,2,3]]);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipMendableEdgePairs(butterfly);</span>
+[ [ 1, 2 ], [ 1, 4 ], [ 2, 5 ], [ 4, 5 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipMend(butterfly,[1,2]);</span>
+simplicial surface (3 vertices, 4 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(last,openBag);</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_OpenBag-1.svg"> </img> <br></p>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipMendableEdgePairs_custom := function(complex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local pairs, v, boundEdges, edgePairs;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       pairs := [];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       for v in BoundaryVertices(complex) do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           boundEdges := Filtered( EdgesOfVertices(complex)[v], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               e -&gt; IsBoundaryEdgeNC(complex, e) );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           edgePairs := Combinations(boundEdges, 2);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Append(pairs, Filtered(edgePairs, p -&gt; </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               OtherVertexOfEdgeNC(complex,v,p[1]) &lt;&gt; </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               OtherVertexOfEdgeNC(complex,v,p[2])));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return Set(pairs);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">RipMend_custom := function(complex, edgePair)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local commonVertex, path1, path2, join;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if not edgePair in RipMendableEdgePairs(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Error("Given edge-pair has to be rip-mendable.");</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       commonVertex := Intersection( </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           VerticesOfEdge(complex, edgePair[1]), </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           VerticesOfEdge(complex, edgePair[2]) )[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       path1 := VertexEdgePathNC(complex, [commonVertex, edgePair[1], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               OtherVertexOfEdgeNC(complex, commonVertex, edgePair[1])]);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       path2 := VertexEdgePathNC(complex, [commonVertex, edgePair[2], </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               OtherVertexOfEdgeNC(complex, commonVertex, edgePair[2])]);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       join := JoinVertexEdgePathsNC(complex, path1, path2);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if join = fail then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           return fail;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       else</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           return join[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, edgePair ) ... end
+</pre></div>
+
+<p><a id="X87EC0E6F7F05BFE3" name="X87EC0E6F7F05BFE3"></a></p>
+
+<h5>12.6-5 SplitCut</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitCut</code>( <var class="Arg">complex</var>, <var class="Arg">edge</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitCuttableEdges</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex</p>
+
+<p>Any inner edge (<a href="chap9_mj.html#X82A8571280FB4A42"><span class="RefLink">9.4-1</span></a>) with two incident boundary vertices (<a href="chap9_mj.html#X789A991584C6EB09"><span class="RefLink">9.5-1</span></a>) can be split into two boundary edges by a <code class="keyw">SplitCut</code>. The attribute <code class="keyw">SplitCuttableEdges</code>(<var class="Arg">complex</var>) returns the set of all edges satisfying this property.</p>
+
+<p>For example, consider the butterfly: <br><img src="./images/_Wrapper_Image_Butterfly-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+</pre></div>
+
+<p>Applying a split cut to the butterfly yields to a disjoint union of two one-faces:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitCuttableEdges(butterfly);</span>
+[ 3 ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterflySplit:=SplitCut(butterfly,3);</span>
+simplicial surface (6 vertices, 6 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oneFace:=SimplicialSurfaceByUmbrellaDescriptor([[1],[1],[1]]);</span>
+simplicial surface (3 vertices, 3 edges, and 1 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoOneFaces:=DisjointUnion(oneFace,oneFace)[1];</span>
+simplicial surface (6 vertices, 6 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(butterflySplit,twoOneFaces);</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_TwoDisjointOneFaces-1.svg"> </img> <br></p>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitCuttableEdges_custom := function(complex)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">        return Intersection(InnerEdges(complex), </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">              EdgesWithVertexProperty(complex, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                    v -&gt; IsBoundaryVertexNC(complex, v)));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitCut_custom := function(complex, edge)</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if not edge in SplitCuttableEdges_custom(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Error("Given edge has to be split-cuttable.");</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return SplitVertexEdgePathNC(complex, </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">             VertexEdgePathByEdgesNC(complex, [edge]))[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, edge ) ... end
+</pre></div>
+
+<p><a id="X7F56114984CB6B55" name="X7F56114984CB6B55"></a></p>
+
+<h5>12.6-6 SplitMend</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitMend</code>( <var class="Arg">complex</var>, <var class="Arg">flagPair</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SplitMendableFlagPairs</code>( <var class="Arg">complex</var> )</td><td class="tdright">(&nbsp;attribute&nbsp;)</td></tr></table></div>
+<p>Returns: a polygonal complex or <code class="keyw">fail</code></p>
+
+<p>Two boundary edges (<a href="chap9_mj.html#X7CCB47A67F529D3D"><span class="RefLink">9.4-3</span></a>) with no shared vertices can be joined by <code class="keyw">SplitMend</code>. For this operation to be well-defined two vertices of these edges that should be combined have to be given as well. The attribute <code class="keyw">SplitMendableFlagPairs</code>(<var class="Arg">complex</var>) returns the set of all pairs of vertex-edge-flags (<a href="chap21_mj.html#X83D160AB8452BA55"><span class="RefLink">21.1-2</span></a>) that fulfill the above conditions.</p>
+
+<p>If two given flags can't be joined (because two vertices that should be joined are connected by an edge), <code class="keyw">fail</code> is returned.</p>
+
+<p>For example, consider the disjoint union of two one-faces: <br><img src="./images/_Wrapper_Image_TwoDisjointOneFaces-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">twoOneFaces:=DisjointUnion(oneFace,oneFace)[1];</span>
+simplicial surface (6 vertices, 6 edges, and 2 faces)
+</pre></div>
+
+<p>Applying a split mend to the disjoint union of two one-faces yields to the butterfly:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">butterfly:=SimplicialSurfaceByUmbrellaDescriptor([[1],[2],[1,2],[1,2]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitMendableFlagPairs(twoOneFaces);</span>
+[ [ [ 1, 1 ], [ 4, 4 ] ], [ [ 1, 1 ], [ 4, 5 ] ], [ [ 1, 1 ], [ 5, 5 ] ], 
+  [ [ 1, 1 ], [ 5, 6 ] ], [ [ 1, 1 ], [ 6, 4 ] ], [ [ 1, 1 ], [ 6, 6 ] ],
+  [ [ 1, 2 ], [ 4, 4 ] ], [ [ 1, 2 ], [ 4, 5 ] ], [ [ 1, 2 ], [ 5, 5 ] ], 
+  [ [ 1, 2 ], [ 5, 6 ] ], [ [ 1, 2 ], [ 6, 4 ] ], [ [ 1, 2 ], [ 6, 6 ] ], 
+  [ [ 2, 2 ], [ 4, 4 ] ], [ [ 2, 2 ], [ 4, 5 ] ], [ [ 2, 2 ], [ 5, 5 ] ],
+  [ [ 2, 2 ], [ 5, 6 ] ], [ [ 2, 2 ], [ 6, 4 ] ], [ [ 2, 2 ], [ 6, 6 ] ], 
+  [ [ 2, 3 ], [ 4, 4 ] ], [ [ 2, 3 ], [ 4, 5 ] ], [ [ 2, 3 ], [ 5, 5 ] ],
+  [ [ 2, 3 ], [ 5, 6 ] ], [ [ 2, 3 ], [ 6, 4 ] ], [ [ 2, 3 ], [ 6, 6 ] ],
+  [ [ 3, 1 ], [ 4, 4 ] ], [ [ 3, 1 ], [ 4, 5 ] ], [ [ 3, 1 ], [ 5, 5 ] ],
+  [ [ 3, 1 ], [ 5, 6 ] ], [ [ 3, 1 ], [ 6, 4 ] ], [ [ 3, 1 ], [ 6, 6 ] ],
+  [ [ 3, 3 ], [ 4, 4 ] ], [ [ 3, 3 ], [ 4, 5 ] ], [ [ 3, 3 ], [ 5, 5 ] ],
+  [ [ 3, 3 ], [ 5, 6 ] ], [ [ 3, 3 ], [ 6, 4 ] ], [ [ 3, 3 ], [ 6, 6 ] ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitMend(twoOneFaces,[[1,1],[4,4]]);</span>
+simplicial surface (4 vertices, 5 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(last,butterfly);</span>
+true
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_Image_Butterfly-1.svg"> </img> <br></p>
+
+<p>This could be implemented like this:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitMendableFlagPairs_custom := function( complex )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local boundPairs, flagPairs, verts1, verts2, pair;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       flagPairs := [];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       boundPairs := Combinations( BoundaryEdges(complex), 2 );</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       for pair in boundPairs do</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           verts1 := VerticesOfEdges(complex)[pair[1]];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           verts2 := VerticesOfEdges(complex)[pair[2]];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           if IsEmpty(Intersection(verts1, verts2)) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               if not Set([verts1[1],verts2[1]]) in VerticesOfEdges(complex) and</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                  not Set([verts2[1],verts1[1]]) in VerticesOfEdges(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               	Add(flagPairs,Set([ [ verts1[1], pair[1] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">				[ verts2[1], pair[2] ] ]));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               if not Set([verts1[1],verts2[2]]) in VerticesOfEdges(complex) and</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                  not Set([verts2[2],verts1[1]]) in VerticesOfEdges(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               	Add(flagPairs,Set([ [ verts1[1], pair[1] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">				[ verts2[2], pair[2] ] ]));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               if not Set([verts1[2],verts2[1]]) in VerticesOfEdges(complex) and</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                  not Set([verts2[1],verts1[2]]) in VerticesOfEdges(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               	Add(flagPairs,Set([ [ verts1[2], pair[1] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">				[ verts2[1], pair[2] ] ]));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               if not Set([verts1[2],verts2[2]]) in VerticesOfEdges(complex) and</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">                  not Set([verts2[2],verts1[2]]) in VerticesOfEdges(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               	Add(flagPairs,Set([ [ verts1[2], pair[1] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">				[ verts2[2], pair[2] ] ]));</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">               fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       od;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       return Set(flagPairs);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex ) ... end
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">SplitMend_custom := function( complex, flagPair )</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       local path1, path2, join;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if not flagPair in SplitMendableFlagPairs(complex) then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           Error("Given flag-pair has to be split-mendable");</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   </span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       path1 := VertexEdgePathNC(complex, [ flagPair[1][1], flagPair[1][2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           OtherVertexOfEdgeNC(complex, flagPair[1][1], flagPair[1][2])]);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       path2 := VertexEdgePathNC(complex, [ flagPair[2][1], flagPair[2][2],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           OtherVertexOfEdgeNC(complex, flagPair[2][1], flagPair[2][2])]);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       join := JoinVertexEdgePathsNC(complex, path1, path2);</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       if join = fail then</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           return fail;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       else</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">           return join[1];</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">       fi;</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">   end;</span>
+function( complex, flagPair ) ... end
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap11_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap13_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>
