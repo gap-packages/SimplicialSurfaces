@@ -181,7 +181,9 @@ InstallMethod( PerimeterPathOfFaceNC,
         return PerimeterPathsOfFaces(complex)[face];
     end
 );
+
 RedispatchOnCondition( PerimeterPathOfFace, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
+
 InstallMethod( PerimeterPathOfFace,
     "for a polygonal complex and a face (positive integer)",
     [IsPolygonalComplex, IsPosInt],
@@ -190,6 +192,7 @@ InstallMethod( PerimeterPathOfFace,
         return PerimeterPathOfFaceNC(complex, face);
     end
 );
+
 RedispatchOnCondition( PerimeterPathOfFace, true, [IsTwistedPolygonalComplex,IsPosInt], [IsPolygonalComplex], 0 );
 
 
@@ -231,13 +234,12 @@ InstallMethod( PerimeterPathsOfFaces, "for a polygonal complex",
         return perim;
     end
 );
+
 RedispatchOnCondition( PerimeterPathsOfFaces, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
 
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "PerimeterPathsOfFaces", ["Faces", "VerticesOfFaces", "EdgesOfFaces", 
         "VerticesOfEdges", "EdgesOfVertices"], ["IsPolygonalComplex"]);
-
-
 
 # inferences from the perimeter path
 InstallMethod( VerticesOfFaces, 
@@ -649,6 +651,10 @@ InstallMethod(LinkNC, "for a polygonal surface and an integer", [IsPolygonalSurf
 	end
 );
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( LinkNC, true, [IsTwistedPolygonalComplex,IsInt], [IsPolygonalSurface], 0 );
+fi;
+
 InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
 	function(surface, vertex)
 	
@@ -657,6 +663,10 @@ InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurfac
 	
 	end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( Link, true, [IsTwistedPolygonalComplex,IsInt], [IsPolygonalSurface], 0 );
+fi;
 
 InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
 	function(surface)
@@ -670,6 +680,10 @@ InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
 	
 	end
 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( Link, true, [IsTwistedPolygonalComplex], [IsPolygonalSurface], 0 );
+fi;
 ##
 ##          End of Umbrella-paths around vertices 
 ##

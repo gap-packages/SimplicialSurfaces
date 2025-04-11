@@ -261,9 +261,11 @@ InstallMethod( FlagSurface,
         return FlagComplex(surf);
     end
 );
-RedispatchOnCondition( FlagSurface, true, [IsTwistedPolygonalComplex],
-    [IsTwistedPolygonalSurface], 0);
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( FlagSurface, true, [IsTwistedPolygonalComplex],
+        [IsTwistedPolygonalSurface], 0);
+fi;
 
 
 # Assume that this attribute is set if it is known that the complex
@@ -277,9 +279,11 @@ InstallMethod( OriginalSurface, "for a flag surface",
         return OriginalComplex(flagComp);
     end
 );
-RedispatchOnCondition( OriginalSurface, true, [IsFlagComplex],
-    [IsFlagSurface], 0);
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( OriginalSurface, true, [IsFlagComplex],
+        [IsFlagSurface], 0);
+fi;
 
 InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface", 
     [IsTameColouredSurface],
@@ -308,8 +312,10 @@ InstallMethod( IsomorphicFlagSurface, "for a tame coloured surface",
         return FlagComplex(twisted);
     end
 );
-RedispatchOnCondition(IsomorphicFlagSurface, true, [IsEdgeColouredTwistedPolygonalComplex], [IsTameColouredSurface], 0);
 
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition(IsomorphicFlagSurface, true, [IsEdgeColouredTwistedPolygonalComplex], [IsTameColouredSurface], 0);
+fi;
 
 InstallOtherMethod( DrawSurfaceToTikz, 
     "for a flag complex that is a polygonal complex without edge ramifications, a file name and a print record",

@@ -219,7 +219,10 @@ InstallMethod( TotalDefect, "for a simplicial surface", [IsSimplicialSurface],
         return res;
     end
 );
-RedispatchOnCondition( TotalDefect, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( TotalDefect, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+fi;
 
 InstallMethod( TotalInnerDefect, "for a simplicial surface", [IsSimplicialSurface],
     function(surf)
@@ -235,7 +238,10 @@ InstallMethod( TotalInnerDefect, "for a simplicial surface", [IsSimplicialSurfac
         return res;
     end
 );
-RedispatchOnCondition( TotalInnerDefect, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( TotalInnerDefect, true, [IsTwistedPolygonalComplex], [IsSimplicialSurface], 0 );
+fi;
 
 BindGlobal("CounterFamily",NewFamily("CounterFamily",IsObject,IsCounter));
 DeclareRepresentation("IsCounterRep",IsCounter and IsAttributeStoringRep,[]);
