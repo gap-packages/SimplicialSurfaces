@@ -26,7 +26,6 @@ ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/navigation.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/distances.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/embedding.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/drawing.gi" );
-ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/animating.gi" );
 ReadPackage( "SimplicialSurfaces", "gap/PolygonalComplexes/discs.gi" );
 
 ReadPackage( "SimplicialSurfaces", "gap/Morphisms/morphisms.gi" );
@@ -56,5 +55,4 @@ ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_Morphisms.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_UmbrellaDescriptor.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Graphs.g" );
-ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Animating.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );
