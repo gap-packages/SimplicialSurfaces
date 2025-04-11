@@ -40,14 +40,22 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_SourceRange();
 
     # Graphs
-    __SIMPLICIAL_Test_IncidenceDigraphsGraph();
-    __SIMPLICIAL_Test_IncidenceGrapeGraph();
-    __SIMPLICIAL_Test_IncidenceNautyGraph();
+    if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
+        __SIMPLICIAL_Test_IncidenceDigraphsGraph();
+    fi;
     __SIMPLICIAL_Test_EdgeDigraphsGraph();
-    __SIMPLICIAL_Test_EdgeGrapeGraph();
-    __SIMPLICIAL_Test_EdgeNautyGraph();
     __SIMPLICIAL_Test_FaceDigraphsGraph();
-    __SIMPLICIAL_Test_FaceNautyGraph();
+    
+    if IsPackageMarkedForLoading( "Grape", ">=4.8.2" ) then
+        __SIMPLICIAL_Test_IncidenceGrapeGraph();
+        __SIMPLICIAL_Test_EdgeGrapeGraph();
+    fi;
+    if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+        __SIMPLICIAL_Test_IncidenceNautyGraph();
+        __SIMPLICIAL_Test_EdgeNautyGraph();
+        __SIMPLICIAL_Test_FaceNautyGraph();
+    fi;
+    
     if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
         __SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph();
     fi;

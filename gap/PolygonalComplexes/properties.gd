@@ -1573,17 +1573,17 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! If <K>bool2=false</K> then the function prints how many faces are already visited while computating the admissible relations.
 
 #! As an example, consider the tetrahedron.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> AdmissibleRelationsOfSurface(Tetrahedron(),true);
 #! [ [ simplicial surface (4 vertices, 6 edges, and 4 faces)
 #!        , 
 #!       [ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], 
 #!           [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ], [ 6 ] ], 
 #!           [ [ 1 ], [ 2 ], [ 4 ], [ 3 ] ] ] ] ]
-#! @EndExampleSession
+#! @EndLogSession
 #! 
 #! As an example, consider the butterfly.
-#! @ExampleSession
+#! @BeginLogSession
 #! gap> butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
 #! gap> AdmissibleRelationsOfSurface(butterfly,false);
 #! [ [ simplicial surface (4 vertices, 5 edges, and 2 faces)
@@ -1593,7 +1593,7 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #!   [ simplicial surface (3 vertices, 3 edges, and 1 faces),
 #!       [ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], 
 #!           [ [ 1, 2 ] ] ] ] ]
-#! @EndExampleSession
+#! @EndLogSession
 #! @Returns a list of tuples where the first entry is a surface and the second entry is a list of partitions
 #! @Arguments surface,bool [,bool2]
 DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );

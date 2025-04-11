@@ -1862,6 +1862,8 @@ BindGlobal( "__SIMPLICIAL_AddFaceToRelation",
 end
 );
 
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
 # the function returns a list of tuples [s,rel] where s is a simplicial surface and the rel is a admissible relation
 # on the given surface 'surface' that gives rise to s. 
 # Note that this function only focuses on admissible relation that yield butterfly friendly epimorphism from surface to s.
@@ -1972,8 +1974,7 @@ InstallOtherMethod( AdmissibleRelationsOfSurface,
 	return __SIMPLICIAL_AdmissibleRelationsHelp(surface,[[EdgesOfFaces(surface)[1]]],bool,false);  
 end
 );
-
-
+fi;
 ##
 ##      End of epimorphic images
 ##

@@ -287,7 +287,7 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! of the given edge coloured polygonal complex. It is defined as follows:
 #! <List>
 #!   <Item>The <E>vertices</E> are the vertices (colour 0), edges (colour 1), 
-#!   faces (colour 2) and colours (colour 4) of <A>colComplex</A>. The labels
+#!   faces (colour 2) and colours (colour 3) of <A>colComplex</A>. The labels
 #!   are shifted in the following way:
 #!      @InsertChunk Graphs_LabelShift
 #!      <List>
@@ -310,6 +310,12 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! The returned graph can be given in three different formats, corresponding
 #! to different graph packages:
 #! @InsertChunk Graphs_Packages
+#!
+#! Note that if <K>ColourIncidenceDigraphsGraph</K>  is used the output is a list,
+#! where the first entry is a digraph and the second a list of vertex colours, with the colours 1...5.
+#! There are isolated vertices of the digraph which correspond to labels of vertices, edges and faces 
+#! that do not exists in the given polygonal complex.
+#! These are coloured with colour 5 and the other vertices are coloured as described above but increased by one.
 #! 
 #! As an example consider the coloured Tetrahedron:
 #!  <Alt Only="HTML">
@@ -330,7 +336,7 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! Edge 1 has the label 5 in the incidence graph.
 #! This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12 and 15 in the incidence graph:
 #! @BeginExampleSession
-#! gap> digraph:=ColourIncidenceDigraphsGraph(colTetra);;
+#! gap> digraph:=ColourIncidenceDigraphsGraph(colTetra)[1];;
 #! gap> InNeighboursOfVertex(digraph,5);
 #! [ 1, 2, 11, 12, 15 ]
 #! @EndExampleSession

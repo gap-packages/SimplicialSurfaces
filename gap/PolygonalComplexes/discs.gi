@@ -55,7 +55,7 @@ end
 ## Find all relevant 2-paths up to the action of the automorphism
 ## group of the surface <surf>
 ##
-
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 BindGlobal( "__SIMPLICIAL_AllEssentialTwoPaths",
     function( surf )
 
@@ -129,11 +129,6 @@ end
 );
 
 
-
-
-
-
-
 # Compute up to isomorphism all surfaces that can be obtained from
 # the surface surf by a butterfly insertion along a relevant 2-path
 
@@ -154,3 +149,4 @@ InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
         return IsomorphismRepresentatives(surfaces);
 
 end);
+fi;

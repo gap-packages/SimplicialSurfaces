@@ -729,16 +729,75 @@ RedispatchOnCondition( DrawSurfaceToTikz, true,
 ##      Isomorphism testing
 ##
 
-if IsPackageMarkedForLoading( "Digraphs", ">=0.10.1" ) then
-    InstallMethod( ColourIncidenceDigraphsGraph, 
-        "for an edge coloured polygonal complex",
-        [IsEdgeColouredPolygonalComplex],
-        function( colComplex )
-            return Digraph( ColourIncidenceGrapeGraph(colComplex) );
-            #TODO is there a better way?
-        end
-    );
-fi;
+BindGlobal( "__SIMPLICIAL_ColourIncidenceGraph",
+    function(colComplex)
+        local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
+                colSet, vertexList, complex, c;
+
+        complex := PolygonalComplex(colComplex);
+
+        maxVertex := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
+        maxEdge := Edges(complex)[NumberOfEdges(complex)];
+        maxFace := Faces(complex)[NumberOfFaces(complex)];
+
+        vertexList := ShallowCopy( VerticesAttributeOfComplex(complex) );
+        edgeList := [];
+        colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
+
+        for e in Edges(complex) do
+            Add(colourList, 1);
+            Append(edgeList, List( VerticesOfEdges(complex)[e], 
+                v -> [v, maxVertex + e] ) );
+            Add(vertexList, maxVertex + e);
+        od;
+
+        for f in Faces(complex) do
+            Add(colourList, 2);
+            Add(vertexList, maxVertex + maxEdge + f);
+            Append(edgeList, List( EdgesOfFaces(complex)[f], 
+                e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
+        od;
+
+        for c in Colours(colComplex) do
+            Add(colourList, 3);
+            Add(vertexList, maxVertex + maxEdge + maxFace + c);
+            Append(edgeList, List( EdgesOfColours(colComplex)[c],
+                e -> [maxVertex + e, maxVertex + maxEdge + maxFace + c] ));
+        od;
+
+        return [edgeList, colourList, vertexList ];
+end
+);
+
+InstallMethod( ColourIncidenceDigraphsGraph, 
+    "for an edge coloured polygonal complex",
+    [IsEdgeColouredPolygonalComplex],
+    function( colComplex )
+        local data, vertexList, newColours, shift, i, j;
+        data := __SIMPLICIAL_ColourIncidenceGraph(colComplex);
+        vertexList:=data[3];
+
+        newColours:=[];
+        shift:=0;
+        for i in [1..Length(vertexList)] do
+            if vertexList[i]=i+shift then
+                Add(newColours,data[2][i]+1);
+            else
+                if i=1 then
+                    shift:=vertexList[i]-1;
+                else
+                    shift:=vertexList[i]-vertexList[i-1]-1;
+                fi;
+                for j in [1..shift] do
+                    Add(newColours,5);
+                od;
+                Add(newColours,data[2][i]+1);
+            fi;
+        od;
+
+        return [DigraphSymmetricClosure(DigraphByEdges(data[1])), newColours];
+    end
+);
 
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     InstallMethod( ColourIncidenceGrapeGraph, 
@@ -795,54 +854,42 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for an edge coloured polygonal complex",
         [IsEdgeColouredPolygonalComplex],
         function(colComplex)
-            local maxVertex, maxEdge, maxFace, edgeList, colourList, v, e, f,
-                colSet, vertexList, complex, c;
-
-            complex := PolygonalComplex(colComplex);
-
-            maxVertex := VerticesAttributeOfComplex(complex)[NumberOfVertices(complex)];
-            maxEdge := Edges(complex)[NumberOfEdges(complex)];
-            maxFace := Faces(complex)[NumberOfFaces(complex)];
-
-            vertexList := ShallowCopy( VerticesAttributeOfComplex(complex) );
-            edgeList := [];
-            colourList := ListWithIdenticalEntries( NumberOfVertices(complex), 0 );
-
-            for e in Edges(complex) do
-                Add(colourList, 1);
-                Append(edgeList, List( VerticesOfEdges(complex)[e], 
-                    v -> [v, maxVertex + e] ) );
-                Add(vertexList, maxVertex + e);
-            od;
-
-            for f in Faces(complex) do
-                Add(colourList, 2);
-                Add(vertexList, maxVertex + maxEdge + f);
-                Append(edgeList, List( EdgesOfFaces(complex)[f], 
-                    e -> [maxVertex + e, maxVertex + maxEdge + f] ) );
-            od;
-
-            for c in Colours(colComplex) do
-                Add(colourList, 3);
-                Add(vertexList, maxVertex + maxEdge + maxFace + c);
-                Append(edgeList, List( EdgesOfColours(colComplex)[c],
-                   e -> [maxVertex + e, maxVertex + maxEdge + maxFace + c] ));
-            od;
-
-            return NautyColoredGraphWithNodeLabels( edgeList, colourList, vertexList );
+            local data;
+            data:=__SIMPLICIAL_ColourIncidenceGraph(colComplex);
+            return NautyColoredGraphWithNodeLabels( data[1], data[2], data[3]);
         end
     );
 fi;
 
-## The order of installation describes which of these functions is
-## preferred - the last one has highest priority.
 InstallMethod( IsIsomorphicEdgeColouredPolygonalComplex, 
     "for two edge coloured polygonal complexes",
     [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
     function(complex1, complex2)
-        Error("IsIsomorphicEdgeColouredPolygonalComplex: One of the packages NautyTracesInterface or GRAPE has to be available.");
+        local inc1, inc2, g1, g2, iso1, iso2, c1, c2;
+    
+        if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
+            return false;
+        fi;
+
+        inc1 := ColourIncidenceDigraphsGraph(complex1);
+        inc2 := ColourIncidenceDigraphsGraph(complex2);
+        g1:=inc1[1];
+        g2:=inc2[1];
+
+        iso1:=Filtered(DigraphVertices(g1),v->OutDegreeOfVertex(g1,v)=0);
+        iso2:=Filtered(DigraphVertices(g2),v->OutDegreeOfVertex(g2,v)=0);
+
+        g1:=DigraphRemoveVertices(g1,iso1);
+        g2:=DigraphRemoveVertices(g2,iso2);
+        
+        c1:=Filtered(inc1[2],c->c<5);
+        c2:=Filtered(inc2[2],c->c<5);
+
+        return IsIsomorphicDigraph(g1,g2,c1,c2);
     end
 );
+
+
 
 if IsPackageMarkedForLoading("GRAPE", ">=0") then
     InstallMethod( IsIsomorphicEdgeColouredPolygonalComplex, 
@@ -854,10 +901,6 @@ if IsPackageMarkedForLoading("GRAPE", ">=0") then
                 ShallowCopy( ColourIncidenceGrapeGraph(complex2) ) );
         end
     );
-fi;
-
-if IsPackageMarkedForLoading("Digraphs", ">=0") and not ARCH_IS_WINDOWS() then
-#TODO install the digraphs function as soon as it is available
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
@@ -891,7 +934,6 @@ InstallMethod( EdgeColouredPolygonalComplexIsomorphismRepresentatives,
         return newList;
     end
 );
-
 
 
 ##

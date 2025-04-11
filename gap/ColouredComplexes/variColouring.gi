@@ -1268,54 +1268,14 @@ InstallMethod( AllTameColouredSurfaces,
 # The components are returned as a record with two entries:
 # id: A list, for each vertex it gives the number of its connected component
 # comps: A list, which stores the connected components as lists of vertices
-if IsPackageMarkedForLoading( "Digraphs", "0.10.1" ) then
-    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
-        function(adjacencyList)
-            local digraph;
+BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
+    function(adjacencyList)
+        local digraph;
 
-            digraph := DigraphByEdges(adjacencyList);
-            return DigraphConnectedComponents(digraph);
-        end
-    );
-elif IsPackageMarkedForLoading( "GRAPE", "4.7" ) then
-    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
-        function(adjacencyList)
-            local symAd, graph, max, pos, pair,
-                comps, compRec, v, id;
-
-            max := 0;
-            symAd := [];
-            pos := 1;
-            for pair in adjacencyList do
-                # Each pair is a set
-                if pair[2] > max then
-                    max := pair[2];
-                fi;
-                symAd[pos] := pair;
-                symAd[pos+1] := [pair[2],pair[1]];
-                pos := pos+2;
-            od;
-            graph := EdgeOrbitsGraph( Group(()), symAd, max );
-
-            comps := ConnectedComponents(graph);
-            # This is a list of vertex lists
-            compRec := rec();
-            compRec.comps := comps;
-            id := [];
-            for v in Vertices(graph) do
-                id[v] := PositionProperty(comps, c -> v in c);
-            od;
-            compRec.id := id;
-            return compRec;
-        end
-    );
-else
-    BindGlobal( "__SIMPLICIAL_ComputeConnectedComponents",
-        function(adjacencyList)
-            Error("CommonCover: Neither Digraphs nor GRAPE are loaded.");
-        end
-    );
-fi;
+        digraph := DigraphByEdges(adjacencyList);
+        return DigraphConnectedComponents(digraph);
+    end
+);
 
 InstallMethod( CommonCover, 
         "for two simplicial surfaces and local symmetries of edges",
