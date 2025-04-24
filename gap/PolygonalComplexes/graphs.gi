@@ -1116,3 +1116,364 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		end
 );
 fi;
+
+#######################################
+##
+##      Butterfly Insertion
+##
+
+__UndirectedEdgesNC := function(D)
+    return Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
+end;
+
+__DigraphAddEdgeNC := function(D, vertexA, vertexB)
+    Add(D!.OutNeighbours[vertexA], vertexB);
+
+    if HaveEdgeLabelsBeenAssigned(D) and not IsMultiDigraph(D) then
+        SetDigraphEdgeLabel(D, vertexA, vertexB, 1);
+    fi;
+end;
+
+__DigraphAddVertexNC := function(D, vertex)
+    Add(D!.OutNeighbours, []);
+    SetDigraphVertexLabel(D, DigraphNrVertices(D), vertex);
+    if IsBound(D!.edgelabels) then
+        Add(D!.edgelabels, []);
+    fi;
+end;
+
+# Outsourcing checks for both ButterflyInsertion and ButterflyDelection
+__ButterflyOperationChecks := function(D, edgeA, edgeB)
+    local vertices, numVertices, vertex, edge, inDegrees, undirectedEdges;
+
+    if IsEmptyDigraph(D) then
+        return ErrorNoReturn("digraph D must not be empty");
+    fi;
+
+    vertices := Concatenation(edgeA, edgeB);
+    numVertices := Maximum(DigraphVertices(D));
+
+    # Sanity checks
+    if Length(vertices) < 3 then
+        return ErrorNoReturn("edgeA and edgeB both need to contain exactly two vertices");
+    fi;
+    #
+    #
+    if Length(edgeA) <> 2 then
+            return ErrorNoReturn("edgeA has to have a length of exactly 2");
+    fi;
+    if Length(edgeB) <> 2 then
+        return ErrorNoReturn("edgeB has to have a length of exactly 2");
+    fi;
+    #
+    if Maximum(edgeA) > numVertices then
+        return ErrorNoReturn("edgeA contains a vertex index that is not included in the provided graph");
+    fi;
+    if Maximum(edgeB) > numVertices then
+        return ErrorNoReturn("edgeB contains a vertex index that is not included in the provided graph");
+    fi;
+
+    # undirectedEdges := Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
+    undirectedEdges := __UndirectedEdgesNC(D);
+
+    # inDegrees := InDegrees(D);
+    # if Length(inDegrees) <> 1 or inDegrees[1] <> 3 then
+    #     return ErrorNoReturn("Every vertex of D must have exactly three neighbours");
+    # fi;
+
+    return true;
+end;
+
+__FindIntersectingVertex := function(D, edge)
+    local edges, iEdge, iVertex, hasLeft, hasRight;
+
+    edges := DigraphEdges(D);
+    iVertex := Maximum(DigraphVertices(D)) + 1; # allocate unique vertex value
+
+    for iEdge in edges do
+        if iEdge[1] <> iVertex then
+            iVertex := iEdge[1];
+            hasLeft := false;
+            hasRight := false;
+        fi;
+
+        if iEdge[2] = edge[1] then
+            hasLeft := true;
+        fi;
+        if iEdge[2] = edge[2] then
+            hasRight := true;
+        fi;
+
+        if hasLeft and hasRight then
+            return iVertex;
+        fi;
+    od;
+
+    return fail;
+end;
+
+InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local dMutable, isMutable, numVertices;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __ButterflyInsertionDirectNC(dMutable, edgeA, edgeB);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return DigraphImmutableCopy(dMutable);
+    end
+);
+
+InstallMethod( __ButterflyInsertionDirectNC, "for a mutable digraph and two lists", [IsMutableDigraph, IsList, IsList],
+    function(D, edgeA, edgeB)
+        local numVertices;
+
+        numVertices := Maximum(DigraphVertices(D));
+
+        # Remove former edges
+        D := DigraphRemoveEdge(D, edgeA);
+        D := DigraphRemoveEdge(D, Reversed(edgeA));
+        D := DigraphRemoveEdge(D, edgeB);
+        D := DigraphRemoveEdge(D, Reversed(edgeB));
+
+        # Add two new vertices that will represent the insertion of two surfaces
+        # Values of numVertices + 1 and numVertices + 2 represent the two added vertices
+        __DigraphAddVertexNC(D, numVertices + 1); # Vertex A
+        __DigraphAddVertexNC(D, numVertices + 2); # Vertex B
+
+        # Add two connected edges between each former edge
+        #
+        # Add edges intersecting former edgeA with Vertex A
+        __DigraphAddEdgeNC(D, edgeA[1], numVertices + 1);
+        __DigraphAddEdgeNC(D, numVertices + 1, edgeA[1]);
+        #
+        __DigraphAddEdgeNC(D, edgeA[2], numVertices + 1);
+        __DigraphAddEdgeNC(D, numVertices + 1, edgeA[2]);
+        #
+        # Add edges intersecting former edgeB with Vertex B
+        __DigraphAddEdgeNC(D, edgeB[1], numVertices + 2);
+        __DigraphAddEdgeNC(D, numVertices + 2, edgeB[1]);
+        #
+        __DigraphAddEdgeNC(D, edgeB[2], numVertices + 2);
+        __DigraphAddEdgeNC(D, numVertices + 2, edgeB[2]);
+
+        # Add edges connecting Vertex A and Vertex B
+        __DigraphAddEdgeNC(D, numVertices + 1, numVertices + 2);
+        __DigraphAddEdgeNC(D, numVertices + 2, numVertices + 1);
+
+        return D;
+    end
+);
+
+InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local ok;
+
+        __ButterflyOperationChecks(D, edgeA, edgeB);
+
+        D := DigraphSymmetricClosure(D);
+
+        return ButterflyInsertionNC(D, edgeA, edgeB);
+    end
+);
+
+InstallMethod( ButterflyDeletionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local dMutable, isMutable, numVertices;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __ButterflyDeletionDirectNC(dMutable, edgeA, edgeB);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return DigraphImmutableCopy(dMutable);
+    end
+);
+
+InstallMethod( __ButterflyDeletionDirectNC, "for a mutable digraph and two lists", [IsMutableDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local edge, intersectingVertexA, intersectingVertexB;
+
+        # Find intersecting vertices
+        intersectingVertexA := __FindIntersectingVertex(D, edgeA);
+        if intersectingVertexA = fail then
+            return ErrorNoReturn("Intersecting vertex of edgeA does not exist ");
+        fi;
+        #
+        intersectingVertexB := __FindIntersectingVertex(D, edgeB);
+        if intersectingVertexB = fail then
+            return ErrorNoReturn("Intersecting vertex of edgeB does not exist ");
+        fi;
+
+        return __ButterflyDeletionDirectNC(D, edgeA, edgeB, intersectingVertexA, intersectingVertexB);
+    end
+);
+
+InstallOtherMethod( __ButterflyDeletionDirectNC, "for a mutable digraph, two lists and two ints", [IsMutableDigraph, IsList, IsList, IsInt, IsInt],
+    function (D, edgeA, edgeB, intersectingVertexA, intersectingVertexB)
+        # Add new edges
+        __DigraphAddEdgeNC(D, edgeA[1], edgeA[2]);
+        __DigraphAddEdgeNC(D, edgeA[2], edgeA[1]);
+        __DigraphAddEdgeNC(D, edgeB[1], edgeB[2]);
+        __DigraphAddEdgeNC(D, edgeB[2], edgeB[1]);
+
+        # Remove old intersecting edges
+        DigraphRemoveEdge(D, [intersectingVertexB, intersectingVertexA]);
+        DigraphRemoveEdge(D, [intersectingVertexA, intersectingVertexB]);
+
+        DigraphRemoveEdge(D, [edgeA[1], intersectingVertexA]);
+        DigraphRemoveEdge(D, [intersectingVertexA, edgeA[1]]);
+
+        DigraphRemoveEdge(D, [edgeA[2], intersectingVertexA]);
+        DigraphRemoveEdge(D, [intersectingVertexA, edgeA[2]]);
+
+        DigraphRemoveEdge(D, [edgeB[1], intersectingVertexB]);
+        DigraphRemoveEdge(D, [intersectingVertexB, edgeB[1]]);
+
+        DigraphRemoveEdge(D, [edgeB[2], intersectingVertexB]);
+        DigraphRemoveEdge(D, [intersectingVertexB, edgeB[2]]);
+
+        # Remove old vertices
+        DigraphRemoveVertices(D, [intersectingVertexA, intersectingVertexB]);
+
+        return D;
+    end
+);
+
+InstallMethod( ButterflyDeletion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local ok;
+
+        __ButterflyOperationChecks(D, edgeA, edgeB);
+
+        D := DigraphSymmetricClosure(D);
+
+        return ButterflyDeletionNC(D, edgeA, edgeB);
+    end
+);
+
+InstallMethod( NewGraphsForButterflyInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
+    function (D, allowTriangleInsertion)
+        local vertex, edge, neighboursCount, undirectedEdges, maxAntiSymmetricSubdigraph;
+
+        if IsEmptyDigraph(D) then
+            return ErrorNoReturn("digraph D must not be empty");
+        fi;
+
+        maxAntiSymmetricSubdigraph := MaximalAntiSymmetricSubdigraph(D);
+        # undirectedEdges := UndirectedEdges(maxAntiSymmetricSubdigraph);
+        undirectedEdges := __UndirectedEdgesNC(maxAntiSymmetricSubdigraph);
+
+        D := DigraphSymmetricClosure(D);
+
+        return NewGraphsForButterflyInsertionNC(D, allowTriangleInsertion);
+    end
+);
+
+InstallMethod( NewGraphsForButterflyInsertion, "for an immutable digraph", [IsImmutableDigraph, IsBool],
+    function(D, allowTriangleInsertion)
+        local dMutable;
+
+        dMutable := DigraphMutableCopy(D);
+
+        return NewGraphsForButterflyInsertion(dMutable, allowTriangleInsertion);
+    end
+);
+
+InstallOtherMethod( NewGraphsForButterflyInsertion, "for a digraph", [IsDigraph],
+    function(D)
+        return NewGraphsForButterflyInsertion(D, true);
+    end
+);
+
+InstallMethod( NewGraphsForButterflyInsertionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
+    function (D, allowTriangleInsertion)
+        local newUniqueGraphs, newGraphs, newGraph, orbits, orbit, uniqueEdges, undirectedEdges, edgeA, edgeB, isUniqueGraph, g1, g2, numIntersectingVertices;
+
+        newUniqueGraphs := [];
+        newGraphs := [];
+        uniqueEdges := [];
+
+        undirectedEdges := __UndirectedEdgesNC(D);
+
+        # Calculate Orbits with undirected edges of D
+        orbits := Orbits(AutomorphismGroup(D), undirectedEdges, OnSets);
+
+        # For each Orbit only collect the initial edge and store it to uniqueEdges
+        for orbit in orbits do
+            Add(uniqueEdges, orbit[1]);
+        od;
+
+        # For each combination of orbit edges do ButterflyInsertionNC
+        for edgeA in uniqueEdges do
+            for edgeB in undirectedEdges do
+                numIntersectingVertices := Length(Union(edgeA, edgeB));
+                if (allowTriangleInsertion and numIntersectingVertices = 3) or
+                    numIntersectingVertices = 4 then
+                    newGraph := DigraphMutableCopy(D);
+
+                    newGraph := __ButterflyInsertionDirectNC(newGraph, edgeA, edgeB);
+
+                    Add(newGraphs, newGraph);
+                fi;
+            od;
+        od;
+
+        if Length(newGraphs) = 0 then
+            return [];
+        fi;
+
+        # for each new graph check if its unique
+        for g1 in newGraphs do
+            isUniqueGraph := true;
+
+            for g2 in newUniqueGraphs do
+                if IsIsomorphicDigraph(g1, g2) then # TODO IsIsomorphicDigraph changes graph labeling!
+                    isUniqueGraph := false;
+                    break;
+                fi;
+            od;
+
+            if isUniqueGraph then
+                Add(newUniqueGraphs, g1);
+            fi;
+        od;
+
+        return newUniqueGraphs;
+    end
+);
+
+InstallMethod( NewGraphsForButterflyInsertionNC, "for a digraph", [IsImmutableDigraph, IsBool],
+    function(D, allowTriangleInsertion)
+        local dMutable, newUniqueGraphs;
+
+        dMutable := DigraphMutableCopy(D);
+
+        newUniqueGraphs := NewGraphsForButterflyInsertionNC(dMutable, allowTriangleInsertion);
+
+        return newUniqueGraphs;
+    end
+);
+
+InstallOtherMethod( NewGraphsForButterflyInsertionNC, "for a digraph", [IsDigraph],
+    function(D)
+        return NewGraphsForButterflyInsertionNC(D, true);
+    end
+);

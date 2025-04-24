@@ -1099,3 +1099,82 @@ DeclareOperation( "OnVertexEdgePaths",
 DeclareOperation( "OnEdgeFacePaths", 
     [ IsEdgeFacePath , IsPerm ] );
 #! @EndGroup OnEdgeFacePaths
+
+#! @BeginGroup ButterflyInsertion
+#! @Description
+#! Performs Butterfly Insertion on a given graph.
+#! Using the no-check functions requires the digraph to be undirected.
+#! ButterflyInsertion ensures symmetric closure on the given digraph.
+#! ButterfyInsertionNC expects an undirected digraph.
+#! The given graph has to fulfill the following properties:
+#! * it is a mutable graph
+#! The given edges have to fulfill the following properties:
+#! * edges are a List with length 2
+#! * edges must be included in the given graph
+#! @Arguments D, edgeA, edgeB
+#! @Returns the updated graph or an error
+DeclareOperation("ButterflyInsertion", [IsDigraph, IsList, IsList]);
+DeclareOperation("ButterflyInsertionNC", [IsDigraph, IsList, IsList]);
+DeclareOperation("__ButterflyInsertionDirectNC", [IsMutableDigraph, IsList, IsList]);
+#! @ExampleSession
+#! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
+#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> ButterflyInsertion(square, [1,2], [3,4]);
+#! <immutable digraph with 6 vertices, 14 edges>
+#! gap> DigraphEdges(last);
+#! [ [ 1, 3 ], [ 1, 5 ], [ 2, 4 ], [ 2, 5 ], [ 3, 1 ], [ 3, 6 ], [ 4, 2 ], [ 4, 6 ], [ 5, 1 ], [ 5, 2 ], [ 5, 6 ], [ 6, 3 ], [ 6, 4 ], [ 6, 5 ] ]
+#! @EndExampleSession
+#! @EndGroup ButterflyInsertion
+
+#! @BeginGroup ButterflyDeletion
+#! @Description
+#! Performs Butterfly Deletion on a given graph.
+#! Using the no-check functions requires the digraph to be undirected.
+#! ButterflyDeletion ensures symmetric closure on the given digraph.
+#! ButterfyDeletionNC expects an undirected digraph.
+#! The given graph has to fulfill the following properties:
+#! * it is a mutable graph
+#! The given edges have to fulfill the following properties:
+#! * edges are a List with length 2
+#! * edges must be included in the given graph
+#! @Arguments D, edgeA, edgeB
+#! @Returns the updated graph or an error
+DeclareOperation("ButterflyDeletion", [IsDigraph, IsList, IsList]);
+DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList, IsList]);
+DeclareOperation("__ButterflyDeletionDirectNC", [IsMutableDigraph, IsList, IsList]);
+DeclareOperation("__ButterflyDeletionDirectNC", [IsMutableDigraph, IsList, IsList, IsInt, IsInt]);
+#! @ExampleSession
+#! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
+#! <immutable digraph with 6 vertices, 7 edges>
+#! gap> ButterflyDeletion(D, [1,3], [2,4]);
+#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> DigraphEdges(last);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 1 ], [ 2, 4 ], [ 3, 4 ], [ 3, 1 ], [ 4, 3 ], [ 4, 2 ] ]
+#! @EndExampleSession
+#! @EndGroup ButterflyDeletion
+
+#! @BeginGroup NewGraphsForButterflyInsertion
+#! @Description
+#! Finds unique graphs for every possible Butterfly Insertion on a given graph.
+#! Using the no-check functions requires the digraph to be undirected.
+#! NewGraphsForButterflyInsertion ensures symmetric closure on the given digraph.
+#! NewGraphsForButterflyInsertionNC expects an undirected digraph.
+#! The given graph has to fulfill the following properties:
+#! * it is a mutable graph
+#! @Arguments D, allowTriangleInsertion
+#! @Returns a list of new unique graphs or an error
+DeclareOperation("NewGraphsForButterflyInsertion", [IsMutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForButterflyInsertion", [IsImmutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForButterflyInsertionNC", [IsMutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForButterflyInsertionNC", [IsImmutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForButterflyInsertion", [IsDigraph]);
+DeclareOperation("NewGraphsForButterflyInsertionNC", [IsDigraph]);
+#! @ExampleSession
+#! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
+#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> NewGraphsForButterflyInsertion(square, true);
+#! [ <mutable digraph with 6 vertices, 14 edges>, <mutable digraph with 6 vertices, 14 edges> ]
+#! gap> NewGraphsForButterflyInsertion(square, false);
+#! [ <mutable digraph with 6 vertices, 14 edges> ]
+#! @EndExampleSession
+#! @EndGroup NewGraphsForButterflyInsertion
