@@ -1142,76 +1142,6 @@ __DigraphAddVertexNC := function(D, vertex)
     fi;
 end;
 
-# Outsourcing checks for both ButterflyInsertion and ButterflyDelection
-__ButterflyOperationChecks := function(D, edgeA, edgeB)
-    local vertices, numVertices, vertex, edge, inDegrees, undirectedEdges;
-
-    if IsEmptyDigraph(D) then
-        return ErrorNoReturn("digraph D must not be empty");
-    fi;
-
-    vertices := Concatenation(edgeA, edgeB);
-    numVertices := Maximum(DigraphVertices(D));
-
-    # Sanity checks
-    if Length(vertices) < 3 then
-        return ErrorNoReturn("edgeA and edgeB both need to contain exactly two vertices");
-    fi;
-    #
-    #
-    if Length(edgeA) <> 2 then
-            return ErrorNoReturn("edgeA has to have a length of exactly 2");
-    fi;
-    if Length(edgeB) <> 2 then
-        return ErrorNoReturn("edgeB has to have a length of exactly 2");
-    fi;
-    #
-    if Maximum(edgeA) > numVertices then
-        return ErrorNoReturn("edgeA contains a vertex index that is not included in the provided graph");
-    fi;
-    if Maximum(edgeB) > numVertices then
-        return ErrorNoReturn("edgeB contains a vertex index that is not included in the provided graph");
-    fi;
-
-    # undirectedEdges := Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
-    undirectedEdges := __UndirectedEdgesNC(D);
-
-    # inDegrees := InDegrees(D);
-    # if Length(inDegrees) <> 1 or inDegrees[1] <> 3 then
-    #     return ErrorNoReturn("Every vertex of D must have exactly three neighbours");
-    # fi;
-
-    return true;
-end;
-
-__FindIntersectingVertex := function(D, edge)
-    local edges, iEdge, iVertex, hasLeft, hasRight;
-
-    edges := DigraphEdges(D);
-    iVertex := Maximum(DigraphVertices(D)) + 1; # allocate unique vertex value
-
-    for iEdge in edges do
-        if iEdge[1] <> iVertex then
-            iVertex := iEdge[1];
-            hasLeft := false;
-            hasRight := false;
-        fi;
-
-        if iEdge[2] = edge[1] then
-            hasLeft := true;
-        fi;
-        if iEdge[2] = edge[2] then
-            hasRight := true;
-        fi;
-
-        if hasLeft and hasRight then
-            return iVertex;
-        fi;
-    od;
-
-    return fail;
-end;
-
 InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
         local dMutable, isMutable, numVertices;
@@ -1276,9 +1206,39 @@ InstallMethod( __ButterflyInsertionDirectNC, "for a mutable digraph and two list
 
 InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
-        local ok;
+        local vertices, numVertices, vertex, edge, inDegrees;
 
-        __ButterflyOperationChecks(D, edgeA, edgeB);
+        if IsEmptyDigraph(D) then
+            return ErrorNoReturn("digraph D must not be empty");
+        fi;
+
+        vertices := Concatenation(edgeA, edgeB);
+        numVertices := Maximum(DigraphVertices(D));
+
+        # Sanity checks
+        if Length(vertices) < 3 then
+            return ErrorNoReturn("edgeA and edgeB both need to contain exactly two vertices");
+        fi;
+        #
+        #
+        if Length(edgeA) <> 2 then
+                return ErrorNoReturn("edgeA has to have a length of exactly 2");
+        fi;
+        if Length(edgeB) <> 2 then
+            return ErrorNoReturn("edgeB has to have a length of exactly 2");
+        fi;
+        #
+        if Maximum(edgeA) > numVertices then
+            return ErrorNoReturn("edgeA contains a vertex index that is not included in the provided graph");
+        fi;
+        if Maximum(edgeB) > numVertices then
+            return ErrorNoReturn("edgeB contains a vertex index that is not included in the provided graph");
+        fi;
+
+        # inDegrees := InDegrees(D);
+        # if Length(inDegrees) <> 1 or inDegrees[1] <> 3 then
+        #     return ErrorNoReturn("Every vertex of D must have exactly three neighbours");
+        # fi;
 
         D := DigraphSymmetricClosure(D);
 
@@ -1286,8 +1246,8 @@ InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, Is
     end
 );
 
-InstallMethod( ButterflyDeletionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
-    function (D, edgeA, edgeB)
+InstallMethod( ButterflyDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, intersectingEdge)
         local dMutable, isMutable, numVertices;
 
         if IsMutableDigraph(D) then
@@ -1298,7 +1258,7 @@ InstallMethod( ButterflyDeletionNC, "for a digraph and two lists", [IsDigraph, I
             dMutable := DigraphMutableCopy(D);
         fi;
 
-        dMutable := __ButterflyDeletionDirectNC(dMutable, edgeA, edgeB);
+        dMutable := __ButterflyDeletionDirectNC(dMutable, intersectingEdge);
 
         if isMutable then
             return dMutable;
@@ -1307,79 +1267,91 @@ InstallMethod( ButterflyDeletionNC, "for a digraph and two lists", [IsDigraph, I
     end
 );
 
-InstallMethod( __ButterflyDeletionDirectNC, "for a mutable digraph and two lists", [IsMutableDigraph, IsList, IsList],
-    function (D, edgeA, edgeB)
-        local edge, intersectingVertexA, intersectingVertexB;
+InstallMethod( __ButterflyDeletionDirectNC, "for a mutable digraph and a list", [IsMutableDigraph, IsList],
+    function (D, intersectingEdge)
+        local neighbours, neighbour, newEdge;
 
-        # Find intersecting vertices
-        intersectingVertexA := __FindIntersectingVertex(D, edgeA);
-        if intersectingVertexA = fail then
-            return ErrorNoReturn("Intersecting vertex of edgeA does not exist ");
-        fi;
-        #
-        intersectingVertexB := __FindIntersectingVertex(D, edgeB);
-        if intersectingVertexB = fail then
-            return ErrorNoReturn("Intersecting vertex of edgeB does not exist ");
-        fi;
-
-        return __ButterflyDeletionDirectNC(D, edgeA, edgeB, intersectingVertexA, intersectingVertexB);
-    end
-);
-
-InstallOtherMethod( __ButterflyDeletionDirectNC, "for a mutable digraph, two lists and two ints", [IsMutableDigraph, IsList, IsList, IsInt, IsInt],
-    function (D, edgeA, edgeB, intersectingVertexA, intersectingVertexB)
         # Add new edges
-        __DigraphAddEdgeNC(D, edgeA[1], edgeA[2]);
-        __DigraphAddEdgeNC(D, edgeA[2], edgeA[1]);
-        __DigraphAddEdgeNC(D, edgeB[1], edgeB[2]);
-        __DigraphAddEdgeNC(D, edgeB[2], edgeB[1]);
-
-        # Remove old intersecting edges
-        DigraphRemoveEdge(D, [intersectingVertexB, intersectingVertexA]);
-        DigraphRemoveEdge(D, [intersectingVertexA, intersectingVertexB]);
-
-        DigraphRemoveEdge(D, [edgeA[1], intersectingVertexA]);
-        DigraphRemoveEdge(D, [intersectingVertexA, edgeA[1]]);
-
-        DigraphRemoveEdge(D, [edgeA[2], intersectingVertexA]);
-        DigraphRemoveEdge(D, [intersectingVertexA, edgeA[2]]);
-
-        DigraphRemoveEdge(D, [edgeB[1], intersectingVertexB]);
-        DigraphRemoveEdge(D, [intersectingVertexB, edgeB[1]]);
-
-        DigraphRemoveEdge(D, [edgeB[2], intersectingVertexB]);
-        DigraphRemoveEdge(D, [intersectingVertexB, edgeB[2]]);
+        #
+        # left side of intersecting edge
+        newEdge := [];
+        neighbours := OutNeighboursOfVertex(D, intersectingEdge[1]);
+        for neighbour in neighbours do
+            if neighbour <> intersectingEdge[2] then
+                Add(newEdge, neighbour);
+            fi;
+        od;
+        if Length(newEdge) <> 2 then
+            return ErrorNoReturn("intersectingEdge[1] does not have three outwards neighbours as expected");
+        fi;
+        for neighbour in neighbours do
+            DigraphRemoveEdge(D, [intersectingEdge[1], neighbour]);
+        od;
+        __DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
+        #
+        # right side of intersecting edge
+        newEdge := [];
+        neighbours := OutNeighboursOfVertex(D, intersectingEdge[2]);
+        for neighbour in neighbours do
+            if neighbour <> intersectingEdge[1] then
+                Add(newEdge, neighbour);
+            fi;
+        od;
+        if Length(newEdge) <> 2 then
+            return ErrorNoReturn("intersectingEdge[2] does not have three outwards neighbours as expected");
+        fi;
+        for neighbour in neighbours do
+            DigraphRemoveEdge(D, [intersectingEdge[2], neighbour]);
+        od;
+        __DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
 
         # Remove old vertices
-        DigraphRemoveVertices(D, [intersectingVertexA, intersectingVertexB]);
+        DigraphRemoveVertices(D, intersectingEdge);
 
         return D;
     end
 );
 
-InstallMethod( ButterflyDeletion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
-    function (D, edgeA, edgeB)
-        local ok;
+InstallMethod( ButterflyDeletion, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, edge)
+        local numVertices, vertex, inDegrees;
 
-        __ButterflyOperationChecks(D, edgeA, edgeB);
+        numVertices := Maximum(DigraphVertices(D));
+
+        if IsEmptyDigraph(D) then
+            return ErrorNoReturn("digraph D must not be empty");
+        fi;
+
+        if Length(edge) <> 2 then
+                return ErrorNoReturn("edge has to have a length of exactly 2");
+        fi;
+        #
+        if Maximum(edge) > numVertices then
+            return ErrorNoReturn("edge contains a vertex index that is not included in the provided graph");
+        fi;
+
+        # inDegrees := InDegrees(D);
+        # if Length(inDegrees) <> 1 or inDegrees[1] <> 3 then
+        #     return ErrorNoReturn("Every vertex of D must have exactly three neighbours");
+        # fi;
 
         D := DigraphSymmetricClosure(D);
 
-        return ButterflyDeletionNC(D, edgeA, edgeB);
+        return ButterflyDeletionNC(D, edge);
     end
 );
 
 InstallMethod( NewGraphsForButterflyInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        local vertex, edge, neighboursCount, undirectedEdges, maxAntiSymmetricSubdigraph;
+        local vertex, edge, neighboursCount, maxAntiSymmetricSubdigraph;
 
         if IsEmptyDigraph(D) then
             return ErrorNoReturn("digraph D must not be empty");
         fi;
 
         maxAntiSymmetricSubdigraph := MaximalAntiSymmetricSubdigraph(D);
-        # undirectedEdges := UndirectedEdges(maxAntiSymmetricSubdigraph);
-        undirectedEdges := __UndirectedEdgesNC(maxAntiSymmetricSubdigraph);
 
         D := DigraphSymmetricClosure(D);
 

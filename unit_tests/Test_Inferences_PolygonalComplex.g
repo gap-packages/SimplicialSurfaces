@@ -473,13 +473,12 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function()
     # Create graph with four vertices and two undirected edges
     D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
     Dmu := DigraphMutableCopy(D);
-    edgeA := [1,3];
-    edgeB := [2,4];
+    edge := [5,6];
     numVertices := Maximum(DigraphVertices(D));
 
     # Perform deletion
-    D := ButterflyDeletion(D, edgeA, edgeB);
-    ButterflyDeletion(Dmu, edgeA, edgeB);
+    D := ButterflyDeletion(D, edge);
+    ButterflyDeletion(Dmu, edge);
 
     # Correct result graph
     expectedGraph := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);

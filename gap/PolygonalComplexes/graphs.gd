@@ -1135,18 +1135,17 @@ DeclareOperation("__ButterflyInsertionDirectNC", [IsMutableDigraph, IsList, IsLi
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! The given edges have to fulfill the following properties:
-#! * edges are a List with length 2
-#! * edges must be included in the given graph
-#! @Arguments D, edgeA, edgeB
+#! * edge is a List with length 2
+#! * edge must be included in the given graph
+#! @Arguments D, edge
 #! @Returns the updated graph or an error
-DeclareOperation("ButterflyDeletion", [IsDigraph, IsList, IsList]);
-DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList, IsList]);
-DeclareOperation("__ButterflyDeletionDirectNC", [IsMutableDigraph, IsList, IsList]);
-DeclareOperation("__ButterflyDeletionDirectNC", [IsMutableDigraph, IsList, IsList, IsInt, IsInt]);
+DeclareOperation("ButterflyDeletion", [IsDigraph, IsList]);
+DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList]);
+DeclareOperation("__ButterflyDeletionDirectNC", [IsMutableDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
 #! <immutable digraph with 6 vertices, 7 edges>
-#! gap> ButterflyDeletion(D, [1,3], [2,4]);
+#! gap> ButterflyDeletion(D, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
 #! gap> DigraphEdges(last);
 #! [ [ 1, 2 ], [ 1, 3 ], [ 2, 1 ], [ 2, 4 ], [ 3, 4 ], [ 3, 1 ], [ 4, 3 ], [ 4, 2 ] ]
