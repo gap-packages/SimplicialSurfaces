@@ -1115,7 +1115,6 @@ DeclareOperation( "OnEdgeFacePaths",
 #! @Returns the updated graph or an error
 DeclareOperation("ButterflyInsertion", [IsDigraph, IsList, IsList]);
 DeclareOperation("ButterflyInsertionNC", [IsDigraph, IsList, IsList]);
-DeclareOperation("__ButterflyInsertionDirectNC", [IsMutableDigraph, IsList, IsList]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
 #! <immutable digraph with 4 vertices, 8 edges>
@@ -1141,7 +1140,6 @@ DeclareOperation("__ButterflyInsertionDirectNC", [IsMutableDigraph, IsList, IsLi
 #! @Returns the updated graph or an error
 DeclareOperation("ButterflyDeletion", [IsDigraph, IsList]);
 DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList]);
-DeclareOperation("__ButterflyDeletionDirectNC", [IsMutableDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
 #! <immutable digraph with 6 vertices, 7 edges>

@@ -1142,28 +1142,7 @@ __DigraphAddVertexNC := function(D, vertex)
     fi;
 end;
 
-InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
-    function (D, edgeA, edgeB)
-        local dMutable, isMutable, numVertices;
-
-        if IsMutableDigraph(D) then
-            isMutable := true;
-            dMutable := D;
-        else
-            isMutable := false;
-            dMutable := DigraphMutableCopy(D);
-        fi;
-
-        dMutable := __ButterflyInsertionDirectNC(dMutable, edgeA, edgeB);
-
-        if isMutable then
-            return dMutable;
-        fi;
-        return DigraphImmutableCopy(dMutable);
-    end
-);
-
-InstallMethod( __ButterflyInsertionDirectNC, "for a mutable digraph and two lists", [IsMutableDigraph, IsList, IsList],
+BindGlobal( "__SIMPLICIAL_ButterflyInsertionDirectNC",
     function(D, edgeA, edgeB)
         local numVertices;
 
@@ -1204,6 +1183,27 @@ InstallMethod( __ButterflyInsertionDirectNC, "for a mutable digraph and two list
     end
 );
 
+InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local dMutable, isMutable, numVertices;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __SIMPLICIAL_ButterflyInsertionDirectNC(dMutable, edgeA, edgeB);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return DigraphImmutableCopy(dMutable);
+    end
+);
+
 InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
         local vertices, numVertices, vertex, edge, inDegrees;
@@ -1241,28 +1241,7 @@ InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, Is
     end
 );
 
-InstallMethod( ButterflyDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
-    function (D, intersectingEdge)
-        local dMutable, isMutable, numVertices;
-
-        if IsMutableDigraph(D) then
-            isMutable := true;
-            dMutable := D;
-        else
-            isMutable := false;
-            dMutable := DigraphMutableCopy(D);
-        fi;
-
-        dMutable := __ButterflyDeletionDirectNC(dMutable, intersectingEdge);
-
-        if isMutable then
-            return dMutable;
-        fi;
-        return DigraphImmutableCopy(dMutable);
-    end
-);
-
-InstallMethod( __ButterflyDeletionDirectNC, "for a mutable digraph and a list", [IsMutableDigraph, IsList],
+BindGlobal( "__SIMPLICIAL_ButterflyDeletionDirectNC",
     function (D, intersectingEdge)
         local neighbours, neighbour, newEdge;
 
@@ -1306,6 +1285,27 @@ InstallMethod( __ButterflyDeletionDirectNC, "for a mutable digraph and a list", 
         DigraphRemoveVertices(D, intersectingEdge);
 
         return D;
+    end
+);
+
+InstallMethod( ButterflyDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, intersectingEdge)
+        local dMutable, isMutable, numVertices;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __SIMPLICIAL_ButterflyDeletionDirectNC(dMutable, intersectingEdge);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return DigraphImmutableCopy(dMutable);
     end
 );
 
@@ -1391,7 +1391,7 @@ InstallMethod( NewGraphsForButterflyInsertionNC, "for a mutable digraph", [IsMut
                     numIntersectingVertices = 4 then
                     newGraph := DigraphMutableCopy(D);
 
-                    newGraph := __ButterflyInsertionDirectNC(newGraph, edgeA, edgeB);
+                    newGraph := __SIMPLICIAL_ButterflyInsertionDirectNC(newGraph, edgeA, edgeB);
 
                     Add(newGraphs, newGraph);
                 fi;
