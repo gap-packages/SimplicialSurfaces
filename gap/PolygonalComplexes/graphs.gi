@@ -1219,23 +1219,15 @@ InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, Is
         if Length(vertices) < 3 then
             return ErrorNoReturn("edgeA and edgeB both need to contain exactly two vertices");
         fi;
-        #
-        #
-        if Length(edgeA) <> 2 then
-                return ErrorNoReturn("edgeA has to have a length of exactly 2");
-        fi;
-        if Length(edgeB) <> 2 then
-            return ErrorNoReturn("edgeB has to have a length of exactly 2");
-        fi;
-        #
-        if Maximum(edgeA) > numVertices then
-            return ErrorNoReturn("edgeA contains a vertex index that is not included in the provided graph");
-        fi;
-        if Maximum(edgeB) > numVertices then
-            return ErrorNoReturn("edgeB contains a vertex index that is not included in the provided graph");
-        fi;
 
         D := DigraphSymmetricClosure(D);
+
+        if not IsDigraphEdge(D, edgeA) then
+            return ErrorNoReturn("edgeA is not a digraph edge of provided digraph D");
+        fi;
+        if not IsDigraphEdge(D, edgeB) then
+            return ErrorNoReturn("edgeB is not a digraph edge of provided digraph D");
+        fi;
 
         return ButterflyInsertionNC(D, edgeA, edgeB);
     end
@@ -1319,15 +1311,12 @@ InstallMethod( ButterflyDeletion, "for a digraph and a list", [IsDigraph, IsList
             return ErrorNoReturn("digraph D must not be empty");
         fi;
 
-        if Length(edge) <> 2 then
-                return ErrorNoReturn("edge has to have a length of exactly 2");
-        fi;
-        #
-        if Maximum(edge) > numVertices then
-            return ErrorNoReturn("edge contains a vertex index that is not included in the provided graph");
-        fi;
-
         D := DigraphSymmetricClosure(D);
+
+        if not IsDigraphEdge(D, edge) then
+            Print(DigraphEdges(D)); Print("\n"); Print(edge);
+            return ErrorNoReturn("edge is not a digraph edge of provided digraph D");
+        fi;
 
         return ButterflyDeletionNC(D, edge);
     end
