@@ -1103,7 +1103,6 @@ DeclareOperation( "OnEdgeFacePaths",
 #! @BeginGroup ButterflyInsertion
 #! @Description
 #! Performs Butterfly Insertion on a given graph.
-#! Using the no-check functions requires the digraph to be undirected.
 #! ButterflyInsertion ensures symmetric closure on the given digraph.
 #! ButterfyInsertionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
@@ -1128,7 +1127,6 @@ DeclareOperation("ButterflyInsertionNC", [IsDigraph, IsList, IsList]);
 #! @BeginGroup ButterflyDeletion
 #! @Description
 #! Performs Butterfly Deletion on a given graph.
-#! Using the no-check functions requires the digraph to be undirected.
 #! ButterflyDeletion ensures symmetric closure on the given digraph.
 #! ButterfyDeletionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
@@ -1153,7 +1151,6 @@ DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList]);
 #! @BeginGroup NewGraphsForButterflyInsertion
 #! @Description
 #! Finds unique graphs for every possible Butterfly Insertion on a given graph.
-#! Using the no-check functions requires the digraph to be undirected.
 #! NewGraphsForButterflyInsertion ensures symmetric closure on the given digraph.
 #! NewGraphsForButterflyInsertionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
