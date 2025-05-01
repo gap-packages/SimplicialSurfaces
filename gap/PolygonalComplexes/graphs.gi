@@ -1332,11 +1332,6 @@ InstallMethod( ButterflyDeletion, "for a digraph and a list", [IsDigraph, IsList
             return ErrorNoReturn("edge contains a vertex index that is not included in the provided graph");
         fi;
 
-        # inDegrees := InDegrees(D);
-        # if Length(inDegrees) <> 1 or inDegrees[1] <> 3 then
-        #     return ErrorNoReturn("Every vertex of D must have exactly three neighbours");
-        # fi;
-
         D := DigraphSymmetricClosure(D);
 
         return ButterflyDeletionNC(D, edge);
