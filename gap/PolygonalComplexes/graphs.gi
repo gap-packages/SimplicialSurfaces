@@ -1235,11 +1235,6 @@ InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, Is
             return ErrorNoReturn("edgeB contains a vertex index that is not included in the provided graph");
         fi;
 
-        # inDegrees := InDegrees(D);
-        # if Length(inDegrees) <> 1 or inDegrees[1] <> 3 then
-        #     return ErrorNoReturn("Every vertex of D must have exactly three neighbours");
-        # fi;
-
         D := DigraphSymmetricClosure(D);
 
         return ButterflyInsertionNC(D, edgeA, edgeB);
