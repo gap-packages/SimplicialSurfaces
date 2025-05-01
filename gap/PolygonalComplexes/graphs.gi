@@ -1247,9 +1247,6 @@ BindGlobal( "__SIMPLICIAL_ButterflyDeletionDirectNC",
                 Add(newEdge, neighbour);
             fi;
         od;
-        if Length(newEdge) <> 2 then
-            return ErrorNoReturn("intersectingEdge[1] does not have three outwards neighbours as expected");
-        fi;
         for neighbour in neighbours do
             DigraphRemoveEdge(D, [intersectingEdge[1], neighbour]);
         od;
@@ -1264,9 +1261,6 @@ BindGlobal( "__SIMPLICIAL_ButterflyDeletionDirectNC",
                 Add(newEdge, neighbour);
             fi;
         od;
-        if Length(newEdge) <> 2 then
-            return ErrorNoReturn("intersectingEdge[2] does not have three outwards neighbours as expected");
-        fi;
         for neighbour in neighbours do
             DigraphRemoveEdge(D, [intersectingEdge[2], neighbour]);
         od;
