@@ -468,7 +468,7 @@ end);
 
 # Test equivalent for ButterflyDelection
 BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function()
-    local D, Dmu, edgeA, edgeB, numVertices, expectedGraph;
+    local D, Dmu, edge, numVertices, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
     D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
