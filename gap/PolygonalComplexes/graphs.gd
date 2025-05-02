@@ -1115,12 +1115,10 @@ DeclareOperation( "OnEdgeFacePaths",
 DeclareOperation("ButterflyInsertion", [IsDigraph, IsList, IsList]);
 DeclareOperation("ButterflyInsertionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
-#! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
-#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> square := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
 #! gap> ButterflyInsertion(square, [1,2], [3,4]);
 #! <immutable digraph with 6 vertices, 14 edges>
-#! gap> DigraphEdges(last);
-#! [ [ 1, 3 ], [ 1, 5 ], [ 2, 4 ], [ 2, 5 ], [ 3, 1 ], [ 3, 6 ], [ 4, 2 ], [ 4, 6 ], [ 5, 1 ], [ 5, 2 ], [ 5, 6 ], [ 6, 3 ], [ 6, 4 ], [ 6, 5 ] ]
 #! @EndExampleSession
 #! @EndGroup ButterflyInsertion
 
@@ -1143,8 +1141,6 @@ DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList]);
 #! <immutable digraph with 6 vertices, 7 edges>
 #! gap> ButterflyDeletion(D, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
-#! gap> DigraphEdges(last);
-#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 1 ], [ 2, 4 ], [ 3, 4 ], [ 3, 1 ], [ 4, 3 ], [ 4, 2 ] ]
 #! @EndExampleSession
 #! @EndGroup ButterflyDeletion
 
