@@ -1212,7 +1212,7 @@ InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, Is
             return ErrorNoReturn("digraph D must not be empty");
         fi;
 
-        vertices := Concatenation(edgeA, edgeB);
+        vertices := Set(Concatenation(edgeA, edgeB));
         numVertices := Maximum(DigraphVertices(D));
 
         # Sanity checks
