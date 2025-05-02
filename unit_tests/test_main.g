@@ -65,9 +65,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     __SIMPLICIAL_Test_FaceTwoColouring();
 
-    __SIMPLICIAL_Test_ButterflyInsertion();
-    __SIMPLICIAL_Test_ButterflyDeletion();
-    __SIMPLICIAL_Test_NewGraphsForButterflyInsertion();
+    __SIMPLICIAL_Test_EdgeAddition();
+    __SIMPLICIAL_Test_EdgeDeletion();
+    __SIMPLICIAL_Test_NewGraphsForEdgeAddition();
 
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);

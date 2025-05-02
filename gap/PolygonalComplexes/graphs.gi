@@ -1119,7 +1119,7 @@ fi;
 
 #######################################
 ##
-##      Butterfly Insertion
+##      Edge Insertion / Deletion
 ##
 
 __UndirectedEdgesNC := function(D)
@@ -1142,7 +1142,7 @@ __DigraphAddVertexNC := function(D, vertex)
     fi;
 end;
 
-BindGlobal( "__SIMPLICIAL_ButterflyInsertionDirectNC",
+BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
     function(D, edgeA, edgeB)
         local numVertices;
 
@@ -1183,7 +1183,7 @@ BindGlobal( "__SIMPLICIAL_ButterflyInsertionDirectNC",
     end
 );
 
-InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
         local dMutable, isMutable, numVertices;
 
@@ -1195,7 +1195,7 @@ InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, 
             dMutable := DigraphMutableCopy(D);
         fi;
 
-        dMutable := __SIMPLICIAL_ButterflyInsertionDirectNC(dMutable, edgeA, edgeB);
+        dMutable := __SIMPLICIAL_EdgeAdditionDirectNC(dMutable, edgeA, edgeB);
 
         if isMutable then
             return dMutable;
@@ -1204,7 +1204,7 @@ InstallMethod( ButterflyInsertionNC, "for a digraph and two lists", [IsDigraph, 
     end
 );
 
-InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
         local vertices, numVertices, vertex, edge, inDegrees;
 
@@ -1229,11 +1229,11 @@ InstallMethod( ButterflyInsertion, "for a digraph and two lists", [IsDigraph, Is
             return ErrorNoReturn("edgeB is not a digraph edge of provided digraph D");
         fi;
 
-        return ButterflyInsertionNC(D, edgeA, edgeB);
+        return EdgeAdditionNC(D, edgeA, edgeB);
     end
 );
 
-BindGlobal( "__SIMPLICIAL_ButterflyDeletionDirectNC",
+BindGlobal( "__SIMPLICIAL_EdgeDeletionDirectNC",
     function (D, intersectingEdge)
         local neighbours, neighbour, newEdge;
 
@@ -1274,7 +1274,7 @@ BindGlobal( "__SIMPLICIAL_ButterflyDeletionDirectNC",
     end
 );
 
-InstallMethod( ButterflyDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
+InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
     function (D, intersectingEdge)
         local dMutable, isMutable, numVertices;
 
@@ -1286,7 +1286,7 @@ InstallMethod( ButterflyDeletionNC, "for a digraph and a list", [IsDigraph, IsLi
             dMutable := DigraphMutableCopy(D);
         fi;
 
-        dMutable := __SIMPLICIAL_ButterflyDeletionDirectNC(dMutable, intersectingEdge);
+        dMutable := __SIMPLICIAL_EdgeDeletionDirectNC(dMutable, intersectingEdge);
 
         if isMutable then
             return dMutable;
@@ -1295,7 +1295,7 @@ InstallMethod( ButterflyDeletionNC, "for a digraph and a list", [IsDigraph, IsLi
     end
 );
 
-InstallMethod( ButterflyDeletion, "for a digraph and a list", [IsDigraph, IsList],
+InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
         local numVertices, vertex, inDegrees;
 
@@ -1312,11 +1312,11 @@ InstallMethod( ButterflyDeletion, "for a digraph and a list", [IsDigraph, IsList
             return ErrorNoReturn("edge is not a digraph edge of provided digraph D");
         fi;
 
-        return ButterflyDeletionNC(D, edge);
+        return EdgeDeletionNC(D, edge);
     end
 );
 
-InstallMethod( NewGraphsForButterflyInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
+InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
         local vertex, edge, neighboursCount, maxAntiSymmetricSubdigraph;
 
@@ -1328,27 +1328,27 @@ InstallMethod( NewGraphsForButterflyInsertion, "for a mutable digraph", [IsMutab
 
         D := DigraphSymmetricClosure(D);
 
-        return NewGraphsForButterflyInsertionNC(D, allowTriangleInsertion);
+        return NewGraphsForEdgeAdditionNC(D, allowTriangleInsertion);
     end
 );
 
-InstallMethod( NewGraphsForButterflyInsertion, "for an immutable digraph", [IsImmutableDigraph, IsBool],
+InstallMethod( NewGraphsForEdgeAddition, "for an immutable digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable;
 
         dMutable := DigraphMutableCopy(D);
 
-        return NewGraphsForButterflyInsertion(dMutable, allowTriangleInsertion);
+        return NewGraphsForEdgeAddition(dMutable, allowTriangleInsertion);
     end
 );
 
-InstallOtherMethod( NewGraphsForButterflyInsertion, "for a digraph", [IsDigraph],
+InstallOtherMethod( NewGraphsForEdgeAddition, "for a digraph", [IsDigraph],
     function(D)
-        return NewGraphsForButterflyInsertion(D, true);
+        return NewGraphsForEdgeAddition(D, true);
     end
 );
 
-InstallMethod( NewGraphsForButterflyInsertionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
+InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
         local newUniqueGraphs, newGraphs, newGraph, orbits, orbit, uniqueEdges, undirectedEdges, edgeA, edgeB, isUniqueGraph, g1, g2, numIntersectingVertices;
 
@@ -1366,7 +1366,7 @@ InstallMethod( NewGraphsForButterflyInsertionNC, "for a mutable digraph", [IsMut
             Add(uniqueEdges, orbit[1]);
         od;
 
-        # For each combination of orbit edges do ButterflyInsertionNC
+        # For each combination of orbit edges do EdgeAdditionNC
         for edgeA in uniqueEdges do
             for edgeB in undirectedEdges do
                 numIntersectingVertices := Length(Union(edgeA, edgeB));
@@ -1374,7 +1374,7 @@ InstallMethod( NewGraphsForButterflyInsertionNC, "for a mutable digraph", [IsMut
                     numIntersectingVertices = 4 then
                     newGraph := DigraphMutableCopy(D);
 
-                    newGraph := __SIMPLICIAL_ButterflyInsertionDirectNC(newGraph, edgeA, edgeB);
+                    newGraph := __SIMPLICIAL_EdgeAdditionDirectNC(newGraph, edgeA, edgeB);
 
                     Add(newGraphs, newGraph);
                 fi;
@@ -1405,20 +1405,20 @@ InstallMethod( NewGraphsForButterflyInsertionNC, "for a mutable digraph", [IsMut
     end
 );
 
-InstallMethod( NewGraphsForButterflyInsertionNC, "for a digraph", [IsImmutableDigraph, IsBool],
+InstallMethod( NewGraphsForEdgeAdditionNC, "for a digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable, newUniqueGraphs;
 
         dMutable := DigraphMutableCopy(D);
 
-        newUniqueGraphs := NewGraphsForButterflyInsertionNC(dMutable, allowTriangleInsertion);
+        newUniqueGraphs := NewGraphsForEdgeAdditionNC(dMutable, allowTriangleInsertion);
 
         return newUniqueGraphs;
     end
 );
 
-InstallOtherMethod( NewGraphsForButterflyInsertionNC, "for a digraph", [IsDigraph],
+InstallOtherMethod( NewGraphsForEdgeAdditionNC, "for a digraph", [IsDigraph],
     function(D)
-        return NewGraphsForButterflyInsertionNC(D, true);
+        return NewGraphsForEdgeAdditionNC(D, true);
     end
 );

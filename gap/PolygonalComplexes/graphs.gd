@@ -1100,10 +1100,10 @@ DeclareOperation( "OnEdgeFacePaths",
     [ IsEdgeFacePath , IsPerm ] );
 #! @EndGroup OnEdgeFacePaths
 
-#! @BeginGroup ButterflyInsertion
+#! @BeginGroup EdgeAddition
 #! @Description
-#! Performs Butterfly Insertion on a given graph.
-#! ButterflyInsertion ensures symmetric closure on the given digraph.
+#! Performs Edge Insertion on a given graph.
+#! EdgeAddition ensures symmetric closure on the given digraph.
 #! ButterfyInsertionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
@@ -1112,20 +1112,20 @@ DeclareOperation( "OnEdgeFacePaths",
 #! * edges must be included in the given graph
 #! @Arguments D, edgeA, edgeB
 #! @Returns the updated graph or an error
-DeclareOperation("ButterflyInsertion", [IsDigraph, IsList, IsList]);
-DeclareOperation("ButterflyInsertionNC", [IsDigraph, IsList, IsList]);
+DeclareOperation("EdgeAddition", [IsDigraph, IsList, IsList]);
+DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
 #! <immutable digraph with 4 vertices, 4 edges>
-#! gap> ButterflyInsertion(square, [1,2], [3,4]);
+#! gap> EdgeAddition(square, [1,2], [3,4]);
 #! <immutable digraph with 6 vertices, 14 edges>
 #! @EndExampleSession
-#! @EndGroup ButterflyInsertion
+#! @EndGroup EdgeAddition
 
-#! @BeginGroup ButterflyDeletion
+#! @BeginGroup EdgeDeletion
 #! @Description
-#! Performs Butterfly Deletion on a given graph.
-#! ButterflyDeletion ensures symmetric closure on the given digraph.
+#! Performs Edge Deletion on a given graph.
+#! EdgeDeletion ensures symmetric closure on the given digraph.
 #! ButterfyDeletionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
@@ -1134,37 +1134,38 @@ DeclareOperation("ButterflyInsertionNC", [IsDigraph, IsList, IsList]);
 #! * edge must be included in the given graph
 #! @Arguments D, edge
 #! @Returns the updated graph or an error
-DeclareOperation("ButterflyDeletion", [IsDigraph, IsList]);
-DeclareOperation("ButterflyDeletionNC", [IsDigraph, IsList]);
+DeclareOperation("EdgeDeletion", [IsDigraph, IsList]);
+DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
 #! <immutable digraph with 6 vertices, 7 edges>
-#! gap> ButterflyDeletion(D, [5,6]);
+#! gap> EdgeDeletion(D, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
 #! @EndExampleSession
-#! @EndGroup ButterflyDeletion
+#! @EndGroup EdgeDeletion
 
-#! @BeginGroup NewGraphsForButterflyInsertion
+#! @BeginGroup NewGraphsForEdgeAddition
 #! @Description
-#! Finds unique graphs for every possible Butterfly Insertion on a given graph.
-#! NewGraphsForButterflyInsertion ensures symmetric closure on the given digraph.
-#! NewGraphsForButterflyInsertionNC expects an undirected digraph.
+#! Finds unique graphs for every possible Edge Insertion on a given graph.
+#! NewGraphsForEdgeAddition ensures symmetric closure on the given digraph.
+#! NewGraphsForEdgeAdditionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! @Arguments D, allowTriangleInsertion
 #! @Returns a list of new unique graphs or an error
-DeclareOperation("NewGraphsForButterflyInsertion", [IsMutableDigraph, IsBool]);
-DeclareOperation("NewGraphsForButterflyInsertion", [IsImmutableDigraph, IsBool]);
-DeclareOperation("NewGraphsForButterflyInsertionNC", [IsMutableDigraph, IsBool]);
-DeclareOperation("NewGraphsForButterflyInsertionNC", [IsImmutableDigraph, IsBool]);
-DeclareOperation("NewGraphsForButterflyInsertion", [IsDigraph]);
-DeclareOperation("NewGraphsForButterflyInsertionNC", [IsDigraph]);
+DeclareOperation("NewGraphsForEdgeAddition", [IsMutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForEdgeAddition", [IsImmutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForEdgeAdditionNC", [IsMutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForEdgeAdditionNC", [IsImmutableDigraph, IsBool]);
+DeclareOperation("NewGraphsForEdgeAddition", [IsDigraph]);
+DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
 #! <immutable digraph with 4 vertices, 8 edges>
-#! gap> NewGraphsForButterflyInsertion(square, true);
-#! [ <mutable digraph with 6 vertices, 14 edges>, <mutable digraph with 6 vertices, 14 edges> ]
-#! gap> NewGraphsForButterflyInsertion(square, false);
+#! gap> NewGraphsForEdgeAddition(square, true);
+#! [ <mutable digraph with 6 vertices, 14 edges>,
+#!   <mutable digraph with 6 vertices, 14 edges> ]
+#! gap> NewGraphsForEdgeAddition(square, false);
 #! [ <mutable digraph with 6 vertices, 14 edges> ]
 #! @EndExampleSession
-#! @EndGroup NewGraphsForButterflyInsertion
+#! @EndGroup NewGraphsForEdgeAddition

@@ -439,9 +439,9 @@ end);
 
 #################################################################################
 ##
-## Test whether the butterfly insertion & deletion is performed correctly
+## Test whether the edge insertion & deletion is performed correctly
 ##
-BindGlobal("__SIMPLICIAL_Test_ButterflyInsertion", function()
+BindGlobal("__SIMPLICIAL_Test_EdgeAddition", function()
     local D, Dmu, edgeA, edgeB, numVertices, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
@@ -452,8 +452,8 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyInsertion", function()
     numVertices := Maximum(DigraphVertices(D));
 
     # Perform insertion
-    D := ButterflyInsertion(D, edgeA, edgeB);
-    ButterflyInsertion(Dmu, edgeA, edgeB);
+    D := EdgeAddition(D, edgeA, edgeB);
+    EdgeAddition(Dmu, edgeA, edgeB);
 
     # Correct result graph
     expectedGraph := DigraphByEdges([[1,3], [2,4], [5,6], [1,5], [5,2], [3,6], [6,4]]);
@@ -466,8 +466,8 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyInsertion", function()
     SIMPLICIAL_TestAssert(IsIsomorphicDigraph(Dmu, expectedGraph));
 end);
 
-# Test equivalent for ButterflyDelection
-BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function()
+# Test equivalent for EdgeDeletion
+BindGlobal("__SIMPLICIAL_Test_EdgeDeletion", function()
     local D, Dmu, edge, numVertices, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
@@ -477,8 +477,8 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function()
     numVertices := Maximum(DigraphVertices(D));
 
     # Perform deletion
-    D := ButterflyDeletion(D, edge);
-    ButterflyDeletion(Dmu, edge);
+    D := EdgeDeletion(D, edge);
+    EdgeDeletion(Dmu, edge);
 
     # Correct result graph
     expectedGraph := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
@@ -491,7 +491,7 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function()
     SIMPLICIAL_TestAssert(IsIsomorphicDigraph(Dmu, expectedGraph));
 end);
 
-BindGlobal("__SIMPLICIAL_Test_NewGraphsForButterflyInsertion", function ()
+BindGlobal("__SIMPLICIAL_Test_NewGraphsForEdgeAddition", function ()
     local D, newGraphs, expectedGraph1, expectedGraph2;
 
     # Create square graph
@@ -499,7 +499,7 @@ BindGlobal("__SIMPLICIAL_Test_NewGraphsForButterflyInsertion", function ()
 
     #
     # Test with triangle insertion allowed
-    newGraphs := NewGraphsForButterflyInsertion(D, true);
+    newGraphs := NewGraphsForEdgeAddition(D, true);
 
     # Correct graphs result
     expectedGraph1 := DigraphByEdges([[2,4], [3,4], [1,5], [1,6], [5,6], [5,3], [6,2]]);
@@ -512,7 +512,7 @@ BindGlobal("__SIMPLICIAL_Test_NewGraphsForButterflyInsertion", function ()
     SIMPLICIAL_TestAssert(IsIsomorphicDigraph(newGraphs[2], expectedGraph2));
 
     # Test with triangle insertion disallowed
-    newGraphs := NewGraphsForButterflyInsertion(D, false);
+    newGraphs := NewGraphsForEdgeAddition(D, false);
 
     # Test whether amount of new graphs is 1 as expected
     SIMPLICIAL_TestAssert(Length(newGraphs) = 1);
