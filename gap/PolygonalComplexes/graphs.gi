@@ -1276,7 +1276,7 @@ InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
         if isMutable then
             return dMutable;
         fi;
-        return DigraphImmutableCopy(dMutable);
+        return MakeImmutable(dMutable);
     end
 );
 
