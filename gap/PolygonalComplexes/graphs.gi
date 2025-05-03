@@ -1205,7 +1205,7 @@ InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, 
         local vertices, numVertices, vertex, edge, inDegrees;
 
         if IsEmptyDigraph(D) then
-            return ErrorNoReturn("digraph D must not be empty");
+            return ErrorNoReturn("digraph must not be empty");
         fi;
 
         vertices := Set(Concatenation(edgeA, edgeB));
@@ -1213,16 +1213,13 @@ InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, 
 
         # Sanity checks
         if Length(vertices) < 3 then
-            return ErrorNoReturn("edgeA and edgeB both need to contain exactly two vertices");
+            return ErrorNoReturn("both edges must contain exactly two vertices");
         fi;
 
         D := DigraphSymmetricClosure(D);
 
-        if not IsDigraphEdge(D, edgeA) then
-            return ErrorNoReturn("edgeA is not a digraph edge of provided digraph D");
-        fi;
-        if not IsDigraphEdge(D, edgeB) then
-            return ErrorNoReturn("edgeB is not a digraph edge of provided digraph D");
+        if not IsDigraphEdge(D, edgeA) or not IsDigraphEdge(D, edgeB) then
+            return ErrorNoReturn("given edge is not a digraph edge of the given digraph");
         fi;
 
         return EdgeAdditionNC(D, edgeA, edgeB);
@@ -1298,14 +1295,14 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
         numVertices := Maximum(DigraphVertices(D));
 
         if IsEmptyDigraph(D) then
-            return ErrorNoReturn("digraph D must not be empty");
+            return ErrorNoReturn("digraph must not be empty");
         fi;
 
         D := DigraphSymmetricClosure(D);
 
         if not IsDigraphEdge(D, edge) then
             Print(DigraphEdges(D)); Print("\n"); Print(edge);
-            return ErrorNoReturn("edge is not a digraph edge of provided digraph D");
+            return ErrorNoReturn("edge is not a digraph edge of given digraph");
         fi;
 
         return EdgeDeletionNC(D, edge);
@@ -1317,7 +1314,7 @@ InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigr
         local vertex, edge, neighboursCount, maxAntiSymmetricSubdigraph;
 
         if IsEmptyDigraph(D) then
-            return ErrorNoReturn("digraph D must not be empty");
+            return ErrorNoReturn("digraph must not be empty");
         fi;
 
         maxAntiSymmetricSubdigraph := MaximalAntiSymmetricSubdigraph(D);
