@@ -1173,7 +1173,7 @@ BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
 
 InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
-        local dMutable, isMutable, numVertices;
+        local dMutable, isMutable;
 
         if IsMutableDigraph(D) then
             isMutable := true;
@@ -1194,7 +1194,7 @@ InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList
 
 InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
-        local vertices, numVertices, vertex, edge, inDegrees;
+        local vertices, numVertices;
 
         if IsEmptyDigraph(D) then
             return ErrorNoReturn("digraph must not be empty");
@@ -1261,7 +1261,7 @@ BindGlobal( "__SIMPLICIAL_EdgeDeletionDirectNC",
 
 InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
     function (D, intersectingEdge)
-        local dMutable, isMutable, numVertices;
+        local dMutable, isMutable;
 
         if IsMutableDigraph(D) then
             isMutable := true;
@@ -1282,7 +1282,7 @@ InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
-        local numVertices, vertex, inDegrees;
+        local numVertices;
 
         numVertices := Maximum(DigraphVertices(D));
 
@@ -1303,8 +1303,6 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        local vertex, edge, neighboursCount;
-
         if IsEmptyDigraph(D) then
             return ErrorNoReturn("digraph must not be empty");
         fi;
