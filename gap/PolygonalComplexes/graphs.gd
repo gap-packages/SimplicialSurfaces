@@ -1100,19 +1100,30 @@ DeclareOperation( "OnEdgeFacePaths",
     [ IsEdgeFacePath , IsPerm ] );
 #! @EndGroup OnEdgeFacePaths
 
+#! @Section Edge Addition and Deletion
+#! @SectionLabel Graphs_Edge_Addition_Deletion
+#! 
+#! This section covers functionality to add or delete edges
+#! on digraphs or finding new graphs resulting from add
+#! operations on digraphs, the package
+#! <K>NautyTracesInterface</K> has to be available.
+#!
 #! @BeginGroup EdgeAddition
 #! @Description
-#! Performs Edge Insertion on a given graph.
-#! EdgeAddition ensures symmetric closure on the given digraph.
-#! ButterfyInsertionNC expects an undirected digraph.
+#! Performs Edge Addition on a given graph. It inserts the
+#! butterfly structure between the given edges.
+#! EdgeAddition ensures symmetric closure on the given digraph
+#! while EdgeAdditionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! The given edges have to fulfill the following properties:
 #! * edges are a List with length 2
 #! * edges must be included in the given graph
 #! @Arguments D, edgeA, edgeB
-#! @Returns the updated graph or an error
+#! @Returns the updated graph
 DeclareOperation("EdgeAddition", [IsDigraph, IsList, IsList]);
+#! @Arguments D, edgeA, edgeB
+#! @Returns the updated graph
 DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
@@ -1124,17 +1135,22 @@ DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 
 #! @BeginGroup EdgeDeletion
 #! @Description
-#! Performs Edge Deletion on a given graph.
-#! EdgeDeletion ensures symmetric closure on the given digraph.
-#! ButterfyDeletionNC expects an undirected digraph.
+#! Performs Edge Deletion on a given graph. The given edge
+#! is considered the intersecting edge which has three or four
+#! distinct neighbour vertices which is the condition to make
+#! deletion possible.
+#! EdgeDeletion ensures symmetric closure on the given digraph
+#! while EdgeDeletionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! The given edges have to fulfill the following properties:
 #! * edge is a List with length 2
 #! * edge must be included in the given graph
 #! @Arguments D, edge
-#! @Returns the updated graph or an error
+#! @Returns the updated graph
 DeclareOperation("EdgeDeletion", [IsDigraph, IsList]);
+#! @Arguments D, edge
+#! @Returns the updated graph
 DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
@@ -1146,18 +1162,28 @@ DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
 
 #! @BeginGroup NewGraphsForEdgeAddition
 #! @Description
-#! Finds unique graphs for every possible Edge Insertion on a given graph.
+#! Finds unique graphs for every possible Edge Addition on a given graph.
 #! NewGraphsForEdgeAddition ensures symmetric closure on the given digraph.
 #! NewGraphsForEdgeAdditionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! @Arguments D, allowTriangleInsertion
-#! @Returns a list of new unique graphs or an error
+#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAddition", [IsMutableDigraph, IsBool]);
+#! @Arguments D, allowTriangleInsertion
+#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAddition", [IsImmutableDigraph, IsBool]);
+#! @Arguments D, allowTriangleInsertion
+#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAdditionNC", [IsMutableDigraph, IsBool]);
+#! @Arguments D, allowTriangleInsertion
+#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAdditionNC", [IsImmutableDigraph, IsBool]);
+#! @Arguments D
+#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAddition", [IsDigraph]);
+#! @Arguments D
+#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
