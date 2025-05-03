@@ -1130,14 +1130,6 @@ __DigraphAddEdgeNC := function(D, vertexA, vertexB)
     fi;
 end;
 
-__DigraphAddVertexNC := function(D, vertex)
-    Add(D!.OutNeighbours, []);
-    SetDigraphVertexLabel(D, DigraphNrVertices(D), vertex);
-    if IsBound(D!.edgelabels) then
-        Add(D!.edgelabels, []);
-    fi;
-end;
-
 BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
     function(D, edgeA, edgeB)
         local numVertices;
@@ -1152,8 +1144,8 @@ BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
 
         # Add two new vertices that will represent the insertion of two surfaces
         # Values of numVertices + 1 and numVertices + 2 represent the two added vertices
-        __DigraphAddVertexNC(D, numVertices + 1); # Vertex A
-        __DigraphAddVertexNC(D, numVertices + 2); # Vertex B
+        DigraphAddVertex(D, numVertices + 1); # Vertex A
+        DigraphAddVertex(D, numVertices + 2); # Vertex B
 
         # Add two connected edges between each former edge
         #
@@ -1196,7 +1188,7 @@ InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList
         if isMutable then
             return dMutable;
         fi;
-        return DigraphImmutableCopy(dMutable);
+        return MakeImmutable(dMutable);
     end
 );
 
