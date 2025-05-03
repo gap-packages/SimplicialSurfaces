@@ -1303,13 +1303,13 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        local vertex, edge, neighboursCount, maxAntiSymmetricSubdigraph;
+        local vertex, edge, neighboursCount;
 
         if IsEmptyDigraph(D) then
             return ErrorNoReturn("digraph must not be empty");
         fi;
 
-        maxAntiSymmetricSubdigraph := MaximalAntiSymmetricSubdigraph(D);
+        MaximalAntiSymmetricSubdigraph(D);
 
         D := DigraphSymmetricClosure(D);
 
