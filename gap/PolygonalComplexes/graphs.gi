@@ -1122,10 +1122,6 @@ fi;
 ##      Edge Insertion / Deletion
 ##
 
-__UndirectedEdgesNC := function(D)
-    return Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
-end;
-
 __DigraphAddEdgeNC := function(D, vertexA, vertexB)
     Add(D!.OutNeighbours[vertexA], vertexB);
 
@@ -1356,7 +1352,7 @@ InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDi
         newGraphs := [];
         uniqueEdges := [];
 
-        undirectedEdges := __UndirectedEdgesNC(D);
+        undirectedEdges := Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
 
         # Calculate Orbits with undirected edges of D
         orbits := Orbits(AutomorphismGroup(D), undirectedEdges, OnSets);
