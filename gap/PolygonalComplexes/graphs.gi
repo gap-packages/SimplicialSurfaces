@@ -1282,7 +1282,7 @@ InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
-        local numVertices;
+        local numVertices, numOutNeighbours;
 
         numVertices := Maximum(DigraphVertices(D));
 
@@ -1295,6 +1295,12 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
         if not IsDigraphEdge(D, edge) then
             Print(DigraphEdges(D)); Print("\n"); Print(edge);
             return ErrorNoReturn("edge is not a digraph edge of given digraph");
+        fi;
+
+        # Ensure edge has 3 or 4 out neighbours
+        numOutNeighbours := OutNeighboursOfVertex(edge[1]) + OutNeighboursOfVertex(edge[2]);
+        if not numOutNeighbours in [3,4] then
+            return ErrorNoReturn("edge vertices do not have three or four neighbours in total");
         fi;
 
         return EdgeDeletionNC(D, edge);
