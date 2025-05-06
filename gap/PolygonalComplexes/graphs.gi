@@ -1301,8 +1301,6 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        MaximalAntiSymmetricSubdigraph(D);
-
         D := DigraphSymmetricClosure(D);
 
         return NewGraphsForEdgeAdditionNC(D, allowTriangleInsertion);
