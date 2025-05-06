@@ -1201,7 +1201,7 @@ InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, 
 
         # Sanity checks
         if Length(vertices) < 3 then
-            return ErrorNoReturn("both edges must contain exactly two vertices");
+            return ErrorNoReturn("edges mustn't have the same vertices");
         fi;
 
         D := DigraphSymmetricClosure(D);
