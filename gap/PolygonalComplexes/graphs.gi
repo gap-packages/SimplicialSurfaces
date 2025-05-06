@@ -1196,10 +1196,6 @@ InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, 
     function (D, edgeA, edgeB)
         local vertices, numVertices;
 
-        if IsEmptyDigraph(D) then
-            return ErrorNoReturn("digraph must not be empty");
-        fi;
-
         vertices := Set(Concatenation(edgeA, edgeB));
         numVertices := Maximum(DigraphVertices(D));
 
@@ -1286,10 +1282,6 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
         numVertices := Maximum(DigraphVertices(D));
 
-        if IsEmptyDigraph(D) then
-            return ErrorNoReturn("digraph must not be empty");
-        fi;
-
         D := DigraphSymmetricClosure(D);
 
         if not IsDigraphEdge(D, edge) then
@@ -1312,9 +1304,6 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        if IsEmptyDigraph(D) then
-            return ErrorNoReturn("digraph must not be empty");
-        fi;
 
         MaximalAntiSymmetricSubdigraph(D);
 
