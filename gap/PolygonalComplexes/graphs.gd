@@ -1119,11 +1119,10 @@ DeclareOperation( "OnEdgeFacePaths",
 #! The given edges have to fulfill the following properties:
 #! * edges are a List with length 2
 #! * edges must be included in the given graph
+#! @Returns the updated digraph
 #! @Arguments D, edgeA, edgeB
-#! @Returns the updated graph
 DeclareOperation("EdgeAddition", [IsDigraph, IsList, IsList]);
 #! @Arguments D, edgeA, edgeB
-#! @Returns the updated graph
 DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
@@ -1146,11 +1145,10 @@ DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 #! The given edges have to fulfill the following properties:
 #! * edge is a List with length 2
 #! * edge must be included in the given graph
+#! @Returns the updated digraph
 #! @Arguments D, edge
-#! @Returns the updated graph
 DeclareOperation("EdgeDeletion", [IsDigraph, IsList]);
 #! @Arguments D, edge
-#! @Returns the updated graph
 DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
@@ -1167,23 +1165,18 @@ DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
 #! NewGraphsForEdgeAdditionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
+#! @Returns a list of new unique digraphs
 #! @Arguments D, allowTriangleInsertion
-#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAddition", [IsMutableDigraph, IsBool]);
 #! @Arguments D, allowTriangleInsertion
-#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAddition", [IsImmutableDigraph, IsBool]);
 #! @Arguments D, allowTriangleInsertion
-#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAdditionNC", [IsMutableDigraph, IsBool]);
 #! @Arguments D, allowTriangleInsertion
-#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAdditionNC", [IsImmutableDigraph, IsBool]);
 #! @Arguments D
-#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAddition", [IsDigraph]);
 #! @Arguments D
-#! @Returns a list of new unique graphs
 DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
