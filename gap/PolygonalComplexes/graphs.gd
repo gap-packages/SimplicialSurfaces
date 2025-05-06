@@ -1142,6 +1142,7 @@ DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 #! while EdgeDeletionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
+# TODO: "Describe what the operation does"? What exactly should i change?
 #! The given edges have to fulfill the following properties:
 #! * edge is a List with length 2
 #! * edge must be included in the given graph
