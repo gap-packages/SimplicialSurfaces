@@ -1194,10 +1194,9 @@ InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList
 
 InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
-        local vertices, numVertices;
+        local vertices;
 
-        vertices := Set(Concatenation(edgeA, edgeB));
-        numVertices := Maximum(DigraphVertices(D));
+        vertices := Union(edgeA, edgeB);
 
         # Sanity checks
         if Length(vertices) < 3 then
@@ -1278,9 +1277,7 @@ InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
-        local numVertices, edgeOutNeighbours;
-
-        numVertices := Maximum(DigraphVertices(D));
+        local edgeOutNeighbours;
 
         D := DigraphSymmetricClosure(D);
 
@@ -1290,10 +1287,10 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
         fi;
 
         # Ensure edge has 3 or 4 out neighbours
-        edgeOutNeighbours := Set(Concatenation(
+        edgeOutNeighbours := Union(
             Filtered(OutNeighboursOfVertex(D, edge[1]), vertex -> vertex <> edge[2]),
             Filtered(OutNeighboursOfVertex(D, edge[2]), vertex -> vertex <> edge[1])
-        ));
+        );
         if not Length(edgeOutNeighbours) in [3,4] then
             return ErrorNoReturn("edge vertices do not have three or four neighbours in total");
         fi;
@@ -1304,7 +1301,6 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-
         MaximalAntiSymmetricSubdigraph(D);
 
         D := DigraphSymmetricClosure(D);
@@ -1319,7 +1315,7 @@ InstallMethod( NewGraphsForEdgeAddition, "for an immutable digraph", [IsImmutabl
 
         dMutable := DigraphMutableCopy(D);
 
-        return NewGraphsForEdgeAddition(dMutable, allowTriangleInsertion);
+        return NewGraphsForEdgeAddition(dMutable, allowTriangleInsertion); # TODO make immutable?
     end
 );
 
