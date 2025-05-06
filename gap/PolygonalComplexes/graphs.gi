@@ -1200,13 +1200,13 @@ InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, 
 
         # Sanity checks
         if Length(vertices) < 3 then
-            return ErrorNoReturn("edges mustn't have the same vertices");
+            return ErrorNoReturn("The given edges mustn't have the same vertices");
         fi;
 
         D := DigraphSymmetricClosure(D);
 
         if not IsDigraphEdge(D, edgeA) or not IsDigraphEdge(D, edgeB) then
-            return ErrorNoReturn("given edge is not a digraph edge of the given digraph");
+            return ErrorNoReturn("The given edge is not a digraph edge of the given digraph");
         fi;
 
         return EdgeAdditionNC(D, edgeA, edgeB);
@@ -1283,7 +1283,7 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
 
         if not IsDigraphEdge(D, edge) then
             Print(DigraphEdges(D)); Print("\n"); Print(edge);
-            return ErrorNoReturn("edge is not a digraph edge of given digraph");
+            return ErrorNoReturn("The given edge is not a digraph edge of given digraph");
         fi;
 
         # Ensure edge has 3 or 4 out neighbours
@@ -1292,7 +1292,7 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
             Filtered(OutNeighboursOfVertex(D, edge[2]), vertex -> vertex <> edge[1])
         );
         if not Length(edgeOutNeighbours) in [3,4] then
-            return ErrorNoReturn("edge vertices do not have three or four neighbours in total");
+            return ErrorNoReturn("The given edge vertices do not have three or four neighbours in total");
         fi;
 
         return EdgeDeletionNC(D, edge);
