@@ -1119,7 +1119,7 @@ fi;
 
 #######################################
 ##
-##      Edge Insertion / Deletion
+##      Edge Insertion / Reduction
 ##
 
 BindGlobal( "__SIMPLICIAL_DigraphAddEdgeNC",
@@ -1132,7 +1132,7 @@ BindGlobal( "__SIMPLICIAL_DigraphAddEdgeNC",
     end
 );
 
-BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
+BindGlobal( "__SIMPLICIAL_EdgeInsertionDirectNC",
     function(D, edgeA, edgeB)
         local numVertices;
 
@@ -1173,7 +1173,7 @@ BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
     end
 );
 
-InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+InstallMethod( EdgeInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
         local dMutable, isMutable;
 
@@ -1185,7 +1185,7 @@ InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList
             dMutable := DigraphMutableCopy(D);
         fi;
 
-        dMutable := __SIMPLICIAL_EdgeAdditionDirectNC(dMutable, edgeA, edgeB);
+        dMutable := __SIMPLICIAL_EdgeInsertionDirectNC(dMutable, edgeA, edgeB);
 
         if isMutable then
             return dMutable;
@@ -1194,7 +1194,7 @@ InstallMethod( EdgeAdditionNC, "for a digraph and two lists", [IsDigraph, IsList
     end
 );
 
-InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+InstallMethod( EdgeInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
     function (D, edgeA, edgeB)
         local vertices;
 
@@ -1211,11 +1211,11 @@ InstallMethod( EdgeAddition, "for a digraph and two lists", [IsDigraph, IsList, 
             return ErrorNoReturn("The given edge is not a digraph edge of the given digraph");
         fi;
 
-        return EdgeAdditionNC(D, edgeA, edgeB);
+        return EdgeInsertionNC(D, edgeA, edgeB);
     end
 );
 
-BindGlobal( "__SIMPLICIAL_EdgeDeletionDirectNC",
+BindGlobal( "__SIMPLICIAL_EdgeReductionDirectNC",
     function (D, intersectingEdge)
         local neighbours, neighbour, newEdge;
 
@@ -1256,7 +1256,7 @@ BindGlobal( "__SIMPLICIAL_EdgeDeletionDirectNC",
     end
 );
 
-InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
+InstallMethod( EdgeReductionNC, "for a digraph and a list", [IsDigraph, IsList],
     function (D, intersectingEdge)
         local dMutable, isMutable;
 
@@ -1268,7 +1268,7 @@ InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
             dMutable := DigraphMutableCopy(D);
         fi;
 
-        dMutable := __SIMPLICIAL_EdgeDeletionDirectNC(dMutable, intersectingEdge);
+        dMutable := __SIMPLICIAL_EdgeReductionDirectNC(dMutable, intersectingEdge);
 
         if isMutable then
             return dMutable;
@@ -1277,7 +1277,7 @@ InstallMethod( EdgeDeletionNC, "for a digraph and a list", [IsDigraph, IsList],
     end
 );
 
-InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
+InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
         local edgeOutNeighbours;
 
@@ -1297,35 +1297,35 @@ InstallMethod( EdgeDeletion, "for a digraph and a list", [IsDigraph, IsList],
             return ErrorNoReturn("The given edge vertices do not have three or four neighbours in total");
         fi;
 
-        return EdgeDeletionNC(D, edge);
+        return EdgeReductionNC(D, edge);
     end
 );
 
-InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigraph, IsBool],
+InstallMethod( NewGraphsForEdgeInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
         D := DigraphSymmetricClosure(D);
 
-        return NewGraphsForEdgeAdditionNC(D, allowTriangleInsertion);
+        return NewGraphsForEdgeInsertionNC(D, allowTriangleInsertion);
     end
 );
 
-InstallOtherMethod( NewGraphsForEdgeAddition, "for an immutable digraph", [IsImmutableDigraph, IsBool],
+InstallOtherMethod( NewGraphsForEdgeInsertion, "for an immutable digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable;
 
         dMutable := DigraphMutableCopy(D);
 
-        return MakeImmutable(NewGraphsForEdgeAddition(dMutable, allowTriangleInsertion));
+        return MakeImmutable(NewGraphsForEdgeInsertion(dMutable, allowTriangleInsertion));
     end
 );
 
-InstallOtherMethod( NewGraphsForEdgeAddition, "for a digraph", [IsDigraph],
+InstallOtherMethod( NewGraphsForEdgeInsertion, "for a digraph", [IsDigraph],
     function(D)
-        return NewGraphsForEdgeAddition(D, true);
+        return NewGraphsForEdgeInsertion(D, true);
     end
 );
 
-InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
+InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
         local newUniqueGraphs, newGraphs, newGraph, orbits, orbitsS, orbit,
             uniqueEdges, uniqueEdgesS, undirectedEdges, edgeA, edgeB, isUniqueGraph, 
@@ -1345,7 +1345,7 @@ InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDi
             Add(uniqueEdges, orbit[1]);
         od;
 
-        # For each combination of orbit edges do EdgeAdditionNC
+        # For each combination of orbit edges do EdgeInsertionNC
         for edgeA in uniqueEdges do
             stab := Stabilizer(AutomorphismGroup(D), edgeA, OnSets);
 
@@ -1366,7 +1366,7 @@ InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDi
                     numIntersectingVertices = 4 then
                     newGraph := DigraphMutableCopy(D);
 
-                    newGraph := __SIMPLICIAL_EdgeAdditionDirectNC(newGraph, edgeA, edgeB);
+                    newGraph := __SIMPLICIAL_EdgeInsertionDirectNC(newGraph, edgeA, edgeB);
 
                     Add(newGraphs, newGraph);
                 fi;
@@ -1397,20 +1397,20 @@ InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDi
     end
 );
 
-InstallOtherMethod( NewGraphsForEdgeAdditionNC, "for a digraph", [IsImmutableDigraph, IsBool],
+InstallOtherMethod( NewGraphsForEdgeInsertionNC, "for a digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable, newUniqueGraphs;
 
         dMutable := DigraphMutableCopy(D);
 
-        newUniqueGraphs := NewGraphsForEdgeAdditionNC(dMutable, allowTriangleInsertion);
+        newUniqueGraphs := NewGraphsForEdgeInsertionNC(dMutable, allowTriangleInsertion);
 
         return newUniqueGraphs;
     end
 );
 
-InstallOtherMethod( NewGraphsForEdgeAdditionNC, "for a digraph", [IsDigraph],
+InstallOtherMethod( NewGraphsForEdgeInsertionNC, "for a digraph", [IsDigraph],
     function(D)
-        return NewGraphsForEdgeAdditionNC(D, true);
+        return NewGraphsForEdgeInsertionNC(D, true);
     end
 );

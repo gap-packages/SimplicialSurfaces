@@ -1100,20 +1100,20 @@ DeclareOperation( "OnEdgeFacePaths",
     [ IsEdgeFacePath , IsPerm ] );
 #! @EndGroup OnEdgeFacePaths
 
-#! @Section Edge Addition and Deletion
-#! @SectionLabel Graphs_Edge_Addition_Deletion
+#! @Section Edge Insertion and Reduction
+#! @SectionLabel Graphs_Edge_Insertion_Reduction
 #! 
 #! This section covers functionality to add or delete edges
 #! on digraphs or finding new graphs resulting from add
 #! operations on digraphs, the package
 #! <K>NautyTracesInterface</K> has to be available.
 #!
-#! @BeginGroup EdgeAddition
+#! @BeginGroup EdgeInsertion
 #! @Description
-#! Performs Edge Addition on a given graph. It inserts the
+#! Performs Edge Insertion on a given graph. It inserts the
 #! butterfly structure between the given edges.
-#! EdgeAddition ensures symmetric closure on the given digraph
-#! while EdgeAdditionNC expects an undirected digraph.
+#! EdgeInsertion ensures symmetric closure on the given digraph
+#! while EdgeInsertionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! The given edges have to fulfill the following properties:
@@ -1121,25 +1121,25 @@ DeclareOperation( "OnEdgeFacePaths",
 #! * edges must be included in the given graph
 #! @Returns the updated digraph
 #! @Arguments D, edgeA, edgeB
-DeclareOperation("EdgeAddition", [IsDigraph, IsList, IsList]);
+DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
 #! @Arguments D, edgeA, edgeB
-DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
+DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
 #! <immutable digraph with 4 vertices, 4 edges>
-#! gap> EdgeAddition(square, [1,2], [3,4]);
+#! gap> EdgeInsertion(square, [1,2], [3,4]);
 #! <immutable digraph with 6 vertices, 14 edges>
 #! @EndExampleSession
-#! @EndGroup EdgeAddition
+#! @EndGroup EdgeInsertion
 
-#! @BeginGroup EdgeDeletion
+#! @BeginGroup EdgeReduction
 #! @Description
-#! Performs Edge Deletion on a given graph. The given edge
+#! Performs Edge Reduction on a given graph. The given edge
 #! is considered the intersecting edge which has three or four
 #! distinct neighbour vertices which is the condition to make
-#! deletion possible.
-#! EdgeDeletion ensures symmetric closure on the given digraph
-#! while EdgeDeletionNC expects an undirected digraph.
+#! reduction possible.
+#! EdgeReduction ensures symmetric closure on the given digraph
+#! while EdgeReductionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 # TODO: "Describe what the operation does"? What exactly should i change?
@@ -1148,36 +1148,36 @@ DeclareOperation("EdgeAdditionNC", [IsDigraph, IsList, IsList]);
 #! * edge must be included in the given graph
 #! @Returns the updated digraph
 #! @Arguments D, edge
-DeclareOperation("EdgeDeletion", [IsDigraph, IsList]);
+DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
 #! @Arguments D, edge
-DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
+DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
 #! <immutable digraph with 6 vertices, 7 edges>
-#! gap> EdgeDeletion(D, [5,6]);
+#! gap> EdgeReduction(D, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
 #! @EndExampleSession
-#! @EndGroup EdgeDeletion
+#! @EndGroup EdgeReduction
 
-#! @BeginGroup NewGraphsForEdgeAddition
+#! @BeginGroup NewGraphsForEdgeInsertion
 #! @Description
-#! Finds unique graphs for every possible Edge Addition on a given graph.
-#! NewGraphsForEdgeAddition ensures symmetric closure on the given digraph.
-#! NewGraphsForEdgeAdditionNC expects an undirected digraph.
+#! Finds unique graphs for every possible Edge Insertion on a given graph.
+#! NewGraphsForEdgeInsertion ensures symmetric closure on the given digraph.
+#! NewGraphsForEdgeInsertionNC expects an undirected digraph.
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! @Returns a list of new unique digraphs
 #! @Arguments D[, allowTriangleInsertion]
-DeclareOperation("NewGraphsForEdgeAddition", [IsDigraph, IsBool]);
+DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
 #! @Arguments D[, allowTriangleInsertion]
-DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph, IsBool]);
+DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
 #! <immutable digraph with 4 vertices, 8 edges>
-#! gap> NewGraphsForEdgeAddition(square, true);
+#! gap> NewGraphsForEdgeInsertion(square, true);
 #! [ <immutable digraph with 6 vertices, 14 edges>,
 #!   <immutable digraph with 6 vertices, 14 edges> ]
-#! gap> NewGraphsForEdgeAddition(square, false);
+#! gap> NewGraphsForEdgeInsertion(square, false);
 #! [ <immutable digraph with 6 vertices, 14 edges> ]
 #! @EndExampleSession
-#! @EndGroup NewGraphsForEdgeAddition
+#! @EndGroup NewGraphsForEdgeInsertion

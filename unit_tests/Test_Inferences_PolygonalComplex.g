@@ -439,9 +439,9 @@ end);
 
 #################################################################################
 ##
-## Test whether the edge insertion & deletion is performed correctly
+## Test whether the edge insertion & reduction is performed correctly
 ##
-BindGlobal("__SIMPLICIAL_Test_EdgeAddition", function()
+BindGlobal("__SIMPLICIAL_Test_EdgeInsertion", function()
     local D, Dmu, edgeA, edgeB, numVertices, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
@@ -452,8 +452,8 @@ BindGlobal("__SIMPLICIAL_Test_EdgeAddition", function()
     numVertices := Maximum(DigraphVertices(D));
 
     # Perform insertion
-    D := EdgeAddition(D, edgeA, edgeB);
-    EdgeAddition(Dmu, edgeA, edgeB);
+    D := EdgeInsertion(D, edgeA, edgeB);
+    EdgeInsertion(Dmu, edgeA, edgeB);
 
     # Correct result graph
     expectedGraph := DigraphByEdges([[1,3], [2,4], [5,6], [1,5], [5,2], [3,6], [6,4]]);
@@ -466,8 +466,8 @@ BindGlobal("__SIMPLICIAL_Test_EdgeAddition", function()
     SIMPLICIAL_TestAssert(IsIsomorphicDigraph(Dmu, expectedGraph));
 end);
 
-# Test equivalent for EdgeDeletion
-BindGlobal("__SIMPLICIAL_Test_EdgeDeletion", function()
+# Test equivalent for EdgeReduction
+BindGlobal("__SIMPLICIAL_Test_EdgeReduction", function()
     local D, Dmu, edge, numVertices, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
@@ -477,8 +477,8 @@ BindGlobal("__SIMPLICIAL_Test_EdgeDeletion", function()
     numVertices := Maximum(DigraphVertices(D));
 
     # Perform deletion
-    D := EdgeDeletion(D, edge);
-    EdgeDeletion(Dmu, edge);
+    D := EdgeReduction(D, edge);
+    EdgeReduction(Dmu, edge);
 
     # Correct result graph
     expectedGraph := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
@@ -491,7 +491,7 @@ BindGlobal("__SIMPLICIAL_Test_EdgeDeletion", function()
     SIMPLICIAL_TestAssert(IsIsomorphicDigraph(Dmu, expectedGraph));
 end);
 
-BindGlobal("__SIMPLICIAL_Test_NewGraphsForEdgeAddition", function ()
+BindGlobal("__SIMPLICIAL_Test_NewGraphsForEdgeInsertion", function ()
     local D, newGraphs, expectedGraph1, expectedGraph2;
 
     # Create square graph
@@ -499,7 +499,7 @@ BindGlobal("__SIMPLICIAL_Test_NewGraphsForEdgeAddition", function ()
 
     #
     # Test with triangle insertion allowed
-    newGraphs := NewGraphsForEdgeAddition(D, true);
+    newGraphs := NewGraphsForEdgeInsertion(D, true);
 
     # Correct graphs result
     expectedGraph1 := DigraphByEdges([[2,4], [3,4], [1,5], [1,6], [5,6], [5,3], [6,2]]);
@@ -512,7 +512,7 @@ BindGlobal("__SIMPLICIAL_Test_NewGraphsForEdgeAddition", function ()
     SIMPLICIAL_TestAssert(IsIsomorphicDigraph(newGraphs[2], expectedGraph2));
 
     # Test with triangle insertion disallowed
-    newGraphs := NewGraphsForEdgeAddition(D, false);
+    newGraphs := NewGraphsForEdgeInsertion(D, false);
 
     # Test whether amount of new graphs is 1 as expected
     SIMPLICIAL_TestAssert(Length(newGraphs) = 1);
