@@ -1315,7 +1315,7 @@ InstallOtherMethod( NewGraphsForEdgeInsertion, "for an immutable digraph", [IsIm
 
         dMutable := DigraphMutableCopy(D);
 
-        return MakeImmutable(NewGraphsForEdgeInsertion(dMutable, allowTriangleInsertion));
+        return NewGraphsForEdgeInsertion(dMutable, allowTriangleInsertion);
     end
 );
 
