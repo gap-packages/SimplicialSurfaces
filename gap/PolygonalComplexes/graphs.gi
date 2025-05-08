@@ -1122,13 +1122,15 @@ fi;
 ##      Edge Insertion / Deletion
 ##
 
-__DigraphAddEdgeNC := function(D, vertexA, vertexB)
-    Add(D!.OutNeighbours[vertexA], vertexB);
+BindGlobal( "__SIMPLICIAL_DigraphAddEdgeNC",
+    function(D, vertexA, vertexB)
+        Add(D!.OutNeighbours[vertexA], vertexB);
 
-    if HaveEdgeLabelsBeenAssigned(D) and not IsMultiDigraph(D) then
-        SetDigraphEdgeLabel(D, vertexA, vertexB, 1);
-    fi;
-end;
+        if HaveEdgeLabelsBeenAssigned(D) and not IsMultiDigraph(D) then
+            SetDigraphEdgeLabel(D, vertexA, vertexB, 1);
+        fi;
+    end
+);
 
 BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
     function(D, edgeA, edgeB)
@@ -1150,22 +1152,22 @@ BindGlobal( "__SIMPLICIAL_EdgeAdditionDirectNC",
         # Add two connected edges between each former edge
         #
         # Add edges intersecting former edgeA with Vertex A
-        __DigraphAddEdgeNC(D, edgeA[1], numVertices + 1);
-        __DigraphAddEdgeNC(D, numVertices + 1, edgeA[1]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeA[1], numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, edgeA[1]);
         #
-        __DigraphAddEdgeNC(D, edgeA[2], numVertices + 1);
-        __DigraphAddEdgeNC(D, numVertices + 1, edgeA[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeA[2], numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, edgeA[2]);
         #
         # Add edges intersecting former edgeB with Vertex B
-        __DigraphAddEdgeNC(D, edgeB[1], numVertices + 2);
-        __DigraphAddEdgeNC(D, numVertices + 2, edgeB[1]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeB[1], numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, edgeB[1]);
         #
-        __DigraphAddEdgeNC(D, edgeB[2], numVertices + 2);
-        __DigraphAddEdgeNC(D, numVertices + 2, edgeB[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeB[2], numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, edgeB[2]);
 
         # Add edges connecting Vertex A and Vertex B
-        __DigraphAddEdgeNC(D, numVertices + 1, numVertices + 2);
-        __DigraphAddEdgeNC(D, numVertices + 2, numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, numVertices + 1);
 
         return D;
     end
@@ -1230,8 +1232,8 @@ BindGlobal( "__SIMPLICIAL_EdgeDeletionDirectNC",
         for neighbour in neighbours do
             DigraphRemoveEdge(D, [intersectingEdge[1], neighbour]);
         od;
-        __DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
-        __DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
         #
         # right side of intersecting edge
         newEdge := [];
@@ -1244,8 +1246,8 @@ BindGlobal( "__SIMPLICIAL_EdgeDeletionDirectNC",
         for neighbour in neighbours do
             DigraphRemoveEdge(D, [intersectingEdge[2], neighbour]);
         od;
-        __DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
-        __DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
 
         # Remove old vertices
         DigraphRemoveVertices(D, intersectingEdge);
