@@ -1313,7 +1313,7 @@ InstallMethod( NewGraphsForEdgeAddition, "for an immutable digraph", [IsImmutabl
 
         dMutable := DigraphMutableCopy(D);
 
-        return NewGraphsForEdgeAddition(dMutable, allowTriangleInsertion); # TODO make immutable?
+        return MakeImmutable(NewGraphsForEdgeAddition(dMutable, allowTriangleInsertion));
     end
 );
 
