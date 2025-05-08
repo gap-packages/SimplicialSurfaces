@@ -1327,7 +1327,9 @@ InstallOtherMethod( NewGraphsForEdgeAddition, "for a digraph", [IsDigraph],
 
 InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        local newUniqueGraphs, newGraphs, newGraph, orbits, orbit, uniqueEdges, undirectedEdges, edgeA, edgeB, isUniqueGraph, g1, g2, numIntersectingVertices;
+        local newUniqueGraphs, newGraphs, newGraph, orbits, orbitsS, orbit,
+            uniqueEdges, uniqueEdgesS, undirectedEdges, edgeA, edgeB, isUniqueGraph, 
+            g1, g2, numIntersectingVertices, stab;
 
         newUniqueGraphs := [];
         newGraphs := [];
@@ -1345,7 +1347,20 @@ InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDi
 
         # For each combination of orbit edges do EdgeAdditionNC
         for edgeA in uniqueEdges do
-            for edgeB in undirectedEdges do
+            stab := Stabilizer(AutomorphismGroup(D), edgeA, OnSets);
+
+            orbitsS := Orbits(
+                stab,
+                Filtered(undirectedEdges, e -> e[1] <> edgeA[1] and e[2] <> edgeA[2]),
+                OnSets
+            );
+
+            uniqueEdgesS := [];
+            for orbit in orbitsS do
+                Add(uniqueEdgesS, orbit[1]);
+            od;
+
+            for edgeB in uniqueEdgesS do
                 numIntersectingVertices := Length(Union(edgeA, edgeB));
                 if (allowTriangleInsertion and numIntersectingVertices = 3) or
                     numIntersectingVertices = 4 then
