@@ -1175,9 +1175,9 @@ DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph, IsBool]);
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
 #! <immutable digraph with 4 vertices, 8 edges>
 #! gap> NewGraphsForEdgeAddition(square, true);
-#! [ <mutable digraph with 6 vertices, 14 edges>,
-#!   <mutable digraph with 6 vertices, 14 edges> ]
+#! [ <immutable digraph with 6 vertices, 14 edges>,
+#!   <immutable digraph with 6 vertices, 14 edges> ]
 #! gap> NewGraphsForEdgeAddition(square, false);
-#! [ <mutable digraph with 6 vertices, 14 edges> ]
+#! [ <immutable digraph with 6 vertices, 14 edges> ]
 #! @EndExampleSession
 #! @EndGroup NewGraphsForEdgeAddition
