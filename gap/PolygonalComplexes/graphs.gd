@@ -1187,6 +1187,5 @@ DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
 #! @EndGroup NewGraphsForEdgeInsertion
 
 # TODO:
-# line length in .gd
 # example images for insertion and reduction
 # check given edge outwards neighbours count 3, also explain in manual
