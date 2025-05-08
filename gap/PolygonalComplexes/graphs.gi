@@ -1368,6 +1368,7 @@ InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableD
 
                     newGraph := __SIMPLICIAL_EdgeInsertionDirectNC(newGraph, edgeA, edgeB);
 
+                    MakeImmutable(newGraph);
                     Add(newGraphs, newGraph);
                 fi;
             od;
@@ -1382,7 +1383,7 @@ InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableD
             isUniqueGraph := true;
 
             for g2 in newUniqueGraphs do
-                if IsIsomorphicDigraph(g1, g2) then # TODO IsIsomorphicDigraph changes graph labeling!
+                if IsIsomorphicDigraph(g1, g2) then
                     isUniqueGraph := false;
                     break;
                 fi;
