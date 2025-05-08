@@ -1177,6 +1177,10 @@ InstallMethod( EdgeInsertionNC, "for a digraph and two lists", [IsDigraph, IsLis
     function (D, edgeA, edgeB)
         local dMutable, isMutable;
 
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
         if IsMutableDigraph(D) then
             isMutable := true;
             dMutable := D;
@@ -1205,7 +1209,9 @@ InstallMethod( EdgeInsertion, "for a digraph and two lists", [IsDigraph, IsList,
             return ErrorNoReturn("The given edges mustn't have the same vertices");
         fi;
 
-        D := DigraphSymmetricClosure(D);
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
 
         if not IsDigraphEdge(D, edgeA) or not IsDigraphEdge(D, edgeB) then
             return ErrorNoReturn("The given edge is not a digraph edge of the given digraph");
@@ -1260,6 +1266,10 @@ InstallMethod( EdgeReductionNC, "for a digraph and a list", [IsDigraph, IsList],
     function (D, intersectingEdge)
         local dMutable, isMutable;
 
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
         if IsMutableDigraph(D) then
             isMutable := true;
             dMutable := D;
@@ -1281,7 +1291,9 @@ InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
         local edgeOutNeighbours;
 
-        D := DigraphSymmetricClosure(D);
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
 
         if not IsDigraphEdge(D, edge) then
             Print(DigraphEdges(D)); Print("\n"); Print(edge);
@@ -1303,7 +1315,7 @@ InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( NewGraphsForEdgeInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
     function (D, allowTriangleInsertion)
-        D := DigraphSymmetricClosure(D);
+        # placeholder for checks
 
         return NewGraphsForEdgeInsertionNC(D, allowTriangleInsertion);
     end
@@ -1312,6 +1324,10 @@ InstallMethod( NewGraphsForEdgeInsertion, "for a mutable digraph", [IsMutableDig
 InstallOtherMethod( NewGraphsForEdgeInsertion, "for an immutable digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
 
         dMutable := DigraphMutableCopy(D);
 
@@ -1330,6 +1346,10 @@ InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableD
         local newUniqueGraphs, newGraphs, newGraph, orbits, orbitsS, orbit,
             uniqueEdges, uniqueEdgesS, undirectedEdges, edgeA, edgeB, isUniqueGraph, 
             g1, g2, numIntersectingVertices, stab;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
 
         newUniqueGraphs := [];
         newGraphs := [];
