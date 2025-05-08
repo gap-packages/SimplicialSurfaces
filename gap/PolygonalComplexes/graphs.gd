@@ -1167,18 +1167,10 @@ DeclareOperation("EdgeDeletionNC", [IsDigraph, IsList]);
 #! The given graph has to fulfill the following properties:
 #! * it is a mutable graph
 #! @Returns a list of new unique digraphs
-#! @Arguments D, allowTriangleInsertion
-DeclareOperation("NewGraphsForEdgeAddition", [IsMutableDigraph, IsBool]);
-#! @Arguments D, allowTriangleInsertion
-DeclareOperation("NewGraphsForEdgeAddition", [IsImmutableDigraph, IsBool]);
-#! @Arguments D, allowTriangleInsertion
-DeclareOperation("NewGraphsForEdgeAdditionNC", [IsMutableDigraph, IsBool]);
-#! @Arguments D, allowTriangleInsertion
-DeclareOperation("NewGraphsForEdgeAdditionNC", [IsImmutableDigraph, IsBool]);
-#! @Arguments D
-DeclareOperation("NewGraphsForEdgeAddition", [IsDigraph]);
-#! @Arguments D
-DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph]);
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeAddition", [IsDigraph, IsBool]);
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeAdditionNC", [IsDigraph, IsBool]);
 #! @ExampleSession
 #! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
 #! <immutable digraph with 4 vertices, 8 edges>

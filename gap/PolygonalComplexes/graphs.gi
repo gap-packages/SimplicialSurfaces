@@ -1307,7 +1307,7 @@ InstallMethod( NewGraphsForEdgeAddition, "for a mutable digraph", [IsMutableDigr
     end
 );
 
-InstallMethod( NewGraphsForEdgeAddition, "for an immutable digraph", [IsImmutableDigraph, IsBool],
+InstallOtherMethod( NewGraphsForEdgeAddition, "for an immutable digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable;
 
@@ -1380,7 +1380,7 @@ InstallMethod( NewGraphsForEdgeAdditionNC, "for a mutable digraph", [IsMutableDi
     end
 );
 
-InstallMethod( NewGraphsForEdgeAdditionNC, "for a digraph", [IsImmutableDigraph, IsBool],
+InstallOtherMethod( NewGraphsForEdgeAdditionNC, "for a digraph", [IsImmutableDigraph, IsBool],
     function(D, allowTriangleInsertion)
         local dMutable, newUniqueGraphs;
 
