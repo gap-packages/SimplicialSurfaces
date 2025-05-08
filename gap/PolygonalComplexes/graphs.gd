@@ -1185,3 +1185,8 @@ DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
 #! [ <immutable digraph with 6 vertices, 14 edges> ]
 #! @EndExampleSession
 #! @EndGroup NewGraphsForEdgeInsertion
+
+# TODO:
+# line length in .gd
+# example images for insertion and reduction
+# check given edge outwards neighbours count 3, also explain in manual
