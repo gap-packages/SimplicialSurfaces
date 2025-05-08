@@ -1125,10 +1125,12 @@ DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
 #! @Arguments D, edgeA, edgeB
 DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
-#! gap> square := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! gap> D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
 #! <immutable digraph with 4 vertices, 4 edges>
-#! gap> EdgeInsertion(square, [1,2], [3,4]);
+#! gap> D := EdgeInsertion(D, [1,2], [3,4]);
 #! <immutable digraph with 6 vertices, 14 edges>
+#! gap> DigraphEdges(MaximalAntiSymmetricSubdigraph(D));
+#! [[ 1,3 ], [ 1,5 ], [ 2,4 ], [ 2,5 ], [ 3,6 ], [ 4,6 ], [ 5,6 ]]
 #! @EndExampleSession
 #! @EndGroup EdgeInsertion
 
@@ -1154,8 +1156,10 @@ DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 #! @ExampleSession
 #! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
 #! <immutable digraph with 6 vertices, 7 edges>
-#! gap> EdgeReduction(D, [5,6]);
+#! gap> D := EdgeReduction(D, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
+#! gap> DigraphEdges(MaximalAntiSymmetricSubdigraph(D));
+#! [[ 1,2 ], [ 1,3 ], [ 2,4 ], [ 3,4 ]]
 #! @EndExampleSession
 #! @EndGroup EdgeReduction
 
@@ -1172,12 +1176,12 @@ DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
 #! @Arguments D[, allowTriangleInsertion]
 DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
 #! @ExampleSession
-#! gap> square := DigraphByEdges([[1,2], [2,1], [3,4], [4,3], [1,3], [3,1], [2,4], [4,2]]);
-#! <immutable digraph with 4 vertices, 8 edges>
-#! gap> NewGraphsForEdgeInsertion(square, true);
+#! gap> D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> NewGraphsForEdgeInsertion(D, true);
 #! [ <immutable digraph with 6 vertices, 14 edges>,
 #!   <immutable digraph with 6 vertices, 14 edges> ]
-#! gap> NewGraphsForEdgeInsertion(square, false);
+#! gap> NewGraphsForEdgeInsertion(D, false);
 #! [ <immutable digraph with 6 vertices, 14 edges> ]
 #! @EndExampleSession
 #! @EndGroup NewGraphsForEdgeInsertion
