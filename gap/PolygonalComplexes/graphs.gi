@@ -1296,7 +1296,6 @@ InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
         fi;
 
         if not IsDigraphEdge(D, edge) then
-            Print(DigraphEdges(D)); Print("\n"); Print(edge);
             return ErrorNoReturn("The given edge is not a digraph edge of given digraph");
         fi;
 
