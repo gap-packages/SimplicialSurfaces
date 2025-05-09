@@ -1188,4 +1188,4 @@ DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
 
 # TODO:
 # example images for insertion and reduction
-# check given edge outwards neighbours count 3, also explain in manual
+# explain in manual: given edge outwards neighbours count must be 3 or 4
