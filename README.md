@@ -27,7 +27,7 @@ To install NautytracesInterface you can run the `install.sh` script in the newly
 
 For using the Package, call
 
-  LoadPackage("SimplicialSurfaces");
+    LoadPackage("SimplicialSurfaces");
 
 to access the package inside a GAP session.
 
