@@ -1299,10 +1299,13 @@ InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
             return ErrorNoReturn("The given edge is not a digraph edge of given digraph");
         fi;
 
-        # Ensure edge has 3 or 4 out neighbours
-        if Length(OutNeighboursOfVertex(D, edge[1])) <> 3 or
-           Length(OutNeighboursOfVertex(D, edge[2])) <> 3 then
-            return ErrorNoReturn("The vertices of the given edge must have three vertices");
+        # Ensure edge has 3 or 4 outwards neighbours
+        edgeOutNeighbours := Union(
+            OutNeighboursOfVertex(D, edge[1]),
+            OutNeighboursOfVertex(D, edge[2])
+        );
+        if not Length(edgeOutNeighbours) in [5,6] then
+            return ErrorNoReturn("The vertices of the given edge must have three or four outwards neighbours");
         fi;
 
         return EdgeReductionNC(D, edge);
