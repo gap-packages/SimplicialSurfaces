@@ -1110,16 +1110,15 @@ DeclareOperation( "OnEdgeFacePaths",
 #!
 #! @BeginGroup EdgeInsertion
 #! @Description
-#! Performs Edge Insertion on a given graph. It inserts the
-#! butterfly structure between the given edges.
-#! EdgeInsertion ensures symmetric closure on the given digraph
-#! while EdgeInsertionNC expects an undirected digraph.
-#! The given graph has to fulfill the following properties:
-#! * it is a mutable graph
-#! The given edges have to fulfill the following properties:
-#! * edges are a List with length 2
-#! * edges must be included in the given graph
-#! @Returns the updated digraph
+#! Performs an edge insertion on the given digraph. This function returns a
+#! new digraph D' with V(D') = V(D) unified with {A,B}. The new vertices have
+#! degree 3 in D' and the edges of D' are obtained from the edges of D as in the
+#! following figure. It inserts the butterfly structure between two edges
+#! <A>edgeA</A> and <A>edgeB</A>.
+#! EdgeInsertion ensures that the digraph returned is symmetric, even when the
+#! input digraph D is not symmetric.
+#! EdgeAdditionNC performs no checks on the input.
+#! @Returns a digraph
 #! @Arguments D, edgeA, edgeB
 DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
 #! @Arguments D, edgeA, edgeB
@@ -1136,19 +1135,16 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 
 #! @BeginGroup EdgeReduction
 #! @Description
-#! Performs Edge Reduction on a given graph. The given edge
-#! is considered the intersecting edge which has three or four
-#! distinct neighbour vertices which is the condition to make
-#! reduction possible.
-#! EdgeReduction ensures symmetric closure on the given digraph
-#! while EdgeReductionNC expects an undirected digraph.
-#! The given graph has to fulfill the following properties:
-#! * it is a mutable graph
-# TODO: "Describe what the operation does"? What exactly should i change?
-#! The given edges have to fulfill the following properties:
-#! * edge is a List with length 2
-#! * edge must be included in the given graph
-#! @Returns the updated digraph
+#! Performs an edge reduction on the given digraph. This function returns a
+#! new digraph D' with V(D') = V(D) without {A,B}. It removes the butterfly
+#! structure around the given edge <A>edge</A>. Two edges connecting to
+#! each of the vertices of the given edge <A>edge</A> are reduced to one single
+#! edge as in following figure, therefore the outwards neighbours count of
+#! <A>edge</A> must be three or four.
+#! EdgeReduction ensures that the digraph returned is symmetric, even when the
+#! input digraph D is not symmetric.
+#! EdgeReductionNC performs no checks on the input.
+#! @Returns a digraph
 #! @Arguments D, edge
 DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
 #! @Arguments D, edge
@@ -1165,11 +1161,12 @@ DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 
 #! @BeginGroup NewGraphsForEdgeInsertion
 #! @Description
-#! Finds unique graphs for every possible Edge Insertion on a given graph.
-#! NewGraphsForEdgeInsertion ensures symmetric closure on the given digraph.
-#! NewGraphsForEdgeInsertionNC expects an undirected digraph.
-#! The given graph has to fulfill the following properties:
-#! * it is a mutable graph
+#! Finds unique graphs for every possible edge insertion on the given digraph.
+#! <A>allowTriangleInsertion</A> allows or disallows insertions between edges
+#! that have one vertex in common.
+#! NewGraphsForEdgeInsertion ensures that the digraph returned is symmetric,
+#! even when the input digraph D is not symmetric.
+#! NewGraphsForEdgeInsertionNC performs no checks on the input.
 #! @Returns a list of new unique digraphs
 #! @Arguments D[, allowTriangleInsertion]
 DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
@@ -1185,7 +1182,3 @@ DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
 #! [ <immutable digraph with 6 vertices, 14 edges> ]
 #! @EndExampleSession
 #! @EndGroup NewGraphsForEdgeInsertion
-
-# TODO:
-# example images for insertion and reduction
-# explain in manual: given edge outwards neighbours count must be 3 or 4
