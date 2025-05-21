@@ -442,14 +442,13 @@ end);
 ## Test whether the edge insertion & reduction is performed correctly
 ##
 BindGlobal("__SIMPLICIAL_Test_EdgeInsertion", function()
-    local D, Dmu, edgeA, edgeB, numVertices, expectedGraph;
+    local D, Dmu, edgeA, edgeB, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
     D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
     Dmu := DigraphMutableCopy(D);
     edgeA := [1,2];
     edgeB := [3,4];
-    numVertices := Maximum(DigraphVertices(D));
 
     # Perform insertion
     D := EdgeInsertion(D, edgeA, edgeB);
@@ -468,13 +467,12 @@ end);
 
 # Test equivalent for EdgeReduction
 BindGlobal("__SIMPLICIAL_Test_EdgeReduction", function()
-    local D, Dmu, edge, numVertices, expectedGraph;
+    local D, Dmu, edge, expectedGraph;
 
     # Create graph with four vertices and two undirected edges
     D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
     Dmu := DigraphMutableCopy(D);
     edge := [5,6];
-    numVertices := Maximum(DigraphVertices(D));
 
     # Perform deletion
     D := EdgeReduction(D, edge);
