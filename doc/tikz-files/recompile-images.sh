@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for texfile in $(find  -type f -name "_Wrapper_*.tex");
+for texfile in $(find . -type f -name "_Wrapper_*.tex");
 do
     # cp $gdfile $gdfile.orig
     # cat $gdfile.orig | tr '\n' '%' | sed -f sedin | tr '%' '\n'  > $gdfile
