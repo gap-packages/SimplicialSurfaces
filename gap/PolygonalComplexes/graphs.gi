@@ -1289,7 +1289,7 @@ InstallMethod( EdgeReductionNC, "for a digraph and a list", [IsDigraph, IsList],
 
 InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
     function (D, edge)
-        local edgeOutNeighbours;
+        local leftVertexOutNeighbours, rightVertexOutNeighbours, edgeOutNeighbours;
 
         if not IsSymmetricDigraph(D) then
             D := DigraphSymmetricClosure(D);
@@ -1299,13 +1299,22 @@ InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
             return ErrorNoReturn("The given edge is not a digraph edge of given digraph");
         fi;
 
-        # Ensure edge has 3 or 4 outwards neighbours
+        leftVertexOutNeighbours := OutNeighboursOfVertex(D, edge[1]);
+        rightVertexOutNeighbours := OutNeighboursOfVertex(D, edge[2]);
+
+        # Check if edge vertices have degree three
+        if Length(leftVertexOutNeighbours) <> 3 or
+        Length(rightVertexOutNeighbours) <> 3 then
+            return ErrorNoReturn("The vertices of the given edge must have degree three");
+        fi;
+
+        # Check if edge has four outwards neighbours
         edgeOutNeighbours := Union(
-            OutNeighboursOfVertex(D, edge[1]),
-            OutNeighboursOfVertex(D, edge[2])
+            leftVertexOutNeighbours,
+            rightVertexOutNeighbours
         );
-        if not Length(edgeOutNeighbours) in [5,6] then
-            return ErrorNoReturn("The vertices of the given edge must have three or four outwards neighbours");
+        if Length(edgeOutNeighbours) <> 6 then
+            return ErrorNoReturn("The given edge must have four outwards neighbours");
         fi;
 
         return EdgeReductionNC(D, edge);
