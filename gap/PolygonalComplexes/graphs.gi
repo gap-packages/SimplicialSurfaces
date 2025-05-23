@@ -1364,7 +1364,7 @@ InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableD
             Add(uniqueEdges, orbit[1]);
         od;
 
-        # For each combination of orbit edges do EdgeInsertionNC
+        # For each edge representative find subsequent stabilized representatives
         for edgeA in uniqueEdges do
             stab := Stabilizer(AutomorphismGroup(D), edgeA, OnSets);
 
@@ -1379,6 +1379,7 @@ InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableD
                 Add(uniqueEdgesS, orbit[1]);
             od;
 
+            # For each combination of edge representatives do edge insertion
             for edgeB in uniqueEdgesS do
                 numIntersectingVertices := Length(Union(edgeA, edgeB));
                 if (allowTriangleInsertion and numIntersectingVertices = 3) or
