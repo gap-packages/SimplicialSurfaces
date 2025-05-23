@@ -1370,7 +1370,7 @@ InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableD
 
             orbitsS := Orbits(
                 stab,
-                Filtered(undirectedEdges, e -> e[1] <> edgeA[1] and e[2] <> edgeA[2]),
+                undirectedEdges,
                 OnSets
             );
 
