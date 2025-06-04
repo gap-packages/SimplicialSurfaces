@@ -1150,7 +1150,7 @@ DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
 #! @Arguments D, edge
 DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 #! @ExampleSession
-#! gap> D := DigraphByEdges([[1,2], [3,4], [1,5], [2,6], [5,3], [6,4], [5,6]]);
+#! gap> D := DigraphByEdges([[1,3], [1,5], [2,4], [2,5], [3,6], [4,6], [5,6]]);
 #! <immutable digraph with 6 vertices, 7 edges>
 #! gap> D := EdgeReduction(D, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
