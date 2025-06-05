@@ -1103,71 +1103,101 @@ DeclareOperation( "OnEdgeFacePaths",
 #! @Section Edge Insertion and Reduction
 #! @SectionLabel Graphs_Edge_Insertion_Reduction
 #! 
-#! This section covers functionality to add or delete edges
-#! on digraphs or finding new graphs resulting from add
-#! operations on digraphs, the package
-#! <K>NautyTracesInterface</K> has to be available.
+#! This section covers functionality to insert or reduce edges
+#! on digraphs moreover finding new graphs resulting from
+#! insert operations on digraphs.
 #!
 #! @BeginGroup EdgeInsertion
 #! @Description
-#! Performs an edge insertion on the given digraph. This function returns a
-#! new digraph D' with V(D') = V(D) unified with {A,B}. The new vertices have
-#! degree 3 in D' and the edges of D' are obtained from the edges of D as in the
-#! following figure. It inserts the butterfly structure between two edges
-#! <A>edgeA</A> and <A>edgeB</A>.
-#! EdgeInsertion ensures that the digraph returned is symmetric, even when the
+#! Performs an edge insertion on the given digraph <A>D</A>. This function returns a
+#! new digraph <A>D'</A> with V(D') = V(D) <M>\cup</M> {A,B}. The new vertices have
+#! degree 3 in <A>D'</A> and the edges of <A>D'</A> are obtained from the edges of
+#! <A>D</A> as in the following figure. It inserts the butterfly structure between
+#! two edges <A>edgeA</A> and <A>edgeB</A>.
+#! The method ensures that the returned digraph is symmetric, even when the
 #! input digraph D is not symmetric.
-#! EdgeAdditionNC performs no checks on the input.
+#! <K>EdgeInsertionNC</K> performs no checks on the input.
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeInsertion.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeInsertion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
 #! @Returns a digraph
 #! @Arguments D, edgeA, edgeB
 DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
 #! @Arguments D, edgeA, edgeB
 DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
-#! gap> D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! gap> D_small := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
 #! <immutable digraph with 4 vertices, 4 edges>
-#! gap> D := EdgeInsertion(D, [1,2], [3,4]);
+#! gap> D_big := DigraphByEdges([[1,3], [1,5], [2,4], [2,5], [3,6], [4,6], [5,6]]);
+#! <immutable digraph with 6 vertices, 7 edges>
+#! gap> D := EdgeInsertion(D_small, [1,2], [3,4]);
 #! <immutable digraph with 6 vertices, 14 edges>
-#! gap> DigraphEdges(MaximalAntiSymmetricSubdigraph(D));
-#! [[ 1,3 ], [ 1,5 ], [ 2,4 ], [ 2,5 ], [ 3,6 ], [ 4,6 ], [ 5,6 ]]
+#! gap> D := MaximalAntiSymmetricSubdigraph(D);;
+#! gap> IsIsomorphicDigraph(D, D_big);
+#! true
 #! @EndExampleSession
 #! @EndGroup EdgeInsertion
 
 #! @BeginGroup EdgeReduction
 #! @Description
-#! Performs an edge reduction on the given digraph. This function returns a
-#! new digraph D' with V(D') = V(D) without {A,B}. It removes the butterfly
-#! structure around the given edge <A>edge</A>. Two edges connecting to
-#! each of the vertices of the given edge <A>edge</A> are reduced to one single
-#! edge as in following figure, therefore the outwards neighbours count of
-#! <A>edge</A> must be three or four.
-#! EdgeReduction ensures that the digraph returned is symmetric, even when the
-#! input digraph D is not symmetric.
-#! EdgeReductionNC performs no checks on the input.
+#! Performs an edge reduction on the given digraph <A>D</A>. The vertices
+#! A and B of <A>edge</A> must have degree three and <A>edge</A> is not allowed
+#! to be in a triangle. This function returns a new digraph <A>D'</A> with
+#! V(D') = V(D) <M>\setminus</M> {A,B}. Two edges connecting to each of the
+#! vertices of the given edge <A>edge</A> are reduced to one single
+#! edge as in following figure.
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric. It is the inverse operation of 
+#! edge insertion.
+#! <K>EdgeReductionNC</K> performs no checks on the input.
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeReduction.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
 #! @Returns a digraph
 #! @Arguments D, edge
 DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
 #! @Arguments D, edge
 DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 #! @ExampleSession
-#! gap> D := DigraphByEdges([[1,3], [1,5], [2,4], [2,5], [3,6], [4,6], [5,6]]);
-#! <immutable digraph with 6 vertices, 7 edges>
-#! gap> D := EdgeReduction(D, [5,6]);
+#! gap> D := EdgeReduction(D_big, [5,6]);
 #! <immutable digraph with 4 vertices, 8 edges>
-#! gap> DigraphEdges(MaximalAntiSymmetricSubdigraph(D));
-#! [[ 1,2 ], [ 1,3 ], [ 2,4 ], [ 3,4 ]]
+#! gap> D := MaximalAntiSymmetricSubdigraph(D);;
+#! gap> IsIsomorphicDigraph(D, D_small);
+#! true
 #! @EndExampleSession
 #! @EndGroup EdgeReduction
 
 #! @BeginGroup NewGraphsForEdgeInsertion
 #! @Description
-#! Finds unique graphs for every possible edge insertion on the given digraph.
-#! <A>allowTriangleInsertion</A> allows or disallows insertions between edges
-#! that have one vertex in common.
-#! NewGraphsForEdgeInsertion ensures that the digraph returned is symmetric,
+#! Computes all graphs that can be constructed from <A>D</A> using edge
+#! insertion.
+#! <A>allowTriangleInsertion</A> allows insertions between edges
+#! that have one vertex in common. Default value of <A>allowTriangleInsertion</A>
+#! is true.
+#! NewGraphsForEdgeInsertion ensures that the returned digraph is symmetric,
 #! even when the input digraph D is not symmetric.
-#! NewGraphsForEdgeInsertionNC performs no checks on the input.
-#! @Returns a list of new unique digraphs
+#! <K>NewGraphsForEdgeInsertionNC</K> performs no checks on the input.
+#! @Returns a list of digraphs
 #! @Arguments D[, allowTriangleInsertion]
 DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
 #! @Arguments D[, allowTriangleInsertion]
