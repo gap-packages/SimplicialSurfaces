@@ -1116,3 +1116,331 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		end
 );
 fi;
+
+#######################################
+##
+##      Edge Insertion / Reduction
+##
+
+BindGlobal( "__SIMPLICIAL_DigraphAddEdgeNC",
+    function(D, vertexA, vertexB)
+        Add(D!.OutNeighbours[vertexA], vertexB);
+
+        if HaveEdgeLabelsBeenAssigned(D) and not IsMultiDigraph(D) then
+            SetDigraphEdgeLabel(D, vertexA, vertexB, 1);
+        fi;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_EdgeInsertionDirectNC",
+    function(D, edgeA, edgeB)
+        local numVertices;
+
+        numVertices := Maximum(DigraphVertices(D));
+
+        # Remove former edges
+        D := DigraphRemoveEdge(D, edgeA);
+        D := DigraphRemoveEdge(D, Reversed(edgeA));
+        D := DigraphRemoveEdge(D, edgeB);
+        D := DigraphRemoveEdge(D, Reversed(edgeB));
+
+        # Add two new vertices that will represent the insertion of two surfaces
+        # Values of numVertices + 1 and numVertices + 2 represent the two added vertices
+        DigraphAddVertex(D, numVertices + 1); # Vertex A
+        DigraphAddVertex(D, numVertices + 2); # Vertex B
+
+        # Add two connected edges between each former edge
+        #
+        # Add edges intersecting former edgeA with Vertex A
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeA[1], numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, edgeA[1]);
+        #
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeA[2], numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, edgeA[2]);
+        #
+        # Add edges intersecting former edgeB with Vertex B
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeB[1], numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, edgeB[1]);
+        #
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeB[2], numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, edgeB[2]);
+
+        # Add edges connecting Vertex A and Vertex B
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, numVertices + 1);
+
+        return D;
+    end
+);
+
+InstallMethod( EdgeInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local dMutable, isMutable;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __SIMPLICIAL_EdgeInsertionDirectNC(dMutable, edgeA, edgeB);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return MakeImmutable(dMutable);
+    end
+);
+
+InstallMethod( EdgeInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local vertices;
+
+        vertices := Union(edgeA, edgeB);
+
+        # Sanity checks
+        if Length(vertices) < 3 then
+            return ErrorNoReturn("The given edges mustn't have the same vertices");
+        fi;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if not IsDigraphEdge(D, edgeA) or not IsDigraphEdge(D, edgeB) then
+            return ErrorNoReturn("The given edge is not a digraph edge of the given digraph");
+        fi;
+
+        return EdgeInsertionNC(D, edgeA, edgeB);
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_EdgeReductionDirectNC",
+    function (D, intersectingEdge)
+        local neighbours, neighbour, newEdge;
+
+        # Add new edges
+        #
+        # left side of intersecting edge
+        newEdge := [];
+        neighbours := OutNeighboursOfVertex(D, intersectingEdge[1]);
+        for neighbour in neighbours do
+            if neighbour <> intersectingEdge[2] then
+                Add(newEdge, neighbour);
+            fi;
+        od;
+        for neighbour in neighbours do
+            DigraphRemoveEdge(D, [intersectingEdge[1], neighbour]);
+        od;
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
+        #
+        # right side of intersecting edge
+        newEdge := [];
+        neighbours := OutNeighboursOfVertex(D, intersectingEdge[2]);
+        for neighbour in neighbours do
+            if neighbour <> intersectingEdge[1] then
+                Add(newEdge, neighbour);
+            fi;
+        od;
+        for neighbour in neighbours do
+            DigraphRemoveEdge(D, [intersectingEdge[2], neighbour]);
+        od;
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
+
+        # Remove old vertices
+        DigraphRemoveVertices(D, intersectingEdge);
+
+        return D;
+    end
+);
+
+InstallMethod( EdgeReductionNC, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, intersectingEdge)
+        local dMutable, isMutable;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __SIMPLICIAL_EdgeReductionDirectNC(dMutable, intersectingEdge);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return MakeImmutable(dMutable);
+    end
+);
+
+InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, edge)
+        local leftVertexOutNeighbours, rightVertexOutNeighbours, edgeOutNeighbours;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if not IsDigraphEdge(D, edge) then
+            return ErrorNoReturn("The given edge is not a digraph edge of given digraph");
+        fi;
+
+        leftVertexOutNeighbours := OutNeighboursOfVertex(D, edge[1]);
+        rightVertexOutNeighbours := OutNeighboursOfVertex(D, edge[2]);
+
+        # Check if edge vertices have degree three
+        if Length(leftVertexOutNeighbours) <> 3 or
+        Length(rightVertexOutNeighbours) <> 3 then
+            return ErrorNoReturn("The vertices of the given edge must have degree three");
+        fi;
+
+        # Check if edge has four outwards neighbours
+        edgeOutNeighbours := Union(
+            leftVertexOutNeighbours,
+            rightVertexOutNeighbours
+        );
+        if Length(edgeOutNeighbours) <> 6 then
+            return ErrorNoReturn("The given edge must have four outwards neighbours");
+        fi;
+
+        return EdgeReductionNC(D, edge);
+    end
+);
+
+InstallMethod( NewGraphsForEdgeInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
+    function (D, allowTriangleInsertion)
+        # placeholder for checks
+
+        return NewGraphsForEdgeInsertionNC(D, allowTriangleInsertion);
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertion, "for an immutable digraph", [IsImmutableDigraph, IsBool],
+    function(D, allowTriangleInsertion)
+        local dMutable;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        dMutable := DigraphMutableCopy(D);
+
+        return NewGraphsForEdgeInsertion(dMutable, allowTriangleInsertion);
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertion, "for a digraph", [IsDigraph],
+    function(D)
+        return NewGraphsForEdgeInsertion(D, true);
+    end
+);
+
+InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
+    function (D, allowTriangleInsertion)
+        local newUniqueGraphs, newGraphs, newGraph, orbits, orbitsS, orbit,
+            uniqueEdges, uniqueEdgesS, undirectedEdges, edgeA, edgeB, isUniqueGraph, 
+            g1, g2, numIntersectingVertices, stab;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        newUniqueGraphs := [];
+        newGraphs := [];
+        uniqueEdges := [];
+
+        undirectedEdges := Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
+
+        # Calculate Orbits with undirected edges of D
+        orbits := Orbits(AutomorphismGroup(D), undirectedEdges, OnSets);
+
+        # For each Orbit only collect the initial edge and store it to uniqueEdges
+        for orbit in orbits do
+            Add(uniqueEdges, orbit[1]);
+        od;
+
+        # For each edge representative find subsequent stabilized representatives
+        for edgeA in uniqueEdges do
+            stab := Stabilizer(AutomorphismGroup(D), edgeA, OnSets);
+
+            orbitsS := Orbits(
+                stab,
+                undirectedEdges,
+                OnSets
+            );
+
+            uniqueEdgesS := [];
+            for orbit in orbitsS do
+                Add(uniqueEdgesS, orbit[1]);
+            od;
+
+            # For each combination of edge representatives do edge insertion
+            for edgeB in uniqueEdgesS do
+                numIntersectingVertices := Length(Union(edgeA, edgeB));
+                if (allowTriangleInsertion and numIntersectingVertices = 3) or
+                    numIntersectingVertices = 4 then
+                    newGraph := DigraphMutableCopy(D);
+
+                    newGraph := __SIMPLICIAL_EdgeInsertionDirectNC(newGraph, edgeA, edgeB);
+
+                    MakeImmutable(newGraph);
+                    Add(newGraphs, newGraph);
+                fi;
+            od;
+        od;
+
+        if Length(newGraphs) = 0 then
+            return [];
+        fi;
+
+        # for each new graph check if its unique
+        for g1 in newGraphs do
+            isUniqueGraph := true;
+
+            for g2 in newUniqueGraphs do
+                if IsIsomorphicDigraph(g1, g2) then
+                    isUniqueGraph := false;
+                    break;
+                fi;
+            od;
+
+            if isUniqueGraph then
+                Add(newUniqueGraphs, g1);
+            fi;
+        od;
+
+        return newUniqueGraphs;
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertionNC, "for a digraph", [IsImmutableDigraph, IsBool],
+    function(D, allowTriangleInsertion)
+        local dMutable, newUniqueGraphs;
+
+        dMutable := DigraphMutableCopy(D);
+
+        newUniqueGraphs := NewGraphsForEdgeInsertionNC(dMutable, allowTriangleInsertion);
+
+        return newUniqueGraphs;
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertionNC, "for a digraph", [IsDigraph],
+    function(D)
+        return NewGraphsForEdgeInsertionNC(D, true);
+    end
+);
