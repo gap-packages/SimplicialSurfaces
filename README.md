@@ -53,3 +53,7 @@ If there are any questions, don't hesitate to ask us.
 If you notice any bugs, strange behaviour or want to request a feature, please use the "Issues"-Tab on GitHub. This makes sure that your contribution will not get lost in some mails and it makes managing the requests easier.
 
 Have fun! :)
+
+## License
+SimplicialSurfaces is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 3 of the License, or (at your option) any later version. 
+For details see the LICENSE file.

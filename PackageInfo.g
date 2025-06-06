@@ -125,7 +125,7 @@ PackageDoc := rec(
 
 Dependencies := rec(
   GAP := ">= 4.12",
-  NeededOtherPackages := [ [ "AttributeScheduler", ">=2018.08.03" ], ["Digraphs", ">=1.1.1"]],
+  NeededOtherPackages := [ [ "AttributeScheduler", ">=0.1" ], ["Digraphs", ">=1.1.1"]],
   SuggestedOtherPackages := [ [ "GAPDoc", ">= 1.6" ], ["AutoDoc", ">=2019.05.20"], [ "IO", ">=2.2" ], [ "Grape", ">=4.8.2" ],[ "NautyTracesInterface", ">=0.2" ] ],
   ExternalConditions := [ ],
 ),
