@@ -1109,14 +1109,11 @@ DeclareOperation( "OnEdgeFacePaths",
 #!
 #! @BeginGroup EdgeInsertion
 #! @Description
-#! Performs an edge insertion on the given digraph <A>D</A>. This function returns a
-#! new digraph <A>D'</A> with V(D') = V(D) <M>\cup</M> {A,B}. The new vertices have
-#! degree 3 in <A>D'</A> and the edges of <A>D'</A> are obtained from the edges of
-#! <A>D</A> as in the following figure. It inserts the butterfly structure between
-#! two edges <A>edgeA</A> and <A>edgeB</A>.
-#! The method ensures that the returned digraph is symmetric, even when the
-#! input digraph D is not symmetric.
-#! <K>EdgeInsertionNC</K> performs no checks on the input.
+#! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and <A>edgeB</A>.
+#! This function returns a new digraph D' with V(D') \equiv V(D) \cup {A,B} where
+#! A and B are new vertices.
+#! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
+#! obtained from the edges of <A>D</A> as in the following figure.
 
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/Image_EdgeInsertion.svg"> &lt;/img> &lt;br>
@@ -1130,6 +1127,10 @@ DeclareOperation( "OnEdgeFacePaths",
 #! Image omitted in terminal text
 #! </Alt>
 
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph D is not symmetric.
+#! <K>EdgeInsertionNC</K> performs no checks on the input.
+
 #! @Returns a digraph
 #! @Arguments D, edgeA, edgeB
 DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
@@ -1138,28 +1139,18 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! @ExampleSession
 #! gap> D_small := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
 #! <immutable digraph with 4 vertices, 4 edges>
-#! gap> D_big := DigraphByEdges([[1,3], [1,5], [2,4], [2,5], [3,6], [4,6], [5,6]]);
-#! <immutable digraph with 6 vertices, 7 edges>
-#! gap> D := EdgeInsertion(D_small, [1,2], [3,4]);
+#! gap> D_big := EdgeInsertion(D_small, [1, 2], [3, 4]);
 #! <immutable digraph with 6 vertices, 14 edges>
-#! gap> D := MaximalAntiSymmetricSubdigraph(D);;
-#! gap> IsIsomorphicDigraph(D, D_big);
-#! true
 #! @EndExampleSession
 #! @EndGroup EdgeInsertion
 
 #! @BeginGroup EdgeReduction
 #! @Description
 #! Performs an edge reduction on the given digraph <A>D</A>. The vertices
-#! A and B of <A>edge</A> must have degree three and <A>edge</A> is not allowed
-#! to be in a triangle. This function returns a new digraph <A>D'</A> with
-#! V(D') = V(D) <M>\setminus</M> {A,B}. Two edges connecting to each of the
-#! vertices of the given edge <A>edge</A> are reduced to one single
-#! edge as in following figure.
-#! The method ensures that the returned digraph is symmetric, even when the
-#! input digraph <A>D</A> is not symmetric. It is the inverse operation of 
-#! edge insertion.
-#! <K>EdgeReductionNC</K> performs no checks on the input.
+#! A and B must have degree three and <A>edge</A> is not allowed to be
+#! in a triangle. This function returns a new digraph <A>D'</A> with
+#! V(D') = V(D) \setminus {A,B}. The edges incident to A and B in <A>D'</A>
+#! are defined like in the following:
 
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
@@ -1172,6 +1163,11 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric.
+#! The method EdgeReduction is the inverse operation of edge insertion.
+#! <K>EdgeReductionNC</K> performs no checks on the input.
 
 #! @Returns a digraph
 #! @Arguments D, edge
@@ -1191,9 +1187,9 @@ DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 #! @Description
 #! Computes all graphs that can be constructed from <A>D</A> using edge
 #! insertion.
-#! <A>allowTriangleInsertion</A> allows insertions between edges
-#! that have one vertex in common. Default value of <A>allowTriangleInsertion</A>
-#! is true.
+#! If the parameter allowTriangleInsertion is true, insertions between edges
+#! that have one vertex in common are allowed; otherwise, they are not.
+#! The default value of <A>allowTriangleInsertion</A> is true and
 #! NewGraphsForEdgeInsertion ensures that the returned digraph is symmetric,
 #! even when the input digraph D is not symmetric.
 #! <K>NewGraphsForEdgeInsertionNC</K> performs no checks on the input.
