@@ -1109,9 +1109,9 @@ DeclareOperation( "OnEdgeFacePaths",
 #!
 #! @BeginGroup EdgeInsertion
 #! @Description
-#! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and <A>edgeB</A>.
-#! This function returns a new digraph D' with V(D') \equiv V(D) \cup {A,B} where
-#! A and B are new vertices.
+#! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
+#! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with V(D') <M>\equiv</M> V(D)
+#! <M>\cup</M> {A,B} where A and B are new vertices.
 #! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
 #! obtained from the edges of <A>D</A> as in the following figure.
 
@@ -1147,9 +1147,9 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! @BeginGroup EdgeReduction
 #! @Description
 #! Performs an edge reduction on the given digraph <A>D</A>. The vertices
-#! A and B must have degree three and <A>edge</A> is not allowed to be
+#! <A>A</A> and <A>B</A> must have degree three and <A>edge</A> is not allowed to be
 #! in a triangle. This function returns a new digraph <A>D'</A> with
-#! V(D') = V(D) \setminus {A,B}. The edges incident to A and B in <A>D'</A>
+#! V(D') = V(D) <M>\setminus</M> {A,B}. The edges incident to <A>A</A> and <A>B</A> in <A>D'</A>
 #! are defined like in the following:
 
 #!  <Alt Only="HTML">
@@ -1187,11 +1187,11 @@ DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
 #! @Description
 #! Computes all graphs that can be constructed from <A>D</A> using edge
 #! insertion.
-#! If the parameter allowTriangleInsertion is true, insertions between edges
+#! If the parameter <A>allowTriangleInsertion</A> is <K>true</K>, insertions between edges
 #! that have one vertex in common are allowed; otherwise, they are not.
-#! The default value of <A>allowTriangleInsertion</A> is true and
-#! NewGraphsForEdgeInsertion ensures that the returned digraph is symmetric,
-#! even when the input digraph D is not symmetric.
+#! The default value of <A>allowTriangleInsertion</A> is <K>true</K> and
+#! <K>NewGraphsForEdgeInsertion</K> ensures that the returned digraph is symmetric,
+#! even when the input digraph <A>D</A> is not symmetric.
 #! <K>NewGraphsForEdgeInsertionNC</K> performs no checks on the input.
 #! @Returns a list of digraphs
 #! @Arguments D[, allowTriangleInsertion]
