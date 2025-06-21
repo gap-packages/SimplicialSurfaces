@@ -1110,8 +1110,8 @@ DeclareOperation( "OnEdgeFacePaths",
 #! @BeginGroup EdgeInsertion
 #! @Description
 #! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
-#! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with V(D') <M>\equiv</M> V(D)
-#! <M>\cup</M> {A,B} where A and B are new vertices.
+#! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with <M>V(D') \equiv V(D) \cup {A,B}</M>
+#! where A and B are new vertices.
 #! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
 #! obtained from the edges of <A>D</A> as in the following figure.
 
@@ -1147,10 +1147,10 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 #! @BeginGroup EdgeReduction
 #! @Description
 #! Performs an edge reduction on the given digraph <A>D</A>. The vertices
-#! <A>A</A> and <A>B</A> must have degree three and <A>edge</A> is not allowed to be
-#! in a triangle. This function returns a new digraph <A>D'</A> with
-#! V(D') = V(D) <M>\setminus</M> {A,B}. The edges incident to <A>A</A> and <A>B</A> in <A>D'</A>
-#! are defined like in the following:
+#! <A>A</A> and <A>B</A> of the edge must have degree three and <A>edge</A> is not
+#! allowed to be in a triangle. This function returns a new digraph <A>D'</A> with
+#! <M>V(D')\equiv V(D) \setminus {A,B}</M>. The edges incident to <A>A</A> and <A>B</A> in <A>D'</A>
+#! are changed depicted in the following:
 
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
