@@ -1099,3 +1099,112 @@ DeclareOperation( "OnVertexEdgePaths",
 DeclareOperation( "OnEdgeFacePaths", 
     [ IsEdgeFacePath , IsPerm ] );
 #! @EndGroup OnEdgeFacePaths
+
+#! @Section Edge Insertion and Reduction
+#! @SectionLabel Graphs_Edge_Insertion_Reduction
+#! 
+#! This section covers functionality to insert or reduce edges
+#! on digraphs moreover finding new graphs resulting from
+#! insert operations on digraphs.
+#!
+#! @BeginGroup EdgeInsertion
+#! @Description
+#! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
+#! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with <M>V(D') \equiv V(D) \cup {A,B}</M>
+#! where A and B are new vertices.
+#! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
+#! obtained from the edges of <A>D</A> as in the following figure.
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeInsertion.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeInsertion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph D is not symmetric.
+#! <K>EdgeInsertionNC</K> performs no checks on the input.
+
+#! @Returns a digraph
+#! @Arguments D, edgeA, edgeB
+DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
+#! @Arguments D, edgeA, edgeB
+DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
+#! @ExampleSession
+#! gap> D_small := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> D_big := EdgeInsertion(D_small, [1, 2], [3, 4]);
+#! <immutable digraph with 6 vertices, 14 edges>
+#! @EndExampleSession
+#! @EndGroup EdgeInsertion
+
+#! @BeginGroup EdgeReduction
+#! @Description
+#! Performs an edge reduction on the given digraph <A>D</A>. The vertices
+#! <A>A</A> and <A>B</A> of the edge must have degree three and <A>edge</A> is not
+#! allowed to be in a triangle. This function returns a new digraph <A>D'</A> with
+#! <M>V(D')\equiv V(D) \setminus {A,B}</M>. The edges incident to <A>A</A> and <A>B</A> in <A>D'</A>
+#! are changed depicted in the following:
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeReduction.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric.
+#! The method EdgeReduction is the inverse operation of edge insertion.
+#! <K>EdgeReductionNC</K> performs no checks on the input.
+
+#! @Returns a digraph
+#! @Arguments D, edge
+DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
+#! @Arguments D, edge
+DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
+#! @ExampleSession
+#! gap> D := EdgeReduction(D_big, [5,6]);
+#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> D := MaximalAntiSymmetricSubdigraph(D);;
+#! gap> IsIsomorphicDigraph(D, D_small);
+#! true
+#! @EndExampleSession
+#! @EndGroup EdgeReduction
+
+#! @BeginGroup NewGraphsForEdgeInsertion
+#! @Description
+#! Computes all graphs that can be constructed from <A>D</A> using edge
+#! insertion.
+#! If the parameter <A>allowTriangleInsertion</A> is <K>true</K>, insertions between edges
+#! that have one vertex in common are allowed; otherwise, they are not.
+#! The default value of <A>allowTriangleInsertion</A> is <K>true</K> and
+#! <K>NewGraphsForEdgeInsertion</K> ensures that the returned digraph is symmetric,
+#! even when the input digraph <A>D</A> is not symmetric.
+#! <K>NewGraphsForEdgeInsertionNC</K> performs no checks on the input.
+#! @Returns a list of digraphs
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
+#! @ExampleSession
+#! gap> D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> NewGraphsForEdgeInsertion(D, true);
+#! [ <immutable digraph with 6 vertices, 14 edges>,
+#!   <immutable digraph with 6 vertices, 14 edges> ]
+#! gap> NewGraphsForEdgeInsertion(D, false);
+#! [ <immutable digraph with 6 vertices, 14 edges> ]
+#! @EndExampleSession
+#! @EndGroup NewGraphsForEdgeInsertion
