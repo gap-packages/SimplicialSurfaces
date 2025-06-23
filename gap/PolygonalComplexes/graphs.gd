@@ -1103,17 +1103,17 @@ DeclareOperation( "OnEdgeFacePaths",
 #! @Section Edge Insertion and Reduction
 #! @SectionLabel Graphs_Edge_Insertion_Reduction
 #! 
-#! This section covers functionality to insert or reduce edges
-#! on digraphs moreover finding new graphs resulting from
-#! insert operations on digraphs.
+#! This section describes the functionality for inserting or reducing edges
+#! on digraphs, as well as the process of finding new graphs that result
+#! from these insertion operations.
 #!
 #! @BeginGroup EdgeInsertion
 #! @Description
 #! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
 #! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with <M>V(D') \equiv V(D) \cup {A,B}</M>
-#! where A and B are new vertices.
+#! where <M>A</M> and <M>B</M> are new vertices.
 #! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
-#! obtained from the edges of <A>D</A> as in the following figure.
+#! obtained from the edges of <A>D</A> as shown in the following figure.
 
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/Image_EdgeInsertion.svg"> &lt;/img> &lt;br>
@@ -1128,7 +1128,7 @@ DeclareOperation( "OnEdgeFacePaths",
 #! </Alt>
 
 #! The method ensures that the returned digraph is symmetric, even when the
-#! input digraph D is not symmetric.
+#! input digraph <A>D</A> is not symmetric.
 #! <K>EdgeInsertionNC</K> performs no checks on the input.
 
 #! @Returns a digraph
@@ -1146,11 +1146,11 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 
 #! @BeginGroup EdgeReduction
 #! @Description
-#! Performs an edge reduction on the given digraph <A>D</A>. The vertices
-#! <A>A</A> and <A>B</A> of the edge must have degree three and <A>edge</A> is not
-#! allowed to be in a triangle. This function returns a new digraph <A>D'</A> with
-#! <M>V(D')\equiv V(D) \setminus {A,B}</M>. The edges incident to <A>A</A> and <A>B</A> in <A>D'</A>
-#! are changed depicted in the following:
+#! Performs an edge reduction on the given digraph <M>D</M>. The vertices
+#! <M>A</M> and <M>B</M> of the edge must have degree three and <M>edge</M> is not
+#! allowed to be in a triangle. This function returns a new digraph <M>D'</M> with
+#! <M>V(D')\equiv V(D) \setminus\{A,B\}</M>. The edges incident to <M>A</M> and <M>B</M> in <M>D'</M>
+#! are changed as depicted in the following:
 
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
@@ -1166,7 +1166,7 @@ DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
 
 #! The method ensures that the returned digraph is symmetric, even when the
 #! input digraph <A>D</A> is not symmetric.
-#! The method EdgeReduction is the inverse operation of edge insertion.
+#! The method <K>EdgeReduction</K> is the inverse operation of <K>EdgeInsertion</K>.
 #! <K>EdgeReductionNC</K> performs no checks on the input.
 
 #! @Returns a digraph
