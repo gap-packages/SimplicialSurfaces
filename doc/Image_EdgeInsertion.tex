@@ -1,0 +1,46 @@
+\begin{tikzpicture}[scale=2, knoten/.style={circle, draw, fill=white, inner sep=1pt}]
+  % Define coordinates
+  \coordinate (A) at (0,1);    % Top left
+  \coordinate (C) at (1,1);   % Top right
+  \coordinate (D) at (0,0);    % Bottom left
+  \coordinate (F) at (1,0);   % Bottom right
+
+  % Draw edges (1-skeleton of octahedron)
+
+  \draw (A) -- (D);
+  \draw (C) -- (F);
+
+  % Draw nodes
+  \node [knoten] at (A) {};
+  \node [knoten] at (C) {};
+  \node [knoten] at (D) {};
+  \node [knoten] at (F) {};
+
+  \draw[thick,->] (1.7,0.5) -- (3.5,0.5); % Draws an arrow from (0,0) to (2,1)
+
+  % Define coordinates
+  \coordinate (A2) at (4,1);    % Top left
+  \coordinate (B2) at (4,0.5);    % Top middle
+  \coordinate (C2) at (5,1);   % Top right
+  \coordinate (D2) at (4,0);    % Bottom left
+  \coordinate (E2) at (5,0.5);    % Bottom middle
+  \coordinate (F2) at (5,0);   % Bottom right
+
+  % Draw edges (1-skeleton of octahedron)
+
+  \draw (A2) -- (D2);
+  \draw (C2) -- (F2);
+
+  \draw [ultra thick,red] (B2) -- (E2);
+
+  % Draw nodes
+  \node[knoten, label=left:$A$] at (B2) {};
+  \node[knoten, label=right:$B$] at (E2) {};
+  \node [knoten] at (A2) {};
+  \node [knoten]at (C2) {};
+  \node [knoten]at (D2) {};
+  \node [knoten]at (F2) {};
+
+  \node (TB) at (-0.3,0.5){$edgeA$};
+  \node (TE) at (1.3,0.5){$edgeB$};
+\end{tikzpicture}
