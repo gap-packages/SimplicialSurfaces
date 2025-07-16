@@ -2046,6 +2046,183 @@ InstallMethod( ButterflyInsertion,
 end
 );
 
+InstallMethod( ButterflyDeletion,
+"for a simplicial surface and two faces", [IsSimplicialSurface, IsPosInt, IsPosInt],
+function (surface, f1, f2)
+    local edgesOfF1, edgesOfF2, edge1, edge2, intersectingEdges, edgePath1, edgePath2, outerFaceVertices,
+        innerFaceVertices, vertex1, vertex2, verticesOfFace, outerFaceVertex, alignedEdgePath1, alignedEdgePath2;
+    
+    # Collect edges of faces f1 and f2
+    edgesOfF1 := EdgesOfFace(surface, f1);
+    edgesOfF2 := EdgesOfFace(surface, f2);
+    
+    # Check if faces f1 and f2 are faces of surface
+    if Length(edgesOfF1) = 0 then
+        return ErrorNoReturn("Requires f1 to be a face of surface");
+    fi;
+    if Length(edgesOfF2) = 0 then
+        return ErrorNoReturn("Requires f2 to be a face of surface");
+    fi;
+    
+    # Find all connceting edges between faces f1 and f2  
+    intersectingEdges := [];
+    for edge1 in edgesOfF1 do
+        for edge2 in edgesOfF2 do
+            if edge1 = edge2 then
+                Add(intersectingEdges, edge1);
+            fi;
+        od;
+    od;
+    
+    if Length(intersectingEdges) = 0 then
+        return ErrorNoReturn("Requires faces f1 and f2 to be neighbours in surface");
+    elif Length(intersectingEdges) > 1 then
+        return ErrorNoReturn("The given faces f1 and f2 may only be connected by one edge");
+    fi;
+
+    ### Beginning of possible ButterflyDeletionNC
+    
+    ## Find two edge paths between faces f1 and f2 in surface
+    # Remove known connecting edge from edgesOfF1 and edgesOfF2 since it isn't a
+    # part of the edge paths we are looking for
+    edgesOfF1 := Filtered(edgesOfF1, x -> x <> intersectingEdges[1]);
+    edgesOfF2 := Filtered(edgesOfF2, x -> x <> intersectingEdges[1]);
+    # edgesOfF1 and edgesOfF2 now only include edges that in combination form the
+    # edge paths between f1 and f2 we are looking for
+    
+    # Find the first edge path
+    edgePath1 := [];
+    for edge1 in edgesOfF1 do
+        for edge2 in edgesOfF2 do
+            # Create a vertex list of the combination of edge1 and edge2
+            edgePath1 := Set(Concatenation(VerticesOfEdge(surface, edge1), VerticesOfEdge(surface, edge2)));
+            
+            # If the length of the vertex list equals 3, we know that this is an
+            # edge path connecting faces f1 and f2
+            if Length(edgePath1) = 3 then
+                break;
+            fi;
+        od;
+        if Length(edgePath1) = 3 then
+            break;
+        fi;
+    od;
+    
+    # Remove the two edges edge1 and edge2 from edgesOfF1 and edgesOfF2
+    # which form the first edge path that we found
+    edgesOfF1 := Filtered(edgesOfF1, x -> x <> edge1);
+    edgesOfF2 := Filtered(edgesOfF2, x -> x <> edge2);
+    # edgesOfF1 and edgesOfF2 now includes one more combination of edges which forms
+    # the second edge paths we are looking for, or no more edges at all
+    
+    # Create a vertex list of the combination of edge1 and edge2 representing the second edge path
+    # between faces f1 and f2
+    edgePath2 := Set(Concatenation(VerticesOfEdge(surface, edgesOfF1[1]), VerticesOfEdge(surface, edgesOfF2[1])));
+    
+    # Find the two vertices that occur in both edge paths. To each of the faces f1 or f2 there is one unique vertex.
+    # Here we call these vertices outer face vertices
+    outerFaceVertices := [];
+    for vertex1 in edgePath1 do
+        for vertex2 in edgePath2 do
+            if vertex1 = vertex2 then
+                Add(outerFaceVertices, vertex1);
+            fi;
+        od;
+    od;
+    
+    # Collect inner face vertices
+    innerFaceVertices := Filtered(Set(Concatenation(edgePath1, edgePath2)), v -> not v in outerFaceVertices);
+    
+    # Check if at least one of the edge paths is on the border of surface
+    if Length(FacesOfVertex(surface, innerFaceVertices[1])) = 2 or Length(FacesOfVertex(surface, innerFaceVertices[2])) = 2 then
+        # Since at least one of the edge paths is on the border of surface we can just remove the
+        # faces f1 and f2 from surface and we dont have to join edge paths
+
+        surface := RemoveFaces(surface, [f1, f2]);
+        if surface = fail then
+            return fail;
+        fi;
+
+        return [surface, []]; # whats the correct value to return here besides surface?
+    fi;
+    
+    # Check if face f1 does not have three neighbours
+    if Length(NeighbourFacesOfFace(surface, f1)) <> 3 then
+        # Since f1 does not have two neighbours to merge the edge path, we remove the vertex
+        # that is unique to f1 from both edge paths
+        
+        verticesOfFace := VerticesOfFace(surface, f1);
+        
+        # Find the vertex that is unique to face f1
+        for outerFaceVertex in verticesOfFace do
+            if outerFaceVertex = outerFaceVertices[1] or outerFaceVertex = outerFaceVertices[2] then
+                break;
+            fi;
+        od;
+        
+        # Remove the unique face vertex from both edge paths
+	    edgePath1 := Filtered(edgePath1, x -> x <> outerFaceVertex);
+        edgePath2 := Filtered(edgePath2, x -> x <> outerFaceVertex);
+    fi;
+    
+    # Check if face f2 does not have three neighbours
+    if Length(NeighbourFacesOfFace(surface, f2)) <> 3 then
+        # Since f2 does not have two neighbours to merge the edge path, we remove the vertex
+        # that is unique to f2 from both edge paths
+        
+        verticesOfFace := VerticesOfFace(surface, f2);
+        
+        # Find the vertex that is unique to face f2
+        for outerFaceVertex in verticesOfFace do
+            if outerFaceVertex = outerFaceVertices[1] or outerFaceVertex = outerFaceVertices[2] then
+                break;
+            fi;
+        od;
+        
+        # Remove the unique face vertex from both edge paths
+        edgePath1 := Filtered(edgePath1, x -> x <> outerFaceVertex);
+        edgePath2 := Filtered(edgePath2, x -> x <> outerFaceVertex);
+    fi;
+    
+    # Check if only the non-unique vertex is left on the edge paths
+    if Length(edgePath1) = 1 then
+        return ErrorNoReturn("Butterfly deletion is not possible. Faces f1 and f2 do not have any neighbours other than f2 and f1");
+    fi;
+    
+    # Remove the faces f1 and f2 from surface
+    surface := RemoveFaces(surface, [f1, f2]);
+    
+    ## Align the edge paths correctly
+    # First collect the unique face vertices pre-ordered
+    alignedEdgePath1 := Set(Filtered(edgePath1, v -> v in outerFaceVertices));
+    alignedEdgePath2 := Set(Filtered(edgePath2, v -> v in outerFaceVertices));
+    
+    # Then insert the non-unique face vertices
+    Add(alignedEdgePath1, innerFaceVertices[1], 2);
+    Add(alignedEdgePath2, innerFaceVertices[2], 2);
+    
+    edgePath1 := VertexEdgePathByVertices(surface, alignedEdgePath1);
+    edgePath2 := VertexEdgePathByVertices(surface, alignedEdgePath2);
+    
+    return JoinVertexEdgePaths(surface, edgePath1, edgePath2);
+end
+);
+
+InstallMethod( ButterflyDeletion,
+"for a simplicial surface and an edge", [IsSimplicialSurface, IsPosInt],
+function (surface, e)
+    local faces;
+
+    faces := FacesOfEdge(surface, e);
+
+    if Length(faces) <> 2 then
+        return ErrorNoReturn("The given edge must be intersecting two faces");
+    fi;
+
+    return ButterflyDeletion(surface, faces[1], faces[2]);
+end
+);
+
 ##
 ##      End Applications
 ##

@@ -1621,6 +1621,16 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsList] );
 DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] );
 #! @EndGroup
 
+#! @BeginGroup ButterflyDeletionSurface
+#! @Description
+# TODO
+#! @Returns a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.
+#! @Arguments surface, face, face
+DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt, IsPosInt] );
+#! @Arguments surface, edge
+DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup TetrahedralExtension
 #! @Description
