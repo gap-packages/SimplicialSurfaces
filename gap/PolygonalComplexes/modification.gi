@@ -2046,10 +2046,24 @@ InstallMethod( ButterflyInsertion,
 end
 );
 
-BindGlobal("__SIMPLICIAL_DoButterflyInsertion",
-function(surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdge)
-    local edge1, edge2, edgePath1, edgePath2, outerFaceVertices, innerFaceVertices, vertex1, vertex2,
+BindGlobal("__SIMPLICIAL_DoButterflyDeletion",
+function(surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges)
+    local joinPair, edge1, edge2, edgePath1, edgePath2, intersectingEdge, outerFaceVertices, innerFaceVertices, vertex1, vertex2,
         verticesOfFace, outerFaceVertex, alignedEdgePath1, alignedEdgePath2, reduceEdgePaths;
+
+    if Length(intersectingEdges) = 2 then
+        surface := RemoveFacesNC(surface, [f1, f2]);
+
+        edgesOfF1 := Filtered(edgesOfF1, x -> not x in intersectingEdges);
+        edgesOfF2 := Filtered(edgesOfF2, x -> not x in intersectingEdges);
+
+        joinPair := JoinEdges(surface, edgesOfF1[1], edgesOfF2[2]);
+        return [joinPair[1], ];
+    elif Length(intersectingEdges) = 3 then
+        return [RemoveFacesNC(surface, [f1, f2]), ];
+    fi;
+
+    intersectingEdge := intersectingEdges[1];
 
     # Find the first edge path
     edgePath1 := [];
@@ -2161,7 +2175,7 @@ end
 InstallMethod( ButterflyDeletion,
 "for a simplicial surface and two faces", [IsSimplicialSurface, IsPosInt, IsPosInt],
 function (surface, f1, f2)
-    local edgesOfF1, edgesOfF2, intersectingEdges, joinPair, checkTwoWaist;
+    local edgesOfF1, edgesOfF2, intersectingEdges, faceVertices;
 
     # Check if faces f1 and f2 are faces of surface
     if not f1 in Faces(surface) then
@@ -2179,14 +2193,11 @@ function (surface, f1, f2)
     
     if Length(intersectingEdges) = 0 then
         return ErrorNoReturn("The given faces f1 and f2 must be neighbours in surface");
-    elif Length(intersectingEdges) = 2 then
-        surface := RemoveFacesNC(surface, [f1, f2]);
-
-        edgesOfF1 := Filtered(edgesOfF1, x -> not x in intersectingEdges);
-        edgesOfF2 := Filtered(edgesOfF2, x -> not x in intersectingEdges);
-
-        joinPair := JoinEdges(surface, edgesOfF1[1], edgesOfF2[2]);
-        return [joinPair[1], ];
+    elif Length(intersectingEdges) = 1 then
+        faceVertices := VerticesOfEdge(surface, intersectingEdges[1]);
+        if Length(EdgesBetweenVertices(surface, faceVertices[1], faceVertices[2])) = 2 then
+            return ErrorNoReturn("The common edge of the given faces is not allowed to be on a two-waist");
+        fi;
     fi;
 
     ## Find two edge paths between faces f1 and f2 in surface
@@ -2197,24 +2208,8 @@ function (surface, f1, f2)
     # edgesOfF1 and edgesOfF2 now only include edges that in combination
     # form the edge paths between f1 and f2 we are looking for
 
-    checkTwoWaist := function(face)
-        local edge, vertices;
-
-        for edge in EdgesOfFace(surface, face) do
-            vertices := VerticesOfEdge(surface, edge);
-
-            if Length(EdgesInFaceByVertices(surface, face, vertices)) > 1 then
-                return ErrorNoReturn("The given faces may not have a two-waist");
-            fi;
-        od;
-    end;
-
-    # Check for two waist in the given faces
-    checkTwoWaist(f1);
-    checkTwoWaist(f2);
-
-    return __SIMPLICIAL_DoButterflyInsertion(
-        surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges[1]
+    return __SIMPLICIAL_DoButterflyDeletion(
+        surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges
     );
 end
 );
@@ -2264,8 +2259,8 @@ function (surface, f1, f2)
     # edgesOfF1 and edgesOfF2 now only include edges that in combination
     # form the edge paths between f1 and f2 we are looking for
     
-    return __SIMPLICIAL_DoButterflyInsertion(
-        surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges[1]
+    return __SIMPLICIAL_DoButterflyDeletion(
+        surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges
     );
 end
 );
