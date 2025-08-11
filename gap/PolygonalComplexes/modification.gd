@@ -1656,6 +1656,23 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! [ simplicial surface (5 vertices, 7 edges, and 3 faces)\ ]
 #! @EndExampleSession
 #!
+#! The following image shows first the surface <A>discbig</A> and secondly the
+#! simplicial umbrella <A>disc</A> resulting from deleting a butterfly along
+#! the inner edge with label <A>13</A>.
+#! Note that the edge with label <A>13</A>, which is the edge with
+#! vertices <A>18,20</A> is an inner edge of <A>surface</A>. The deleted
+#! butterfly of <A>discbig</A> is shown in red.
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyDeletion-1.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ButterflyDeletion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
 #! @Returns a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.
 #! @Arguments surface, face, face
 DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt, IsPosInt] );
