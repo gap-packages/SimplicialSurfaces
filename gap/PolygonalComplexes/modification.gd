@@ -1623,7 +1623,39 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 
 #! @BeginGroup ButterflyDeletionSurface
 #! @Description
-# TODO
+#! Given a simplicial surface <A>surface</A>, a new surface is constructed
+#! by deleting a
+#! butterfly formed by two neighbour faces or an inner edge intersecting these two faces.
+#! The operation <E>ButterflyDeletionSurface</E> can be viewed as merging two vertices
+#! of an edge to one vertex along with joining the edges of each face to one edge.
+#! The inner edge and the two faces forming the butterfly will be deleted from the surface.
+#!
+#! The function returns a list, where the first entry is the reduced surface
+#! <A>newSurface</A> which has two faces less than the input surface. The
+#! second entry is a vertex-edge path in <A>newSurface</A>, which consisting
+#! of all edges corresponding to the joined edge paths or nothing in case
+#! there was no required edge path join.
+#!
+#! Deleting a butterfly along two neighbour faces
+#! @BeginExampleSession
+#! gap> disc := SimplicialUmbrella(5);
+#! simplicial surface (6 vertices, 10 edges, and 5 faces)
+#! gap> NeighbourFacesOfFace(disc, 1);
+#! [ 5, 2 ]
+#! gap> ButterflyDeletion(disc, 1, 2);
+#! [ simplicial surface (5 vertices, 7 edges, and 3 faces)\ ]
+#! @EndExampleSession
+#!
+#! Deleting a butterfly along an inner edge intersecting two faces
+#! @BeginExampleSession
+#! gap> disc := SimplicialUmbrella(5);
+#! simplicial surface (6 vertices, 10 edges, and 5 faces)
+#! gap> FacesOfEdge(disc, 1);
+#! [ 1, 5 ]
+#! gap> ButterflyDeletion(disc, 1);
+#! [ simplicial surface (5 vertices, 7 edges, and 3 faces)\ ]
+#! @EndExampleSession
+#!
 #! @Returns a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.
 #! @Arguments surface, face, face
 DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt, IsPosInt] );
