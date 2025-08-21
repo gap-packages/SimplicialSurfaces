@@ -69,6 +69,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_EdgeReduction();
     __SIMPLICIAL_Test_NewGraphsForEdgeInsertion();
 
+    __SIMPLICIAL_Test_ButterflyDeletion();
+
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);
     fi;

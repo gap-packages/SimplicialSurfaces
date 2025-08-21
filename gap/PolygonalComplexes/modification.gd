@@ -1626,7 +1626,7 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! Given a simplicial surface <A>surface</A>, a new surface is constructed
 #! by deleting a
 #! butterfly formed by two neighbour faces or an inner edge intersecting these two faces.
-#! The operation <E>ButterflyDeletionSurface</E> can be viewed as first deleting the inner edge
+#! The operation <E>ButterflyDeletion</E> can be viewed as first deleting the inner edge
 #! and the two faces forming the butterfly surface and then merging two vertices
 #! of an edge to one vertex along with joining the edges of each face to one edge.
 #!
@@ -1646,12 +1646,9 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! [ simplicial surface (6 vertices, 9 edges, and 4 faces)]
 #! @EndExampleSession
 #!
-#! The following image shows first the surface <A>discbig</A> and secondly the
-#! simplicial umbrella <A>disc</A> resulting from deleting a butterfly along
-#! the inner edge with label <A>13</A>.
-#! Note that the edge with label <A>13</A>, which is the edge with
-#! vertices <A>18,20</A> is an inner edge of <A>surface</A>. The deleted
-#! butterfly of <A>discbig</A> is shown in red.
+#! The following image shows first the surface <A>disc</A> and secondly the
+#! simplicial umbrella <A>disc</A> resulting from deleting a butterfly formed by
+#! the faces with labels 1 and 2. The deleted butterfly of <A>disc</A> is shown in red.
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyDeletion.svg"> &lt;/img> &lt;br>
 #! </Alt>
