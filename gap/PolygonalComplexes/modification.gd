@@ -1626,9 +1626,9 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! Given a simplicial surface <A>surface</A>, a new surface is constructed
 #! by deleting a
 #! butterfly formed by two neighbour faces or an inner edge intersecting these two faces.
-#! The operation <E>ButterflyDeletionSurface</E> can be viewed as merging two vertices
+#! The operation <E>ButterflyDeletionSurface</E> can be viewed as first deleting the inner edge
+#! and the two faces forming the butterfly surface and then merging two vertices
 #! of an edge to one vertex along with joining the edges of each face to one edge.
-#! The inner edge and the two faces forming the butterfly will be deleted from the surface.
 #!
 #! The function returns a list, where the first entry is the reduced surface
 #! <A>newSurface</A> which has two faces less than the input surface. The
@@ -1636,24 +1636,14 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! of all edges corresponding to the joined edge paths or nothing in case
 #! there was no required edge path join.
 #!
-#! Deleting a butterfly along two neighbour faces
+#! This example demonstrates deleting a butterfly along two neighbour faces
 #! @BeginExampleSession
-#! gap> disc := SimplicialUmbrella(5);
-#! simplicial surface (6 vertices, 10 edges, and 5 faces)
+#! gap> disc := SimplicialUmbrella(6);
+#! simplicial surface (7 vertices, 12 edges, and 6 faces)
 #! gap> NeighbourFacesOfFace(disc, 1);
-#! [ 5, 2 ]
+#! [ 6, 2 ]
 #! gap> ButterflyDeletion(disc, 1, 2);
-#! [ simplicial surface (5 vertices, 7 edges, and 3 faces)\ ]
-#! @EndExampleSession
-#!
-#! Deleting a butterfly along an inner edge intersecting two faces
-#! @BeginExampleSession
-#! gap> disc := SimplicialUmbrella(5);
-#! simplicial surface (6 vertices, 10 edges, and 5 faces)
-#! gap> FacesOfEdge(disc, 1);
-#! [ 1, 5 ]
-#! gap> ButterflyDeletion(disc, 1);
-#! [ simplicial surface (5 vertices, 7 edges, and 3 faces)\ ]
+#! [ simplicial surface (6 vertices, 9 edges, and 4 faces)]
 #! @EndExampleSession
 #!
 #! The following image shows first the surface <A>discbig</A> and secondly the
@@ -1663,7 +1653,7 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! vertices <A>18,20</A> is an inner edge of <A>surface</A>. The deleted
 #! butterfly of <A>discbig</A> is shown in red.
 #!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyDeletion-1.svg"> &lt;/img> &lt;br>
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyDeletion.svg"> &lt;/img> &lt;br>
 #! </Alt>
 #! <Alt Only = "LaTeX">
 #! \begin{center}
