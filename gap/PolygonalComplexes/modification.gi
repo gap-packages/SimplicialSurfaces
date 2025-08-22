@@ -2054,9 +2054,6 @@ function(surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges)
     if Length(intersectingEdges) = 2 then
         surface := RemoveFacesNC(surface, [f1, f2]);
 
-        edgesOfF1 := Filtered(edgesOfF1, x -> not x in intersectingEdges);
-        edgesOfF2 := Filtered(edgesOfF2, x -> not x in intersectingEdges);
-
         joinPair := JoinEdges(surface, edgesOfF1[1], edgesOfF2[1]);
 
         surface := joinPair[1];

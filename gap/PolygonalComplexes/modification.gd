@@ -1646,9 +1646,9 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! [ simplicial surface (6 vertices, 9 edges, and 4 faces)]
 #! @EndExampleSession
 #!
-#! The following image shows first the surface <A>disc</A> and secondly the
-#! simplicial umbrella <A>disc</A> resulting from deleting a butterfly formed by
-#! the faces with labels 1 and 2. The deleted butterfly of <A>disc</A> is shown in red.
+#! The following image first shows the surface <A>disc</A> and secondly the resulting
+#! simplicial surface constructed by deleting the butterfly, which is depicted
+#! in red and is formed by the faces with labels 1 and 2.
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyDeletion.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -1663,9 +1663,11 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! @Returns a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.
 #! @Arguments surface, face, face
 DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt, IsPosInt] );
+#! @Arguments surface, face, face
 DeclareOperation( "ButterflyDeletionNC", [IsSimplicialSurface, IsPosInt, IsPosInt] );
 #! @Arguments surface, edge
 DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments surface, edge
 DeclareOperation( "ButterflyDeletionNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 

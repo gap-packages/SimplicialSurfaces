@@ -531,6 +531,8 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function ()
 
     result := ButterflyDeletion(surface, 5, 6);
     SIMPLICIAL_TestAssert(not IsSimplicialSurface(result[1]));
+    result2 := ButterflyDeletionNC(surface, 5, 6);
+    SIMPLICIAL_TestAssert(result2 = result);
 
     result := ButterflyDeletion(surface, 2, 6);
     SIMPLICIAL_TestAssert(IsSimplicialSurface(result[1]));
@@ -567,6 +569,11 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function ()
     SIMPLICIAL_TestAssert(IsSimplicialSurface(result[1]));
 
     result2 := ButterflyDeletion(surface, 
+        Filtered(EdgesOfFace(surface, 1), e -> e in EdgesOfFace(surface, 2))[1]
+    );
+    SIMPLICIAL_TestAssert(result2 = result);
+
+    result2 := ButterflyDeletionNC(surface, 
         Filtered(EdgesOfFace(surface, 1), e -> e in EdgesOfFace(surface, 2))[1]
     );
     SIMPLICIAL_TestAssert(result2 = result);
