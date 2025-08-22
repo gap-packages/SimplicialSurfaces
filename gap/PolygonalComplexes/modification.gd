@@ -1636,7 +1636,7 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! of all edges corresponding to the joined edge paths or nothing in case
 #! there was no required edge path join.
 #!
-#! This example demonstrates deleting a butterfly along two neighbour faces
+#! This example demonstrates deleting a butterfly along two neighbour faces.
 #! @BeginExampleSession
 #! gap> disc := SimplicialUmbrella(6);
 #! simplicial surface (7 vertices, 12 edges, and 6 faces)
