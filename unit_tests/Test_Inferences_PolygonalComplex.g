@@ -515,3 +515,66 @@ BindGlobal("__SIMPLICIAL_Test_NewGraphsForEdgeInsertion", function ()
     # Test whether amount of new graphs is 1 as expected
     SIMPLICIAL_TestAssert(Length(newGraphs) = 1);
 end);
+
+#################################################################################
+##
+## Test whether the butterfly deletion on simplicial surfaces is performed correctly
+##
+
+BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function ()
+    local surface, result, result2;
+
+    # Surface 1
+    surface := SimplicialSurfaceByUmbrellaDescriptor([
+        [1],[2,6,5,1],[2],[3,6,2],[3],[4,5,6,3],[4],[1,5,4]
+    ]);
+
+    result := ButterflyDeletion(surface, 5, 6);
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(result[1]));
+    result2 := ButterflyDeletionNC(surface, 5, 6);
+    SIMPLICIAL_TestAssert(result2 = result);
+
+    result := ButterflyDeletion(surface, 2, 6);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(result[1]));
+
+    # Surface 2
+    surface := SimplicialSurfaceByUmbrellaDescriptor([
+        [1,3],[2,1],[4,2],[4],[3,1,2,4],[3]
+    ]);
+
+    result := ButterflyDeletion(surface, 1, 2);
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(result[1]));
+
+    # Surface 3
+    surface := SimplicialSurfaceByUmbrellaDescriptor([
+        [1],[2,1],[4,3,2],[4],[3,4],[1,2,3]
+    ]);
+
+    result := ButterflyDeletion(surface, 1, 2);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(result[1]));
+
+    # Surface 4
+    surface := JanusHead();
+
+    result := ButterflyDeletion(surface, 1, 2);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(result[1]));
+    SIMPLICIAL_TestAssert(Length(Faces(result[1])) = 0);
+
+    # Surface 5
+    surface := SimplicialSurfaceByUmbrellaDescriptor([
+        (1,2),(1,2,3,6,5),(3,4,6),(5,4,6),(1,2,3,4,5)
+    ]);
+
+    result := ButterflyDeletion(surface, 1, 2);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(result[1]));
+
+    result2 := ButterflyDeletion(surface, 
+        Filtered(EdgesOfFace(surface, 1), e -> e in EdgesOfFace(surface, 2))[1]
+    );
+    SIMPLICIAL_TestAssert(result2 = result);
+
+    result2 := ButterflyDeletionNC(surface, 
+        Filtered(EdgesOfFace(surface, 1), e -> e in EdgesOfFace(surface, 2))[1]
+    );
+    SIMPLICIAL_TestAssert(result2 = result);
+end);
