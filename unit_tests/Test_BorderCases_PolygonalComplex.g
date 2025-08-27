@@ -471,3 +471,14 @@ BindGlobal( "__SIMPLICIAL_Test_Smaller", function()
 	SIMPLICIAL_TestAssert((triangle1<triangle3)=true);
 	
 end);
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+    BindGlobal( "__SIMPLICIAL_AllTori", function()
+        local alltori;
+        alltori:=AllToriOfSimplicialSphere(Octahedron());
+        Assert(0,Length(alltori)=1);
+        Assert(0,EulerCharacteristic(alltori[1])=0);
+    end);
+else
+    BindGlobal( "__SIMPLICIAL_Test_AllTori", function() end);
+fi;
