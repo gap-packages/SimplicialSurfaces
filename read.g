@@ -44,4 +44,5 @@ ReadPackage( "SimplicialSurfaces", "unit_tests/Test_VEFComplex.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Inferences_Morphisms.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_UmbrellaDescriptor.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Graphs.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Generating_Families.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );
