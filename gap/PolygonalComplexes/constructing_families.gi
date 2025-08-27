@@ -1,20 +1,513 @@
+#############################################################################
+##
+#F IsEssentialDisc( <disc> ) . . . . . . . . test whether <disc> is essential
+##
+## A simplicial surface <disc> is called an essential simplicial disc, if
+## it is a connected simplicial surface of Euler Characteristic 1, no
+## inner vertex has degree less than 4, no boundary vertex has degree 1,
+## no inner edge connects two boundary vertices and the disc has no 3-waists.
+##
+
+InstallMethod( IsEssentialDisc, 
+    "for a simplicial surface",
+    [IsTwistedPolygonalComplex],
+    
+      function( disc )
+
+           local bound, v, inner, innerE, e;
+
+           if not IsSimplicialSurface(disc) then return false; fi;
+
+           if not IsConnectedSurface(disc) then return false; fi;
+           if EulerCharacteristic(disc)<>1 then return false; fi;
+
+           bound := BoundaryVertices(disc);
+           # ensure that all boundary vertices have degree at least 2
+           for v in bound do
+               if DegreeOfVertex(disc,v) < 2 then return false; fi;
+           od;
+           inner := InnerVertices(disc);
+           # ensure that all inner vertices have degree at least 4
+           for v in inner do
+               if DegreeOfVertex(disc,v) <= 3 then return false; fi;
+           od;
+           innerE := InnerEdges(disc);
+            # ensure that all inner edges do not have two boundary vertices
+           for e in innerE do
+               v := VerticesOfEdge(disc,e);
+               if  v[1] in bound and v[2] in bound then return false; fi;
+           od;
+           # ensure that the disc has no 3-waists
+           if Length(AllThreeWaistsOfComplex(disc)) > 0 then return false; fi;
+           return true;
+end
+);
+
+
+
+#############################################################################
+##
+## A relevant 2-path in an essential disc D is a pair of edges of D sharing
+## exactly one vertex W such that the two edges are not adjacent to one
+## common face.
+## Find all relevant 2-paths up to the action of the automorphism
+## group of the surface <surf>
+##
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
+BindGlobal( "__SIMPLICIAL_AllEssentialTwoPaths",
+    function( surf )
+
+        local vertices, i, t, umbti, u, relpaths, mp, twosets, isgood,
+              aut, orbs, isNewInOrb, li;
+
+        umbti := UmbrellaTipDescriptorOfSurface(surf);
+        relpaths := [];
+
+        #check if a two-set t contains two neighbouring vertices
+        isgood := function(t,u)
+            if IsPerm(u) then
+                if t[1]^u=t[2] then return false; fi;
+                if t[2]^u=t[1] then return false; fi;
+            else
+               if Position(u,t[1]) = Position(u,t[2]) + 1 or
+                  Position(u,t[1]) = Position(u,t[2]) - 1 then
+                    return false;
+               fi;
+            fi;
+            return true;
+        end;
+
+        isNewInOrb := function(t)
+
+            local j;
+
+            if Length(orbs) = 0 then return true; fi;
+
+            for j in [1 .. Length(orbs)] do
+                if t in orbs[j] then return false; fi;
+            od;
+
+            return true;
+        end;
+
+
+        aut := AutomorphismGroupOnVertices(surf);
+        orbs := [];
+
+        for i in [1 .. Length(umbti)] do
+            if IsBound(umbti[i]) then
+                # Construct all 2-paths with middle vertex i
+                u := umbti[i];
+                if IsPerm(u) then
+                    # vertex i is inner
+                    mp := MovedPoints(u);
+                else
+                    # vertex i is a boundary vertex. 
+                    mp := umbti[i];
+                fi;
+                # from every vertex in mp we can find a 2-path
+                # to any other via i. Just remove non-relevant paths
+                twosets := Combinations(mp, 2);
+                twosets := Filtered(twosets, t-> isgood(t,u));
+                li := List(twosets, t-> [t[1],i,t[2]]);
+                for t in li do
+                    if isNewInOrb(t) then
+                        Add(orbs, Orbit( aut, t, OnTuples) );
+                        Add(relpaths, t);
+                    fi;
+                od;
+             fi;
+        od;
+
+
+
+        return relpaths;
+
+end
+);
+
+
+# Compute up to isomorphism all surfaces that can be obtained from
+# the surface surf by a butterfly insertion along a relevant 2-path
+
+InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
+    "for a simplicial surface",
+    [IsSimplicialSurface],
+    
+
+    function(surf)
+
+        local allp, surfaces;
+
+        allp := __SIMPLICIAL_AllEssentialTwoPaths(surf);
+
+        surfaces := List(allp, t-> ButterflyInsertion(surf, t)[1]);
+
+
+        return IsomorphismRepresentatives(surfaces);
+
+end);
+fi;
+
+
+#######################################
+##
+##      All Surfaces Of A Graph
+##
+
+InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
+	[IsDigraph],
+	function(digraph)
+		Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.9.0.");
+	end
+);
+
+InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
+	[IsDigraph,IsBool],
+	function(digraph,vertexFaithful)
+        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version 1.10.0.");
+    end
+);
+
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
+BindGlobal("__SIMPLICIAL_EdgesFromCycle",
+        function(digraph,cycle)
+
+        local edgesOfCycle, i, edge;
+
+        edgesOfCycle:=[];
+        for i in [1..Length(cycle)] do
+		if i<Length(cycle) then
+			edge:=[cycle[i],cycle[i+1]];
+		else
+			edge:=[cycle[i],cycle[1]];
+		fi;
+		Sort(edge);
+		Add(edgesOfCycle,Reversed(edge));
+	od;
+
+       	return edgesOfCycle;
+
+        end
+);
+
+BindGlobal("__SIMPLICIAL_IsNonSeparating",
+        function(digraph,cycle)
+
+        local digraphRemoved;
+
+        if not IsSymmetricDigraph(digraph) then
+                return false;
+        fi;
+
+        digraphRemoved:=DigraphRemoveVertices(digraph,cycle);
+        if IsConnectedDigraph(digraphRemoved) then
+                return true;
+        else
+                return false;
+        fi;
+
+        end
+);
+
+InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
+	[IsDigraph],
+	function(digraph)
+		return AllSimplicialSurfacesOfDigraph(digraph,false);
+	end
+);
+
+InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
+	[IsDigraph,IsBool],
+	function(digraph,vertexFaithful)
+		
+		local allCycles,edgesOfGraph, faces,edgesOfCycles,CyclesOfEdges,cyclesOfEdges,FindSurface,FindCycleComb,
+		cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
+
+		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
+            		Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
+        	fi;
+		if vertexFaithful then
+			allCycles:=DigraphAllChordlessCycles(digraph);
+			allCycles:=Filtered(allCycles,c->__SIMPLICIAL_IsNonSeparating(digraph,c));
+		else
+			allCycles:=DigraphAllUndirectedSimpleCircuits(digraph);
+		fi;
+
+		edgesOfGraph:=Filtered(DigraphEdges(digraph),e->not IsSortedList(e));
+
+		edgesOfCycles:=[];
+		for cycle in [1..Length(allCycles)] do;
+			edgesOfCycles[cycle]:=List(__SIMPLICIAL_EdgesFromCycle(digraph,allCycles[cycle]),e->Position(edgesOfGraph,e));
+		od;
+
+		possibleCyclesPairs:=[];
+		for e in [1..Length(edgesOfGraph)] do
+			possibleCyclesPairs[e]:=[];
+		od;
+
+		for cyclePair in IteratorOfCombinations([1..Length(allCycles)],2) do
+			commonEdges:=Intersection(edgesOfCycles[cyclePair[1]],edgesOfCycles[cyclePair[2]]);
+			if Length(commonEdges)=1 and vertexFaithful then
+				Add(possibleCyclesPairs[commonEdges[1]],cyclePair);
+			elif not vertexFaithful then
+				for e in commonEdges do
+					Add(possibleCyclesPairs[e],cyclePair);
+				od;
+			fi;
+		od;
+
+		faces:=[];
+
+		# The function returns a list that stores a Boolean list for each edge. 
+		# An entry in the list is true if the edge is included in this cycle.
+		CyclesOfEdges:=function()
+			local cyclesOfEdges,e,cyclesOfEdge,cycle;
+			cyclesOfEdges:=[];
+
+			for e in [1..Length(edgesOfGraph)] do
+				cyclesOfEdge:=BlistList([1..Length(allCycles)],[]);
+				for cycle in [1..Length(allCycles)] do
+					if e in edgesOfCycles[cycle] then
+						cyclesOfEdge[cycle]:=true;
+					fi;
+				od;
+				cyclesOfEdges[e]:=cyclesOfEdge;
+			od;
+			
+			return cyclesOfEdges;
+		end;;
+
+		cyclesOfEdges:=CyclesOfEdges();;
+		
+		# The function checks whether the given cycle has at most one common edge with one element of cycles.
+		Possible:=function(cycle,cycles)
+			local c;
+			for c in cycles do
+				if Length(Intersection(edgesOfCycles[cycle],edgesOfCycles[c]))>1 then	
+					return false;
+				fi; 
+			od;
+			return true;
+		end;;
+
+		IsPartOf:=function(face,faces)
+			local f;
+			for f in faces do
+				if IsIsomorphic(f,face) then
+					return true;
+				fi;
+			od;
+			return false;
+		end;;
+
+		FindSurface:=function(graph)
+			local smallCy, cycle,cyclesOfFace,usedEdges,edgesOfCycle,c,edge,cyclesToUse; 
+			
+			# if we search vertex-faithful simplicial surfaces all cycles of length three and four have to be part of the resulting cycle combination
+			if vertexFaithful and IsIsomorphicDigraph(graph, CompleteDigraph(4)) then
+				smallCy:=Filtered(allCycles, c->Length(c)<4);
+				smallCy:=BlistList([1..Length(allCycles)],smallCy);
+			elif vertexFaithful then
+				smallCy:=Filtered(allCycles, c->Length(c)<5);
+				smallCy:=BlistList([1..Length(allCycles)],smallCy);
+			fi;
+			
+			for cycle in [1..Length(allCycles)] do
+				
+				cyclesOfFace:=BlistList([1..Length(allCycles)],[cycle]);
+				
+				if vertexFaithful then
+					cyclesOfFace:=UnionBlist(cyclesOfFace, smallCy);
+				fi;
+				
+				usedEdges:=ListWithIdenticalEntries(Length(edgesOfGraph),0);
+				
+				edgesOfCycle:=[];
+				for c in ListBlist([1..Length(allCycles)],cyclesOfFace) do
+					edgesOfCycle:=Concatenation(edgesOfCycle,edgesOfCycles[c]);
+				od;
+
+				for edge in edgesOfCycle do
+					usedEdges[edge]:=usedEdges[edge]+1;
+				od;
+
+                		if ForAll(usedEdges,i->i<3) then
+					cyclesToUse:=BlistList([1..Length(allCycles)],[cycle+1..Length(allCycles)]);
+                   	 		cyclesToUse:=DifferenceBlist(cyclesToUse,cyclesOfFace);
+                    
+                   			FindCycleComb(cyclesOfFace,usedEdges,1,graph,cyclesToUse);
+                		fi;
+			od;
+		end;;
+
+		# This is a recursive function that searches an admissible cycle combination.  
+		# usedEdges stores how often each edge is used.
+		# We assume that usedEdges is permissible, that mean each entry is at most two and the cycles overlap at most in one edge 
+		# if we search vertex-faithful surfaces.
+		# vertexCycleComb is a Boolean list which stores all cycles we used so far.
+		# k is the position of the edge that we want to consider where all previous edges are already used twice. We start with the first edge.
+		# CyclesToUse is a Boolean list that stores all the cycles that we are currently allowed to use.
+		# A cycle must not be used if it contains an edge that has already been used twice.
+		FindCycleComb:=function(vertexCycleComb,usedEdges,k,graph,cyclesToUse)
+			local admissible, cycleRem, face,umbrellaDesk,kcycle,permissible,cycle,j,e,newUsedEdges,newVertexCycleComb,edgesOfCycle,newCyclesToUse,cy;
+		
+			if ForAll(usedEdges,i->i=2) then
+                		admissible:=true;
+                        if vertexFaithful then
+                            for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                                    cycleRem:=ShallowCopy(vertexCycleComb);
+                                    cycleRem[cycle]:=false;
+                                    if not Possible(cycle, ListBlist([1..Length(vertexCycleComb)],cycleRem)) then
+                                        admissible:=false;
+                                    fi;
+                            od;
+                        fi;
+
+                		if admissible then
+                    			umbrellaDesk:=[];
+
+                    			for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
+                        			Add(umbrellaDesk,CycleFromList(allCycles[cycle]));
+                    			od;
+                
+                    			face:=SimplicialSurfaceByUmbrellaDescriptor(umbrellaDesk);
+                    			if not IsPartOf(face,faces) then
+                        			Add(faces,face);
+                    			fi;
+                		fi;
+			else
+				if usedEdges[k]=1 and SizeBlist(cyclesToUse)>0 then
+				
+					kcycle:=IntersectionBlist(cyclesOfEdges[k],cyclesToUse);
+
+					# Checks which cycle we can add to our combination such that k is contained twice and the new combination is permissible.
+					for j in ListBlist([1..Length(kcycle)],kcycle) do
+							
+						if not vertexFaithful or Possible(j,ListBlist([1..Length(allCycles)],vertexCycleComb))then
+							
+							# permissible stores if the current vertexCycleComb together with the new cycle is admissible. 
+							permissible:=true;
+
+							edgesOfCycle:=edgesOfCycles[j];
+								
+							for e in edgesOfCycle do
+								if usedEdges[e]>=2 then
+									permissible:=false;
+								fi;
+							od;
+								
+							if permissible then
+
+								newUsedEdges:=ShallowCopy(usedEdges);
+								for e in edgesOfCycle do
+									newUsedEdges[e]:=usedEdges[e]+1;
+								od;
+
+								newVertexCycleComb:=ShallowCopy(vertexCycleComb);
+								newVertexCycleComb[j]:=true;
+
+								newCyclesToUse:=DifferenceBlist(cyclesToUse,kcycle);
+			
+								for e in edgesOfCycle do
+									if newUsedEdges[e]=2 and e>k then
+										newCyclesToUse:=DifferenceBlist(newCyclesToUse,cyclesOfEdges[e]);
+									fi;
+								od;	
+								FindCycleComb(newVertexCycleComb,newUsedEdges,k+1,graph,newCyclesToUse);
+							fi;
+						fi;
+					od;
+				elif usedEdges[k]=0 and SizeBlist(cyclesToUse)>0 then
+						
+					# Checks which cycle pair of k can be added to our cycle combination
+					for j in possibleCyclesPairs[k] do
+						
+						if cyclesToUse[j[1]] and cyclesToUse[j[2]] and (not vertexFaithful or Possible(j[1],
+							ListBlist([1..Length(allCycles)],vertexCycleComb)) and Possible(j[2],ListBlist([1..Length(allCycles)],
+							vertexCycleComb))) then
+							edgesOfCycle:=Union(edgesOfCycles[j[1]],edgesOfCycles[j[2]]);						
+
+							# permissible stores if the current vertexCycleComb together with the new cycle is admissible. 
+							permissible:=true;
+								
+							for e in edgesOfCycle do
+								if usedEdges[e]>=2 then
+									permissible:=false;
+								fi;
+							od;
+
+							if not vertexFaithful then
+								for e in Intersection(edgesOfCycles[j[1]],edgesOfCycles[j[2]]) do
+									if usedEdges[e]>=1 then
+										permissible:=false;
+									fi;
+								od;
+							fi;
+
+							if permissible then 
+							
+								newUsedEdges:=ShallowCopy(usedEdges);
+								for e in edgesOfCycle do
+									newUsedEdges[e]:=newUsedEdges[e]+1;
+								od;
+									
+								if vertexFaithful then
+									newUsedEdges[k]:=newUsedEdges[k]+1;
+								else
+									for e in Intersection(edgesOfCycles[j[1]],edgesOfCycles[j[2]]) do
+										newUsedEdges[e]:=newUsedEdges[e]+1;
+									od;
+								fi;
+								
+								newVertexCycleComb:=ShallowCopy(vertexCycleComb);
+								newVertexCycleComb[j[1]]:=true;
+								newVertexCycleComb[j[2]]:=true;
+
+								kcycle:=IntersectionBlist(cyclesOfEdges[k],cyclesToUse);
+								newCyclesToUse:=DifferenceBlist(cyclesToUse,kcycle);
+
+								for e in edgesOfCycle do
+									if newUsedEdges[e]=2 and e>k then
+										newCyclesToUse:=DifferenceBlist(newCyclesToUse,cyclesOfEdges[e]);
+									fi;
+								od;	
+								FindCycleComb(newVertexCycleComb,newUsedEdges,k+1,graph,newCyclesToUse);
+							fi;
+						fi;
+					od;
+				elif usedEdges[k]=2 then
+					FindCycleComb(vertexCycleComb,usedEdges,k+1,graph,cyclesToUse);
+				fi;
+			fi;
+		end;;
+
+		FindSurface(digraph);
+
+		return faces;
+		
+		end
+);
+fi;
+
+
 #######################################
 ##
 ##      Reembedding of Simplicial Spheres
 ##
 
-InstallMethod( ReembeddingsOfDigraph, "for a 3-connected planar graph, a genus and a boolean", 
-[IsDigraph, IsInt, IsBool], function(digraph, g, orientable)
-        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.10.0.");
-    end
-);
+#InstallMethod( ReembeddingsOfDigraph, "for a 3-connected planar graph, a genus and a boolean", 
+#[IsDigraph, IsInt, IsBool], function(digraph, g, orientable)
+#        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.10.0.");
+#    end
+#);
 
-InstallMethod(ReembeddingsOfSimplicialSphere,"for a vertex-faithful simplicial sphere, a genus and a boolean",
-	[IsSimplicialSurface, IsInt, IsBool],
-	function(surf, g, orientable)
-        Error("ReembeddingsOfSimplicialSphere: The package Digraph has to be available with version at least 1.10.0.");
-	end
-);
+#InstallMethod(ReembeddingsOfSimplicialSphere,"for a vertex-faithful simplicial sphere, a genus and a boolean",
+#	[IsSimplicialSurface, IsInt, IsBool],
+#	function(surf, g, orientable)
+#        Error("ReembeddingsOfSimplicialSphere: The package Digraph has to be available with version at least 1.10.0.");
+#	end
+#);
 
 if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
 # Algorithm from Enami and Weiß 
