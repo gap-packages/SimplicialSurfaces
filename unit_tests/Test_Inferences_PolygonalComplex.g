@@ -437,6 +437,26 @@ BindGlobal( "__SIMPLICIAL_Test_FaceTwoColouring", function()
 
 end);
 
+
+#################################################################################
+##
+## Test whether the AdmissibleRelations works
+##
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+BindGlobal( "__SIMPLICIAL_AdmissibleRelations", function()
+    local butterfly, rel;
+    butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
+    rel:=AdmissibleRelationsOfSurface(butterfly,false);
+    Assert(0,Length(rel)=2);
+    Assert(0,rel[1][2]=[ [ [ 1 ], [ 2 ], [ 3 ], [ 4 ] ], [ [ 1 ], [ 2 ], [ 3 ], [ 4 ], [ 5 ] ],[ [ 1 ], [ 2 ] ] ]);
+    Assert(0,rel[2][2]=[ [ [ 1, 4 ], [ 2 ], [ 3 ] ], [ [ 1, 4 ], [ 2, 5 ], [ 3 ] ], [ [ 1, 2 ] ] ] );
+
+    Assert(0,Length(AdmissibleRelationsOfSurface(Tetrahedron(),true))=1);
+end);
+else
+    BindGlobal( "__SIMPLICIAL_Test_AdmissibleRelations", function() end);
+fi;
+
 #################################################################################
 ##
 ## Test whether the edge insertion & reduction is performed correctly
