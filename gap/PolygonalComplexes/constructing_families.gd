@@ -15,7 +15,8 @@
 #! It is not checked whether <K>digraph</K> is a 3-connected graph.
 #!
 #! Note that, non-orientable surfaces of genus one are projective planes, orientable surfaces of genus one are tori
-#! and non-orientable surfaces of genus two are Klein bottles.
+#! and non-orientable surfaces of genus two are Klein bottles. This algorithm is based on <Cite Key="Enami"/> and
+#! <Cite Key="PaperMeikeStrong"/>.
 #!
 #! For example, consider the complete graph on four vertices:
 #! @BeginLogSession
