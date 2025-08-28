@@ -109,14 +109,14 @@ fi;
 InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
 	[IsDigraph],
 	function(digraph)
-		Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.9.0.");
+		Error("AllSimplicialSurfacesOfDigraph: The package Digraph has to be available with version at least 1.9.0.");
 	end
 );
 
 InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 	[IsDigraph,IsBool],
 	function(digraph,vertexFaithful)
-        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version 1.10.0.");
+        Error("AllSimplicialSurfacesOfDigraph: The package Digraph has to be available with version 1.10.0.");
     end
 );
 
@@ -176,8 +176,8 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 		cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
 
 		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
-            		Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
-        	fi;
+        	Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
+        fi;
 		if vertexFaithful then
 			allCycles:=DigraphAllChordlessCycles(digraph);
 			allCycles:=Filtered(allCycles,c->__SIMPLICIAL_IsNonSeparating(digraph,c));
@@ -441,24 +441,60 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 );
 fi;
 
+InstallOtherMethod(AllEdgeFaceEquivalentSurfaces,"for a digraph",
+	[IsSimplicialSurface],
+	function(surface)
+		Error("AllEdgeFaceEquivalentSurfaces: The package Digraph has to be available with version at least 1.9.0.");
+	end
+);
+
+InstallMethod(AllEdgeFaceEquivalentSurfaces,"for a digraph and a Boolean",
+	[IsSimplicialSurface,IsBool],
+	function(surface,vertexFaithful)
+        Error("AllEdgeFaceEquivalentSurfaces: The package Digraph has to be available with version 1.10.0.");
+    end
+);
+
+if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
+    InstallOtherMethod(AllEdgeFaceEquivalentSurfaces,"for a simplicial surface",
+	    [IsSimplicialSurface],
+	    function(surface)
+            if not IsClosedSurface(surface) then
+                Error("AllEdgeFaceEquivalentSurfaces: The given surface has to be closed");
+            fi;
+		    return AllSimplicialSurfacesOfDigraph(FaceDigraphsGraph(surface));
+	    end
+    );
+
+    InstallMethod(AllEdgeFaceEquivalentSurfaces,"for a digraph and a Boolean",
+        [IsSimplicialSurface,IsBool],
+	    function(surface,vertexFaithful)
+            if not IsClosedSurface(surface) then
+                Error("AllEdgeFaceEquivalentSurfaces: The given surface has to be closed");
+            fi;
+		    return AllSimplicialSurfacesOfDigraph(FaceDigraphsGraph(surface),vertexFaithful);
+        end
+    );
+fi;
+
 
 #######################################
 ##
 ##      Reembedding of Simplicial Spheres
 ##
 
-#InstallMethod( ReembeddingsOfDigraph, "for a 3-connected planar graph, a genus and a boolean", 
-#[IsDigraph, IsInt, IsBool], function(digraph, g, orientable)
-#        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.10.0.");
-#    end
-#);
+InstallMethod( ReembeddingsOfDigraph, "for a 3-connected planar graph, a genus and a boolean", 
+[IsDigraph, IsInt, IsBool], function(digraph, g, orientable)
+        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.10.0.");
+    end
+);
 
-#InstallMethod(ReembeddingsOfSimplicialSphere,"for a vertex-faithful simplicial sphere, a genus and a boolean",
-#	[IsSimplicialSurface, IsInt, IsBool],
-#	function(surf, g, orientable)
-#        Error("ReembeddingsOfSimplicialSphere: The package Digraph has to be available with version at least 1.10.0.");
-#	end
-#);
+InstallMethod(ReembeddingsOfSimplicialSphere,"for a vertex-faithful simplicial sphere, a genus and a boolean",
+	[IsSimplicialSurface, IsInt, IsBool],
+	function(surf, g, orientable)
+        Error("ReembeddingsOfSimplicialSphere: The package Digraph has to be available with version at least 1.10.0.");
+	end
+);
 
 if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
 # Algorithm from Enami and Weiß 
