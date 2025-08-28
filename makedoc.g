@@ -18,10 +18,11 @@ __SIMPLICIAL_LibraryConstructBinary();
 __SIMPLICIAL_LibraryConstructIndex();
 
 AutoDoc( rec( scaffold := rec(
-                    MainPage := false), 
+                    MainPage := false,
+                    bib := "SimplicialSurfaces"), 
               dir := "doc/",
               extract_examples := true,
-	      autodoc := rec( 
+	          autodoc := rec( 
                     files := [ ],
                     scan_dirs := ["doc", "gap", "gap/PolygonalComplexes", "gap/Paths", "gap/Library", "gap/ColouredComplexes", "gap/Flags", "gap/Morphisms"]),
               gapdoc := rec(
