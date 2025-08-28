@@ -441,36 +441,36 @@ InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
 );
 fi;
 
-InstallOtherMethod(AllEdgeFaceEquivalentSurfaces,"for a digraph",
+InstallOtherMethod(AllSimplicialSurfacesByFacesOfEdges ,"for a digraph",
 	[IsSimplicialSurface],
 	function(surface)
-		Error("AllEdgeFaceEquivalentSurfaces: The package Digraph has to be available with version at least 1.9.0.");
+		Error("AllSimplicialSurfacesByFacesOfEdges: The package Digraph has to be available with version at least 1.9.0.");
 	end
 );
 
-InstallMethod(AllEdgeFaceEquivalentSurfaces,"for a digraph and a Boolean",
+InstallMethod(AllSimplicialSurfacesByFacesOfEdges ,"for a digraph and a Boolean",
 	[IsSimplicialSurface,IsBool],
 	function(surface,vertexFaithful)
-        Error("AllEdgeFaceEquivalentSurfaces: The package Digraph has to be available with version 1.10.0.");
+        Error("AllSimplicialSurfacesByFacesOfEdges: The package Digraph has to be available with version 1.10.0.");
     end
 );
 
 if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
-    InstallOtherMethod(AllEdgeFaceEquivalentSurfaces,"for a simplicial surface",
+    InstallOtherMethod(AllSimplicialSurfacesByFacesOfEdges ,"for a simplicial surface",
 	    [IsSimplicialSurface],
 	    function(surface)
             if not IsClosedSurface(surface) then
-                Error("AllEdgeFaceEquivalentSurfaces: The given surface has to be closed");
+                Error("AllSimplicialSurfacesByFacesOfEdges: The given surface has to be closed");
             fi;
 		    return AllSimplicialSurfacesOfDigraph(FaceDigraphsGraph(surface));
 	    end
     );
 
-    InstallMethod(AllEdgeFaceEquivalentSurfaces,"for a digraph and a Boolean",
+    InstallMethod(AllSimplicialSurfacesByFacesOfEdges,"for a digraph and a Boolean",
         [IsSimplicialSurface,IsBool],
 	    function(surface,vertexFaithful)
             if not IsClosedSurface(surface) then
-                Error("AllEdgeFaceEquivalentSurfaces: The given surface has to be closed");
+                Error("AllSimplicialSurfacesByFacesOfEdges: The given surface has to be closed");
             fi;
 		    return AllSimplicialSurfacesOfDigraph(FaceDigraphsGraph(surface),vertexFaithful);
         end

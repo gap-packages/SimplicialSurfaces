@@ -315,7 +315,7 @@ DeclareOperation( "AllSimplicialSurfacesByEssentialButterflyInsertion", [IsSimpl
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
 #! gap> IsIsomorphic(tet2[1],Tetrahedron());
 #! true
-#! gap> AllEdgeFaceEquivalentSurfaces(Tetrahedron());
+#! gap> AllSimplicialSurfacesByFacesOfEdges (Tetrahedron());
 #! [ simplicial surface (4 vertices, 6 edges, and 4 faces),
 #!   simplicial surface (3 vertices, 6 edges, and 4 faces) ]
 #! @EndLogSession
@@ -331,7 +331,7 @@ DeclareOperation( "AllSimplicialSurfacesByEssentialButterflyInsertion", [IsSimpl
 DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! @Arguments surface[, vertexfaithful]
 #! @Returns a list
-DeclareOperation( "AllEdgeFaceEquivalentSurfaces", [IsSimplicialSurface, IsBool]);
+DeclareOperation( "AllSimplicialSurfacesByFacesOfEdges", [IsSimplicialSurface, IsBool]);
 #! @EndGroup
 
 #! @BeginGroup Reembedding

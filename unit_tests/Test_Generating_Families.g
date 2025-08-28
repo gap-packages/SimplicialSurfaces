@@ -29,8 +29,8 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
 		Assert(0,Length(list1)=2);
 
-		Assert(0,Length(AllEdgeFaceEquivalentSurfaces(Tetrahedron()))=2);
-		Assert(0,Length(AllEdgeFaceEquivalentSurfaces(Tetrahedron(),true))=1);
+		Assert(0,Length(AllSimplicialSurfacesByFacesOfEdges (Tetrahedron()))=2);
+		Assert(0,Length(AllSimplicialSurfacesByFacesOfEdges (Tetrahedron(),true))=1);
 	end);
 else
 	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph", function() end);
