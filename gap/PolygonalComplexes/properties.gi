@@ -55,6 +55,8 @@ InstallMethod( IsClosedSurface, "for a polygonal surface",
     end
 );
 
+### Simplex strings and rings
+
 InstallMethod( IsSimplexRing, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( complex )
@@ -109,6 +111,41 @@ InstallMethod( IsSimplexString, "for a twisted polygonal complex",
     end
 );
 
+BindGlobal("__SIMPLICIAL_FaceList",function(surface,startingFace)
+    local facedyclet,oldface, nextface, currentface, neighbours, neighbour;
+   
+    oldface:= startingFace;
+    facedyclet:= [oldface];
+    nextface:= Minimum(NeighbourFacesOfFace(surface,oldface));
+    Add(facedyclet, nextface);
+    currentface:=nextface;
+
+    while Length(facedyclet)<>NumberOfFaces(surface) do
+        neighbours:= NeighbourFacesOfFace(surface,currentface);
+        neighbour:= Difference(neighbours,[oldface])[1];
+        Add(facedyclet, neighbour);
+        oldface:=currentface;
+        currentface:=neighbour;
+    od;
+
+    return facedyclet;
+    end
+);
+
+InstallMethod(FaceListOfSimplexRing,"for a simplex ring",[IsSimplexRing],
+function(ring)
+    return __SIMPLICIAL_FaceList(ring,Flat(Faces(ring))[1]);
+end);
+
+InstallMethod(FaceListOfSimplexString,"for a simplex string",[IsSimplexString],
+function(string)
+    local boundaryFaces;
+    boundaryFaces:=Filtered(Faces(string),f->Length(NeighbourFacesOfFace(string,f))=1);
+    return __SIMPLICIAL_FaceList(string, Minimum(boundaryFaces));
+end);
+
+### Multitetrahedral Spheres
+
 InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
@@ -117,7 +154,7 @@ InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
                 EulerCharacteristic(complex)=2 and IsVertexFaithful(complex)) then
                 return false;
         fi;
-	waists:=AllThreeWaistsOfComplex(complex);
+	    waists:=AllThreeWaistsOfComplex(complex);
         if Length(waists)=NumberOfFaces(complex)/2-2 then
                 return true;
         else
