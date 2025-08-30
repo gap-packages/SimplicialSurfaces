@@ -1079,6 +1079,25 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! @Arguments surface 
 DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @EndGroup
+#!
+#! @BeginGroup
+#! @Description
+#! TODO
+
+#! @BeginExampleSession
+#! gap> s := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> IsOrientableSurface(s);
+#! true
+#! gap> UmbrellaDescriptorOfSurface(s);
+#! [ (1,4,2), (1,3,2), (1,3,4), (2,3,4) ]
+#! gap> UmbrellaDescriptorOfSurfaceOriented(s);
+#! [ (1,4,2), (1,3,2), (1,3,4), (2,4,3) ]
+#! @EndExampleSession
+#! @Returns a list
+#! @Arguments surface
+DeclareOperation( "UmbrellaDescriptorOfSurfaceOriented", [IsOrientableSurface] );
+#! @EndGroup
 #
 #! @BeginChunk Documentation_UmbrellaTipDescriptor
 #! an umbrella tip descriptor of a simplicial surface is a list <A>umbtipdesc</A>, 

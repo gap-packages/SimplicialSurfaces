@@ -483,6 +483,124 @@ InstallMethod( UmbrellaDescriptorOfSurface,
         return umbdesc;
 end);
 
+InstallMethod ( UmbrellaDescriptorOfSurfaceOriented,
+    "for an orientable simplicial surface", [IsOrientableSurface], 
+    function(surface)
+        local commonDescr, vertexFacesMap, faceVerticesMap, i, faces, face, vertexPaths,
+            findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap, orientedDescr,
+            pair, vertex, predVertex, predRotationCycle, rotationCycle,
+        # BFS related variables:
+            queue, visited, preds, referenceVertex, neighbourPairs;
+
+        commonDescr := UmbrellaDescriptorOfSurface(surface);
+
+        if Length(commonDescr) = 1 then
+            return commonDescr;
+        fi;
+
+        # Collect all vertex<->face relations
+        vertexFacesMap := [];
+        faceVerticesMap := [];
+        for i in [1..Length(commonDescr)] do
+            if IsList(commonDescr[i]) then
+                faces := commonDescr[i];
+            else
+                faces := Cycles(commonDescr[i], MovedPoints(commonDescr[i]))[1];
+            fi;
+            Add(vertexFacesMap, faces, i);
+
+            for face in faces do
+                if not IsBound(faceVerticesMap[face]) then
+                    Add(faceVerticesMap, [], face);
+                fi;
+                if not i in faceVerticesMap[face] then
+                    Add(faceVerticesMap[face], i);
+                fi;
+            od;
+        od;
+
+        # Perform BFS to find the predecessor of each vertex
+        queue := [1];
+        visited := [true];
+        vertexPredsMap := [];
+
+        while Length(queue) > 0 do
+            # Dequeue front
+            referenceVertex := Remove(queue, 1);
+
+            # Collect neighbours of referenceVertex
+            neighbourPairs := [];
+            for face in vertexFacesMap[referenceVertex] do
+                for vertex in faceVerticesMap[face] do
+                    if vertex <> referenceVertex then
+                        Add(neighbourPairs, [vertex, face]);
+                    fi;
+                od;
+            od;
+
+            # Process each neighbour
+            for pair in neighbourPairs do
+                vertex := pair[1];
+                face := pair[2];
+
+                if not IsBound(visited[vertex]) then
+                    Add(visited, true, vertex);
+
+                    # Add predecessor pair
+                    Add(vertexPredsMap, [referenceVertex, face], vertex);
+
+                    # Enqueue neighbour vertex
+                    Add(queue, vertex);
+                fi;
+            od;
+        od;
+
+        # Provide a reference rotation for vertex 1
+        vertexRotationCycleMap := [];
+        orientedDescr := [commonDescr[1]];
+        if IsList(commonDescr[1]) then
+            Add(vertexRotationCycleMap, CycleFromList(commonDescr[1]));
+        else
+            Add(vertexRotationCycleMap, commonDescr[1]);
+        fi;
+
+        # Iterate over all paths and match to predecessor vertex rotation
+        for vertex in [2..Length(vertexPredsMap)] do
+            face := vertexPredsMap[vertex][2];
+            predVertex := vertexPredsMap[vertex][1];
+            predRotationCycle := vertexRotationCycleMap[predVertex];
+
+            if IsList(commonDescr[vertex]) then
+                rotationCycle := CycleFromList(commonDescr[vertex]);
+            else
+                rotationCycle := commonDescr[vertex];
+            fi;
+
+            if face^rotationCycle = face^predRotationCycle or
+               face^(rotationCycle^-1) = face^(predRotationCycle^-1) then
+                Add(vertexRotationCycleMap, rotationCycle^-1, vertex);
+
+                # Reverse rotation and add from commonDescr to orientedDescr
+                if IsList(commonDescr[vertex]) then
+                    Add(orientedDescr, Reversed(commonDescr[vertex]), vertex);
+                else
+                    Add(orientedDescr, commonDescr[vertex]^-1, vertex);
+                fi;
+            else
+                # Add from commonDescr to orientedDescr without modification
+                Add(vertexRotationCycleMap, rotationCycle, vertex);
+
+                if IsList(commonDescr[vertex]) then
+                    Add(orientedDescr, commonDescr[vertex], vertex);
+                else
+                    Add(orientedDescr, commonDescr[vertex], vertex);
+                fi;
+            fi;
+        od;
+
+        return orientedDescr;
+end);
+
 InstallMethod(UmbrellaTipDescriptorOfSurface, 
     "for a vertexfaithful simplicial surface", 
     [IsSimplicialSurface],
