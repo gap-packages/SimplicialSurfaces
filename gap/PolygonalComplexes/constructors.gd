@@ -1082,7 +1082,10 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #!
 #! @BeginGroup
 #! @Description
-#! TODO
+#! Let <A>surf</A> be an orientable simplicial surface. This method
+#! returns an umbrella descriptor of <A>surf</A> with each umbrella
+#! rotating the faces in the same direction, where
+#! @InsertChunk Documentation_UmbrellaDescriptor
 
 #! @BeginExampleSession
 #! gap> s := Tetrahedron();
@@ -1092,10 +1095,10 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! gap> UmbrellaDescriptorOfSurface(s);
 #! [ (1,4,2), (1,3,2), (1,3,4), (2,3,4) ]
 #! gap> UmbrellaDescriptorOfSurfaceOriented(s);
-#! [ (1,4,2), (1,3,2), (1,3,4), (2,4,3) ]
+#! [ (1,4,2), (1,2,3), (1,3,4), (2,4,3) ]
 #! @EndExampleSession
 #! @Returns a list
-#! @Arguments surface
+#! @Arguments surf
 DeclareOperation( "UmbrellaDescriptorOfSurfaceOriented", [IsSimplicialSurface] );
 #! @EndGroup
 #
