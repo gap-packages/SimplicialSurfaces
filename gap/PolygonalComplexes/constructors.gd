@@ -1096,7 +1096,7 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! @EndExampleSession
 #! @Returns a list
 #! @Arguments surface
-DeclareOperation( "UmbrellaDescriptorOfSurfaceOriented", [IsOrientableSurface] );
+DeclareOperation( "UmbrellaDescriptorOfSurfaceOriented", [IsSimplicialSurface] );
 #! @EndGroup
 #
 #! @BeginChunk Documentation_UmbrellaTipDescriptor
