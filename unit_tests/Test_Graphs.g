@@ -210,3 +210,77 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
 else
 	BindGlobal( "__SIMPLICIAL_Test_ReembeddingsOfDigraph", function() end);
 fi;
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+	BindGlobal( "__SIMPLICIAL_Test_Canonical", function()
+
+	local edgesOfFaces, verticesOfEdges, cube, canonicalCube, canon, original;
+
+	edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ],[ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ],[ 12, 13, 14, 15 ] ];;
+	verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ],[ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ],[ 16, 19 ], [ 16, 17 ] ];;
+	cube:=PolygonalSurfaceByDownwardIncidence(verticesOfEdges,edgesOfFaces);
+	canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
+	canon:=canonicalCube[1];;
+
+	original := RangeSurface(canonicalCube[2]);;
+
+	Assert(0, original=cube);
+	Assert(0,IsIsomorphic(cube,canon));
+
+
+	end);
+else
+	BindGlobal( "__SIMPLICIAL_Test_Canonical", function() end);
+fi;
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+	BindGlobal( "__SIMPLICIAL_Test_Automorphism", function()
+
+	local tetra, janus, autIco, oct, v, pair, autOct, pathOrbits, paths, f, sndFace, otherEdges, finalEdge;
+
+	tetra := Tetrahedron();;
+
+	Assert(0,IsAutomorphismDefinedByFaces(tetra));
+	Assert(0,Size(AutomorphismGroup(tetra))=24);
+
+	janus := JanusHead();;
+	Assert(0,IsAutomorphismDefinedByVertices(janus)=false);
+	Assert(0,IsAutomorphismDefinedByEdges(janus)=false);
+	Assert(0,IsAutomorphismDefinedByFaces(janus)=false);
+	Assert(0,Size(AutomorphismGroup(janus))=12);
+
+	autIco := AutomorphismGroup( Icosahedron() );;
+	Assert(0,Size(autIco)=120);
+
+	oct:=Octahedron();
+	paths := [];
+	for v in Vertices(oct) do
+        for pair in Arrangements( EdgesOfVertex(oct,v), 2 ) do
+            Add( paths, VertexEdgePathByEdges(oct, pair) );
+        od;
+    od;
+	Assert(0,Length(paths)=72);
+
+	autOct := AutomorphismGroup(Octahedron());;
+	pathOrbits := Orbits(autOct, paths, OnVertexEdgePaths);;
+	Assert(0,Length(pathOrbits)=2);
+
+	paths := [];
+	 for f in Faces(oct) do
+        for pair in Arrangements( EdgesOfFace(oct, f), 2 ) do
+            sndFace := NeighbourFaceByEdge(oct, f, pair[2]);
+            otherEdges := Difference( EdgesOfFace(oct, sndFace), [pair[2]] );
+            for finalEdge in otherEdges do
+                Add(paths, 
+                    EdgeFacePath(oct, [pair[1],f,pair[2],sndFace, finalEdge]));
+            od;
+        od;
+   od;
+   Assert(0,Length(paths)=96);
+
+	pathOrbits := Orbits(autOct, paths, OnEdgeFacePaths);;
+	Assert(0,Length(pathOrbits)=2);
+	end);
+else
+	BindGlobal( "__SIMPLICIAL_Test_Automorphism", function() end);
+fi;
