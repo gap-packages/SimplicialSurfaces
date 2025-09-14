@@ -53,7 +53,6 @@
 #! these sections are in general not necessary in practice.
 #!
 #! Section <Ref Sect="Section_Graphs_Edge_Face"/> describes the edge graph and the face graph of a polygonal complex.
-#! They are used in practice like in <Ref Subsect="AllSimplicialSurfacesOfDigraph"/>.
 #!
 #! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the isomorphism 
 #! method
@@ -283,8 +282,6 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! These graphs are useful if it is not necessary to need all information of the complex.
 #! The edge graph only describes the incidence structure of vertices and edges.
 #! Instead, the face graph describes the incidence structure of edges and faces.
-#! Using method <Ref Subsect="AllSimplicialSurfacesOfDigraph"/> it is possible to get all surfaces
-#! that have a common face graph.
 #! 
 #! The face graph and the edge graph of a polygonal complex are dual graphs of each other.
 #! The dual graph of a planar graph G is a graph that has a vertex for each face of G
@@ -410,58 +407,6 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 DeclareAttribute( "FaceDigraphsGraph", IsPolygonalComplex );
 #! @Arguments complex
 DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
-#! @EndGroup
-
-#! @BeginGroup AllSimplicialSurfacesOfDigraph 
-#! @Description 
-#! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
-#! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
-#! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
-#! The parameter <K>vertexfaithful</K> is by default false.
-#! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
-#! surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, 
-#! with the cycles corresponding to the vertices of a simplicial surface.
-#!
-#!
-#! For example, consider the complete graph on four nodes:
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
-#!
-#! @BeginLogSession
-#! gap> digraph:=CompleteDigraph(4);;
-#! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
-#! gap> IsIsomorphic(tet1[1],Tetrahedron());
-#! true
-#! @EndLogSession
-#! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
-#! But there is another simplicial surface, which is not vertex-faithful:
-#! @BeginLogSession
-#! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
-#! simplicial surface (3 vertices, 6 edges, and 4 faces)]
-#! gap> tet2 := Filtered(list,IsVertexFaithful);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
-#! gap> IsIsomorphic(tet2[1],Tetrahedron());
-#! true
-#! @EndLogSession
-#!
-#! Since it takes a long time to compute all cycles, you should only call the method for digraphs with twelve or less nodes for <K>vertexfaithful</K> false.
-#! For <K>vertexfaithful</K> true, the method needs to consider only chordless and non-separating cycles. This makes the method fast for digraphs up to 28 nodes.
-#! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
-#! 
-#! @Arguments digraph[, vertexfaithful]
-#! @Returns a list
-DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! @EndGroup
 
 

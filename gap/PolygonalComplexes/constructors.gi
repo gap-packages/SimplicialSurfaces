@@ -489,7 +489,7 @@ InstallMethod(UmbrellaTipDescriptorOfSurface,
     function(surf)
     local vertex, umbdesc, edge, vertEdges, umbVertices, umbPath;
     if not IsVertexFaithful(surf) then
-        return fail;
+        Error("The given surface has to be vertex-faithful");
     fi;
     umbdesc:=[];
     for vertex in Vertices(surf) do
