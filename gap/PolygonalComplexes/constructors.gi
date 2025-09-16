@@ -459,52 +459,22 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 ##  UmbrellaDescriptorOfSurface . . . . . compute the umbrella descriptor
 ##
 ##
-InstallMethod( UmbrellaDescriptorOfSurface, 
-    "for a simplicial surface", [IsSimplicialSurface], 
-    function( surf) 
-        local umb, umbdesc, j;
 
-        umbdesc := [];
-        umb := UmbrellaPathsOfVertices(surf);
-        for j in [1..Length(umb)] do
-          if IsBound(umb[j]) then
-            if IsClosedPath(umb[j]) then
-                # um[j] is a closed umbrella around a vertex
-                # turn it into a cycle
-                umbdesc[j] := CycleFromList(FacesAsList(umb[j]));
-            else
-                # um[j] is not a closed umbrella
-                # store it as a list
-                umbdesc[j] := FacesAsList(umb[j]);
-            fi;
-          fi;
-        od;
-
-        return umbdesc;
-end);
-
-InstallMethod ( UmbrellaDescriptorOfSurfaceOriented,
-    "for an orientable simplicial surface", [IsSimplicialSurface], 
-    function(surface)
-        local commonDescr, vertexFacesMap, faceVerticesMap, i, faces, face, vertexAdjencies,
+BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
+    function(commonDescr, numFaces)
+        local vertexFacesMap, faceVerticesMap, i, faces, face, vertexAdjencies,
             vertices, vertexPaths, findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap,
             orientedDescr, pair, vertex, predVertex, predRotationCycle, rotationCycle,
         # BFS related variables:
             queue, visited, referenceVertex;
 
-        if not IsOrientableSurface(surface) then
-            return ErrorNoReturn("the given surface must be orientable");
-        fi;
-
-        commonDescr := UmbrellaDescriptorOfSurface(surface);
-
-        if Length(commonDescr) = 1 then
+        if Length(commonDescr) = 1 or numFaces = 1 then
             return commonDescr;
         fi;
 
         # Collect all vertex<->face relations
         vertexFacesMap := List(commonDescr, x -> []);
-        faceVerticesMap := List([1..Length(Faces(surface))], x -> []);
+        faceVerticesMap := List([1..numFaces], x -> []);
         for i in [1..Length(commonDescr)] do
             if IsList(commonDescr[i]) then
                 faces := commonDescr[i];
@@ -541,7 +511,7 @@ InstallMethod ( UmbrellaDescriptorOfSurfaceOriented,
             # Dequeue front
             referenceVertex := Remove(queue, 1);
 
-            # Process each vertex adjancy pair for referenceVertex
+            # Process each vertex adjancy pair of referenceVertex
             for pair in vertexAdjencies[referenceVertex] do
                 vertex := pair[1];
                 face := pair[2];
@@ -596,10 +566,127 @@ InstallMethod ( UmbrellaDescriptorOfSurfaceOriented,
         return orientedDescr;
 end);
 
+InstallMethod(UmbrellaDescriptorOfSurface, 
+    "for a simplicial surface and a boolean",
+    [IsSimplicialSurface, IsBool], 
+    function(surface, checkOrientation)
+        local umb, umbdesc, j;
+
+        umbdesc := [];
+        umb := UmbrellaPathsOfVertices(surface);
+        for j in [1..Length(umb)] do
+          if IsBound(umb[j]) then
+            if IsClosedPath(umb[j]) then
+                # um[j] is a closed umbrella around a vertex
+                # turn it into a cycle
+                umbdesc[j] := CycleFromList(FacesAsList(umb[j]));
+            else
+                # um[j] is not a closed umbrella
+                # store it as a list
+                umbdesc[j] := FacesAsList(umb[j]);
+            fi;
+          fi;
+        od;
+
+        if checkOrientation and IsOrientableSurface(surface) then
+            return __SIMPLICIAL_OrientateUmbrellaDescriptor(
+                umbdesc,
+                Length(Faces(surface))
+            );
+        fi;
+
+        return umbdesc;
+end);
+
+InstallOtherMethod(UmbrellaDescriptorOfSurface,
+    "for a simplicial surface", [IsSimplicialSurface],
+    function(surface)
+        return UmbrellaDescriptorOfSurface(surface, true);
+end);
+
+BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
+    function(commonDescr)
+        local vertexPredsMap, vertex, vertexRotationCycleMap,
+            orientedDescr, predVertex, predRotationCycle, rotationCycle,
+        # BFS related variables:
+            queue, visited, referenceVertex, adjacentVertices;
+
+        if Length(commonDescr) = 1 then
+            return commonDescr;
+        fi;
+
+        # Perform BFS to find the predecessor of each vertex
+        queue := [1];
+        visited := List(commonDescr, x -> false);
+        visited[1] := true;
+        vertexPredsMap := List(commonDescr, x -> 0);
+
+        while Length(queue) > 0 do
+            # Dequeue front
+            referenceVertex := Remove(queue, 1);
+
+            if IsList(commonDescr[referenceVertex]) then
+                adjacentVertices := commonDescr[referenceVertex];
+            else
+                adjacentVertices := Cycles(
+                    commonDescr[referenceVertex],
+                    MovedPoints(commonDescr[referenceVertex])
+                )[1];
+            fi;
+
+            # Process each adjacent vertex of referenceVertex
+            for vertex in adjacentVertices do
+                if not visited[vertex] then
+                    visited[vertex] := true;
+
+                    # Add predecessor vertex
+                    vertexPredsMap[vertex] := referenceVertex;
+
+                    # Enqueue neighbour vertex
+                    Add(queue, vertex);
+                fi;
+            od;
+        od;
+
+        # Provide a reference rotation for vertex 1
+        vertexRotationCycleMap := List(commonDescr, x -> ());
+        if IsList(commonDescr[1]) then
+            vertexRotationCycleMap[1] := CycleFromList(commonDescr[1]);
+        else
+            vertexRotationCycleMap[1] := commonDescr[1];
+        fi;
+
+        orientedDescr := commonDescr;
+
+        for vertex in [2..Length(vertexPredsMap)] do
+            predVertex := vertexPredsMap[vertex];
+            predRotationCycle := vertexRotationCycleMap[predVertex];
+        
+            if IsList(orientedDescr[vertex]) then
+                rotationCycle := CycleFromList(orientedDescr[vertex]);
+            else
+                rotationCycle := orientedDescr[vertex];
+            fi;
+
+            if vertex^predRotationCycle = predVertex^rotationCycle then
+                vertexRotationCycleMap[vertex] := rotationCycle^-1;
+
+                # Reverse rotation in orientedDescr
+                if IsList(orientedDescr[vertex]) then
+                    orientedDescr[vertex] := Reversed(orientedDescr[vertex]);
+                else
+                    orientedDescr[vertex] := orientedDescr[vertex]^-1;
+                fi;
+            fi;
+        od;
+
+        return orientedDescr;
+end);
+
 InstallMethod(UmbrellaTipDescriptorOfSurface, 
-    "for a vertexfaithful simplicial surface", 
-    [IsSimplicialSurface],
-    function(surf)
+    "for a vertexfaithful simplicial surface and a boolean", 
+    [IsSimplicialSurface, IsBool],
+    function(surf, checkOrientation)
     local vertex, umbdesc, edge, vertEdges, umbVertices, umbPath;
     if not IsVertexFaithful(surf) then
         return fail;
@@ -629,9 +716,21 @@ InstallMethod(UmbrellaTipDescriptorOfSurface,
             umbdesc[vertex] := umbVertices;           
         fi;
     od;
+
+    if checkOrientation and IsOrientableSurface(surf) then
+        return __SIMPLICIAL_OrientateUmbrellaTipDescriptor(umbdesc);
+    fi;
+
     return umbdesc;
 end
 );
+
+InstallOtherMethod(UmbrellaTipDescriptorOfSurface,
+    "for a vertexfaithful simplicial surface", 
+    [IsSimplicialSurface],
+    function(surf)
+        return UmbrellaTipDescriptorOfSurface(surf, true);
+end);
 
 ###
 ###
