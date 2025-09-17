@@ -1337,10 +1337,10 @@ DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt,IsList]);
 #! gap> surf := SimplicialSurfaceByVerticesInFaces(vf);
 #! simplicial surface (14 vertices, 33 edges, and 20 faces)
 #! gap> ud := UmbrellaDescriptorOfSurface(surf);
-#! [ (1,8,7,6,5,2), (2,3,4,5), (1,9,20,19,8), (1,9,10,11,3,2), (3,11,12,13,4), 
-#!   (4,13,14,15,6,5), (6,15,16,17,7), (7,17,18,19,8), [ 10, 9, 20 ], 
-#!   [ 10, 11, 12 ], [ 12, 13, 14 ], [ 14, 15, 16 ], [ 16, 17, 18 ], 
-#!   [ 20, 19, 18 ] ]
+#! [ (1,8,7,6,5,2), (2,5,4,3), (1,9,20,19,8), (1,2,3,11,10,9), (3,4,13,12,11),
+#!  (4,5,6,15,14,13), (6,7,17,16,15), (7,8,19,18,17), [ 10, 9, 20 ],
+#!  [ 10, 11, 12 ], [ 12, 13, 14 ], [ 14, 15, 16 ], [ 16, 17, 18 ],
+#!  [ 20, 19, 18 ] ]
 #! gap> DegreeSequenceOfUmbrellaDescriptor(ud);
 #! [ [ 6, true ], [ 4, true ], [ 5, true ], [ 6, true ], [ 5, true ], 
 #!   [ 6, true ], [ 5, true ], [ 5, true ], [ 3, false ], [ 3, false ], 
