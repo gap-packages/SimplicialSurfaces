@@ -1049,7 +1049,13 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #!  umbrella descriptor of <A>surf</A>, where
 #! @InsertChunk Documentation_UmbrellaDescriptor
 #! If the parameter <A>checkOrientation</A> is <K>true</K> and <A>surf</A>
-#! is an orientable surface, the returned umbrella descriptor is oriented.
+#! is an orientable surface, the returned umbrella descriptor is oriented,
+#! which means the umbrella around each vertex is arranged consistently with the
+#! global orientation of the surface. This means that for each pair of adjacent
+#! vertices and the faces f1 and f2 that are incident to both vertices, their
+#! umbrellas encode opposite local transitions between these faces.
+#! Concretely, at one vertex the umbrella will record the transition from f1 to f2,
+#! while at the other vertex the umbrella will record the transition from f2 to f1.
 #! The default value of <A>checkOrientation</A> is <K>true</K>.
 #!
 #! As an example consider the following net of a simplicial surface.
@@ -1118,7 +1124,13 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface, IsBool] )
 #! of <A>surf</A>, where
 #! @InsertChunk Documentation_UmbrellaTipDescriptor
 #! If the parameter <A>checkOrientation</A> is <K>true</K> and <A>surf</A>
-#! is an orientable surface, the returned umbrella tip descriptor is oriented.
+#! is an orientable surface, the returned umbrella tip descriptor is oriented,
+#! which means the umbrella around each vertex is arranged consistently with the
+#! global orientation of the surface. This means that for each pair of adjacent
+#! vertices and the vertices v1 and v2 that are incident to both vertices of the
+#! pair, their umbrellas encode opposite local transitions between these vertices.
+#! Concretely, at one vertex the umbrella will record the transition from v1 to v2,
+#! while at the other vertex the umbrella will record the transition from v2 to v1.
 #! The default value of <A>checkOrientation</A> is <K>true</K>.
 #! 
 #! As an example consider the following net of a simplicial surface.
