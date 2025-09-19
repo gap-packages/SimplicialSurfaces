@@ -461,39 +461,35 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 ##
 
 BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
-    function(commonDescr, numFaces)
-        local vertexFacesMap, faceVerticesMap, i, faces, face, vertexAdjencies,
+    function(surface, commonDescr)
+        local numFaces, firstBoundIndex, i, faces, face, vertexAdjencies,
             vertices, vertexPaths, findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap,
             orientedDescr, pair, vertex, predVertex, predRotationCycle, rotationCycle,
         # BFS related variables:
             queue, visited, referenceVertex;
 
+        numFaces := Length(Faces(surface));
+
         if Length(commonDescr) = 1 or numFaces = 1 then
             return commonDescr;
         fi;
 
-        # Collect all vertex<->face relations
-        vertexFacesMap := List(commonDescr, x -> []);
-        faceVerticesMap := List([1..numFaces], x -> []);
+        # Find the first bound index in commonDescr
         for i in [1..Length(commonDescr)] do
-            if IsList(commonDescr[i]) then
-                faces := commonDescr[i];
-            else
-                faces := Cycles(commonDescr[i], MovedPoints(commonDescr[i]))[1];
+            if not IsBound(commonDescr[i]) then
+                continue;
             fi;
-            vertexFacesMap[i] := faces;
 
-            for face in faces do
-                Add(faceVerticesMap[face], i);
-            od;
+            firstBoundIndex := i;
+            break;
         od;
 
         # For each vertex find all vertex adjancies as [vertex, face] pairs
         vertexAdjencies := List(commonDescr, x -> []);
-        for face in [1..Length(faceVerticesMap)] do
-            vertices := faceVerticesMap[face];
+        for face in [1..numFaces] do
+            vertices := VerticesOfFace(surface, face);
             for vertex in vertices do
-                for i in faceVerticesMap[face] do
+                for i in VerticesOfFace(surface, face) do
                     if not i in vertexAdjencies[vertex] then
                         Add(vertexAdjencies[vertex], [i, face]);
                     fi;
@@ -502,9 +498,9 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
         od;
 
         # Perform BFS to find the predecessor of each vertex
-        queue := [1];
+        queue := [firstBoundIndex];
         visited := List(commonDescr, x -> false);
-        visited[1] := true;
+        visited[firstBoundIndex] := true;
         vertexPredsMap := List(commonDescr, x -> []);
 
         while Length(queue) > 0 do
@@ -528,18 +524,22 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
             od;
         od;
 
-        # Provide a reference rotation for vertex 1
+        # Provide a reference rotation for vertex firstBoundIndex
         vertexRotationCycleMap := List(commonDescr, x -> ());
-        if IsList(commonDescr[1]) then
-            vertexRotationCycleMap[1] := CycleFromList(commonDescr[1]);
+        if IsList(commonDescr[firstBoundIndex]) then
+            vertexRotationCycleMap[firstBoundIndex] := CycleFromList(commonDescr[firstBoundIndex]);
         else
-            vertexRotationCycleMap[1] := commonDescr[1];
+            vertexRotationCycleMap[firstBoundIndex] := commonDescr[firstBoundIndex];
         fi;
 
         orientedDescr := commonDescr;
 
         # Iterate over all paths and match to predecessor vertex rotation
         for vertex in [2..Length(vertexPredsMap)] do
+            if not IsBound(vertexPredsMap[vertex]) then
+                continue;
+            fi;
+
             face := vertexPredsMap[vertex][2];
             predVertex := vertexPredsMap[vertex][1];
             predRotationCycle := vertexRotationCycleMap[predVertex];
@@ -590,8 +590,8 @@ InstallMethod(UmbrellaDescriptorOfSurface,
 
         if checkOrientation and IsOrientableSurface(surface) then
             return __SIMPLICIAL_OrientateUmbrellaDescriptor(
-                umbdesc,
-                Length(Faces(surface))
+                surface,
+                umbdesc
             );
         fi;
 
@@ -606,7 +606,7 @@ end);
 
 BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
     function(commonDescr)
-        local vertexPredsMap, vertex, vertexRotationCycleMap,
+        local firstBoundIndex, vertexPredsMap, vertex, vertexRotationCycleMap,
             orientedDescr, predVertex, predRotationCycle, rotationCycle,
         # BFS related variables:
             queue, visited, referenceVertex, adjacentVertices;
@@ -615,10 +615,17 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
             return commonDescr;
         fi;
 
+        for vertex in [1..Length(commonDescr)] do
+            if IsBound(commonDescr[vertex]) then
+                firstBoundIndex := vertex;
+                break;
+            fi;
+        od;
+
         # Perform BFS to find the predecessor of each vertex
-        queue := [1];
+        queue := [firstBoundIndex];
         visited := List(commonDescr, x -> false);
-        visited[1] := true;
+        visited[firstBoundIndex] := true;
         vertexPredsMap := List(commonDescr, x -> 0);
 
         while Length(queue) > 0 do
@@ -650,15 +657,19 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
 
         # Provide a reference rotation for vertex 1
         vertexRotationCycleMap := List(commonDescr, x -> ());
-        if IsList(commonDescr[1]) then
-            vertexRotationCycleMap[1] := CycleFromList(commonDescr[1]);
+        if IsList(commonDescr[firstBoundIndex]) then
+            vertexRotationCycleMap[firstBoundIndex] := CycleFromList(commonDescr[firstBoundIndex]);
         else
-            vertexRotationCycleMap[1] := commonDescr[1];
+            vertexRotationCycleMap[firstBoundIndex] := commonDescr[firstBoundIndex];
         fi;
 
         orientedDescr := commonDescr;
 
         for vertex in [2..Length(vertexPredsMap)] do
+            if not IsBound(vertexPredsMap[vertex]) then
+                continue;
+            fi;
+
             predVertex := vertexPredsMap[vertex];
             predRotationCycle := vertexRotationCycleMap[predVertex];
         
