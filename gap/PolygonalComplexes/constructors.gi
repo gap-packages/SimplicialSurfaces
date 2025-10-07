@@ -462,9 +462,10 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
     function(surface, commonDescr)
-        local numFaces, firstBoundIndex, i, faces, face, vertexAdjencies,
-            vertices, vertexPaths, findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap,
-            orientedDescr, pair, vertex, predVertex, predRotationCycle, rotationCycle,
+        local numFaces, firstBoundIndex, i, faces, face, vertexAdjencies, vertices,
+            vertexPaths, findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap,
+            orientedDescr, pair, vertex, adjacentVertex, predVertex, predRotationCycle,
+            rotationCycle,
         # BFS related variables:
             queue, visited, referenceVertex;
 
@@ -486,12 +487,16 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
 
         # For each vertex find all vertex adjancies as [vertex, face] pairs
         vertexAdjencies := List(commonDescr, x -> []);
-        for face in [1..numFaces] do
+        for face in Faces(surface) do
             vertices := VerticesOfFace(surface, face);
             for vertex in vertices do
-                for i in VerticesOfFace(surface, face) do
-                    if not i in vertexAdjencies[vertex] then
-                        Add(vertexAdjencies[vertex], [i, face]);
+                for adjacentVertex in vertices do
+                    if vertex = adjacentVertex then
+                        continue;
+                    fi;
+
+                    if not [adjacentVertex, face] in vertexAdjencies[vertex] then
+                        Add(vertexAdjencies[vertex], [adjacentVertex, face]);
                     fi;
                 od;
             od;
