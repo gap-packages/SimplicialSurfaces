@@ -670,7 +670,7 @@ DeclareOperation( "SimplexRingByIsomorphismType", [IsList] );
 #! @BeginExampleSession
 #! gap> string:=SimplexStringByIsomorphismType([1,2,3]);
 #! simplicial surface (8 vertices, 13 edges, and 6 faces)
-#! gap> UmbrellaDescriptorOfSurface(string);
+#! gap> UmbrellaDescriptorOfSurface(string, false);
 #! [ [ 1 ], [ 1, 2 ], [ 4, 3, 2, 1 ], [ 2, 3 ], [ 3, 4, 5, 6 ], [ 4, 5 ], [ 5, 6 ], 
 #!   [ 6 ] ]
 #! gap> IsSimplexString(string);

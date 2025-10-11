@@ -462,17 +462,17 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
 
 BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
     function(surface, commonDescr)
-        local numFaces, firstBoundIndex, i, faces, face, vertexAdjencies, vertices,
-            vertexPaths, findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap,
-            orientedDescr, pair, vertex, adjacentVertex, predVertex, predRotationCycle,
-            rotationCycle,
-        # BFS related variables:
+        local firstBoundIndex, i, faces, face, vertexAdjencies, vertices, vertexPaths,
+            findPredecessorBfs, vertexPredsMap, vertexRotationCycleMap, orientedDescr,
+            pair, vertex, neighbourVertex, predRotationCycle, rotationCycle,
+        # BFS related variables:then
             queue, visited, referenceVertex;
 
-        numFaces := Length(Faces(surface));
-
-        if Length(commonDescr) = 1 or numFaces = 1 then
+        if Length(commonDescr) = 1 or Length(Faces(surface)) = 1 then
             return commonDescr;
+        fi;
+        if 2 in DegreesOfVertices(surface) then
+            return fail;
         fi;
 
         # Find the first bound index in commonDescr
@@ -488,21 +488,31 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
         # For each vertex find all vertex adjancies as [vertex, face] pairs
         vertexAdjencies := List(commonDescr, x -> []);
         for face in Faces(surface) do
-            vertices := VerticesOfFace(surface, face);
+            vertices := VerticesOfFaceNC(surface, face);
             for vertex in vertices do
-                for adjacentVertex in vertices do
-                    if vertex = adjacentVertex then
+                for neighbourVertex in vertices do
+                    if vertex = neighbourVertex then
                         continue;
                     fi;
 
-                    if not [adjacentVertex, face] in vertexAdjencies[vertex] then
-                        Add(vertexAdjencies[vertex], [adjacentVertex, face]);
+                    if not [neighbourVertex, face] in vertexAdjencies[vertex] then
+                        Add(vertexAdjencies[vertex], [neighbourVertex, face]);
                     fi;
                 od;
             od;
         od;
 
-        # Perform BFS to find the predecessor of each vertex
+        # Provide a reference rotation for first bound vertex
+        vertexRotationCycleMap := List(commonDescr, x -> ());
+        if IsList(commonDescr[firstBoundIndex]) then
+            vertexRotationCycleMap[firstBoundIndex] := CycleFromList(commonDescr[firstBoundIndex]);
+        else
+            vertexRotationCycleMap[firstBoundIndex] := commonDescr[firstBoundIndex];
+        fi;
+
+        orientedDescr := commonDescr;
+
+        # Perform BFS to find the predecessor of each vertex and perform rotation calculation
         queue := [firstBoundIndex];
         visited := List(commonDescr, x -> false);
         visited[firstBoundIndex] := true;
@@ -525,47 +535,29 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
 
                     # Enqueue neighbour vertex
                     Add(queue, vertex);
+
+                    # Calculate rotation around vertex based on referenceVertex rotation
+                    predRotationCycle := vertexRotationCycleMap[referenceVertex];
+
+                    if IsList(orientedDescr[vertex]) then
+                        rotationCycle := CycleFromList(orientedDescr[vertex]);
+                    else
+                        rotationCycle := orientedDescr[vertex];
+                    fi;
+
+                    if face^rotationCycle = face^predRotationCycle or
+                    face^(rotationCycle^-1) = face^(predRotationCycle^-1) then
+                        vertexRotationCycleMap[vertex] := rotationCycle^-1;
+
+                        # Reverse rotation in orientedDescr
+                        if IsList(orientedDescr[vertex]) then
+                            orientedDescr[vertex] := Reversed(orientedDescr[vertex]);
+                        else
+                            orientedDescr[vertex] := orientedDescr[vertex]^-1;
+                        fi;
+                    fi;
                 fi;
             od;
-        od;
-
-        # Provide a reference rotation for vertex firstBoundIndex
-        vertexRotationCycleMap := List(commonDescr, x -> ());
-        if IsList(commonDescr[firstBoundIndex]) then
-            vertexRotationCycleMap[firstBoundIndex] := CycleFromList(commonDescr[firstBoundIndex]);
-        else
-            vertexRotationCycleMap[firstBoundIndex] := commonDescr[firstBoundIndex];
-        fi;
-
-        orientedDescr := commonDescr;
-
-        # Iterate over all paths and match to predecessor vertex rotation
-        for vertex in [2..Length(vertexPredsMap)] do
-            if not IsBound(vertexPredsMap[vertex]) then
-                continue;
-            fi;
-
-            face := vertexPredsMap[vertex][2];
-            predVertex := vertexPredsMap[vertex][1];
-            predRotationCycle := vertexRotationCycleMap[predVertex];
-
-            if IsList(orientedDescr[vertex]) then
-                rotationCycle := CycleFromList(orientedDescr[vertex]);
-            else
-                rotationCycle := orientedDescr[vertex];
-            fi;
-
-            if face^rotationCycle = face^predRotationCycle or
-               face^(rotationCycle^-1) = face^(predRotationCycle^-1) then
-                vertexRotationCycleMap[vertex] := rotationCycle^-1;
-
-                # Reverse rotation in orientedDescr
-                if IsList(orientedDescr[vertex]) then
-                    orientedDescr[vertex] := Reversed(orientedDescr[vertex]);
-                else
-                    orientedDescr[vertex] := orientedDescr[vertex]^-1;
-                fi;
-            fi;
         od;
 
         return orientedDescr;
@@ -612,7 +604,7 @@ end);
 BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
     function(commonDescr)
         local firstBoundIndex, vertexPredsMap, vertex, vertexRotationCycleMap,
-            orientedDescr, predVertex, predRotationCycle, rotationCycle,
+            orientedDescr, predRotationCycle, rotationCycle,
         # BFS related variables:
             queue, visited, referenceVertex, adjacentVertices;
 
@@ -626,6 +618,16 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
                 break;
             fi;
         od;
+
+        # Provide a reference rotation for first bound vertex
+        vertexRotationCycleMap := List(commonDescr, x -> ());
+        if IsList(commonDescr[firstBoundIndex]) then
+            vertexRotationCycleMap[firstBoundIndex] := CycleFromList(commonDescr[firstBoundIndex]);
+        else
+            vertexRotationCycleMap[firstBoundIndex] := commonDescr[firstBoundIndex];
+        fi;
+
+        orientedDescr := commonDescr;
 
         # Perform BFS to find the predecessor of each vertex
         queue := [firstBoundIndex];
@@ -656,44 +658,28 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaTipDescriptor",
 
                     # Enqueue neighbour vertex
                     Add(queue, vertex);
+
+                    # Calculate rotation around vertex based on referenceVertex rotation
+                    predRotationCycle := vertexRotationCycleMap[referenceVertex];
+
+                    if IsList(orientedDescr[vertex]) then
+                        rotationCycle := CycleFromList(orientedDescr[vertex]);
+                    else
+                        rotationCycle := orientedDescr[vertex];
+                    fi;
+
+                    if vertex^predRotationCycle = referenceVertex^rotationCycle then
+                        vertexRotationCycleMap[vertex] := rotationCycle^-1;
+
+                        # Reverse rotation in orientedDescr
+                        if IsList(orientedDescr[vertex]) then
+                            orientedDescr[vertex] := Reversed(orientedDescr[vertex]);
+                        else
+                            orientedDescr[vertex] := orientedDescr[vertex]^-1;
+                        fi;
+                    fi;
                 fi;
             od;
-        od;
-
-        # Provide a reference rotation for vertex 1
-        vertexRotationCycleMap := List(commonDescr, x -> ());
-        if IsList(commonDescr[firstBoundIndex]) then
-            vertexRotationCycleMap[firstBoundIndex] := CycleFromList(commonDescr[firstBoundIndex]);
-        else
-            vertexRotationCycleMap[firstBoundIndex] := commonDescr[firstBoundIndex];
-        fi;
-
-        orientedDescr := commonDescr;
-
-        for vertex in [2..Length(vertexPredsMap)] do
-            if not IsBound(vertexPredsMap[vertex]) then
-                continue;
-            fi;
-
-            predVertex := vertexPredsMap[vertex];
-            predRotationCycle := vertexRotationCycleMap[predVertex];
-        
-            if IsList(orientedDescr[vertex]) then
-                rotationCycle := CycleFromList(orientedDescr[vertex]);
-            else
-                rotationCycle := orientedDescr[vertex];
-            fi;
-
-            if vertex^predRotationCycle = predVertex^rotationCycle then
-                vertexRotationCycleMap[vertex] := rotationCycle^-1;
-
-                # Reverse rotation in orientedDescr
-                if IsList(orientedDescr[vertex]) then
-                    orientedDescr[vertex] := Reversed(orientedDescr[vertex]);
-                else
-                    orientedDescr[vertex] := orientedDescr[vertex]^-1;
-                fi;
-            fi;
         od;
 
         return orientedDescr;
