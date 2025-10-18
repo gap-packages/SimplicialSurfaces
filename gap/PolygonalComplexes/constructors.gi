@@ -471,13 +471,13 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
         if Length(commonDescr) = 1 or Length(Faces(surface)) = 1 then
             return commonDescr;
         fi;
-        if 2 in DegreesOfVertices(surface) then
-            return fail;
-        fi;
 
-        # Find the first bound index in commonDescr
+        # Find the first bound index in commonDescr with degree other than 2
         for i in [1..Length(commonDescr)] do
             if not IsBound(commonDescr[i]) then
+                continue;
+            fi;
+            if DegreeOfVertex(surface, i) = 2 then
                 continue;
             fi;
 
@@ -485,13 +485,21 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
             break;
         od;
 
-        # For each vertex find all vertex adjancies as [vertex, face] pairs
+        if not IsBound(firstBoundIndex) then
+            return commonDescr;
+        fi;
+
+        # For each vertex find all vertex adjancies as [vertex, face] pairs that
+        # don't have degree 2
         vertexAdjencies := List(commonDescr, x -> []);
         for face in Faces(surface) do
             vertices := VerticesOfFaceNC(surface, face);
             for vertex in vertices do
                 for neighbourVertex in vertices do
                     if vertex = neighbourVertex then
+                        continue;
+                    fi;
+                    if DegreeOfVertex(surface, neighbourVertex) = 2 then
                         continue;
                     fi;
 
