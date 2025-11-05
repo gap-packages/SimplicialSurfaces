@@ -477,7 +477,7 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
             if not IsBound(commonDescr[i]) then
                 continue;
             fi;
-            if DegreeOfVertex(surface, i) = 2 then
+            if IsInnerVertex(surface, i) and DegreeOfVertex(surface, i) = 2 then
                 continue;
             fi;
 
@@ -499,7 +499,7 @@ BindGlobal("__SIMPLICIAL_OrientateUmbrellaDescriptor",
                     if vertex = neighbourVertex then
                         continue;
                     fi;
-                    if DegreeOfVertex(surface, neighbourVertex) = 2 then
+                    if IsInnerVertex(surface, neighbourVertex) and DegreeOfVertex(surface, neighbourVertex) = 2 then
                         continue;
                     fi;
 
