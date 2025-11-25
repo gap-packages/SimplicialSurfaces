@@ -32,7 +32,7 @@ jobs:
           - stable-4.12
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
@@ -57,7 +57,7 @@ jobs:
     steps:
       - run: sudo apt-get update
       - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: gap-actions/setup-gap@v2
         with:
           GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
