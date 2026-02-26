@@ -2,7 +2,7 @@
 
 
 BindGlobal( "__SIMPLICIAL_AllTypes", 
-    ["PolygonalComplex", "TriangularComplex", "PolygonalSurface", "SimplicialSurface"] );
+    ["PolygonalComplex", "TriangularComplex", "PolygonalSurface", "SimplicialSurface", "SimplicialComplex"] );
 ##
 ## Automated construction of the constructors. Parameters:
 ## methodString: String for the method of the constructor (like 
@@ -50,10 +50,17 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 setterNC := function( obj )
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
+                    SetIsConnected(obj, true);
                 end;
             elif typeString = "SimplicialSurface" then
                 setterNC := function( obj )
                     SetIsNotEdgeRamified(obj, true);
+                    SetIsNotVertexRamified(obj, true);
+                    SetIsTriangular(obj, true);
+                    SetIsConnected(obj, true);
+                end;
+            elif typeString = "SimplicialComplex" then
+                setterNC := function( obj )
                     SetIsNotVertexRamified(obj, true);
                     SetIsTriangular(obj, true);
                 end;

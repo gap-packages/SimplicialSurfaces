@@ -405,6 +405,21 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! @EndGroup
 #TODO remark that most of these constructors also check for some properties
 
+#! @BeginGroup
+#! @Description
+#! This method constructs a simplicial complex
+#!
+#! @Returns a simplicial complex
+#! @Arguments verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList]);
+#! @EndGroup
+
 
 #! @Section UpwardIncidence
 #! @SectionLabel Constructors_UpwardIncidence
@@ -718,6 +733,21 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! @EndGroup
 #TODO remark that most of these constructors also check for some properties
 
+#! @BeginGroup
+#! @Description
+#! This method constructs a simplicial complex
+#!
+#! @Returns a simplicial complex
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
 
 
 ## It has to be remembered that these sections are primary candidates for
@@ -1010,6 +1040,21 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFaces", [IsSet, IsSet, IsList] )
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
 #! @Arguments vertices, faces, verticesInFaces
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
+#! @EndGroup
+
+#! @BeginGroup
+#! @Description
+#! This method constructs a simplicial complex
+#!
+#! @Returns a simplicial complex
+#! @Arguments verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, faces, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
 #! @Section Umbrella Descriptors

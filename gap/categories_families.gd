@@ -25,14 +25,14 @@ DeclareProperty( "IsNotVertexRamified", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
 
 
-DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified );
+DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsConnected );
 DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsTwistedPolygonalSurface );
 
 
 DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
-DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsConnected and IsTriangular );
-DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsConnected and IsTriangular );
-DeclareSynonym( "IsSimplicialComplex", IsPolygonalComplex and IsNotVertexRamified and IsTriangular );
+DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
+DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
+DeclareSynonym( "IsSimplicialComplex", IsTriangularComplex and IsNotVertexRamified );
 
 
 #######################################
