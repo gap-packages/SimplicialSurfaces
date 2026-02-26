@@ -1375,6 +1375,51 @@ InstallMethod( IsNotEdgeRamified,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "IsNotEdgeRamified", "RamifiedEdges");
 
+__SIMPLICIAL_AddTwistedAttribute( IsConnected );
+InstallMethod( IsConnected, 
+    "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local vertices, numVertices, queue, visited,
+            referenceVertex,adjacentVertices, vertex;
+
+        vertices := Vertices(complex);
+        numVertices := Length(vertices);
+
+        if numVertices = 0 then
+            return true;
+        fi;
+
+        # Perform BFS on vertices of complex
+        queue := [vertices[1]];
+        visited := List(vertices, x -> false);
+
+        while Length(queue) > 0 do
+            # Dequeue front
+            referenceVertex := Remove(queue, 1);
+
+            adjacentVertices := NeighbourVerticesOfVertex(complex, referenceVertex);
+
+            # Process each adjacent vertex of referenceVertex
+            for vertex in adjacentVertices do
+                if not visited[vertex] then
+                    visited[vertex] := true;
+
+                    # Enqueue neighbour vertex
+                    Add(queue, vertex);
+                fi;
+            od;
+        od;
+
+        for vertex in [1..numVertices] do
+            if not visited[vertex] then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
 
 ##
 ##      End of edge types
