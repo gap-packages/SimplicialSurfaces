@@ -284,7 +284,7 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
 ##
 
 __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
-    function( verticesOfEdges, edgesOfFaces )
+    function( verticesOfEdges, edgesOfFaces ) # TODO add argument vertices
         local obj;
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
@@ -293,7 +293,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         return obj;
     end,
     function( arg )
-        local verticesDed, edgesDed, facesDed, verticesOfEdges,
+        local verticesDed, verticesExp, edgesDed, facesDed, verticesOfEdges,
             edgesOfFaces;
 
         # First we deduce vertices, edges and faces
@@ -306,12 +306,18 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         fi;
 
         verticesDed := Union( verticesOfEdges ); #TODO this still can throw an error!
+        verticesExp := Filtered(arg[2], v -> v in verticesDed);
         edgesDed := PositionsBound(verticesOfEdges); # from incidence_geometry.gi
         facesDed := PositionsBound(edgesOfFaces);
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
-            __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            if arg[1] <> "SimplicialComplexByDownwardIncidence" then
+                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            else
+                __SIMPLICIAL_CompareSets( arg[1], verticesDed, verticesExp, "vertex" );
+            fi;
+
             __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
             __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
         fi;
