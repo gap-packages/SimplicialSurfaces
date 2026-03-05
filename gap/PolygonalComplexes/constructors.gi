@@ -351,12 +351,13 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 ##
 
 __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes, 
-    function( edgesOfVertices, facesOfEdges )
+    function( vertices, edgesOfVertices, facesOfEdges )
         local obj;
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
+        SetVerticesAttributeOfComplex(obj, vertices );
         return obj;
     end,
     function( arg )
@@ -406,7 +407,7 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
 ##
 
 __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
-    function( verticesInFaces )
+    function( vertices, verticesInFaces )
         local AdjacentVertices, allEdges, vertexPairs, edgesOfFaces, obj;
 
         AdjacentVertices := function(list)
@@ -431,6 +432,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         SetVerticesOfEdges(obj, allEdges);
         SetVerticesOfFaces(obj, List(verticesInFaces,Set));
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
+        SetVerticesAttributeOfComplex(obj, vertices );
 
         return obj;
     end,
