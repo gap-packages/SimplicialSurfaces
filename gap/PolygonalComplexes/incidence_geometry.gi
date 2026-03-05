@@ -286,7 +286,16 @@ InstallImmediateMethod( IsNotVertexRamified,
     "for a polygonal complex that has UmbrellaPathsOfVertices",
     IsPolygonalComplex and HasUmbrellaPathsOfVertices, 0,
     function(complex)
-        return not fail in UmbrellaPathsOfVertices(complex);
+        local paths, v;
+
+        paths := UmbrellaPathsOfVertices(complex);
+
+        for v in VerticesAttributeOfComplex(complex) do
+            if paths[v] = fail and Length(EdgesOfVertex(complex, v)) <> 0 then
+                return false;
+            fi;
+        od;
+        return true;
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
