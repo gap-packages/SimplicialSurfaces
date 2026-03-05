@@ -113,7 +113,10 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     od;
 
                     CallFuncList( preCheck, Concatenation([name], arg));
-                    obj := CallFuncList( objectConst, arg{[off+1..Length(arg)]});
+                    obj := CallFuncList( objectConst, Concatenation(
+                        [arg[1]],
+                        arg{[off+1..Length(arg)]}
+                    ));
                     postCheck(name, obj);
                     setterNormal(obj);
                     SetIsDefaultChamberSystem(obj, true);
@@ -128,7 +131,10 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     function(arg)
                         local obj;
 
-                        obj := CallFuncList(objectConst,arg);
+                        obj := CallFuncList(objectConst, Concatenation(
+                            [Union(arg[2])],
+                            arg
+                        ));
                         setterNC(obj);
                         SetIsDefaultChamberSystem(obj,true);
                         return obj;
@@ -284,12 +290,13 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
 ##
 
 __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
-    function( verticesOfEdges, edgesOfFaces ) # TODO add argument vertices
+    function( vertices, verticesOfEdges, edgesOfFaces )
         local obj;
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
+        SetVerticesAttributeOfComplex(obj, vertices );
         return obj;
     end,
     function( arg )
