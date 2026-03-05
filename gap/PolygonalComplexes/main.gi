@@ -245,14 +245,14 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
             return nameList[1];
         elif IsPolygonalSurface(complex) then
             return nameList[2];
+        elif IsSimplicialComplex(complex) then
+            return nameList[7];
         elif IsTriangularComplex(complex) then
             return nameList[3];
         elif IsPolygonalComplex(complex) then
             return nameList[4];
         elif IsTwistedPolygonalSurface(complex) then
             return nameList[6];
-        elif IsSimplicialComplex(complex) then
-            return nameList[7];
         else
             return nameList[5];
         fi;
