@@ -1049,7 +1049,8 @@ InstallMethod( RamifiedVertices,
         partitions := UmbrellaPathPartitionsOfVertices(complex);
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
-            if edgeFacePaths[v] = fail and partitions[v] <> fail then
+            if edgeFacePaths[v] = fail and partitions[v] <> fail and
+               Length(EdgesOfVertexNC(complex, v)) <> 0 then
                 Add(res, v);
             fi;
         od;
