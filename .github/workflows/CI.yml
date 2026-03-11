@@ -59,9 +59,19 @@ jobs:
       - run: sudo apt-get install sed texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-extra-utils texlive-fonts-recommended texlive-fonts-extra tex4ht 
       - uses: actions/checkout@v6
       - uses: gap-actions/setup-gap@v3
-        with:
-          GAP_PKGS_TO_BUILD: "io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface"
-          GAP_PKGS_TO_CLONE: "gap-packages/AttributeScheduler.git gap-packages/NautyTracesInterface.git"
+      - shell: bash
+        run: |
+          # Install packages via PackageManager
+          gap -c 'LoadPackage("PackageManager");
+                    InstallPackage("io");
+                    InstallPackage("profiling");
+                    InstallPackage("grape");
+                    InstallPackage("datastructures");
+                    InstallPackage("orb");
+                    InstallPackage("digraphs");
+                    InstallPackage("https://github.com/gap-packages/AttributeScheduler.git");
+                    InstallPackage("https://github.com/gap-packages/NautyTracesInterface.git");
+                    QUIT;'
       - uses: gap-actions/build-pkg@v1
       - uses: gap-actions/build-pkg-docs@v2
         with:
