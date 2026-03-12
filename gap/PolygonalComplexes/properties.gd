@@ -186,6 +186,38 @@ DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
 DeclareProperty( "IsSimplexString", IsTwistedPolygonalComplex);
 #! @EndGroup
 
+#! @BeginGroup FaceListOfRing
+#! @Description
+#! Compute the face list of a simplex ring where the list starts with the
+#! smallest face in the case of a simplex ring.
+#!
+#! @BeginExampleSession
+#! gap> ring:=SimplexRingByIsomorphismType([1,2,3]);
+#! simplicial surface (6 vertices, 12 edges, and 6 faces)
+#! gap> FaceListOfSimplexRing(ring);
+#! [ 1, 2, 3, 4, 5, 6 ]
+#! @EndExampleSession
+#!
+#! @Arguments simplex ring
+DeclareAttribute( "FaceListOfSimplexRing", IsSimplexRing);
+#! @EndGroup
+
+#! @BeginGroup FaceListOfString
+#! @Description
+#! Compute the face list of a simplex string where the list starts with the
+#! smallest face that has two incident boundary edges in the case of a simplex string.
+#!
+#! @BeginExampleSession
+#! gap> string:=SimplexStringByIsomorphismType([1,2,3]);
+#! simplicial surface (8 vertices, 13 edges, and 6 faces)
+#! gap> FaceListOfSimplexString(string);
+#! [ 1, 2, 3, 4, 5, 6 ]
+#! @EndExampleSession
+#!
+#! @Arguments simplex string
+DeclareAttribute( "FaceListOfSimplexString", IsSimplexString);
+#! @EndGroup
+
 #! @BeginGroup IsMultiTetrahedralSphere
 #! @Description
 #! Check whether the given twisted polygonal complex is a multitetrahedral
