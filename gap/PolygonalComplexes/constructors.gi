@@ -89,7 +89,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             # Install the short versions first
             wrapper := function( longFilter, name, setterNormal )
                 return function(arg)
-                    local obj, i, off;
+                    local obj, i, off, vertices;
 
                     # Check the sets for well-definedness
                     if Length(arg) = Length(longFilter) then
@@ -105,6 +105,9 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     off := 0;
                     if Length(arg) = Length(longFilter) then
                         off := Length(namesOfSets);
+                        vertices := arg[1];
+                    else
+                        vertices := [];
                     fi;
                     for i in [1..Length(namesOfLists)] do
                         if ForAny( arg[i+off], l -> not IsList(l) or ForAny(l, x -> not IsPosInt(x) ) ) then
@@ -114,7 +117,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
                     CallFuncList( preCheck, Concatenation([name], arg));
                     obj := CallFuncList( objectConst, Concatenation(
-                        [arg[1]],
+                        [vertices],
                         arg{[off+1..Length(arg)]}
                     ));
                     postCheck(name, obj);
@@ -296,7 +299,9 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         SetIsPolygonalComplex(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
-        SetVerticesAttributeOfComplex(obj, vertices );
+        if Length(vertices) > 0 then
+            SetVerticesAttributeOfComplex(obj, vertices );
+        fi;
         return obj;
     end,
     function( arg )
@@ -313,16 +318,16 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         fi;
 
         verticesDed := Union( verticesOfEdges ); #TODO this still can throw an error!
-        verticesExp := Filtered(arg[2], v -> v in verticesDed);
         edgesDed := PositionsBound(verticesOfEdges); # from incidence_geometry.gi
         facesDed := PositionsBound(edgesOfFaces);
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
-            if arg[1] <> "SimplicialComplexByDownwardIncidence" then
-                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            if arg[1] = "SimplicialComplexByDownwardIncidence" then
+                verticesExp := Filtered(arg[2], v -> v in verticesDed);
+                __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
             else
-                __SIMPLICIAL_CompareSets( arg[1], verticesDed, verticesExp, "vertex" );
+                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
             fi;
 
             __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
@@ -357,11 +362,13 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         SetIsPolygonalComplex(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
-        SetVerticesAttributeOfComplex(obj, vertices );
+        if Length(vertices) > 0 then
+            SetVerticesAttributeOfComplex(obj, vertices );
+        fi;
         return obj;
     end,
     function( arg )
-        local verticesDed, edgesDed, facesDed, edgesOfVertices, facesOfEdges;
+        local verticesDed, verticesExp, edgesDed, facesDed, edgesOfVertices, facesOfEdges;
 
         # First we deduce vertices, edges and faces
         if Length(arg) = 3 then
@@ -377,7 +384,13 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
-            __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            if arg[1] = "SimplicialComplexByUpwardIncidence" then
+                verticesExp := Filtered(arg[2], v -> v in verticesDed);
+                __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
+            else
+                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            fi;
+            
             __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
             __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
         fi;
@@ -432,12 +445,14 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         SetVerticesOfEdges(obj, allEdges);
         SetVerticesOfFaces(obj, List(verticesInFaces,Set));
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
-        SetVerticesAttributeOfComplex(obj, vertices );
+        if Length(vertices) > 0 then
+            SetVerticesAttributeOfComplex(obj, vertices );
+        fi;
 
         return obj;
     end,
     function( arg )
-        local verticesDed, facesDed, verticesInFaces;
+        local verticesDed, verticesExp, facesDed, verticesInFaces;
 
         # First we deduce vertices and faces
         if Length(arg) = 2 then
@@ -450,7 +465,13 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         
         # Compare the vertex and face data
         if Length(arg) = 4 then
-            __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            if arg[1] = "SimplicialComplexByVerticesInFaces" then
+                verticesExp := Filtered(arg[2], v -> v in verticesDed);
+                __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
+            else
+                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+            fi;
+
             __SIMPLICIAL_CompareSets( arg[1], arg[3], facesDed, "face" );
         fi;
 
