@@ -44,20 +44,20 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 setterNC := function( obj ) end;
             elif typeString = "TriangularComplex" then
                 setterNC := function( obj )
+                    SetIsFacePure(obj, true);
                     SetIsTriangular(obj, true);
                 end;
             elif typeString = "PolygonalSurface" then
                 setterNC := function( obj )
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
-                    SetIsConnected(obj, true);
                 end;
             elif typeString = "SimplicialSurface" then
                 setterNC := function( obj )
+                    SetIsFacePure(obj, true);
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
                     SetIsTriangular(obj, true);
-                    SetIsConnected(obj, true);
                 end;
             elif typeString = "SimplicialComplex" then
                 setterNC := function( obj )
@@ -134,10 +134,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     function(arg)
                         local obj;
 
-                        obj := CallFuncList(objectConst, Concatenation(
-                            [Union(arg[2])],
-                            arg
-                        ));
+                        obj := CallFuncList(objectConst, [[], arg[1], arg[2]]);
                         setterNC(obj);
                         SetIsDefaultChamberSystem(obj,true);
                         return obj;

@@ -1376,13 +1376,15 @@ InstallMethod( IsNotEdgeRamified,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "IsNotEdgeRamified", "RamifiedEdges");
 
-__SIMPLICIAL_AddTwistedAttribute( IsConnected );
-InstallMethod( IsConnected, 
+__SIMPLICIAL_AddTwistedAttribute( IsFacePure );
+InstallMethod( IsFacePure, 
     "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
         local vertices, numVertices, queue, visited,
             referenceVertex,adjacentVertices, vertex;
+
+        # TODO: rewrite with iteration over FacesOfVertices(complex) and check for empty lists
 
         vertices := Vertices(complex);
         numVertices := Length(vertices);

@@ -13,11 +13,13 @@ BindGlobal( "TwistedPolygonalComplexFamily",
     NewFamily("TwistedPolygonalComplexFamily", IsObject, IsTwistedPolygonalComplex));
 
 DeclareProperty("IsPolygonalComplex", IsTwistedPolygonalComplex);
+DeclareProperty("IsFacePure", IsTwistedPolygonalComplex);
+
+
+DeclareSynonym( "IsPureTwistedPolygonalComplex", IsTwistedPolygonalComplex and IsFacePure );
+DeclareSynonym( "IsPurePolygonalComplex", IsPolygonalComplex and IsFacePure );
 
 ## Define all secondary categories
-
-
-DeclareProperty("IsConnected", IsTwistedPolygonalComplex);
 
 # Ramifications
 DeclareProperty( "IsNotEdgeRamified", IsTwistedPolygonalComplex );
@@ -25,14 +27,18 @@ DeclareProperty( "IsNotVertexRamified", IsTwistedPolygonalComplex );
 InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
 
 
-DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified and IsConnected );
-DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsTwistedPolygonalSurface );
+DeclareSynonym( "IsTwistedPolygonalSurface", IsPureTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified );
+DeclareSynonym( "IsPureTwistedPolygonalSurface", IsTwistedPolygonalSurface and IsFacePure );
+
+DeclareSynonym( "IsPolygonalSurface", IsPurePolygonalComplex and IsPureTwistedPolygonalSurface );
+DeclareSynonym( "IsPurePolygonalSurface", IsPolygonalSurface and IsFacePure );
 
 
-DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
-DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
-DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
-DeclareSynonym( "IsSimplicialComplex", IsTriangularComplex and IsNotVertexRamified );
+DeclareProperty( "IsTriangular", IsPurePolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
+
+DeclareSynonym( "IsTriangularComplex", IsPurePolygonalComplex and IsTriangular );
+DeclareSynonym( "IsSimplicialSurface", IsPurePolygonalSurface and IsTriangular );
+DeclareSynonym( "IsSimplicialComplex", IsPolygonalComplex and IsNotVertexRamified );
 
 
 #######################################
