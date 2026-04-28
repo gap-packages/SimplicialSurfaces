@@ -430,12 +430,12 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
-#! @Arguments verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsList, IsList] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsList, IsList] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList]);
 #! @EndGroup
@@ -780,12 +780,12 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
-#! @Arguments edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsList, IsList] );
+#! @Arguments vertices, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsList, IsList] );
 #! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
 DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsList, IsList] );
+#! @Arguments vertices, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsList, IsList] );
 #! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
 DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
@@ -1107,12 +1107,12 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
-#! @Arguments verticesInFaces
-DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsList] );
+#! @Arguments vertices, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsList] );
 #! @Arguments vertices, faces, verticesInFaces
 DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsSet, IsList] );
-#! @Arguments verticesInFaces
-DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsList] );
+#! @Arguments vertices, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsList] );
 #! @Arguments vertices, faces, verticesInFaces
 DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
@@ -1567,4 +1567,10 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @Returns a simplicial surface or false 
 #! @Arguments dress
 DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
+#! @EndGroup
+
+#! @BeginGroup
+#! @Returns a triangular complex
+#! @Arguments simplicial complex
+DeclareOperation( "TriangularComplexFromSimplicialComplex", [IsSimplicialComplex]);
 #! @EndGroup

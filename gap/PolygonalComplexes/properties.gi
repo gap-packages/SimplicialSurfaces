@@ -1378,44 +1378,19 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
 
 __SIMPLICIAL_AddTwistedAttribute( IsFacePure );
 InstallMethod( IsFacePure, 
-    "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+    "for a twisted polygonal complex with FacesOfVertices and FacesOfEdges",
+    [IsTwistedPolygonalComplex and HasFacesOfVertices and HasFacesOfEdges],
     function(complex)
-        local vertices, numVertices, queue, visited,
-            referenceVertex,adjacentVertices, vertex;
+        local faces;
 
-        # TODO: rewrite with iteration over FacesOfVertices(complex) and check for empty lists
-
-        vertices := Vertices(complex);
-        numVertices := Length(vertices);
-
-        if numVertices = 0 then
-            return true;
-        fi;
-
-        # Perform BFS on vertices of complex
-        queue := [vertices[1]];
-        visited := List(vertices, x -> false);
-
-        while Length(queue) > 0 do
-            # Dequeue front
-            referenceVertex := Remove(queue, 1);
-
-            adjacentVertices := NeighbourVerticesOfVertex(complex, referenceVertex);
-
-            # Process each adjacent vertex of referenceVertex
-            for vertex in adjacentVertices do
-                if not visited[vertex] then
-                    visited[vertex] := true;
-
-                    # Enqueue neighbour vertex
-                    Add(queue, vertex);
-                fi;
-            od;
+        for faces in FacesOfVertices(complex) do
+            if Length(faces) = 0 then
+                return false;
+            fi;
         od;
 
-        for vertex in [1..numVertices] do
-            if not visited[vertex] then
+        for faces in FacesOfEdges(complex) do
+            if Length(faces) = 0 then
                 return false;
             fi;
         od;
@@ -1423,6 +1398,8 @@ InstallMethod( IsFacePure,
         return true;
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsFacePure", ["FacesOfVertices", "FacesOfEdges"]);
 
 ##
 ##      End of edge types

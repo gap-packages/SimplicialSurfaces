@@ -44,25 +44,29 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 setterNC := function( obj ) end;
             elif typeString = "TriangularComplex" then
                 setterNC := function( obj )
-                    SetIsFacePure(obj, true);
                     SetIsTriangular(obj, true);
                 end;
             elif typeString = "PolygonalSurface" then
                 setterNC := function( obj )
+                    SetIsFacePure(obj, true);
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
                 end;
             elif typeString = "SimplicialSurface" then
                 setterNC := function( obj )
+                    # Derived from Polygonal Surface
                     SetIsFacePure(obj, true);
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
+
                     SetIsTriangular(obj, true);
                 end;
             elif typeString = "SimplicialComplex" then
                 setterNC := function( obj )
-                    SetIsNotVertexRamified(obj, true);
+                    # Derived from Triangular Complex
                     SetIsTriangular(obj, true);
+
+                    SetIsNotVertexRamified(obj, true);
                 end;
             else
                 Error("This type is not supported.\n");
@@ -130,18 +134,32 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             normalFunction := wrapper(longFilter, name, setterNormal);
             # To install by using local functions we have to use a workaround
             wrapper := function( setterNC, descriptionShort, shortFilter )
+                if typeString = "SimplicialComplex" then
+                    # Do not install short filter functions for SimplicialComplex
+                    return;
+                fi;
+
                 InstallMethod( ValueGlobal(nameNC),descriptionShort,shortFilter,
                     function(arg)
                         local obj;
 
-                        obj := CallFuncList(objectConst, [[], arg[1], arg[2]]);
+                        obj := CallFuncList(objectConst, Concatenation(
+                            [[]],
+                            arg{[1..Length(arg)]}
+                        ));
                         setterNC(obj);
-                        SetIsDefaultChamberSystem(obj,true);
+                        SetIsDefaultChamberSystem(obj, true);
+
                         return obj;
                     end);
             end;
             wrapper(setterNC, descriptionShort, shortFilter);
             wrapper := function(normalFunction, descriptionShort, shortFilter)
+                if typeString = "SimplicialComplex" then
+                    # Do not install short filter functions for SimplicialComplex
+                    return;
+                fi;
+
                 InstallMethod( ValueGlobal(name), descriptionShort, shortFilter,
                     normalFunction );
             end;
@@ -152,7 +170,16 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             wrapper := function(name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe)
                 InstallMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
                     function(arg)
-                        return CallFuncList( ValueGlobal(nameNC), arg{shortPos});
+                        local obj;
+
+                        obj := CallFuncList(objectConst, Concatenation(
+                            [arg[1]],
+                            arg{shortPos}
+                        ));
+                        setterNC(obj);
+                        SetIsDefaultChamberSystem(obj, true);
+
+                        return obj;
                     end);
                     RedispatchOnCondition( ValueGlobal(nameNC), true,
                         longFilterAlt, longFilterRe, 0);
@@ -361,6 +388,8 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
         if Length(vertices) > 0 then
             SetVerticesAttributeOfComplex(obj, vertices );
+        else
+            SetVerticesAttributeOfComplex(obj, VerticesAttributeOfComplex(obj));
         fi;
         return obj;
     end,
@@ -444,6 +473,8 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
         if Length(vertices) > 0 then
             SetVerticesAttributeOfComplex(obj, vertices );
+        else
+            SetVerticesAttributeOfComplex(obj, VerticesAttributeOfComplex(obj));
         fi;
 
         return obj;
@@ -2069,3 +2100,62 @@ end);
 ##
 #######################################
 
+InstallMethod( SimplicialComplexByDownwardIncidence,
+    "for a set and two lists", [IsSet, IsList, IsList], function(vertices, verticesOfEdges, edgesOfFaces)
+    local edges, faces;
+
+    edges := [1..Length(verticesOfEdges)];
+    faces := [1..Length(edgesOfFaces)];
+
+    return SimplicialComplexByDownwardIncidence(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+end);
+InstallMethod( SimplicialComplexByDownwardIncidenceNC,
+    "for a set and two lists", [IsSet, IsList, IsList], function(vertices, verticesOfEdges, edgesOfFaces)
+    local edges, faces;
+
+    edges := [1..Length(verticesOfEdges)];
+    faces := [1..Length(edgesOfFaces)];
+
+    return SimplicialComplexByDownwardIncidenceNC(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+end);
+
+InstallMethod( SimplicialComplexByUpwardIncidence,
+    "for a set and two lists", [IsSet, IsList, IsList], function(vertices, edgesOfVertices, facesOfEdges)
+    local edges, faces;
+
+    edges := [1..Length(facesOfEdges)];
+    faces := Set(Concatenation(facesOfEdges));
+
+    return SimplicialComplexByUpwardIncidence(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+end);
+InstallMethod( SimplicialComplexByUpwardIncidenceNC,
+    "for a set and two lists", [IsSet, IsList, IsList], function(vertices, edgesOfVertices, facesOfEdges)
+    local edges, faces;
+
+    edges := [1..Length(facesOfEdges)];
+    faces := Set(Concatenation(facesOfEdges));
+
+    return SimplicialComplexByUpwardIncidenceNC(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+end);
+
+InstallMethod( SimplicialComplexByVerticesInFaces,
+    "for a set and a list", [IsSet, IsList], function(vertices, verticesInFaces)
+    local faces;
+
+    faces := [1..Length(verticesInFaces)];
+
+    return SimplicialComplexByVerticesInFaces(vertices, faces, verticesInFaces);
+end);
+InstallMethod( SimplicialComplexByVerticesInFacesNC,
+    "for a set and a list", [IsSet, IsList], function(vertices, verticesInFaces)
+    local faces;
+
+    faces := [1..Length(verticesInFaces)];
+
+    return SimplicialComplexByVerticesInFacesNC(vertices, faces, verticesInFaces);
+end);
+
+InstallMethod ( TriangularComplexFromSimplicialComplex,
+    "for simplicial complex", [IsSimplicialComplex], function(complex)
+    return TriangularComplexByVerticesInFaces(VerticesOfFaces(complex));
+end);
