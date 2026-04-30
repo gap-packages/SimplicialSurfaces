@@ -999,6 +999,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 SetEdgesOfFaces(obj, edgesOfFaces);
                 SetUmbrellaPathsOfVertices(obj, 
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
+                SetIsFacePure(obj, true);
 
                 # construction of the coloured surface
                 colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );

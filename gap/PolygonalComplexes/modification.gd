@@ -680,7 +680,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! Both of these tetrahedra have the same labels for vertices, edges and faces.
 #! @BeginExampleSession
 #! gap> Vertices(tetra);
-#! [ 1, 2, 3, 4 ]
+#! [ 1 .. 4 ]
 #! gap> Edges(tetra);
 #! [ 1, 2, 3, 4, 5, 6 ]
 #! gap> Faces(tetra);
