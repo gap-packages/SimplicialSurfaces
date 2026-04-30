@@ -1040,17 +1040,19 @@ InstallMethod( IsBoundaryVertex, "for a twisted polygonal complex and a vertex",
 
 __SIMPLICIAL_AddTwistedAttribute( RamifiedVertices );
 InstallMethod( RamifiedVertices, 
-    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices and VerticesAttributeOfComplex",
-    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex],
+    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices, VerticesAttributeOfComplex and EdgesOfVertices",
+    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex and HasEdgesOfVertices],
     function(complex)
-        local edgeFacePaths, partitions, res, v;
+        local edgeFacePaths, partitions, edges, res, v;
 
         edgeFacePaths := UmbrellaPathsOfVertices(complex);
         partitions := UmbrellaPathPartitionsOfVertices(complex);
+        edges := EdgesOfVertices(complex);
+
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
             if edgeFacePaths[v] = fail and partitions[v] <> fail and
-               Length(EdgesOfVertexNC(complex, v)) <> 0 then
+               Length(edges[v]) <> 0 then
                 Add(res, v);
             fi;
         od;
@@ -1059,7 +1061,7 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices", 
-    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex"]);
+    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex", "EdgesOfVertices"]);
 
 InstallMethod( RamifiedVertices, 
     "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices",

@@ -209,6 +209,9 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsPolygonalComplex(complex, true);
+    SetIsFacePure(complex, true);
+    SetVerticesAttributeOfComplex(complex, [1, 6, 7, 8, 9, 10]);
+    SetEdgesOfVertices(complex, [[ 11, 12, 13, 14 ],,,,, [ 11, 15, 19 ], [ 12, 15, 16 ], [ 16, 17 ], [ 13, 17, 18 ], [ 14, 18, 19 ]]);
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
     SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
@@ -332,6 +335,7 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
+    SetIsFacePure(obj, true);
     SetConnectedComponentsAttributeOfComplex(obj, [obj]);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj) = [obj]);
 
@@ -344,6 +348,7 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
+    SetIsFacePure(obj, true);
     SetIsConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj)=[obj]);
 end);
