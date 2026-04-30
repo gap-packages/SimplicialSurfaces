@@ -184,10 +184,16 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
             # Installing the long versions is a bit of a hassle because they
             # need many installations and redispatches
-            wrapper := function(name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe)
+            wrapper := function(setterNC, name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe)
                 InstallMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
                     function(arg)
-                        return CallFuncList(objectConst, Concatenation(arg{shortPos}, [arg[1]]));
+                        local obj;
+
+                        obj := CallFuncList(objectConst, Concatenation(arg{shortPos}, [arg[1]]));
+                        setterNC(obj);
+                        SetIsDefaultChamberSystem(obj, true);
+
+                        return obj;
                     end);
                     RedispatchOnCondition( ValueGlobal(nameNC), true,
                         longFilterAlt, longFilterRe, 0);
@@ -196,7 +202,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     RedispatchOnCondition( ValueGlobal(name), true,
                         longFilterAlt, longFilterRe, 0);
             end;
-            wrapper(name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe);
+            wrapper(setterNC, name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe);
 
             # The implementation of the PosInt-alternative to sets takes
             # the most work:
