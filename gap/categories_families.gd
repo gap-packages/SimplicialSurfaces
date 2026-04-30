@@ -18,6 +18,8 @@ DeclareProperty("IsFacePure", IsTwistedPolygonalComplex);
 
 ## Define all secondary categories
 
+DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
+
 # Ramifications
 DeclareProperty( "IsNotEdgeRamified", IsTwistedPolygonalComplex );
 DeclareProperty( "IsNotVertexRamified", IsTwistedPolygonalComplex );
@@ -27,8 +29,6 @@ InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
 DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsFacePure and IsNotEdgeRamified and IsNotVertexRamified );
 
 DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsTwistedPolygonalSurface );
-
-DeclareProperty( "IsTriangular", IsPolygonalSurface );    #TODO this is currently twice declared (also in properties.gd)
 
 DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
 DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
