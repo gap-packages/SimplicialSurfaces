@@ -71,6 +71,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     __SIMPLICIAL_Test_ButterflyDeletion();
 
+    __SIMPLICIAL_Test_SimplicialComplex();
+
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);
     fi;

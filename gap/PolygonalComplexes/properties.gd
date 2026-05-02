@@ -958,6 +958,31 @@ DeclareOperation("DegreesOfMultiplicity",[IsCounter, IsPosInt]);
 DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup IsFacePure
+#! @Description
+#! Check whether all vertices and edges in this twisted polygonal complex are incident
+#! to any face of the complex.
+#!
+#! A tetrahedron is face pure:
+#! @BeginExampleSession
+#! gap> IsFacePure(Tetrahedron());
+#! true
+#! @EndExampleSession
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> Vertices(tetra);
+#! [ 1 .. 4 ]
+#! gap> vertices := [1..5];;
+#! gap> verticesOfFaces := VerticesOfFaces(tetra);;
+#! gap> complex := SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);;
+#! gap> IsFacePure(complex);
+#! false
+#! @EndExampleSession
+#! This complex is not face pure, since it contains a vertex that is not incident to
+#! a face in the complex.
+DeclareProperty( "IsFacePure", IsTwistedPolygonalComplex );
+#! @EndGroup
+
 
 #! @BeginGroup IsTriangular
 #! @Description

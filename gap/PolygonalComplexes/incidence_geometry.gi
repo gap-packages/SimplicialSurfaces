@@ -292,6 +292,10 @@ InstallImmediateMethod( IsNotVertexRamified,
         edges := EdgesOfVertices(complex);
 
         for v in VerticesAttributeOfComplex(complex) do
+            # Isolated vertices are not ramified, but they do not
+            # have an umbrella path.
+            # Hence for a vertex to be ramified we need to check
+            # for both no umbrella path AND present adjacent edges.
             if paths[v] = fail and Length(edges[v]) <> 0 then
                 return false;
             fi;

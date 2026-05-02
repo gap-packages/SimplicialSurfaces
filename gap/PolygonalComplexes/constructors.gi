@@ -93,7 +93,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             # Install the short versions first
             wrapper := function( longFilter, name, setterNormal )
                 return function(arg)
-                    local obj, i, off, simpCompOff, vertices;
+                    local obj, i, off, scOff, vertices;
 
                     # Check the sets for well-definedness
                     if Length(arg) = Length(longFilter) then
@@ -106,28 +106,35 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     fi;
 
                     # Check the lists for well-definedness
-                    off := 0;
-                    simpCompOff := 0;
+                    off := 0; # Regular filter offset (long/short filter)
+                    scOff := 0; # Simplicial Complex offset (Simplicial Complex short filter constructors
+                                # have vertices arg for short filter too)
                     if Length(arg) = Length(longFilter) then
                         off := Length(namesOfSets);
                         vertices := arg[1];
                     else
                         if Length(arg) = Length(shortFilter)+1 then
-                            simpCompOff := 1;
-                            vertices := arg[1];
+                            # This is a Simplicial Complex short filter constructor call.
+                            scOff := 1; # Since we have a vertices arg here on arg[1], set
+                                        # the offset.
+                            vertices := arg[1]; # Extract vertices from arg.
                         else
+                            # This is a regular short filter constructor call which does not
+                            # need explicit vertices information.
                             vertices := [];
                         fi;
                     fi;
                     for i in [1..Length(namesOfLists)] do
-                        if ForAny( arg[i+off+simpCompOff], l -> not IsList(l) or ForAny(l, x -> not IsPosInt(x) ) ) then
+                        if ForAny( arg[i+off+scOff], l -> not IsList(l) or ForAny(l, x -> not IsPosInt(x) ) ) then
                             Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers.\n"));
                         fi;
                     od;
 
-                    CallFuncList( preCheck, Concatenation([name], arg{[simpCompOff+1..Length(arg)]}));
+                    # Calling precheck function without vertices arg which is filtered out using scOff.
+                    CallFuncList( preCheck, Concatenation([name], arg{[scOff+1..Length(arg)]}));
+                    # Rearrange arg order to objectConst expected arguments order.
                     obj := CallFuncList(objectConst, Concatenation(
-                        arg{[off+simpCompOff+1..Length(arg)]},
+                        arg{[off+scOff+1..Length(arg)]},
                         [vertices]
                     ));
                     postCheck(name, obj);
@@ -143,6 +150,8 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 local filter;
 
                 if typeString = "SimplicialComplex" then
+                    # For Simplicial Complex short filter constructors we append
+                    # 'IsSet' for the vertices arg.
                     filter := Concatenation([ValueGlobal("IsSet")], shortFilter);
                 else
                     filter := shortFilter;
@@ -153,9 +162,17 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                         local obj;
 
                         if Length(arg) = Length(shortFilter)+1 then
+                            # This is a Simplicial Complex constructor call.
+                            # Then rearrange arg order to objectConst expected arguments order.
+                            #
+                            # Distinguish constructor type:
                             if Length(arg) = 3 then
+                                # This is a SimplicialComplexBy(Downward/Upward)Incidence
+                                # constructor call.
                                 arg := [arg[2], arg[3], arg[1]];
                             else
+                                # This is a SimplicialComplexByVerticesInFaces
+                                # constructor call.
                                 arg := [arg[2], arg[1]];
                             fi;
                         fi;
@@ -172,6 +189,8 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 local filter;
 
                 if typeString = "SimplicialComplex" then
+                    # For Simplicial Complex short filter constructors we append
+                    # IsSet for the vertices arg.
                     filter := Concatenation([ValueGlobal("IsSet")], shortFilter);
                 else
                     filter := shortFilter;
@@ -189,6 +208,9 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     function(arg)
                         local obj;
 
+                        # Directly call the object constructor by reducing the long filter
+                        # arg to the incidence arguments and concatenate it with the vertices arg
+                        # in arg[1].
                         obj := CallFuncList(objectConst, Concatenation(arg{shortPos}, [arg[1]]));
                         setterNC(obj);
                         SetIsDefaultChamberSystem(obj, true);

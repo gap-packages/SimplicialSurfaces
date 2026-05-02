@@ -421,11 +421,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! gap> Vertices(s);
 #! [1..3]
 #! gap> vertices := [1..4];;
-#! gap> edges := Edges(s);;
-#! gap> faces := Faces(s);;
 #! gap> verticesOfEdges := VerticesOfEdges(s);;
 #! gap> edgesOfFaces := EdgesOfFaces(s);;
-#! gap> c := SimplicialComplexByDownwardIncidence(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+#! gap> c := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
 #! simplicial complex (4 vertices, 3 edges, and 2 faces)
 #! @EndExampleSession
 #!
@@ -769,13 +767,11 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! gap> Vertices(s);
 #! [1..3]
 #! gap> vertices := [1..4];;
-#! gap> edges := Edges(s);;
-#! gap> faces := Faces(s);;
 #! gap> EdgesOfVertices(s);
 #! [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
 #! gap> edgesOfVertices := [ [1, 2], [1, 3], [2, 3], [] ];;
 #! gap> facesOfEdges := FacesOfEdges(s);;
-#! gap> c := SimplicialComplexByUpwardIncidence(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+#! gap> c := SimplicialComplexByUpwardIncidence(vertices, edgesOfVertices, facesOfEdges);
 #! simplicial complex (4 vertices, 3 edges, and 2 faces)
 #! @EndExampleSession
 #!
@@ -1100,9 +1096,8 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! gap> Vertices(s);
 #! [1..3]
 #! gap> vertices := [1..4];;
-#! gap> faces := Faces(s);;
-#! gap> verticesInFaces := VerticesOfFaces(s);;
-#! gap> c := SimplicialComplexByVerticesInFaces(vertices, faces, verticesInFaces);
+#! gap> verticesOfFaces := VerticesOfFaces(s);;
+#! gap> c := SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
 #! simplicial complex (4 vertices, 3 edges, and 2 faces)
 #! @EndExampleSession
 #!

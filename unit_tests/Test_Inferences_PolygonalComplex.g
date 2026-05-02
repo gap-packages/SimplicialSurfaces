@@ -583,3 +583,96 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function ()
     );
     SIMPLICIAL_TestAssert(result2 = result);
 end);
+
+BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
+    local tetra, vertices, edges, faces, verticesOfFaces, verticesOfEdges, edgesOfVertices,
+          edgesOfFaces, facesOfEdges, validateType, testComplex, c, extractedSurface;
+
+    tetra := Tetrahedron();
+
+    vertices := [1..Maximum(Vertices(tetra))+1];
+    edges    := Edges(tetra);
+    faces    := Faces(tetra);
+    verticesOfFaces := VerticesOfFaces(tetra);
+    verticesOfEdges := VerticesOfEdges(tetra);
+    edgesOfVertices := Concatenation(EdgesOfVertices(tetra), [[]]);
+    edgesOfFaces    := EdgesOfFaces(tetra);
+    facesOfEdges    := FacesOfEdges(tetra);
+
+    validateType := function (complex)
+        SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
+        SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+    end;
+
+
+    # Downward Incidence
+    # Test function
+    testComplex := function (complex)
+        validateType(complex);
+
+        SIMPLICIAL_TestAssert(VerticesOfEdges(complex) = verticesOfEdges);
+        SIMPLICIAL_TestAssert(EdgesOfFaces(complex) = edgesOfFaces);
+    end;
+    #
+    # Short Filter
+    c := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+    testComplex(c);
+    c := SimplicialComplexByDownwardIncidenceNC(vertices, verticesOfEdges, edgesOfFaces);
+    testComplex(c);
+    #
+    # Long Filter
+    c := SimplicialComplexByDownwardIncidence(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+    testComplex(c);
+    c := SimplicialComplexByDownwardIncidenceNC(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+    testComplex(c);
+
+
+    # Upward Incidence
+    # Test function
+    testComplex := function (complex)
+        validateType(complex);
+
+        SIMPLICIAL_TestAssert(EdgesOfVertices(complex) = edgesOfVertices);
+        SIMPLICIAL_TestAssert(FacesOfEdges(complex) = facesOfEdges);
+    end;
+    #
+    # Short Filter
+    c := SimplicialComplexByUpwardIncidence(vertices, edgesOfVertices, facesOfEdges);
+    testComplex(c);
+    c := SimplicialComplexByUpwardIncidenceNC(vertices, edgesOfVertices, facesOfEdges);
+    testComplex(c);
+    #
+    # Long Filter
+    c := SimplicialComplexByUpwardIncidence(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+    testComplex(c);
+    c := SimplicialComplexByUpwardIncidenceNC(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+    testComplex(c);
+
+
+    # Vertices In Faces
+    # Test function
+    testComplex := function (complex)
+        validateType(complex);
+
+        SIMPLICIAL_TestAssert(VerticesOfFaces(complex) = verticesOfFaces);
+    end;
+    #
+    # Short Filter
+    c := SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
+    testComplex(c);
+    c := SimplicialComplexByVerticesInFacesNC(vertices, verticesOfFaces);
+    testComplex(c);
+    #
+    # Long Filter
+    c := SimplicialComplexByVerticesInFaces(vertices, faces, verticesOfFaces);
+    testComplex(c);
+    c := SimplicialComplexByVerticesInFacesNC(vertices, faces, verticesOfFaces);
+    testComplex(c);
+
+
+    # Test extraction from triangular complex of simplicial complex
+    extractedSurface := TriangularComplexFromSimplicialComplex(c);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(extractedSurface));
+    # 'extractedSurface' should be equal to 'tetra'
+    SIMPLICIAL_TestAssert(VerticesOfFaces(tetra) = VerticesOfFaces(extractedSurface));
+end);

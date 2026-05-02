@@ -12,24 +12,23 @@ DeclareCategory( "IsTwistedPolygonalComplex", IsObject );
 BindGlobal( "TwistedPolygonalComplexFamily",
     NewFamily("TwistedPolygonalComplexFamily", IsObject, IsTwistedPolygonalComplex));
 
-DeclareProperty("IsPolygonalComplex", IsTwistedPolygonalComplex);
-DeclareProperty("IsFacePure", IsTwistedPolygonalComplex);
-
-
-## Define all secondary categories
-
-DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
-
+## Properties
+#
+DeclareProperty( "IsPolygonalComplex",  IsTwistedPolygonalComplex );
+DeclareProperty( "IsFacePure",          IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
+DeclareProperty( "IsTriangular",        IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
 # Ramifications
-DeclareProperty( "IsNotEdgeRamified", IsTwistedPolygonalComplex );
+DeclareProperty( "IsNotEdgeRamified",   IsTwistedPolygonalComplex );
 DeclareProperty( "IsNotVertexRamified", IsTwistedPolygonalComplex );
-InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
+#
+## Property Implications
+InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);    # IsNotVertexRamified implies IsNotEdgeRamified
 
-
+## Secondary categories
+#
 DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsFacePure and IsNotEdgeRamified and IsNotVertexRamified );
-
 DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsTwistedPolygonalSurface );
-
+#
 DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
 DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
 DeclareSynonym( "IsSimplicialComplex", IsTriangularComplex and IsNotVertexRamified );

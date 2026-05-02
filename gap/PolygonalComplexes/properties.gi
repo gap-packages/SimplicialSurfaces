@@ -839,8 +839,8 @@ InstallMethod(Display, "for a counter", [IsCounter],
 ##
 BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
     function(complex)
-        local inner, boundary, ramified, chaotic, oneRel, twoRel, vertexRel,
-            chambers, v, found, inCheck, c, class;
+        local inner, boundary, ramified, chaotic, isIsolated, oneRel, twoRel, vertexRel,
+            chambers, v, edgesOfVertex, found, inCheck, c, class;
 
         inner := [];
         boundary := [];
@@ -853,20 +853,27 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
         chambers := EquivalenceRelationPartition(vertexRel);
 
         for v in VerticesAttributeOfComplex(complex) do
+            edgesOfVertex := EdgesOfVertexNC(complex, v);
+
             # Check for chaotic
-            if ForAny( EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex,e) ) then
+            if ForAny( edgesOfVertex, e -> IsRamifiedEdgeNC(complex,e) ) then
                 Add(chaotic, v);
                 continue;
             fi;
+
+            # Check for isolated
+            isIsolated := Length(edgesOfVertex) = 0;
             
             # Check for ramified
+            # TODO: isolated vertices are not ramified
             found := false;
             for class in chambers do
                 if IsSubset(class, ChambersOfVertexNC(complex, v)) then
                     found := true;
                 fi;
             od;
-            if not found then
+            if not found and not isIsolated then
+                # Isolated vertices are not ramified.
                 Add(ramified,v);
                 continue;
             fi;
@@ -1051,6 +1058,11 @@ InstallMethod( RamifiedVertices,
 
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
+            # Isolated vertices are not ramified, but they do not
+            # have an edge-face-path nor an umbrella path partition.
+            # Hence for a vertex to be ramified we need to check
+            # for edge-face-path, umbrella path partition AND present
+            # adjacent edges.
             if edgeFacePaths[v] = fail and partitions[v] <> fail and
                Length(edges[v]) <> 0 then
                 Add(res, v);
