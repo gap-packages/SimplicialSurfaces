@@ -13,15 +13,6 @@
 #!     vertex number and the maximal edge number</Item>
 #! </List>
 #! @EndChunk
-#! @BeginChunk Graphs_LabelShiftLocal
-#! <List>
-#!   <Item>The local vertex numbers are not modified</Item>
-#!   <Item>The local edge numbers are shifted upwards by the maximal local 
-#!      vertex number</Item>
-#!   <Item>The half-edge numbers are shifted upwards by the sum of the maximal
-#!     local vertex number and the maximal local edge number</Item>
-#! </List>
-#! @EndChunk
 
 #! @Chapter Graphs and isomorphisms
 #! @ChapterLabel Graphs
