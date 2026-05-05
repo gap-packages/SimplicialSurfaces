@@ -443,7 +443,7 @@ end);
 ## Test whether the AdmissibleRelations works
 ##
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
-BindGlobal( "__SIMPLICIAL_AdmissibleRelations", function()
+BindGlobal( "__SIMPLICIAL_Test_AdmissibleRelations", function()
     local butterfly, rel;
     butterfly:=SimplicialSurfaceByVerticesInFaces([[1,2,3],[2,3,4]]);;
     rel:=AdmissibleRelationsOfSurface(butterfly,false);

@@ -57,8 +57,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
         __SIMPLICIAL_Test_Automorphism();
         __SIMPLICIAL_Test_Canonical();
         __SIMPLICIAL_Test_AllSimplicialSurfacesByEssentialButterflyInsertion();
-        __SIMPLICIAL_AdmissibleRelations();
-        __SIMPLICIAL_AllTori();
+        __SIMPLICIAL_Test_AdmissibleRelations();
+        __SIMPLICIAL_Test_AllTori();
     fi;
     
     if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
