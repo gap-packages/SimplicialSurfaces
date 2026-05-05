@@ -19,8 +19,8 @@ __SIMPLICIAL_LibraryConstructIndex();
 
 AutoDoc( rec( scaffold := rec(
                     MainPage := false,
-                    bib := "SimplicialSurfaces"), 
-              dir := "doc/",
+                    bib := "SimplicialSurfaces.bib"),
+			entities:=rec(), 
               extract_examples := true,
 	          autodoc := rec( 
                     files := [ ],
