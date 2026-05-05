@@ -210,6 +210,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
     complex := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsPolygonalComplex(complex, true);
     SetIsFacePure(complex, true);
+    SetIsolatedVertices(complex, []);
     SetVerticesAttributeOfComplex(complex, [1, 6, 7, 8, 9, 10]);
     SetEdgesOfVertices(complex, [[ 11, 12, 13, 14 ],,,,, [ 11, 15, 19 ], [ 12, 15, 16 ], [ 16, 17 ], [ 13, 17, 18 ], [ 14, 18, 19 ]]);
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
@@ -585,12 +586,14 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function ()
 end);
 
 BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
-    local tetra, vertices, edges, faces, verticesOfFaces, verticesOfEdges, edgesOfVertices,
-          edgesOfFaces, facesOfEdges, validateType, testComplex, c, extractedSurface;
+    local tetra, isolatedVertices, vertices, edges, faces, verticesOfFaces, verticesOfEdges,
+          edgesOfVertices, edgesOfFaces, facesOfEdges, validateComplexBase, testComplex, c,
+          extractedSurface, res, builtComplex;
 
     tetra := Tetrahedron();
 
-    vertices := [1..Maximum(Vertices(tetra))+1];
+    isolatedVertices := [Maximum(Vertices(tetra))+1];
+    vertices := Set(Concatenation(Vertices(tetra), isolatedVertices));
     edges    := Edges(tetra);
     faces    := Faces(tetra);
     verticesOfFaces := VerticesOfFaces(tetra);
@@ -599,16 +602,18 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
     edgesOfFaces    := EdgesOfFaces(tetra);
     facesOfEdges    := FacesOfEdges(tetra);
 
-    validateType := function (complex)
+    validateComplexBase := function (complex)
         SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
         SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+
+        SIMPLICIAL_TestAssert(IsolatedVertices(complex) = isolatedVertices);
     end;
 
 
     # Downward Incidence
     # Test function
     testComplex := function (complex)
-        validateType(complex);
+        validateComplexBase(complex);
 
         SIMPLICIAL_TestAssert(VerticesOfEdges(complex) = verticesOfEdges);
         SIMPLICIAL_TestAssert(EdgesOfFaces(complex) = edgesOfFaces);
@@ -630,7 +635,7 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
     # Upward Incidence
     # Test function
     testComplex := function (complex)
-        validateType(complex);
+        validateComplexBase(complex);
 
         SIMPLICIAL_TestAssert(EdgesOfVertices(complex) = edgesOfVertices);
         SIMPLICIAL_TestAssert(FacesOfEdges(complex) = facesOfEdges);
@@ -652,7 +657,7 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
     # Vertices In Faces
     # Test function
     testComplex := function (complex)
-        validateType(complex);
+        validateComplexBase(complex);
 
         SIMPLICIAL_TestAssert(VerticesOfFaces(complex) = verticesOfFaces);
     end;
@@ -670,9 +675,13 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
     testComplex(c);
 
 
-    # Test extraction from triangular complex of simplicial complex
-    extractedSurface := TriangularComplexFromSimplicialComplex(c);
+    # Test extraction of simplicial surface from simplicial complex
+    extractedSurface := SimplicialSurfaceFromSimplicialComplex(c);
     SIMPLICIAL_TestAssert(IsSimplicialSurface(extractedSurface));
     # 'extractedSurface' should be equal to 'tetra'
     SIMPLICIAL_TestAssert(VerticesOfFaces(tetra) = VerticesOfFaces(extractedSurface));
+
+    # Test building a simplicial complex using a simplicial surface
+    builtComplex := SimplicialComplexFromSimplicialSurface(extractedSurface, isolatedVertices);
+    testComplex(c);
 end);

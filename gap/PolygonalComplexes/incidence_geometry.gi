@@ -283,20 +283,19 @@ __SIMPLICIAL_AddPolygonalAttribute(UmbrellaPathsOfVertices);
 ## Implement the immediate methods for inferences about the complex
 ##
 InstallImmediateMethod( IsNotVertexRamified, 
-    "for a polygonal complex that has UmbrellaPathsOfVertices, VerticesAttributeOfComplex and EdgesOfVertices",
-    IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasVerticesAttributeOfComplex and HasEdgesOfVertices, 0,
+    "for a polygonal complex that has UmbrellaPathsOfVertices, VerticesAttributeOfComplex and IsolatedVertices",
+    IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasVerticesAttributeOfComplex and HasIsolatedVertices, 0,
     function(complex)
-        local paths, edges, v;
+        local paths, isolatedVertices, v;
 
         paths := UmbrellaPathsOfVertices(complex);
-        edges := EdgesOfVertices(complex);
+        isolatedVertices := IsolatedVertices(complex);
 
         for v in VerticesAttributeOfComplex(complex) do
-            # Isolated vertices are not ramified, but they do not
-            # have an umbrella path.
-            # Hence for a vertex to be ramified we need to check
-            # for both no umbrella path AND present adjacent edges.
-            if paths[v] = fail and Length(edges[v]) <> 0 then
+            # Isolated vertices do not have an umbrella path.
+            # But since they do not make the complex ramified,
+            # we need to check if v is not isolated.
+            if paths[v] = fail and not v in isolatedVertices then
                 return false;
             fi;
         od;
@@ -304,7 +303,7 @@ InstallImmediateMethod( IsNotVertexRamified,
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsNotVertexRamified", ["UmbrellaPathsOfVertices", "VerticesAttributeOfComplex", "EdgesOfVertices"], ["IsPolygonalComplex"]);
+    "IsNotVertexRamified", ["UmbrellaPathsOfVertices", "VerticesAttributeOfComplex", "IsolatedVertices"], ["IsPolygonalComplex"]);
 
 InstallImmediateMethod( IsNotEdgeRamified,
     "for a polygonal complex that has UmbrellaPathPartitionsOfVertices",

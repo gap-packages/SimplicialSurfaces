@@ -1565,7 +1565,19 @@ DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
 #! @EndGroup
 
 #! @BeginGroup
-#! @Returns a triangular complex
+#! TODO: Add description
+#! TODO: Add image
+#! TODO: Add example
+#! @Returns a simplicial surface
 #! @Arguments simplicial complex
-DeclareOperation( "TriangularComplexFromSimplicialComplex", [IsSimplicialComplex]);
+DeclareOperation( "SimplicialSurfaceFromSimplicialComplex", [IsSimplicialComplex]);
+#! @EndGroup
+
+#! @BeginGroup
+#! TODO: Add description
+#! TODO: Add image
+#! TODO: Add example
+#! @Returns a simplicial complex
+#! @Arguments simplicial surface, isolated vertices
+DeclareOperation( "SimplicialComplexFromSimplicialSurface", [IsSimplicialSurface, IsSet]);
 #! @EndGroup

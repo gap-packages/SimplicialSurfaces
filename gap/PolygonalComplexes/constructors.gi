@@ -2157,7 +2157,26 @@ end);
 ##
 #######################################
 
-InstallMethod ( TriangularComplexFromSimplicialComplex,
+InstallMethod ( SimplicialSurfaceFromSimplicialComplex,
     "for simplicial complex", [IsSimplicialComplex], function(complex)
-    return TriangularComplexByVerticesInFaces(VerticesOfFaces(complex));
+    return SimplicialSurfaceByVerticesInFaces(VerticesOfFaces(complex));
+end);
+
+InstallMethod ( SimplicialComplexFromSimplicialSurface,
+    "for simplicial complex and a set of vertices", [IsSimplicialSurface, IsSet],
+    function(surface, isolatedVertices)
+    local surfVertices, allVertices;
+
+    surfVertices := Vertices(surface);
+
+    if ForAny(isolatedVertices, v -> not IsPosInt(v)) then
+        Error("isolatedVertices have to be positive integers.\n");
+    fi;
+    if ForAny(isolatedVertices, v -> ForAny(surfVertices, v2 -> v = v2)) then
+        Error("isolatedVertices must be distinct from vertices of surface.\n");
+    fi;
+
+    allVertices := Set(Concatenation(surfVertices, isolatedVertices));
+
+    return SimplicialComplexByVerticesInFaces(allVertices, VerticesOfFaces(surface));
 end);

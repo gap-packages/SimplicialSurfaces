@@ -1493,6 +1493,31 @@ DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
+#! @BeginGroup IsolatedVertices
+#! @Description
+#! Return the set of all isolated vertices.
+#!
+#! A vertex is isolated if and only if it is not incident to any edges of its complex.
+#!
+#! The method <K>IsIsolatedVertex</K> checks whether the given vertex is a
+#! isolated
+#! vertex of the given twisted polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO: Add image
+#! TODO: Add example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "IsolatedVertices", IsTwistedPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, vertex
+DeclareOperation( "IsIsolatedVertex", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "IsIsolatedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
+
 #! @BeginGroup ChaoticVertices
 #! @Description
 #! Return the set of all chaotic vertices.

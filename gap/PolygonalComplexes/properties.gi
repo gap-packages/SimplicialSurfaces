@@ -839,11 +839,12 @@ InstallMethod(Display, "for a counter", [IsCounter],
 ##
 BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
     function(complex)
-        local inner, boundary, ramified, chaotic, isIsolated, oneRel, twoRel, vertexRel,
+        local inner, boundary, ramified, isolated, chaotic, isIsolated, oneRel, twoRel, vertexRel,
             chambers, v, edgesOfVertex, found, inCheck, c, class;
 
         inner := [];
         boundary := [];
+        isolated := [];
         ramified := [];
         chaotic := [];
 
@@ -863,6 +864,9 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
 
             # Check for isolated
             isIsolated := Length(edgesOfVertex) = 0;
+            if isIsolated then
+                Add(isolated, v);
+            fi;
             
             # Check for ramified
             # TODO: isolated vertices are not ramified
@@ -894,8 +898,9 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
         od;
 
         SetInnerVertices(complex, inner);
-        SetBoundaryVertices(complex, inner);
+        SetBoundaryVertices(complex, inner); # TODO shouldn't this be boundary instead of inner?
         SetRamifiedVertices(complex, ramified);
+        SetIsolatedVertices(complex, isolated);
         SetChaoticVertices(complex, chaotic);
     end
 );
@@ -1045,26 +1050,68 @@ InstallMethod( IsBoundaryVertex, "for a twisted polygonal complex and a vertex",
 #TODO implement implication to IsClosedSurface?
 
 
-__SIMPLICIAL_AddTwistedAttribute( RamifiedVertices );
-InstallMethod( RamifiedVertices, 
-    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices, VerticesAttributeOfComplex and EdgesOfVertices",
-    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex and HasEdgesOfVertices],
+__SIMPLICIAL_AddTwistedAttribute( IsolatedVertices );
+InstallMethod( IsolatedVertices, 
+    "for a polygonal complex with VerticesAttributeOfComplex and EdgesOfVertices",
+    [IsPolygonalComplex and HasVerticesAttributeOfComplex and HasEdgesOfVertices],
     function(complex)
-        local edgeFacePaths, partitions, edges, res, v;
+        local edges, isolatedVertices, v;
+
+        edges := EdgesOfVertices(complex);
+
+        isolatedVertices := [];
+        for v in VerticesAttributeOfComplex(complex) do
+            if Length(edges[v]) = 0 then
+                Add(isolatedVertices, v);
+            fi;
+        od;
+        return isolatedVertices;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsolatedVertices", 
+    ["VerticesAttributeOfComplex", "EdgesOfVertices"]);
+
+
+InstallImmediateMethod( IsolatedVertices, "for a twisted polygonal surface",
+    IsTwistedPolygonalSurface, 0,
+    function(surf)
+        return [];
+    end
+);
+InstallMethod( IsIsolatedVertexNC, "for a twisted polygonal complex and a vertex",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return vertex in IsolatedVertices(complex);
+    end
+);
+InstallMethod( IsIsolatedVertex, "for a twisted polygonal complex and a vertex",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex(complex, vertex, "IsIsolatedVertex");
+        return IsIsolatedVertexNC(complex, vertex);
+    end
+);
+
+
+__SIMPLICIAL_AddTwistedAttribute( RamifiedVertices );
+InstallMethod( RamifiedVertices,
+    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices, VerticesAttributeOfComplex and IsolatedVertices",
+    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex and HasIsolatedVertices],
+    function(complex)
+        local edgeFacePaths, partitions, isolatedVertices, res, v;
 
         edgeFacePaths := UmbrellaPathsOfVertices(complex);
         partitions := UmbrellaPathPartitionsOfVertices(complex);
-        edges := EdgesOfVertices(complex);
+        isolatedVertices := IsolatedVertices(complex);
 
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
-            # Isolated vertices are not ramified, but they do not
-            # have an edge-face-path nor an umbrella path partition.
-            # Hence for a vertex to be ramified we need to check
-            # for edge-face-path, umbrella path partition AND present
-            # adjacent edges.
+            # Isolated vertices do not have an edge-face-path nor an
+            # umbrella path partition. But since they do not make the
+            # complex ramified, we need to check if v is not isolated.
             if edgeFacePaths[v] = fail and partitions[v] <> fail and
-               Length(edges[v]) <> 0 then
+               not v in isolatedVertices then
                 Add(res, v);
             fi;
         od;
@@ -1073,7 +1120,7 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices", 
-    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex", "EdgesOfVertices"]);
+    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex", "IsolatedVertices"]);
 
 InstallMethod( RamifiedVertices, 
     "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices",
