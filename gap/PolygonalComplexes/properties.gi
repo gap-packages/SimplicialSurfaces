@@ -189,7 +189,6 @@ InstallMethod( IsEssentialDisc,
            return true;
 end
 );
->>>>>>> master
 
 InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
