@@ -111,7 +111,6 @@ InstallMethod( IsSimplexString, "for a twisted polygonal complex",
     end
 );
 
-<<<<<<< meike/simplexstring
 BindGlobal("__SIMPLICIAL_FaceList",function(surface,startingFace)
     local facedyclet,oldface, nextface, currentface, neighbours, neighbour;
    
@@ -146,7 +145,6 @@ function(string)
 end);
 
 ### Multitetrahedral Spheres
-=======
 #############################################################################
 ##
 #F IsEssentialDisc( <disc> ) . . . . . . . . test whether <disc> is essential
