@@ -29,12 +29,12 @@
 #! @Description
 #! This method constructs a simplex string given its isomorphism type.
 #! Simplex strings can be described uniquely by their isomorphism type which is a list
-#! <K>[n_1,...,n_k]</K>. 
-#! The simplex string with isomorphism type <K>[n_1,...,n_k]</K> has <K>n_1+...+n_k</K> faces
-#! and is constructed based on a strip with <K>k</K> faces where the i-th faces is subdivided in <K>n_i</K>
+#! <M>[n_1,...,n_k]</M>. 
+#! The simplex string with isomorphism type <M>[n_1,...,n_k]</M> has <M>n_1+...+n_k</M> faces
+#! and is constructed based on a strip with <M>k</M> faces where the i-th faces is subdivided in <M>n_i</M>
 #! faces, as shown in <Ref Subsect="SimplexRingByIsomorphismType"/>.
 #! 
-#! As an example consider the simplex string with isomorphism type <K>[1,2,3]</K>:
+#! As an example consider the simplex string with isomorphism type <M>[1,2,3]</M>:
 #! @BeginExampleSession
 #! gap> string:=SimplexStringByIsomorphismType([1,2,3]);
 #! simplicial surface (8 vertices, 13 edges, and 6 faces)
@@ -100,13 +100,13 @@ DeclareOperation( "SimplicialStrip", [ IsPosInt ] );
 #! @Description
 #! This method constructs a simplex ring given its isomorphism type.
 #! They can be described uniquely by their isomorphism type which is a list
-#! <K>[n_1,...,n_k]</K>. 
-#! The simplex ring with isomorphism type <K>[n_1,...,n_k]</K> has <K>n_1+...+n_k</K> faces
-#! and is constructed based on a closed geodesic with <K>k</K> faces where the i-th faces is subdivided in <K>n_i</K>
+#! <M>[n_1,...,n_k]</M>. 
+#! The simplex ring with isomorphism type <M>[n_1,...,n_k]</M> has <M>n_1+...+n_k</M> faces
+#! and is constructed based on a closed geodesic with <M>k</M> faces where the i-th faces is subdivided in <M>n_i</M>
 #! faces. How the subdivision is defined can be seen in the picture below.
 #! The incidences between vertices and faces can also be observed there.
 #! 
-#! As an example consider the simplex ring with isomorphism type <K>[1,2,3]</K>, where the left and right edge have to be identified:
+#! As an example consider the simplex ring with isomorphism type <M>[1,2,3]</M>, where the left and right edge have to be identified:
 #! <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_SimplexString-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -436,9 +436,9 @@ DeclareOperation( "JanusHead", [] );
 #!   Return a simplicial surface consisting of two closed umbrella-paths
 #!   with <A>nrFaces</A> triangles which are joined at their boundary. 
 #!   The labels of one umbrella are assigned according to the illustration for <E>SimplicialUmbrella</E>,
-#!   the additional vertex is labelled with <A>nrFaces+2</A>, the incident edges to this vertex 
-#!   are labelled from <A>2*nrFaces+1</A> to <A>4*nrFaces</A> and the incident faces are labelled from
-#!   <A>nrFaces+1</A> to <A>2*nrFaces</A>.
+#!   the additional vertex is labelled with <M>nrFaces+2</M>, the incident edges to this vertex 
+#!   are labelled from <M>2*nrFaces+1</M> to <M>4*nrFaces</M> and the incident faces are labelled from
+#!   <M>nrFaces+1</M> to <M>2*nrFaces</M>.
 #! @ExampleSession
 #! gap> doubleumb2:=SimplicialDoubleUmbrella(2);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
