@@ -186,7 +186,6 @@ DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
 DeclareProperty( "IsSimplexString", IsTwistedPolygonalComplex);
 #! @EndGroup
 
-<<<<<<< meike/simplexstring
 #! @BeginGroup FaceListOfRing
 #! @Description
 #! Compute the face list of a simplex ring where the list starts with the
@@ -217,7 +216,8 @@ DeclareAttribute( "FaceListOfSimplexRing", IsSimplexRing);
 #!
 #! @Arguments simplex string
 DeclareAttribute( "FaceListOfSimplexString", IsSimplexString);
-=======
+#! @EndGroup
+
 #! @BeginGroup IsEssentialDisc
 #! @Description
 #! This function returns true if  <A>disc</A> is an essential disc and false else. A
@@ -249,7 +249,6 @@ DeclareAttribute( "FaceListOfSimplexString", IsSimplexString);
 #! @Arguments disc
 #! @Returns true or false
 DeclareOperation( "IsEssentialDisc", [IsTwistedPolygonalComplex] );
->>>>>>> master
 #! @EndGroup
 
 #! @BeginGroup IsMultiTetrahedralSphere
