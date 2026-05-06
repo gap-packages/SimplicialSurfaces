@@ -55,6 +55,8 @@ InstallMethod( IsClosedSurface, "for a polygonal surface",
     end
 );
 
+### Simplex strings and rings
+
 InstallMethod( IsSimplexRing, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( complex )
@@ -109,6 +111,85 @@ InstallMethod( IsSimplexString, "for a twisted polygonal complex",
     end
 );
 
+BindGlobal("__SIMPLICIAL_FaceList",function(surface,startingFace)
+    local facedyclet,oldface, nextface, currentface, neighbours, neighbour;
+   
+    oldface:= startingFace;
+    facedyclet:= [oldface];
+    nextface:= Minimum(NeighbourFacesOfFace(surface,oldface));
+    Add(facedyclet, nextface);
+    currentface:=nextface;
+
+    while Length(facedyclet)<>NumberOfFaces(surface) do
+        neighbours:= NeighbourFacesOfFace(surface,currentface);
+        neighbour:= Difference(neighbours,[oldface])[1];
+        Add(facedyclet, neighbour);
+        oldface:=currentface;
+        currentface:=neighbour;
+    od;
+
+    return facedyclet;
+    end
+);
+
+InstallMethod(FaceListOfSimplexRing,"for a simplex ring",[IsSimplexRing],
+function(ring)
+    return __SIMPLICIAL_FaceList(ring,Flat(Faces(ring))[1]);
+end);
+
+InstallMethod(FaceListOfSimplexString,"for a simplex string",[IsSimplexString],
+function(string)
+    local boundaryFaces;
+    boundaryFaces:=Filtered(Faces(string),f->Length(NeighbourFacesOfFace(string,f))=1);
+    return __SIMPLICIAL_FaceList(string, Minimum(boundaryFaces));
+end);
+
+### Multitetrahedral Spheres
+#############################################################################
+##
+#F IsEssentialDisc( <disc> ) . . . . . . . . test whether <disc> is essential
+##
+## A simplicial surface <disc> is called an essential simplicial disc, if
+## it is a connected simplicial surface of Euler Characteristic 1, no
+## inner vertex has degree less than 4, no boundary vertex has degree 1,
+## no inner edge connects two boundary vertices and the disc has no 3-waists.
+##
+
+InstallMethod( IsEssentialDisc, 
+    "for a simplicial surface",
+    [IsTwistedPolygonalComplex],
+    
+      function( disc )
+
+           local bound, v, inner, innerE, e;
+
+           if not IsSimplicialSurface(disc) then return false; fi;
+
+           if not IsConnectedSurface(disc) then return false; fi;
+           if EulerCharacteristic(disc)<>1 then return false; fi;
+
+           bound := BoundaryVertices(disc);
+           # ensure that all boundary vertices have degree at least 2
+           for v in bound do
+               if DegreeOfVertex(disc,v) < 2 then return false; fi;
+           od;
+           inner := InnerVertices(disc);
+           # ensure that all inner vertices have degree at least 4
+           for v in inner do
+               if DegreeOfVertex(disc,v) <= 3 then return false; fi;
+           od;
+           innerE := InnerEdges(disc);
+            # ensure that all inner edges do not have two boundary vertices
+           for e in innerE do
+               v := VerticesOfEdge(disc,e);
+               if  v[1] in bound and v[2] in bound then return false; fi;
+           od;
+           # ensure that the disc has no 3-waists
+           if Length(AllThreeWaistsOfComplex(disc)) > 0 then return false; fi;
+           return true;
+end
+);
+
 InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function(complex)
@@ -117,7 +198,7 @@ InstallMethod( IsMultiTetrahedralSphere, "for a twisted polygonal complex",
                 EulerCharacteristic(complex)=2 and IsVertexFaithful(complex)) then
                 return false;
         fi;
-	waists:=AllThreeWaistsOfComplex(complex);
+	    waists:=AllThreeWaistsOfComplex(complex);
         if Length(waists)=NumberOfFaces(complex)/2-2 then
                 return true;
         else
