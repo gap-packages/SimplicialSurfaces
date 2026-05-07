@@ -1671,6 +1671,83 @@ DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt] );
 DeclareOperation( "ButterflyDeletionNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
+# TODO remove when the correpsonding pull request is merged in Digraphs
+#! @BeginGroup EdgeInsertion
+#! @Description
+#! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
+#! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with <M>V(D') \equiv V(D) \cup {A,B}</M>
+#! where <M>A</M> and <M>B</M> are new vertices.
+#! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
+#! obtained from the edges of <A>D</A> as shown in the following figure.
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeInsertion.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeInsertion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric.
+#! <K>EdgeInsertionNC</K> performs no checks on the input.
+
+#! @Returns a digraph
+#! @Arguments D, edgeA, edgeB
+DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
+#! @Arguments D, edgeA, edgeB
+DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
+#! @ExampleSession
+#! gap> D_small := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> D_big := EdgeInsertion(D_small, [1, 2], [3, 4]);
+#! <immutable digraph with 6 vertices, 14 edges>
+#! @EndExampleSession
+#! @EndGroup EdgeInsertion
+
+#! @BeginGroup EdgeReduction
+#! @Description
+#! Performs an edge reduction on the given digraph <M>D</M>. The vertices
+#! <M>A</M> and <M>B</M> of the edge must have degree three and <M>edge</M> is not
+#! allowed to be in a triangle. This function returns a new digraph <M>D'</M> with
+#! <M>V(D')\equiv V(D) \setminus\{A,B\}</M>. The edges incident to <M>A</M> and <M>B</M> in <M>D'</M>
+#! are changed as depicted in the following:
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeReduction.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric.
+#! The method <K>EdgeReduction</K> is the inverse operation of <K>EdgeInsertion</K>.
+#! <K>EdgeReductionNC</K> performs no checks on the input.
+
+#! @Returns a digraph
+#! @Arguments D, edge
+DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
+#! @Arguments D, edge
+DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
+#! @ExampleSession
+#! gap> D := EdgeReduction(D_big, [5,6]);
+#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> D := MaximalAntiSymmetricSubdigraph(D);;
+#! gap> IsIsomorphicDigraph(D, D_small);
+#! true
+#! @EndExampleSession
+#! @EndGroup EdgeReduction
+
 
 #! @BeginGroup TetrahedralExtension
 #! @Description
