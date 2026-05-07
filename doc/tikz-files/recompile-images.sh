@@ -3,6 +3,7 @@
 # set some flags for reproducibility
 export SOURCE_DATE_EPOCH=1
 export FORCE_SOURCE_DATE=1
+export SOURCE_DATE_EPOCH_TEX_PRIMITIVES=1
 export LC_ALL=C
 export TZ=UTC
 
