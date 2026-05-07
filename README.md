@@ -43,9 +43,11 @@ in the main folder of the SimplicialSurfaces-package. This requires `GAPDoc` ver
     git clone https://github.com/gap-packages/AutoDoc.git
 
 ### Regenerating images
-To compile the pictures, you can run the following script:
+To compile the pictures, change into the `doc/tikz-files` subdirectory
+and run the `recompile-images.sh` script in it:
 
-    doc/tikz-files/recompile-images.sh   
+    cd doc/tikz-files/
+    ./recompile-images.sh
 
 ## Help
 If there are any questions, don't hesitate to ask us.
