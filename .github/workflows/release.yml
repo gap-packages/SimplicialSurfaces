@@ -33,3 +33,5 @@ jobs:
           force: ${{ inputs.force }}
       - uses: gap-actions/update-gh-pages@v1
         if: ${{ !inputs.dry-run }}
+        with:
+          extra-files: doc/images
