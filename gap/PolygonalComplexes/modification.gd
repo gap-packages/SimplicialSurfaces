@@ -1576,6 +1576,7 @@ DeclareOperation("SplitAllVertices", [IsPolygonalComplex]);
 #! the middle vertex of the given vertex-edge path in <A>surface</A> into
 #! two new vertices. The inner edge of the butterfly will be inserted such
 #! that it is adjacent to the new vertices created by splitting the middle vertex.
+#! More details on butterfly insertions can be found in <Cite Key="Strzelczyk"/>.
 #!
 #! The function returns a list, where the first entry is the enlarged surface
 #! <A>newSurface</A> which has two faces more than the input surface. The
