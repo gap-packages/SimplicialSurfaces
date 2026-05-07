@@ -13,15 +13,6 @@
 #!     vertex number and the maximal edge number</Item>
 #! </List>
 #! @EndChunk
-#! @BeginChunk Graphs_LabelShiftLocal
-#! <List>
-#!   <Item>The local vertex numbers are not modified</Item>
-#!   <Item>The local edge numbers are shifted upwards by the maximal local 
-#!      vertex number</Item>
-#!   <Item>The half-edge numbers are shifted upwards by the sum of the maximal
-#!     local vertex number and the maximal local edge number</Item>
-#! </List>
-#! @EndChunk
 
 #! @Chapter Graphs and isomorphisms
 #! @ChapterLabel Graphs
@@ -53,7 +44,6 @@
 #! these sections are in general not necessary in practice.
 #!
 #! Section <Ref Sect="Section_Graphs_Edge_Face"/> describes the edge graph and the face graph of a polygonal complex.
-#! They are used in practice like in <Ref Subsect="AllSimplicialSurfacesOfDigraph"/>.
 #!
 #! Section <Ref Sect="Section_Graphs_Isomorphism"/> contains the isomorphism 
 #! method
@@ -283,8 +273,6 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! These graphs are useful if it is not necessary to need all information of the complex.
 #! The edge graph only describes the incidence structure of vertices and edges.
 #! Instead, the face graph describes the incidence structure of edges and faces.
-#! Using method <Ref Subsect="AllSimplicialSurfacesOfDigraph"/> it is possible to get all surfaces
-#! that have a common face graph.
 #! 
 #! The face graph and the edge graph of a polygonal complex are dual graphs of each other.
 #! The dual graph of a planar graph G is a graph that has a vertex for each face of G
@@ -410,58 +398,6 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 DeclareAttribute( "FaceDigraphsGraph", IsPolygonalComplex );
 #! @Arguments complex
 DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
-#! @EndGroup
-
-#! @BeginGroup AllSimplicialSurfacesOfDigraph 
-#! @Description 
-#! Return all (vertex-faithful) simplicial surfaces, that have <K>digraph</K> as face graph. 
-#! If <K>digraph</K> is not a face graph of a (vertex-faithful) simplicial surface, the empty list is returned.
-#! The parameter <K>vertexfaithful</K> indicates whether only vertex-faithful simplicial surfaces are searched. 
-#! The parameter <K>vertexfaithful</K> is by default false.
-#! <K>digraph</K> must be a cubic, connected, symmetric and simple digraph. The vertices of a simplicial 
-#! surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, 
-#! with the cycles corresponding to the vertices of a simplicial surface.
-#!
-#!
-#! For example, consider the complete graph on four nodes:
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_FaceGraphTetra.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
-#!
-#! @BeginLogSession
-#! gap> digraph:=CompleteDigraph(4);;
-#! gap> tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
-#! gap> IsIsomorphic(tet1[1],Tetrahedron());
-#! true
-#! @EndLogSession
-#! So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. 
-#! But there is another simplicial surface, which is not vertex-faithful:
-#! @BeginLogSession
-#! gap> list := AllSimplicialSurfacesOfDigraph(digraph,false);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces), 
-#! simplicial surface (3 vertices, 6 edges, and 4 faces)]
-#! gap> tet2 := Filtered(list,IsVertexFaithful);
-#! [ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
-#! gap> IsIsomorphic(tet2[1],Tetrahedron());
-#! true
-#! @EndLogSession
-#!
-#! Since it takes a long time to compute all cycles, you should only call the method for digraphs with twelve or less nodes for <K>vertexfaithful</K> false.
-#! For <K>vertexfaithful</K> true, the method needs to consider only chordless and non-separating cycles. This makes the method fast for digraphs up to 28 nodes.
-#! In general, it is much faster to only look for vertex-faithful simplicial surfaces.
-#! 
-#! @Arguments digraph[, vertexfaithful]
-#! @Returns a list
-DeclareOperation( "AllSimplicialSurfacesOfDigraph", [IsDigraph, IsBool]);
 #! @EndGroup
 
 
@@ -842,8 +778,6 @@ DeclareAttribute( "AutomorphismGroup", IsTwistedPolygonalComplex );
 #! [ (2,3), (1,2)(5,6), (2,4) ]
 #! gap> DisplayAsAutomorphism( tetra, aut.3 );
 #! [ (1,2), (2,4)(3,5), (3,4) ]
-#! gap> DisplayAsAutomorphism( tetra, aut.1 );
-#! [ (3,4), (2,3)(4,5), (1,2) ]
 #! @EndLogSession
 #! 
 #! @Arguments complex, perm
@@ -1099,3 +1033,112 @@ DeclareOperation( "OnVertexEdgePaths",
 DeclareOperation( "OnEdgeFacePaths", 
     [ IsEdgeFacePath , IsPerm ] );
 #! @EndGroup OnEdgeFacePaths
+
+#! @Section Edge Insertion and Reduction
+#! @SectionLabel Graphs_Edge_Insertion_Reduction
+#! 
+#! This section describes the functionality for inserting or reducing edges
+#! on digraphs, as well as the process of finding new graphs that result
+#! from these insertion operations.
+#!
+#! @BeginGroup EdgeInsertion
+#! @Description
+#! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
+#! <A>edgeB</A>. This function returns a new digraph <A>D'</A> with <M>V(D') \equiv V(D) \cup {A,B}</M>
+#! where <M>A</M> and <M>B</M> are new vertices.
+#! The new vertices have degree 3 in <A>D'</A> and the edges of <A>D'</A> are
+#! obtained from the edges of <A>D</A> as shown in the following figure.
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeInsertion.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeInsertion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric.
+#! <K>EdgeInsertionNC</K> performs no checks on the input.
+
+#! @Returns a digraph
+#! @Arguments D, edgeA, edgeB
+DeclareOperation("EdgeInsertion", [IsDigraph, IsList, IsList]);
+#! @Arguments D, edgeA, edgeB
+DeclareOperation("EdgeInsertionNC", [IsDigraph, IsList, IsList]);
+#! @ExampleSession
+#! gap> D_small := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> D_big := EdgeInsertion(D_small, [1, 2], [3, 4]);
+#! <immutable digraph with 6 vertices, 14 edges>
+#! @EndExampleSession
+#! @EndGroup EdgeInsertion
+
+#! @BeginGroup EdgeReduction
+#! @Description
+#! Performs an edge reduction on the given digraph <M>D</M>. The vertices
+#! <M>A</M> and <M>B</M> of the edge must have degree three and <M>edge</M> is not
+#! allowed to be in a triangle. This function returns a new digraph <M>D'</M> with
+#! <M>V(D')\equiv V(D) \setminus\{A,B\}</M>. The edges incident to <M>A</M> and <M>B</M> in <M>D'</M>
+#! are changed as depicted in the following:
+
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/Image_EdgeReduction.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/Image_EdgeReduction.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+
+#! The method ensures that the returned digraph is symmetric, even when the
+#! input digraph <A>D</A> is not symmetric.
+#! The method <K>EdgeReduction</K> is the inverse operation of <K>EdgeInsertion</K>.
+#! <K>EdgeReductionNC</K> performs no checks on the input.
+
+#! @Returns a digraph
+#! @Arguments D, edge
+DeclareOperation("EdgeReduction", [IsDigraph, IsList]);
+#! @Arguments D, edge
+DeclareOperation("EdgeReductionNC", [IsDigraph, IsList]);
+#! @ExampleSession
+#! gap> D := EdgeReduction(D_big, [5,6]);
+#! <immutable digraph with 4 vertices, 8 edges>
+#! gap> D := MaximalAntiSymmetricSubdigraph(D);;
+#! gap> IsIsomorphicDigraph(D, D_small);
+#! true
+#! @EndExampleSession
+#! @EndGroup EdgeReduction
+
+#! @BeginGroup NewGraphsForEdgeInsertion
+#! @Description
+#! Computes all graphs that can be constructed from <A>D</A> using edge
+#! insertion.
+#! If the parameter <A>allowTriangleInsertion</A> is <K>true</K>, insertions between edges
+#! that have one vertex in common are allowed; otherwise, they are not.
+#! The default value of <A>allowTriangleInsertion</A> is <K>true</K> and
+#! <K>NewGraphsForEdgeInsertion</K> ensures that the returned digraph is symmetric,
+#! even when the input digraph <A>D</A> is not symmetric.
+#! <K>NewGraphsForEdgeInsertionNC</K> performs no checks on the input.
+#! @Returns a list of digraphs
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
+#! @ExampleSession
+#! gap> D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> NewGraphsForEdgeInsertion(D, true);
+#! [ <immutable digraph with 6 vertices, 14 edges>,
+#!   <immutable digraph with 6 vertices, 14 edges> ]
+#! gap> NewGraphsForEdgeInsertion(D, false);
+#! [ <immutable digraph with 6 vertices, 14 edges> ]
+#! @EndExampleSession
+#! @EndGroup NewGraphsForEdgeInsertion

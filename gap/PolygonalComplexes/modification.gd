@@ -1621,6 +1621,56 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsList] );
 DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] );
 #! @EndGroup
 
+#! @BeginGroup ButterflyDeletionSurface
+#! @Description
+#! Given a simplicial surface <A>surface</A>, a new surface is constructed
+#! by deleting a
+#! butterfly formed by two neighbour faces or an inner edge intersecting these two faces.
+#! The operation <E>ButterflyDeletion</E> can be viewed as first deleting the inner edge
+#! and the two faces forming the butterfly surface and then merging two vertices
+#! of an edge to one vertex along with joining the edges of each face to one edge.
+#!
+#! The function returns a list, where the first entry is the reduced surface
+#! <A>newSurface</A> which has two faces less than the input surface. The
+#! second entry is a vertex-edge path in <A>newSurface</A>, which consisting
+#! of all edges corresponding to the joined edge paths or nothing in case
+#! there was no required edge path join.
+#!
+#! This example demonstrates deleting a butterfly along two neighbour faces.
+#! @BeginExampleSession
+#! gap> disc := SimplicialUmbrella(6);
+#! simplicial surface (7 vertices, 12 edges, and 6 faces)
+#! gap> NeighbourFacesOfFace(disc, 1);
+#! [ 6, 2 ]
+#! gap> ButterflyDeletion(disc, 1, 2);
+#! [ simplicial surface (6 vertices, 9 edges, and 4 faces)]
+#! @EndExampleSession
+#!
+#! The following image first shows the surface <A>disc</A> and secondly the resulting
+#! simplicial surface constructed by deleting the butterfly, which is depicted
+#! in red and is formed by the faces with labels 1 and 2.
+#!  <Alt Only="HTML">
+#! &lt;br>&lt;img src="./images/_Wrapper_Image_ButterflyDeletion.svg"> &lt;/img> &lt;br>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ButterflyDeletion.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @Returns a pair, where the first entry is a surface and the second entry is the vertex-edge path encoding changes to the input surface.
+#! @Arguments surface, face, face
+DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt, IsPosInt] );
+#! @Arguments surface, face, face
+DeclareOperation( "ButterflyDeletionNC", [IsSimplicialSurface, IsPosInt, IsPosInt] );
+#! @Arguments surface, edge
+DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt] );
+#! @Arguments surface, edge
+DeclareOperation( "ButterflyDeletionNC", [IsSimplicialSurface, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup TetrahedralExtension
 #! @Description

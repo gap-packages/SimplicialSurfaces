@@ -54,6 +54,11 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
         __SIMPLICIAL_Test_IncidenceNautyGraph();
         __SIMPLICIAL_Test_EdgeNautyGraph();
         __SIMPLICIAL_Test_FaceNautyGraph();
+        __SIMPLICIAL_Test_Automorphism();
+        __SIMPLICIAL_Test_Canonical();
+        __SIMPLICIAL_Test_AllSimplicialSurfacesByEssentialButterflyInsertion();
+        __SIMPLICIAL_Test_AdmissibleRelations();
+        __SIMPLICIAL_Test_AllTori();
     fi;
     
     if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
@@ -64,6 +69,12 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     fi;
 
     __SIMPLICIAL_Test_FaceTwoColouring();
+
+    __SIMPLICIAL_Test_EdgeInsertion();
+    __SIMPLICIAL_Test_EdgeReduction();
+    __SIMPLICIAL_Test_NewGraphsForEdgeInsertion();
+
+    __SIMPLICIAL_Test_ButterflyDeletion();
 
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);

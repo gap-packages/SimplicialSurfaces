@@ -1048,6 +1048,15 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #!  Let <A>surf</A> be a simplicial surface. This method returns an
 #!  umbrella descriptor of <A>surf</A>, where
 #! @InsertChunk Documentation_UmbrellaDescriptor
+#! If the parameter <A>checkOrientation</A> is <K>true</K> and <A>surf</A>
+#! is an orientable surface, the returned umbrella descriptor is oriented,
+#! which means the umbrella around each vertex is arranged consistently with the
+#! global orientation of the surface. This means that for each pair of adjacent
+#! vertices and the faces f1 and f2 that are incident to both vertices, their
+#! umbrellas encode opposite local transitions between these faces.
+#! Concretely, at one vertex the umbrella will record the transition from f1 to f2,
+#! while at the other vertex the umbrella will record the transition from f2 to f1.
+#! The default value of <A>checkOrientation</A> is <K>true</K>.
 #!
 #! As an example consider the following net of a simplicial surface.
 #! Note that the surface has boundary edges. Moreover, the vertices 
@@ -1071,13 +1080,13 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! gap> surf := SimplicialSurfaceByVerticesInFaces( [ [ 1, 2, 5 ], [ 1, 3, 5 ],
 #! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
 #! >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
-#! gap> UmbrellaDescriptorOfSurface(surf);
-#! [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [ 8, 1, 2, 9 ],
+#! gap> UmbrellaDescriptorOfSurface(surf, false);
+#! [ (1,2,3,4,5,6), (1,8,7,6), (2,9,10,3), (4,11,12,5), [ 8, 1, 2, 9 ], 
 #!  [ 10, 3, 4, 11 ], [ 7, 6, 5, 12 ], [ 8, 7 ], [ 9, 10 ], [ 11, 12 ] ]
 #! @EndExampleSession
 #! @Returns a list 
-#! @Arguments surface 
-DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
+#! @Arguments surface[, checkOrientation]
+DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface, IsBool] );
 #! @EndGroup
 #
 #! @BeginChunk Documentation_UmbrellaTipDescriptor
@@ -1114,6 +1123,15 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! Let <A>surf</A> be a vertex faithful simplicial surface. This method returns an umbrella tip descriptor
 #! of <A>surf</A>, where
 #! @InsertChunk Documentation_UmbrellaTipDescriptor
+#! If the parameter <A>checkOrientation</A> is <K>true</K> and <A>surf</A>
+#! is an orientable surface, the returned umbrella tip descriptor is oriented,
+#! which means the umbrella around each vertex is arranged consistently with the
+#! global orientation of the surface. This means that for each pair of adjacent
+#! vertices and the vertices v1 and v2 that are incident to both vertices of the
+#! pair, their umbrellas encode opposite local transitions between these vertices.
+#! Concretely, at one vertex the umbrella will record the transition from v1 to v2,
+#! while at the other vertex the umbrella will record the transition from v2 to v1.
+#! The default value of <A>checkOrientation</A> is <K>true</K>.
 #! 
 #! As an example consider the following net of a simplicial surface.
 #! Note that the surface has boundary edges. Moreover, the vertices 
@@ -1138,13 +1156,13 @@ DeclareOperation( "UmbrellaDescriptorOfSurface", [IsSimplicialSurface] );
 #! >      [ 1, 3, 6 ], [ 1, 4, 6 ], [ 1, 4, 7 ], [ 1, 2, 7 ], [ 2, 7, 8 ], 
 #! >      [ 2, 5, 8 ], [ 3, 5, 9 ], [ 3, 6, 9 ], [ 4, 6, 10 ], [ 4, 7, 10 ] ]);;
 #! gap> UmbrellaTipDescriptorOfSurface(surf);
-#! [ (2,5,3,6,4,7), (1,5,8,7), (1,5,9,6), (1,6,10,7), [ 8, 2, 1, 3, 9 ], 
-#!  [ 9, 3, 1, 4, 10 ], [ 8, 2, 1, 4, 10 ], [ 5, 2, 7 ], [ 5, 3, 6 ], 
-#!  [ 6, 4, 7 ] ]
+#! [ (2,5,3,6,4,7), (1,7,8,5), (1,5,9,6), (1,6,10,7), [ 9, 3, 1, 2, 8 ], 
+#!  [ 10, 4, 1, 3, 9 ], [ 8, 2, 1, 4, 10 ], [ 5, 2, 7 ], [ 6, 3, 5 ], 
+#!  [ 7, 4, 6 ] ]
 #! @EndExampleSession
 #! @Returns a list 
-#! @Arguments surface 
-DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface] );
+#! @Arguments surface[, checkOrientation]
+DeclareOperation( "UmbrellaTipDescriptorOfSurface", [IsSimplicialSurface, IsBool] );
 #! @EndGroup
 #
 #! @BeginGroup
@@ -1331,10 +1349,10 @@ DeclareOperation( "NormedUmbrellaDescriptor",[IsList,IsPosInt,IsList]);
 #! gap> surf := SimplicialSurfaceByVerticesInFaces(vf);
 #! simplicial surface (14 vertices, 33 edges, and 20 faces)
 #! gap> ud := UmbrellaDescriptorOfSurface(surf);
-#! [ (1,8,7,6,5,2), (2,3,4,5), (1,9,20,19,8), (1,9,10,11,3,2), (3,11,12,13,4), 
-#!   (4,13,14,15,6,5), (6,15,16,17,7), (7,17,18,19,8), [ 10, 9, 20 ], 
-#!   [ 10, 11, 12 ], [ 12, 13, 14 ], [ 14, 15, 16 ], [ 16, 17, 18 ], 
-#!   [ 20, 19, 18 ] ]
+#! [ (1,8,7,6,5,2), (2,5,4,3), (1,9,20,19,8), (1,2,3,11,10,9), (3,4,13,12,11),
+#!  (4,5,6,15,14,13), (6,7,17,16,15), (7,8,19,18,17), [ 10, 9, 20 ],
+#!  [ 10, 11, 12 ], [ 12, 13, 14 ], [ 14, 15, 16 ], [ 16, 17, 18 ],
+#!  [ 20, 19, 18 ] ]
 #! gap> DegreeSequenceOfUmbrellaDescriptor(ud);
 #! [ [ 6, true ], [ 4, true ], [ 5, true ], [ 6, true ], [ 5, true ], 
 #!   [ 6, true ], [ 5, true ], [ 5, true ], [ 3, false ], [ 3, false ], 

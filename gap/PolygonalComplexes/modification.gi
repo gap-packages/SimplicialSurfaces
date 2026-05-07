@@ -2046,6 +2046,167 @@ InstallMethod( ButterflyInsertion,
 end
 );
 
+BindGlobal("__SIMPLICIAL_DoButterflyDeletion",
+function(surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges)
+    local joinPair, intersectingEdge, edgePath1, edgePath2,
+        outerFaceVertices, innerFaceVertices;
+
+    if Length(intersectingEdges) = 2 then
+        surface := RemoveFacesNC(surface, [f1, f2]);
+
+        joinPair := JoinEdges(surface, edgesOfF1[1], edgesOfF2[1]);
+
+        surface := joinPair[1];
+
+        return [surface, VertexEdgePathByEdges(surface, [joinPair[2]])];
+    elif Length(intersectingEdges) = 3 then
+        return [RemoveFacesNC(surface, [f1, f2]), ];
+    fi;
+
+    intersectingEdge := intersectingEdges[1];
+
+    # Collect inner face vertices
+    innerFaceVertices := VerticesOfEdge(surface, intersectingEdge);
+
+    # Collect outer face vertices
+    outerFaceVertices := [
+        Difference(VerticesOfFace(surface, f1), innerFaceVertices)[1],
+        Difference(VerticesOfFace(surface, f2), innerFaceVertices)[1]
+    ];
+
+    # Explicitly define the edge paths
+    edgePath1 := [outerFaceVertices[1], innerFaceVertices[1], outerFaceVertices[2]];
+    edgePath2 := [outerFaceVertices[1], innerFaceVertices[2], outerFaceVertices[2]];
+    
+    # Check if at least one of the edge paths is on the border of surface
+    if Length(FacesOfVertex(surface, innerFaceVertices[1])) = 2 or
+       Length(FacesOfVertex(surface, innerFaceVertices[2])) = 2 then
+        # Since at least one of the edge paths is on the border of surface we can just
+        # remove the faces f1 and f2 from surface and we dont have to join edge paths
+
+        surface := RemoveFacesNC(surface, [f1, f2]);
+
+        return [surface, ];
+    fi;
+
+    if Length(NeighbourFacesOfFace(surface, f1)) < 3 then
+        # Since f1 does not have two neighbours to merge the edge path, we
+        # remove the vertex from both edge paths that is unique to f1
+
+        Remove(edgePath1, 1);
+        Remove(edgePath2, 1);
+    fi;
+    if Length(NeighbourFacesOfFace(surface, f2)) < 3 then
+        # Since f2 does not have two neighbours to merge the edge path, we
+        # remove the vertex from both edge paths that is unique to f2
+
+        Remove(edgePath1, 3);
+        Remove(edgePath2, 3);
+    fi;
+
+    # Remove the faces f1 and f2 from surface
+    surface := RemoveFaces(surface, [f1, f2]);
+    
+    edgePath1 := VertexEdgePathByVertices(surface, edgePath1);
+    edgePath2 := VertexEdgePathByVertices(surface, edgePath2);
+    
+    return JoinVertexEdgePaths(surface, edgePath1, edgePath2);
+end
+);
+
+InstallMethod( ButterflyDeletion,
+"for a simplicial surface and two faces", [IsSimplicialSurface, IsPosInt, IsPosInt],
+function (surface, f1, f2)
+    local edgesOfF1, edgesOfF2, intersectingEdges, faceVertices;
+
+    # Check if faces f1 and f2 are faces of surface
+    if not f1 in Faces(surface) then
+        return ErrorNoReturn("Requires two faces of the surfaces");
+    fi;
+    if not f2 in Faces(surface) then
+        return ErrorNoReturn("Requires two faces of the surfaces");
+    fi;
+
+    edgesOfF1 := EdgesOfFace(surface, f1);
+    edgesOfF2 := EdgesOfFace(surface, f2);
+    
+    # Find all intersecting edges between faces f1 and f2
+    intersectingEdges := Filtered(edgesOfF1, e -> e in edgesOfF2);
+    
+    if Length(intersectingEdges) = 0 then
+        return ErrorNoReturn("The given faces must be neighbours in surface");
+    elif Length(intersectingEdges) = 1 then
+        faceVertices := VerticesOfEdge(surface, intersectingEdges[1]);
+        if Length(EdgesBetweenVertices(surface, faceVertices[1], faceVertices[2])) = 2 then
+            return ErrorNoReturn("The common edge of the given faces is not allowed to be on a two-waist");
+        fi;
+    fi;
+
+    ## Find two edge paths between faces f1 and f2 in surface
+    # Hence remove known connecting edge from edgesOfF1 and edgesOfF2 since
+    # it is not part of the edge paths we are looking for
+    edgesOfF1 := Filtered(edgesOfF1, x -> not x in intersectingEdges);
+    edgesOfF2 := Filtered(edgesOfF2, x -> not x in intersectingEdges);
+    # edgesOfF1 and edgesOfF2 now only include edges that in combination
+    # form the edge paths between f1 and f2 we are looking for
+
+    return __SIMPLICIAL_DoButterflyDeletion(
+        surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges
+    );
+end
+);
+
+InstallMethod( ButterflyDeletion,
+"for a simplicial surface and an edge", [IsSimplicialSurface, IsPosInt],
+function (surface, e)
+    local faces;
+
+    faces := FacesOfEdge(surface, e);
+
+    if Length(faces) <> 2 then
+        return ErrorNoReturn("The given edge must be incident to two faces");
+    fi;
+
+    return ButterflyDeletion(surface, faces[1], faces[2]);
+end
+);
+
+InstallMethod( ButterflyDeletionNC,
+"for a simplicial surface and an edge", [IsSimplicialSurface, IsPosInt],
+function (surface, e)
+    local faces;
+
+    faces := FacesOfEdge(surface, e);
+
+    return ButterflyDeletionNC(surface, faces[1], faces[2]);
+end
+);
+
+InstallMethod( ButterflyDeletionNC,
+"for a simplicial surface and two faces", [IsSimplicialSurface, IsPosInt, IsPosInt],
+function (surface, f1, f2)
+    local edgesOfF1, edgesOfF2, intersectingEdges;
+
+    edgesOfF1 := EdgesOfFace(surface, f1);
+    edgesOfF2 := EdgesOfFace(surface, f2);
+    
+    # Find all intersecting edges between faces f1 and f2
+    intersectingEdges := Filtered(edgesOfF1, e -> e in edgesOfF2);
+
+    ## Find two edge paths between faces f1 and f2 in surface
+    # Hence remove known connecting edge from edgesOfF1 and edgesOfF2 since
+    # it is not part of the edge paths we are looking for
+    edgesOfF1 := Filtered(edgesOfF1, x -> not x in intersectingEdges);
+    edgesOfF2 := Filtered(edgesOfF2, x -> not x in intersectingEdges);
+    # edgesOfF1 and edgesOfF2 now only include edges that in combination
+    # form the edge paths between f1 and f2 we are looking for
+    
+    return __SIMPLICIAL_DoButterflyDeletion(
+        surface, f1, f2, edgesOfF1, edgesOfF2, intersectingEdges
+    );
+end
+);
+
 ##
 ##      End Applications
 ##

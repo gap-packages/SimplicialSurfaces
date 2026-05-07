@@ -62,40 +62,6 @@ BindGlobal( "__SIMPLICIAL_Test_FaceDigraphsGraph", function()
 	Assert(0, Set(DigraphEdges(digButterfly))=Set(Filtered(Union(FacesOfEdges(butterfly),reversedButterfly),i->Length(i)=2)));
 end);
 
-if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
-	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph", function()
-		local dig, surface, list1, list2;
-		surface:=SimplicialSurfaceByVerticesInFaces([[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],[2,4,6],[3,5,7],[3,6,7]]);
-		dig:=FaceDigraphsGraph(surface);
-	
-		list2:=AllSimplicialSurfacesOfDigraph(dig);
-		Assert(0, Length(Filtered(list2,IsVertexFaithful))=1);
-		Assert(0,IsIsomorphic(Filtered(list2,IsVertexFaithful)[1],surface));
-		Assert(0,Length(list2)=11);
-
-		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
-                Assert(0,Length(list1)=1);
-                Assert(0,IsIsomorphic(list1[1],surface));
-
-		dig:=DigraphByEdges([ [ 1, 2 ], [ 1, 4 ], [ 1, 5 ], [ 2, 1 ], [ 2, 3 ], [ 2, 6 ], [ 3, 2 ], [ 3, 4 ], [ 3, 5 ], [ 4, 1 ], [ 4, 3 ], 
-					[ 4, 6 ], [ 5, 1 ],[ 5, 3 ], [ 5, 6 ], [ 6, 2 ], [ 6, 4 ], [ 6, 5 ] ]);
-		list1:=AllSimplicialSurfacesOfDigraph(dig,false);
-		list2:=AllSimplicialSurfacesOfDigraph(dig,true);
-		Assert(0,Length(list1)=2);
-		Assert(0,Length(list2)=0);
-
-		#One of the smallest face graph with more than one vertex-faithful surface
-		dig:=DigraphByEdges([ [ 1, 9 ], [ 9, 1 ], [ 1, 13 ], [ 13, 1 ], [ 1, 14 ], [ 14, 1 ], [ 2, 6 ], [ 6, 2 ], [ 2, 7 ], [ 7, 2 ], [ 2, 10 ], 
-					[ 10, 2 ], [ 3, 10 ],[ 10, 3 ], [ 3, 15 ], [ 15, 3 ], [ 3, 16 ], [ 16, 3 ], [ 4, 6 ], [ 6, 4 ], [ 4, 8 ], [ 8, 4 ], 
-					[ 4, 9 ], [ 9, 4 ], [ 5, 6 ], [ 6, 5 ], [ 5, 12 ], [ 12, 5 ],[ 5, 14 ], [ 14, 5 ], [ 7, 8 ], [ 8, 7 ], [ 7, 13 ], [ 13, 7 ], 
-					[ 8, 11 ], [ 11, 8 ], [ 9, 10 ], [ 10, 9 ], [ 11, 12 ], [ 12, 11 ], [ 11, 15 ], [ 15, 11 ], [ 12, 16 ], [ 16, 12 ], 
-					[ 13, 14 ], [ 14, 13 ], [ 15, 16 ], [ 16, 15 ] ]);
-		list1:=AllSimplicialSurfacesOfDigraph(dig,true);
-		Assert(0,Length(list1)=2);
-	end);
-else
-	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph", function() end);
-fi;
 
 if IsPackageMarkedForLoading( "GRAPE", ">=4.8.2" ) then
 	BindGlobal( "__SIMPLICIAL_Test_IncidenceGrapeGraph", function()
@@ -191,22 +157,76 @@ else
 	BindGlobal( "__SIMPLICIAL_Test_FaceNautyGraph", function() end);
 fi;
 
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+	BindGlobal( "__SIMPLICIAL_Test_Canonical", function()
 
-if IsPackageMarkedForLoading( "Digraphs", ">=1.10.0" ) then
-	BindGlobal( "__SIMPLICIAL_Test_ReembeddingsOfDigraph", function()
-		local digraph, reemb1, reemb2, reemb3;
-		digraph:=CompleteDigraph(4);;
+	local edgesOfFaces, verticesOfEdges, cube, canonicalCube, canon, original;
 
-		reemb1:=ReembeddingsOfDigraph(digraph,1,false);
-		Assert(0,Length(reemb1)=1);
-		Assert(0,NumberOfVertices(reemb1[1])=3);
+	edgesOfFaces := [ ,,,,,,,,,,,,,,,,,,, [ 4, 5, 6, 7 ], [ 4, 8, 11, 15 ],[ 5, 8, 9, 12 ], [ 7, 10, 11, 14 ], [ 6, 9, 10, 13 ],[ 12, 13, 14, 15 ] ];;
+	verticesOfEdges := [ ,,, [ 12, 13 ], [ 13, 14 ], [ 14, 15 ], [ 12, 15 ],[ 13, 17 ], [ 14, 18 ], [ 15, 19 ], [ 12, 16 ], [ 17, 18 ], [ 18, 19 ],[ 16, 19 ], [ 16, 17 ] ];;
+	cube:=PolygonalSurfaceByDownwardIncidence(verticesOfEdges,edgesOfFaces);
+	canonicalCube:=CanonicalRepresentativeOfPolygonalSurface(cube);;
+	canon:=canonicalCube[1];;
 
-		reemb2:=ReembeddingsOfDigraph(digraph,1,true);
-		Assert(0,reemb2=[]);
+	original := RangeSurface(canonicalCube[2]);;
 
-		reemb3:=ReembeddingsOfDigraph(digraph,2,false);
-		Assert(0,reemb2=[]);
+	Assert(0, original=cube);
+	Assert(0,IsIsomorphic(cube,canon));
+
+
 	end);
 else
-	BindGlobal( "__SIMPLICIAL_Test_ReembeddingsOfDigraph", function() end);
+	BindGlobal( "__SIMPLICIAL_Test_Canonical", function() end);
+fi;
+
+if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
+	BindGlobal( "__SIMPLICIAL_Test_Automorphism", function()
+
+	local tetra, janus, autIco, oct, v, pair, autOct, pathOrbits, paths, f, sndFace, otherEdges, finalEdge;
+
+	tetra := Tetrahedron();;
+
+	Assert(0,IsAutomorphismDefinedByFaces(tetra));
+	Assert(0,Size(AutomorphismGroup(tetra))=24);
+
+	janus := JanusHead();;
+	Assert(0,IsAutomorphismDefinedByVertices(janus)=false);
+	Assert(0,IsAutomorphismDefinedByEdges(janus)=false);
+	Assert(0,IsAutomorphismDefinedByFaces(janus)=false);
+	Assert(0,Size(AutomorphismGroup(janus))=12);
+
+	autIco := AutomorphismGroup( Icosahedron() );;
+	Assert(0,Size(autIco)=120);
+
+	oct:=Octahedron();
+	paths := [];
+	for v in Vertices(oct) do
+        for pair in Arrangements( EdgesOfVertex(oct,v), 2 ) do
+            Add( paths, VertexEdgePathByEdges(oct, pair) );
+        od;
+    od;
+	Assert(0,Length(paths)=72);
+
+	autOct := AutomorphismGroup(Octahedron());;
+	pathOrbits := Orbits(autOct, paths, OnVertexEdgePaths);;
+	Assert(0,Length(pathOrbits)=2);
+
+	paths := [];
+	 for f in Faces(oct) do
+        for pair in Arrangements( EdgesOfFace(oct, f), 2 ) do
+            sndFace := NeighbourFaceByEdge(oct, f, pair[2]);
+            otherEdges := Difference( EdgesOfFace(oct, sndFace), [pair[2]] );
+            for finalEdge in otherEdges do
+                Add(paths, 
+                    EdgeFacePath(oct, [pair[1],f,pair[2],sndFace, finalEdge]));
+            od;
+        od;
+   od;
+   Assert(0,Length(paths)=96);
+
+	pathOrbits := Orbits(autOct, paths, OnEdgeFacePaths);;
+	Assert(0,Length(pathOrbits)=2);
+	end);
+else
+	BindGlobal( "__SIMPLICIAL_Test_Automorphism", function() end);
 fi;

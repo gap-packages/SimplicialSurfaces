@@ -779,340 +779,328 @@ InstallMethod( OnEdgeFacePaths,
 
 #######################################
 ##
-##      All Surfaces Of A Graph
+##      Edge Insertion / Reduction
 ##
 
-InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
-	[IsDigraph],
-	function(digraph)
-		Error("ReembeddingsOfDigraph: The package Digraph has to be available with version at least 1.9.0.");
-	end
-);
+BindGlobal( "__SIMPLICIAL_DigraphAddEdgeNC",
+    function(D, vertexA, vertexB)
+        Add(D!.OutNeighbours[vertexA], vertexB);
 
-InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
-	[IsDigraph,IsBool],
-	function(digraph,vertexFaithful)
-        Error("ReembeddingsOfDigraph: The package Digraph has to be available with version 1.10.0.");
+        if HaveEdgeLabelsBeenAssigned(D) and not IsMultiDigraph(D) then
+            SetDigraphEdgeLabel(D, vertexA, vertexB, 1);
+        fi;
     end
 );
 
-if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
-BindGlobal("__SIMPLICIAL_EdgesFromCycle",
-        function(digraph,cycle)
+BindGlobal( "__SIMPLICIAL_EdgeInsertionDirectNC",
+    function(D, edgeA, edgeB)
+        local numVertices;
 
-        local edgesOfCycle, i, edge;
+        numVertices := Maximum(DigraphVertices(D));
 
-        edgesOfCycle:=[];
-        for i in [1..Length(cycle)] do
-		if i<Length(cycle) then
-			edge:=[cycle[i],cycle[i+1]];
-		else
-			edge:=[cycle[i],cycle[1]];
-		fi;
-		Sort(edge);
-		Add(edgesOfCycle,Reversed(edge));
-	od;
+        # Remove former edges
+        D := DigraphRemoveEdge(D, edgeA);
+        D := DigraphRemoveEdge(D, Reversed(edgeA));
+        D := DigraphRemoveEdge(D, edgeB);
+        D := DigraphRemoveEdge(D, Reversed(edgeB));
 
-       	return edgesOfCycle;
+        # Add two new vertices that will represent the insertion of two surfaces
+        # Values of numVertices + 1 and numVertices + 2 represent the two added vertices
+        DigraphAddVertex(D, numVertices + 1); # Vertex A
+        DigraphAddVertex(D, numVertices + 2); # Vertex B
 
-        end
+        # Add two connected edges between each former edge
+        #
+        # Add edges intersecting former edgeA with Vertex A
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeA[1], numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, edgeA[1]);
+        #
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeA[2], numVertices + 1);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, edgeA[2]);
+        #
+        # Add edges intersecting former edgeB with Vertex B
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeB[1], numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, edgeB[1]);
+        #
+        __SIMPLICIAL_DigraphAddEdgeNC(D, edgeB[2], numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, edgeB[2]);
+
+        # Add edges connecting Vertex A and Vertex B
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 1, numVertices + 2);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, numVertices + 2, numVertices + 1);
+
+        return D;
+    end
 );
 
-BindGlobal("__SIMPLICIAL_IsNonSeparating",
-        function(digraph,cycle)
+InstallMethod( EdgeInsertionNC, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local dMutable, isMutable;
 
-        local digraphRemoved;
-
-        if not IsSymmetricDigraph(digraph) then
-                return false;
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
         fi;
 
-        digraphRemoved:=DigraphRemoveVertices(digraph,cycle);
-        if IsConnectedDigraph(digraphRemoved) then
-                return true;
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
         else
-                return false;
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
         fi;
 
-        end
+        dMutable := __SIMPLICIAL_EdgeInsertionDirectNC(dMutable, edgeA, edgeB);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return MakeImmutable(dMutable);
+    end
 );
 
-InstallOtherMethod(AllSimplicialSurfacesOfDigraph,"for a digraph",
-	[IsDigraph],
-	function(digraph)
-		return AllSimplicialSurfacesOfDigraph(digraph,false);
-	end
+InstallMethod( EdgeInsertion, "for a digraph and two lists", [IsDigraph, IsList, IsList],
+    function (D, edgeA, edgeB)
+        local vertices;
+
+        vertices := Union(edgeA, edgeB);
+
+        # Sanity checks
+        if Length(vertices) < 3 then
+            return ErrorNoReturn("The given edges mustn't have the same vertices");
+        fi;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if not IsDigraphEdge(D, edgeA) or not IsDigraphEdge(D, edgeB) then
+            return ErrorNoReturn("The given edge is not a digraph edge of the given digraph");
+        fi;
+
+        return EdgeInsertionNC(D, edgeA, edgeB);
+    end
 );
 
-InstallMethod(AllSimplicialSurfacesOfDigraph,"for a digraph and a Boolean",
-	[IsDigraph,IsBool],
-	function(digraph,vertexFaithful)
-		
-		local allCycles,edgesOfGraph, faces,edgesOfCycles,CyclesOfEdges,cyclesOfEdges,FindSurface,FindCycleComb,
-		cycle,cyclePair,IsPartOf,possibleCyclesPairs,commonEdges,Possible,e;
+BindGlobal( "__SIMPLICIAL_EdgeReductionDirectNC",
+    function (D, intersectingEdge)
+        local neighbours, neighbour, newEdge;
 
-		if IsMultiDigraph(digraph) or DigraphHasLoops(digraph) or not IsSymmetricDigraph(digraph) or not IsConnectedDigraph(digraph) then
-            		Error("SimplicialSurfaceOfDigraph: Given digraph has to be simple, symmetric and connected");
-        	fi;
-		if vertexFaithful then
-			allCycles:=DigraphAllChordlessCycles(digraph);
-			allCycles:=Filtered(allCycles,c->__SIMPLICIAL_IsNonSeparating(digraph,c));
-		else
-			allCycles:=DigraphAllUndirectedSimpleCircuits(digraph);
-		fi;
+        # Add new edges
+        #
+        # left side of intersecting edge
+        newEdge := [];
+        neighbours := OutNeighboursOfVertex(D, intersectingEdge[1]);
+        for neighbour in neighbours do
+            if neighbour <> intersectingEdge[2] then
+                Add(newEdge, neighbour);
+            fi;
+        od;
+        for neighbour in neighbours do
+            DigraphRemoveEdge(D, [intersectingEdge[1], neighbour]);
+        od;
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
+        #
+        # right side of intersecting edge
+        newEdge := [];
+        neighbours := OutNeighboursOfVertex(D, intersectingEdge[2]);
+        for neighbour in neighbours do
+            if neighbour <> intersectingEdge[1] then
+                Add(newEdge, neighbour);
+            fi;
+        od;
+        for neighbour in neighbours do
+            DigraphRemoveEdge(D, [intersectingEdge[2], neighbour]);
+        od;
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[1], newEdge[2]);
+        __SIMPLICIAL_DigraphAddEdgeNC(D, newEdge[2], newEdge[1]);
 
-		edgesOfGraph:=Filtered(DigraphEdges(digraph),e->not IsSortedList(e));
+        # Remove old vertices
+        DigraphRemoveVertices(D, intersectingEdge);
 
-		edgesOfCycles:=[];
-		for cycle in [1..Length(allCycles)] do;
-			edgesOfCycles[cycle]:=List(__SIMPLICIAL_EdgesFromCycle(digraph,allCycles[cycle]),e->Position(edgesOfGraph,e));
-		od;
-
-		possibleCyclesPairs:=[];
-		for e in [1..Length(edgesOfGraph)] do
-			possibleCyclesPairs[e]:=[];
-		od;
-
-		for cyclePair in IteratorOfCombinations([1..Length(allCycles)],2) do
-			commonEdges:=Intersection(edgesOfCycles[cyclePair[1]],edgesOfCycles[cyclePair[2]]);
-			if Length(commonEdges)=1 and vertexFaithful then
-				Add(possibleCyclesPairs[commonEdges[1]],cyclePair);
-			elif not vertexFaithful then
-				for e in commonEdges do
-					Add(possibleCyclesPairs[e],cyclePair);
-				od;
-			fi;
-		od;
-
-		faces:=[];
-
-		# The function returns a list that stores a Boolean list for each edge. 
-		# An entry in the list is true if the edge is included in this cycle.
-		CyclesOfEdges:=function()
-			local cyclesOfEdges,e,cyclesOfEdge,cycle;
-			cyclesOfEdges:=[];
-
-			for e in [1..Length(edgesOfGraph)] do
-				cyclesOfEdge:=BlistList([1..Length(allCycles)],[]);
-				for cycle in [1..Length(allCycles)] do
-					if e in edgesOfCycles[cycle] then
-						cyclesOfEdge[cycle]:=true;
-					fi;
-				od;
-				cyclesOfEdges[e]:=cyclesOfEdge;
-			od;
-			
-			return cyclesOfEdges;
-		end;;
-
-		cyclesOfEdges:=CyclesOfEdges();;
-		
-		# The function checks whether the given cycle has at most one common edge with one element of cycles.
-		Possible:=function(cycle,cycles)
-			local c;
-			for c in cycles do
-				if Length(Intersection(edgesOfCycles[cycle],edgesOfCycles[c]))>1 then	
-					return false;
-				fi; 
-			od;
-			return true;
-		end;;
-
-		IsPartOf:=function(face,faces)
-			local f;
-			for f in faces do
-				if IsIsomorphic(f,face) then
-					return true;
-				fi;
-			od;
-			return false;
-		end;;
-
-		FindSurface:=function(graph)
-			local smallCy, cycle,cyclesOfFace,usedEdges,edgesOfCycle,c,edge,cyclesToUse; 
-			
-			# if we search vertex-faithful simplicial surfaces all cycles of length three and four have to be part of the resulting cycle combination
-			if vertexFaithful and IsIsomorphicDigraph(graph, CompleteDigraph(4)) then
-				smallCy:=Filtered(allCycles, c->Length(c)<4);
-				smallCy:=BlistList([1..Length(allCycles)],smallCy);
-			elif vertexFaithful then
-				smallCy:=Filtered(allCycles, c->Length(c)<5);
-				smallCy:=BlistList([1..Length(allCycles)],smallCy);
-			fi;
-			
-			for cycle in [1..Length(allCycles)] do
-				
-				cyclesOfFace:=BlistList([1..Length(allCycles)],[cycle]);
-				
-				if vertexFaithful then
-					cyclesOfFace:=UnionBlist(cyclesOfFace, smallCy);
-				fi;
-				
-				usedEdges:=ListWithIdenticalEntries(Length(edgesOfGraph),0);
-				
-				edgesOfCycle:=[];
-				for c in ListBlist([1..Length(allCycles)],cyclesOfFace) do
-					edgesOfCycle:=Concatenation(edgesOfCycle,edgesOfCycles[c]);
-				od;
-
-				for edge in edgesOfCycle do
-					usedEdges[edge]:=usedEdges[edge]+1;
-				od;
-
-                		if ForAll(usedEdges,i->i<3) then
-					cyclesToUse:=BlistList([1..Length(allCycles)],[cycle+1..Length(allCycles)]);
-                   	 		cyclesToUse:=DifferenceBlist(cyclesToUse,cyclesOfFace);
-                    
-                   			FindCycleComb(cyclesOfFace,usedEdges,1,graph,cyclesToUse);
-                		fi;
-			od;
-		end;;
-
-		# This is a recursive function that searches an admissible cycle combination.  
-		# usedEdges stores how often each edge is used.
-		# We assume that usedEdges is permissible, that mean each entry is at most two and the cycles overlap at most in one edge 
-		# if we search vertex-faithful surfaces.
-		# vertexCycleComb is a Boolean list which stores all cycles we used so far.
-		# k is the position of the edge that we want to consider where all previous edges are already used twice. We start with the first edge.
-		# CyclesToUse is a Boolean list that stores all the cycles that we are currently allowed to use.
-		# A cycle must not be used if it contains an edge that has already been used twice.
-		FindCycleComb:=function(vertexCycleComb,usedEdges,k,graph,cyclesToUse)
-			local admissible, cycleRem, face,umbrellaDesk,kcycle,permissible,cycle,j,e,newUsedEdges,newVertexCycleComb,edgesOfCycle,newCyclesToUse,cy;
-		
-			if ForAll(usedEdges,i->i=2) then
-                		admissible:=true;
-                        if vertexFaithful then
-                            for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
-                                    cycleRem:=ShallowCopy(vertexCycleComb);
-                                    cycleRem[cycle]:=false;
-                                    if not Possible(cycle, ListBlist([1..Length(vertexCycleComb)],cycleRem)) then
-                                        admissible:=false;
-                                    fi;
-                            od;
-                        fi;
-
-                		if admissible then
-                    			umbrellaDesk:=[];
-
-                    			for cycle in ListBlist([1..Length(vertexCycleComb)],vertexCycleComb) do
-                        			Add(umbrellaDesk,CycleFromList(allCycles[cycle]));
-                    			od;
-                
-                    			face:=SimplicialSurfaceByUmbrellaDescriptor(umbrellaDesk);
-                    			if not IsPartOf(face,faces) then
-                        			Add(faces,face);
-                    			fi;
-                		fi;
-			else
-				if usedEdges[k]=1 and SizeBlist(cyclesToUse)>0 then
-				
-					kcycle:=IntersectionBlist(cyclesOfEdges[k],cyclesToUse);
-
-					# Checks which cycle we can add to our combination such that k is contained twice and the new combination is permissible.
-					for j in ListBlist([1..Length(kcycle)],kcycle) do
-							
-						if not vertexFaithful or Possible(j,ListBlist([1..Length(allCycles)],vertexCycleComb))then
-							
-							# permissible stores if the current vertexCycleComb together with the new cycle is admissible. 
-							permissible:=true;
-
-							edgesOfCycle:=edgesOfCycles[j];
-								
-							for e in edgesOfCycle do
-								if usedEdges[e]>=2 then
-									permissible:=false;
-								fi;
-							od;
-								
-							if permissible then
-
-								newUsedEdges:=ShallowCopy(usedEdges);
-								for e in edgesOfCycle do
-									newUsedEdges[e]:=usedEdges[e]+1;
-								od;
-
-								newVertexCycleComb:=ShallowCopy(vertexCycleComb);
-								newVertexCycleComb[j]:=true;
-
-								newCyclesToUse:=DifferenceBlist(cyclesToUse,kcycle);
-			
-								for e in edgesOfCycle do
-									if newUsedEdges[e]=2 and e>k then
-										newCyclesToUse:=DifferenceBlist(newCyclesToUse,cyclesOfEdges[e]);
-									fi;
-								od;	
-								FindCycleComb(newVertexCycleComb,newUsedEdges,k+1,graph,newCyclesToUse);
-							fi;
-						fi;
-					od;
-				elif usedEdges[k]=0 and SizeBlist(cyclesToUse)>0 then
-						
-					# Checks which cycle pair of k can be added to our cycle combination
-					for j in possibleCyclesPairs[k] do
-						
-						if cyclesToUse[j[1]] and cyclesToUse[j[2]] and (not vertexFaithful or Possible(j[1],
-							ListBlist([1..Length(allCycles)],vertexCycleComb)) and Possible(j[2],ListBlist([1..Length(allCycles)],
-							vertexCycleComb))) then
-							edgesOfCycle:=Union(edgesOfCycles[j[1]],edgesOfCycles[j[2]]);						
-
-							# permissible stores if the current vertexCycleComb together with the new cycle is admissible. 
-							permissible:=true;
-								
-							for e in edgesOfCycle do
-								if usedEdges[e]>=2 then
-									permissible:=false;
-								fi;
-							od;
-
-							if not vertexFaithful then
-								for e in Intersection(edgesOfCycles[j[1]],edgesOfCycles[j[2]]) do
-									if usedEdges[e]>=1 then
-										permissible:=false;
-									fi;
-								od;
-							fi;
-
-							if permissible then 
-							
-								newUsedEdges:=ShallowCopy(usedEdges);
-								for e in edgesOfCycle do
-									newUsedEdges[e]:=newUsedEdges[e]+1;
-								od;
-									
-								if vertexFaithful then
-									newUsedEdges[k]:=newUsedEdges[k]+1;
-								else
-									for e in Intersection(edgesOfCycles[j[1]],edgesOfCycles[j[2]]) do
-										newUsedEdges[e]:=newUsedEdges[e]+1;
-									od;
-								fi;
-								
-								newVertexCycleComb:=ShallowCopy(vertexCycleComb);
-								newVertexCycleComb[j[1]]:=true;
-								newVertexCycleComb[j[2]]:=true;
-
-								kcycle:=IntersectionBlist(cyclesOfEdges[k],cyclesToUse);
-								newCyclesToUse:=DifferenceBlist(cyclesToUse,kcycle);
-
-								for e in edgesOfCycle do
-									if newUsedEdges[e]=2 and e>k then
-										newCyclesToUse:=DifferenceBlist(newCyclesToUse,cyclesOfEdges[e]);
-									fi;
-								od;	
-								FindCycleComb(newVertexCycleComb,newUsedEdges,k+1,graph,newCyclesToUse);
-							fi;
-						fi;
-					od;
-				elif usedEdges[k]=2 then
-					FindCycleComb(vertexCycleComb,usedEdges,k+1,graph,cyclesToUse);
-				fi;
-			fi;
-		end;;
-
-		FindSurface(digraph);
-
-		return faces;
-		
-		end
+        return D;
+    end
 );
-fi;
+
+InstallMethod( EdgeReductionNC, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, intersectingEdge)
+        local dMutable, isMutable;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if IsMutableDigraph(D) then
+            isMutable := true;
+            dMutable := D;
+        else
+            isMutable := false;
+            dMutable := DigraphMutableCopy(D);
+        fi;
+
+        dMutable := __SIMPLICIAL_EdgeReductionDirectNC(dMutable, intersectingEdge);
+
+        if isMutable then
+            return dMutable;
+        fi;
+        return MakeImmutable(dMutable);
+    end
+);
+
+InstallMethod( EdgeReduction, "for a digraph and a list", [IsDigraph, IsList],
+    function (D, edge)
+        local leftVertexOutNeighbours, rightVertexOutNeighbours, edgeOutNeighbours;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        if not IsDigraphEdge(D, edge) then
+            return ErrorNoReturn("The given edge is not a digraph edge of given digraph");
+        fi;
+
+        leftVertexOutNeighbours := OutNeighboursOfVertex(D, edge[1]);
+        rightVertexOutNeighbours := OutNeighboursOfVertex(D, edge[2]);
+
+        # Check if edge vertices have degree three
+        if Length(leftVertexOutNeighbours) <> 3 or
+        Length(rightVertexOutNeighbours) <> 3 then
+            return ErrorNoReturn("The vertices of the given edge must have degree three");
+        fi;
+
+        # Check if edge has four outwards neighbours
+        edgeOutNeighbours := Union(
+            leftVertexOutNeighbours,
+            rightVertexOutNeighbours
+        );
+        if Length(edgeOutNeighbours) <> 6 then
+            return ErrorNoReturn("The given edge must have four outwards neighbours");
+        fi;
+
+        return EdgeReductionNC(D, edge);
+    end
+);
+
+InstallMethod( NewGraphsForEdgeInsertion, "for a mutable digraph", [IsMutableDigraph, IsBool],
+    function (D, allowTriangleInsertion)
+        # placeholder for checks
+
+        return NewGraphsForEdgeInsertionNC(D, allowTriangleInsertion);
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertion, "for an immutable digraph", [IsImmutableDigraph, IsBool],
+    function(D, allowTriangleInsertion)
+        local dMutable;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        dMutable := DigraphMutableCopy(D);
+
+        return NewGraphsForEdgeInsertion(dMutable, allowTriangleInsertion);
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertion, "for a digraph", [IsDigraph],
+    function(D)
+        return NewGraphsForEdgeInsertion(D, true);
+    end
+);
+
+InstallMethod( NewGraphsForEdgeInsertionNC, "for a mutable digraph", [IsMutableDigraph, IsBool],
+    function (D, allowTriangleInsertion)
+        local newUniqueGraphs, newGraphs, newGraph, orbits, orbitsS, orbit,
+            uniqueEdges, uniqueEdgesS, undirectedEdges, edgeA, edgeB, isUniqueGraph, 
+            g1, g2, numIntersectingVertices, stab;
+
+        if not IsSymmetricDigraph(D) then
+            D := DigraphSymmetricClosure(D);
+        fi;
+
+        newUniqueGraphs := [];
+        newGraphs := [];
+        uniqueEdges := [];
+
+        undirectedEdges := Filtered(DigraphEdges(D), e -> (e[1] < e[2]));
+
+        # Calculate Orbits with undirected edges of D
+        orbits := Orbits(AutomorphismGroup(D), undirectedEdges, OnSets);
+
+        # For each Orbit only collect the initial edge and store it to uniqueEdges
+        for orbit in orbits do
+            Add(uniqueEdges, orbit[1]);
+        od;
+
+        # For each edge representative find subsequent stabilized representatives
+        for edgeA in uniqueEdges do
+            stab := Stabilizer(AutomorphismGroup(D), edgeA, OnSets);
+
+            orbitsS := Orbits(
+                stab,
+                undirectedEdges,
+                OnSets
+            );
+
+            uniqueEdgesS := [];
+            for orbit in orbitsS do
+                Add(uniqueEdgesS, orbit[1]);
+            od;
+
+            # For each combination of edge representatives do edge insertion
+            for edgeB in uniqueEdgesS do
+                numIntersectingVertices := Length(Union(edgeA, edgeB));
+                if (allowTriangleInsertion and numIntersectingVertices = 3) or
+                    numIntersectingVertices = 4 then
+                    newGraph := DigraphMutableCopy(D);
+
+                    newGraph := __SIMPLICIAL_EdgeInsertionDirectNC(newGraph, edgeA, edgeB);
+
+                    MakeImmutable(newGraph);
+                    Add(newGraphs, newGraph);
+                fi;
+            od;
+        od;
+
+        if Length(newGraphs) = 0 then
+            return [];
+        fi;
+
+        # for each new graph check if its unique
+        for g1 in newGraphs do
+            isUniqueGraph := true;
+
+            for g2 in newUniqueGraphs do
+                if IsIsomorphicDigraph(g1, g2) then
+                    isUniqueGraph := false;
+                    break;
+                fi;
+            od;
+
+            if isUniqueGraph then
+                Add(newUniqueGraphs, g1);
+            fi;
+        od;
+
+        return newUniqueGraphs;
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertionNC, "for a digraph", [IsImmutableDigraph, IsBool],
+    function(D, allowTriangleInsertion)
+        local dMutable, newUniqueGraphs;
+
+        dMutable := DigraphMutableCopy(D);
+
+        newUniqueGraphs := NewGraphsForEdgeInsertionNC(dMutable, allowTriangleInsertion);
+
+        return newUniqueGraphs;
+    end
+);
+
+InstallOtherMethod( NewGraphsForEdgeInsertionNC, "for a digraph", [IsDigraph],
+    function(D)
+        return NewGraphsForEdgeInsertionNC(D, true);
+    end
+);
