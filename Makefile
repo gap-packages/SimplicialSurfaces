@@ -35,4 +35,4 @@ doc/manual.six: makedoc.g \
 		doc/tikz-files/TikZHeader.tex
 	gap makedoc.g
 
-
+.PHONY: all doc recompile-images
