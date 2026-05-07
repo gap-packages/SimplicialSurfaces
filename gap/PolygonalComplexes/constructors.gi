@@ -367,6 +367,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
+        Edges(obj); # Early computation required to enforce edge property consistency
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
         if Length(vertices) > 0 then
             SetVerticesAttributeOfComplex(obj, vertices );
@@ -374,8 +375,8 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         return obj;
     end,
     function( arg )
-        local verticesDed, verticesExp, edgesDed, facesDed, verticesOfEdges,
-            edgesOfFaces;
+        local verticesDed, verticesExp, edgesDed, edgesExp, facesDed,
+              verticesOfEdges, edgesOfFaces;
 
         # First we deduce vertices, edges and faces
         if Length(arg) = 3 then
@@ -394,15 +395,23 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         if Length(arg) = 6 then
             if arg[1] = "SimplicialComplexByDownwardIncidence" then
                 verticesExp := Filtered(arg[2], v -> v in verticesDed);
-                __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
+                edgesExp := Filtered(arg[3], e -> e in edgesDed);
             else
-                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
+                verticesExp := arg[2];
+                edgesExp := arg[3];
             fi;
 
-            __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
+            __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( arg[1], edgesExp, edgesDed, "edge" );
             __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
+        else
+            edgesExp := edgesDed;
         fi;
-        __SIMPLICIAL_CompareSets( arg[1], edgesDed, Union(edgesOfFaces), "edge" );
+
+        if arg[1] = "SimplicialComplexByDownwardIncidence" then
+            edgesExp := Filtered(edgesExp, e -> e in Union(edgesOfFaces));
+        fi;
+        __SIMPLICIAL_CompareSets( arg[1], edgesExp, Union(edgesOfFaces), "edge" );
 
         # Guarantee basic size restrictions
         __SIMPLICIAL_TwoVerticesPerEdge(arg[1], verticesOfEdges);
@@ -439,6 +448,7 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
+        Edges(obj); # Early computation required to enforce edge property consistency
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
         if Length(vertices) > 0 then
             SetVerticesAttributeOfComplex(obj, vertices );

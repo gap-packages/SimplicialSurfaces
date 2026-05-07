@@ -950,15 +950,14 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
             fi;
             
             # Check for ramified
-            # TODO: isolated vertices are not ramified
             found := false;
             for class in chambers do
                 if IsSubset(class, ChambersOfVertexNC(complex, v)) then
                     found := true;
                 fi;
             od;
-            if not found and not isIsolated then
-                # Isolated vertices are not ramified.
+            if not found and Length(FacesOfVertexNC(complex, v)) > 0 then
+                # Vertices with no incident faces are not ramified.
                 Add(ramified,v);
                 continue;
             fi;
@@ -1177,22 +1176,22 @@ InstallMethod( IsIsolatedVertex, "for a twisted polygonal complex and a vertex",
 
 __SIMPLICIAL_AddTwistedAttribute( RamifiedVertices );
 InstallMethod( RamifiedVertices,
-    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices, VerticesAttributeOfComplex and IsolatedVertices",
-    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex and HasIsolatedVertices],
+    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices, VerticesAttributeOfComplex and FacesOfVertices",
+    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex and HasFacesOfVertices],
     function(complex)
-        local edgeFacePaths, partitions, isolatedVertices, res, v;
+        local edgeFacePaths, partitions, faces, isolatedVertices, res, v;
 
         edgeFacePaths := UmbrellaPathsOfVertices(complex);
         partitions := UmbrellaPathPartitionsOfVertices(complex);
-        isolatedVertices := IsolatedVertices(complex);
+        faces := FacesOfVertices(complex);
 
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
-            # Isolated vertices do not have an edge-face-path nor an
-            # umbrella path partition. But since they do not make the
+            # Vertices without incident faces do not have an edge-face-path
+            # nor an umbrella path partition. But since they do not make the
             # complex ramified, we need to check if v is not isolated.
             if edgeFacePaths[v] = fail and partitions[v] <> fail and
-               not v in isolatedVertices then
+               IsBound(faces[v]) and Length(faces[v]) > 0 then
                 Add(res, v);
             fi;
         od;
@@ -1201,11 +1200,11 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices", 
-    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex", "IsolatedVertices"]);
+    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex", "FacesOfVertices"]);
 
 InstallMethod( RamifiedVertices, 
-    "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices",
-    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HasEdgesOfVertices and HasChambersOfVertices],
+    "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices and FacesOfVertices",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HasEdgesOfVertices and HasChambersOfVertices and HasFacesOfVertices],
     function(complex)
         __SIMPLICIAL_TwistedVertexTypes(complex);
         return RamifiedVertices(complex);
@@ -1213,7 +1212,7 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices",
-    ["OneAdjacencyRelation", "TwoAdjacencyRelation", "VerticesAttributeOfComplex", "RamifiedEdges", "EdgesOfVertices", "ChambersOfVertices"]);
+    ["OneAdjacencyRelation", "TwoAdjacencyRelation", "VerticesAttributeOfComplex", "RamifiedEdges", "EdgesOfVertices", "ChambersOfVertices", "FacesOfVertices"]);
 
 
 InstallImmediateMethod( RamifiedVertices, "for a twisted polygonal surface",
@@ -1597,6 +1596,138 @@ InstallMethod( IsFaceHomogeneous, "for a twisted polygonal complex",
     end
 );
 
+##
+## Checks if a given graph is chordal using Maximum Cardinality Search (MCS)
+## `vertices` is a list/set of vertex labels (e.g., [1, 2, 4, 5])
+## `adj` is a record or array where adj[v] is the Set of neighbors of vertex v.
+##
+BindGlobal( "__SIMPLICIAL_IsChordalGraph",
+    function( vertices, adj )
+        local n, weight, ordering, unvisited, max_w, best_v, v, u, i,
+              ordered_pos, N_plus, first_neighbor, w;
+        
+        n := Length(vertices);
+        if n <= 3 then return true; fi; # Trivially chordal
+        
+        # Initialize weights
+        weight := [];
+        for v in vertices do 
+            weight[v] := 0; 
+        od;
+        
+        unvisited := Set(vertices);
+        ordering := [];
+        ordered_pos := [];
+        
+        # 1. Maximum Cardinality Search (MCS)
+        # We build the ordering backwards
+        while not IsEmpty(unvisited) do
+            max_w := -1;
+            best_v := fail;
+            
+            # Find unvisited vertex with highest weight (most visited neighbors)
+            for v in unvisited do
+                if weight[v] > max_w then
+                    max_w := weight[v];
+                    best_v := v;
+                fi;
+            od;
+            
+            Add(ordering, best_v);
+            RemoveSet(unvisited, best_v);
+            
+            # Update the weights of its unvisited neighbors
+            for u in adj[best_v] do
+                if u in unvisited then
+                    weight[u] := weight[u] + 1;
+                fi;
+            od;
+        od;
+        
+        # MCS produces a reversed Perfect Elimination Ordering.
+        # Let's reverse it to the standard forward PEO.
+        ordering := Reversed(ordering);
+        for i in [1..n] do
+            ordered_pos[ordering[i]] := i;
+        od;
+        
+        # 2. Verify the Perfect Elimination Ordering
+        # For each vertex v, let N+(v) be its neighbors that come AFTER it.
+        # The vertex in N+(v) that comes earliest must be connected to all others in N+(v).
+        for i in [1..n-1] do
+            v := ordering[i];
+            N_plus := [];
+            
+            for u in adj[v] do
+                if ordered_pos[u] > ordered_pos[v] then
+                    Add(N_plus, u);
+                fi;
+            od;
+            
+            if not IsEmpty(N_plus) then
+                # Find the earliest neighbor in the ordering
+                first_neighbor := N_plus[1];
+                for u in N_plus do
+                    if ordered_pos[u] < ordered_pos[first_neighbor] then
+                        first_neighbor := u;
+                    fi;
+                od;
+                
+                # Check the clique condition: first_neighbor must be connected to the rest
+                for w in N_plus do
+                    if w <> first_neighbor and not (w in adj[first_neighbor]) then
+                        return false; # Not chordal! We found a cycle > 3 without a chord.
+                    fi;
+                od;
+            fi;
+        od;
+        
+        return true;
+    end
+);
+
+BindGlobal( "__SIMPLICIAL_CheckTriangularEdgePaths",
+function(complex)
+    local edgesOfFaces, faceEdges, allEdges, isolatedEdges, adj, vertices,
+          isolatedEdge, verticesOfEdge, v1, v2;
+
+    edgesOfFaces := EdgesOfFaces(complex);
+    faceEdges := Set(Concatenation(Set(edgesOfFaces)));
+    allEdges := Edges(complex);
+    if Length(faceEdges) = Length(allEdges) then
+        # All edges are incident to a face, we do not have
+        # to check for edge paths that are not incident to
+        # any face in complex.
+        return true;
+    fi;
+
+    isolatedEdges := Difference(allEdges, faceEdges);
+    
+    adj := [];
+    vertices := [];
+        
+    # Build adjacency list
+    for isolatedEdge in isolatedEdges do
+        verticesOfEdge := VerticesOfEdge(complex, isolatedEdge);
+        v1 := verticesOfEdge[1];
+        v2 := verticesOfEdge[2];
+        
+        if not IsBound(adj[v1]) then
+            adj[v1] := [];
+            AddSet(vertices, v1);
+        fi;
+        if not IsBound(adj[v2]) then
+            adj[v2] := [];
+            AddSet(vertices, v2);
+        fi;
+        
+        AddSet(adj[v1], v2);
+        AddSet(adj[v2], v1);
+    od;
+
+    return __SIMPLICIAL_IsChordalGraph( vertices, adj );
+end);
+
 
 InstallMethod( IsTriangular, "for a polygonal complex",
     [IsPolygonalComplex],
@@ -1610,11 +1741,11 @@ InstallMethod( IsTriangular, "for a polygonal complex",
             fi;
         od;
 
-        return true;
+        return __SIMPLICIAL_CheckTriangularEdgePaths(complex);
     end
 );
-InstallMethod( IsTriangular, "for a polygonal complex with homogeneous faces",
-    [IsPolygonalComplex and IsFaceHomogeneous],
+InstallMethod( IsTriangular, "for a polygonal complex with homogeneous, pure faces",
+    [IsPolygonalComplex and IsFaceHomogeneous and IsFacePure],
     function(complex)
         local verts;
 
@@ -1638,12 +1769,12 @@ InstallMethod( IsTriangular, "for a twisted polygonal complex",
             fi;
         od;
 
-        return true;
+        return __SIMPLICIAL_CheckTriangularEdgePaths(complex);
     end
 );
 InstallMethod( IsTriangular, 
-    "for a twisted polygonal complex with homogeneous faces",
-    [IsTwistedPolygonalComplex and IsFaceHomogeneous],
+    "for a twisted polygonal complex with homogeneous, pure faces",
+    [IsTwistedPolygonalComplex and IsFaceHomogeneous and IsFacePure],
     function(complex)
         local chambs;
 

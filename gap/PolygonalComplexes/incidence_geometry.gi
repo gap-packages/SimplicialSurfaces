@@ -283,19 +283,19 @@ __SIMPLICIAL_AddPolygonalAttribute(UmbrellaPathsOfVertices);
 ## Implement the immediate methods for inferences about the complex
 ##
 InstallImmediateMethod( IsNotVertexRamified, 
-    "for a polygonal complex that has UmbrellaPathsOfVertices, VerticesAttributeOfComplex and IsolatedVertices",
-    IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasVerticesAttributeOfComplex and HasIsolatedVertices, 0,
+    "for a polygonal complex that has UmbrellaPathsOfVertices, VerticesAttributeOfComplex and FacesOfVertices",
+    IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasVerticesAttributeOfComplex and HasFacesOfVertices, 0,
     function(complex)
-        local paths, isolatedVertices, v;
+        local paths, faces, v;
 
         paths := UmbrellaPathsOfVertices(complex);
-        isolatedVertices := IsolatedVertices(complex);
+        faces := FacesOfVertices(complex);
 
         for v in VerticesAttributeOfComplex(complex) do
-            # Isolated vertices do not have an umbrella path.
+            # Vertices without incident faces do not have an umbrella path.
             # But since they do not make the complex ramified,
             # we need to check if v is not isolated.
-            if paths[v] = fail and not v in isolatedVertices then
+            if paths[v] = fail and IsBound(faces[v]) and Length(faces[v]) > 0 then
                 return false;
             fi;
         od;
@@ -303,7 +303,7 @@ InstallImmediateMethod( IsNotVertexRamified,
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsNotVertexRamified", ["UmbrellaPathsOfVertices", "VerticesAttributeOfComplex", "IsolatedVertices"], ["IsPolygonalComplex"]);
+    "IsNotVertexRamified", ["UmbrellaPathsOfVertices", "VerticesAttributeOfComplex", "FacesOfVertices"], ["IsPolygonalComplex"]);
 
 InstallImmediateMethod( IsNotEdgeRamified,
     "for a polygonal complex that has UmbrellaPathPartitionsOfVertices",
@@ -478,15 +478,23 @@ InstallMethod( UmbrellaPathPartitionsOfVertices,
         HasEdgesOfVertices and HasEdgesOfFaces and HasFacesOfEdges and 
         HasVerticesOfEdges and HasRamifiedEdges],
     function(ramSurf)
-        local faceEdgePathPart, vertex, incidentEdges, paths,
+        local faceEdgePathPart, vertex, incidentEdges, paths, facesOfEdges,
             edgeStart, possFaces, rightFinished, leftFinished, backFace, path,
             nextEdge, nextFace, usedEdges;
 
         faceEdgePathPart := [];
+        facesOfEdges := FacesOfEdges(ramSurf);
 
         for vertex in VerticesAttributeOfComplex(ramSurf) do
             incidentEdges := EdgesOfVertices(ramSurf)[vertex];
             paths := [];
+
+            # Ignore edges that are not incident to any face.
+            incidentEdges := Filtered(incidentEdges, e -> Length(facesOfEdges[e]) > 0); 
+            
+            if Length(incidentEdges) = 0 then
+                paths := fail;
+            fi;
 
             while Length(incidentEdges) > 0 do
                 # If the path is not closed, we can't hope to find the correct 

@@ -210,7 +210,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
     complex := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsPolygonalComplex(complex, true);
     SetIsFacePure(complex, true);
-    SetIsolatedVertices(complex, []);
+    SetFacesOfEdges(complex, [ ,,,,,,,,,, [ 2, 5 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 2 ], [ 3 ], [ 3 ], [ 4 ], [ 5 ] ]);
     SetVerticesAttributeOfComplex(complex, [1, 6, 7, 8, 9, 10]);
     SetEdgesOfVertices(complex, [[ 11, 12, 13, 14 ],,,,, [ 11, 15, 19 ], [ 12, 15, 16 ], [ 16, 17 ], [ 13, 17, 18 ], [ 14, 18, 19 ]]);
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
