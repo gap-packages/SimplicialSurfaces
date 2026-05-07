@@ -2,6 +2,10 @@ all: doc
 
 doc: doc/manual.six
 
+recompile-images:
+	cd doc/tikz-files && ./recompile-images.sh
+	$(MAKE) doc
+
 doc/manual.six: makedoc.g \
     		PackageInfo.g \
 		init.g \
@@ -31,4 +35,4 @@ doc/manual.six: makedoc.g \
 		doc/tikz-files/TikZHeader.tex
 	gap makedoc.g
 
-
+.PHONY: all doc recompile-images

@@ -11,6 +11,9 @@
 \usetikzlibrary{shapes}
 \usetikzlibrary{patterns}
 
+% reset TikZ RNG seed (for reproducibility)
+\pgfmathsetseed{1}
+
 
 % Sometimes we want to implement different behaviour for the generated 
 % HTML-pictures (for example, shading is not supported in HTML).
