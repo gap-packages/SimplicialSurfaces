@@ -75,8 +75,7 @@ endobj
 endobj
 14 0 obj
 <<
-/Producer (pdfTeX-1.40.24)
-/Author()/Title()/Subject()/Creator(LaTeX with hyperref)/Keywords()
+ /Producer () /Creator () /Author()/Title()/Subject()/Creator(LaTeX with hyperref)/Keywords()
 /Trapped /False
 >>
 endobj
@@ -103,5 +102,5 @@ trailer
 /Info 14 0 R
  >>
 startxref
-1223
+1222
 %%EOF
