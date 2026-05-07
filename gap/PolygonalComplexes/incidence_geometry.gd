@@ -1012,11 +1012,11 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 
 #! @BeginGroup Star
 #! @Description
-#! The method <K>Star</K>(<A>surface</A>, <A>vertex</A>) returns for <A>vertex</A> the subcomplex
+#! The method <K>Star</K>(<A>complex</A>, <A>vertex</A>) returns for <A>vertex</A> the subcomplex
 #! which is determined by the faces around <A>vertex</A>.
-#! The method <K>Star</K>(<A>surface</A>, <A>vertices</A>) returns the subcomplex
+#! The method <K>Star</K>(<A>complex</A>, <A>vertices</A>) returns the subcomplex
 #! which is determined by the faces around all the vertices in <A>vertices</A>.
-#! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
+#! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>complex</A>.
 #! 
 #! For example, consider the hexagon:
 #!  <Alt Only="HTML">
@@ -1046,28 +1046,28 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! The star of vertex 7 and the star of vertex 1 and 7 is the same as the hexagon.
 #! 
 #! @Returns a subsurface
-#! @Arguments surface, vertex
-DeclareOperation("Star",[IsPolygonalComplex,IsInt]);
-#! @Arguments surface, vertex
-DeclareOperation("StarNC",[IsPolygonalComplex,IsInt]);
-#! @Arguments surface, vertices
-DeclareOperation("Star",[IsPolygonalComplex,IsList]);
-#! @Arguments surface, vertices
-DeclareOperation("StarNC",[IsPolygonalComplex,IsList]);
+#! @Arguments complex, vertex
+DeclareOperation("Star",[IsTriangularComplex,IsInt]);
+#! @Arguments complex, vertex
+DeclareOperation("StarNC",[IsTriangularComplex,IsInt]);
+#! @Arguments complex, vertices
+DeclareOperation("Star",[IsTriangularComplex,IsList]);
+#! @Arguments complex, vertices
+DeclareOperation("StarNC",[IsTriangularComplex,IsList]);
 #! @EndGroup
 
 #! @BeginGroup Link
 #! @Description
-#! The method <K>Link</K>(<A>surface</A>, <A>vertex</A>) returns for <A>vertex</A> the vertex-edge-path 
+#! The method <K>Link</K>(<A>complex</A>, <A>vertex</A>) returns for <A>vertex</A> the vertex-edge-path 
 #! around the vertex which contains the edges not incident to <A>vertex</A>. 
 #! That means the vertex-edge-path is the boundary of the umbrella of <A>vertex</A> respectively 
-#! the boundary of <K>Star</K>(<A>surface</A>, <A>vertex</A>).
-#! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>surface</A>.
+#! the boundary of <K>Star</K>(<A>complex</A>, <A>vertex</A>).
+#! The NC-version does not check whether the given <A>vertex</A> is a vertex of <A>complex</A>.
 #!
-#! The attribute <K>Link</K>(<A>surface</A>) collects all of those
+#! The attribute <K>Link</K>(<A>complex</A>) collects all of those
 #! paths in a list that is indexed by the edge labels, i.e.
-#! <K>Link</K>(<A>surface</A>)[<A>vertex</A>] = 
-#! <K>Link</K>(<A>surface</A>, <A>vertex</A>).
+#! <K>Link</K>(<A>complex</A>)[<A>vertex</A>] = 
+#! <K>Link</K>(<A>complex</A>, <A>vertex</A>).
 #! All other positions of this list are not bound.
 #!
 #! For example, consider the hexagon:
@@ -1094,13 +1094,13 @@ DeclareOperation("StarNC",[IsPolygonalComplex,IsList]);
 #! The link of vertex 7 is the same as the boundary of the hexagon.
 #!
 #! @Returns a list of vertex-edge-paths
-#! @Arguments surface
-DeclareAttribute("Link", IsPolygonalSurface);
+#! @Arguments complex
+DeclareAttribute("Link", IsTriangularComplex);
 #! @Returns a path
-#! @Arguments surface, vertex
-DeclareOperation("Link",[IsPolygonalSurface,IsInt]);
-#! @Arguments surface, vertex
-DeclareOperation("LinkNC",[IsPolygonalSurface,IsInt]);
+#! @Arguments complex, vertex
+DeclareOperation("Link",[IsTriangularComplex,IsInt]);
+#! @Arguments complex, vertex
+DeclareOperation("LinkNC",[IsTriangularComplex,IsInt]);
 #! @EndGroup
 
 #! @Section Perimeter around holes in surfaces
