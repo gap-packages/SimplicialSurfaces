@@ -265,6 +265,33 @@ DeclareOperation( "AllSimplicialSurfacesByEssentialButterflyInsertion", [IsSimpl
 #! @EndGroup
 
 
+#! @BeginGroup NewGraphsForEdgeInsertion
+#! @Description
+#! Computes all graphs that can be constructed from <A>D</A> using edge
+#! insertion.
+#! If the parameter <A>allowTriangleInsertion</A> is <K>true</K>, insertions between edges
+#! that have one vertex in common are allowed; otherwise, they are not.
+#! The default value of <A>allowTriangleInsertion</A> is <K>true</K> and
+#! <K>NewGraphsForEdgeInsertion</K> ensures that the returned digraph is symmetric,
+#! even when the input digraph <A>D</A> is not symmetric.
+#! <K>NewGraphsForEdgeInsertionNC</K> performs no checks on the input.
+#! @Returns a list of digraphs
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeInsertion", [IsDigraph, IsBool]);
+#! @Arguments D[, allowTriangleInsertion]
+DeclareOperation("NewGraphsForEdgeInsertionNC", [IsDigraph, IsBool]);
+#! @ExampleSession
+#! gap> D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);
+#! <immutable digraph with 4 vertices, 4 edges>
+#! gap> NewGraphsForEdgeInsertion(D, true);
+#! [ <immutable digraph with 6 vertices, 14 edges>,
+#!   <immutable digraph with 6 vertices, 14 edges> ]
+#! gap> NewGraphsForEdgeInsertion(D, false);
+#! [ <immutable digraph with 6 vertices, 14 edges> ]
+#! @EndExampleSession
+#! @EndGroup NewGraphsForEdgeInsertion
+
+
 
 #! @Section Edge-Face equivalent simplicial surfaces
 #! @SectionLabel Edge_Face_Equivalent
