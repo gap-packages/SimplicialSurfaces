@@ -40,12 +40,16 @@ git clone https://github.com/frankluebeck/GAPDoc.git
 git clone https://github.com/gap-packages/AutoDoc.git
 ```
 ### Regenerating images
-To compile the pictures, change into the `doc/tikz-files` subdirectory
-and run the `recompile-images.sh` script in it:
+To create the manual you have to type
 ```
-cd doc/tikz-files/
-./recompile-images.sh
-```    
+make recompile-images
+```
+The manual will also be regenerated after the images are compiled.
+This requires that the `parallel`, `pdflatex` and `pdftocairo` are available on your system. 
+For linux based ones you can install with 
+```apt install texlive-latex-base texlive-latex-extra texlive-pictures parallel poppler-utils```
+and for mac you can install with
+```brew install mactex-no-gui parallel poppler```
 
 ## Help
 If there are any questions, don't hesitate to ask us.
