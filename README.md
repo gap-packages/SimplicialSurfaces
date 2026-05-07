@@ -43,7 +43,7 @@ in the main folder of the SimplicialSurfaces-package. This requires `GAPDoc` ver
     git clone https://github.com/gap-packages/AutoDoc.git
 
 ### Regenerating images
-To create the manual you have to type
+To recompile the images and recompile the manual you have to type
 ```
 make recompile-images
 ```
@@ -53,11 +53,6 @@ For linux based ones you can install with
 ```apt install texlive-latex-base texlive-latex-extra texlive-pictures parallel poppler-utils```
 and for mac you can install with
 ```brew install mactex-no-gui parallel poppler```
-||||||| 132bf7e0
-To compile the pictures, you can run the following script:
-```
-doc/tikz-files/recompile-images.sh
-```    
 
 ## Help
 If there are any questions, don't hesitate to ask us.
