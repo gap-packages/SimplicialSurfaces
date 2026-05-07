@@ -59,3 +59,7 @@ doc/_TIKZ_*.tex
 
 # compressed files
 *.gz
+
+# gh pages
+gh-pages
+tmp
