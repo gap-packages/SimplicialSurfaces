@@ -51,7 +51,7 @@ The manual will also be regenerated after the images are compiled.
 This requires that the `parallel`, `pdflatex` and `pdftocairo` are available on your system.
 For linux based ones you can install with
 
-    apt install texlive-latex-base texlive-latex-extra texlive-pictures x]xparallel poppler-utils
+    apt install texlive-latex-base texlive-latex-extra texlive-pictures parallel poppler-utils
 
 and for mac you can install with
 
