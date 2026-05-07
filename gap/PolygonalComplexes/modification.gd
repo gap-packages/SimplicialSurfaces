@@ -1671,7 +1671,7 @@ DeclareOperation( "ButterflyDeletion", [IsSimplicialSurface, IsPosInt] );
 DeclareOperation( "ButterflyDeletionNC", [IsSimplicialSurface, IsPosInt] );
 #! @EndGroup
 
-# TODO remove when the correpsonding pull request is merged in Digraphs
+# TODO remove when the corresponding pull request is merged in Digraphs
 #! @BeginGroup EdgeInsertion
 #! @Description
 #! Performs an edge insertion on the given digraph <A>D</A> between the edges <A>edgeA</A> and
