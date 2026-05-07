@@ -2,6 +2,10 @@ all: doc
 
 doc: doc/manual.six
 
+recompile-images:
+	cd doc/tikz-files && ./recompile-images.sh
+	$(MAKE) doc
+
 doc/manual.six: makedoc.g \
     		PackageInfo.g \
 		init.g \
