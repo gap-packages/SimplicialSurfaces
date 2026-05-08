@@ -1,5 +1,3 @@
-
-
 ## This chapter contains many diverse aspects of polygonal complexes.
 ## The current order may not be optimal, depending on what the future holds
 
@@ -1557,7 +1555,6 @@ DeclareOperation( "IsRamifiedVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
-
 #! @BeginGroup IsolatedVertices
 #! @Description
 #! Return the set of all isolated vertices.
@@ -1713,5 +1710,3 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @Arguments surface,bool [,bool2]
 DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );
 #! @EndGroup
-
-

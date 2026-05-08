@@ -46,5 +46,8 @@
     <#Include SYSTEM "_Chapter_Flags.xml">
     <#Include SYSTEM "ExampleImplementations.xml">
 </Body>
+
+<Bibliography Databases="SimplicialSurfaces" />
+
 <TheIndex/>
 </Book>

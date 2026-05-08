@@ -198,6 +198,7 @@ DeclareAttribute("ColourInvolutions",
 #! with three colours such that the edges of each face have different colours.
 #! Since these are quite important structures, we will denote them by
 #! <E>wild-coloured surfaces</E> (<Ref Subsect="IsWildColouredSurface"/>).
+#! More theory on wild-coloured surfaces can be found in <Cite Key="Brakhage2017"/>.
 #!
 #! In this situation there is an additional local symmetry structure on the
 #! edges. For every inner edge (<Ref Subsect="InnerEdges"/>) there are two

@@ -600,7 +600,7 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
         "FacesOfEdges", "VerticesOfEdges", "RamifiedEdges"], ["IsPolygonalComplex"]);
 
 
-InstallMethod(StarNC, "for a polygonal complex and an integer", [IsPolygonalComplex, IsInt],
+InstallMethod(StarNC, "for a triangular complex and an integer", [IsTriangularComplex, IsInt],
 	function(complex, vertex)
 	
 		local faces;
@@ -611,7 +611,7 @@ InstallMethod(StarNC, "for a polygonal complex and an integer", [IsPolygonalComp
 	end
 );
 
-InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
+InstallMethod(Star, "for a triangular complex and an integer", [IsTriangularComplex, IsInt],
 	function(surface, vertex)
 	
 		__SIMPLICIAL_CheckVertex(surface,vertex, "Star");
@@ -620,7 +620,7 @@ InstallMethod(Star, "for a polygonal surface and an integer", [IsPolygonalSurfac
 	end
 );
 
-InstallMethod(StarNC, "for a polygonal complex and a list", [IsPolygonalComplex, IsList],
+InstallMethod(StarNC, "for a triangular complex and a list", [IsTriangularComplex, IsList],
         function(complex, vertices)
 
                 local faces, v;
@@ -633,7 +633,7 @@ InstallMethod(StarNC, "for a polygonal complex and a list", [IsPolygonalComplex,
         end
 );
 
-InstallMethod(Star, "for a polygonal complex and a list", [IsPolygonalComplex, IsList],
+InstallMethod(Star, "for a triangular complex and a list", [IsTriangularComplex, IsList],
         function(complex, vertices)
 		
 		local v;
@@ -646,46 +646,46 @@ InstallMethod(Star, "for a polygonal complex and a list", [IsPolygonalComplex, I
         end
 );
 
-InstallMethod(LinkNC, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
-	function(surface, vertex)
+InstallMethod(LinkNC, "for a triangular complex and an integer", [IsTriangularComplex, IsInt],
+	function(complex, vertex)
 	
 		local path, faces, edges, face;
 	
-		path:=UmbrellaPathOfVertex(surface, vertex);
+		path:=UmbrellaPathOfVertex(complex, vertex);
 		faces:=FacesAsList(path);
 		edges:=[];
 		for face in faces do
-			Add(edges,OppositeEdgeOfVertexInTriangle(surface, vertex, face));
+			Add(edges,OppositeEdgeOfVertexInTriangle(complex, vertex, face));
 		od;
-		return VertexEdgePathByEdges(surface,edges);
+		return VertexEdgePathByEdges(complex,edges);
 	
 	end
 );
 
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( LinkNC, true, [IsTwistedPolygonalComplex,IsInt], [IsPolygonalSurface], 0 );
+    RedispatchOnCondition( LinkNC, true, [IsTwistedPolygonalComplex,IsInt], [IsTriangularComplex], 0 );
 fi;
 
-InstallMethod(Link, "for a polygonal surface and an integer", [IsPolygonalSurface, IsInt],
-	function(surface, vertex)
+InstallMethod(Link, "for a triangular complex and an integer", [IsTriangularComplex, IsInt],
+	function(complex, vertex)
 	
-		__SIMPLICIAL_CheckVertex(surface,vertex, "Link");
-		return LinkNC(surface,vertex);
+		__SIMPLICIAL_CheckVertex(complex,vertex, "Link");
+		return LinkNC(complex,vertex);
 	
 	end
 );
 
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( Link, true, [IsTwistedPolygonalComplex,IsInt], [IsPolygonalSurface], 0 );
+    RedispatchOnCondition( Link, true, [IsTwistedPolygonalComplex,IsInt], [IsTriangularComplex], 0 );
 fi;
 
-InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
-	function(surface)
+InstallOtherMethod(Link, "for a triangular complex", [IsTriangularComplex],
+	function(complex)
 	
 		local vertex, list;
 		list:=[];
-		for vertex in Vertices(surface) do
-			Add(list, Link(surface,vertex));
+		for vertex in Vertices(complex) do
+			Add(list, Link(complex,vertex));
 		od;
 		return list;
 	
@@ -693,7 +693,7 @@ InstallOtherMethod(Link, "for a polygonal surface", [IsPolygonalSurface],
 );
 
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-    RedispatchOnCondition( Link, true, [IsTwistedPolygonalComplex], [IsPolygonalSurface], 0 );
+    RedispatchOnCondition( Link, true, [IsTwistedPolygonalComplex], [IsTriangularComplex], 0 );
 fi;
 ##
 ##          End of Umbrella-paths around vertices 
