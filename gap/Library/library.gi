@@ -58,8 +58,7 @@ BindGlobal("__SIMPLICIAL_LibrarySubFilesDirectories",
     end
 );
 
-DeclareGlobalFunction("__SIMPLICIAL_InitializeLibraryCacheRecursive");
-InstallGlobalFunction("__SIMPLICIAL_InitializeLibraryCacheRecursive",
+BindGlobal("__SIMPLICIAL_InitializeLibraryCacheRecursive",
     function(path, dict)
         local subs, subfiles, subfolders, file, folder, subDict;
 
@@ -170,8 +169,7 @@ BindGlobal( "__SIMPLICIAL_CheckQueryList",
     end
 );
 
-DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive");
-InstallGlobalFunction("__SIMPLICIAL_LibraryConstructBinaryRecursive",
+BindGlobal("__SIMPLICIAL_LibraryConstructBinaryRecursive",
     function(path)
         local subs, subfiles, subfolders, file, fileIn, posList,
             pos, line, out, folder;
@@ -382,8 +380,7 @@ BindGlobal( "SIMPLICIAL_LIBRARY_INDEX",
             end]
     ]);
 
-DeclareGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive");
-InstallGlobalFunction("__SIMPLICIAL_LibraryConstructIndexRecursive",
+BindGlobal("__SIMPLICIAL_LibraryConstructIndexRecursive",
     function(path)
         local subs, subfiles, subfolders, folder, fct, fctName, file,
             fileBinary, binIndex, fileIn, i, line, surf, res, out,
@@ -467,9 +464,7 @@ BindGlobal("__SIMPLICIAL_IndexQueryResults",
 );
 
 
-DeclareGlobalFunction("__SIMPLICIAL_AccessLibraryRecursive");
-
-InstallGlobalFunction( "__SIMPLICIAL_AccessLibraryRecursive",
+BindGlobal( "__SIMPLICIAL_AccessLibraryRecursive",
     function(folder, queryList, startingDirectory, dictCache)
         local allFiles, subfolder, subfolders, subfiles, result,
             subDirName, recogFile, check, selectFile, validFiles,
