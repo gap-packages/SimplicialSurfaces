@@ -33,7 +33,7 @@ BindGlobal( "__SIMPLICIAL_ComputeClasses",
 ##
 ## freedom
 ##
-InstallMethod( IsAnomalyFree, "for a polygonal complex", [IsPolygonalComplex],
+InstallMethod( IsAnomalyFree, "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
         return NumberOfEdges(complex) = Length(EdgeAnomalyClasses(complex))
             and NumberOfFaces(complex) = Length(FaceAnomalyClasses(complex));
@@ -44,15 +44,15 @@ InstallMethod( IsAnomalyFree, "for a polygonal complex", [IsPolygonalComplex],
 ## edges
 ##
 InstallMethod( EdgeAnomalyClasses, "for a polyonal complex",
-    [IsPolygonalComplex],
+    [IsTwistedPolygonalComplex],
     function(complex)
         return __SIMPLICIAL_ComputeClasses( Edges(complex), 
                 VerticesOfEdges(complex) );
     end
 );
 InstallMethod( EdgeAnomalyClassOfEdgeNC, 
-    "for a polygonal complex and an edge",
-    [IsPolygonalComplex, IsPosInt],
+    "for a twisted polygonal complex and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         local cl;
 
@@ -66,8 +66,8 @@ InstallMethod( EdgeAnomalyClassOfEdgeNC,
     end
 );
 InstallMethod( EdgeAnomalyClassOfEdge,
-    "for a polygonal complex and an edge",
-    [IsPolygonalComplex, IsPosInt],
+    "for a twisted polygonal complex and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge(complex, edge, "EdgeAnomalyClassOfEdge");
         return EdgeAnomalyClassOfEdgeNC(complex, edge);
@@ -78,15 +78,15 @@ InstallMethod( EdgeAnomalyClassOfEdge,
 ## face
 ##
 InstallMethod( FaceAnomalyClasses, "for a polyonal complex",
-    [IsPolygonalComplex],
+    [IsTwistedPolygonalComplex],
     function(complex)
         return __SIMPLICIAL_ComputeClasses( Faces(complex),
                 VerticesOfFaces(complex));
     end
 );
 InstallMethod( FaceAnomalyClassOfFaceNC, 
-    "for a polygonal complex and a face",
-    [IsPolygonalComplex, IsPosInt],
+    "for a twisted polygonal complex and a face",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         local cl;
 
@@ -100,8 +100,8 @@ InstallMethod( FaceAnomalyClassOfFaceNC,
     end
 );
 InstallMethod( FaceAnomalyClassOfFace,
-    "for a polygonal complex and an face",
-    [IsPolygonalComplex, IsPosInt],
+    "for a twisted polygonal complex and an face",
+    [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
         __SIMPLICIAL_CheckFace(complex, face, "FaceAnomalyClassOfFace");
         return FaceAnomalyClassOfFaceNC(complex, face);

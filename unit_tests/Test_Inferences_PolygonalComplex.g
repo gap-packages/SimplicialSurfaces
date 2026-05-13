@@ -719,3 +719,6 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
     callConstructors(vertices, edges, faces, verticesOfFaces, verticesOfEdges,
                      edgesOfVertices, edgesOfFaces, facesOfEdges);
 end);
+
+# TODO write test that checks inferences from simplicial complex and simplicial surface
+# to vertex faithful simplicial complex type

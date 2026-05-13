@@ -1286,3 +1286,19 @@ InstallMethod( IsPolygonalComplex, "for a twisted polygonal complex",
         return true;
     end
 );
+
+InstallMethod ( IsVertexFaithfulSimplicialSurface, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        if not IsPolygonalComplex(complex) then
+            return false;
+        fi;
+
+        if IsSimplicialSurface(complex) and IsVertexFaithful(complex) then
+            return true;
+        elif IsSimplicialComplex(complex) and IsFacePure(complex) then
+            return true;
+        fi;
+
+        return false;
+end);
