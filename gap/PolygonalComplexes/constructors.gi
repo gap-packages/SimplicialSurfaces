@@ -393,11 +393,18 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
-            if arg[1] = "SimplicialComplexByDownwardIncidence" then
+            # Check if the constructed object is a complex or a surface
+            if PositionSublist(arg[1], "ComplexBy") <> fail then
+                # Allow isolated vertices
                 verticesExp := Filtered(arg[2], v -> v in verticesDed);
+
+                # Allow edges with no face incidence
                 edgesExp := Filtered(arg[3], e -> e in edgesDed);
             else
+                # Do not allow isolated vertices
                 verticesExp := arg[2];
+
+                # Do not allow edges with no face incidence
                 edgesExp := arg[3];
             fi;
 
@@ -408,7 +415,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
             edgesExp := edgesDed;
         fi;
 
-        if arg[1] = "SimplicialComplexByDownwardIncidence" then
+        if PositionSublist(arg[1], "ComplexBy") <> fail then
             edgesExp := Filtered(edgesExp, e -> e in Union(edgesOfFaces));
         fi;
         __SIMPLICIAL_CompareSets( arg[1], edgesExp, Union(edgesOfFaces), "edge" );
@@ -472,7 +479,7 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         
         # Compare the vertex, edge and face data
         if Length(arg) = 6 then
-            if arg[1] = "SimplicialComplexByUpwardIncidence" then
+            if PositionSublist(arg[1], "ComplexBy") <> fail then
                 verticesExp := Filtered(arg[2], v -> v in verticesDed);
                 __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
             else
@@ -560,7 +567,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         
         # Compare the vertex and face data
         if Length(arg) = 4 then
-            if arg[1] = "SimplicialComplexByVerticesInFaces" then
+            if PositionSublist(arg[1], "ComplexBy") <> fail then
                 verticesExp := Filtered(arg[2], v -> v in verticesDed);
                 __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
             else
@@ -2167,26 +2174,7 @@ end);
 ##
 #######################################
 
-InstallMethod ( SimplicialSurfaceFromSimplicialComplex,
+InstallMethod ( PureSimplicialComplex,
     "for simplicial complex", [IsSimplicialComplex], function(complex)
     return SimplicialSurfaceByVerticesInFaces(VerticesOfFaces(complex));
-end);
-
-InstallMethod ( SimplicialComplexFromSimplicialSurface,
-    "for simplicial complex and a set of vertices", [IsSimplicialSurface, IsSet],
-    function(surface, isolatedVertices)
-    local surfVertices, allVertices;
-
-    surfVertices := Vertices(surface);
-
-    if ForAny(isolatedVertices, v -> not IsPosInt(v)) then
-        Error("isolatedVertices have to be positive integers.\n");
-    fi;
-    if ForAny(isolatedVertices, v -> ForAny(surfVertices, v2 -> v = v2)) then
-        Error("isolatedVertices must be distinct from vertices of surface.\n");
-    fi;
-
-    allVertices := Set(Concatenation(surfVertices, isolatedVertices));
-
-    return SimplicialComplexByVerticesInFaces(allVertices, VerticesOfFaces(surface));
 end);

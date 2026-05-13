@@ -1237,7 +1237,7 @@ DeclareOperation( "IsTurnableEdgeNC", [IsSimplicialSurface, IsPosInt] );
 #! @BeginGroup BoundaryEdges
 #! @Description
 #! Return the set of all boundary edges of the given twisted polygonal complex.
-#! A <E>boundary edge</E> is an edge that is incident to exactly one face.
+#! A <E>boundary edge</E> is an edge that is incident to at maximum one face.
 #!
 #! The method <K>IsBoundaryEdge</K> checks whether the given edge is a 
 #! boundary
@@ -1275,6 +1275,31 @@ DeclareOperation( "IsBoundaryEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
 DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
+
+
+#! @BeginGroup IsolatedEdges
+#! @Description
+#! Return the set of all isolated edges of the given twisted polygonal complex.
+#! An <E>isolated edge</E> is an edge that is incident to exactly no faces.
+#!
+#! The method <K>IsIsolatedEdge</K> checks whether the given edge is a 
+#! boundary
+#! edge of the given twisted polygonal complex. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>complex</A>.
+#!
+#! TODO: Add image
+#! TODO: Add example
+#!
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "IsolatedEdges", IsTwistedPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsIsolatedEdge", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsIsolatedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup RamifiedEdges
 #! @Description
