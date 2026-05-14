@@ -680,7 +680,7 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> Vertices(tetra);
 #! [ 1 .. 4 ]
 #! gap> Edges(tetra);
-#! [ 1, 2, 3, 4, 5, 6 ]
+#! [ 1 .. 6 ]
 #! gap> Faces(tetra);
 #! [ 1 .. 4 ]
 #! @EndExampleSession

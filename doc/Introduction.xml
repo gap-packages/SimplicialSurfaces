@@ -501,7 +501,7 @@ gap&gt; surf := SimplicialSurfaceByVerticesInFaces( [[1,2,3],[2,3,4],[3,4,5]] );
         We can see the edges by calling
 <Example>
 gap&gt; Edges(surf);
-[ 1, 2, 3, 4, 5, 6, 7 ]
+[ 1 .. 7 ]
 </Example>
         but this does not tell us where they are. For that we may use
 <Example>

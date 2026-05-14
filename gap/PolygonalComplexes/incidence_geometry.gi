@@ -792,3 +792,12 @@ InstallMethod( PerimeterOfHoles, "for a twisted polygonal surface and an edge",
 if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( PerimeterOfHoles, true, [IsTwistedPolygonalComplex, IsInt], [IsTwistedPolygonalSurface], 0 );
 fi;
+
+InstallMethod( Edges,
+    "for a polygonal complex with VerticesOfEdges",
+    [ IsPolygonalComplex and HasVerticesOfEdges ],
+    10, # Highest priority
+    function(complex)
+        return PositionsBound(VerticesOfEdges(complex)); 
+    end
+);

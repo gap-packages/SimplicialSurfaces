@@ -367,7 +367,6 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
-        Edges(obj); # Early computation required to enforce edge property consistency
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
         if Length(vertices) > 0 then
             SetVerticesAttributeOfComplex(obj, vertices );
@@ -455,7 +454,6 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsPolygonalComplex(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
-        Edges(obj); # Early computation required to enforce edge property consistency
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
         if Length(vertices) > 0 then
             SetVerticesAttributeOfComplex(obj, vertices );
