@@ -378,11 +378,17 @@ BindGlobal("IsCounterType",NewType(CounterFamily,IsCounterRep));
 
 BindGlobal( "__SIMPLICIAL_VertexCounter",
     function(complex)
-        local faceDegrees, faces, deg, counter;
+        local faceDegrees, degZeroCount, faces, deg, counter;
 
         faceDegrees := [];
+        degZeroCount := 0;
         for faces in FacesOfVertices(complex) do
             deg := Length(faces);
+            if deg = 0 then
+                degZeroCount := degZeroCount + 1;
+                continue;
+            fi;
+
             if IsBound(faceDegrees[deg]) then
                 faceDegrees[deg] := faceDegrees[deg] + 1;
             else
@@ -391,6 +397,9 @@ BindGlobal( "__SIMPLICIAL_VertexCounter",
         od;
 
         counter := [];
+        if degZeroCount > 0 then
+            Add(counter, [ 0, degZeroCount ]);
+        fi;
         for deg in [1..Length(faceDegrees)] do
             if IsBound(faceDegrees[deg]) then
                 Add(counter, [ deg, faceDegrees[deg] ]);
