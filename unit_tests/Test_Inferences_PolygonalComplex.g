@@ -720,5 +720,28 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
                      edgesOfVertices, edgesOfFaces, facesOfEdges);
 end);
 
-# TODO write test that checks inferences from simplicial complex and simplicial surface
-# to vertex faithful simplicial complex type
+BindGlobal("__SIMPLICIAL_Test_Extraction_SimplicialComplex", function ()
+    local vertices, verticesOfEdges, edgesOfFaces, verticesOfFaces, complex, extracted;
+
+    vertices := [1 .. 5];
+    verticesOfEdges := [ [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 3, 5 ] ];
+    edgesOfFaces    := [ [ 2, 3, 4 ] ];
+
+    complex := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+
+    extracted := PureSimplicialComplex(complex);
+    SIMPLICIAL_TestAssert(IsVertexFaithfulSimplicialSurface(extracted));
+
+    vertices := [1 .. 7];
+    verticesOfFaces := [ [ 1, 2, 3 ], [ 1, 3, 4 ], [ 1, 4, 5 ], [ 1, 5, 2 ], [ 1, 2, 6 ] ];
+
+    complex := SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+
+    extracted := PureSimplicialComplex(complex);
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(extracted));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(extracted));
+end);

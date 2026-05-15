@@ -2182,5 +2182,5 @@ end);
 
 InstallMethod ( PureSimplicialComplex,
     "for simplicial complex", [IsSimplicialComplex], function(complex)
-    return SimplicialSurfaceByVerticesInFaces(VerticesOfFaces(complex));
+    return SimplicialComplexByVerticesInFaces(Union(VerticesOfFaces(complex)), VerticesOfFaces(complex));
 end);
