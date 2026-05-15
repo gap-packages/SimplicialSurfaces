@@ -448,11 +448,10 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! to two components:
 #! @BeginExampleSession
 #! gap> split:=SplitEdgePath(complex,path);
-#! [ triangular complex (10 vertices, 12 edges, and 4 faces),
-#! [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
-#!   [ | v11, E14, v6 |, | v3, E8, v6 | ],
-#!   [ | v1, E11, v8 |, | v1, E3, v3 | ],
-#!   [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
+#! [ simplicial complex (10 vertices, 12 edges, and 4 faces), 
+#!   [ [ | v10, E13, v6 |, | v3, E8, v6 | ], [ | v11, E14, v6 |, | v3, E8, v6 | ]
+#!         , [ | v1, E11, v8 |, | v1, E3, v3 | ], 
+#!       [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
 #! gap> NumberOfConnectedComponents(split[1]);
 #! 2
 #! @EndExampleSession
@@ -547,7 +546,7 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! For example consider the hexagon from the start of this chapter:
 #! @BeginExampleSession
 #! gap> SubcomplexByFaces(hex,[2,5]);
-#! triangular complex (5 vertices, 6 edges, and 2 faces)
+#! simplicial complex (5 vertices, 6 edges, and 2 faces)
 #! @EndExampleSession
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Hexagon_RemovedFace-1.svg"> &lt;/img> &lt;br>
