@@ -147,7 +147,7 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     SetEdgesOfFaces( complex, edgesOfFaces );
     SetVerticesOfEdges( complex, verticesOfEdges );
     SetEdgesOfVertices( complex, edgesOfVertices );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SIMPLICIAL_TestAssert(perimeter = List(PerimeterPathsOfFaces(complex),PathAsList));
 
 
@@ -155,12 +155,12 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     # inferences about *OfFaces
     #
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     SIMPLICIAL_TestAssert(VerticesOfFaces(complex)=verticesOfFaces);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=edgesOfFaces);
 
@@ -168,7 +168,7 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     # inferences about Faces
     #
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     SIMPLICIAL_TestAssert(Faces(complex) = faces);
 end);
@@ -189,26 +189,26 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
 
     # from partitions to paths (first direct test, then check whether type can be inferred)
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
     SetIsNotEdgeRamified(complex, true);
     SetIsNotVertexRamified(complex, true);
     SIMPLICIAL_TestAssert(List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
     SIMPLICIAL_TestAssert(List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
 
     # from paths to partitions (first direct test, then check whether type can be inferred)
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
     SetIsNotEdgeRamified(complex, true);
     SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetIsFacePure(complex, true);
     SetFacesOfEdges(complex, [ ,,,,,,,,,, [ 2, 5 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 2 ], [ 3 ], [ 3 ], [ 4 ], [ 5 ] ]);
     SetVerticesAttributeOfComplex(complex, [1, 6, 7, 8, 9, 10]);
@@ -234,7 +234,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
         [ [ 19, 9, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ] ];
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathPartitionsOfVertices( complex, List(paths,s->List(s, p->EdgeFacePathNC(complex,p) ) ) );
     SIMPLICIAL_TestAssert(Vertices(complex)=vertices);
     SIMPLICIAL_TestAssert(Edges(complex)=edges);
@@ -243,7 +243,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
     SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=edgesOfFaces);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetVerticesOfEdges(complex, verticesOfEdges);
     SetEdgesOfFaces(complex, edgesOfFaces);
     SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=paths);
@@ -378,7 +378,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges( obj, verticesOfEdges );
     SetEdgesOfFaces( obj, edgesOfFaces );
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SIMPLICIAL_TestAssert(vertAsPerm = List(Orientation(obj),VerticesAsPerm));
     SIMPLICIAL_TestAssert(vertAsList = List(Orientation(obj),VerticesAsList));
     SIMPLICIAL_TestAssert(edgeAsPerm = List(Orientation(obj),EdgesAsPerm));
@@ -389,7 +389,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsOrientableComplex(obj, false);
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SIMPLICIAL_TestAssert(fail=Orientation(obj));
     SetFaces(obj, faces);
     SetVerticesOfEdges(obj, verticesOfEdges); # not perfect, but probably ok
@@ -398,12 +398,12 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
 
     # Check if inference from existence of orientation sets IsOrientable
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
     SIMPLICIAL_TestAssert(IsOrientableComplex(obj));
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, fail );
     SIMPLICIAL_TestAssert(not IsOrientableComplex(obj));

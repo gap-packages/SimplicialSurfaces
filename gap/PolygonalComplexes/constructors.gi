@@ -41,20 +41,27 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
             # Since the Setter-method of GAP does not work on synonyms, we
             # have to write the setters manually
             if typeString = "PolygonalComplex" then
-                setterNC := function( obj ) end;
-            elif typeString = "TriangularComplex" then
                 setterNC := function( obj )
-                    SetIsTriangular(obj, true);
+                    SetIsNotTwisted(obj, true);
                 end;
             elif typeString = "PolygonalSurface" then
                 setterNC := function( obj )
                     SetIsFacePure(obj, true);
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
+
+                    SetIsNotTwisted(obj, true);
+                end;
+            elif typeString = "TriangularComplex" then
+                setterNC := function( obj )
+                    SetIsNotTwisted(obj, true);
+
+                    SetIsTriangular(obj, true);
                 end;
             elif typeString = "SimplicialSurface" then
                 setterNC := function( obj )
-                    # Derived from Polygonal Surface
+                    SetIsNotTwisted(obj, true);
+
                     SetIsFacePure(obj, true);
                     SetIsNotEdgeRamified(obj, true);
                     SetIsNotVertexRamified(obj, true);
@@ -63,10 +70,11 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                 end;
             elif typeString = "SimplicialComplex" then
                 setterNC := function( obj )
-                    # Derived from Triangular Complex
+                    SetIsNotTwisted(obj, true);
+
                     SetIsTriangular(obj, true);
 
-                    SetIsNotVertexRamified(obj, true);
+                    SetIsAnomalyFree(obj, true);
                 end;
             else
                 Error("This type is not supported.\n");
@@ -365,7 +373,7 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         fi;
 
         obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
         if Length(vertices) > 0 then
@@ -452,7 +460,7 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
         fi;
 
         obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
         if Length(vertices) > 0 then
@@ -541,7 +549,7 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         edgesOfFaces := List( vertexPairs, l -> List( l, p -> Position(allEdges,p) ) );
 
         obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetVerticesOfEdges(obj, allEdges);
         SetVerticesOfFaces(obj, List(verticesInFaces,Set));
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));

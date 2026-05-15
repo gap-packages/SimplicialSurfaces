@@ -66,7 +66,7 @@ DeclareProperty( "IsEdgeColouredPolygonalComplex", IsEdgeColouredTwistedPolygona
 DeclareProperty( "IsEdgeColouredSimplicialSurface", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 
-InstallTrueMethod( IsPolygonalComplex, IsEdgeColouredPolygonalComplex );
+InstallTrueMethod( IsNotTwisted, IsEdgeColouredPolygonalComplex );
 InstallTrueMethod( IsSimplicialSurface, IsEdgeColouredSimplicialSurface );
 
 BindGlobal( "EdgeColouredTwistedPolygonalComplexFamily",

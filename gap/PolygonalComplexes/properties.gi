@@ -1195,22 +1195,17 @@ InstallMethod( IsIsolatedVertex, "for a twisted polygonal complex and a vertex",
 
 __SIMPLICIAL_AddTwistedAttribute( RamifiedVertices );
 InstallMethod( RamifiedVertices,
-    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices, VerticesAttributeOfComplex and FacesOfVertices",
-    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex and HasFacesOfVertices],
+    "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices and VerticesAttributeOfComplex",
+    [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex],
     function(complex)
-        local edgeFacePaths, partitions, faces, isolatedVertices, res, v;
+        local edgeFacePaths, partitions, isolatedVertices, res, v;
 
         edgeFacePaths := UmbrellaPathsOfVertices(complex);
         partitions := UmbrellaPathPartitionsOfVertices(complex);
-        faces := FacesOfVertices(complex);
 
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
-            # Vertices without incident faces do not have an edge-face-path
-            # nor an umbrella path partition. But since they do not make the
-            # complex ramified, we need to check if v is not isolated.
-            if edgeFacePaths[v] = fail and partitions[v] <> fail and
-               IsBound(faces[v]) and Length(faces[v]) > 0 then
+            if edgeFacePaths[v] = fail and partitions[v] <> fail then
                 Add(res, v);
             fi;
         od;
@@ -1219,7 +1214,7 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices", 
-    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex", "FacesOfVertices"]);
+    ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex"]);
 
 InstallMethod( RamifiedVertices, 
     "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices and FacesOfVertices",
@@ -1590,6 +1585,30 @@ InstallMethod( IsFacePure,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "IsFacePure", ["FacesOfVertices", "FacesOfEdges"]);
+
+
+__SIMPLICIAL_AddTwistedAttribute( IsNotTwisted );
+InstallMethod( IsNotTwisted, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex and HasFaces and HasChambersOfFaces and HasVerticesOfChambers and HasEdgesOfChambers],
+    function(complex)
+        local f, chamb, verts, edges;
+
+        for f in Faces(complex) do
+            chamb := ChambersOfFaces(complex)[f];
+            verts := Set( VerticesOfChambers(complex){chamb} );
+            if 2*Length(verts) <> Length(chamb) then
+                return false;
+            fi;
+            edges := Set( EdgesOfChambers(complex){chamb} );
+            if 2*Length(edges) <> Length(chamb) then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+   "IsNotTwisted", ["Faces", "ChambersOfFaces", "VerticesOfChambers", "EdgesOfChambers"], ["IsTwistedPolygonalComplex"]);
 
 ##
 ##      End of edge types

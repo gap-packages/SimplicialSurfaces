@@ -95,7 +95,7 @@ InstallMethod( SplitEdgeNC, "for a polygonal complex, an edge and a list",
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVertsOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetIsDefaultChamberSystem(obj, true);
         if HasVerticesOfFaces(complex) then
             SetVerticesOfFaces(obj, VerticesOfFaces(complex));
@@ -160,7 +160,7 @@ BindGlobal( "__SIMPLICIAL_SplitVertexWithStarComponent",
 
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetEdgesOfVertices(obj, newEdgesOfVertices);
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetIsDefaultChamberSystem(obj, true);
 
         if HasFacesOfEdges(complex) then
@@ -717,7 +717,7 @@ InstallMethod(DisjointUnion, "for two polygonal complexes and an integer",
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
         SetEdges(obj, newEdges);
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetIsDefaultChamberSystem(obj, true);
 
         if HasIsTriangular(complex1) and HasIsTriangular(complex2) then
@@ -979,7 +979,7 @@ InstallMethod( JoinVerticesNC,
 
         obj := Objectify(TwistedPolygonalComplexType, rec());
         SetEdgesOfVertices(obj, newEdgesOfVertices);
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetIsDefaultChamberSystem(obj, true);
         if HasEdgesOfFaces(complex) then
             SetEdgesOfFaces(obj, EdgesOfFaces(complex));
@@ -1093,7 +1093,7 @@ InstallMethod( JoinEdgesNC,
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetVerticesOfEdges(obj, newVerticesOfEdges);
         SetFacesOfEdges(obj, newFacesOfEdges);
-        SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
         SetIsDefaultChamberSystem(obj, true);
         if HasVerticesOfFaces(complex) then
             SetVerticesOfFaces(obj, VerticesOfFaces(complex));
@@ -1293,7 +1293,7 @@ InstallMethod( JoinFacesNC,
 		obj := Objectify( TwistedPolygonalComplexType, rec() );
 		SetVerticesOfFaces(obj, newVerticesOfFaces);
 		SetEdgesOfFaces(obj, newEdgesOfFaces);
-		SetIsPolygonalComplex(obj, true);
+        SetIsNotTwisted(obj, true);
 		SetIsDefaultChamberSystem(obj, true);
 		if HasVerticesOfEdges(complex) then
 			SetVerticesOfEdges(obj, VerticesOfEdges(complex));

@@ -6,28 +6,27 @@
 ##      Anomalies
 ##
 BindGlobal( "__SIMPLICIAL_ComputeClasses",
-    function( elements, map )
-        local classes, i, found, cl, j;
+function( elements, map )
+    local classes, i, found, cl, j;
 
-        classes := [];
-        for i in elements do
-            found := false;
-            for j in [1..Length(classes)] do
-		cl := classes[j];
-		if map[i] = map[cl[1]] then
-                    classes[j] := Union( cl, [i] );
-		    found := true;
-		    break;
-		fi;
+    classes := [];
+    for i in elements do
+        found := false;
+        for j in [1..Length(classes)] do
+		    cl := classes[j];
+		    if map[i] = map[cl[1]] then
+                classes[j] := Union( cl, [i] );
+		        found := true;
+		        break;
+		    fi;
 	    od;
 	    if not found then
-		Append( classes, [ [i] ] );
+		    Append( classes, [ [i] ] );
 	    fi;
 	od;
 
 	return classes;
-    end
-);
+end);
 
 
 ##

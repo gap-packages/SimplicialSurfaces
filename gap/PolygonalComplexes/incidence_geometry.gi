@@ -283,19 +283,15 @@ __SIMPLICIAL_AddPolygonalAttribute(UmbrellaPathsOfVertices);
 ## Implement the immediate methods for inferences about the complex
 ##
 InstallImmediateMethod( IsNotVertexRamified, 
-    "for a polygonal complex that has UmbrellaPathsOfVertices, VerticesAttributeOfComplex and FacesOfVertices",
-    IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasVerticesAttributeOfComplex and HasFacesOfVertices, 0,
+    "for a polygonal complex that has UmbrellaPathsOfVertices and VerticesAttributeOfComplex",
+    IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasVerticesAttributeOfComplex, 0,
     function(complex)
-        local paths, faces, v;
+        local paths, v;
 
         paths := UmbrellaPathsOfVertices(complex);
-        faces := FacesOfVertices(complex);
 
         for v in VerticesAttributeOfComplex(complex) do
-            # Vertices without incident faces do not have an umbrella path.
-            # But since they do not make the complex ramified,
-            # we need to check if v is not isolated.
-            if paths[v] = fail and IsBound(faces[v]) and Length(faces[v]) > 0 then
+            if paths[v] = fail then
                 return false;
             fi;
         od;
@@ -303,7 +299,7 @@ InstallImmediateMethod( IsNotVertexRamified,
     end
 );
 AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
-    "IsNotVertexRamified", ["UmbrellaPathsOfVertices", "VerticesAttributeOfComplex", "FacesOfVertices"], ["IsPolygonalComplex"]);
+    "IsNotVertexRamified", ["UmbrellaPathsOfVertices", "VerticesAttributeOfComplex"], ["IsPolygonalComplex"]);
 
 InstallImmediateMethod( IsNotEdgeRamified,
     "for a polygonal complex that has UmbrellaPathPartitionsOfVertices",

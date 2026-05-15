@@ -409,22 +409,67 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #! @Description
 #! This method constructs a simplicial complex
 #! (<Ref Sect="PolygonalStructures_complex"/>)
-#! @InsertChunk Documentation_DownwardIncidence
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
+#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>) and takes these
+#! arguments:
+#! <Enum>
+#!   <Item> <K>vertices</K>: A set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents
+#!          the set <M>[1,...,n]</M>.</Item>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
+#!          <A>faces</A> is either a set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents the
+#!          set <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge (a
+#!          positive integer).
+#!          This entry has to be a list of the two 
+#!          vertices (as positive integers) of this edge.</Item>
+#!   <Item> <K>edgesOfFaces</K>: A list that has an entry for each face (a
+#!          positive integer).
+#!          This entry has to be a list of the edges 
+#!          (as positive integers) of this face.</Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be
+#! performed by the NC-version.
+#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
+#!   integers or sets of positive integers?
+#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the 
+#!   entries are lists of positive integers?
+#! * Is every bound entry of <A>verticesOfEdges</A> a list with exactly two 
+#!   entries that are different?
+#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
+#!   elements?
+#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesOfEdges</A>)?
+#! * Are the bound positions of <A>verticesOfEdges</A> equal to 
+#!   <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal 
+#!   to those two sets?
+#! * If <A>faces</A> is given, is it equal to the bound positions of 
+#!   <A>edgesOfFaces</A>?
 #!
 #! As an example consider the following net of a simplicial complex:
 
 #! TODO: Add image
 #!
 #! @BeginExampleSession
-#! gap> s := JanusHead();
-#! simplicial surface (3 vertices, 3 edges, and 2 faces)
-#! gap> Vertices(s);
-#! [1..3]
-#! gap> vertices := [1..4];;
-#! gap> verticesOfEdges := VerticesOfEdges(s);;
-#! gap> edgesOfFaces := EdgesOfFaces(s);;
-#! gap> c := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
-#! simplicial complex (4 vertices, 3 edges, and 2 faces)
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..6];
+#! [ 1 .. 6 ]
+#! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
+#! gap> edgesOfFaces := EdgesOfFaces(tetra);
+#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
+#! gap> SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+#! simplicial complex (6 vertices, 7 edges, and 4 faces)
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
@@ -755,24 +800,71 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #! @Description
 #! This method constructs a simplicial complex
 #! (<Ref Sect="PolygonalStructures_complex"/>)
-#! @InsertChunk Documentation_UpwardIncidence
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) and 
+#! <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>) and takes these
+#! arguments:
+#! <Enum>
+#!   <Item> <K>vertices</K>: A set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents
+#!          the set <M>[1,...,n]</M>.</Item>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
+#!          <A>faces</A> is either a set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents the set
+#!          <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>edgesOfVertices</K>: A list that has an entry for each vertex (a
+#!          positive integer).
+#!          This entry has to be a list of the incident
+#!          edges (as positive integers) of this vertex.</Item>
+#!   <Item> <K>facesOfEdges</K>: A list that has an entry for each edge (a
+#!          positive integer).
+#!          This entry has to be a list of the incident faces 
+#!          (as positive integers) of this edge.</Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be
+#! performed by the NC-version.
+#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
+#!   integers or sets of positive integers?
+#! * Are <A>edgesOfVertices</A> and <A>facesOfEdges</A> lists where the 
+#!   entries are lists of positive integers?
+#! * Does every edge of the resulting polygonal complex has exactly two
+#!   incident vertices?
+#! * Does every face of the resulting polygonal complex has at least two
+#!   incident edges?
+#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
+#!   elements?
+#! * Is <A>vertices</A> equal to the bound positions of <A>edgesOfVertices</A>?
+#! * Are the bound positions of <A>facesOfEdges</A> equal to 
+#!   <K>Union</K>(<A>edgesOfVertices</A>)? If <A>edges</A> is given, is it equal 
+#!   to those two sets?
+#! * If <A>faces</A> is given, is it equal to 
+#!   <K>Union</K>(<A>facesOfEdges</A>)?
 #!
 #! As an example consider the following net of a simplicial complex:
 
 #! TODO: Add image
 #!
 #! @BeginExampleSession
-#! gap> s := JanusHead();
-#! simplicial surface (3 vertices, 3 edges, and 2 faces)
-#! gap> Vertices(s);
-#! [1..3]
-#! gap> vertices := [1..4];;
-#! gap> EdgesOfVertices(s);
-#! [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
-#! gap> edgesOfVertices := [ [1, 2], [1, 3], [2, 3], [] ];;
-#! gap> facesOfEdges := FacesOfEdges(s);;
-#! gap> c := SimplicialComplexByUpwardIncidence(vertices, edgesOfVertices, facesOfEdges);
-#! simplicial complex (4 vertices, 3 edges, and 2 faces)
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..6];
+#! [ 1 .. 6 ]
+#! gap> EdgesOfVertices(tetra);
+#! [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ] ]
+#! gap> edgesOfVertices := [ [ 1, 2, 3, 7 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [7], [] ];
+#! [ [ 1, 2, 3, 7 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [ 7 ], [  ] ]
+#! gap> facesOfEdges := Concatenation(FacesOfEdges(tetra), [[]]);
+#! [ [ 1, 2 ], [ 1, 4 ], [ 2, 4 ], [ 1, 3 ], [ 2, 3 ], [ 3, 4 ], [  ] ]
+#! gap> SimplicialComplexByUpwardIncidence(vertices, edgesOfVertices, facesOfEdges);
+#! simplicial complex (6 vertices, 7 edges, and 4 faces)
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
@@ -1084,21 +1176,58 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #! @Description
 #! This method constructs a simplicial complex
 #! (<Ref Sect="PolygonalStructures_complex"/>)
-#! @InsertChunk Documentation_VerticesInFaces
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>) and 
+#! requires that the edges be uniquely defined by their incident vertices.
+#! It takes the following arguments:
+#! <Enum>
+#!<Item> <K>vertices</K>: A set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents
+#!          the set <M>[1,...,n]</M>.</Item>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
+#!          <A>faces</A> is either a set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents the set
+#!          <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>verticesInFaces</K>: A list that has an entry for each positive
+#!          integer corresponding to a face. This entry is a list of positive
+#!          integers <M>[v_1, v_2 , ..., v_k ]</M>, each corresponding to
+#!          a vertex incident to the face. Moreover, two consecutive vertices
+#!          in this list are the vertices of an edge incident to the face  
+#!          (here the first and last vertex count as consecutive). 
+#!   </Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be performed by the NC-version.
+#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
+#!   integers or sets of positive integers?
+#! * Is <A>verticesInFaces</A> a list whose entries are lists of pairwise
+#!   different positive integers?
+#! * Does every bound entry of <A>verticesInFaces</A> contain at least two 
+#!   elements?
+#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesInFaces</A>)?
+#! * If <A>faces</A> is given, is it equal to the bound positions of 
+#!   <A>verticesInFaces</A>?
 #!
 #! As an example consider the following net of a simplicial complex:
 
 #! TODO: Add image
 #!
 #! @BeginExampleSession
-#! gap> s := JanusHead();
-#! simplicial surface (3 vertices, 3 edges, and 2 faces)
-#! gap> Vertices(s);
-#! [1..3]
-#! gap> vertices := [1..4];;
-#! gap> verticesOfFaces := VerticesOfFaces(s);;
-#! gap> c := SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
-#! simplicial complex (4 vertices, 3 edges, and 2 faces)
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..5];
+#! [ 1 .. 5 ]
+#! gap> verticesOfFaces := VerticesOfFaces(tetra);
+#! [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 2, 3, 4 ], [ 1, 3, 4 ] ]
+#! gap> SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
+#! simplicial complex (5 vertices, 6 edges, and 4 faces)
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
@@ -1565,9 +1694,27 @@ DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
 #! @EndGroup
 
 #! @BeginGroup
-#! TODO: Add description
-#! TODO: Add image
-#! TODO: Add example
+#! Given a simplicial complex this method constructs the derived face pure
+#! simplicial complex. That means all isolated vertices and edges are removed
+#! and only the faces and vertices that are incident to a face are maintained.
+#!
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..6];
+#! [ 1 .. 6 ]
+#! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
+#! gap> edgesOfFaces := EdgesOfFaces(tetra);
+#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
+#! gap> complex := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+#! simplicial complex (6 vertices, 7 edges, and 4 faces)
+#! gap> pureComplex := PureSimplicialComplex(complex);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VerticesOfFaces(pureComplex) = VerticesOfFaces(tetra);
+#! true
+#! @EndExampleSession
+#!
 #! @Returns a simplicial complex
 #! @Arguments simplicial complex
 DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
