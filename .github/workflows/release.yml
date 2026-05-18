@@ -1,3 +1,6 @@
+# This workflow is responsible for making releases of this GAP package,
+# and updating its website afterwards. For usage instructions, see
+# <https://github.com/gap-actions/release-pkg/>.
 name: Release
 
 on:
