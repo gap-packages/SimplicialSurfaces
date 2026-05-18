@@ -42,7 +42,11 @@ jobs:
         with:
           dry-run: ${{ inputs.dry-run }}
           force: ${{ inputs.force }}
+      - name: Create .nojekyll bypass file
+        run: touch .nojekyll
       - uses: gap-actions/update-gh-pages@v1
         if: ${{ !inputs.dry-run }}
         with:
-          extra-files: doc/images
+          extra-files: |
+            doc/images
+            .nojekyll
