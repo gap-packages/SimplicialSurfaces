@@ -175,14 +175,11 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-    	local graph, nonIsolatedVertices, names, incidence, trivialAction;
+    	local graph, vertices, names, incidence, trivialAction;
 
-	    nonIsolatedVertices := Difference(
-            VerticesAttributeOfComplex(complex),
-            IsolatedVertices(complex)
-        );
+	    vertices := VerticesAttributeOfComplex(complex);
 
-        names := nonIsolatedVertices;
+        names := vertices;
 	    incidence := function(x,y)
 		    return Set([x,y]) in VerticesOfEdges(complex);
 	    end;
@@ -262,13 +259,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( EdgeNautyGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-            local nonIsolatedVertices;
-            
-            nonIsolatedVertices := Difference(
-                VerticesAttributeOfComplex(complex),
-                IsolatedVertices(complex)
+            return NautyGraphWithNodeLabels(
+                VerticesOfEdges(complex),
+                VerticesAttributeOfComplex(complex)
             );
-            return NautyGraphWithNodeLabels( VerticesOfEdges(complex), nonIsolatedVertices );
         end
     );
 
