@@ -2179,8 +2179,3 @@ end);
 ##  End DressGroups
 ##
 #######################################
-
-InstallMethod ( PureSimplicialComplex,
-    "for simplicial complex", [IsSimplicialComplex], function(complex)
-    return SimplicialComplexByVerticesInFaces(Union(VerticesOfFaces(complex)), VerticesOfFaces(complex));
-end);

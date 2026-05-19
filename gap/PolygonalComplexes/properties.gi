@@ -1093,7 +1093,7 @@ InstallMethod( BoundaryVertices, "for a polygonal complex",
 InstallMethod( BoundaryVertices, "for a closed twisted polygonal complex",
     [IsTwistedPolygonalComplex and IsClosedComplex],
     function(complex)
-        return IsolatedVertices(complex);
+        return [];
     end
 );
 # Special case umbrellas are known
@@ -1664,95 +1664,6 @@ InstallMethod( IsFaceHomogeneous, "for a twisted polygonal complex",
     end
 );
 
-##
-## Checks if a given graph is chordal using Maximum Cardinality Search (MCS)
-## `vertices` is a list/set of vertex labels (e.g., [1, 2, 4, 5])
-## `adj` is a record or array where adj[v] is the Set of neighbors of vertex v.
-##
-BindGlobal( "__SIMPLICIAL_IsChordalGraph",
-    function( vertices, adj )
-        local n, weight, ordering, unvisited, max_w, best_v, v, u, i,
-              ordered_pos, N_plus, first_neighbor, w;
-        
-        n := Length(vertices);
-        if n <= 3 then return true; fi; # Trivially chordal
-        
-        # Initialize weights
-        weight := [];
-        for v in vertices do 
-            weight[v] := 0; 
-        od;
-        
-        unvisited := Set(vertices);
-        ordering := [];
-        ordered_pos := [];
-        
-        # 1. Maximum Cardinality Search (MCS)
-        # We build the ordering backwards
-        while not IsEmpty(unvisited) do
-            max_w := -1;
-            best_v := fail;
-            
-            # Find unvisited vertex with highest weight (most visited neighbors)
-            for v in unvisited do
-                if weight[v] > max_w then
-                    max_w := weight[v];
-                    best_v := v;
-                fi;
-            od;
-            
-            Add(ordering, best_v);
-            RemoveSet(unvisited, best_v);
-            
-            # Update the weights of its unvisited neighbors
-            for u in adj[best_v] do
-                if u in unvisited then
-                    weight[u] := weight[u] + 1;
-                fi;
-            od;
-        od;
-        
-        # MCS produces a reversed Perfect Elimination Ordering.
-        # Let's reverse it to the standard forward PEO.
-        ordering := Reversed(ordering);
-        for i in [1..n] do
-            ordered_pos[ordering[i]] := i;
-        od;
-        
-        # 2. Verify the Perfect Elimination Ordering
-        # For each vertex v, let N+(v) be its neighbors that come AFTER it.
-        # The vertex in N+(v) that comes earliest must be connected to all others in N+(v).
-        for i in [1..n-1] do
-            v := ordering[i];
-            N_plus := [];
-            
-            for u in adj[v] do
-                if ordered_pos[u] > ordered_pos[v] then
-                    Add(N_plus, u);
-                fi;
-            od;
-            
-            if not IsEmpty(N_plus) then
-                # Find the earliest neighbor in the ordering
-                first_neighbor := N_plus[1];
-                for u in N_plus do
-                    if ordered_pos[u] < ordered_pos[first_neighbor] then
-                        first_neighbor := u;
-                    fi;
-                od;
-                
-                # Check the clique condition: first_neighbor must be connected to the rest
-                for w in N_plus do
-                    if w <> first_neighbor and not (w in adj[first_neighbor]) then
-                        return false; # Not chordal! We found a cycle > 3 without a chord.
-                    fi;
-                od;
-            fi;
-        od;
-        
-        return true;
-    end
-);
 
 
 InstallMethod( IsTriangular, "for a polygonal complex",

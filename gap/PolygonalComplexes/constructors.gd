@@ -1692,30 +1692,3 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 #! @Arguments dress
 DeclareOperation( "SimplicialSurfaceByDressGroup",[IsPermGroup]);
 #! @EndGroup
-
-#! @BeginGroup
-#! Given a simplicial complex this method constructs the derived face pure
-#! simplicial complex. That means all isolated vertices and edges are removed
-#! and only the faces and vertices that are incident to a face are maintained.
-#!
-#! @BeginExampleSession
-#! gap> tetra := Tetrahedron();
-#! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> vertices := [1..6];
-#! [ 1 .. 6 ]
-#! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
-#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
-#! gap> edgesOfFaces := EdgesOfFaces(tetra);
-#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
-#! gap> complex := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
-#! simplicial complex (6 vertices, 7 edges, and 4 faces)
-#! gap> pureComplex := PureSimplicialComplex(complex);
-#! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> VerticesOfFaces(pureComplex) = VerticesOfFaces(tetra);
-#! true
-#! @EndExampleSession
-#!
-#! @Returns a simplicial complex
-#! @Arguments simplicial complex
-DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
-#! @EndGroup

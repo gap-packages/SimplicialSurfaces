@@ -789,6 +789,10 @@ if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
     RedispatchOnCondition( PerimeterOfHoles, true, [IsTwistedPolygonalComplex, IsInt], [IsTwistedPolygonalSurface], 0 );
 fi;
 
+
+# Override default edges function to ensure correct computation of all edges.
+# The AttributeScheduler would pick face incidence over vertex incidence which
+# would then miss isolated edges.
 InstallMethod( Edges,
     "for a polygonal complex with VerticesOfEdges",
     [ IsPolygonalComplex and HasVerticesOfEdges ],
@@ -797,3 +801,9 @@ InstallMethod( Edges,
         return PositionsBound(VerticesOfEdges(complex)); 
     end
 );
+
+
+InstallMethod ( PureSimplicialComplex,
+    "for simplicial complex", [IsSimplicialComplex], function(complex)
+    return SimplicialComplexByVerticesInFaces(Union(VerticesOfFaces(complex)), VerticesOfFaces(complex));
+end);

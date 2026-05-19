@@ -73,26 +73,20 @@ InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
 InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-    local arcs, diedges, i, graph, nonIsolatedVertices;
-    
+    local arcs, diedges, i, graph;
+
     arcs := [];
     diedges := Compacted(VerticesOfEdges(complex));
     for i in [1..Length(diedges)] do
         arcs[2*i-1] := diedges[i];
         arcs[2*i] := Reversed(diedges[i]);
     od;
-    
+
     # Digraphs can only create graphs with vertices [1..n]
     # Therefore we have to take a subgraph of this graph
     graph := DigraphByEdges( arcs );
-    nonIsolatedVertices := Difference(
-        VerticesAttributeOfComplex(complex),
-        IsolatedVertices(complex)
-    );
-
-    return InducedSubdigraph( graph, nonIsolatedVertices );
-    end
-);
+    return InducedSubdigraph( graph, VerticesAttributeOfComplex(complex) );
+end);
 
 InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
 function(complex)
