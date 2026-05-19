@@ -43,7 +43,7 @@ jobs:
           dry-run: ${{ inputs.dry-run }}
           force: ${{ inputs.force }}
       - name: Create .nojekyll bypass file
-        run: touch .nojekyll
+        run: touch ${{ runner.temp }}/pkg-release/.nojekyll
       - uses: gap-actions/update-gh-pages@v1
         if: ${{ !inputs.dry-run }}
         with:
