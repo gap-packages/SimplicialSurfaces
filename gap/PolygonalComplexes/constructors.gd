@@ -448,7 +448,9 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 #!   entries that are different?
 #! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
 #!   elements?
-#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesOfEdges</A>)?
+#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesOfEdges</A>)
+#!   or is <A>vertices</A> a distinct list to
+#!   <K>Union</K>(<A>verticesOfEdges</A>)?
 #! * Are the bound positions of <A>verticesOfEdges</A> equal to 
 #!   <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal 
 #!   to those two sets?
@@ -841,7 +843,10 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 #!   incident edges?
 #! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
 #!   elements?
-#! * Is <A>vertices</A> equal to the bound positions of <A>edgesOfVertices</A>?
+#! * Is <A>vertices</A> equal to the bound positions of <A>edgesOfVertices</A>
+#!   or does <A>vertices</A> only consist of isolatd vertices? (vertices for
+#!   which there is a value '[]' in <A>edgesOfVertices</A> at the vertex label
+#!   position are isolated)
 #! * Are the bound positions of <A>facesOfEdges</A> equal to 
 #!   <K>Union</K>(<A>edgesOfVertices</A>)? If <A>edges</A> is given, is it equal 
 #!   to those two sets?
@@ -1211,7 +1216,9 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList]
 #!   different positive integers?
 #! * Does every bound entry of <A>verticesInFaces</A> contain at least two 
 #!   elements?
-#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesInFaces</A>)?
+#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesInFaces</A>)
+#!   or is <A>vertices</A> a distinct list to
+#!   <K>Union</K>(<A>verticesInFaces</A>)?
 #! * If <A>faces</A> is given, is it equal to the bound positions of 
 #!   <A>verticesInFaces</A>?
 #!

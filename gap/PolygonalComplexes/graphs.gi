@@ -85,6 +85,7 @@ InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
     # Digraphs can only create graphs with vertices [1..n]
     # Therefore we have to take a subgraph of this graph
     graph := DigraphByEdges( arcs );
+    graph := DigraphAddVertices( graph, IsolatedVertices(complex) );
     return InducedSubdigraph( graph, VerticesAttributeOfComplex(complex) );
 end);
 

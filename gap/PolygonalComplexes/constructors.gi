@@ -139,7 +139,7 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
                     od;
 
                     # Calling precheck function without vertices arg which is filtered out using scOff.
-                    CallFuncList( preCheck, Concatenation([name], arg{[scOff+1..Length(arg)]}));
+                    CallFuncList( preCheck, Concatenation([name], arg{[1..Length(arg)]}));
                     # Rearrange arg order to objectConst expected arguments order.
                     obj := CallFuncList(objectConst, Concatenation(
                         arg{[off+scOff+1..Length(arg)]},
@@ -171,7 +171,8 @@ BindGlobal( "__SIMPLICIAL_IntSetConstructor",
 
                         if Length(arg) = Length(shortFilter)+1 then
                             # This is a Simplicial Complex constructor call.
-                            # Then rearrange arg order to objectConst expected arguments order.
+                            # Rearrange arg order to objectConst functions expected
+                            # arguments order.
                             #
                             # Distinguish constructor type:
                             if Length(arg) = 3 then
@@ -362,7 +363,7 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
 
 __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
     function( arg )
-        local verticesOfEdges, edgesOfFaces, obj, vertices;
+        local verticesOfEdges, edgesOfFaces, obj, vertices, verticesDed;
 
         verticesOfEdges := arg[1];
         edgesOfFaces := arg[2];
@@ -377,18 +378,28 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
         if Length(vertices) > 0 then
+            verticesDed := Union(verticesOfEdges);
+            # Check if there are any vertices from vertices arg that are not in
+            # the deduced vertices list.
+            if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
+                vertices := Set(Concatenation(vertices, verticesDed));
+            fi;
             SetVerticesAttributeOfComplex(obj, vertices );
         fi;
         return obj;
     end,
     function( arg )
-        local verticesDed, verticesExp, edgesDed, edgesExp, facesDed,
-              verticesOfEdges, edgesOfFaces;
+        local verticesDed, verticesExp, edgesDed, edgesExp, facesDed, vertices,
+              verticesOfEdges, edgesOfFaces, isolatedVertices, nonIsolatedVertices;
 
         # First we deduce vertices, edges and faces
         if Length(arg) = 3 then
             verticesOfEdges := arg[2];
             edgesOfFaces := arg[3];
+        elif Length(arg) = 4 then
+            vertices := arg[2];
+            verticesOfEdges := arg[3];
+            edgesOfFaces := arg[4];
         else
             verticesOfEdges := arg[5];
             edgesOfFaces := arg[6];
@@ -419,6 +430,28 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
             __SIMPLICIAL_CompareSets( arg[1], edgesExp, edgesDed, "edge" );
             __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
         else
+            if PositionSublist(arg[1], "SimplicialComplexBy") <> fail then
+                isolatedVertices := Filtered(vertices, v -> not v in verticesDed);
+                nonIsolatedVertices := Filtered(verticesDed, v -> not v in isolatedVertices);
+
+                # Check if the given vertices arg contains either only isolated vertices
+                # or if vertices arg equals the union of isolated and non-isolated vertices.
+                if ForAny(vertices, v -> ForAll(isolatedVertices, vI -> v <> vI )) then
+                    # vertices arg is must be a set containing all isolated and deduced
+                    # vertices.
+
+                    verticesExp := Set(Concatenation(isolatedVertices, nonIsolatedVertices));
+
+                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
+                else
+                    # vertices arg is must be a set containing only isolated vertices.
+
+                    verticesExp := isolatedVertices;
+
+                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
+                fi;
+            fi;
+
             edgesExp := edgesDed;
         fi;
 
@@ -449,32 +482,29 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
 
 __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes, 
     function( arg )
-        local edgesOfVertices, facesOfEdges, obj, vertices;
+        local edgesOfVertices, facesOfEdges, obj;
 
         edgesOfVertices := arg[1];
         facesOfEdges := arg[2];
-        if Length(arg) = 3 then
-            vertices := arg[3];
-        else
-            vertices := [];
-        fi;
 
         obj := Objectify( TwistedPolygonalComplexType, rec() );
         SetIsNotTwisted(obj, true);
         SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
         SetFacesOfEdges(obj, List(facesOfEdges, Set) );
-        if Length(vertices) > 0 then
-            SetVerticesAttributeOfComplex(obj, vertices );
-        fi;
         return obj;
     end,
     function( arg )
-        local verticesDed, verticesExp, edgesDed, facesDed, edgesOfVertices, facesOfEdges;
+        local verticesDed, verticesExp, edgesDed, facesDed, vertices, edgesOfVertices,
+              facesOfEdges, isolatedVertices, nonIsolatedVertices;
 
         # First we deduce vertices, edges and faces
         if Length(arg) = 3 then
             edgesOfVertices := arg[2];
             facesOfEdges := arg[3];
+        elif Length(arg) = 4 then
+            vertices := arg[2];
+            edgesOfVertices := arg[3];
+            facesOfEdges := arg[4];
         else
             edgesOfVertices := arg[5];
             facesOfEdges := arg[6];
@@ -494,6 +524,28 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
             
             __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
             __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
+        else
+            if PositionSublist(arg[1], "SimplicialComplexBy") <> fail then
+                isolatedVertices := Filtered(verticesDed, v -> edgesOfVertices[v] = []);
+                nonIsolatedVertices := Filtered(verticesDed, v -> not v in isolatedVertices);
+
+                # Check if the given vertices arg contains either only isolated vertices
+                # or if vertices arg equals the union of isolated and non-isolated vertices.
+                if ForAny(vertices, v -> ForAll(isolatedVertices, vI -> v <> vI )) then
+                    # vertices arg is must be a set containing all isolated and deduced
+                    # vertices.
+
+                    verticesExp := Set(Concatenation(isolatedVertices, nonIsolatedVertices));
+
+                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
+                else
+                    # vertices arg is must be a set containing only isolated vertices.
+
+                    verticesExp := isolatedVertices;
+
+                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
+                fi;
+            fi;
         fi;
         __SIMPLICIAL_CompareSets( arg[1], edgesDed, Union(edgesOfVertices), "edge" );
     end,
@@ -522,7 +574,8 @@ __SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes,
 
 __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
     function( arg )
-        local verticesInFaces, vertices, AdjacentVertices, allEdges, vertexPairs, edgesOfFaces, obj;
+        local verticesInFaces, vertices, AdjacentVertices, allEdges, vertexPairs,
+              edgesOfFaces, obj, verticesDed;
 
         verticesInFaces := arg[1];
         if Length(arg) = 2 then
@@ -554,17 +607,27 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         SetVerticesOfFaces(obj, List(verticesInFaces,Set));
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
         if Length(vertices) > 0 then
+            verticesDed := Union(verticesInFaces);
+            # Check if there are any vertices from vertices arg that are not in
+            # the deduced vertices list.
+            if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
+                vertices := Set(Concatenation(vertices, verticesDed));
+            fi;
             SetVerticesAttributeOfComplex(obj, vertices );
         fi;
 
         return obj;
     end,
     function( arg )
-        local verticesDed, verticesExp, facesDed, verticesInFaces;
+        local verticesDed, verticesExp, facesDed, vertices, verticesInFaces,
+              isolatedVertices, nonIsolatedVertices;
 
         # First we deduce vertices and faces
         if Length(arg) = 2 then
             verticesInFaces := arg[2];
+        elif Length(arg) = 3 then
+            vertices := arg[2];
+            verticesInFaces := arg[3];
         else
             verticesInFaces := arg[4];
         fi;
@@ -581,6 +644,31 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
             fi;
 
             __SIMPLICIAL_CompareSets( arg[1], arg[3], facesDed, "face" );
+        else
+            if PositionSublist(arg[1], "SimplicialComplexBy") <> fail then
+                isolatedVertices := Filtered(vertices, v -> not v in verticesDed);
+                nonIsolatedVertices := Filtered(verticesDed, v -> not v in isolatedVertices);;
+
+                # verticesDed contains non-isolated vertices (vertices with an edge or 
+                # face incidence). verticesExp contains isolated vertices.
+
+                # Check if the given vertices arg contains either only isolated vertices
+                # or if vertices arg equals the union of isolated and non-isolated vertices.
+                if ForAny(vertices, v -> ForAll(isolatedVertices, vI -> v <> vI )) then
+                    # vertices arg is must be a set containing all isolated and deduced
+                    # vertices.
+
+                    verticesExp := Set(Concatenation(isolatedVertices, nonIsolatedVertices));
+
+                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
+                else
+                    # vertices arg is must be a set containing only isolated vertices.
+
+                    verticesExp := isolatedVertices;
+
+                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
+                fi;
+            fi;
         fi;
 
         # Guarantee basic size restrictions

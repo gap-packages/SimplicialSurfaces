@@ -241,7 +241,7 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
                 "simplicial complex"];
         fi;
 
-        if IsSimplicialSurface(complex) or IsVertexFaithfulSimplicialSurface(complex) then
+        if IsSimplicialSurface(complex) then
             return nameList[1];
         elif IsPolygonalSurface(complex) then
             return nameList[2];
