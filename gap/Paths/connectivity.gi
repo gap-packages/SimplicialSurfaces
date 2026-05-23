@@ -63,33 +63,80 @@ BindGlobal( "__SIMPLICIAL_AbstractConnectedComponent",
     end
 );
 
+BindGlobal( "__SIMPLICIAL_IsConnectedOnVertexEdgeIncidence",
+function(complex)
+    local vertices, start, queue, visited, v, neighbours, n;
+
+    vertices := VerticesAttributeOfComplex(complex);
+    if Length(vertices) = 0 then
+        return true;
+    fi;
+
+    start := vertices[1];
+    queue := [start];
+    visited := [];
+    for v in vertices do
+        Add(visited, false, v);
+    od;
+
+    while Length(queue) > 0 do
+        v := Remove(queue, 1);
+
+        visited[v] := true;
+
+        neighbours := NeighbourVerticesOfVertex(complex, v);
+        for n in neighbours do
+            if not visited[n] then
+                Add(queue, n);
+            fi;
+        od;
+    od;
+
+    return not false in visited;
+end);
+
 
 ##
 ## general connectivity
 ##
 InstallMethod( IsConnectedComplex, "for a twisted polygonal complex", [IsTwistedPolygonalComplex], 
     function(complex)
-	local component;
+	    local component;
 
-        if NumberOfFaces(complex) = 0 then
+        if Length(IsolatedVertices(complex)) > 0 then
+            return false;
+        fi;
+
+        if NumberOfFaces(complex) = 0 and Length(IsolatedEdges(complex)) = 0 then
             return true;
         fi;
 
         component := __SIMPLICIAL_AbstractConnectedComponent( 
                         Faces(complex), VerticesOfFaces(complex), 
                         Faces(complex)[1] );
-        return Length( component ) = NumberOfFaces(complex);
+
+        if Length( component ) <> NumberOfFaces(complex) then
+            return false;
+        fi;
+
+        return __SIMPLICIAL_IsConnectedOnVertexEdgeIncidence(complex);
     end
 );
 InstallImmediateMethod( IsConnectedComplex, 
-    IsTwistedPolygonalComplex and HasConnectedComponentsAttributeOfComplex,0, 
+    IsTwistedPolygonalComplex and HasConnectedComponentsAttributeOfComplex and HasVerticesAttributeOfComplex and HasEdgesOfVertices and HasVerticesOfEdges, 0, 
     function(complex)
-	local components;
+	    local components;
 
-	components := ConnectedComponentsAttributeOfComplex(complex);
-	return Length(components) <= 1;
+	    components := ConnectedComponentsAttributeOfComplex(complex);
+	    if Length(components) > 1 then
+            return false;
+        fi;
+
+        return __SIMPLICIAL_IsConnectedOnVertexEdgeIncidence(complex);
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsConnectedComplex", ["ConnectedComponentsAttributeOfComplex", "VerticesAttributeOfComplex", "EdgesOfVertices", "VerticesOfEdges"]);
 
 InstallMethod( IsConnectedSurface, "for a surface", [IsPolygonalSurface], 
     function(surf)
@@ -304,12 +351,12 @@ InstallImmediateMethod( StronglyConnectedComponentsAttributeOfComplex,
 ## also want to work with the connection between them. We start with the
 ## direction "strongly connected"->"connected"
 InstallImmediateMethod( IsConnectedComplex, 
-    IsTwistedPolygonalComplex and HasStronglyConnectedComponentsAttributeOfComplex, 0, 
+    IsTwistedPolygonalComplex and HasStronglyConnectedComponentsAttributeOfComplex and HasIsFacePure, 0, 
     function( complex )
         local components;
 
         components := StronglyConnectedComponentsAttributeOfComplex(complex);
-        if Length(components) <= 1 then
+        if Length(components) <= 1 and IsFacePure(complex) then
             return true;
         fi;
 
@@ -318,6 +365,8 @@ InstallImmediateMethod( IsConnectedComplex,
         TryNextMethod();
     end
 );
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsConnectedComplex", ["StronglyConnectedComponentsAttributeOfComplex", "IsFacePure"]);
 
 InstallMethod( ConnectedComponentsAttributeOfComplex,
     "for a twisted polygonal complex with strongly connected components",

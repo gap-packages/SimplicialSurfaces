@@ -258,14 +258,23 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If the connected components are known, the connectivity is known
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetEdgesOfVertices(obj, []);
+    SetVerticesOfEdges(obj, []);
     SetConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetEdgesOfVertices(obj, []);
+    SetVerticesOfEdges(obj, []);
     SetConnectedComponentsAttributeOfComplex( obj, [ 1 ] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetEdgesOfVertices(obj, []);
+    SetVerticesOfEdges(obj, []);
     SetConnectedComponentsAttributeOfComplex( obj, [ 1, 2 ] );
     SIMPLICIAL_TestAssert(not IsConnectedComplex(obj));
 
@@ -324,10 +333,16 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If there is only one strongly connected component, then the complex is connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetIsFacePure(obj, true);
+    SetVerticesOfEdges(obj, []);
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetIsFacePure(obj, true);
+    SetVerticesOfEdges(obj, []);
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
@@ -343,6 +358,7 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
+    SetIsConnectedComplex(obj, true);
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
     SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfComplex(obj) = [obj]);
 
