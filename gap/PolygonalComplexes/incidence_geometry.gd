@@ -582,9 +582,10 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 
 
 #! @BeginGroup
+#! @Description
 #! Given a simplicial complex this method constructs the derived face pure
 #! simplicial complex. That means all isolated vertices and edges are removed
-#! and only the faces and vertices that are incident to a face are maintained.
+#! and only the vertices and edges that are incident to a face are maintained.
 #!
 #! @BeginExampleSession
 #! gap> tetra := Tetrahedron();

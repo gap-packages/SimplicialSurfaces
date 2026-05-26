@@ -1031,6 +1031,8 @@ DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! gap> IsFacePure(Tetrahedron());
 #! true
 #! @EndExampleSession
+#! A complex with an isolated vertex is not face pure, since the isolated vertex is not
+#! incident to any edge or face:
 #! @BeginExampleSession
 #! gap> tetra := Tetrahedron();;
 #! gap> Vertices(tetra);
@@ -1041,8 +1043,6 @@ DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! gap> IsFacePure(complex);
 #! false
 #! @EndExampleSession
-#! This complex is not face pure, since it contains a vertex that is not incident to
-#! a face in the complex.
 DeclareProperty( "IsFacePure", IsTwistedPolygonalComplex );
 #! @EndGroup
 
@@ -1287,8 +1287,18 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! edge of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
-#! TODO: Add image
-#! TODO: Add example
+#! @ExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> verticesOfEdges := VerticesOfEdges(tetra);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
+#! gap> verticesOfEdges := Concatenation(verticesOfEdges, [[1,5]]);;
+#! gap> vertices := Union(verticesOfEdges);;
+#! gap> edgesOfFaces := EdgesOfFaces(tetra);;
+#! gap> tetraWithIsolatedEdge := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+#! simplicial complex (5 vertices, 7 edges, and 4 faces)
+#! gap> IsolatedEdges(tetraWithIsolatedEdge);
+#! [ 7 ]
+#! @EndExampleSession
 #!
 #! @Returns a set of positive integers
 #! @Arguments complex

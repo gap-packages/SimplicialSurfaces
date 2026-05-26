@@ -934,7 +934,7 @@ InstallMethod(Display, "for a counter", [IsCounter],
 BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
     function(complex)
         local inner, boundary, ramified, isolated, chaotic, isIsolated, oneRel, twoRel, vertexRel,
-            chambers, v, edgesOfVertex, found, inCheck, c, class;
+            chambers, v, edgesOfVertex, found, inCheck, chambersOfVertex, c, class;
 
         inner := [];
         boundary := [];
@@ -977,12 +977,18 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
 
             # We need to distinguish between inner vertices and boundary vertices
             inCheck := true;
-            for c in ChambersOfVertexNC(complex,v) do
+            chambersOfVertex := ChambersOfVertexNC(complex, v);
+            for c in chambersOfVertex do
                 if TwoAdjacentChambersNC(complex,v) = [] then
                     inCheck := false;
                     break;
                 fi;
             od;
+            if Length(chambersOfVertex) = 0 then
+                # Vertices with no incident faces are not inner.
+                inCheck := false;
+            fi;
+
             if inCheck then
                 Add(inner,v);
             else
@@ -1083,9 +1089,15 @@ BindGlobal("__SIMPLICIAL_BoundaryVertices_BoundaryEdges",
 InstallMethod( BoundaryVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return Concatenation(
+        local isolatedVertices, verticesOfIsolatedEdges;
+
+        isolatedVertices := IsolatedVertices(complex);
+        verticesOfIsolatedEdges := Union(VerticesOfEdges(complex){IsolatedEdges(complex)});
+
+        return Union(
             __SIMPLICIAL_BoundaryVertices_Umbrellas(complex),
-            IsolatedVertices(complex)
+            isolatedVertices,
+            verticesOfIsolatedEdges
         );
     end
 );
@@ -1101,9 +1113,15 @@ InstallMethod( BoundaryVertices,
     "for a polygonal complex with UmbrellaPathsOfVertices",
     [IsPolygonalComplex and HasUmbrellaPathsOfVertices],
     function(complex)
-        return Concatenation(
+        local isolatedVertices, verticesOfIsolatedEdges;
+
+        isolatedVertices := IsolatedVertices(complex);
+        verticesOfIsolatedEdges := Union(VerticesOfEdges(complex){IsolatedEdges(complex)});
+
+        return Union(
             __SIMPLICIAL_BoundaryVertices_Umbrellas(complex),
-            IsolatedVertices(complex)
+            isolatedVertices,
+            verticesOfIsolatedEdges
         );
     end
 );
@@ -1422,7 +1440,8 @@ InstallMethod( BoundaryEdges, "for a polygonal complex",
                 Add(res,e);
             fi;
         od;
-        return res;
+
+        return Union(res, IsolatedEdges(complex));
     end
 );
 InstallMethod( BoundaryEdges, "for a twisted polygonal complex",
@@ -1437,7 +1456,8 @@ InstallMethod( BoundaryEdges, "for a twisted polygonal complex",
                 Add(res,e);
             fi;
         od;
-        return res;
+
+        return Union(res, IsolatedEdges(complex));
     end
 );
 InstallMethod( BoundaryEdges, "for a closed polygonal complex",

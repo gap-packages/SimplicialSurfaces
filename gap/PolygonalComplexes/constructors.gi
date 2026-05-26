@@ -377,15 +377,17 @@ __SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
         SetIsNotTwisted(obj, true);
         SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
-        if Length(vertices) > 0 then
-            verticesDed := Union(verticesOfEdges);
-            # Check if there are any vertices from vertices arg that are not in
-            # the deduced vertices list.
-            if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
-                vertices := Set(Concatenation(vertices, verticesDed));
-            fi;
-            SetVerticesAttributeOfComplex(obj, vertices );
+
+        verticesDed := Union(verticesOfEdges);
+        # Check if there are any vertices from vertices arg that are not in
+        # the deduced vertices list.
+        if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
+            vertices := Union(vertices, verticesDed);
+        else
+            vertices := verticesDed;
         fi;
+        SetVerticesAttributeOfComplex(obj, vertices );
+
         return obj;
     end,
     function( arg )
@@ -606,15 +608,16 @@ __SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
         SetVerticesOfEdges(obj, allEdges);
         SetVerticesOfFaces(obj, List(verticesInFaces,Set));
         SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
-        if Length(vertices) > 0 then
-            verticesDed := Union(verticesInFaces);
-            # Check if there are any vertices from vertices arg that are not in
-            # the deduced vertices list.
-            if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
-                vertices := Set(Concatenation(vertices, verticesDed));
-            fi;
-            SetVerticesAttributeOfComplex(obj, vertices );
+
+        verticesDed := Union(verticesInFaces);
+        # Check if there are any vertices from vertices arg that are not in
+        # the deduced vertices list.
+        if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
+            vertices := Union(vertices, verticesDed);
+        else
+            vertices := verticesDed;
         fi;
+        SetVerticesAttributeOfComplex(obj, vertices );
 
         return obj;
     end,

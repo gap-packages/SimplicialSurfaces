@@ -358,6 +358,88 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet
 
 #! @BeginGroup
 #! @Description
+#! This method constructs a simplicial complex
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
+#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>) and takes these
+#! arguments:
+#! <Enum>
+#!   <Item> <K>vertices</K> / <K>allVertices</K>: A set of positive integers or
+#!          a positive integer. In the latter case, an integer <M>n</M>
+#!          represents the set <M>[1,...,n]</M>.</Item>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
+#!          <A>faces</A> is either a set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents the
+#!          set <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge (a
+#!          positive integer).
+#!          This entry has to be a list of the two 
+#!          vertices (as positive integers) of this edge.</Item>
+#!   <Item> <K>edgesOfFaces</K>: A list that has an entry for each face (a
+#!          positive integer).
+#!          This entry has to be a list of the edges 
+#!          (as positive integers) of this face.</Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be
+#! performed by the NC-version.
+#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
+#!   integers or sets of positive integers?
+#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the 
+#!   entries are lists of positive integers?
+#! * Is every bound entry of <A>verticesOfEdges</A> a list with exactly two 
+#!   entries that are different?
+#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
+#!   elements?
+#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesOfEdges</A>)
+#!   or is <A>vertices</A> a distinct list to
+#!   <K>Union</K>(<A>verticesOfEdges</A>)?
+#! * Is <A>allVertices</A> a superset of <K>Union</K>(<A>verticesOfEdges</A>)?
+#! * Are the bound positions of <A>verticesOfEdges</A> equal to 
+#!   <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal 
+#!   to those two sets?
+#! * If <A>faces</A> is given, is it equal to the bound positions of 
+#!   <A>edgesOfFaces</A>?
+#!
+#! As an example consider the following net of a simplicial complex:
+
+#! TODO: Add image
+#!
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..6];
+#! [ 1 .. 6 ]
+#! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
+#! gap> edgesOfFaces := EdgesOfFaces(tetra);
+#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
+#! gap> SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+#! simplicial complex (6 vertices, 7 edges, and 4 faces)
+#! @EndExampleSession
+#!
+#! @Returns a simplicial complex
+#! @Arguments vertices, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsList, IsList] );
+#! @Arguments allVertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments vertices, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsList, IsList] );
+#! @Arguments allVertices, edges, faces, verticesOfEdges, edgesOfFaces
+DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList]);
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
 #! This method constructs a simplicial surface
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_DownwardIncidence
@@ -404,86 +486,6 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 #TODO remark that most of these constructors also check for some properties
-
-#! @BeginGroup
-#! @Description
-#! This method constructs a simplicial complex
-#! (<Ref Sect="PolygonalStructures_complex"/>)
-#! where vertices, edges and faces are represented by positive integers.
-#! It is based on the attributes
-#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
-#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>) and takes these
-#! arguments:
-#! <Enum>
-#!   <Item> <K>vertices</K>: A set of positive integers or a positive
-#!          integer. In the latter case, an integer <M>n</M> represents
-#!          the set <M>[1,...,n]</M>.</Item>
-#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
-#!          <A>faces</A> is either a set of positive integers or a positive
-#!          integer. In the latter case, an integer <M>n</M> represents the
-#!          set <M>[1,...,n]</M>.
-#!          
-#!          Although these arguments can be deduced from the non-optional
-#!          arguments, their use is recommended to catch mistakes in these
-#!          other arguments.</Item>
-#!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge (a
-#!          positive integer).
-#!          This entry has to be a list of the two 
-#!          vertices (as positive integers) of this edge.</Item>
-#!   <Item> <K>edgesOfFaces</K>: A list that has an entry for each face (a
-#!          positive integer).
-#!          This entry has to be a list of the edges 
-#!          (as positive integers) of this face.</Item>
-#! </Enum>
-#!
-#! The method checks whether the
-#! answer to each of the following questions is true. None of these checks 
-#! will be
-#! performed by the NC-version.
-#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
-#!   integers or sets of positive integers?
-#! * Are <A>verticesOfEdges</A> and <A>edgesOfFaces</A> lists where the 
-#!   entries are lists of positive integers?
-#! * Is every bound entry of <A>verticesOfEdges</A> a list with exactly two 
-#!   entries that are different?
-#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
-#!   elements?
-#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesOfEdges</A>)
-#!   or is <A>vertices</A> a distinct list to
-#!   <K>Union</K>(<A>verticesOfEdges</A>)?
-#! * Are the bound positions of <A>verticesOfEdges</A> equal to 
-#!   <K>Union</K>(<A>edgesOfFaces</A>)? If <A>edges</A> is given, is it equal 
-#!   to those two sets?
-#! * If <A>faces</A> is given, is it equal to the bound positions of 
-#!   <A>edgesOfFaces</A>?
-#!
-#! As an example consider the following net of a simplicial complex:
-
-#! TODO: Add image
-#!
-#! @BeginExampleSession
-#! gap> tetra := Tetrahedron();
-#! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> vertices := [1..6];
-#! [ 1 .. 6 ]
-#! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
-#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
-#! gap> edgesOfFaces := EdgesOfFaces(tetra);
-#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
-#! gap> SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
-#! simplicial complex (6 vertices, 7 edges, and 4 faces)
-#! @EndExampleSession
-#!
-#! @Returns a simplicial complex
-#! @Arguments vertices, verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsList, IsList] );
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments vertices, verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsList, IsList] );
-#! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
-DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList]);
-#! @EndGroup
 
 
 #! @Section UpwardIncidence
@@ -750,6 +752,93 @@ DeclareOperation( "TriangularComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, 
 
 #! @BeginGroup
 #! @Description
+#! This method constructs a simplicial complex
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) and 
+#! <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>) and takes these
+#! arguments:
+#! <Enum>
+#!   <Item> <K>vertices</K> / <K>allVertices</K>: A set of positive integers or
+#!          a positive integer. In the latter case, an integer <M>n</M>
+#!          represents the set <M>[1,...,n]</M>.</Item>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
+#!          <A>faces</A> is either a set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents the set
+#!          <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>edgesOfVertices</K>: A list that has an entry for each vertex (a
+#!          positive integer).
+#!          This entry has to be a list of the incident
+#!          edges (as positive integers) of this vertex.</Item>
+#!   <Item> <K>facesOfEdges</K>: A list that has an entry for each edge (a
+#!          positive integer).
+#!          This entry has to be a list of the incident faces 
+#!          (as positive integers) of this edge.</Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be
+#! performed by the NC-version.
+#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
+#!   integers or sets of positive integers?
+#! * Are <A>edgesOfVertices</A> and <A>facesOfEdges</A> lists where the 
+#!   entries are lists of positive integers?
+#! * Does every edge of the resulting polygonal complex has exactly two
+#!   incident vertices?
+#! * Does every face of the resulting polygonal complex has at least two
+#!   incident edges?
+#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
+#!   elements?
+#! * Is <A>vertices</A> a superset of the bound positions of <A>edgesOfVertices</A>
+#!   or does <A>vertices</A> only consist of isolated vertices? (vertices
+#!   for which there is a value '[]' in <A>edgesOfVertices</A> at the vertex label
+#!   position are isolated)
+#! * Is <A>allVertices</A> superset of the bound positions of <A>edgesOfVertices</A>?
+#! * Are the bound positions of <A>facesOfEdges</A> equal to 
+#!   <K>Union</K>(<A>edgesOfVertices</A>)? If <A>edges</A> is given, is it equal 
+#!   to those two sets?
+#! * If <A>faces</A> is given, is it equal to 
+#!   <K>Union</K>(<A>facesOfEdges</A>)?
+#!
+#! As an example consider the following net of a simplicial complex:
+
+#! TODO: Add image
+#!
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..6];
+#! [ 1 .. 6 ]
+#! gap> EdgesOfVertices(tetra);
+#! [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ] ]
+#! gap> edgesOfVertices := [ [ 1, 2, 3, 7 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [7], [] ];
+#! [ [ 1, 2, 3, 7 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [ 7 ], [  ] ]
+#! gap> facesOfEdges := Concatenation(FacesOfEdges(tetra), [[]]);
+#! [ [ 1, 2 ], [ 1, 4 ], [ 2, 4 ], [ 1, 3 ], [ 2, 3 ], [ 3, 4 ], [  ] ]
+#! gap> SimplicialComplexByUpwardIncidence(vertices, edgesOfVertices, facesOfEdges);
+#! simplicial complex (6 vertices, 7 edges, and 4 faces)
+#! @EndExampleSession
+#!
+#! @Returns a simplicial complex
+#! @Arguments vertices, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsList, IsList] );
+#! @Arguments allVertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @Arguments vertices, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsList, IsList] );
+#! @Arguments allVertices, edges, faces, edgesOfVertices, facesOfEdges
+DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
 #! This method constructs a simplicial surface
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_UpwardIncidence
@@ -797,91 +886,6 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
 DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
 #! @EndGroup
 #TODO remark that most of these constructors also check for some properties
-
-#! @BeginGroup
-#! @Description
-#! This method constructs a simplicial complex
-#! (<Ref Sect="PolygonalStructures_complex"/>)
-#! where vertices, edges and faces are represented by positive integers.
-#! It is based on the attributes
-#! <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) and 
-#! <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>) and takes these
-#! arguments:
-#! <Enum>
-#!   <Item> <K>vertices</K>: A set of positive integers or a positive
-#!          integer. In the latter case, an integer <M>n</M> represents
-#!          the set <M>[1,...,n]</M>.</Item>
-#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
-#!          <A>faces</A> is either a set of positive integers or a positive
-#!          integer. In the latter case, an integer <M>n</M> represents the set
-#!          <M>[1,...,n]</M>.
-#!          
-#!          Although these arguments can be deduced from the non-optional
-#!          arguments, their use is recommended to catch mistakes in these
-#!          other arguments.</Item>
-#!   <Item> <K>edgesOfVertices</K>: A list that has an entry for each vertex (a
-#!          positive integer).
-#!          This entry has to be a list of the incident
-#!          edges (as positive integers) of this vertex.</Item>
-#!   <Item> <K>facesOfEdges</K>: A list that has an entry for each edge (a
-#!          positive integer).
-#!          This entry has to be a list of the incident faces 
-#!          (as positive integers) of this edge.</Item>
-#! </Enum>
-#!
-#! The method checks whether the
-#! answer to each of the following questions is true. None of these checks 
-#! will be
-#! performed by the NC-version.
-#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
-#!   integers or sets of positive integers?
-#! * Are <A>edgesOfVertices</A> and <A>facesOfEdges</A> lists where the 
-#!   entries are lists of positive integers?
-#! * Does every edge of the resulting polygonal complex has exactly two
-#!   incident vertices?
-#! * Does every face of the resulting polygonal complex has at least two
-#!   incident edges?
-#! * Does every bound entry of <A>edgesOfFaces</A> contain at least two 
-#!   elements?
-#! * Is <A>vertices</A> equal to the bound positions of <A>edgesOfVertices</A>
-#!   or does <A>vertices</A> only consist of isolatd vertices? (vertices for
-#!   which there is a value '[]' in <A>edgesOfVertices</A> at the vertex label
-#!   position are isolated)
-#! * Are the bound positions of <A>facesOfEdges</A> equal to 
-#!   <K>Union</K>(<A>edgesOfVertices</A>)? If <A>edges</A> is given, is it equal 
-#!   to those two sets?
-#! * If <A>faces</A> is given, is it equal to 
-#!   <K>Union</K>(<A>facesOfEdges</A>)?
-#!
-#! As an example consider the following net of a simplicial complex:
-
-#! TODO: Add image
-#!
-#! @BeginExampleSession
-#! gap> tetra := Tetrahedron();
-#! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> vertices := [1..6];
-#! [ 1 .. 6 ]
-#! gap> EdgesOfVertices(tetra);
-#! [ [ 1, 2, 3 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ] ]
-#! gap> edgesOfVertices := [ [ 1, 2, 3, 7 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [7], [] ];
-#! [ [ 1, 2, 3, 7 ], [ 1, 4, 5 ], [ 2, 4, 6 ], [ 3, 5, 6 ], [ 7 ], [  ] ]
-#! gap> facesOfEdges := Concatenation(FacesOfEdges(tetra), [[]]);
-#! [ [ 1, 2 ], [ 1, 4 ], [ 2, 4 ], [ 1, 3 ], [ 2, 3 ], [ 3, 4 ], [  ] ]
-#! gap> SimplicialComplexByUpwardIncidence(vertices, edgesOfVertices, facesOfEdges);
-#! simplicial complex (6 vertices, 7 edges, and 4 faces)
-#! @EndExampleSession
-#!
-#! @Returns a simplicial complex
-#! @Arguments vertices, edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsList, IsList] );
-#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialComplexByUpwardIncidence", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @Arguments vertices, edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsList, IsList] );
-#! @Arguments vertices, edges, faces, edgesOfVertices, facesOfEdges
-DeclareOperation( "SimplicialComplexByUpwardIncidenceNC", [IsSet, IsSet, IsSet, IsList, IsList] );
-#! @EndGroup
 
 
 
@@ -1133,6 +1137,79 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsSet, IsSet, IsList]
 
 #! @BeginGroup
 #! @Description
+#! This method constructs a simplicial complex
+#! (<Ref Sect="PolygonalStructures_complex"/>)
+#! where vertices, edges and faces are represented by positive integers.
+#! It is based on the attributes
+#! <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>) and 
+#! requires that the edges be uniquely defined by their incident vertices.
+#! It takes the following arguments:
+#! <Enum>
+#!   <Item> <K>vertices</K> / <K>allVertices</K>: A set of positive integers or
+#!          a positive integer. In the latter case, an integer <M>n</M>
+#!          represents the set <M>[1,...,n]</M>.</Item>
+#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
+#!          <A>faces</A> is either a set of positive integers or a positive
+#!          integer. In the latter case, an integer <M>n</M> represents the set
+#!          <M>[1,...,n]</M>.
+#!          
+#!          Although these arguments can be deduced from the non-optional
+#!          arguments, their use is recommended to catch mistakes in these
+#!          other arguments.</Item>
+#!   <Item> <K>verticesInFaces</K>: A list that has an entry for each positive
+#!          integer corresponding to a face. This entry is a list of positive
+#!          integers <M>[v_1, v_2 , ..., v_k ]</M>, each corresponding to
+#!          a vertex incident to the face. Moreover, two consecutive vertices
+#!          in this list are the vertices of an edge incident to the face  
+#!          (here the first and last vertex count as consecutive). 
+#!   </Item>
+#! </Enum>
+#!
+#! The method checks whether the
+#! answer to each of the following questions is true. None of these checks 
+#! will be performed by the NC-version.
+#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
+#!   integers or sets of positive integers?
+#! * Is <A>verticesInFaces</A> a list whose entries are lists of pairwise
+#!   different positive integers?
+#! * Does every bound entry of <A>verticesInFaces</A> contain at least two 
+#!   elements?
+#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesInFaces</A>)
+#!   or is <A>vertices</A> a distinct list to
+#!   <K>Union</K>(<A>verticesInFaces</A>)?
+#! * Is <A>allVertices</A> a superset of <K>Union</K>(<A>verticesInFaces</A>)?
+#! * If <A>faces</A> is given, is it equal to the bound positions of 
+#!   <A>verticesInFaces</A>?
+#!
+#! As an example consider the following net of a simplicial complex:
+
+#! TODO: Add image
+#!
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> vertices := [1..5];
+#! [ 1 .. 5 ]
+#! gap> verticesOfFaces := VerticesOfFaces(tetra);
+#! [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 2, 3, 4 ], [ 1, 3, 4 ] ]
+#! gap> SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
+#! simplicial complex (5 vertices, 6 edges, and 4 faces)
+#! @EndExampleSession
+#!
+#! @Returns a simplicial complex
+#! @Arguments vertices, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsList] );
+#! @Arguments allVertices, faces, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsSet, IsList] );
+#! @Arguments vertices, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsList] );
+#! @Arguments allVertices, faces, verticesInFaces
+DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
+#! @EndGroup
+
+
+#! @BeginGroup
+#! @Description
 #! This method constructs a simplicial surface
 #! (<Ref Sect="PolygonalStructures_surface"/>)
 #! @InsertChunk Documentation_VerticesInFaces
@@ -1177,76 +1254,6 @@ DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsList] );
 DeclareOperation( "SimplicialSurfaceByVerticesInFacesNC", [IsSet, IsSet, IsList] );
 #! @EndGroup
 
-#! @BeginGroup
-#! @Description
-#! This method constructs a simplicial complex
-#! (<Ref Sect="PolygonalStructures_complex"/>)
-#! where vertices, edges and faces are represented by positive integers.
-#! It is based on the attributes
-#! <K>VerticesOfFaces</K> (<Ref Subsect="VerticesOfFaces"/>) and 
-#! requires that the edges be uniquely defined by their incident vertices.
-#! It takes the following arguments:
-#! <Enum>
-#!<Item> <K>vertices</K>: A set of positive integers or a positive
-#!          integer. In the latter case, an integer <M>n</M> represents
-#!          the set <M>[1,...,n]</M>.</Item>
-#!   <Item>OPTIONAL: Each of the optional arguments <A>edges</A> and
-#!          <A>faces</A> is either a set of positive integers or a positive
-#!          integer. In the latter case, an integer <M>n</M> represents the set
-#!          <M>[1,...,n]</M>.
-#!          
-#!          Although these arguments can be deduced from the non-optional
-#!          arguments, their use is recommended to catch mistakes in these
-#!          other arguments.</Item>
-#!   <Item> <K>verticesInFaces</K>: A list that has an entry for each positive
-#!          integer corresponding to a face. This entry is a list of positive
-#!          integers <M>[v_1, v_2 , ..., v_k ]</M>, each corresponding to
-#!          a vertex incident to the face. Moreover, two consecutive vertices
-#!          in this list are the vertices of an edge incident to the face  
-#!          (here the first and last vertex count as consecutive). 
-#!   </Item>
-#! </Enum>
-#!
-#! The method checks whether the
-#! answer to each of the following questions is true. None of these checks 
-#! will be performed by the NC-version.
-#! * Are the optional arguments <A>edges</A> and <A>faces</A> either positive
-#!   integers or sets of positive integers?
-#! * Is <A>verticesInFaces</A> a list whose entries are lists of pairwise
-#!   different positive integers?
-#! * Does every bound entry of <A>verticesInFaces</A> contain at least two 
-#!   elements?
-#! * Is <A>vertices</A> a superset of <K>Union</K>(<A>verticesInFaces</A>)
-#!   or is <A>vertices</A> a distinct list to
-#!   <K>Union</K>(<A>verticesInFaces</A>)?
-#! * If <A>faces</A> is given, is it equal to the bound positions of 
-#!   <A>verticesInFaces</A>?
-#!
-#! As an example consider the following net of a simplicial complex:
-
-#! TODO: Add image
-#!
-#! @BeginExampleSession
-#! gap> tetra := Tetrahedron();
-#! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> vertices := [1..5];
-#! [ 1 .. 5 ]
-#! gap> verticesOfFaces := VerticesOfFaces(tetra);
-#! [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 2, 3, 4 ], [ 1, 3, 4 ] ]
-#! gap> SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);
-#! simplicial complex (5 vertices, 6 edges, and 4 faces)
-#! @EndExampleSession
-#!
-#! @Returns a simplicial complex
-#! @Arguments vertices, verticesInFaces
-DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsList] );
-#! @Arguments vertices, faces, verticesInFaces
-DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsSet, IsSet, IsList] );
-#! @Arguments vertices, verticesInFaces
-DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsList] );
-#! @Arguments vertices, faces, verticesInFaces
-DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsSet, IsSet, IsList] );
-#! @EndGroup
 
 #! @Section Umbrella Descriptors
 #!
