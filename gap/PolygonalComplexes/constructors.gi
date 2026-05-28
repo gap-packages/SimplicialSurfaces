@@ -1,290 +1,5 @@
-
-
-
 BindGlobal( "__SIMPLICIAL_AllTypes", 
     ["PolygonalComplex", "TriangularComplex", "PolygonalSurface", "SimplicialSurface", "SimplicialComplex"] );
-##
-## Automated construction of the constructors. Parameters:
-## methodString: String for the method of the constructor (like 
-##              "DownwardIncidence")
-## typeStringList: List of strings of all supported types (like 
-##              "PolygonalComplex" and "SimplicialSurface")
-## objectConst: Function to construct an object with the given lists
-## preCheck: Function to check consistency in normal case (should work with 
-##              long and short version of arguments). This does not have to 
-##              check whether the sets only contain positive integers
-##              First argument is the name of the method where it is called,
-##              the other arguments follow.
-## postCheck: Function to check consistency in normal case after construction 
-##              (only takes the method name and the constructed object as input)
-## namesOfSets: List of strings (for the optional set-parameters)
-## namesOfLists: List of strings (for the additional list-parameters)
-BindGlobal( "__SIMPLICIAL_IntSetConstructor", 
-    function( methodString, typeStringList, objectConst, preCheck, postCheck, namesOfSets, namesOfLists )
-        local name, nameNC, typeString, shortFilter, nameProperty, setterNC, 
-            setterNormal, descriptionShort, descriptionLong, longFilter, 
-            shortPos, pos, filterStd, filterWeak, filterStrong, longFilterAlt,
-            longFilterRe, normalFunction, description, i, wrapper;
-
-        shortFilter := List( namesOfLists, i -> ValueGlobal("IsList") );
-        longFilter := Concatenation( List(namesOfSets, i -> ValueGlobal("IsSet") ), shortFilter );
-        shortPos := [Length(namesOfSets)+1..Length(longFilter)];
-        longFilterAlt := List( [1..Length(longFilter)], i -> ValueGlobal("IsList") );
-        longFilterRe := List(namesOfSets, i -> ValueGlobal("IsSet") );
-
-        # Write a constructor for every type
-        for typeString in typeStringList do
-            name := Concatenation( typeString, "By", methodString );
-            nameNC := Concatenation( name, "NC" );
-            nameProperty := Concatenation( "Is", typeString );
-
-            # Since the Setter-method of GAP does not work on synonyms, we
-            # have to write the setters manually
-            if typeString = "PolygonalComplex" then
-                setterNC := function( obj )
-                    SetIsNotTwisted(obj, true);
-                end;
-            elif typeString = "PolygonalSurface" then
-                setterNC := function( obj )
-                    SetIsFacePure(obj, true);
-                    SetIsNotEdgeRamified(obj, true);
-                    SetIsNotVertexRamified(obj, true);
-
-                    SetIsNotTwisted(obj, true);
-                end;
-            elif typeString = "TriangularComplex" then
-                setterNC := function( obj )
-                    SetIsNotTwisted(obj, true);
-
-                    SetIsTriangular(obj, true);
-                end;
-            elif typeString = "SimplicialSurface" then
-                setterNC := function( obj )
-                    SetIsNotTwisted(obj, true);
-
-                    SetIsFacePure(obj, true);
-                    SetIsNotEdgeRamified(obj, true);
-                    SetIsNotVertexRamified(obj, true);
-
-                    SetIsTriangular(obj, true);
-                end;
-            elif typeString = "SimplicialComplex" then
-                setterNC := function( obj )
-                    SetIsNotTwisted(obj, true);
-
-                    SetIsTriangular(obj, true);
-
-                    SetIsAnomalyFree(obj, true);
-                end;
-            else
-                Error("This type is not supported.\n");
-            fi;
-
-            # The normal "setter" is just a test and can therefore easily
-            # be implemented
-            wrapper := function( typeString, name )
-                return function( obj )
-                    if not ValueGlobal( Concatenation("Is", typeString) )(obj) then
-                        Error(Concatenation(name, ": Constructed complex is not a ", typeString, ".\n"));
-                    fi;
-                end;
-            end;
-            setterNormal := wrapper(typeString, name);
-
-            descriptionShort := 
-                Concatenation("for ", String(Length(namesOfLists)), " list(s)");
-            descriptionLong := 
-                Concatenation("for ", String(Length(namesOfSets)), 
-                    " (sets of) positive integers and ", 
-                    String(Length(namesOfLists)), " list(s)");
-
-            # Install the short versions first
-            wrapper := function( longFilter, name, setterNormal )
-                return function(arg)
-                    local obj, i, off, scOff, vertices;
-
-                    # Check the sets for well-definedness
-                    if Length(arg) = Length(longFilter) then
-                        # The sets are present and have to be checked for well-definedness
-                        for i in [1..Length(namesOfSets)] do
-                            if ForAny(arg[i], x -> not IsPosInt(x)) then
-                                Error(Concatenation(name,": ", namesOfSets[1], " have to be positive integers.\n"));
-                            fi;
-                        od;
-                    fi;
-
-                    # Check the lists for well-definedness
-                    off := 0; # Regular filter offset (long/short filter)
-                    scOff := 0; # Simplicial Complex offset (Simplicial Complex short filter constructors
-                                # have vertices arg for short filter too)
-                    if Length(arg) = Length(longFilter) then
-                        off := Length(namesOfSets);
-                        vertices := arg[1];
-                    else
-                        if Length(arg) = Length(shortFilter)+1 then
-                            # This is a Simplicial Complex short filter constructor call.
-                            scOff := 1; # Since we have a vertices arg here on arg[1], set
-                                        # the offset.
-                            vertices := arg[1]; # Extract vertices from arg.
-                        else
-                            # This is a regular short filter constructor call which does not
-                            # need explicit vertices information.
-                            vertices := [];
-                        fi;
-                    fi;
-                    for i in [1..Length(namesOfLists)] do
-                        if ForAny( arg[i+off+scOff], l -> not IsList(l) or ForAny(l, x -> not IsPosInt(x) ) ) then
-                            Error(Concatenation(name, ": The entries of ", namesOfLists[i], " have to be lists of positive integers.\n"));
-                        fi;
-                    od;
-
-                    # Calling precheck function without vertices arg which is filtered out using scOff.
-                    CallFuncList( preCheck, Concatenation([name], arg{[1..Length(arg)]}));
-                    # Rearrange arg order to objectConst expected arguments order.
-                    obj := CallFuncList(objectConst, Concatenation(
-                        arg{[off+scOff+1..Length(arg)]},
-                        [vertices]
-                    ));
-                    postCheck(name, obj);
-                    setterNormal(obj);
-                    SetIsDefaultChamberSystem(obj, true);
-
-                    return obj;
-                end;
-            end;
-            normalFunction := wrapper(longFilter, name, setterNormal);
-            # To install by using local functions we have to use a workaround
-            wrapper := function( setterNC, descriptionShort, shortFilter )
-                local filter;
-
-                if typeString = "SimplicialComplex" then
-                    # For Simplicial Complex short filter constructors we append
-                    # 'IsSet' for the vertices arg.
-                    filter := Concatenation([ValueGlobal("IsSet")], shortFilter);
-                else
-                    filter := shortFilter;
-                fi;
-
-                InstallMethod( ValueGlobal(nameNC),descriptionShort,filter,
-                    function(arg)
-                        local obj;
-
-                        if Length(arg) = Length(shortFilter)+1 then
-                            # This is a Simplicial Complex constructor call.
-                            # Rearrange arg order to objectConst functions expected
-                            # arguments order.
-                            #
-                            # Distinguish constructor type:
-                            if Length(arg) = 3 then
-                                # This is a SimplicialComplexBy(Downward/Upward)Incidence
-                                # constructor call.
-                                arg := [arg[2], arg[3], arg[1]];
-                            else
-                                # This is a SimplicialComplexByVerticesInFaces
-                                # constructor call.
-                                arg := [arg[2], arg[1]];
-                            fi;
-                        fi;
-
-                        obj := CallFuncList(objectConst, arg);
-                        setterNC(obj);
-                        SetIsDefaultChamberSystem(obj, true);
-
-                        return obj;
-                    end);
-            end;
-            wrapper(setterNC, descriptionShort, shortFilter);
-            wrapper := function(normalFunction, descriptionShort, shortFilter)
-                local filter;
-
-                if typeString = "SimplicialComplex" then
-                    # For Simplicial Complex short filter constructors we append
-                    # IsSet for the vertices arg.
-                    filter := Concatenation([ValueGlobal("IsSet")], shortFilter);
-                else
-                    filter := shortFilter;
-                fi;
-
-                InstallMethod( ValueGlobal(name), descriptionShort, filter,
-                    normalFunction );
-            end;
-            wrapper(normalFunction, descriptionShort, shortFilter);
-
-            # Installing the long versions is a bit of a hassle because they
-            # need many installations and redispatches
-            wrapper := function(setterNC, name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe)
-                InstallMethod( ValueGlobal(nameNC), descriptionLong, longFilter,
-                    function(arg)
-                        local obj;
-
-                        # Directly call the object constructor by reducing the long filter
-                        # arg to the incidence arguments and concatenate it with the vertices arg
-                        # in arg[1].
-                        obj := CallFuncList(objectConst, Concatenation(arg{shortPos}, [arg[1]]));
-                        setterNC(obj);
-                        SetIsDefaultChamberSystem(obj, true);
-
-                        return obj;
-                    end);
-                    RedispatchOnCondition( ValueGlobal(nameNC), true,
-                        longFilterAlt, longFilterRe, 0);
-                InstallMethod( ValueGlobal(name), descriptionLong, longFilter,
-                    normalFunction);
-                    RedispatchOnCondition( ValueGlobal(name), true,
-                        longFilterAlt, longFilterRe, 0);
-            end;
-            wrapper(setterNC, name, nameNC, normalFunction, descriptionLong, longFilter, shortPos, longFilterAlt, longFilterRe);
-
-            # The implementation of the PosInt-alternative to sets takes
-            # the most work:
-            for pos in [1..Length(namesOfSets)] do
-                filterStd := []; # filters for the method
-                filterWeak := []; # these are accepted by redispatch
-                filterStrong := []; # checked by redispatch
-                description := "for";
-                for i in [1..Length(namesOfSets)] do
-                    if i < pos then
-                        filterStd[i] := ValueGlobal("IsSet");
-                        filterWeak[i] := ValueGlobal("IsList");
-                        filterStrong[i] := ValueGlobal("IsSet");
-                        Append(description, " a set,");
-                    elif i = pos then
-                        filterStd[i] := ValueGlobal("IsPosInt");
-                        filterWeak[i] := ValueGlobal("IsPosInt");
-                        Append(description, " a positive integer,");
-                    else
-                        filterStd[i] := ValueGlobal("IsObject");
-                        filterWeak[i] := ValueGlobal("IsObject");
-                        Append(description, " an object,");
-                    fi;
-                od;
-                Append(description, Concatenation(" and ", String(Length(namesOfLists)), " list(s)"));
-                Append( filterStd, shortFilter );
-                Append( filterWeak, shortFilter );
-                
-                # Install the methods
-                wrapper := function( name, nameNC, description, filterStd, filterWeak, filterStrong, pos )
-                    InstallOtherMethod( ValueGlobal(nameNC), description, filterStd, 
-                        function(arg)
-                            return CallFuncList( ValueGlobal(nameNC), 
-                                Concatenation(arg{[1..pos-1]}, [[1..arg[pos]]], arg{[pos+1..Length(arg)]}));
-                        end);
-                        RedispatchOnCondition( ValueGlobal(nameNC), true,
-                            filterWeak, filterStrong, 0);
-                    InstallOtherMethod( ValueGlobal(name), description, filterStd,
-                        function(arg)
-                            return CallFuncList( ValueGlobal(name),
-                                Concatenation(arg{[1..pos-1]}, [[1..arg[pos]]], arg{[pos+1..Length(arg)]}));
-                        end);
-                        RedispatchOnCondition( ValueGlobal(name), true,
-                            filterWeak, filterStrong, 0);
-                end;
-                wrapper(name, nameNC, description, filterStd, filterWeak, filterStrong, pos);
-            od;
-        od;
-    end
-);
-
 
 ##
 ## Provide some functions for checking inputs
@@ -354,341 +69,6 @@ BindGlobal( "__SIMPLICIAL_CheckPolygons",
         od;
     end
 );
-    
-
-#######################################
-##
-##  Downward incidence
-##
-
-__SIMPLICIAL_IntSetConstructor("DownwardIncidence", __SIMPLICIAL_AllTypes,
-    function( arg )
-        local verticesOfEdges, edgesOfFaces, obj, vertices, verticesDed;
-
-        verticesOfEdges := arg[1];
-        edgesOfFaces := arg[2];
-        if Length(arg) = 3 then
-            vertices := arg[3];
-        else
-            vertices := [];
-        fi;
-
-        obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsNotTwisted(obj, true);
-        SetVerticesOfEdges(obj, List(verticesOfEdges, Set) );
-        SetEdgesOfFaces(obj, List(edgesOfFaces, Set) );
-
-        verticesDed := Union(verticesOfEdges);
-        # Check if there are any vertices from vertices arg that are not in
-        # the deduced vertices list.
-        if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
-            vertices := Union(vertices, verticesDed);
-        else
-            vertices := verticesDed;
-        fi;
-        SetVerticesAttributeOfComplex(obj, vertices );
-
-        return obj;
-    end,
-    function( arg )
-        local verticesDed, verticesExp, edgesDed, edgesExp, facesDed, vertices,
-              verticesOfEdges, edgesOfFaces, isolatedVertices, nonIsolatedVertices;
-
-        # First we deduce vertices, edges and faces
-        if Length(arg) = 3 then
-            verticesOfEdges := arg[2];
-            edgesOfFaces := arg[3];
-        elif Length(arg) = 4 then
-            vertices := arg[2];
-            verticesOfEdges := arg[3];
-            edgesOfFaces := arg[4];
-        else
-            verticesOfEdges := arg[5];
-            edgesOfFaces := arg[6];
-        fi;
-
-        verticesDed := Union( verticesOfEdges ); #TODO this still can throw an error!
-        edgesDed := PositionsBound(verticesOfEdges); # from incidence_geometry.gi
-        facesDed := PositionsBound(edgesOfFaces);
-        
-        # Compare the vertex, edge and face data
-        if Length(arg) = 6 then
-            # Check if the constructed object is a complex or a surface
-            if PositionSublist(arg[1], "ComplexBy") <> fail then
-                # Allow isolated vertices
-                verticesExp := Filtered(arg[2], v -> v in verticesDed);
-
-                # Allow edges with no face incidence
-                edgesExp := Filtered(arg[3], e -> e in edgesDed);
-            else
-                # Do not allow isolated vertices
-                verticesExp := arg[2];
-
-                # Do not allow edges with no face incidence
-                edgesExp := arg[3];
-            fi;
-
-            __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
-            __SIMPLICIAL_CompareSets( arg[1], edgesExp, edgesDed, "edge" );
-            __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
-        else
-            if PositionSublist(arg[1], "SimplicialComplexBy") <> fail then
-                isolatedVertices := Filtered(vertices, v -> not v in verticesDed);
-                nonIsolatedVertices := Filtered(verticesDed, v -> not v in isolatedVertices);
-
-                # Check if the given vertices arg contains either only isolated vertices
-                # or if vertices arg equals the union of isolated and non-isolated vertices.
-                if ForAny(vertices, v -> ForAll(isolatedVertices, vI -> v <> vI )) then
-                    # vertices arg is must be a set containing all isolated and deduced
-                    # vertices.
-
-                    verticesExp := Set(Concatenation(isolatedVertices, nonIsolatedVertices));
-
-                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
-                else
-                    # vertices arg is must be a set containing only isolated vertices.
-
-                    verticesExp := isolatedVertices;
-
-                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
-                fi;
-            fi;
-
-            edgesExp := edgesDed;
-        fi;
-
-        if PositionSublist(arg[1], "ComplexBy") <> fail then
-            edgesExp := Filtered(edgesExp, e -> e in Union(edgesOfFaces));
-        fi;
-        __SIMPLICIAL_CompareSets( arg[1], edgesExp, Union(edgesOfFaces), "edge" );
-
-        # Guarantee basic size restrictions
-        __SIMPLICIAL_TwoVerticesPerEdge(arg[1], verticesOfEdges);
-        __SIMPLICIAL_AtLeastTwoPerFace(arg[1], edgesOfFaces, "edges");
-    end,
-    __SIMPLICIAL_CheckPolygons,
-    ["vertices", "edges", "faces"],
-    ["verticesOfEdges", "edgesOfFaces"]);
-
-##
-##  End downward incidence
-##
-#######################################
-
-
-
-#######################################
-##
-##  Upward incidence
-##
-
-__SIMPLICIAL_IntSetConstructor("UpwardIncidence", __SIMPLICIAL_AllTypes, 
-    function( arg )
-        local edgesOfVertices, facesOfEdges, obj;
-
-        edgesOfVertices := arg[1];
-        facesOfEdges := arg[2];
-
-        obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsNotTwisted(obj, true);
-        SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
-        SetFacesOfEdges(obj, List(facesOfEdges, Set) );
-        return obj;
-    end,
-    function( arg )
-        local verticesDed, verticesExp, edgesDed, facesDed, vertices, edgesOfVertices,
-              facesOfEdges, isolatedVertices, nonIsolatedVertices;
-
-        # First we deduce vertices, edges and faces
-        if Length(arg) = 3 then
-            edgesOfVertices := arg[2];
-            facesOfEdges := arg[3];
-        elif Length(arg) = 4 then
-            vertices := arg[2];
-            edgesOfVertices := arg[3];
-            facesOfEdges := arg[4];
-        else
-            edgesOfVertices := arg[5];
-            facesOfEdges := arg[6];
-        fi;
-        facesDed := Union( facesOfEdges );
-        edgesDed := PositionsBound(facesOfEdges);
-        verticesDed := PositionsBound(edgesOfVertices);
-        
-        # Compare the vertex, edge and face data
-        if Length(arg) = 6 then
-            if PositionSublist(arg[1], "ComplexBy") <> fail then
-                verticesExp := Filtered(arg[2], v -> v in verticesDed);
-                __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
-            else
-                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
-            fi;
-            
-            __SIMPLICIAL_CompareSets( arg[1], arg[3], edgesDed, "edge" );
-            __SIMPLICIAL_CompareSets( arg[1], arg[4], facesDed, "face" );
-        else
-            if PositionSublist(arg[1], "SimplicialComplexBy") <> fail then
-                isolatedVertices := Filtered(verticesDed, v -> edgesOfVertices[v] = []);
-                nonIsolatedVertices := Filtered(verticesDed, v -> not v in isolatedVertices);
-
-                # Check if the given vertices arg contains either only isolated vertices
-                # or if vertices arg equals the union of isolated and non-isolated vertices.
-                if ForAny(vertices, v -> ForAll(isolatedVertices, vI -> v <> vI )) then
-                    # vertices arg is must be a set containing all isolated and deduced
-                    # vertices.
-
-                    verticesExp := Set(Concatenation(isolatedVertices, nonIsolatedVertices));
-
-                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
-                else
-                    # vertices arg is must be a set containing only isolated vertices.
-
-                    verticesExp := isolatedVertices;
-
-                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
-                fi;
-            fi;
-        fi;
-        __SIMPLICIAL_CompareSets( arg[1], edgesDed, Union(edgesOfVertices), "edge" );
-    end,
-    function( name, obj )
-        # We have to check whether we have polygons and we have to check the basic
-        # size restrictions
-        __SIMPLICIAL_TwoVerticesPerEdge(name, VerticesOfEdges(obj));
-        __SIMPLICIAL_AtLeastTwoPerFace(name, EdgesOfFaces(obj), "edges");
-        __SIMPLICIAL_CheckPolygons(name, obj);
-    end,
-    ["vertices", "edges", "faces"],
-    ["edgesOfVertices", "facesOfEdges"]);
-
-
-##
-##  End updward incidence
-##
-#######################################
-
-
-
-#######################################
-##
-##  VerticesInFaces
-##
-
-__SIMPLICIAL_IntSetConstructor("VerticesInFaces", __SIMPLICIAL_AllTypes,
-    function( arg )
-        local verticesInFaces, vertices, AdjacentVertices, allEdges, vertexPairs,
-              edgesOfFaces, obj, verticesDed;
-
-        verticesInFaces := arg[1];
-        if Length(arg) = 2 then
-            vertices := arg[2];
-        else
-            vertices := [];
-        fi;
-
-        AdjacentVertices := function(list)
-            local pairs, i;
-
-            pairs := [ Set( [list[1], list[Length(list)]] ) ];
-            for i in [2..Length(list)] do
-                Add(pairs, Set([ list[i-1], list[i] ]));
-            od;
-            return pairs;
-        end;
-
-        vertexPairs := List(verticesInFaces, AdjacentVertices);
-
-        allEdges := Union( vertexPairs );
-        # This is verticesOfEdges
-
-        edgesOfFaces := List( vertexPairs, l -> List( l, p -> Position(allEdges,p) ) );
-
-        obj := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsNotTwisted(obj, true);
-        SetVerticesOfEdges(obj, allEdges);
-        SetVerticesOfFaces(obj, List(verticesInFaces,Set));
-        SetEdgesOfFaces(obj, List(edgesOfFaces, Set));
-
-        verticesDed := Union(verticesInFaces);
-        # Check if there are any vertices from vertices arg that are not in
-        # the deduced vertices list.
-        if ForAny(vertices, v -> ForAll(verticesDed, vDed -> v <> vDed)) then
-            vertices := Union(vertices, verticesDed);
-        else
-            vertices := verticesDed;
-        fi;
-        SetVerticesAttributeOfComplex(obj, vertices );
-
-        return obj;
-    end,
-    function( arg )
-        local verticesDed, verticesExp, facesDed, vertices, verticesInFaces,
-              isolatedVertices, nonIsolatedVertices;
-
-        # First we deduce vertices and faces
-        if Length(arg) = 2 then
-            verticesInFaces := arg[2];
-        elif Length(arg) = 3 then
-            vertices := arg[2];
-            verticesInFaces := arg[3];
-        else
-            verticesInFaces := arg[4];
-        fi;
-        verticesDed := Union( verticesInFaces );
-        facesDed := PositionsBound(verticesInFaces);
-        
-        # Compare the vertex and face data
-        if Length(arg) = 4 then
-            if PositionSublist(arg[1], "ComplexBy") <> fail then
-                verticesExp := Filtered(arg[2], v -> v in verticesDed);
-                __SIMPLICIAL_CompareSets( arg[1], verticesExp, verticesDed, "vertex" );
-            else
-                __SIMPLICIAL_CompareSets( arg[1], arg[2], verticesDed, "vertex" );
-            fi;
-
-            __SIMPLICIAL_CompareSets( arg[1], arg[3], facesDed, "face" );
-        else
-            if PositionSublist(arg[1], "SimplicialComplexBy") <> fail then
-                isolatedVertices := Filtered(vertices, v -> not v in verticesDed);
-                nonIsolatedVertices := Filtered(verticesDed, v -> not v in isolatedVertices);;
-
-                # verticesDed contains non-isolated vertices (vertices with an edge or 
-                # face incidence). verticesExp contains isolated vertices.
-
-                # Check if the given vertices arg contains either only isolated vertices
-                # or if vertices arg equals the union of isolated and non-isolated vertices.
-                if ForAny(vertices, v -> ForAll(isolatedVertices, vI -> v <> vI )) then
-                    # vertices arg is must be a set containing all isolated and deduced
-                    # vertices.
-
-                    verticesExp := Set(Concatenation(isolatedVertices, nonIsolatedVertices));
-
-                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
-                else
-                    # vertices arg is must be a set containing only isolated vertices.
-
-                    verticesExp := isolatedVertices;
-
-                    __SIMPLICIAL_CompareSets( arg[1], verticesExp, vertices, "vertex" );
-                fi;
-            fi;
-        fi;
-
-        # Guarantee basic size restrictions
-        __SIMPLICIAL_AtLeastTwoPerFace(arg[1], verticesInFaces, "vertices");
-    end,
-    function( name, obj )
-        
-    end,
-    ["vertices", "faces"],
-    ["verticesInFaces"]);
-
-##
-##  End verticesInFaces
-##
-#######################################
-
-
 
 #######################################
 ##
@@ -2270,3 +1650,863 @@ end);
 ##  End DressGroups
 ##
 #######################################
+
+
+
+#######################################
+##
+##  Downward incidence
+##
+
+BindGlobal ( "__SIMPLICIAL_InstallConstructors_DownwardIncidence",
+    function(typeNames, buildDescriptions, buildFilters, buildSetterFunc, basePreCheckFunc)
+    local objectBuilder, preCheckFunc, postCheckFunc, typeName, functionName, isSurfaceConstr,
+          descriptions, filters, numFunctionVariants, vNr, installationWrapper;
+
+    objectBuilder := function(verticesOfEdges, edgesOfFaces, allVertices)
+        local obj;
+
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
+
+        SetIsNotTwisted   ( obj, true );
+        SetVerticesOfEdges( obj, List(verticesOfEdges, Set) );
+        SetEdgesOfFaces   ( obj, List(edgesOfFaces, Set)    );
+
+        SetVerticesAttributeOfComplex( obj, allVertices );
+
+        SetIsDefaultChamberSystem(obj, true);
+
+        return obj;
+    end;
+    preCheckFunc := function(functionName, arg)
+        local numArgs, isLongFilter, isComplexConstr, vertices, edges, faces,
+              verticesOfEdges, edgesOfFaces, isolatedVertices, providedIsolatedVertices,
+              verticesDed, edgesDed, facesDed, verticesExp, edgesExp, isolatedVerticesExp;
+
+        numArgs := Length(arg);
+
+        isLongFilter     := numArgs = 5;
+        isComplexConstr  := PositionSublist(functionName, "Complex") <> fail;
+
+        if isLongFilter then
+            vertices := arg[1];
+            edges    := arg[2];
+            faces    := arg[3];
+
+            basePreCheckFunc(functionName, vertices, edges, faces);
+
+            verticesOfEdges  := arg[4];
+            edgesOfFaces     := arg[5];
+
+            providedIsolatedVertices := false;
+        elif numArgs = 2 then
+            verticesOfEdges  := arg[1];
+            edgesOfFaces     := arg[2];
+
+            providedIsolatedVertices := false;
+        elif numArgs = 3 and isComplexConstr then
+            verticesOfEdges  := arg[1];
+            edgesOfFaces     := arg[2];
+            isolatedVertices := arg[3];
+
+            if not IsSet(isolatedVertices) then
+                Error(Concatenation(functionName,
+                                    ": pre-check: isolatedVertices must be a set\n"));
+            fi;
+
+            providedIsolatedVertices := true;
+        else
+            Error(Concatenation(functionName,
+                                " pre-check: unexpected number of arguments: ",
+                                String(numArgs), ".\n"));
+        fi;
+
+        verticesDed := Union(verticesOfEdges);
+        edgesDed    := PositionsBound(verticesOfEdges);
+        facesDed    := PositionsBound(edgesOfFaces);
+
+        # Compare the vertex, edge and face data
+        if isLongFilter then
+            if isComplexConstr then
+                # Allow isolated vertices
+                verticesExp := Filtered( vertices, v -> v in verticesDed );
+
+                # Allow isolated edges
+                edgesExp    := Filtered( edges, e -> e in edgesDed );
+            else
+                # Do not allow isolated vertices
+                verticesExp := vertices;
+
+                # Do not allow isolated edges
+                edgesExp    := edges;
+            fi;
+
+            __SIMPLICIAL_CompareSets( functionName, verticesExp, verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( functionName, edgesExp   , edgesDed   , "edge"   );
+            __SIMPLICIAL_CompareSets( functionName, faces      , facesDed   , "face"   );
+        else
+            if isComplexConstr then
+                if providedIsolatedVertices then
+                    # Allow isolated vertices
+                    isolatedVerticesExp := Filtered( isolatedVertices,
+                                                     v -> not v in verticesDed );
+
+                    __SIMPLICIAL_CompareSets( functionName, isolatedVerticesExp,
+                                              isolatedVertices, "vertex" );
+                fi;
+
+                # Allow isolated edges
+                edgesExp := Filtered( edgesDed, e -> e in Union(edgesOfFaces) );
+            else
+                # Do not allow isolated edges
+                edgesExp := edgesDed;
+            fi;
+
+            __SIMPLICIAL_CompareSets( functionName, edgesExp, Union(edgesOfFaces), "edge" );
+        fi;
+
+        # Guarantee basic size restrictions
+        __SIMPLICIAL_TwoVerticesPerEdge( functionName, verticesOfEdges       );
+        __SIMPLICIAL_AtLeastTwoPerFace ( functionName, edgesOfFaces, "edges" );
+    end;
+    postCheckFunc := function(functionName, obj)
+        __SIMPLICIAL_CheckPolygons     ( functionName, obj );
+    end;
+
+    for typeName in typeNames do
+        functionName := Concatenation(typeName, "ByDownwardIncidence");
+
+        isSurfaceConstr := PositionSublist(typeName, "Complex") = fail;
+
+        descriptions := buildDescriptions("DownwardIncidence", isSurfaceConstr);
+        filters      := buildFilters     ("DownwardIncidence", isSurfaceConstr);
+
+        numFunctionVariants := Length(filters);
+
+        for vNr in [1..numFunctionVariants] do
+            installationWrapper := function(typeName, vNr, functionName, descriptions, filters)
+                local functionNameNC, setterFunc, noCheckFunc, regularFunc;
+
+                functionNameNC := Concatenation(functionName, "NC");
+
+                setterFunc := buildSetterFunc(typeName);
+
+                if vNr = 1 then
+                    # Long filter function installation
+
+                    noCheckFunc := function(arg)
+                        local unpackedArgs, allVertices, verticesOfEdges, edgesOfFaces, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        allVertices     := unpackedArgs[1];
+                        verticesOfEdges := unpackedArgs[4];
+                        edgesOfFaces    := unpackedArgs[5];
+
+                        obj := objectBuilder(verticesOfEdges, edgesOfFaces, allVertices);
+
+                        setterFunc(obj);
+                        return obj;
+                    end;
+
+                    regularFunc := function(arg)
+                        local unpackedArgs, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        preCheckFunc(functionName, unpackedArgs);
+
+                        obj := noCheckFunc(unpackedArgs);
+
+                        postCheckFunc(functionName, obj);
+                        return obj;
+                    end;
+
+                    InstallMethod( ValueGlobal(functionName),
+                                   descriptions[vNr],
+                                   filters[vNr],
+                                   regularFunc );
+
+                    InstallMethod( ValueGlobal(functionNameNC),
+                                   descriptions[vNr],
+                                   filters[vNr],
+                                   noCheckFunc );
+                else
+                    # Short filter function installation
+
+                    noCheckFunc := function(arg)
+                        local unpackedArgs, verticesOfEdges, edgesOfFaces,
+                              isolatedVertices, verticesDed, allVertices, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        verticesOfEdges := unpackedArgs[1];
+                        edgesOfFaces    := unpackedArgs[2];
+                        if Length(unpackedArgs) = 3 then
+                            isolatedVertices := unpackedArgs[3];
+                        else
+                            isolatedVertices := [];
+                        fi;
+
+                        verticesDed := Union(verticesOfEdges);
+                        allVertices := Union(isolatedVertices, verticesDed);
+
+                        obj := objectBuilder(verticesOfEdges, edgesOfFaces, allVertices);
+
+                        setterFunc(obj);
+                        return obj;
+                    end;
+
+                    regularFunc := function(arg)
+                        local unpackedArgs, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        preCheckFunc(functionName, unpackedArgs);
+
+                        obj := noCheckFunc(unpackedArgs);
+
+                        postCheckFunc(functionName, obj);
+                        return obj;
+                    end;
+
+                    InstallOtherMethod( ValueGlobal(functionName),
+                                        descriptions[vNr],
+                                        filters[vNr],
+                                        regularFunc );
+
+                    InstallOtherMethod( ValueGlobal(functionNameNC),
+                                        descriptions[vNr],
+                                        filters[vNr],
+                                        noCheckFunc );
+                fi;
+            end;
+            installationWrapper(typeName, vNr, functionName, descriptions, filters);
+        od;
+    od;
+end);
+
+##
+##  End downward incidence
+##
+#######################################
+
+
+
+#######################################
+##
+##  Upward incidence
+##
+
+BindGlobal ( "__SIMPLICIAL_InstallConstructors_UpwardIncidence",
+    function(typeNames, buildDescriptions, buildFilters, buildSetterFunc, basePreCheckFunc)
+    local objectBuilder, preCheckFunc, postCheckFunc, typeName, functionName, isSurfaceConstr,
+          descriptions, filters, numFunctionVariants, vNr, installationWrapper;
+
+    objectBuilder := function(edgesOfVertices, facesOfEdges)
+        local obj;
+
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
+
+        SetIsNotTwisted   ( obj, true );
+        SetEdgesOfVertices( obj, List(edgesOfVertices, Set) );
+        SetFacesOfEdges   ( obj, List(facesOfEdges   , Set) );
+
+        SetIsDefaultChamberSystem(obj, true);
+
+        return obj;
+    end;
+    preCheckFunc := function(functionName, arg)
+        local numArgs, isLongFilter, vertices, edges, faces, edgesOfVertices,
+              facesOfEdges, facesDed, edgesDed, verticesDed;
+
+        numArgs := Length(arg);
+
+        isLongFilter := numArgs = 5;
+
+        if isLongFilter then
+            vertices        := arg[1];
+            edges           := arg[2];
+            faces           := arg[3];
+
+            basePreCheckFunc(functionName, vertices, edges, faces);
+
+            edgesOfVertices := arg[4];
+            facesOfEdges    := arg[5];
+        elif numArgs = 2 then
+            edgesOfVertices := arg[1];
+            facesOfEdges    := arg[2];
+        else
+            Error(Concatenation(functionName,
+                                " pre-check: unexpected number of arguments: ",
+                                String(numArgs), ".\n"));
+        fi;
+
+        facesDed    := Union(facesOfEdges);
+        edgesDed    := PositionsBound(facesOfEdges);
+        verticesDed := PositionsBound(edgesOfVertices);
+        
+        # Compare the vertex, edge and face data
+        if isLongFilter then
+            __SIMPLICIAL_CompareSets( functionName, vertices, verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( functionName, edges   , edgesDed   , "edge"   );
+            __SIMPLICIAL_CompareSets( functionName, faces   , facesDed   , "face"   );
+        fi;
+
+        __SIMPLICIAL_CompareSets( functionName, edgesDed, Union(edgesOfVertices), "edge" );
+    end;
+    postCheckFunc := function(functionName, obj)
+        __SIMPLICIAL_TwoVerticesPerEdge( functionName, VerticesOfEdges(obj)       );
+        __SIMPLICIAL_AtLeastTwoPerFace ( functionName, EdgesOfFaces(obj), "edges" );
+        __SIMPLICIAL_CheckPolygons     ( functionName, obj                        );
+    end;
+
+    for typeName in typeNames do
+        functionName := Concatenation(typeName, "ByUpwardIncidence");
+
+        isSurfaceConstr := PositionSublist(typeName, "Complex") = fail;
+
+        descriptions := buildDescriptions("UpwardIncidence", isSurfaceConstr);
+        filters      := buildFilters     ("UpwardIncidence", isSurfaceConstr);
+
+        # For Upward Incidence we do not need the optional isolated vertices arg
+        # as that can be deduced from edgesOfVertices. Hence remove that variant
+        # from description and filters (from position 3 in each list).
+        Remove(descriptions, 3);
+        Remove(filters     , 3);
+
+        numFunctionVariants := Length(filters);
+
+        for vNr in [1..numFunctionVariants] do
+            installationWrapper := function(typeName, vNr, functionName, descriptions, filters)
+                local functionNameNC, setterFunc, noCheckFunc, regularFunc;
+
+                functionNameNC := Concatenation(functionName, "NC");
+
+                setterFunc := buildSetterFunc(typeName);
+
+                if vNr = 1 then
+                    # Long filter function installation
+
+                    noCheckFunc := function(arg)
+                        local unpackedArgs, edgesOfVertices, facesOfEdges, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        edgesOfVertices := unpackedArgs[4];
+                        facesOfEdges    := unpackedArgs[5];
+
+                        obj := objectBuilder(edgesOfVertices, facesOfEdges);
+
+                        setterFunc(obj);
+                        return obj;
+                    end;
+
+                    regularFunc := function(arg)
+                        local unpackedArgs, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        preCheckFunc(functionName, unpackedArgs);
+
+                        obj := noCheckFunc(unpackedArgs);
+
+                        postCheckFunc(functionName, obj);
+                        return obj;
+                    end;
+
+                    InstallMethod( ValueGlobal(functionName),
+                                   descriptions[vNr],
+                                   filters[vNr],
+                                   regularFunc );
+
+                    InstallMethod( ValueGlobal(functionNameNC),
+                                   descriptions[vNr],
+                                   filters[vNr],
+                                   noCheckFunc );
+                else
+                    # Short filter function installation
+
+                    noCheckFunc := function(arg)
+                        local unpackedArgs, verticesOfEdges, edgesOfFaces, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        verticesOfEdges := unpackedArgs[1];
+                        edgesOfFaces    := unpackedArgs[2];
+
+                        obj := objectBuilder(verticesOfEdges, edgesOfFaces);
+
+                        setterFunc(obj);
+                        return obj;
+                    end;
+
+                    regularFunc := function(arg)
+                        local unpackedArgs, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        preCheckFunc(functionName, unpackedArgs);
+
+                        obj := noCheckFunc(unpackedArgs);
+
+                        postCheckFunc(functionName, obj);
+                        return obj;
+                    end;
+
+                    InstallOtherMethod( ValueGlobal(functionName),
+                                        descriptions[vNr],
+                                        filters[vNr],
+                                        regularFunc );
+
+                    InstallOtherMethod( ValueGlobal(functionNameNC),
+                                        descriptions[vNr],
+                                        filters[vNr],
+                                        noCheckFunc );
+                fi;
+            end;
+            installationWrapper(typeName, vNr, functionName, descriptions, filters);
+        od;
+    od;
+end);
+
+##
+##  End updward incidence
+##
+#######################################
+
+
+
+#######################################
+##
+##  VerticesInFaces
+##
+
+BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
+    function(typeNames, buildDescriptions, buildFilters, buildSetterFunc, basePreCheckFunc)
+    local objectBuilder, preCheckFunc, postCheckFunc, typeName, functionName, isSurfaceConstr,
+          descriptions, filters, numFunctionVariants, vNr, installationWrapper;
+
+    objectBuilder := function(verticesInFaces, allVertices)
+        local AdjacentVertices, vertexPairs, verticesOfEdgesDed, edgesOfFacesDed, obj;
+
+        AdjacentVertices := function(list)
+            local pairs, i;
+
+            pairs := [ Set( [list[1], list[Length(list)]] ) ];
+            for i in [2..Length(list)] do
+                Add(pairs, Set( [list[i-1], list[i]] ));
+            od;
+            return pairs;
+        end;
+
+        vertexPairs := List(verticesInFaces, AdjacentVertices);
+
+        verticesOfEdgesDed := Union(vertexPairs);
+        edgesOfFacesDed    := List( vertexPairs,
+                                    l -> List( l, p -> Position(verticesOfEdgesDed, p) ) );
+
+        obj := Objectify( TwistedPolygonalComplexType, rec() );
+
+        SetIsNotTwisted   ( obj, true                       );
+        SetVerticesOfEdges( obj, verticesOfEdgesDed         );
+        SetVerticesOfFaces( obj, List(verticesInFaces, Set) );
+        SetEdgesOfFaces   ( obj, List(edgesOfFacesDed, Set) );
+
+        SetVerticesAttributeOfComplex(obj, allVertices);
+
+        SetIsDefaultChamberSystem(obj, true);
+
+        return obj;
+    end;
+    preCheckFunc := function(functionName, arg)
+        local numArgs, isLongFilter, isComplexConstr, vertices, faces,
+              verticesOfFaces, isolatedVertices, providedIsolatedVertices,
+              isolatedVerticesExp, verticesDed, facesDed, verticesExp;
+
+        numArgs := Length(arg);
+
+        isLongFilter    := numArgs = 3;
+        isComplexConstr := PositionSublist(functionName, "Complex") <> fail;
+
+        if isLongFilter then
+            vertices         := arg[1];
+            faces            := arg[2];
+
+            basePreCheckFunc(functionName, vertices, [], faces);
+
+            verticesOfFaces  := arg[3];
+
+            providedIsolatedVertices := false;
+        elif numArgs = 1 then
+            verticesOfFaces  := arg[1];
+
+            providedIsolatedVertices := false;
+        elif numArgs = 2 and isComplexConstr then
+            verticesOfFaces  := arg[1];
+            isolatedVertices := arg[2];
+
+            if not IsSet(isolatedVertices) then
+                Error(Concatenation(functionName,
+                                    ": pre-check: isolatedVertices must be a set\n"));
+            fi;
+
+            providedIsolatedVertices := true;
+        else
+            Error(Concatenation(functionName,
+                                " pre-check: unexpected number of arguments: ",
+                                String(numArgs), ".\n"));
+        fi;
+        verticesDed := Union         (verticesOfFaces);
+        facesDed    := PositionsBound(verticesOfFaces);
+        
+        # Compare the vertex and face data
+        if isLongFilter then
+            if isComplexConstr then
+                # Allow isolated vertices
+                verticesExp := Filtered( vertices, v -> v in verticesDed );
+            else
+                # Do not allow isolated vertices
+                verticesExp := verticesDed;
+            fi;
+
+            __SIMPLICIAL_CompareSets( functionName, verticesExp, verticesDed, "vertex" );
+            __SIMPLICIAL_CompareSets( functionName, faces      , facesDed   , "face"   );
+        else
+            if isComplexConstr and providedIsolatedVertices then                
+                # Allow isolated vertices
+                isolatedVerticesExp := Filtered( isolatedVertices, v -> not v in verticesDed );
+
+                __SIMPLICIAL_CompareSets( functionName, isolatedVerticesExp,
+                                          isolatedVertices, "vertex" );
+            fi;
+        fi;
+
+        # Guarantee basic size restrictions
+        __SIMPLICIAL_AtLeastTwoPerFace( functionName, verticesOfFaces, "vertices" );
+    end;
+    postCheckFunc := function(functionName, obj)
+    end;
+
+    for typeName in typeNames do
+        functionName := Concatenation(typeName, "ByVerticesInFaces");
+
+        isSurfaceConstr := PositionSublist(typeName, "Complex") = fail;
+
+        descriptions := buildDescriptions("VerticesInFaces", isSurfaceConstr);
+        filters      := buildFilters     ("VerticesInFaces", isSurfaceConstr);
+
+        numFunctionVariants := Length(filters);
+
+        for vNr in [1..numFunctionVariants] do
+            installationWrapper := function(typeName, vNr, functionName, descriptions, filters)
+                local functionNameNC, setterFunc, noCheckFunc, regularFunc;
+
+                functionNameNC := Concatenation(functionName, "NC");
+
+                setterFunc := buildSetterFunc(typeName);
+
+                if vNr = 1 then
+                    # Long filter function installation
+
+                    noCheckFunc := function(arg)
+                        local unpackedArgs, allVertices, verticesOfFaces, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        allVertices     := unpackedArgs[1];
+                        verticesOfFaces := unpackedArgs[3];
+
+                        obj := objectBuilder(verticesOfFaces, allVertices);
+
+                        setterFunc(obj);
+                        return obj;
+                    end;
+
+                    regularFunc := function(arg)
+                        local unpackedArgs, obj;
+
+                        if Length(arg) = 1 then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        preCheckFunc(functionName, unpackedArgs);
+
+                        obj := noCheckFunc(unpackedArgs);
+
+                        postCheckFunc(functionName, obj);
+                        return obj;
+                    end;
+
+                    InstallMethod( ValueGlobal(functionName),
+                                   descriptions[vNr],
+                                   filters[vNr],
+                                   regularFunc );
+
+                    InstallMethod( ValueGlobal(functionNameNC),
+                                   descriptions[vNr],
+                                   filters[vNr],
+                                   noCheckFunc );
+                else
+                    # Short filter function installation
+
+                    noCheckFunc := function(arg)
+                        local unpackedArgs, verticesOfFaces, isolatedVertices,
+                              verticesDed, allVertices, obj;
+
+                        # Testing for arg length = 1 is not enough since short filter
+                        # constructor can also just have one argument (verticesInFaces).
+                        # So instead we test for nesting level by checking if the value
+                        # at arg[1][1][1] is a list:
+                        # - normal arg: arg[1]: verticesInFaces ,arg[1][1]: verticesInFaces[1],
+                        #               arg[1][1][1]: verticesInFaces[1][1] is a vertex label,
+                        #               hence it is an int
+                        # - nested arg: arg[1]:[verticesInFaces],arg[1][1]: verticesInFaces,
+                        #               arg[1][1][1]: verticesInFaces[1] is a list
+                        if Length(arg) = 1 and Length(arg[1]) > 0 and Length(arg[1][1]) > 0 and
+                           IsList(arg[1][1][1]) then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        verticesOfFaces := unpackedArgs[1];
+                        if Length(unpackedArgs) = 2 then
+                            isolatedVertices := unpackedArgs[2];
+                        else
+                            isolatedVertices := [];
+                        fi;
+
+                        verticesDed := Union(verticesOfFaces);
+                        allVertices := Union(isolatedVertices, verticesDed);
+
+                        obj := objectBuilder(verticesOfFaces, allVertices);
+
+                        setterFunc(obj);
+                        return obj;
+                    end;
+
+                    regularFunc := function(arg)
+                        local unpackedArgs, obj;
+
+                        # Testing for arg length = 1 is not enough since short filter
+                        # constructor can also just have one argument (verticesInFaces).
+                        # So instead we test for nesting level by checking if the value
+                        # at arg[1][1][1] is a list:
+                        # - normal arg: arg[1]: verticesInFaces ,arg[1][1]: verticesInFaces[1],
+                        #               arg[1][1][1]: verticesInFaces[1][1] is a vertex label,
+                        #               hence it is an int
+                        # - nested arg: arg[1]:[verticesInFaces],arg[1][1]: verticesInFaces,
+                        #               arg[1][1][1]: verticesInFaces[1] is a list
+                        if Length(arg) = 1 and Length(arg[1]) > 0 and Length(arg[1][1]) > 0 and
+                           IsList(arg[1][1][1]) then
+                            unpackedArgs := arg[1];
+                        else
+                            unpackedArgs := arg;
+                        fi;
+
+                        preCheckFunc(functionName, unpackedArgs);
+
+                        obj := noCheckFunc(unpackedArgs);
+
+                        postCheckFunc(functionName, obj);
+                        return obj;
+                    end;
+
+                    InstallOtherMethod( ValueGlobal(functionName),
+                                        descriptions[vNr],
+                                        filters[vNr],
+                                        regularFunc );
+
+                    InstallOtherMethod( ValueGlobal(functionNameNC),
+                                        descriptions[vNr],
+                                        filters[vNr],
+                                        noCheckFunc );
+                fi;
+            end;
+            installationWrapper(typeName, vNr, functionName, descriptions, filters);
+        od;
+    od;
+end);
+
+##
+##  End verticesInFaces
+##
+#######################################
+
+
+
+BindGlobal( "__SIMPLICIAL_InstallConstructors",
+    function()
+    local buildDescriptions, buildFilters, buildSetterFunc, basePreCheckFunc;
+
+    # buildDescriptions and buildFilters are used to provide prebuilt description and filters
+    # for each constructor specific build function call.
+    #
+    buildDescriptions := function(constrVariant, isSurfaceConstr)
+        local textSuffix, textBlockLists, textBlockList, descriptions, shortFilterDescription;
+
+        textSuffix     := " of positive integers";
+        textBlockLists := Concatenation("lists", textSuffix);
+        textBlockList  := Concatenation("list" , textSuffix);
+
+        if constrVariant in ["DownwardIncidence", "UpwardIncidence"] then
+            descriptions := [
+                Concatenation("for 3 ", textBlockLists, " and 2 lists of ", textBlockLists),
+                Concatenation("for 2 lists ", textBlockLists)
+            ];
+        elif constrVariant = "VerticesInFaces" then
+            descriptions := [
+                Concatenation("for 2 ", textBlockLists, " and a list of " , textBlockLists),
+                Concatenation("for a list " , textBlockLists)
+            ];
+        else
+            Error(Concatenation("Build descriptions: unknown constructor name: '",
+                                constrVariant, "'.\n"));
+        fi;
+
+        if not isSurfaceConstr then
+            # For complex-type constructor variant add optional arg filter variant
+            # (positive integer list for isolatedVertices optional arg)
+            shortFilterDescription := descriptions[2];
+            #
+            Add(descriptions, Concatenation(shortFilterDescription, " and a ", textBlockList));
+        fi;
+
+        return descriptions;
+    end;
+    #
+    buildFilters := function(constrVariant, isSurfaceConstr)
+        local filters, numValuesOptionalArg;
+
+        if constrVariant in ["DownwardIncidence", "UpwardIncidence"] then
+            filters := [
+                List( [1..5], _ -> ValueGlobal("IsList") ),
+                List( [1..2], _ -> ValueGlobal("IsList") ),
+            ];
+            numValuesOptionalArg := 3;
+        elif constrVariant = "VerticesInFaces" then
+            filters := [
+                List( [1..3], _ -> ValueGlobal("IsList") ),
+                List( [1]   , _ -> ValueGlobal("IsList") ),
+            ];
+            numValuesOptionalArg := 2;
+        else
+            Error(Concatenation("Build filters: unknown constructor name: '",
+                                constrVariant, "'.\n"));
+        fi;
+
+        if not isSurfaceConstr then
+            # For complex-type constructor variant add optional arg filter variant
+            Add(filters, List( [1..numValuesOptionalArg], _ -> ValueGlobal("IsList") ));
+        fi;
+
+        return filters;
+    end;
+    #
+    # buildSetterFunc is passed to constructor specific build functions directly
+    # since it is not specific to the constructor variant but to the object type.
+    #
+    buildSetterFunc := function(typeName)
+        if   typeName = "PolygonalComplex"  then
+            return function(obj)
+            end;
+        elif typeName = "TriangularComplex" then
+            return function(obj)
+                SetIsTriangular        ( obj, true );
+            end;
+        elif typeName = "SimplicialComplex" then
+            return function(obj)
+                SetIsTriangular        ( obj, true );
+
+                SetIsAnomalyFree       ( obj, true );
+            end;
+        elif typeName = "PolygonalSurface"  then
+            return function(obj)
+                SetIsFacePure          ( obj, true );
+                SetIsNotEdgeRamified   ( obj, true );
+                SetIsNotVertexRamified ( obj, true );
+            end;
+        elif typeName = "SimplicialSurface" then
+            return function(obj)
+                SetIsFacePure          ( obj, true );
+                SetIsNotEdgeRamified   ( obj, true );
+                SetIsNotVertexRamified ( obj, true );
+
+                SetIsTriangular        ( obj, true );
+            end;
+        else
+            Error(Concatenation("Build setter function: unknown type name: '",
+                                typeName, "'.\n"));
+        fi;
+    end;
+    #
+    basePreCheckFunc := function(functionName, vertices, edges, faces)
+        if   not IsSet(vertices) then
+            Error(Concatenation(functionName, ": pre-check: vertices must be a set\n"));
+        elif not IsSet(edges)    then
+            Error(Concatenation(functionName, ": pre-check: edges must be a set\n"));
+        elif not IsSet(faces)    then
+            Error(Concatenation(functionName, ": pre-check: faces must be a set\n"));
+        fi;
+    end;
+
+    __SIMPLICIAL_InstallConstructors_DownwardIncidence( __SIMPLICIAL_AllTypes,
+                                                        buildDescriptions,
+                                                        buildFilters,
+                                                        buildSetterFunc,
+                                                        basePreCheckFunc
+                                                      );
+    __SIMPLICIAL_InstallConstructors_UpwardIncidence  ( __SIMPLICIAL_AllTypes,
+                                                        buildDescriptions,
+                                                        buildFilters,
+                                                        buildSetterFunc,
+                                                        basePreCheckFunc
+                                                      );
+    __SIMPLICIAL_InstallConstructors_VerticesInFaces  ( __SIMPLICIAL_AllTypes,
+                                                        buildDescriptions,
+                                                        buildFilters,
+                                                        buildSetterFunc,
+                                                        basePreCheckFunc
+                                                      );
+end);
+
+__SIMPLICIAL_InstallConstructors();
