@@ -45,6 +45,6 @@ jobs:
       - uses: gap-actions/update-gh-pages@v1
         if: ${{ !inputs.dry-run }}
         with:
+          path: doc
           extra-files: |
-            doc/images
             .nojekyll
