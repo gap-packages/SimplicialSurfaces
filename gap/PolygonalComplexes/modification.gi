@@ -488,12 +488,15 @@ InstallOtherMethod( SubcomplexByFaces,
 InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces",
     [IsPolygonalComplex, IsSet],
     function(complex, subfaces)
-	local subVertices, subEdges, newVerticesOfEdges, newEdgesOfFaces, e, f,
-	    subcomplex, colEdges, colEdgesSub, edge;
+	local isolatedEdges, subEdges, subVertices, newVerticesOfEdges, newEdgesOfFaces, e, f,
+	      subcomplex, colEdges, colEdgesSub, edge;
 
+    isolatedEdges := IsolatedEdges(complex);
 
-        subEdges := __SIMPLICIAL_UnionSets( EdgesOfFaces(complex){subfaces} );
-        subVertices := __SIMPLICIAL_UnionSets( VerticesOfEdges(complex){subEdges} );
+    subEdges    := Union( __SIMPLICIAL_UnionSets( EdgesOfFaces(complex){subfaces} ),
+                          isolatedEdges );
+
+    subVertices := __SIMPLICIAL_UnionSets( VerticesOfEdges(complex){subEdges} );
 
 	newVerticesOfEdges := [];
 	for e in subEdges do
@@ -505,15 +508,17 @@ InstallMethod( SubcomplexByFacesNC, "for a polygonal complex and a set of faces"
 	    newEdgesOfFaces[f] := EdgesOfFaces(complex)[f];
 	od;
 
-	subcomplex:=PolygonalComplexByDownwardIncidenceNC( subVertices, subEdges,
-			subfaces, newVerticesOfEdges, newEdgesOfFaces );
+	subcomplex := PolygonalComplexByDownwardIncidenceNC( subVertices, subEdges,
+			        subfaces, newVerticesOfEdges, newEdgesOfFaces );
+
 	if IsEdgeColouredPolygonalComplex(complex) then
-		colEdges:=ColoursOfEdges(complex);
-        	colEdgesSub:=[];
-        	for edge in Edges(subcomplex) do
-                	colEdgesSub[edge]:=colEdges[edge];
-        	od;
-        	subcomplex:=EdgeColouredPolygonalComplexNC(subcomplex,colEdgesSub);
+		colEdges    := ColoursOfEdges(complex);
+        colEdgesSub := [];
+
+        for edge in Edges(subcomplex) do
+            colEdgesSub[edge] := colEdges[edge];
+        od;
+        subcomplex := EdgeColouredPolygonalComplexNC(subcomplex,colEdgesSub);
 	fi;
 	
 	return subcomplex;
@@ -524,7 +529,8 @@ InstallMethod( SubcomplexByFacesNC,
     [IsTwistedPolygonalComplex, IsSet],
     function(complex, subfaces)
         local remChambers, vofC, eofC, fofC, c, zeroClass, oneClass,
-            twoClass, cl, subcomplex, colEdges, colEdgesSub, edge;
+              twoClass, cl, subcomplex, colEdges, colEdgesSub, edge,
+              isolatedEdges, oldVerticesOfEdges, newVerticesOfEdges;
 
         remChambers := Union( ChambersOfFaces(complex){subfaces} );
         vofC := [];
@@ -541,17 +547,31 @@ InstallMethod( SubcomplexByFacesNC,
         twoClass := List( TwoAdjacencyClasses(complex), cl -> Intersection(cl, remChambers) );
         twoClass := Set(twoClass);
         twoClass := Difference(twoClass, [[]]);
-        
+
         subcomplex:=TwistedPolygonalComplexByChamberRelationsNC( vofC, eofC, fofC, zeroClass, oneClass, twoClass );
-	if IsEdgeColouredTwistedPolygonalComplex(complex) then
-        	colEdges:=ColoursOfEdges(complex);
-                colEdgesSub:=[];
-                for edge in Edges(subcomplex) do
-                	colEdgesSub[edge]:=colEdges[edge];
-                od;
-                subcomplex:=EdgeColouredTwistedPolygonalComplexNC(subcomplex,colEdgesSub);
+
+        isolatedEdges := IsolatedEdges(complex);
+        
+        if not IsEmpty(isolatedEdges) then
+            newVerticesOfEdges := ShallowCopy(VerticesOfEdges(subcomplex));
+            oldVerticesOfEdges := VerticesOfEdges(complex);
+
+            for edge in isolatedEdges do
+                newVerticesOfEdges[edge] := oldVerticesOfEdges[edge];
+            od;
+
+            SetVerticesOfEdges(subcomplex, newVerticesOfEdges);
         fi;
-	return subcomplex;
+
+        if IsEdgeColouredTwistedPolygonalComplex(complex) then
+            colEdges:=ColoursOfEdges(complex);
+            colEdgesSub:=[];
+            for edge in Edges(subcomplex) do
+                colEdgesSub[edge]:=colEdges[edge];
+            od;
+            subcomplex:=EdgeColouredTwistedPolygonalComplexNC(subcomplex,colEdgesSub);
+        fi;
+        return subcomplex;
     end
 );
 InstallOtherMethod( SubcomplexByFacesNC, 

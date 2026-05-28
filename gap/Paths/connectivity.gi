@@ -119,7 +119,15 @@ InstallMethod( IsConnectedComplex, "for a twisted polygonal complex", [IsTwisted
             return false;
         fi;
 
-        return __SIMPLICIAL_IsConnectedOnVertexEdgeIncidence(complex);
+        component := __SIMPLICIAL_AbstractConnectedComponent( 
+                        Edges(complex), VerticesOfEdges(complex), 
+                        Edges(complex)[1] );
+
+        if Length( component ) <> NumberOfEdges(complex) then
+            return false;
+        fi;
+
+        return true;
     end
 );
 InstallImmediateMethod( IsConnectedComplex, 
@@ -203,15 +211,15 @@ InstallMethod( IsStronglyConnectedSurface, "for a surface", [IsPolygonalSurface]
 InstallMethod( ConnectedComponentOfFaceNC, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex, IsPosInt],
     function(complex, face)
-        local comp, subsurf;
+        local comp, subComp;
 
         comp := __SIMPLICIAL_AbstractConnectedComponent(
                     Faces(complex), VerticesOfFaces(complex), face );
 
-	subsurf := SubcomplexByFacesNC( complex, comp);
-	# this component is connected by construction, so we set the property
-	SetIsConnectedComplex( subsurf, true );
-	return subsurf;
+        subComp := SubcomplexByFacesNC( complex, comp );
+        # this component is connected by construction, so we set the property
+        SetIsConnectedComplex( subComp, true );
+        return subComp;
     end
 );
 InstallMethod( ConnectedComponentOfFaceNC, "for a twisted polygonal complex",
@@ -239,10 +247,10 @@ InstallMethod( StronglyConnectedComponentOfFaceNC, "for a twisted polygonal comp
         comp := __SIMPLICIAL_AbstractConnectedComponent(
                     Faces(complex), EdgesOfFaces(complex), face );
 
-	subsurf := SubcomplexByFacesNC( complex, comp);
-	# this component is strongly connected by construction, so we set the property
-	SetIsStronglyConnectedComplex( subsurf, true );
-	return subsurf;
+        subsurf := SubcomplexByFacesNC( complex, comp);
+        # this component is strongly connected by construction, so we set the property
+        SetIsStronglyConnectedComplex( subsurf, true );
+        return subsurf;
     end
 );
 InstallMethod( StronglyConnectedComponentOfFaceNC, "for a twisted polygonal complex",
