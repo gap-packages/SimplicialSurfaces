@@ -18,7 +18,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaDescriptor", function()
         SIMPLICIAL_TestAssert( IsIsomorphic(surf,newsurf) );
 
         # test surface with vertex of degree 1 (three umbrellas in line)
-        surf := SimplicialSurfaceByVerticesInFaces( 5,3, 
+        surf := SimplicialSurfaceByVerticesInFaces( [1..5], [1..3], 
                                            [[1,2,3],[2,5,3],[2,4,5]] );
         umbdescriptor := UmbrellaDescriptorOfSurface(surf, false);
         newsurf :=  SimplicialSurfaceByUmbrellaDescriptor(umbdescriptor);

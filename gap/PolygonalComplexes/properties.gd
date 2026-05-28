@@ -32,7 +32,7 @@
 #! Image omitted in terminal text
             #! </Alt>
 #! @ExampleSession
-#! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,
+#! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], [1..5],
 #! >                [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;
 #! @EndExampleSession
 #!
@@ -1037,9 +1037,10 @@ DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! gap> tetra := Tetrahedron();;
 #! gap> Vertices(tetra);
 #! [ 1 .. 4 ]
-#! gap> vertices := [1..5];;
+#! gap> isolatedVertices := [5];;
 #! gap> verticesOfFaces := VerticesOfFaces(tetra);;
-#! gap> complex := SimplicialComplexByVerticesInFaces(vertices, verticesOfFaces);;
+#! gap> complex := SimplicialComplexByVerticesInFaces(verticesOfFaces, isolatedVertices);
+#! simplicial complex (5 vertices, 6 edges, and 4 faces)
 #! gap> IsFacePure(complex);
 #! false
 #! @EndExampleSession
@@ -1292,9 +1293,8 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! gap> verticesOfEdges := VerticesOfEdges(tetra);
 #! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
 #! gap> verticesOfEdges := Concatenation(verticesOfEdges, [[1,5]]);;
-#! gap> vertices := Union(verticesOfEdges);;
 #! gap> edgesOfFaces := EdgesOfFaces(tetra);;
-#! gap> tetraWithIsolatedEdge := SimplicialComplexByDownwardIncidence(vertices, verticesOfEdges, edgesOfFaces);
+#! gap> tetraWithIsolatedEdge := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces);
 #! simplicial complex (5 vertices, 7 edges, and 4 faces)
 #! gap> IsolatedEdges(tetraWithIsolatedEdge);
 #! [ 7 ]
