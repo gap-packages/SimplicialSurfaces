@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<script type="text/javascript"
+  src="https://cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<title>GAP (SimplicialSurfaces) - Chapter 13: Generating certain simplicial surfaces</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta name="generator" content="GAPDoc2HTML" />
+<link rel="stylesheet" type="text/css" href="manual.css" />
+<script src="manual.js" type="text/javascript"></script>
+<script type="text/javascript">overwriteStyle();</script>
+</head>
+<body class="chap13"  onload="jscontent()">
+
+
+<div class="chlinktop"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<div class="chlinkprevnexttop">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap12_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap14_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+<p id="mathjaxlink" class="pcenter"><a href="chap13.html">[MathJax off]</a></p>
+<p><a id="X8656316C7B95A918" name="X8656316C7B95A918"></a></p>
+<div class="ChapSects"><a href="chap13_mj.html#X8656316C7B95A918">13 <span class="Heading">Generating certain simplicial surfaces</span></a>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap13_mj.html#X871C40E583E8F2F4">13.1 <span class="Heading">Simplex String and Rings</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X83FBFADB86D7094E">13.1-1 SimplexStringByIsomorphismType</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X7D69D1AD8127CF78">13.1-2 SimplicialOpenGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X822F6912797C1C35">13.1-3 SimplexRingByIsomorphismType</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X86BBEDF179B6626F">13.1-4 SimplicialClosedGeodesic</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X860EF4C583F576EE">13.1-5 SimplicialUmbrella</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap13_mj.html#X87E45B5181219E11">13.2 <span class="Heading">Generation by butterfly insertion</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X85E5110D837320B5">13.2-1 AllSimplicialSurfacesByEssentialButterflyInsertion</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X7CAB3773842AC618">13.2-2 NewGraphsForEdgeInsertion</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap13_mj.html#X7EDDEDA98644D2E7">13.3 <span class="Heading">Edge-Face equivalent simplicial surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X872A83387C1992E4">13.3-1 AllSimplicialSurfacesOfDigraph</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X7D3D2973842AC34D">13.3-2 ReembeddingsOfDigraph</a></span>
+</div></div>
+<div class="ContSect"><span class="tocline"><span class="nocss">&nbsp;</span><a href="chap13_mj.html#X8619C27683A4D94F">13.4 <span class="Heading">Other pre-defined surfaces</span></a>
+</span>
+<div class="ContSSBlock">
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X79163FA982E7F2F4">13.4-1 OneFace</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X7E89EFEE7A84B2E8">13.4-2 Butterfly</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X7A7AF0A179BBCD99">13.4-3 JanusHead</a></span>
+<span class="ContSS"><br /><span class="nocss">&nbsp;&nbsp;</span><a href="chap13_mj.html#X842C1A7C7D8B7AEA">13.4-4 SimplicialDoubleUmbrella</a></span>
+</div></div>
+</div>
+
+<h3>13 <span class="Heading">Generating certain simplicial surfaces</span></h3>
+
+<p>This chapter introduces methods to find all simplicial surfaces with certain restrictions. Section <a href="chap13_mj.html#X871C40E583E8F2F4"><span class="RefLink">13.1</span></a> includes several constuction methods for simplex rings and strings. In Section <a href="chap13_mj.html#X87E45B5181219E11"><span class="RefLink">13.2</span></a> all simplicial surfaces for a given vertex-faithful simplicial surface are constructed which can be generated by using essential butterfly insertion. Simplicial surfaces which have isomorphic face graphs are computed in Section <a href="chap13_mj.html#X7EDDEDA98644D2E7"><span class="RefLink">13.3</span></a> by using different approaches.</p>
+
+<p><a id="X871C40E583E8F2F4" name="X871C40E583E8F2F4"></a></p>
+
+<h4>13.1 <span class="Heading">Simplex String and Rings</span></h4>
+
+<p>This section includes different possibilities to construct simplex string and rings. A simplex string is a simplicial surface that it is connected and it is a single triangle or exactly two of its faces (end faces) have two boundary edges and all other faces have exactly one inner and two outer edges. If all vertices of a simplex string have degree at least three, it is called a simplicial strip or open geodesic. A simplicial surface is a simplex ring if it is connected and each face has exactly one inner and two outer edges. If all vertices of a simplex ring have degree 3, it is called a (closed) geodesic. Note that a simplicial umbrella is a simplex ring with exactly one inner vertex.</p>
+
+<p><a id="X83FBFADB86D7094E" name="X83FBFADB86D7094E"></a></p>
+
+<h5>13.1-1 SimplexStringByIsomorphismType</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplexStringByIsomorphismType</code>( <var class="Arg">isomorphismType</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>This method constructs a simplex string given its isomorphism type. Simplex strings can be described uniquely by their isomorphism type which is a list <span class="SimpleMath">\([n_1,...,n_k]\)</span>. The simplex string with isomorphism type <span class="SimpleMath">\([n_1,...,n_k]\)</span> has <span class="SimpleMath">\(n_1+...+n_k\)</span> faces and is constructed based on a strip with <span class="SimpleMath">\(k\)</span> faces where the i-th faces is subdivided in <span class="SimpleMath">\(n_i\)</span> faces, as shown in <a href="chap13_mj.html#X822F6912797C1C35"><span class="RefLink">13.1-3</span></a>.</p>
+
+<p>As an example consider the simplex string with isomorphism type <span class="SimpleMath">\([1,2,3]\)</span>:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">string:=SimplexStringByIsomorphismType([1,2,3]);</span>
+simplicial surface (8 vertices, 13 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UmbrellaDescriptorOfSurface(string);</span>
+[ [ 1 ], [ 1, 2 ], [ 4, 3, 2, 1 ], [ 2, 3 ], [ 3, 4, 5, 6 ], [ 4, 5 ], [ 5, 6 ], 
+  [ 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSimplexString(string);</span>
+true
+</pre></div>
+
+<p><a id="X7D69D1AD8127CF78" name="X7D69D1AD8127CF78"></a></p>
+
+<h5>13.1-2 SimplicialOpenGeodesic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialOpenGeodesic</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialStrip</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a simplicial surface consisting of one non-closed geodesic-path with <var class="Arg">nrFaces</var> triangles. The labels are assigned according to the following illustration (for <span class="SimpleMath">\(n\)</span> odd), in which <span class="SimpleMath">\(n\)</span> is <var class="Arg">nrFaces</var>. <br><img src="./images/_Wrapper_Image_SimplicialOpenGeodesic-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo4 := SimplicialOpenGeodesic(4);</span>
+simplicial surface (6 vertices, 9 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo4);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], 
+  [ 4, 6 ], [ 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo4);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(geo4);</span>
+[ [ 1, 2, 3 ], [ 2, 3, 4 ], [ 3, 4, 5 ], [ 4, 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo5 := SimplicialStrip(5);</span>
+simplicial surface (7 vertices, 11 edges, and 5 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo5);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ], 
+  [ 4, 6 ], [ 5, 6 ], [ 5, 7 ], [ 6, 7 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo5);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ] ]
+</pre></div>
+
+<p><a id="X822F6912797C1C35" name="X822F6912797C1C35"></a></p>
+
+<h5>13.1-3 SimplexRingByIsomorphismType</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplexRingByIsomorphismType</code>( <var class="Arg">isomorphismType</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>This method constructs a simplex ring given its isomorphism type. They can be described uniquely by their isomorphism type which is a list <span class="SimpleMath">\([n_1,...,n_k]\)</span>. The simplex ring with isomorphism type <span class="SimpleMath">\([n_1,...,n_k]\)</span> has <span class="SimpleMath">\(n_1+...+n_k\)</span> faces and is constructed based on a closed geodesic with <span class="SimpleMath">\(k\)</span> faces where the i-th faces is subdivided in <span class="SimpleMath">\(n_i\)</span> faces. How the subdivision is defined can be seen in the picture below. The incidences between vertices and faces can also be observed there.</p>
+
+<p>As an example consider the simplex ring with isomorphism type <span class="SimpleMath">\([1,2,3]\)</span>, where the left and right edge have to be identified: <br><img src="./images/_Wrapper_Image_SimplexString-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ring:=SimplexRingByIsomorphismType([1,2,3]);</span>
+simplicial surface (6 vertices, 12 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">UmbrellaDescriptorOfSurface(ring);</span>
+[ [ 2, 1, 6 ], [ 1, 2, 3, 4 ], [ 2, 3 ], [ 1, 6, 5, 4, 3 ], [ 4, 5 ], [ 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsClosedSurface(ring);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsOrientableSurface(ring);</span>
+false
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsSimplexRing(ring);</span>
+true
+</pre></div>
+
+<p><a id="X86BBEDF179B6626F" name="X86BBEDF179B6626F"></a></p>
+
+<h5>13.1-4 SimplicialClosedGeodesic</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialClosedGeodesic</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialGeodesic</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a simplicial surface consisting of one closed geodesic-path with <var class="Arg">nrFaces</var> triangles (at least 3 faces are needed). The labels are assigned according to the following illustration (for <span class="SimpleMath">\(n\)</span> odd), in which <span class="SimpleMath">\(n\)</span> is <var class="Arg">nrFaces</var>. <br><img src="./images/_Wrapper_Image_SimplicialClosedGeodesic-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo3 := SimplicialClosedGeodesic(3);</span>
+simplicial surface (3 vertices, 6 edges, and 3 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo3);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo3);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 1, 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(geo3);</span>
+[ [ 1, 2, 3 ], [ 1, 2, 3 ], [ 1, 2, 3 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput"></span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">geo6 := SimplicialGeodesic(6);</span>
+simplicial surface (6 vertices, 12 edges, and 6 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(geo6);</span>
+[ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ],
+  [ 4, 6 ], [ 5, 6 ], [ 1, 5 ], [ 1, 6 ], [ 2, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(geo6);</span>
+[ [ 1, 2, 3 ], [ 3, 4, 5 ], [ 5, 6, 7 ], [ 7, 8, 9 ], [ 9, 10, 11 ], [ 1, 11, 12 ] ]
+</pre></div>
+
+<p><a id="X860EF4C583F576EE" name="X860EF4C583F576EE"></a></p>
+
+<h5>13.1-5 SimplicialUmbrella</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialUmbrella</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialGon</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">a simplicial surface</code></p>
+
+<p>Returns a simplex ring with <var class="Arg">nrFaces</var> and exactly one inner vertex. The labels are assigned according to the following illustration, in which <span class="SimpleMath">\(n\)</span> is <var class="Arg">nrFaces</var>: <br><img src='./images/_Wrapper_library-1-1.svg'> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">umb4 := SimplicialUmbrella(4);</span>
+simplicial surface (5 vertices, 8 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(umb4);</span>
+[ [ 1, 5 ], [ 2, 5 ], [ 3, 5 ], [ 4, 5 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(umb4);</span>
+[ [ 1, 2, 5 ], [ 2, 3, 6 ], [ 3, 4, 7 ], [ 1, 4, 8 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfFaces(umb4);</span>
+[ [ 1, 2, 5 ], [ 2, 3, 5 ], [ 3, 4, 5 ], [ 1, 4, 5 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">umb2 := SimplicialUmbrella(2);</span>
+simplicial surface (3 vertices, 4 edges, and 2 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(umb2);</span>
+[ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(umb2);</span>
+[ [ 1, 2, 3 ], [ 1, 2, 4 ] ]
+</pre></div>
+
+<p><a id="X87E45B5181219E11" name="X87E45B5181219E11"></a></p>
+
+<h4>13.2 <span class="Heading">Generation by butterfly insertion</span></h4>
+
+<p>This section contains a method to compute for a given vertex-faithful simplicial surface all simplicial surfaces that can be constructed by essential butterfly insertions.</p>
+
+<p><a id="X85E5110D837320B5" name="X85E5110D837320B5"></a></p>
+
+<h5>13.2-1 AllSimplicialSurfacesByEssentialButterflyInsertion</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSimplicialSurfacesByEssentialButterflyInsertion</code>( <var class="Arg">surface</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of simplicial surfaces</p>
+
+<p>This function computes representatives of the isomorphism classes of all simplicial surfaces that can be obtained from the input surface <var class="Arg">surf</var> by an essential butterfly insertion. Note that the input surface <var class="Arg">surf</var> has to be vertex-faithful. An essential butterfly insertion is a butterfly insertion that does not create a 3-waist.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">surface := SimplicialSurfaceByDownwardIncidence(</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [ 1, 3 ], [ 1, 2 ], [ 2, 3 ], [ 3, 4 ], [ 1, 4 ], [ 1, 5 ], [ 1, 6 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 2, 6 ], [ 2, 7 ], [ 3, 7 ], [ 3, 8 ], [ 4, 8 ], [ 4, 5 ],  [ 5, 6 ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ 6, 7 ], [ 7, 8 ], [ 5, 8 ] ],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[ [1, 2, 3], [1, 4, 5], [6, 7, 14], [2, 7, 8], [8, 9, 15],</span>
+<span class="GAPprompt">&gt;</span> <span class="GAPinput">[3, 9, 10], [10, 11, 16], [4, 11, 12], [12, 13, 17], [5, 6, 13] ]);</span>
+simplicial surface (8 vertices, 17 edges, and 10 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsConnectedSurface(surface);</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EulerCharacteristic(surface);</span>
+1
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSurfacesByEssentialButterflyInsertion(surface);</span>
+[ simplicial surface (9 vertices, 20 edges, and 12 faces),
+simplicial surface (9 vertices, 20 edges, and 12 faces)
+    , simplicial surface (9 vertices, 20 edges, and 12 faces), 
+ simplicial surface (9 vertices, 20 edges, and 12 faces) ]
+</pre></div>
+
+<p><a id="X7CAB3773842AC618" name="X7CAB3773842AC618"></a></p>
+
+<h5>13.2-2 NewGraphsForEdgeInsertion</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NewGraphsForEdgeInsertion</code>( <var class="Arg">D</var>[, <var class="Arg">allowTriangleInsertion</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; NewGraphsForEdgeInsertionNC</code>( <var class="Arg">D</var>[, <var class="Arg">allowTriangleInsertion</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list of digraphs</p>
+
+<p>Computes all graphs that can be constructed from <var class="Arg">D</var> using edge insertion. If the parameter <var class="Arg">allowTriangleInsertion</var> is <code class="keyw">true</code>, insertions between edges that have one vertex in common are allowed; otherwise, they are not. The default value of <var class="Arg">allowTriangleInsertion</var> is <code class="keyw">true</code> and <code class="keyw">NewGraphsForEdgeInsertion</code> ensures that the returned digraph is symmetric, even when the input digraph <var class="Arg">D</var> is not symmetric. <code class="keyw">NewGraphsForEdgeInsertionNC</code> performs no checks on the input.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">D := DigraphByEdges([[1,2], [3,4], [1,3], [2,4]]);</span>
+&lt;immutable digraph with 4 vertices, 4 edges&gt;
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NewGraphsForEdgeInsertion(D, true);</span>
+[ &lt;immutable digraph with 6 vertices, 14 edges&gt;,
+  &lt;immutable digraph with 6 vertices, 14 edges&gt; ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">NewGraphsForEdgeInsertion(D, false);</span>
+[ &lt;immutable digraph with 6 vertices, 14 edges&gt; ]
+</pre></div>
+
+<p><a id="X7EDDEDA98644D2E7" name="X7EDDEDA98644D2E7"></a></p>
+
+<h4>13.3 <span class="Heading">Edge-Face equivalent simplicial surfaces</span></h4>
+
+<p>This section contains method to compute edge-face equivalent simplicial surfaces. Two simplicial surfaces are called edge-face equivalent if their face-graphs are isomorphic.</p>
+
+<p><a id="X872A83387C1992E4" name="X872A83387C1992E4"></a></p>
+
+<h5>13.3-1 AllSimplicialSurfacesOfDigraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSimplicialSurfacesOfDigraph</code>( <var class="Arg">digraph</var>[, <var class="Arg">vertexfaithful</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; AllSimplicialSurfacesByFacesOfEdges</code>( <var class="Arg">surface</var>[, <var class="Arg">vertexfaithful</var>] )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>Return all (vertex-faithful) simplicial surfaces, that have <code class="keyw">digraph</code> as face graph or are edge-face equivalent to <code class="keyw">surface</code>. Note that <code class="keyw">digraph</code> has to be cubic, connected, symmetric and simple and <code class="keyw">surface</code> has to be a closed surface. The parameter <code class="keyw">vertexfaithful</code> indicates whether only vertex-faithful simplicial surfaces are searched, where the default value is <code class="keyw">false</code>. The vertices of a simplicial surface can be identified with certain cycles in the face graph. This method searches possible combinations of cycles, with the cycles corresponding to the vertices of a simplicial surface.</p>
+
+<p>For example, consider the complete graph on four nodes: <br><img src="./images/_Wrapper_Image_FaceGraphTetra-1.svg"> </img> <br></p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph:=CompleteDigraph(4);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet1 := AllSimplicialSurfacesOfDigraph(digraph,true);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(tet1[1],Tetrahedron());</span>
+true
+</pre></div>
+
+<p>So the only vertex-faithful simplicial surface of the digraph is the tetrahedron. But there is another simplicial surface, which is not vertex-faithful:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">list := AllSimplicialSurfacesOfDigraph(digraph,false);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces), 
+simplicial surface (3 vertices, 6 edges, and 4 faces)]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">tet2 := Filtered(list,IsVertexFaithful);</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(tet2[1],Tetrahedron());</span>
+true
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">AllSimplicialSurfacesByFacesOfEdges (Tetrahedron());</span>
+[ simplicial surface (4 vertices, 6 edges, and 4 faces),
+  simplicial surface (3 vertices, 6 edges, and 4 faces) ]
+</pre></div>
+
+<p>Since it takes a long time to compute all cycles, you should only call the method for digraphs with twelve or less nodes for <code class="keyw">vertexfaithful</code> equal to <code class="keyw">false</code>. For <code class="keyw">vertexfaithful</code> equal to <code class="keyw">true</code>, the method needs to consider only chordless and non-separating cycles. This makes the method fast for digraphs up to 28 nodes. In general, it is much faster to only compute the vertex-faithful simplicial surfaces.</p>
+
+<p><a id="X7D3D2973842AC34D" name="X7D3D2973842AC34D"></a></p>
+
+<h5>13.3-2 ReembeddingsOfDigraph</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ReembeddingsOfDigraph</code>( <var class="Arg">digraph</var>, <var class="Arg">g</var>, <var class="Arg">oriented</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; ReembeddingsOfSimplicialSphere</code>( <var class="Arg">surf</var>, <var class="Arg">g</var>, <var class="Arg">oriented</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a list</p>
+
+<p>The method <code class="keyw">ReembeddingsOfSimplicialSphere</code> computes all edge-face equivalent simplicial surfaces of the given vertex-faithful simplicial sphere <code class="keyw">surf</code> with the given genus <code class="keyw">g</code> if these simplicial surfaces are orientable or not is given by <code class="keyw">oriented</code>. Note that two simplicial surfaces are edge-face equivalent if the corresponding face graphs are isomorphic (see <a href="chap15_mj.html#X79CE6AC2842A4F92"><span class="RefLink">15.4-2</span></a> for a definition of the face graph). The method <code class="keyw">ReembeddingsOfDigraph</code> computes for a 3-connected cubic planar graph all simplicial surfaces with the given genus <code class="keyw">g</code> and if these simplicial surfaces are orientable or not is given by <code class="keyw">oriented</code> that have <code class="keyw">digraph</code> as their face graph. We call this a re-embedding of a digraph or a simplicial sphere. If <code class="keyw">surf</code> is not a vertex-faithful simplicial sphere or <code class="keyw">digraph</code> is not planar and cubic, an error is printed. It is not checked whether <code class="keyw">digraph</code> is a 3-connected graph.</p>
+
+<p>Note that, non-orientable surfaces of genus one are projective planes, orientable surfaces of genus one are tori and non-orientable surfaces of genus two are Klein bottles. This algorithm is based on <a href="chapBib_mj.html#biBEnami">[Ena19]</a> and <a href="chapBib_mj.html#biBPaperMeikeStrong">[WN24]</a>.</p>
+
+<p>For example, consider the complete graph on four vertices:</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">digraph:=CompleteDigraph(4);;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReembeddingsOfDigraph(digraph,1,false);</span>
+[ simplicial surface (3 vertices, 6 edges, and 4 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReembeddingsOfDigraph(digraph,1,true);</span>
+[ ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReembeddingsOfDigraph(digraph,2,false);</span>
+[ ]
+</pre></div>
+
+<p>So the complete graph on four vertices has exactly one re-embedding on a projective plane but no re-embedding on the torus or the Klein bottle. Note that the complete graph on four vertices is the face graph of the tetrahedron. The octahedron has for example no edge-face equivalent projective plane but three edge-face equivalent tori and two edge-face equivalent Klein bottles.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">oct:=Octahedron();;</span>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReembeddingsOfSimplicialSphere(Octahedron(),1,false);</span>
+[ ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReembeddingsOfSimplicialSphere(Octahedron(),1,true);</span>
+[ simplicial surface (4 vertices, 12 edges, and 8 faces), 
+  simplicial surface (4 vertices, 12 edges, and 8 faces),
+  simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">ReembeddingsOfSimplicialSphere(Octahedron(),2,false);</span>
+[ simplicial surface (4 vertices, 12 edges, and 8 faces),
+  simplicial surface (4 vertices, 12 edges, and 8 faces) ]
+</pre></div>
+
+<p><a id="X8619C27683A4D94F" name="X8619C27683A4D94F"></a></p>
+
+<h4>13.4 <span class="Heading">Other pre-defined surfaces</span></h4>
+
+<p>This section contains all other pre-defined surfaces that are not covered in one of the other sections.</p>
+
+<p><a id="X79163FA982E7F2F4" name="X79163FA982E7F2F4"></a></p>
+
+<h5>13.4-1 OneFace</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; OneFace</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a <em>one-face</em> as a simplicial surface. A one-face consists of one triangular face.</p>
+
+<p><a id="X7E89EFEE7A84B2E8" name="X7E89EFEE7A84B2E8"></a></p>
+
+<h5>13.4-2 Butterfly</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; Butterfly</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a <em>butterfly</em> as a simplicial surface. A butterfly consists of two triangular faces that share an edge.</p>
+
+<p><img src="./images/_Wrapper_Image_Butterfly-1.svg"> </img></p>
+
+<p><a id="X7A7AF0A179BBCD99" name="X7A7AF0A179BBCD99"></a></p>
+
+<h5>13.4-3 JanusHead</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; JanusHead</code>(  )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: a simplicial surface</p>
+
+<p>Return a <em>Janus-Head</em> as a simplicial surface. A Janus-Head consists of two triangular faces that share three edges.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">janus := JanusHead();;</span>
+</pre></div>
+
+<p><br><img src="./images/_Wrapper_TIKZ_Janus_constructor-1.svg"> </img> <br></p>
+
+<p><a id="X842C1A7C7D8B7AEA" name="X842C1A7C7D8B7AEA"></a></p>
+
+<h5>13.4-4 SimplicialDoubleUmbrella</h5>
+
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialDoubleUmbrella</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<div class="func"><table class="func" width="100%"><tr><td class="tdleft"><code class="func">&#8227; SimplicialDoubleGon</code>( <var class="Arg">nrFaces</var> )</td><td class="tdright">(&nbsp;operation&nbsp;)</td></tr></table></div>
+<p>Returns: <code class="keyw">a simplicial surface</code></p>
+
+<p>Return a simplicial surface consisting of two closed umbrella-paths with <var class="Arg">nrFaces</var> triangles which are joined at their boundary. The labels of one umbrella are assigned according to the illustration for <em>SimplicialUmbrella</em>, the additional vertex is labelled with <span class="SimpleMath">\(nrFaces+2\)</span>, the incident edges to this vertex are labelled from <span class="SimpleMath">\(2*nrFaces+1\)</span> to <span class="SimpleMath">\(4*nrFaces\)</span> and the incident faces are labelled from <span class="SimpleMath">\(nrFaces+1\)</span> to <span class="SimpleMath">\(2*nrFaces\)</span>.</p>
+
+
+<div class="example"><pre>
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleumb2:=SimplicialDoubleUmbrella(2);</span>
+simplicial surface (4 vertices, 6 edges, and 4 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">VerticesOfEdges(doubleumb2);</span>
+[ [ 1, 3 ], [ 2, 3 ], [ 1, 2 ], [ 1, 2 ], [ 1, 4 ], [ 2, 4 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">EdgesOfFaces(doubleumb2);</span>
+[ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 3, 5, 6 ], [ 4, 5, 6 ] ]
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">doubleumb4:=SimplicialDoubleUmbrella(4);</span>
+simplicial surface (6 vertices, 12 edges, and 8 faces)
+<span class="GAPprompt">gap&gt;</span> <span class="GAPinput">IsIsomorphic(doubleumb4,Octahedron());</span>
+true
+</pre></div>
+
+
+<div class="chlinkprevnextbot">&nbsp;<a href="chap0_mj.html">[Top of Book]</a>&nbsp;  <a href="chap0_mj.html#contents">[Contents]</a>&nbsp;  &nbsp;<a href="chap12_mj.html">[Previous Chapter]</a>&nbsp;  &nbsp;<a href="chap14_mj.html">[Next Chapter]</a>&nbsp;  </div>
+
+
+<div class="chlinkbot"><span class="chlink1">Goto Chapter: </span><a href="chap0_mj.html">Top</a>  <a href="chap1_mj.html">1</a>  <a href="chap2_mj.html">2</a>  <a href="chap3_mj.html">3</a>  <a href="chap4_mj.html">4</a>  <a href="chap5_mj.html">5</a>  <a href="chap6_mj.html">6</a>  <a href="chap7_mj.html">7</a>  <a href="chap8_mj.html">8</a>  <a href="chap9_mj.html">9</a>  <a href="chap10_mj.html">10</a>  <a href="chap11_mj.html">11</a>  <a href="chap12_mj.html">12</a>  <a href="chap13_mj.html">13</a>  <a href="chap14_mj.html">14</a>  <a href="chap15_mj.html">15</a>  <a href="chap16_mj.html">16</a>  <a href="chap17_mj.html">17</a>  <a href="chap18_mj.html">18</a>  <a href="chap19_mj.html">19</a>  <a href="chap20_mj.html">20</a>  <a href="chap21_mj.html">21</a>  <a href="chap22_mj.html">22</a>  <a href="chapBib_mj.html">Bib</a>  <a href="chapInd_mj.html">Ind</a>  </div>
+
+<hr />
+<p class="foot">generated by <a href="https://www.math.rwth-aachen.de/~Frank.Luebeck/GAPDoc">GAPDoc2HTML</a></p>
+</body>
+</html>
