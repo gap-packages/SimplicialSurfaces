@@ -27,6 +27,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_SplitVertexEdgePath();
     __SIMPLICIAL_Test_SplitEdgePath();
     __SIMPLICIAL_Test_Smaller();
+    __SIMPLICIAL_Test_Connectivity();
 
     __SIMPLICIAL_Test_UmbrellaDescriptor();
 
@@ -75,6 +76,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_NewGraphsForEdgeInsertion();
 
     __SIMPLICIAL_Test_ButterflyDeletion();
+
+    __SIMPLICIAL_Test_SimplicialComplex();
+    __SIMPLICIAL_Test_Extraction_SimplicialComplex();
 
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);

@@ -134,7 +134,7 @@ InstallMethod( EdgeColouredPolygonalComplexNC,
     "for a twisted polygonal complex and a list of positive integers",
     [IsTwistedPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsPolygonalComplex(complex, true);
+        SetIsNotTwisted(complex, true);
         return EdgeColouredTwistedPolygonalComplexNC(complex, colouring);
     end
 );
@@ -153,7 +153,7 @@ InstallMethod( EdgeColouredSimplicialSurfaceNC,
     "for a twisted polygonal complex and a list of positive integers",
     [IsTwistedPolygonalComplex, IsList],
     function(complex, colouring)
-        SetIsPolygonalComplex(complex, true);
+        SetIsNotTwisted(complex, true);
         SetIsTriangular( complex, true );
         SetIsNotEdgeRamified( complex, true );
         SetIsNotVertexRamified( complex, true );

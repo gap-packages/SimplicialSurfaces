@@ -147,7 +147,7 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     SetEdgesOfFaces( complex, edgesOfFaces );
     SetVerticesOfEdges( complex, verticesOfEdges );
     SetEdgesOfVertices( complex, edgesOfVertices );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SIMPLICIAL_TestAssert(perimeter = List(PerimeterPathsOfFaces(complex),PathAsList));
 
 
@@ -155,12 +155,12 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     # inferences about *OfFaces
     #
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     SIMPLICIAL_TestAssert(VerticesOfFaces(complex)=verticesOfFaces);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=edgesOfFaces);
 
@@ -168,7 +168,7 @@ BindGlobal( "__SIMPLICIAL_Test_PerimeterInferences", function()
     # inferences about Faces
     #
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetPerimeterPathsOfFaces( complex, List(perimeter,p->VertexEdgePathNC(complex,p)) );
     SIMPLICIAL_TestAssert(Faces(complex) = faces);
 end);
@@ -189,26 +189,30 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaSwitch", function()
 
     # from partitions to paths (first direct test, then check whether type can be inferred)
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
     SetIsNotEdgeRamified(complex, true);
     SetIsNotVertexRamified(complex, true);
     SIMPLICIAL_TestAssert(List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathPartitionsOfVertices( complex, List(partitions, s -> List( s, p -> EdgeFacePathNC(complex,p) ) ) );
     SIMPLICIAL_TestAssert(List(UmbrellaPathsOfVertices(complex),PathAsList)=paths);
 
     # from paths to partitions (first direct test, then check whether type can be inferred)
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
     SetIsNotEdgeRamified(complex, true);
     SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
+    SetIsFacePure(complex, true);
+    SetFacesOfEdges(complex, [ ,,,,,,,,,, [ 2, 5 ], [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 2 ], [ 3 ], [ 3 ], [ 4 ], [ 5 ] ]);
+    SetVerticesAttributeOfComplex(complex, [1, 6, 7, 8, 9, 10]);
+    SetEdgesOfVertices(complex, [[ 11, 12, 13, 14 ],,,,, [ 11, 15, 19 ], [ 12, 15, 16 ], [ 16, 17 ], [ 13, 17, 18 ], [ 14, 18, 19 ]]);
     SetUmbrellaPathsOfVertices( complex, List(paths, p -> EdgeFacePathNC(complex,p) ) );
     SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=partitions);
 
@@ -230,7 +234,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
         [ [ 19, 9, 22 ] ], , [ [ 22, 9, 20, 11, 23 ] ], , [ [ 21, 11, 23 ] ] ];
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetUmbrellaPathPartitionsOfVertices( complex, List(paths,s->List(s, p->EdgeFacePathNC(complex,p) ) ) );
     SIMPLICIAL_TestAssert(Vertices(complex)=vertices);
     SIMPLICIAL_TestAssert(Edges(complex)=edges);
@@ -239,7 +243,7 @@ BindGlobal( "__SIMPLICIAL_Test_UmbrellaImplications", function()
     SIMPLICIAL_TestAssert(EdgesOfFaces(complex)=edgesOfFaces);
 
     complex := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(complex, true);
+    SetIsNotTwisted(complex, true);
     SetVerticesOfEdges(complex, verticesOfEdges);
     SetEdgesOfFaces(complex, edgesOfFaces);
     SIMPLICIAL_TestAssert(List(UmbrellaPathPartitionsOfVertices(complex),p->List(p,PathAsList))=paths);
@@ -254,14 +258,23 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If the connected components are known, the connectivity is known
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetEdgesOfVertices(obj, []);
+    SetVerticesOfEdges(obj, []);
     SetConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetEdgesOfVertices(obj, []);
+    SetVerticesOfEdges(obj, []);
     SetConnectedComponentsAttributeOfComplex( obj, [ 1 ] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetEdgesOfVertices(obj, []);
+    SetVerticesOfEdges(obj, []);
     SetConnectedComponentsAttributeOfComplex( obj, [ 1, 2 ] );
     SIMPLICIAL_TestAssert(not IsConnectedComplex(obj));
 
@@ -320,10 +333,16 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
 
     # If there is only one strongly connected component, then the complex is connected
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetIsFacePure(obj, true);
+    SetVerticesOfEdges(obj, []);
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
+    SetVerticesAttributeOfComplex(obj, []);
+    SetIsFacePure(obj, true);
+    SetVerticesOfEdges(obj, []);
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
     SIMPLICIAL_TestAssert(IsConnectedComplex(obj));
 
@@ -332,18 +351,21 @@ BindGlobal( "__SIMPLICIAL_Test_ConnectivityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
+    SetIsFacePure(obj, true);
     SetConnectedComponentsAttributeOfComplex(obj, [obj]);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj) = [obj]);
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
+    SetIsConnectedComplex(obj, true);
     SetStronglyConnectedComponentsAttributeOfComplex( obj, [obj] );
     SIMPLICIAL_TestAssert(ConnectedComponentsAttributeOfComplex(obj) = [obj]);
 
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsNotVertexRamified(obj, true);
+    SetIsFacePure(obj, true);
     SetIsConnectedComplex(obj, true);
     SIMPLICIAL_TestAssert(StronglyConnectedComponents(obj)=[obj]);
 end);
@@ -372,7 +394,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges( obj, verticesOfEdges );
     SetEdgesOfFaces( obj, edgesOfFaces );
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SIMPLICIAL_TestAssert(vertAsPerm = List(Orientation(obj),VerticesAsPerm));
     SIMPLICIAL_TestAssert(vertAsList = List(Orientation(obj),VerticesAsList));
     SIMPLICIAL_TestAssert(edgeAsPerm = List(Orientation(obj),EdgesAsPerm));
@@ -383,7 +405,7 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
     obj := Objectify( TwistedPolygonalComplexType, rec() );
     SetIsNotEdgeRamified(obj, true);
     SetIsOrientableComplex(obj, false);
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SIMPLICIAL_TestAssert(fail=Orientation(obj));
     SetFaces(obj, faces);
     SetVerticesOfEdges(obj, verticesOfEdges); # not perfect, but probably ok
@@ -392,12 +414,12 @@ BindGlobal( "__SIMPLICIAL_Test_OrientabilityImplications", function()
 
     # Check if inference from existence of orientation sets IsOrientable
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, List(perim, p -> VertexEdgePathNC(obj,p) ) );
     SIMPLICIAL_TestAssert(IsOrientableComplex(obj));
     obj := Objectify( TwistedPolygonalComplexType, rec() );
-    SetIsPolygonalComplex(obj, true);
+    SetIsNotTwisted(obj, true);
     SetIsNotEdgeRamified(obj, true);
     SetOrientation( obj, fail );
     SIMPLICIAL_TestAssert(not IsOrientableComplex(obj));
@@ -597,4 +619,155 @@ BindGlobal("__SIMPLICIAL_Test_ButterflyDeletion", function ()
         Filtered(EdgesOfFace(surface, 1), e -> e in EdgesOfFace(surface, 2))[1]
     );
     SIMPLICIAL_TestAssert(result2 = result);
+end);
+
+BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
+    local tetra, isolatedVertices, verticesOfIsolatedEdges, vertices, edges, faces,
+          verticesOfFaces, verticesOfEdges, edgesOfVertices, edgesOfFaces, facesOfEdges,
+          callConstructors, testComplex, c, extractedComplex;
+
+    callConstructors := function (vertices, edges, faces, verticesOfFaces, verticesOfEdges,
+                                  edgesOfVertices, edgesOfFaces, facesOfEdges,
+                                  isolatedVertices, verticesOfIsolatedEdges)
+        # Downward Incidence
+        #
+        # Short Filter
+        c := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
+        testComplex(c);
+        c := SimplicialComplexByDownwardIncidenceNC(isolatedVertices, verticesOfEdges, edgesOfFaces);
+        testComplex(c);
+        #
+        # Long Filter
+        c := SimplicialComplexByDownwardIncidence(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+        testComplex(c);
+        c := SimplicialComplexByDownwardIncidenceNC(vertices, edges, faces, verticesOfEdges, edgesOfFaces);
+        testComplex(c);
+
+
+        # Upward Incidence
+        #
+        # Short Filter
+        c := SimplicialComplexByUpwardIncidence(edgesOfVertices, facesOfEdges);
+        testComplex(c);
+        c := SimplicialComplexByUpwardIncidenceNC(edgesOfVertices, facesOfEdges);
+        testComplex(c);
+        #
+        # Long Filter
+        c := SimplicialComplexByUpwardIncidence(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+        testComplex(c);
+        c := SimplicialComplexByUpwardIncidenceNC(vertices, edges, faces, edgesOfVertices, facesOfEdges);
+        testComplex(c);
+
+        # Vertices In Faces
+        #
+        # Short Filter
+        if   Length(verticesOfIsolatedEdges) > 0 and Length(isolatedVertices) > 0 then
+            c := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfIsolatedEdges, verticesOfFaces);
+            testComplex(c);
+            c := SimplicialComplexByVerticesInFacesNC(isolatedVertices, verticesOfIsolatedEdges, verticesOfFaces);
+            testComplex(c);
+        elif Length(verticesOfIsolatedEdges) > 0 and Length(isolatedVertices) = 0 then
+            c := SimplicialComplexByVerticesInFaces(verticesOfIsolatedEdges, verticesOfFaces);
+            testComplex(c);
+            c := SimplicialComplexByVerticesInFacesNC(verticesOfIsolatedEdges, verticesOfFaces);
+            testComplex(c);
+        elif Length(isolatedVertices) > 0 and Length(verticesOfIsolatedEdges) = 0 then
+            c := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
+            testComplex(c);
+            c := SimplicialComplexByVerticesInFacesNC(isolatedVertices, verticesOfFaces);
+            testComplex(c);
+        fi;
+        #
+        # Long Filter
+        c := SimplicialComplexByVerticesInFaces(vertices, faces, verticesOfFaces, verticesOfIsolatedEdges);
+        testComplex(c);
+        c := SimplicialComplexByVerticesInFacesNC(vertices, faces, verticesOfFaces, verticesOfIsolatedEdges);
+        testComplex(c);
+
+
+        # Test extraction of simplicial surface from simplicial complex
+        extractedComplex := PureSimplicialComplex(c);
+        SIMPLICIAL_TestAssert(IsSimplicialSurface(extractedComplex));
+        # 'VerticesOfFaces(extractedComplex)' should be equal to 'verticesOfFaces'
+        SIMPLICIAL_TestAssert(verticesOfFaces = VerticesOfFaces(extractedComplex));
+    end;
+
+    testComplex := function (complex)
+        SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
+        SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+
+        SIMPLICIAL_TestAssert(IsolatedVertices(complex) = isolatedVertices);
+
+        SIMPLICIAL_TestAssert(Vertices(complex) = vertices);
+        SIMPLICIAL_TestAssert(Edges(complex) = edges);
+        SIMPLICIAL_TestAssert(Faces(complex) = faces);
+        SIMPLICIAL_TestAssert(VerticesOfFaces(complex) = verticesOfFaces);
+        SIMPLICIAL_TestAssert(VerticesOfEdges(complex) = verticesOfEdges);
+        SIMPLICIAL_TestAssert(EdgesOfVertices(complex) = edgesOfVertices);
+        SIMPLICIAL_TestAssert(EdgesOfFaces(complex) = edgesOfFaces);
+        SIMPLICIAL_TestAssert(FacesOfEdges(complex) = facesOfEdges);
+    end;
+
+
+    #
+    # Example 1: Tetrahedron with isolated vertex
+    #
+
+    tetra := Tetrahedron();
+    isolatedVertices        := [Maximum(Vertices(tetra))+1];
+    verticesOfIsolatedEdges := [];
+    vertices := Set(Concatenation(Vertices(tetra), isolatedVertices));
+    edges    := Edges(tetra);
+    faces    := Faces(tetra);
+    verticesOfFaces := VerticesOfFaces(tetra);
+    verticesOfEdges := VerticesOfEdges(tetra);
+    edgesOfVertices := Concatenation(EdgesOfVertices(tetra), [[]]);
+    edgesOfFaces    := EdgesOfFaces(tetra);
+    facesOfEdges    := FacesOfEdges(tetra);
+
+    callConstructors(vertices, edges, faces, verticesOfFaces, verticesOfEdges, edgesOfVertices,
+                     edgesOfFaces, facesOfEdges, isolatedVertices, verticesOfIsolatedEdges);
+    #
+    # Example 2: Complex with isolated vertex and edges with no face incidence
+    #
+
+    isolatedVertices        := [1];
+    verticesOfIsolatedEdges := [ [2, 3] ];
+    vertices := [1 .. 5];
+    edges    := [1 .. 4];
+    faces    := [1];
+    verticesOfFaces := [ [ 3, 4, 5 ] ];
+    verticesOfEdges := [ [ 2, 3 ], [ 3, 4 ], [ 3, 5 ], [ 4, 5 ] ];
+    edgesOfVertices := [ [  ], [ 1 ], [ 1, 2, 3 ], [ 2, 4 ], [ 3, 4 ] ];
+    edgesOfFaces    := [ [ 2, 3, 4 ] ];
+    facesOfEdges    := [ [  ], [ 1 ], [ 1 ], [ 1 ] ];
+
+    callConstructors(vertices, edges, faces, verticesOfFaces, verticesOfEdges, edgesOfVertices,
+                     edgesOfFaces, facesOfEdges, isolatedVertices, verticesOfIsolatedEdges);
+end);
+
+BindGlobal("__SIMPLICIAL_Test_Extraction_SimplicialComplex", function ()
+    local verticesOfEdges, edgesOfFaces, verticesOfFaces, isolatedVertices, complex, extracted;
+
+    verticesOfEdges  := [ [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 3, 5 ] ];
+    edgesOfFaces     := [ [ 2, 3, 4 ] ];
+    isolatedVertices := [1];
+
+    complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+
+    extracted := PureSimplicialComplex(complex);
+    SIMPLICIAL_TestAssert(IsVertexFaithfulSimplicialSurface(extracted));
+
+    verticesOfFaces  := [ [ 1, 2, 3 ], [ 1, 3, 4 ], [ 1, 4, 5 ], [ 1, 5, 2 ], [ 1, 2, 6 ] ];
+    isolatedVertices := [7];
+
+    complex := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
+
+    extracted := PureSimplicialComplex(complex);
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(extracted));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(extracted));
 end);

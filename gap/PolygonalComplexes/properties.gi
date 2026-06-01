@@ -17,6 +17,10 @@ InstallMethod( IsClosedComplex, "for a polygonal complex without edge ramificati
     function( ramSurf )
         local faces;
 
+        if Length(IsolatedVertices(ramSurf)) > 0 then
+            return false;
+        fi;
+
         for faces in FacesOfEdges(ramSurf) do
             if Length(faces) <> 2 then
                 return false;
@@ -374,11 +378,17 @@ BindGlobal("IsCounterType",NewType(CounterFamily,IsCounterRep));
 
 BindGlobal( "__SIMPLICIAL_VertexCounter",
     function(complex)
-        local faceDegrees, faces, deg, counter;
+        local faceDegrees, degZeroCount, faces, deg, counter;
 
         faceDegrees := [];
+        degZeroCount := 0;
         for faces in FacesOfVertices(complex) do
             deg := Length(faces);
+            if deg = 0 then
+                degZeroCount := degZeroCount + 1;
+                continue;
+            fi;
+
             if IsBound(faceDegrees[deg]) then
                 faceDegrees[deg] := faceDegrees[deg] + 1;
             else
@@ -387,6 +397,9 @@ BindGlobal( "__SIMPLICIAL_VertexCounter",
         od;
 
         counter := [];
+        if degZeroCount > 0 then
+            Add(counter, [ 0, degZeroCount ]);
+        fi;
         for deg in [1..Length(faceDegrees)] do
             if IsBound(faceDegrees[deg]) then
                 Add(counter, [ deg, faceDegrees[deg] ]);
@@ -920,11 +933,12 @@ InstallMethod(Display, "for a counter", [IsCounter],
 ##
 BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
     function(complex)
-        local inner, boundary, ramified, chaotic, oneRel, twoRel, vertexRel,
-            chambers, v, found, inCheck, c, class;
+        local inner, boundary, ramified, isolated, chaotic, isIsolated, oneRel, twoRel, vertexRel,
+            chambers, v, edgesOfVertex, found, inCheck, chambersOfVertex, c, class;
 
         inner := [];
         boundary := [];
+        isolated := [];
         ramified := [];
         chaotic := [];
 
@@ -934,10 +948,18 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
         chambers := EquivalenceRelationPartition(vertexRel);
 
         for v in VerticesAttributeOfComplex(complex) do
+            edgesOfVertex := EdgesOfVertexNC(complex, v);
+
             # Check for chaotic
-            if ForAny( EdgesOfVertexNC(complex,v), e -> IsRamifiedEdgeNC(complex,e) ) then
+            if ForAny( edgesOfVertex, e -> IsRamifiedEdgeNC(complex,e) ) then
                 Add(chaotic, v);
                 continue;
+            fi;
+
+            # Check for isolated
+            isIsolated := Length(edgesOfVertex) = 0;
+            if isIsolated then
+                Add(isolated, v);
             fi;
             
             # Check for ramified
@@ -947,19 +969,26 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
                     found := true;
                 fi;
             od;
-            if not found then
+            if not found and Length(FacesOfVertexNC(complex, v)) > 0 then
+                # Vertices with no incident faces are not ramified.
                 Add(ramified,v);
                 continue;
             fi;
 
             # We need to distinguish between inner vertices and boundary vertices
             inCheck := true;
-            for c in ChambersOfVertexNC(complex,v) do
+            chambersOfVertex := ChambersOfVertexNC(complex, v);
+            for c in chambersOfVertex do
                 if TwoAdjacentChambersNC(complex,v) = [] then
                     inCheck := false;
                     break;
                 fi;
             od;
+            if Length(chambersOfVertex) = 0 then
+                # Vertices with no incident faces are not inner.
+                inCheck := false;
+            fi;
+
             if inCheck then
                 Add(inner,v);
             else
@@ -968,8 +997,9 @@ BindGlobal( "__SIMPLICIAL_TwistedVertexTypes",
         od;
 
         SetInnerVertices(complex, inner);
-        SetBoundaryVertices(complex, inner);
+        SetBoundaryVertices(complex, boundary);
         SetRamifiedVertices(complex, ramified);
+        SetIsolatedVertices(complex, isolated);
         SetChaoticVertices(complex, chaotic);
     end
 );
@@ -1059,7 +1089,16 @@ BindGlobal("__SIMPLICIAL_BoundaryVertices_BoundaryEdges",
 InstallMethod( BoundaryVertices, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
+        local isolatedVertices, verticesOfIsolatedEdges;
+
+        isolatedVertices := IsolatedVertices(complex);
+        verticesOfIsolatedEdges := Union(VerticesOfEdges(complex){IsolatedEdges(complex)});
+
+        return Union(
+            __SIMPLICIAL_BoundaryVertices_Umbrellas(complex),
+            isolatedVertices,
+            verticesOfIsolatedEdges
+        );
     end
 );
 # Special case closed surface
@@ -1074,7 +1113,16 @@ InstallMethod( BoundaryVertices,
     "for a polygonal complex with UmbrellaPathsOfVertices",
     [IsPolygonalComplex and HasUmbrellaPathsOfVertices],
     function(complex)
-        return __SIMPLICIAL_BoundaryVertices_Umbrellas(complex);
+        local isolatedVertices, verticesOfIsolatedEdges;
+
+        isolatedVertices := IsolatedVertices(complex);
+        verticesOfIsolatedEdges := Union(VerticesOfEdges(complex){IsolatedEdges(complex)});
+
+        return Union(
+            __SIMPLICIAL_BoundaryVertices_Umbrellas(complex),
+            isolatedVertices,
+            verticesOfIsolatedEdges
+        );
     end
 );
 # Special case polygonal surface and boundary edges are known
@@ -1119,15 +1167,60 @@ InstallMethod( IsBoundaryVertex, "for a twisted polygonal complex and a vertex",
 #TODO implement implication to IsClosedSurface?
 
 
+__SIMPLICIAL_AddTwistedAttribute( IsolatedVertices );
+InstallMethod( IsolatedVertices, 
+    "for a twisted polygonal complex with VerticesAttributeOfComplex and EdgesOfVertices",
+    [IsTwistedPolygonalComplex and HasVerticesAttributeOfComplex and HasEdgesOfVertices],
+    function(complex)
+        local edges, isolatedVertices, v;
+
+        edges := EdgesOfVertices(complex);
+
+        isolatedVertices := [];
+        for v in VerticesAttributeOfComplex(complex) do
+            if Length(edges[v]) = 0 then
+                Add(isolatedVertices, v);
+            fi;
+        od;
+        return isolatedVertices;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsolatedVertices", 
+    ["VerticesAttributeOfComplex", "EdgesOfVertices"]);
+
+
+InstallImmediateMethod( IsolatedVertices, "for a twisted polygonal surface",
+    IsTwistedPolygonalSurface, 0,
+    function(surf)
+        return [];
+    end
+);
+InstallMethod( IsIsolatedVertexNC, "for a twisted polygonal complex and a vertex",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        return vertex in IsolatedVertices(complex);
+    end
+);
+InstallMethod( IsIsolatedVertex, "for a twisted polygonal complex and a vertex",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, vertex)
+        __SIMPLICIAL_CheckVertex(complex, vertex, "IsIsolatedVertex");
+        return IsIsolatedVertexNC(complex, vertex);
+    end
+);
+
+
 __SIMPLICIAL_AddTwistedAttribute( RamifiedVertices );
-InstallMethod( RamifiedVertices, 
+InstallMethod( RamifiedVertices,
     "for a polygonal complex with UmbrellaPathsOfVertices, UmbrellaPathPartitionsOfVertices and VerticesAttributeOfComplex",
     [IsPolygonalComplex and HasUmbrellaPathsOfVertices and HasUmbrellaPathPartitionsOfVertices and HasVerticesAttributeOfComplex],
     function(complex)
-        local edgeFacePaths, partitions, res, v;
+        local edgeFacePaths, partitions, isolatedVertices, res, v;
 
         edgeFacePaths := UmbrellaPathsOfVertices(complex);
         partitions := UmbrellaPathPartitionsOfVertices(complex);
+
         res := [];
         for v in VerticesAttributeOfComplex(complex) do
             if edgeFacePaths[v] = fail and partitions[v] <> fail then
@@ -1142,8 +1235,8 @@ AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     ["UmbrellaPathsOfVertices", "UmbrellaPathPartitionsOfVertices", "VerticesAttributeOfComplex"]);
 
 InstallMethod( RamifiedVertices, 
-    "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices",
-    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HasEdgesOfVertices and HasChambersOfVertices],
+    "for a twisted polygonal complex with OneAdjacencyRelation, TwoAdjacencyRelation, VerticesAttributeOfComplex, RamifiedEdges, EdgesOfVertices, and ChambersOfVertices and FacesOfVertices",
+    [IsTwistedPolygonalComplex and HasOneAdjacencyRelation and HasTwoAdjacencyRelation and HasVerticesAttributeOfComplex and HasRamifiedEdges and HasEdgesOfVertices and HasChambersOfVertices and HasFacesOfVertices],
     function(complex)
         __SIMPLICIAL_TwistedVertexTypes(complex);
         return RamifiedVertices(complex);
@@ -1151,7 +1244,7 @@ InstallMethod( RamifiedVertices,
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "RamifiedVertices",
-    ["OneAdjacencyRelation", "TwoAdjacencyRelation", "VerticesAttributeOfComplex", "RamifiedEdges", "EdgesOfVertices", "ChambersOfVertices"]);
+    ["OneAdjacencyRelation", "TwoAdjacencyRelation", "VerticesAttributeOfComplex", "RamifiedEdges", "EdgesOfVertices", "ChambersOfVertices", "FacesOfVertices"]);
 
 
 InstallImmediateMethod( RamifiedVertices, "for a twisted polygonal surface",
@@ -1343,11 +1436,12 @@ InstallMethod( BoundaryEdges, "for a polygonal complex",
         facesOfEdges := FacesOfEdges(complex);
         res := [];
         for e in Edges(complex) do
-            if Length(facesOfEdges[e]) = 1 then
+            if Length(facesOfEdges[e]) <= 1 then
                 Add(res,e);
             fi;
         od;
-        return res;
+
+        return Union(res, IsolatedEdges(complex));
     end
 );
 InstallMethod( BoundaryEdges, "for a twisted polygonal complex",
@@ -1358,11 +1452,12 @@ InstallMethod( BoundaryEdges, "for a twisted polygonal complex",
         chambersOfEdges := ChambersOfEdges(complex);
         res := [];
         for e in Edges(complex) do
-            if Length(chambersOfEdges[e]) = 2 then
+            if Length(chambersOfEdges[e]) in [0,2] then
                 Add(res,e);
             fi;
         od;
-        return res;
+
+        return Union(res, IsolatedEdges(complex));
     end
 );
 InstallMethod( BoundaryEdges, "for a closed polygonal complex",
@@ -1382,6 +1477,36 @@ InstallMethod( IsBoundaryEdge, "for a twisted polygonal complex and an edge",
     function(complex, edge)
         __SIMPLICIAL_CheckEdge(complex, edge, "IsBoundaryEdge");
         return IsBoundaryEdgeNC(complex, edge);
+    end
+);
+
+
+InstallMethod( IsolatedEdges, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local facesOfEdges, res, e; 
+
+        facesOfEdges := FacesOfEdges(complex);
+        res := [];
+        for e in Edges(complex) do
+            if Length(facesOfEdges[e]) = 0 then
+                Add(res,e);
+            fi;
+        od;
+        return res;
+    end
+);
+InstallMethod( IsIsolatedEdgeNC, "for a twisted polygonal complex and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        return edge in IsolatedEdges(complex);
+    end
+);
+InstallMethod( IsIsolatedEdge, "for a twisted polygonal complex and an edge",
+    [IsTwistedPolygonalComplex, IsPosInt],
+    function(complex, edge)
+        __SIMPLICIAL_CheckEdge(complex, edge, "IsIsolatedEdge");
+        return IsIsolatedEdgeNC(complex, edge);
     end
 );
 
@@ -1456,6 +1581,54 @@ InstallMethod( IsNotEdgeRamified,
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
     "IsNotEdgeRamified", "RamifiedEdges");
 
+__SIMPLICIAL_AddTwistedAttribute( IsFacePure );
+InstallMethod( IsFacePure, 
+    "for a twisted polygonal complex with FacesOfVertices and FacesOfEdges",
+    [IsTwistedPolygonalComplex and HasFacesOfVertices and HasFacesOfEdges],
+    function(complex)
+        local faces;
+
+        for faces in FacesOfVertices(complex) do
+            if Length(faces) = 0 then
+                return false;
+            fi;
+        od;
+
+        for faces in FacesOfEdges(complex) do
+            if Length(faces) = 0 then
+                return false;
+            fi;
+        od;
+
+        return true;
+    end
+);
+AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+    "IsFacePure", ["FacesOfVertices", "FacesOfEdges"]);
+
+
+__SIMPLICIAL_AddTwistedAttribute( IsNotTwisted );
+InstallMethod( IsNotTwisted, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex and HasFaces and HasChambersOfFaces and HasVerticesOfChambers and HasEdgesOfChambers],
+    function(complex)
+        local f, chamb, verts, edges;
+
+        for f in Faces(complex) do
+            chamb := ChambersOfFaces(complex)[f];
+            verts := Set( VerticesOfChambers(complex){chamb} );
+            if 2*Length(verts) <> Length(chamb) then
+                return false;
+            fi;
+            edges := Set( EdgesOfChambers(complex){chamb} );
+            if 2*Length(edges) <> Length(chamb) then
+                return false;
+            fi;
+        od;
+        return true;
+    end
+);
+AddPropertyIncidence(SIMPLICIAL_ATTRIBUTE_SCHEDULER,
+   "IsNotTwisted", ["Faces", "ChambersOfFaces", "VerticesOfChambers", "EdgesOfChambers"], ["IsTwistedPolygonalComplex"]);
 
 ##
 ##      End of edge types
@@ -1512,6 +1685,7 @@ InstallMethod( IsFaceHomogeneous, "for a twisted polygonal complex",
 );
 
 
+
 InstallMethod( IsTriangular, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
@@ -1527,8 +1701,8 @@ InstallMethod( IsTriangular, "for a polygonal complex",
         return true;
     end
 );
-InstallMethod( IsTriangular, "for a polygonal complex with homogeneous faces",
-    [IsPolygonalComplex and IsFaceHomogeneous],
+InstallMethod( IsTriangular, "for a polygonal complex with homogeneous, pure faces",
+    [IsPolygonalComplex and IsFaceHomogeneous and IsFacePure],
     function(complex)
         local verts;
 
@@ -1556,8 +1730,8 @@ InstallMethod( IsTriangular, "for a twisted polygonal complex",
     end
 );
 InstallMethod( IsTriangular, 
-    "for a twisted polygonal complex with homogeneous faces",
-    [IsTwistedPolygonalComplex and IsFaceHomogeneous],
+    "for a twisted polygonal complex with homogeneous, pure faces",
+    [IsTwistedPolygonalComplex and IsFaceHomogeneous and IsFacePure],
     function(complex)
         local chambs;
 

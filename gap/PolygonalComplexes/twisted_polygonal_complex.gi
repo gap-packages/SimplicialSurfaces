@@ -1264,25 +1264,3 @@ InstallMethod( TwoAdjacencyClasses,
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER, "TwoAdjacencyClasses",["Flags"], ["IsDefaultChamberSystem"] );
-
-
-
-InstallMethod( IsPolygonalComplex, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
-    function(complex)
-        local f, chamb, verts, edges;
-
-        for f in Faces(complex) do
-            chamb := ChambersOfFaces(complex)[f];
-            verts := Set( VerticesOfChambers(complex){chamb} );
-            if 2*Length(verts) <> Length(chamb) then
-                return false;
-            fi;
-            edges := Set( EdgesOfChambers(complex){chamb} );
-            if 2*Length(edges) <> Length(chamb) then
-                return false;
-            fi;
-        od;
-        return true;
-    end
-);

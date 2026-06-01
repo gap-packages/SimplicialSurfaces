@@ -1,6 +1,4 @@
-
- 
-#! @Chapter Modification of polygonal complexes
+ #! @Chapter Modification of polygonal complexes
 #! @ChapterLabel Modification
 #!
 #! This chapter is concerned with the modification of polygonal complexes
@@ -450,11 +448,10 @@ DeclareOperation( "SplitVertexEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath
 #! to two components:
 #! @BeginExampleSession
 #! gap> split:=SplitEdgePath(complex,path);
-#! [ triangular complex (10 vertices, 12 edges, and 4 faces),
-#! [ [ | v10, E13, v6 |, | v3, E8, v6 | ],
-#!   [ | v11, E14, v6 |, | v3, E8, v6 | ],
-#!   [ | v1, E11, v8 |, | v1, E3, v3 | ],
-#!   [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
+#! [ simplicial complex (10 vertices, 12 edges, and 4 faces), 
+#!   [ [ | v10, E13, v6 |, | v3, E8, v6 | ], [ | v11, E14, v6 |, | v3, E8, v6 | ]
+#!         , [ | v1, E11, v8 |, | v1, E3, v3 | ], 
+#!       [ | v1, E12, v9 |, | v1, E3, v3 | ] ] ]
 #! gap> NumberOfConnectedComponents(split[1]);
 #! 2
 #! @EndExampleSession
@@ -549,7 +546,7 @@ DeclareOperation( "SplitEdgePathNC", [IsPolygonalComplex, IsVertexEdgePath and I
 #! For example consider the hexagon from the start of this chapter:
 #! @BeginExampleSession
 #! gap> SubcomplexByFaces(hex,[2,5]);
-#! triangular complex (5 vertices, 6 edges, and 2 faces)
+#! simplicial complex (5 vertices, 6 edges, and 2 faces)
 #! @EndExampleSession
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_Hexagon_RemovedFace-1.svg"> &lt;/img> &lt;br>
@@ -676,13 +673,13 @@ DeclareOperation( "RemoveFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! </Alt>
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
-            #! </Alt>
+#! </Alt>
 #! Both of these tetrahedra have the same labels for vertices, edges and faces.
 #! @BeginExampleSession
 #! gap> Vertices(tetra);
-#! [ 1, 2, 3, 4 ]
+#! [ 1 .. 4 ]
 #! gap> Edges(tetra);
-#! [ 1, 2, 3, 4, 5, 6 ]
+#! [ 1 .. 6 ]
 #! gap> Faces(tetra);
 #! [ 1 .. 4 ]
 #! @EndExampleSession
@@ -2659,5 +2656,3 @@ DeclareAttribute( "SplitMendableFlagPairs", IsPolygonalComplex );
 # These do not fit the above pattern:
 # CommonCover       -> does not fit here at all -> chapter Coverings (or only as a section in chapter "Associated Complexes" that also includes DualSurface?)
 # AddVertexIntoEdge (and the rest of Jesse's stuf) -> subdivision section?
-
-

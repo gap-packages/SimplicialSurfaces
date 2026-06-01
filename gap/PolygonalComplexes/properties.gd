@@ -1,5 +1,3 @@
-
-
 ## This chapter contains many diverse aspects of polygonal complexes.
 ## The current order may not be optimal, depending on what the future holds
 
@@ -34,7 +32,7 @@
 #! Image omitted in terminal text
             #! </Alt>
 #! @ExampleSession
-#! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], 5,
+#! gap> fiveStar := SimplicialSurfaceByVerticesInFaces( [1,2,3,5,7,11], [1..5],
 #! >                [ [1,2,3], [1,3,5], [1,5,7], [1,7,11], [1,2,11] ] );;
 #! @EndExampleSession
 #!
@@ -1023,6 +1021,32 @@ DeclareOperation("DegreesOfMultiplicity",[IsCounter, IsPosInt]);
 DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup IsFacePure
+#! @Description
+#! Check whether all vertices and edges in this twisted polygonal complex are incident
+#! to any face of the complex.
+#!
+#! A tetrahedron is face pure:
+#! @BeginExampleSession
+#! gap> IsFacePure(Tetrahedron());
+#! true
+#! @EndExampleSession
+#! A complex with an isolated vertex is not face pure, since the isolated vertex is not
+#! incident to any edge or face:
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> Vertices(tetra);
+#! [ 1 .. 4 ]
+#! gap> isolatedVertices := [5];;
+#! gap> verticesOfFaces := VerticesOfFaces(tetra);;
+#! gap> complex := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
+#! simplicial complex (5 vertices, 6 edges, and 4 faces)
+#! gap> IsFacePure(complex);
+#! false
+#! @EndExampleSession
+DeclareProperty( "IsFacePure", IsTwistedPolygonalComplex );
+#! @EndGroup
+
 
 #! @BeginGroup IsTriangular
 #! @Description
@@ -1214,7 +1238,7 @@ DeclareOperation( "IsTurnableEdgeNC", [IsSimplicialSurface, IsPosInt] );
 #! @BeginGroup BoundaryEdges
 #! @Description
 #! Return the set of all boundary edges of the given twisted polygonal complex.
-#! A <E>boundary edge</E> is an edge that is incident to exactly one face.
+#! A <E>boundary edge</E> is an edge that is incident to at maximum one face.
 #!
 #! The method <K>IsBoundaryEdge</K> checks whether the given edge is a 
 #! boundary
@@ -1252,6 +1276,40 @@ DeclareOperation( "IsBoundaryEdge", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
 DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
+
+
+#! @BeginGroup IsolatedEdges
+#! @Description
+#! Return the set of all isolated edges of the given twisted polygonal complex.
+#! An <E>isolated edge</E> is an edge that is incident to no faces.
+#!
+#! The method <K>IsIsolatedEdge</K> checks whether the given edge is an
+#! isolated
+#! edge of the given twisted polygonal complex. The NC-version does not check whether
+#! <A>edge</A> is an edge of <A>complex</A>.
+#!
+#! @ExampleSession
+#! gap> tetra := Tetrahedron();;
+#! gap> verticesOfEdges := VerticesOfEdges(tetra);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ] ]
+#! gap> verticesOfEdges := Concatenation(verticesOfEdges, [[1,5]]);;
+#! gap> edgesOfFaces := EdgesOfFaces(tetra);;
+#! gap> tetraWithIsolatedEdge := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces);
+#! simplicial complex (5 vertices, 7 edges, and 4 faces)
+#! gap> IsolatedEdges(tetraWithIsolatedEdge);
+#! [ 7 ]
+#! @EndExampleSession
+#!
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "IsolatedEdges", IsTwistedPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, edge
+DeclareOperation( "IsIsolatedEdge", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @Arguments complex, edge
+DeclareOperation( "IsIsolatedEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup RamifiedEdges
 #! @Description
@@ -1532,6 +1590,30 @@ DeclareOperation( "IsRamifiedVertex", [IsTwistedPolygonalComplex, IsPosInt] );
 DeclareOperation( "IsRamifiedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
+#! @BeginGroup IsolatedVertices
+#! @Description
+#! Return the set of all isolated vertices.
+#!
+#! A vertex is isolated if and only if it is not incident to any edges of its complex.
+#!
+#! The method <K>IsIsolatedVertex</K> checks whether the given vertex is a
+#! isolated
+#! vertex of the given twisted polygonal complex. The NC-version does not check whether
+#! <A>vertex</A> is an vertex of <A>complex</A>.
+#!
+#! TODO: Add image
+#! TODO: Add example
+#! 
+#! @Returns a set of positive integers
+#! @Arguments complex
+DeclareAttribute( "IsolatedVertices", IsTwistedPolygonalComplex );
+#! @Returns true or false
+#! @Arguments complex, vertex
+DeclareOperation( "IsIsolatedVertex", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @Arguments complex, vertex
+DeclareOperation( "IsIsolatedVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
+#! @EndGroup
+
 
 #! @BeginGroup ChaoticVertices
 #! @Description
@@ -1663,5 +1745,3 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! @Arguments surface,bool [,bool2]
 DeclareOperation( "AdmissibleRelationsOfSurface", [IsSimplicialSurface,IsBool,IsBool] );
 #! @EndGroup
-
-

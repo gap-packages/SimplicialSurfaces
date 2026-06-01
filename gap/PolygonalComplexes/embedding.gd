@@ -64,7 +64,7 @@
 
 
 #! <ManSection Label="IsAnomalyFree"> 
-#!   <Prop Name="IsAnomalyFree" Arg="complex" Label="for IsPolygonalComplex"
+#!   <Prop Name="IsAnomalyFree" Arg="complex" Label="for IsTwistedPolygonalComplex"
 #!      Comm="Checks whether a given polygonal complex contains anomalies"/>
 #!   <Filt Name="IsVertexFaithful" Arg="complex" Type="property"
 #!      Comm="Checks whether a given polygonal complex contains anomalies"/>
@@ -91,8 +91,6 @@
 #!   </Description>
 #! </ManSection>
 # here no AutoDoc documentation since synonyms can't be handled automatically
-DeclareProperty( "IsAnomalyFree", IsPolygonalComplex );
-DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
 
 
 #! @BeginGroup EdgeAnomalies
@@ -172,12 +170,12 @@ DeclareOperation( "EdgeAnomalyClassOfEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #!
 #! @Returns a set of sets of positive integers
 #! @Arguments complex
-DeclareAttribute( "FaceAnomalyClasses", IsPolygonalComplex );
+DeclareAttribute( "FaceAnomalyClasses", IsTwistedPolygonalComplex );
 #! @Returns a set of positive integers
 #! @Arguments complex, face
-DeclareOperation( "FaceAnomalyClassOfFace", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "FaceAnomalyClassOfFace", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @Arguments complex, face
-DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsPolygonalComplex, IsPosInt] );
+DeclareOperation( "FaceAnomalyClassOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 

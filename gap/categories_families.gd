@@ -12,26 +12,33 @@ DeclareCategory( "IsTwistedPolygonalComplex", IsObject );
 BindGlobal( "TwistedPolygonalComplexFamily",
     NewFamily("TwistedPolygonalComplexFamily", IsObject, IsTwistedPolygonalComplex));
 
-DeclareProperty("IsPolygonalComplex", IsTwistedPolygonalComplex);
-
-## Define all secondary categories
-
-
+### Properties
+#
+DeclareProperty( "IsNotTwisted",        IsTwistedPolygonalComplex );
+DeclareProperty( "IsFacePure",          IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
+DeclareProperty( "IsTriangular",        IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
+DeclareProperty( "IsAnomalyFree",       IsTwistedPolygonalComplex );
 # Ramifications
-DeclareProperty( "IsNotEdgeRamified", IsTwistedPolygonalComplex );
+DeclareProperty( "IsNotEdgeRamified",   IsTwistedPolygonalComplex );
 DeclareProperty( "IsNotVertexRamified", IsTwistedPolygonalComplex );
-InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);
+#
+## Property Synonyms
+DeclareSynonym( "IsVertexFaithful", IsAnomalyFree );
+#
+## Property Implications
+InstallTrueMethod(IsNotEdgeRamified, IsNotVertexRamified);    # IsNotVertexRamified implies IsNotEdgeRamified
 
-
-DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsNotEdgeRamified and IsNotVertexRamified );
-DeclareSynonym( "IsPolygonalSurface", IsPolygonalComplex and IsTwistedPolygonalSurface );
-
-
-DeclareProperty( "IsTriangular", IsTwistedPolygonalComplex );    #TODO this is currently twice declared (also in properties.gd)
+## Secondary categories
+DeclareSynonym( "IsTwistedPolygonalSurface", IsTwistedPolygonalComplex and IsFacePure and IsNotEdgeRamified and IsNotVertexRamified );
+DeclareSynonym( "IsPolygonalComplex",        IsTwistedPolygonalComplex and IsNotTwisted );
+#
+DeclareSynonym( "IsPolygonalSurface",  IsTwistedPolygonalSurface and IsPolygonalComplex );
 DeclareSynonym( "IsTriangularComplex", IsPolygonalComplex and IsTriangular );
-DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangular );
-
-
+#
+DeclareSynonym( "IsSimplicialSurface", IsPolygonalSurface and IsTriangularComplex );
+DeclareSynonym( "IsSimplicialComplex", IsTriangularComplex and IsVertexFaithful );
+#
+DeclareSynonym( "IsVertexFaithfulSimplicialSurface", IsSimplicialSurface and IsSimplicialComplex );
 
 #######################################
 ##

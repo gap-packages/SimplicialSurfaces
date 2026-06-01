@@ -992,13 +992,14 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 
                 # construction of the simplicial surface
                 obj := Objectify( TwistedPolygonalComplexType, rec() );
-                SetIsPolygonalComplex(obj, true);
+                SetIsNotTwisted(obj, true);
                 SetIsDefaultChamberSystem(obj, true);
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
                 SetUmbrellaPathsOfVertices(obj, 
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
+                SetIsFacePure(obj, true);
 
                 # construction of the coloured surface
                 colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
@@ -1543,7 +1544,7 @@ InstallMethod( CommonCover,
 
         # Construct the new simplicial surface
         surface := Objectify( TwistedPolygonalComplexType, rec() );
-        SetIsPolygonalComplex(surface, true);
+        SetIsNotTwisted(surface, true);
         SetIsDefaultChamberSystem(surface, true);
         SetFacesOfEdges(surface, simpFacesOfEdges);
         SetVerticesOfEdges(surface, simpVerticesOfEdges);

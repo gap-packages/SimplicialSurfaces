@@ -17,7 +17,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    SetIsPolygonalComplex(tet, true);
+    SetIsNotTwisted(tet, true);
     SIMPLICIAL_TestAssert(IsClosedComplex(tet));
 
 
@@ -25,7 +25,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    SetIsPolygonalComplex(tet, true);
+    SetIsNotTwisted(tet, true);
     SIMPLICIAL_TestAssert(InnerVertices(tet) = tet_verts);
     
     # Test the InnerVertices-method for the closed surface case
@@ -40,7 +40,7 @@ BindGlobal( "__SIMPLICIAL_Test_Properties", function()
     tet := Objectify( TwistedPolygonalComplexType, rec() );
     SetVerticesOfEdges(tet, tet_vertsOfEdges);
     SetEdgesOfFaces(tet, tet_edgesOfFaces);
-    SetIsPolygonalComplex(tet, true);
+    SetIsNotTwisted(tet, true);
     SIMPLICIAL_TestAssert(BoundaryVertices(tet) = []);
 
     # Test the BoundaryVertices-method for the closed surface case
@@ -470,6 +470,50 @@ BindGlobal( "__SIMPLICIAL_Test_Smaller", function()
 	triangle3 := SimplicialSurfaceByDownwardIncidence( [[1,2],[1,4],[2,4]],[[1,2,3]] );
 	SIMPLICIAL_TestAssert((triangle1<triangle3)=true);
 	
+end);
+
+BindGlobal( "__SIMPLICIAL_Test_Connectivity", function()
+    local verticesOfEdges, edgesOfFaces, isolatedVertices, complex, subComplex;
+
+    verticesOfEdges := [ [ 2, 3 ], [ 3, 4 ], [ 4, 5 ], [ 3, 5 ] ];
+    edgesOfFaces    := [ [ 2, 3, 4 ] ];
+
+    complex := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces);
+
+    SIMPLICIAL_TestAssert(IsConnectedComplex(complex));
+
+    #
+    subComplex := ConnectedComponentOfFace(complex, 1);
+
+    SIMPLICIAL_TestAssert(IsConnectedComplex(subComplex)); # inferenced
+
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(subComplex));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(subComplex));
+    SIMPLICIAL_TestAssert(Length(Vertices(subComplex)) = 4);
+    SIMPLICIAL_TestAssert(Length(Edges(subComplex)) = 4);
+    SIMPLICIAL_TestAssert(Length(Faces(subComplex)) = 1);
+
+    #
+    # ###################################################################
+    #
+
+    isolatedVertices := [6];
+
+    complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges,
+                                                    edgesOfFaces);
+
+    SIMPLICIAL_TestAssert(not IsConnectedComplex(complex));
+
+    #
+    subComplex := ConnectedComponentOfFace(complex, 1);
+
+    SIMPLICIAL_TestAssert(IsSimplicialComplex(subComplex));
+    SIMPLICIAL_TestAssert(not IsSimplicialSurface(subComplex));
+    SIMPLICIAL_TestAssert(Length(Vertices(subComplex)) = 4);
+    SIMPLICIAL_TestAssert(Length(Edges(subComplex)) = 4);
+    SIMPLICIAL_TestAssert(Length(Faces(subComplex)) = 1);
+
+    SIMPLICIAL_TestAssert(IsConnectedComplex(subComplex)); # inferenced
 end);
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then

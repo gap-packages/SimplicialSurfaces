@@ -581,6 +581,34 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
+#! @BeginGroup
+#! @Description
+#! Given a simplicial complex <A>complex</A> this method constructs the induced face pure
+#! simplicial complex of <A>complex</A>. In particular, all isolated vertices and edges are
+#! removed and keeps only those vertices and edges that are incident to a face in <A>complex</A>.
+#!
+#! @BeginExampleSession
+#! gap> tetra := Tetrahedron();
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
+#! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
+#! gap> edgesOfFaces := EdgesOfFaces(tetra);
+#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
+#! gap> isolatedVertices := [6];;
+#! gap> complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
+#! simplicial complex (6 vertices, 7 edges, and 4 faces)
+#! gap> pureComplex := PureSimplicialComplex(complex);
+#! simplicial surface (4 vertices, 6 edges, and 4 faces)
+#! gap> VerticesOfFaces(pureComplex) = VerticesOfFaces(tetra);
+#! true
+#! @EndExampleSession
+#!
+#! @Returns a simplicial complex
+#! @Arguments simplicial complex
+DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
+#! @EndGroup
+
+
 #! @Section Face-induced order of incident vertices/edges
 #! @SectionLabel Access_OrderedFaceAccess
 #!

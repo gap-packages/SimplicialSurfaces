@@ -232,17 +232,21 @@ BindGlobal( "__SIMPLICIAL_PolygonalComplexName",
         if big then
             nameList := ["SimplicialSurface", "PolygonalSurface", 
                 "TriangularComplex", "PolygonalComplex",
-                "TwistedPolygonalComplex", "TwistedPolygonalSurface"];
+                "TwistedPolygonalComplex", "TwistedPolygonalSurface",
+                "SimplicialComplex"];
         else
             nameList := ["simplicial surface", "polygonal surface", 
                 "triangular complex", "polygonal complex",
-                "twisted polygonal complex", "twisted polygonal surface"];
+                "twisted polygonal complex", "twisted polygonal surface",
+                "simplicial complex"];
         fi;
 
         if IsSimplicialSurface(complex) then
             return nameList[1];
         elif IsPolygonalSurface(complex) then
             return nameList[2];
+        elif IsSimplicialComplex(complex) then
+            return nameList[7];
         elif IsTriangularComplex(complex) then
             return nameList[3];
         elif IsPolygonalComplex(complex) then

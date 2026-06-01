@@ -73,21 +73,21 @@ InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
 InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
-        local arcs, diedges, i, graph;
-    
+    local arcs, diedges, i, graph;
+
     arcs := [];
     diedges := Compacted(VerticesOfEdges(complex));
     for i in [1..Length(diedges)] do
-    arcs[2*i-1] := diedges[i];
-    arcs[2*i] := Reversed(diedges[i]);
+        arcs[2*i-1] := diedges[i];
+        arcs[2*i] := Reversed(diedges[i]);
     od;
-        # Digraphs can only create graphs with vertices [1..n]
-        # Therefore we have to take a subgraph of this graph
-        graph := DigraphByEdges( arcs );
-        return InducedSubdigraph( graph, 
-            VerticesAttributeOfComplex(complex) );
-    end
-);
+
+    # Digraphs can only create graphs with vertices [1..n]
+    # Therefore we have to take a subgraph of this graph
+    graph := DigraphByEdges( arcs );
+    graph := DigraphAddVertices( graph, IsolatedVertices(complex) );
+    return InducedSubdigraph( graph, VerticesAttributeOfComplex(complex) );
+end);
 
 InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
 function(complex)
@@ -176,13 +176,13 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-    	    local graph, vertices, names, incidence, trivialAction;
+    	local graph, vertices, names, incidence, trivialAction;
 
 	    vertices := VerticesAttributeOfComplex(complex);
 
-            names := vertices;
+        names := vertices;
 	    incidence := function(x,y)
-		return Set([x,y]) in VerticesOfEdges(complex);
+		    return Set([x,y]) in VerticesOfEdges(complex);
 	    end;
 
 	    trivialAction := function( pnt, g )
@@ -260,8 +260,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     InstallMethod( EdgeNautyGraph, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
-            return NautyGraphWithNodeLabels( VerticesOfEdges(complex), 
-                VerticesAttributeOfComplex(complex) );
+            return NautyGraphWithNodeLabels(
+                VerticesOfEdges(complex),
+                VerticesAttributeOfComplex(complex)
+            );
         end
     );
 
