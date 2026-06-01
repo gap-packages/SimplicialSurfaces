@@ -836,8 +836,7 @@ InstallMethod( Butterfly, "", [], function()
 );
 
 InstallMethod( JanusHead, "", [], function()
-    return SimplicialSurfaceByVerticesInFaces( [1..3], [1..2], 
-            [ [1,2,3], [1,2,3] ] );
+    return SimplicialSurfaceByVerticesInFaces( [ [1,2,3], [1,2,3] ] );
     end
 );
 

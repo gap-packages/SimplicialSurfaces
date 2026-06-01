@@ -1281,10 +1281,10 @@ DeclareOperation( "IsBoundaryEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @BeginGroup IsolatedEdges
 #! @Description
 #! Return the set of all isolated edges of the given twisted polygonal complex.
-#! An <E>isolated edge</E> is an edge that is incident to exactly no faces.
+#! An <E>isolated edge</E> is an edge that is incident to no faces.
 #!
-#! The method <K>IsIsolatedEdge</K> checks whether the given edge is a 
-#! boundary
+#! The method <K>IsIsolatedEdge</K> checks whether the given edge is an
+#! isolated
 #! edge of the given twisted polygonal complex. The NC-version does not check whether
 #! <A>edge</A> is an edge of <A>complex</A>.
 #!
