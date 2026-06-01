@@ -652,7 +652,7 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #! For example, consider the butterfly with two strongly connected components.
 #! @BeginLog
 butterfly := TriangularComplexByVerticesInFaces( [1..7], [1..4], [ [1,2,3], 
-[1,6,7], [1,3,4], [1,5,6] ]);;
+[1,6,7], [1,3,4], [1,5,6] ], [] );;
 pr := DrawSurfaceToTikz(butterfly,"Butterfly");;
 #! @EndLog
 #!  <Alt Only="HTML">

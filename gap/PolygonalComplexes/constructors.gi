@@ -1680,13 +1680,15 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_DownwardIncidence",
     end;
     preCheckFunc := function(functionName, arg)
         local numArgs, isLongFilter, isComplexConstr, vertices, edges, faces,
-              verticesOfEdges, edgesOfFaces, isolatedVertices, providedIsolatedVertices,
+              verticesOfEdges, edgesOfFaces, isolatedVertices, hasIsolatedVertices,
               verticesDed, edgesDed, facesDed, verticesExp, edgesExp, isolatedVerticesExp;
 
         numArgs := Length(arg);
 
-        isLongFilter     := numArgs = 5;
-        isComplexConstr  := PositionSublist(functionName, "Complex") <> fail;
+        isComplexConstr := PositionSublist(functionName, "Complex") <> fail;
+        isLongFilter    := numArgs = 5;
+
+        isolatedVertices := [];
 
         if isLongFilter then
             vertices := arg[1];
@@ -1697,28 +1699,26 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_DownwardIncidence",
 
             verticesOfEdges  := arg[4];
             edgesOfFaces     := arg[5];
-
-            providedIsolatedVertices := false;
         elif numArgs = 2 then
             verticesOfEdges  := arg[1];
             edgesOfFaces     := arg[2];
-
-            providedIsolatedVertices := false;
         elif numArgs = 3 and isComplexConstr then
             verticesOfEdges  := arg[1];
             edgesOfFaces     := arg[2];
             isolatedVertices := arg[3];
-
-            if not IsSet(isolatedVertices) then
-                Error(Concatenation(functionName,
-                                    ": pre-check: isolatedVertices must be a set\n"));
-            fi;
-
-            providedIsolatedVertices := true;
         else
             Error(Concatenation(functionName,
                                 " pre-check: unexpected number of arguments: ",
                                 String(numArgs), ".\n"));
+        fi;
+
+        if isComplexConstr then
+            hasIsolatedVertices := Length(isolatedVertices) > 0;
+            
+            if hasIsolatedVertices and not IsSet(isolatedVertices) then
+                Error(Concatenation(functionName,
+                                    ": pre-check: isolatedVertices must be a set\n"));
+            fi;
         fi;
 
         verticesDed := Union(verticesOfEdges);
@@ -1746,7 +1746,7 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_DownwardIncidence",
             __SIMPLICIAL_CompareSets( functionName, faces      , facesDed   , "face"   );
         else
             if isComplexConstr then
-                if providedIsolatedVertices then
+                if hasIsolatedVertices then
                     # Allow isolated vertices
                     isolatedVerticesExp := Filtered( isolatedVertices,
                                                      v -> not v in verticesDed );
@@ -1999,12 +1999,6 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_UpwardIncidence",
         descriptions := buildDescriptions("UpwardIncidence", isSurfaceConstr);
         filters      := buildFilters     ("UpwardIncidence", isSurfaceConstr);
 
-        # For Upward Incidence we do not need the optional isolated vertices arg
-        # as that can be deduced from edgesOfVertices. Hence remove that variant
-        # from description and filters (from position 3 in each list).
-        Remove(descriptions, 3);
-        Remove(filters     , 3);
-
         numFunctionVariants := Length(filters);
 
         for vNr in [1..numFunctionVariants] do
@@ -2143,7 +2137,7 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
     local objectBuilder, preCheckFunc, postCheckFunc, typeName, functionName, isSurfaceConstr,
           descriptions, filters, numFunctionVariants, vNr, installationWrapper;
 
-    objectBuilder := function(verticesInFaces, allVertices)
+    objectBuilder := function(verticesInFaces, allVertices, verticesOfIsolatedEdges)
         local AdjacentVertices, vertexPairs, verticesOfEdgesDed, edgesOfFacesDed, obj;
 
         AdjacentVertices := function(list)
@@ -2158,7 +2152,7 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
 
         vertexPairs := List(verticesInFaces, AdjacentVertices);
 
-        verticesOfEdgesDed := Union(vertexPairs);
+        verticesOfEdgesDed := Union( Union(vertexPairs), verticesOfIsolatedEdges );
         edgesOfFacesDed    := List( vertexPairs,
                                     l -> List( l, p -> Position(verticesOfEdgesDed, p) ) );
 
@@ -2177,42 +2171,84 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
     end;
     preCheckFunc := function(functionName, arg)
         local numArgs, isLongFilter, isComplexConstr, vertices, faces,
-              verticesOfFaces, isolatedVertices, providedIsolatedVertices,
-              isolatedVerticesExp, verticesDed, facesDed, verticesExp;
+              verticesOfFaces, verticesOfIsolatedEdges, isolatedVertices,
+              hasIsolatedEdges, hasIsolatedVertices, isolatedVerticesExp,
+              verticesDed, facesDed, verticesExp, edgeVertices, allVertices;
 
         numArgs := Length(arg);
 
-        isLongFilter    := numArgs = 3;
         isComplexConstr := PositionSublist(functionName, "Complex") <> fail;
+        isLongFilter    := (numArgs = 4 and isComplexConstr) or
+                           (numArgs = 3 and not isComplexConstr);
 
-        if isLongFilter then
-            vertices         := arg[1];
-            faces            := arg[2];
+        verticesOfIsolatedEdges := [];
+        isolatedVertices        := [];
+
+        if   isLongFilter then
+            vertices := arg[1];
+            faces    := arg[2];
 
             basePreCheckFunc(functionName, vertices, [], faces);
 
-            verticesOfFaces  := arg[3];
+            verticesOfFaces         := arg[3];
 
-            providedIsolatedVertices := false;
+            if isComplexConstr then
+                verticesOfIsolatedEdges := arg[4];
+            fi;
         elif numArgs = 1 then
             verticesOfFaces  := arg[1];
-
-            providedIsolatedVertices := false;
         elif numArgs = 2 and isComplexConstr then
             verticesOfFaces  := arg[1];
-            isolatedVertices := arg[2];
 
-            if not IsSet(isolatedVertices) then
-                Error(Concatenation(functionName,
-                                    ": pre-check: isolatedVertices must be a set\n"));
+            if Length(arg[2]) > 0 then
+                # Check if arg[2] is verticesOfIsolatedEdges or isolatedVertices
+                if IsPosInt(arg[2][1]) then
+                    isolatedVertices        := arg[2];
+                else
+                    verticesOfIsolatedEdges := arg[2];
+                fi;
             fi;
+        elif numArgs = 3 and isComplexConstr then
+            verticesOfFaces  := arg[1];
 
-            providedIsolatedVertices := true;
+            if   Length(arg[2]) > 0 then
+                # Check if arg[2] is verticesOfIsolatedEdges or isolatedVertices
+                if IsPosInt(arg[2][1]) then
+                    isolatedVertices        := arg[2];
+                    verticesOfIsolatedEdges := arg[3];
+                else
+                    isolatedVertices        := arg[3];
+                    verticesOfIsolatedEdges := arg[2];
+                fi;
+            elif Length(arg[3]) > 0 then
+                # Check if arg[3] is verticesOfIsolatedEdges or isolatedVertices
+                if IsPosInt(arg[3][1]) then
+                    isolatedVertices        := arg[3];
+                    verticesOfIsolatedEdges := arg[2];
+                else
+                    isolatedVertices        := arg[2];
+                    verticesOfIsolatedEdges := arg[3];
+                fi;
+            fi;
         else
             Error(Concatenation(functionName,
                                 " pre-check: unexpected number of arguments: ",
                                 String(numArgs), ".\n"));
         fi;
+
+        if isComplexConstr then
+            hasIsolatedEdges    := Length(verticesOfIsolatedEdges) > 0;
+            hasIsolatedVertices := Length(isolatedVertices)        > 0;
+
+            if   hasIsolatedEdges    and not IsSet(verticesOfIsolatedEdges)    then
+                Error(Concatenation(functionName,
+                                    ": pre-check: verticesOfIsolatedEdges must be a set\n"));
+            elif hasIsolatedVertices and not IsSet(isolatedVertices) then
+                Error(Concatenation(functionName,
+                                    ": pre-check: isolatedVertices must be a set\n"));
+            fi;
+        fi;
+
         verticesDed := Union         (verticesOfFaces);
         facesDed    := PositionsBound(verticesOfFaces);
         
@@ -2229,12 +2265,47 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
             __SIMPLICIAL_CompareSets( functionName, verticesExp, verticesDed, "vertex" );
             __SIMPLICIAL_CompareSets( functionName, faces      , facesDed   , "face"   );
         else
-            if isComplexConstr and providedIsolatedVertices then                
+            if isComplexConstr and hasIsolatedVertices then                
                 # Allow isolated vertices
                 isolatedVerticesExp := Filtered( isolatedVertices, v -> not v in verticesDed );
 
                 __SIMPLICIAL_CompareSets( functionName, isolatedVerticesExp,
                                           isolatedVertices, "vertex" );
+            fi;
+        fi;
+
+        if isComplexConstr and hasIsolatedEdges then
+            # Check integrity of verticesOfIsolatedEdges
+            for edgeVertices in verticesOfIsolatedEdges do
+                if   Length(edgeVertices) <> 2 then
+                    Error(Concatenation(functionName,
+                                        ": pre-check: verticesOfIsolatedEdges may only contain ",
+                                        "lists with 2 vertices\n"));
+                elif ForAny(edgeVertices, v -> not IsPosInt(v)) then
+                    Error(Concatenation(functionName,
+                                        ": pre-check: verticesOfIsolatedEdges may only contain ",
+                                        "lists of positive integers\n"));
+                elif Reversed(edgeVertices) in verticesOfIsolatedEdges then
+                    Error(Concatenation(functionName,
+                                        ": pre-check: verticesOfIsolatedEdges may not contain ",
+                                        "duplicate entries\n"));
+                elif ForAny(verticesOfFaces, faceVertices -> IsSubset(faceVertices, edgeVertices)) then
+                    Error(Concatenation(functionName,
+                                        ": pre-check: verticesOfIsolatedEdges may not contain ",
+                                        "lists of vertices that are incident to the same face\n"));
+                fi;
+            od;
+
+            if hasIsolatedVertices then
+                # hasIsolatedVertices is only true for short filter function calls
+                allVertices := Union( Union(verticesOfIsolatedEdges), verticesDed);
+                
+                if ForAny(isolatedVertices, v1 -> ForAny(allVertices, v2 -> v1 = v2)) then
+                    Error(Concatenation(functionName,
+                                        ": pre-check: isolatedVertices must only contain vertex ",
+                                        "labels that are not used in verticesOfFaces or ",
+                                        "verticesOfIsolatedEdges"));
+                fi;
             fi;
         fi;
 
@@ -2267,7 +2338,8 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
                     # Long filter function installation
 
                     buildFunc := function(arg, isNoCheck)
-                        local unpackedArgs, allVertices, verticesOfFaces, obj;
+                        local unpackedArgs, allVertices, verticesOfFaces,
+                              verticesOfIsolatedEdges,  obj;
 
                         if Length(arg) = 1 then
                             unpackedArgs := arg[1];
@@ -2281,8 +2353,13 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
 
                         allVertices     := unpackedArgs[1];
                         verticesOfFaces := unpackedArgs[3];
+                        if Length(unpackedArgs) = 4 then
+                            verticesOfIsolatedEdges := unpackedArgs[4];
+                        else
+                            verticesOfIsolatedEdges := [];
+                        fi;
 
-                        obj := objectBuilder(verticesOfFaces, allVertices);
+                        obj := objectBuilder(verticesOfFaces, allVertices, verticesOfIsolatedEdges);
 
                         if not isNoCheck then
                             postCheckFunc(functionName, typeName, obj);
@@ -2320,7 +2397,8 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
 
                     buildFunc := function(arg, isNoCheck)
                         local unpackedArgs, verticesOfFaces, isolatedVertices,
-                              verticesDed, allVertices, obj;
+                              verticesOfIsolatedEdges, verticesDed, unifiedVerticesOfFaces,
+                              unifiedVerticesOfIsolatedEdges, allVertices, obj;
 
                         # Testing for arg length = 1 is not enough since short filter
                         # constructor can also just have one argument (verticesInFaces).
@@ -2342,17 +2420,46 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
                             preCheckFunc(functionName, unpackedArgs);
                         fi;
 
-                        verticesOfFaces := unpackedArgs[1];
-                        if Length(unpackedArgs) = 2 then
-                            isolatedVertices := unpackedArgs[2];
-                        else
-                            isolatedVertices := [];
+                        verticesOfFaces         := unpackedArgs[1];
+                        verticesOfIsolatedEdges := [];
+                        isolatedVertices        := [];
+                        if   Length(unpackedArgs) = 2 then
+                            if Length(unpackedArgs[2]) > 0 then
+                                if IsPosInt(unpackedArgs[2][1]) then
+                                    isolatedVertices        := unpackedArgs[2];
+                                else
+                                    verticesOfIsolatedEdges := unpackedArgs[2];
+                                fi;
+                            fi;
+                        elif Length(unpackedArgs) = 3 then
+                            if   Length(unpackedArgs[2]) > 0 then
+                                if IsPosInt(unpackedArgs[2][1]) then
+                                    isolatedVertices        := unpackedArgs[2];
+                                    verticesOfIsolatedEdges := unpackedArgs[3];
+                                else
+                                    isolatedVertices        := unpackedArgs[3];
+                                    verticesOfIsolatedEdges := unpackedArgs[2];
+                                fi;
+                            elif Length(unpackedArgs[3]) > 0 then
+                                if IsPosInt(unpackedArgs[3][1]) then
+                                    isolatedVertices        := unpackedArgs[3];
+                                    verticesOfIsolatedEdges := unpackedArgs[2];
+                                else
+                                    isolatedVertices        := unpackedArgs[2];
+                                    verticesOfIsolatedEdges := unpackedArgs[3];
+                                fi;
+                            fi;
                         fi;
 
-                        verticesDed := Union(verticesOfFaces);
-                        allVertices := Union(isolatedVertices, verticesDed);
+                        unifiedVerticesOfFaces         := Union(verticesOfFaces);
+                        unifiedVerticesOfIsolatedEdges := Union(verticesOfIsolatedEdges);
 
-                        obj := objectBuilder(verticesOfFaces, allVertices);
+                        verticesDed := Union( unifiedVerticesOfFaces,
+                                              unifiedVerticesOfIsolatedEdges );
+                        allVertices := Union( isolatedVertices,
+                                              verticesDed );
+
+                        obj := objectBuilder(verticesOfFaces, allVertices, verticesOfIsolatedEdges);
 
                         if not isNoCheck then
                             postCheckFunc(functionName, typeName, obj);
@@ -2420,48 +2527,99 @@ BindGlobal( "__SIMPLICIAL_InstallConstructors",
             ];
         elif constrVariant = "VerticesInFaces" then
             descriptions := [
-                Concatenation("for 2 ", textBlockLists, " and a list of " , textBlockLists),
-                Concatenation("for a list " , textBlockLists)
+                Concatenation("for a " , textBlockList)
             ];
+
+            if isSurfaceConstr then
+                Add( descriptions,
+                     Concatenation("for 2 ", textBlockLists, " and a list of " , textBlockLists),
+                     1 );
+            else
+                Add( descriptions,
+                     Concatenation("for 2 ", textBlockLists, " and 2 lists of " , textBlockLists),
+                     1 );
+            fi;
         else
             Error(Concatenation("Build descriptions: unknown constructor name: '",
                                 constrVariant, "'.\n"));
         fi;
 
         if not isSurfaceConstr then
-            # For complex-type constructor variant add optional arg filter variant
-            # (positive integer list for isolatedVertices optional arg)
-            shortFilterDescription := descriptions[2];
-            #
-            Add(descriptions, Concatenation(shortFilterDescription, " and a ", textBlockList));
+            if   constrVariant = "DownwardIncidence" then
+                # For complex-type downward incidence constructor variant add optional arg
+                # filter variant (positive integer list for isolatedVertices optional arg)
+                shortFilterDescription := descriptions[2];
+                #
+                Add(descriptions, Concatenation(shortFilterDescription, " and a ",
+                                                textBlockList));
+            elif constrVariant = "VerticesInFaces"   then
+                # For complex-type vertices in faces incidence constructor variant add
+                # all combinations of possible arg variants (both vertices of isolated
+                # edges and isolated vertices OR only vertices of isolated edges OR
+                # only isolated vertices)
+                shortFilterDescription := descriptions[2];
+                #
+                # Add vertices of isolated edges optional AND isolated vertices optional
+                # arg variant
+                Add(descriptions, Concatenation(shortFilterDescription, ", a list of ",
+                                                textBlockLists, " and a ", textBlockList));
+                # Add vertices of isolated edges optional arg variant
+                Add(descriptions, Concatenation(shortFilterDescription, " and a list of ",
+                                                textBlockLists));
+                # Add isolated vertices optional arg variant
+                Add(descriptions, Concatenation(shortFilterDescription, " and a ",
+                                                textBlockList));
+            fi;
+            # For Upward Incidence we do not need the optional isolated vertices arg
+            # as that can be deduced from edgesOfVertices.
         fi;
 
         return descriptions;
     end;
     #
     buildFilters := function(constrVariant, isSurfaceConstr)
-        local filters, numValuesOptionalArg;
+        local filters, numArgs;
 
         if constrVariant in ["DownwardIncidence", "UpwardIncidence"] then
             filters := [
                 List( [1..5], _ -> ValueGlobal("IsList") ),
                 List( [1..2], _ -> ValueGlobal("IsList") ),
             ];
-            numValuesOptionalArg := 3;
         elif constrVariant = "VerticesInFaces" then
+            if isSurfaceConstr then
+                numArgs := 3;
+            else
+                numArgs := 4;
+            fi;
             filters := [
-                List( [1..3], _ -> ValueGlobal("IsList") ),
-                List( [1]   , _ -> ValueGlobal("IsList") ),
+                List( [1..numArgs], _ -> ValueGlobal("IsList") ),
+                List( [1]         , _ -> ValueGlobal("IsList") ),
             ];
-            numValuesOptionalArg := 2;
         else
             Error(Concatenation("Build filters: unknown constructor name: '",
                                 constrVariant, "'.\n"));
         fi;
 
         if not isSurfaceConstr then
-            # For complex-type constructor variant add optional arg filter variant
-            Add(filters, List( [1..numValuesOptionalArg], _ -> ValueGlobal("IsList") ));
+            if   constrVariant = "DownwardIncidence" then
+                # For complex-type downward incidence constructor variant add optional arg
+                # filter variant (positive integer list for isolatedVertices optional arg)
+                #
+                Add(filters, List( [1..3], _ -> ValueGlobal("IsList") ));
+            elif constrVariant = "VerticesInFaces" then
+                # For complex-type vertices in faces incidence constructor variant add
+                # all combinations of possible arg variants (both vertices of isolated
+                # edges and isolated vertices OR only vertices of isolated edges OR
+                # only isolated vertices)
+                #
+                # Add vertices of isolated edges optional AND isolated vertices optional
+                # arg variant filter
+                Add(filters, List( [1..3], _ -> ValueGlobal("IsList") ));
+                # Add vertices of isolated edges optional arg filter
+                Add(filters, List( [1..2], _ -> ValueGlobal("IsList") ));
+                # Add isolated vertices optional arg filter
+                Add(filters, List( [1..2], _ -> ValueGlobal("IsList") ));
+            fi;
         fi;
 
         return filters;

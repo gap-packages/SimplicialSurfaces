@@ -1770,7 +1770,7 @@ DeclareAttribute( "GeodesicFlagCycle", IsEdgeFacePath and IsClosedGeodesicPath )
             #! </Alt>
 #! @ExampleSession
 #! gap> butterfly := TriangularComplexByVerticesInFaces( [1..7], [1..4],
-#! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ]);;
+#! > [ [1,2,3], [1,6,7], [1,3,4], [1,5,6] ], [] );;
 #! @EndExampleSession
 #! This example is connected since its incidence graph (see section
 #! <Ref Sect="Section_Graphs_Incidence"/>) is 
