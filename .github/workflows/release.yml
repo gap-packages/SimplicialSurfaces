@@ -48,3 +48,17 @@ jobs:
           path: doc
           extra-files: |
             .nojekyll
+            doc/images
+      - name: Build index.html via Jekyll and push to gh-pages
+        if: ${{ !inputs.dry-run }}
+        run: |
+          gem install jekyll
+          git clone --branch gh-pages https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} gh-pages-build
+          cd gh-pages-build
+          jekyll build
+          cp _site/index.html index.html
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Add pre-built index.html"
+          git push
