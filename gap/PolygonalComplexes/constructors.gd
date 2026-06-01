@@ -250,11 +250,11 @@
 #! @EndExampleSession
 #!
 #! @Returns a polygonal complex
-#! @Arguments verticesOfEdges, edgesOfFaces[, isolatedVertices]
+#! @Arguments [isolatedVertices, ]verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList, IsList] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidence", [IsList, IsList, IsList, IsList, IsList] );
-#! @Arguments verticesOfEdges, edgesOfFaces[, isolatedVertices]
+#! @Arguments [isolatedVertices, ]verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList, IsList] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "PolygonalComplexByDownwardIncidenceNC", [IsList, IsList, IsList, IsList, IsList] );
@@ -345,11 +345,11 @@ DeclareOperation( "PolygonalSurfaceByDownwardIncidenceNC", [IsList, IsList, IsLi
 #! @EndExampleSession
 #!
 #! @Returns a triangular complex
-#! @Arguments verticesOfEdges, edgesOfFaces[, isolatedVertices]
+#! @Arguments [isolatedVertices, ]verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList, IsList] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidence", [IsList, IsList, IsList, IsList, IsList] );
-#! @Arguments verticesOfEdges, edgesOfFaces[, isolatedVertices]
+#! @Arguments [isolatedVertices, ]verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList, IsList] );
 #! @Arguments vertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList, IsList, IsList, IsList] );
@@ -421,16 +421,16 @@ DeclareOperation( "TriangularComplexByDownwardIncidenceNC", [IsList, IsList, IsL
 #! gap> edgesOfFaces := EdgesOfFaces(tetra);
 #! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
 #! gap> isolatedVertices := [6];;
-#! gap> SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces, isolatedVertices);
+#! gap> SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
 #! simplicial complex (6 vertices, 7 edges, and 4 faces)
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
-#! @Arguments verticesOfEdges, edgesOfFaces[, isolatedVertices]
+#! @Arguments [isolatedVertices, ]verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsList, IsList, IsList] );
 #! @Arguments allVertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialComplexByDownwardIncidence", [IsList, IsList, IsList, IsList, IsList] );
-#! @Arguments verticesOfEdges, edgesOfFaces[, isolatedVertices]
+#! @Arguments [isolatedVertices, ]verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsList, IsList, IsList] );
 #! @Arguments allVertices, edges, faces, verticesOfEdges, edgesOfFaces
 DeclareOperation( "SimplicialComplexByDownwardIncidenceNC", [IsList, IsList, IsList, IsList, IsList]);
@@ -1045,11 +1045,11 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList, IsLis
 #! @EndExampleSession
 #! 
 #! @Returns a polygonal complex
-#! @Arguments verticesInFaces[, verticesOfIsolatedEdges, isolatedVertices]
+#! @Arguments [isolatedVertices, verticesOfIsolatedEdges, ]verticesInFaces
 DeclareOperation( "PolygonalComplexByVerticesInFaces", [IsList, IsList, IsList] );
 #! @Arguments vertices, faces, verticesInFaces, verticesOfIsolatedEdges
 DeclareOperation( "PolygonalComplexByVerticesInFaces", [IsList, IsList, IsList, IsList] );
-#! @Arguments verticesInFaces[, verticesOfIsolatedEdges, isolatedVertices]
+#! @Arguments [isolatedVertices, verticesOfIsolatedEdges, ]verticesInFaces
 DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsList, IsList, IsList] );
 #! @Arguments vertices, faces, verticesInFaces, verticesOfIsolatedEdges
 DeclareOperation( "PolygonalComplexByVerticesInFacesNC", [IsList, IsList, IsList, IsList] );
@@ -1121,11 +1121,11 @@ DeclareOperation( "PolygonalSurfaceByVerticesInFacesNC", [IsList, IsList, IsList
 #! @EndExampleSession
 #!
 #! @Returns a triangular complex
-#! @Arguments verticesInFaces[, verticesOfIsolatedEdges, isolatedVertices]
+#! @Arguments [isolatedVertices, verticesOfIsolatedEdges, ]verticesInFaces
 DeclareOperation( "TriangularComplexByVerticesInFaces", [IsList, IsList, IsList] );
 #! @Arguments vertices, faces, verticesInFaces, verticesOfIsolatedEdges
 DeclareOperation( "TriangularComplexByVerticesInFaces", [IsList, IsList, IsList, IsList] );
-#! @Arguments verticesInFaces[, verticesOfIsolatedEdges, isolatedVertices]
+#! @Arguments [isolatedVertices, verticesOfIsolatedEdges, ]verticesInFaces
 DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList, IsList, IsList] );
 #! @Arguments vertices, faces, verticesInFaces, verticesOfIsolatedEdges
 DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList, IsList, IsList, IsList] );
@@ -1188,16 +1188,16 @@ DeclareOperation( "TriangularComplexByVerticesInFacesNC", [IsList, IsList, IsLis
 #! gap> verticesOfFaces := VerticesOfFaces(tetra);
 #! [ [ 1, 2, 3 ], [ 1, 2, 4 ], [ 2, 3, 4 ], [ 1, 3, 4 ] ]
 #! gap> isolatedVertices := [5];;
-#! gap> SimplicialComplexByVerticesInFaces(verticesOfFaces, isolatedVertices);
+#! gap> SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
 #! simplicial complex (5 vertices, 6 edges, and 4 faces)
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
-#! @Arguments verticesInFaces[, verticesOfIsolatedEdges, isolatedVertices]
+#! @Arguments [isolatedVertices, verticesOfIsolatedEdges, ]verticesInFaces
 DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsList, IsList, IsList] );
 #! @Arguments allVertices, faces, verticesInFaces, verticesOfIsolatedEdges
 DeclareOperation( "SimplicialComplexByVerticesInFaces", [IsList, IsList, IsList, IsList] );
-#! @Arguments verticesInFaces[, verticesOfIsolatedEdges, isolatedVertices]
+#! @Arguments [isolatedVertices, verticesOfIsolatedEdges, ]verticesInFaces
 DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsList, IsList, IsList] );
 #! @Arguments allVertices, faces, verticesInFaces, verticesOfIsolatedEdges
 DeclareOperation( "SimplicialComplexByVerticesInFacesNC", [IsList, IsList, IsList, IsList] );

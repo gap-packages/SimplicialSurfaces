@@ -1039,7 +1039,7 @@ DeclareProperty( "IsFaceHomogeneous", IsTwistedPolygonalComplex );
 #! [ 1 .. 4 ]
 #! gap> isolatedVertices := [5];;
 #! gap> verticesOfFaces := VerticesOfFaces(tetra);;
-#! gap> complex := SimplicialComplexByVerticesInFaces(verticesOfFaces, isolatedVertices);
+#! gap> complex := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
 #! simplicial complex (5 vertices, 6 edges, and 4 faces)
 #! gap> IsFacePure(complex);
 #! false

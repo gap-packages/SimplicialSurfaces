@@ -499,8 +499,8 @@ BindGlobal( "__SIMPLICIAL_Test_Connectivity", function()
 
     isolatedVertices := [6];
 
-    complex := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces, 
-                                                    isolatedVertices);
+    complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges,
+                                                    edgesOfFaces);
 
     SIMPLICIAL_TestAssert(not IsConnectedComplex(complex));
 

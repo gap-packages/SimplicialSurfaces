@@ -1703,9 +1703,9 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_DownwardIncidence",
             verticesOfEdges  := arg[1];
             edgesOfFaces     := arg[2];
         elif numArgs = 3 and isComplexConstr then
-            verticesOfEdges  := arg[1];
-            edgesOfFaces     := arg[2];
-            isolatedVertices := arg[3];
+            isolatedVertices := arg[1];
+            verticesOfEdges  := arg[2];
+            edgesOfFaces     := arg[3];
         else
             Error(Concatenation(functionName,
                                 " pre-check: unexpected number of arguments: ",
@@ -1859,12 +1859,14 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_DownwardIncidence",
                             unpackedArgs := arg;
                         fi;
 
-                        verticesOfEdges := unpackedArgs[1];
-                        edgesOfFaces    := unpackedArgs[2];
                         if Length(unpackedArgs) = 3 then
-                            isolatedVertices := unpackedArgs[3];
+                            isolatedVertices := unpackedArgs[1];
+                            verticesOfEdges  := unpackedArgs[2];
+                            edgesOfFaces     := unpackedArgs[3];
                         else
                             isolatedVertices := [];
+                            verticesOfEdges  := unpackedArgs[1];
+                            edgesOfFaces     := unpackedArgs[2];
                         fi;
 
                         if not isNoCheck then
@@ -2198,37 +2200,29 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
         elif numArgs = 1 then
             verticesOfFaces  := arg[1];
         elif numArgs = 2 and isComplexConstr then
-            verticesOfFaces  := arg[1];
+            verticesOfFaces  := arg[2];
 
-            if Length(arg[2]) > 0 then
-                # Check if arg[2] is verticesOfIsolatedEdges or isolatedVertices
-                if IsPosInt(arg[2][1]) then
-                    isolatedVertices        := arg[2];
+            if Length(arg[1]) > 0 then
+                # Check if arg[1] is verticesOfIsolatedEdges or isolatedVertices
+                if IsPosInt(arg[1][1]) then
+                    isolatedVertices        := arg[1];
                 else
-                    verticesOfIsolatedEdges := arg[2];
+                    verticesOfIsolatedEdges := arg[1];
                 fi;
             fi;
         elif numArgs = 3 and isComplexConstr then
-            verticesOfFaces  := arg[1];
+            verticesOfFaces  := arg[3];
 
-            if   Length(arg[2]) > 0 then
-                # Check if arg[2] is verticesOfIsolatedEdges or isolatedVertices
-                if IsPosInt(arg[2][1]) then
-                    isolatedVertices        := arg[2];
-                    verticesOfIsolatedEdges := arg[3];
-                else
-                    isolatedVertices        := arg[3];
-                    verticesOfIsolatedEdges := arg[2];
-                fi;
-            elif Length(arg[3]) > 0 then
-                # Check if arg[3] is verticesOfIsolatedEdges or isolatedVertices
-                if IsPosInt(arg[3][1]) then
-                    isolatedVertices        := arg[3];
-                    verticesOfIsolatedEdges := arg[2];
-                else
-                    isolatedVertices        := arg[2];
-                    verticesOfIsolatedEdges := arg[3];
-                fi;
+            if ( Length(arg[1]) > 0 and IsPosInt(arg[1][1]) ) and
+               ( Length(arg[2]) > 0 and IsList  (arg[2][1]) ) then
+                # arg[1] is isolatedVertices and arg[2] is verticesOfIsolatedEdges
+                isolatedVertices        := arg[1];
+                verticesOfIsolatedEdges := arg[2];
+            else
+                Error(Concatenation(functionName,
+                                    "pre-check: optional arguments must be non-empty and ",
+                                    "must be passed in the right order according to the ",
+                                    "function declaration"));
             fi;
         else
             Error(Concatenation(functionName,
@@ -2420,34 +2414,27 @@ BindGlobal ( "__SIMPLICIAL_InstallConstructors_VerticesInFaces",
                             preCheckFunc(functionName, unpackedArgs);
                         fi;
 
-                        verticesOfFaces         := unpackedArgs[1];
                         verticesOfIsolatedEdges := [];
                         isolatedVertices        := [];
-                        if   Length(unpackedArgs) = 2 then
-                            if Length(unpackedArgs[2]) > 0 then
-                                if IsPosInt(unpackedArgs[2][1]) then
-                                    isolatedVertices        := unpackedArgs[2];
+                        if   Length(unpackedArgs) = 1 then
+                            verticesOfFaces := unpackedArgs[1];
+                        elif  Length(unpackedArgs) = 2 then
+                            verticesOfFaces := unpackedArgs[2];
+
+                            if Length(unpackedArgs[1]) > 0 then
+                                if IsPosInt(unpackedArgs[1][1]) then
+                                    isolatedVertices        := unpackedArgs[1];
                                 else
-                                    verticesOfIsolatedEdges := unpackedArgs[2];
+                                    verticesOfIsolatedEdges := unpackedArgs[1];
                                 fi;
                             fi;
                         elif Length(unpackedArgs) = 3 then
-                            if   Length(unpackedArgs[2]) > 0 then
-                                if IsPosInt(unpackedArgs[2][1]) then
-                                    isolatedVertices        := unpackedArgs[2];
-                                    verticesOfIsolatedEdges := unpackedArgs[3];
-                                else
-                                    isolatedVertices        := unpackedArgs[3];
-                                    verticesOfIsolatedEdges := unpackedArgs[2];
-                                fi;
-                            elif Length(unpackedArgs[3]) > 0 then
-                                if IsPosInt(unpackedArgs[3][1]) then
-                                    isolatedVertices        := unpackedArgs[3];
-                                    verticesOfIsolatedEdges := unpackedArgs[2];
-                                else
-                                    isolatedVertices        := unpackedArgs[2];
-                                    verticesOfIsolatedEdges := unpackedArgs[3];
-                                fi;
+                            verticesOfFaces := unpackedArgs[3];
+
+                            if ( Length(unpackedArgs[1]) > 0 and IsPosInt(unpackedArgs[1][1]) ) or
+                               ( Length(unpackedArgs[2]) > 0 and IsList  (unpackedArgs[2][1]) ) then
+                                isolatedVertices        := unpackedArgs[1];
+                                verticesOfIsolatedEdges := unpackedArgs[2];
                             fi;
                         fi;
 
@@ -2514,7 +2501,7 @@ BindGlobal( "__SIMPLICIAL_InstallConstructors",
     # for each constructor specific build function call.
     #
     buildDescriptions := function(constrVariant, isSurfaceConstr)
-        local textSuffix, textBlockLists, textBlockList, descriptions, shortFilterDescription;
+        local textSuffix, textBlockLists, textBlockList, descriptions;
 
         textSuffix     := " of positive integers";
         textBlockLists := Concatenation("lists", textSuffix);
@@ -2548,27 +2535,24 @@ BindGlobal( "__SIMPLICIAL_InstallConstructors",
             if   constrVariant = "DownwardIncidence" then
                 # For complex-type downward incidence constructor variant add optional arg
                 # filter variant (positive integer list for isolatedVertices optional arg)
-                shortFilterDescription := descriptions[2];
                 #
-                Add(descriptions, Concatenation(shortFilterDescription, " and a ",
-                                                textBlockList));
+                Add(descriptions, Concatenation("for a ", textBlockList, " and 2 lists of ",
+                                                textBlockLists));
             elif constrVariant = "VerticesInFaces"   then
                 # For complex-type vertices in faces incidence constructor variant add
                 # all combinations of possible arg variants (both vertices of isolated
                 # edges and isolated vertices OR only vertices of isolated edges OR
                 # only isolated vertices)
-                shortFilterDescription := descriptions[2];
                 #
-                # Add vertices of isolated edges optional AND isolated vertices optional
+                # Add isolated vertices AND vertices of isolated edges optional optional
                 # arg variant
-                Add(descriptions, Concatenation(shortFilterDescription, ", a list of ",
-                                                textBlockLists, " and a ", textBlockList));
-                # Add vertices of isolated edges optional arg variant
-                Add(descriptions, Concatenation(shortFilterDescription, " and a list of ",
+                Add(descriptions, Concatenation("for a ", textBlockList, " and 2 lists of ",
                                                 textBlockLists));
                 # Add isolated vertices optional arg variant
-                Add(descriptions, Concatenation(shortFilterDescription, " and a ",
-                                                textBlockList));
+                Add(descriptions, Concatenation("for a ", textBlockList, " and a list of ",
+                                                textBlockLists));
+                # Add vertices of isolated edges optional arg variant
+                Add(descriptions, Concatenation("for 2 lists of ", textBlockLists));
             fi;
             # For Upward Incidence we do not need the optional isolated vertices arg
             # as that can be deduced from edgesOfVertices.

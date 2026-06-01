@@ -595,7 +595,7 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! gap> edgesOfFaces := EdgesOfFaces(tetra);
 #! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
 #! gap> isolatedVertices := [6];;
-#! gap> complex := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces, isolatedVertices);
+#! gap> complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
 #! simplicial complex (6 vertices, 7 edges, and 4 faces)
 #! gap> pureComplex := PureSimplicialComplex(complex);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)

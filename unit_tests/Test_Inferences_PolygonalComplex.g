@@ -632,9 +632,9 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
         # Downward Incidence
         #
         # Short Filter
-        c := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces, isolatedVertices);
+        c := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
         testComplex(c);
-        c := SimplicialComplexByDownwardIncidenceNC(verticesOfEdges, edgesOfFaces, isolatedVertices);
+        c := SimplicialComplexByDownwardIncidenceNC(isolatedVertices, verticesOfEdges, edgesOfFaces);
         testComplex(c);
         #
         # Long Filter
@@ -661,25 +661,22 @@ BindGlobal("__SIMPLICIAL_Test_SimplicialComplex", function ()
         # Vertices In Faces
         #
         # Short Filter
-        if   Length(verticesOfIsolatedEdges) > 0 and Length(isolatedVertices) = 0 then
-            c := SimplicialComplexByVerticesInFaces(verticesOfFaces, verticesOfIsolatedEdges);
+        if   Length(verticesOfIsolatedEdges) > 0 and Length(isolatedVertices) > 0 then
+            c := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfIsolatedEdges, verticesOfFaces);
             testComplex(c);
-            c := SimplicialComplexByVerticesInFacesNC(verticesOfFaces, verticesOfIsolatedEdges);
+            c := SimplicialComplexByVerticesInFacesNC(isolatedVertices, verticesOfIsolatedEdges, verticesOfFaces);
+            testComplex(c);
+        elif Length(verticesOfIsolatedEdges) > 0 and Length(isolatedVertices) = 0 then
+            c := SimplicialComplexByVerticesInFaces(verticesOfIsolatedEdges, verticesOfFaces);
+            testComplex(c);
+            c := SimplicialComplexByVerticesInFacesNC(verticesOfIsolatedEdges, verticesOfFaces);
             testComplex(c);
         elif Length(isolatedVertices) > 0 and Length(verticesOfIsolatedEdges) = 0 then
-            c := SimplicialComplexByVerticesInFaces(verticesOfFaces, isolatedVertices);
+            c := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
             testComplex(c);
-            c := SimplicialComplexByVerticesInFacesNC(verticesOfFaces, isolatedVertices);
+            c := SimplicialComplexByVerticesInFacesNC(isolatedVertices, verticesOfFaces);
             testComplex(c);
         fi;
-        c := SimplicialComplexByVerticesInFaces(verticesOfFaces, verticesOfIsolatedEdges, isolatedVertices);
-        testComplex(c);
-        c := SimplicialComplexByVerticesInFacesNC(verticesOfFaces, verticesOfIsolatedEdges, isolatedVertices);
-        testComplex(c);
-        c := SimplicialComplexByVerticesInFaces(verticesOfFaces, isolatedVertices, verticesOfIsolatedEdges);
-        testComplex(c);
-        c := SimplicialComplexByVerticesInFacesNC(verticesOfFaces, isolatedVertices, verticesOfIsolatedEdges);
-        testComplex(c);
         #
         # Long Filter
         c := SimplicialComplexByVerticesInFaces(vertices, faces, verticesOfFaces, verticesOfIsolatedEdges);
@@ -756,7 +753,7 @@ BindGlobal("__SIMPLICIAL_Test_Extraction_SimplicialComplex", function ()
     edgesOfFaces     := [ [ 2, 3, 4 ] ];
     isolatedVertices := [1];
 
-    complex := SimplicialComplexByDownwardIncidence(verticesOfEdges, edgesOfFaces, isolatedVertices);
+    complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
     SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
     SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
 
@@ -766,7 +763,7 @@ BindGlobal("__SIMPLICIAL_Test_Extraction_SimplicialComplex", function ()
     verticesOfFaces  := [ [ 1, 2, 3 ], [ 1, 3, 4 ], [ 1, 4, 5 ], [ 1, 5, 2 ], [ 1, 2, 6 ] ];
     isolatedVertices := [7];
 
-    complex := SimplicialComplexByVerticesInFaces(verticesOfFaces, isolatedVertices);
+    complex := SimplicialComplexByVerticesInFaces(isolatedVertices, verticesOfFaces);
     SIMPLICIAL_TestAssert(IsSimplicialComplex(complex));
     SIMPLICIAL_TestAssert(not IsSimplicialSurface(complex));
 
