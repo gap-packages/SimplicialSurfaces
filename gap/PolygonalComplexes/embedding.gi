@@ -43,15 +43,15 @@ InstallMethod( IsAnomalyFree, "for a twisted polygonal complex", [IsTwistedPolyg
 ## edges
 ##
 InstallMethod( EdgeAnomalyClasses, "for a polyonal complex",
-    [IsTwistedPolygonalComplex],
+    [IsPolygonalComplex],
     function(complex)
         return __SIMPLICIAL_ComputeClasses( Edges(complex), 
                 VerticesOfEdges(complex) );
     end
 );
 InstallMethod( EdgeAnomalyClassOfEdgeNC, 
-    "for a twisted polygonal complex and an edge",
-    [IsTwistedPolygonalComplex, IsPosInt],
+    "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
         local cl;
 
@@ -65,8 +65,8 @@ InstallMethod( EdgeAnomalyClassOfEdgeNC,
     end
 );
 InstallMethod( EdgeAnomalyClassOfEdge,
-    "for a twisted polygonal complex and an edge",
-    [IsTwistedPolygonalComplex, IsPosInt],
+    "for a polygonal complex and an edge",
+    [IsPolygonalComplex, IsPosInt],
     function(complex, edge)
         __SIMPLICIAL_CheckEdge(complex, edge, "EdgeAnomalyClassOfEdge");
         return EdgeAnomalyClassOfEdgeNC(complex, edge);

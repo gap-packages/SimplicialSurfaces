@@ -63,39 +63,6 @@ BindGlobal( "__SIMPLICIAL_AbstractConnectedComponent",
     end
 );
 
-BindGlobal( "__SIMPLICIAL_IsConnectedOnVertexEdgeIncidence",
-function(complex)
-    local vertices, start, queue, visited, v, neighbours, n;
-
-    vertices := VerticesAttributeOfComplex(complex);
-    if Length(vertices) = 0 then
-        return true;
-    fi;
-
-    start := vertices[1];
-    queue := [start];
-    visited := [];
-    for v in vertices do
-        Add(visited, false, v);
-    od;
-
-    while Length(queue) > 0 do
-        v := Remove(queue, 1);
-
-        visited[v] := true;
-
-        neighbours := NeighbourVerticesOfVertex(complex, v);
-        for n in neighbours do
-            if not visited[n] then
-                Add(queue, n);
-            fi;
-        od;
-    od;
-
-    return not false in visited;
-end);
-
-
 ##
 ## general connectivity
 ##
@@ -140,7 +107,19 @@ InstallImmediateMethod( IsConnectedComplex,
             return false;
         fi;
 
-        return __SIMPLICIAL_IsConnectedOnVertexEdgeIncidence(complex);
+        if Length(Edges(complex)) = 0 then
+            return true;
+        fi;
+
+        components := __SIMPLICIAL_AbstractConnectedComponent( 
+                        Edges(complex), VerticesOfEdges(complex), 
+                        Edges(complex)[1] );
+
+        if Length( components ) <> NumberOfEdges(complex) then
+            return false;
+        fi;
+
+        return true;
     end
 );
 AddPropertyIncidence( SIMPLICIAL_ATTRIBUTE_SCHEDULER,

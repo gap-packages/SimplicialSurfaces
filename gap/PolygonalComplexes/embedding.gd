@@ -128,12 +128,12 @@
 #!
 #! @Returns a set of sets of positive integers
 #! @Arguments complex
-DeclareAttribute( "EdgeAnomalyClasses", IsTwistedPolygonalComplex );
+DeclareAttribute( "EdgeAnomalyClasses", IsPolygonalComplex );
 #! @Returns a set of positive integers
 #! @Arguments complex, edge
-DeclareOperation( "EdgeAnomalyClassOfEdge", [IsTwistedPolygonalComplex, IsPosInt] );
+DeclareOperation( "EdgeAnomalyClassOfEdge", [IsPolygonalComplex, IsPosInt] );
 #! @Arguments complex, edge
-DeclareOperation( "EdgeAnomalyClassOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt] );
+DeclareOperation( "EdgeAnomalyClassOfEdgeNC", [IsPolygonalComplex, IsPosInt] );
 #! @EndGroup
 
 
