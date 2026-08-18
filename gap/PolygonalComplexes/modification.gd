@@ -1622,17 +1622,16 @@ DeclareOperation( "ButterflyInsertion", [IsSimplicialSurface, IsVertexEdgePath] 
 #! @BeginGroup ButterflyDeletionSurface
 #! @Description
 #! Given a simplicial surface <A>surface</A>, a new surface is constructed
-#! by deleting a
-#! butterfly formed by two neighbour faces or an inner edge intersecting these two faces.
-#! The operation <E>ButterflyDeletion</E> can be viewed as first deleting the inner edge
-#! and the two faces forming the butterfly surface and then merging two vertices
-#! of an edge to one vertex along with joining the edges of each face to one edge.
+#! by deleting a butterfly.
+#! The butterfly can be given by two neighboured faces or an inner edge.
+#! The operation removes the inner edge and the two incident faces forming
+#! the butterfly. surface Then the two vertices of the inner edge are joined
+#! as well as the incident edges.
 #!
 #! The function returns a list, where the first entry is the reduced surface
-#! <A>newSurface</A> which has two faces less than the input surface. The
-#! second entry is a vertex-edge path in <A>newSurface</A>, which consisting
-#! of all edges corresponding to the joined edge paths or nothing in case
-#! there was no required edge path join.
+#! <A>newSurface</A> which has two faces less than the given surface <A>surface</A>. 
+#! The second entry is a vertex-edge path in <A>newSurface</A>, which consists
+#! of all edges corresponding to the joined edge paths or nothing if no edges were joined.
 #!
 #! This example demonstrates deleting a butterfly along two neighbour faces.
 #! @BeginExampleSession

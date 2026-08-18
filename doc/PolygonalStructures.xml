@@ -9,38 +9,37 @@
      Since we don't want to bore readers, we aim for an engagingly written
      chapter with many pictures to easily visualize what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
-    This chapter presents the different ways in which surfaces are used
+    This chapter presents the different ways in which surfaces and complexes are used
     in the <K>SimplicialSurfaces</K>-package. More accurately, it presents 
-    structures
-    that are build from polygons (note that these can be much more general
-    than simplicial surfaces). We employ two different models for
-    these structures:
+    structures that are build from vertices, edges and polygons 
+    (note that these can be much more general than simplicial surfaces). 
+    We employ two different models for these structures:
     <Enum>
         <Item>Description by incidence geometry. This leads to the concept
             of <K>PolygonalComplex</K> 
-            (section <Ref Sect="PolygonalStructures_complex"/>). The 
+            (Section <Ref Sect="PolygonalStructures_complex"/>). The 
             requirements for these
-            to be surfaces are explained in section
+            to be surfaces are explained in Section
             <Ref Sect="PolygonalStructures_surface"/>.</Item>
         <Item>If incidence geometry is not sufficient to describe a polygonal
             structure, additional information (a barycentric subdivision of 
             the faces) can be
             used. This leads to the concept of <K>TwistedPolygonalComplex</K>
-            (section <Ref Sect="PolygonalStructures_twisted"/>). 
+            (Section <Ref Sect="PolygonalStructures_twisted"/>). 
             </Item>
     </Enum>
-    <E>Polygonal Complexes</E> are structures that are build from polygons, 
-    like shown in the following figure (for the precise definition, see
-    section <Ref Sect="PolygonalStructures_complex"/>). More formal definition
-    can be found in <Cite Key="Baumeister"/>.
+    <E>Polygonal Complexes</E> are structures that are build from vertices, 
+    edges and polygons, like shown in the following figure (for the precise 
+    definition, see Section <Ref Sect="PolygonalStructures_complex"/>). 
+    More formal definition can be found in <Cite Key="Baumeister"/>.
 
     <Alt Only="HTML">
     &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples-1.svg"> &lt;/img> &lt;br>
     </Alt>
     <Alt Only = "LaTeX">
     \begin{center}
-\includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
-\end{center}
+    \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
+    \end{center}
     </Alt>
     <Alt Only = "Text">
     Image omitted in terminal text
@@ -57,7 +56,7 @@
         <Heading>Polygonal Complexes (pure incidence geometry)</Heading>
         A polygonal complex is defined by a two-dimensional incidence geometry
         that fulfills some regularity conditions (the complete definition will
-        be given at the end of this section in definition 
+        be given at the end of this section in Definition 
         <Ref Subsect="Def_PolygonalComplex"/>). We will exemplify this by 
         the following surface.
         <Alt Only="HTML">
@@ -85,8 +84,8 @@
         </Alt>
         <Alt Only = "LaTeX">
         \begin{center}
-\includegraphics{images/_Wrapper_Image_StarOfStarExample.pdf}
-\end{center}
+        \includegraphics{images/_Wrapper_Image_StarOfStarExample.pdf}
+        \end{center}
         </Alt>
         <Alt Only = "Text">
         Image omitted in terminal text
@@ -99,7 +98,7 @@
         <Par/>
         <M>F = \{I, IV\}</M>.
         <Par/>
-        These sets can't encode the surface on their own. The 
+        These sets cannot encode the surface on their own. The 
         relations between vertices, edges, and faces are also necessary. 
         Therefore we define a 
         transitive relation in the union of <M>V \times E</M>, 
@@ -116,72 +115,10 @@
         <Par/>
         <M>\{ (6,I), (8,I), (9,I), (9,IV), (10,IV), (12,IV), (13,IV) \}</M>.
         <Par/>
-        <!-- TODO add "subset VxE" to those? Is that possible? -->
-
 
         However, we do not permit arbitrary incidence relations but only
         those satisfying certain regularity conditions (like in our example).
-        For
-        example, every edge should consist of exactly two vertices (more
-        formally, for every edge there should be exactly two vertices that
-        are incident to it).
-        <Alt Only="HTML">
-        &lt;br>&lt;img src='./images/_Wrapper_structs-2-1.svg'> &lt;/img> &lt;br>
-        </Alt>
-        <Alt Only = "LaTeX">
-        \begin{center}
-        \includegraphics{images/_Wrapper_structs-2.pdf}
-        \end{center}
-        </Alt>
-        <Alt Only = "Text">
-        Image omitted in terminal text
-        </Alt>
-        If we try to generalize this condition to the faces we encounter
-        some difficulties. For example, if we only enforce that each face
-        has exactly three edges and three vertices, it would be possible
-        that two of those edges share all of their vertices. Therefore
-        even the case of triangles is quite complicated.
-        <Alt Only="HTML">
-        &lt;br>&lt;img src='./images/_Wrapper_structs-3-1.svg'> &lt;/img> &lt;br>
-        </Alt>
-        <Alt Only = "LaTeX">
-        \begin{center}
-        \includegraphics{images/_Wrapper_structs-3.pdf}
-        \end{center}
-        </Alt>
-        <Alt Only = "Text">
-        Image omitted in terminal text
-        </Alt>
-        We will solve this problem by imposing a cyclic ordering on the
-        vertices and edges that are incident to each face, such that those
-        are compatible with the incidence structure. Since this definition
-        is equally valid for all polygons (not just triangles), we
-        formally define:
-        <Par/>
 
-        <List>
-            <Item><#Include Label="PolygonalComplex_Face"></Item>
-        </List>
-
-        <Alt Only="HTML">
-        &lt;br>&lt;img src='./images/_Wrapper_structs-4-1.svg'> &lt;/img> &lt;br>
-        </Alt>
-        <Alt Only = "LaTeX">
-        \begin{center}
-        \includegraphics{images/_Wrapper_structs-4.pdf}
-        \end{center}
-        </Alt>
-        <Alt Only = "Text">
-        Image omitted in terminal text
-        </Alt>
-
-        With these conditions we have guaranteed that all edges and faces
-        behave as in our previous example. But they still allow the possibility
-        of an incidence relation where we have vertices but no faces. Since
-        we want to exclude singular cases like this from our considerations, we
-        require that every vertex is incident to at least one edge and that
-        every edge is incident to at least one face.
-        <Par/>
 
         <Subsection Label="Def_PolygonalComplex">
             <Heading>Definition (polygonal complex)</Heading>
@@ -213,27 +150,18 @@
             <Description>
                 Checks whether <A>object</A> is a polygonal complex. A polygonal
                 complex can be informally described as a structure that is
-                constructed from polygons.
-                <Par/>
-                More formally (for a more extensive explanation see section 
-                <Ref Sect="PolygonalStructures_complex"/>) a polygonal complex 
-                is a two-dimensional incidence geometry of vertices, edges and 
-                faces such that the following conditions hold:
-                <Enum>
-                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                </Enum>
+                constructed from vertices, edges and polygons.
+                For a more extensive explanation see Section 
+                <Ref Subsect="Def_PolygonalComplex"/>.
             </Description>
         </ManSection>
 
 
     </Section>
-<!-- TODO maybe talk about how to access this information with a link to the appropriate chapter? -->
 
     <Section Label="PolygonalStructures_twisted">
         <Heading>Twisted polygonal complexes and surfaces</Heading>
-        While polygonal complexes are quite general, they can't describe all
+        While polygonal complexes are quite general, they cannot describe all
         possible triangulations of a topological surface. For example, we
         can construct a torus from a single polygon by starting with a 
         square and identifying opposite edges.
@@ -259,7 +187,6 @@
                 </Item>
             <Item>Construction of the geodesic dual.</Item>
         </List>
-        <!-- TODO reference to location of these methods-->
 
         In these cases, the more general formalism of
         <E>twisted polygonal complexes</E> is helpful. To interpret the
@@ -327,30 +254,23 @@
                 as a structure that is constructed from polygons, where the
                 polygons may be <E>twisted</E> (e.g. there could be a polygon
                 with one vertex and three edges).
-
-                More formally (for a more extensive explanation see Section
-                <Ref Sect="PolygonalStructures_twisted"/>) a twisted polygonal
-                complex is 
-                
-                TODO
+                A more extensive explanation can be found at the beginning of
+                Section <Ref Sect="PolygonalStructures_twisted"/>.
             </Description>
         </ManSection>
-
-
-        TODO explain how to work with it
     </Section>
 
 
     <Section Label="PolygonalStructures_surface">
         <Heading>Polygonal and simplicial surfaces</Heading>
-        Polygonal surfaces are polygonal complexes (compare section 
+        Polygonal surfaces are polygonal complexes (compare Section 
         <Ref Sect="PolygonalStructures_complex"/>)
         that behave like surfaces (two-dimensional manifolds with boundary). 
         For example, they arise from the discretisation of a continuous 
         surface. Simplicial surfaces are polygonal surfaces, where all
         polygons are triangles.
         <Par/>
-        There are two properties that distinguish polygonal surfaces
+        There are three properties that distinguish polygonal surfaces
         from polygonal complexes:
         <Enum>
             <Item> There are no ramified edges, i.e. every edge is incident to
@@ -376,16 +296,30 @@
                 </Alt>
                 <Alt Only = "LaTeX">
                 \begin{center}
-\includegraphics{images/_Wrapper_Image_RamifiedExamples.pdf}
-\end{center}
+                \includegraphics{images/_Wrapper_Image_RamifiedExamples.pdf}
+                \end{center}
                 </Alt>
                 <Alt Only = "Text">
                 Image omitted in terminal text
                 </Alt>
             </Item>
+            <Item> The complex is face pure, i.e. all edges and vertices are incident to faces. This exludes cases like the following:
+                <Alt Only="HTML">
+                    &lt;br>&lt;img src='./images/_Wrapper_structs-2-1.svg'> &lt;/img> &lt;br>
+                    </Alt>
+                    <Alt Only = "LaTeX">
+                    \begin{center}
+                    \includegraphics{images/_Wrapper_structs-2.pdf}
+                    \end{center}
+                    </Alt>
+                    <Alt Only = "Text">
+                    Image omitted in terminal text
+                    </Alt>
+            </Item>
         </Enum>
         If only the first condition is fulfilled, we have a <E>polygonal 
         complex without edge ramifications</E>.
+
          <ManSection Label="IsNotEdgeRamified">
             <Prop Name="IsNotEdgeRamified" Arg="complex" Label="for a TwistedPolygonalComplex"
                 Comm="Checks whether the given twisted polygonal complex has no edge ramifications"/>
@@ -393,41 +327,39 @@
             <Description>
                 Checks whether the twisted polygonal complex <A>complex</A> has no edge
                 ramifications.
-                <P/>
-                If <A>complex</A> is a polygonal complex, this means that
+                If <A>complex</A> is a polygonal complex without edge ramifications, this means that
                 every edge is incident to at most two faces.
-                <P/>
-                If <A>complex</A> is a twisted polygonal complex, this means that
+                If <A>complex</A> is a twisted polygonal complex without edge ramifications, this means that
                 every chamber is 2-adjacent to at most one other chamber.
             </Description>
         </ManSection>
 
     
-        We now proceed to formalize the second condition. Intuitively we want to
-        distinguish between the different coloured faces in these examples:
-        <Alt Only="HTML">
-        &lt;br>&lt;img src='./images/_Wrapper_structs-8-1.svg'> &lt;/img> &lt;br>
-        </Alt>
-        <Alt Only = "LaTeX">
-        \begin{center}
-        \includegraphics{images/_Wrapper_structs-8.pdf}
-        \end{center}
-        </Alt>
-        <Alt Only = "Text">
-        Image omitted in terminal text
-        </Alt>
-        They can be distinguished by the fact that faces of the same colour are
-        connected by edges that are incident to the given vertex. More formally:
         <Subsection Label="Definition_Umbrella">
             <Heading>Definition (Umbrella-path around a vertex)</Heading>
+                We now proceed to formalize the second condition. Intuitively we want to
+                distinguish between the different coloured faces in these examples:
+                <Alt Only="HTML">
+                &lt;br>&lt;img src='./images/_Wrapper_structs-8-1.svg'> &lt;/img> &lt;br>
+                </Alt>
+                <Alt Only = "LaTeX">
+                \begin{center}
+                \includegraphics{images/_Wrapper_structs-8.pdf}
+                \end{center}
+                </Alt>
+                <Alt Only = "Text">
+                Image omitted in terminal text
+                </Alt>
+                They can be distinguished by the fact that faces of the same colour are
+                connected by edges that are incident to the given vertex. More formally:
                 <#Include Label="Umbrella_Definition">
                 <Alt Only="HTML">
                 &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath.svg"> &lt;/img> &lt;br>
                 </Alt>
                 <Alt Only = "LaTeX">
                 \begin{center}
-\includegraphics{images/_Wrapper_Image_EdgeFacePath.pdf}
-\end{center}
+                \includegraphics{images/_Wrapper_Image_EdgeFacePath.pdf}
+                \end{center}
                 </Alt>
                 <Alt Only = "Text">
                 Image omitted in terminal text
@@ -438,7 +370,7 @@
             <Item><#Include Label="PolygonalComplex_Paths"></Item>
         </List>
         For generic polygonal complexes without edge ramifications we 
-        can't expect to get
+        cannot expect to get
         exactly one umbrella. In our examples above all incident edges
         and faces could be represented by two umbrellas.
         
@@ -454,12 +386,16 @@
         </ManSection>
 
 
-
-        In general, we can always find a set of umbrella of a vertex
-        such that all edges and faces incident to that vertex lie in exactly
-        one of those umbrellas. This is called the <E>umbrella partition</E>
-        of the vertex (we will talk more about this topic in section
-        <Ref Sect="Section_Access_OrderedVertexAccess"/>).
+        <ManSection>
+            <Prop Name="IsFacePure" Arg="complex"
+                Comm="Checks whether the given twisted polygonal complex has no vertex ramifications"/>
+            <Returns><K>true</K> or <K>false</K></Returns>
+            <Description>
+                Checks whether the twisted polygonal complex <A>complex</A> is face pure, 
+                i.e the method checks whether all vertices and edges in this twisted polygonal 
+                complex are incident to any face of <A>complex</A>.
+            </Description>
+        </ManSection>
             
         <ManSection>
             <Prop Name="IsPolygonalSurface" Arg="object"
@@ -471,7 +407,7 @@
                 a polygonal surface is a surface (with boundary) that is build
                 only from polygons.
                 <Par/>
-                More formally (for more details and examples see sections
+                More formally (for more details and examples see Sections
                 <Ref Sect="PolygonalStructures_complex"/> and
                 <Ref Sect="PolygonalStructures_surface"/>) a polygonal surface
                 is a two-dimensional incidence geometry of vertices, edges, and
@@ -479,9 +415,9 @@
                 <Enum>
                     <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
                     <Item><#Include Label="PolygonalComplex_Face_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
                     <Item><#Include Label="PolygonalComplex_Ramified"></Item>
                     <Item><#Include Label="PolygonalComplex_Paths"></Item>
+                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
                 </Enum>
             </Description>
         </ManSection>
@@ -496,18 +432,10 @@
                 Informally a simplicial surface is a surface (with boundary)
                 that is build only from triangles.
                 <Par/>
-                More formally (for more details and examples see sections
+                More formally (for more details and examples see Sections
                 <Ref Sect="PolygonalStructures_complex"/> and
                 <Ref Sect="PolygonalStructures_surface"/>) a simplicial surface
-                is a two-dimensional incidence geometry of vertices, edges, and
-                faces such that the following conditions hold:
-                <Enum>
-                    <Item><#Include Label="PolygonalComplex_Edge_simple"></Item>
-                    <Item><#Include Label="TriangularComplex_Face_simple"></Item>
-                    <Item><#Include Label="PolygonalComplex_Incidence"></Item>
-                    <Item><#Include Label="PolygonalComplex_Ramified"></Item>
-                    <Item><#Include Label="PolygonalComplex_Paths"></Item>
-                </Enum>
+                is a polygonal surface where all faces are triangles.
             </Description>
         </ManSection>
 

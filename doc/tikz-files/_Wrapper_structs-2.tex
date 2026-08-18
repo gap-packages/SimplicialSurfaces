@@ -5,14 +5,20 @@
 \def\pgfsysdriver{pgfsys-tex4ht.def}
 
 \begin{document}
-\begin{tikzpicture}[vertexStyle, edgeStyle]
+\begin{tikzpicture}[vertexStyle=nolabels, edgeStyle=nolabels]
     \coordinate (A) at (0,0);
-    \coordinate (B) at (3,1);
+		\coordinate (B) at (1,0);
+		\coordinate (C) at (0.5, {sqrt(3)/2});	
+		\coordinate (D) at (1.5,1);
+		\coordinate (E) at (1.2,0.5);
 
-    \draw[edge] (A) -- (B);
+		\draw[face, edge] (A) -- (B) -- (C) -- cycle;
+		\draw[edge] (C) -- (D);
 
-    \foreach \p/\r/\n in {A/left/2, B/right/3}{
-        \vertexLabelR{\p}{\r}{\n}
-    }
+		\vertexLabelR{A}{below}{1}
+		\vertexLabelR{B}{below}{1}
+		\vertexLabelR{C}{below}{1}
+		\vertexLabelR{D}{below}{1}
+		\vertexLabelR{E}{below}{1}
 \end{tikzpicture}
 \end{document}

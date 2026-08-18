@@ -18,9 +18,9 @@
 #! @Chapter Constructing surfaces by their incidence structure
 #! @ChapterLabel Constructors
 #!
-#! In chapter <Ref Chap="PolygonalStructures"/> we introduced polygonal
+#! In Chapter <Ref Chap="PolygonalStructures"/> we introduced polygonal
 #! complexes (as a generalization of simplicial surfaces). They are based
-#! on incidence structures, which were analysed in chapter
+#! on incidence structures, which were analysed in Chapter
 #! <Ref Chap="Chapter_AccessIncidenceGeometry"/>.
 #! 
 #! This chapter deals with the construction of custom polygonal complexes
@@ -47,11 +47,11 @@
 #! This package offers three different ways to construct a polygonal complex
 #! "from scratch":
 #! * Choose from a few standard example (like platonic solids). This is covered
-#!   in the later sections of chapter <Ref Chap="Chapter_Library"/>.
+#!   in Chapter <Ref Chap="Chapter_Library"/>.
 #! * Define it directly by its incidence structure (this will be the main
 #!   content of this chapter).
 #! * Use the surface database to find appropriate complexes. This will be 
-#!   handled in the first section of chapter <Ref Chap="Chapter_Library"/>.
+#!   handled in the first section of Chapter <Ref Chap="Chapter_Library"/>.
 #!
 #! For simplicial surfaces another and more convenient constructor is
 #! the constructor
@@ -63,7 +63,8 @@
 #! They are mainly distinguished by the different attributes they need to 
 #! construct the incidence structures:
 #! * <E>DownwardIncidence</E>
-#!   (<Ref Sect="Section_Constructors_DownwardIncidence"/>): 
+#!   (<Ref Sect="Section_Constructors_DownwardIncidence"/>):
+#!   (<K>IsolatedVertices</K> (<Ref Subsect="IsolatedVertices"/>))
 #!   <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>),
 #!   <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>)
 #! * <E>UpwardIncidence</E>
@@ -83,14 +84,17 @@
 #! @SectionLabel Constructors_DownwardIncidence
 #!
 #! The <E>DownwardIncidence</E>-constructors are based on
-#! the attributes <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) 
-#! and <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>). From these
-#! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
-#! be build.
+#! the attributes <K>IsolatedVertices</K> (<Ref Subsect="IsolatedVertices"/>), 
+#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) 
+#! and <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>).
+#! From these any polygonal structure from Chapter 
+#! <Ref Chap="PolygonalStructures"/> can be build.
 #!
-#! To use the constructor, we need to describe two incidence relations:
+#! To use the constructor, we need to describe the two incidence relations:
 #! * incidence between vertices and edges (the argument <A>verticesOfEdges</A>)
 #! * incidence between edges and faces (the argument <A>edgesOfFaces</A>)
+#! and if the complex has isolated vertices we need to describe them as well 
+#! (the optional argument <A>ioslatedVertices</A>).
 #!
 #! As an example, consider the following polygonal surface:
  
@@ -122,7 +126,8 @@
 #! gap> edgesOfFaces := [ [2,6,12,14], , , [6,8,10], , , , , [10,14,15] ];
 #! [ [ 2, 6, 12, 14 ],,, [ 6, 8, 10 ],,,,, [ 10, 14, 15 ] ]
 #! @EndExampleSession
-#! With these two lists we can construct the desired polygonal surface.
+#! Since the desired polgonal surface does not has isolated vertices,
+#! we can construct the desired polygonal surface with these two lists.
 #! @ExampleSession
 #! gap> PolygonalSurfaceByDownwardIncidence( verticesOfEdges, edgesOfFaces );;
 #! @EndExampleSession
@@ -131,24 +136,6 @@
 #! relation is given by referring to structures of lower dimension  - an edge
 #! (dimension 1) is defined by two vertices (dimension 0) and a face 
 #! (dimension 2) is defined by edges.
-#!
-#! We call vertices with no edge incidence isolated vertices. Since the
-#! downward incidence relation does not provide information about these
-#! isolated vertices, constructor calls for types that allow isolated
-#! vertices have an optional argument <A>isolatedVertices</A>.
-
-#TODO should the presentation be changed?
-# Problem: optional argument types unclear (because complicated..)
-# Problem: Name too long for one line and breaks at bad point
-
-#TODO should we introduce a "similar methods"-part at the end of
-# some methods? This might become too long..
-
-#TODO 4 examples for the constructors (to showcase how each method
-# handles it).
-# TODO for visual distinguishing make the face colours slightly
-# different: yellow, cyan, green, light red, etc...
-# This needs styles and appropriate code
 
 
 ## Here we write part of the documentation that is the same over the 
@@ -187,8 +174,8 @@
 #! @BeginChunk Documentation_ComplexByDownwardIncidence
 #! where vertices, edges and faces are represented by positive integers.
 #! It is based on the attributes
-#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>) and 
-#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>) and takes these
+#! <K>VerticesOfEdges</K> (<Ref Subsect="VerticesOfEdges"/>), 
+#! <K>EdgesOfFaces</K> (<Ref Subsect="EdgesOfFaces"/>) and <K>IsolatedVertices</K> (<Ref Subsect="IsolatedVertices"/>) and takes these
 #! arguments:
 #! <Enum>
 #!   <Item>OPTIONAL <K>isolatedVertices</K>: A list of positive integers
@@ -215,7 +202,7 @@
 #!   elements?
 #! * Are the bound positions of <A>verticesOfEdges</A> equal to 
 #!   <K>Union</K>(<A>edgesOfFaces</A>)?
-#! * If <A>isolatedVertices</A> is given, is it a set, and is the intersection
+#! * If <A>isolatedVertices</A> is given, is it a set and is the intersection
 #!   of <A>isolatedVertices</A> and <K>Union</K>(<A>verticesOfEdges</A>) empty?
 #! @EndChunk
 
@@ -435,7 +422,7 @@ DeclareOperation( "SimplicialSurfaceByDownwardIncidenceNC", [IsList, IsList] );
 #! The <E>UpwardIncidence</E>-constructors are based on
 #! the attributes <K>EdgesOfVertices</K> (<Ref Subsect="EdgesOfVertices"/>) 
 #! and <K>FacesOfEdges</K> (<Ref Subsect="FacesOfEdges"/>). From these
-#! any polygonal structure from chapter <Ref Chap="PolygonalStructures"/> can
+#! any polygonal structure from Chapter <Ref Chap="PolygonalStructures"/> can
 #! be build.
 #!
 #! To use the constructor, we need to describe two incidence relations:
@@ -747,7 +734,7 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
 #! vertices and faces (the edge information has to be deduced from that).
 #! Therefore it is assumed that every edge is uniquely identified by its
 #! incident vertices. Apart from this restriction, every polygonal structure
-#! from chapter <Ref Chap="PolygonalStructures"/> can be build.
+#! from Chapter <Ref Chap="PolygonalStructures"/> can be build.
 #!
 #! Consider the following polygonal surface:
  
@@ -798,12 +785,10 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
 #! gap> PolygonalSurfaceByVerticesInFaces( verticesInFaces );;
 #! @EndExampleSession
 #!
-#! We call vertices and edges with no face incidence isolated vertices
-#! and isolated edges. Since the vertex-face relation does not provide
-#! information about these isolated vertices or isolated edges,
-#! constructor calls for types that allow isolated vertices have
-#! an optional argument <A>isolatedVertices</A>. Similarly for types
-#! that allow isolated edges the constructor has an optional argument
+#! Note that the vertex-face relation does not provide any
+#! information about isolated vertices or isolated edges.
+#! Thus, the constructors for complexes allow the
+#! optional arguments <A>isolatedVertices</A> and
 #! <A>verticesOfIsolatedEdges</A>.
 
 #! @BeginChunk Documentation_SurfaceByVerticesInFaces
@@ -861,16 +846,14 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
 #! * If <A>isolatedVertices</A> is given, is it a set, and is the intersection
 #!   of <A>isolatedVertices</A> and <K>Union</K>(<A>verticesInFaces</A>) empty?
 #! * If <A>verticesOfIsolatedEdges</A> is given, is it a set, and are the following
-#!   conditions true for each entry e:
-#!   * e is a set of two positive integers
-#!   * <A>verticesOfIsolatedEdges</A> has no reversed entry of e
-#!   * e is not a subset of any entry in <A>verticesInFaces</A>
-#! * If both <A>isolatedVertices</A> and <A>verticesOfIsolatedEdges</A> are given,
-#!   is the intersection of <A>isolatedVertices</A> and
+#!   conditions true for each entry <M>e</M>:
+#!   * <M>e</M> is a set of two positive integers.
+#!   * <A>verticesOfIsolatedEdges</A> has no reversed entry of <M>e</M>.
+#!   * <M>e</M> is not a subset of any entry in <A>verticesInFaces</A>.
+#! * If both <A>isolatedVertices</A> and <A>verticesOfIsolatedEdges</A> are given:
+#!   Is the intersection of <A>isolatedVertices</A> and
 #!   <K>Union</K>(<A>verticesOfIsolatedEdges</A>) empty?
 #! @EndChunk
-
-#TODO explain how the edge numbers are chosen (such that VerticesOfEdges is a set);
 
 
 #! @BeginGroup

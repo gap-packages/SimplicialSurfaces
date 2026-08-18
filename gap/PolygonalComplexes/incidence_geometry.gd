@@ -82,13 +82,11 @@
 #! applications for incidence can be found in Chapter
 #! <Ref Chap="Chapter_Navigation"/>.
 #! 
-#! Finally the sections <Ref Sect="Section_Access_OrderedFaceAccess"/>,
+#! Finally the Sections <Ref Sect="Section_Access_OrderedFaceAccess"/>,
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>, and
 #! <Ref Sect="Section_Access_OrderedHoleAccess"/>
 #! deal with variations of incidence that are usually not needed by the 
 #! standard user.
-#TODO how to improve this introduction to give more information but
-# not burden the reader too much?
 
 #! @Section Labels of vertices, edges and faces
 #! @SectionLabel Access_LabelAccess
@@ -110,7 +108,6 @@
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#TODO give a reference to the constructor
 #! @ExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence( 
 #! >        [ , [2,3], [2,5], , [3,7], [5,7] ], 
@@ -130,17 +127,6 @@
 #! 
 #! As an example consider the polygonal complex from the beginning of Section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
 #! @ExampleSession
 #! gap> Vertices(complex);
 #! [ 2, 3, 5, 7 ]
@@ -163,19 +149,8 @@ DeclareAttribute( "NumberOfVertices", IsTwistedPolygonalComplex );
 #! @Description
 #! Return the set/number of edges.
 #! 
-#! As an example consider the polygonal complex from the beginning of section
+#! As an example consider the polygonal complex from the beginning of Section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
 #! @ExampleSession
 #! gap> Edges(complex);
 #! [ 2, 3, 5, 6 ]
@@ -194,19 +169,8 @@ DeclareAttribute( "NumberOfEdges", IsTwistedPolygonalComplex );
 #! @Description
 #! Return the set/number of faces.
 #! 
-#! As an example consider the polygonal complex from the beginning of section
+#! As an example consider the polygonal complex from the beginning of Section
 #! <Ref Sect="Section_Access_LabelAccess"/>:
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src="./images/_Wrapper_Image_LabellingExample-1.svg"> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_Image_LabellingExample.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
 #! @ExampleSession
 #! gap> Faces(complex);
 #! [ 3 ]
@@ -226,7 +190,7 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! @SectionLabel Access_BasicAccess
 #!
 #! With the labels of vertices, edges and faces (which we can access by the
-#! methods of section <Ref Sect="Section_Access_LabelAccess"/>) we can 
+#! methods of Section <Ref Sect="Section_Access_LabelAccess"/>) we can 
 #! describe the incidence structure by lists of sets.
 #! All those methods have the form *Of*, e.g. <K>VerticesOfFaces</K> and 
 #! <K>EdgesOfVertices</K>.
@@ -254,7 +218,6 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #    the structure of the incidence methods more apparent.
 ####
 
-#TODO Text-version is crucial here, compare the picture in Image_StarOfStar
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_StarOfStarExample-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -267,7 +230,6 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#TODO give a reference to the constructor
 #! @ExampleSession
 #! gap> complex := PolygonalComplexByDownwardIncidence( 
 #! >    [ , , , , , [2,5], , [2,3], [3,5], [11,5], , [3,7], [7,11] ], 
@@ -306,7 +268,6 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! In the same way all other *Of*-methods are defined.
 
 
-#TODO mention 'ordered' access
 #! @BeginGroup EdgesOfVertices
 #! @Description
 #! The method <K>EdgesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
@@ -320,24 +281,10 @@ DeclareAttribute( "NumberOfFaces", IsTwistedPolygonalComplex );
 #! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-1-1.svg'> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_incidence_geometry-1.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
+#! start of Section <Ref Sect="Section_Access_BasicAccess"/>:
 #! @ExampleSession
 #! gap> EdgesOfVertex(complex, 2);
 #! [ 6, 8 ]
-#! gap> EdgesOfVertex(complex, 5);
-#! [ 6, 9, 10 ]
 #! gap> EdgesOfVertices(complex);
 #! [ , [ 6, 8 ], [ 8, 9, 12 ],, [ 6, 9, 10 ],, [ 12, 13 ],,,, [ 10, 13 ] ]
 #! @EndExampleSession
@@ -352,7 +299,6 @@ DeclareOperation( "EdgesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
-#TODO mention 'ordered' access
 #! @BeginGroup FacesOfVertices
 #! @Description
 #! The method <K>FacesOfVertex</K>(<A>complex</A>, <A>vertex</A>) returns the
@@ -366,24 +312,10 @@ DeclareOperation( "EdgesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-2-1.svg'> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_incidence_geometry-2.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
+#! start of Section <Ref Sect="Section_Access_BasicAccess"/>:
 #! @ExampleSession
 #! gap> FacesOfVertex(complex, 2);
 #! [ 1 ]
-#! gap> FacesOfVertex(complex, 5);
-#! [ 1, 4 ]
 #! gap> FacesOfVertices(complex);
 #! [ , [ 1 ], [ 1, 4 ],, [ 1, 4 ],, [ 4 ],,,, [ 4 ] ]
 #! @EndExampleSession
@@ -411,24 +343,10 @@ DeclareOperation( "FacesOfVertexNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-3-1.svg'> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_incidence_geometry-3.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-#! </Alt>
+#! start of Section <Ref Sect="Section_Access_BasicAccess"/>:
 #! @ExampleSession
 #! gap> VerticesOfEdge(complex, 8);
 #! [ 2, 3 ]
-#! gap> VerticesOfEdge(complex, 12);
-#! [ 3, 7 ]
 #! gap> VerticesOfEdges(complex);
 #! [ ,,,,, [ 2, 5 ],, [ 2, 3 ], [ 3, 5 ], [ 5, 11 ],, [ 3, 7 ],
 #!   [ 7, 11 ] ]
@@ -457,24 +375,10 @@ DeclareOperation( "VerticesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-4-1.svg'> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_incidence_geometry-4.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
+#! start of Section <Ref Sect="Section_Access_BasicAccess"/>:
 #! @ExampleSession
 #! gap> FacesOfEdge(complex, 9);
 #! [ 1, 4 ]
-#! gap> FacesOfEdge(complex, 10);
-#! [ 4 ]
 #! gap> FacesOfEdges(complex);
 #! [ ,,,,, [ 1 ],, [ 1 ], [ 1, 4 ], [ 4 ],, [ 4 ], [ 4 ] ]
 #! @EndExampleSession
@@ -489,7 +393,6 @@ DeclareOperation( "FacesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
-#TODO mention ordered access
 #! @BeginGroup VerticesOfFaces
 #! @Description
 #! The method <K>VerticesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
@@ -503,24 +406,10 @@ DeclareOperation( "FacesOfEdgeNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-5-1.svg'> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_incidence_geometry-5.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
+#! start of Section <Ref Sect="Section_Access_BasicAccess"/>:
 #! @ExampleSession
 #! gap> VerticesOfFace(complex, 1);
 #! [ 2, 3, 5 ]
-#! gap> VerticesOfFace(complex, 4);
-#! [ 3, 5, 7, 11 ]
 #! gap> VerticesOfFaces(complex);
 #! [ [ 2, 3, 5 ],,, [ 3, 5, 7, 11 ] ]
 #! @EndExampleSession
@@ -535,7 +424,6 @@ DeclareOperation( "VerticesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
-#TODO mention ordered access
 #! @BeginGroup EdgesOfFaces
 #! @Description
 #! The method <K>EdgesOfFace</K>(<A>complex</A>, <A>face</A>) returns the
@@ -549,24 +437,10 @@ DeclareOperation( "VerticesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! All other positions of this list are not bound.
 #! 
 #! As an example, consider the polygonal complex that was introduced at the
-#! start of section <Ref Sect="Section_Access_BasicAccess"/>:
- 
-#!  <Alt Only="HTML">
-#! &lt;br>&lt;img src='./images/_Wrapper_incidence_geometry-6-1.svg'> &lt;/img> &lt;br>
-#! </Alt>
-#! <Alt Only = "LaTeX">
-#! \begin{center}
-#! \includegraphics{images/_Wrapper_incidence_geometry-6.pdf}
-#! \end{center}
-#! </Alt>
-#! <Alt Only = "Text">
-#! Image omitted in terminal text
-            #! </Alt>
+#! start of Section <Ref Sect="Section_Access_BasicAccess"/>:
 #! @ExampleSession
 #! gap> EdgesOfFace(complex, 1);
 #! [ 6, 8, 9 ]
-#! gap> EdgesOfFace(complex, 4);
-#! [ 9, 10, 12, 13 ]
 #! gap> EdgesOfFaces(complex);
 #! [ [ 6, 8, 9 ],,, [ 9, 10, 12, 13 ] ]
 #! @EndExampleSession
@@ -581,26 +455,22 @@ DeclareOperation( "EdgesOfFaceNC", [IsTwistedPolygonalComplex, IsPosInt]);
 #! @EndGroup
 
 
-#! @BeginGroup
+#! @BeginGroup PureSimplicialComplex
 #! @Description
-#! Given a simplicial complex <A>complex</A> this method constructs the induced face pure
-#! simplicial complex of <A>complex</A>. In particular, all isolated vertices and edges are
-#! removed and keeps only those vertices and edges that are incident to a face in <A>complex</A>.
+#! Given a simplicial complex <A>complex</A>, this method constructs the induced face-pure
+#! simplicial complex of <A>complex</A>. In particular, it removes all vertices and edges
+#! not incident to any face in <A>complex</A> and retains only those that are.
 #!
 #! @BeginExampleSession
 #! gap> tetra := Tetrahedron();
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
 #! gap> verticesOfEdges := Concatenation(VerticesOfEdges(tetra), [[1, 5]]);
 #! [ [ 1, 2 ], [ 1, 3 ], [ 1, 4 ], [ 2, 3 ], [ 2, 4 ], [ 3, 4 ], [ 1, 5 ] ]
-#! gap> edgesOfFaces := EdgesOfFaces(tetra);
-#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
-#! gap> isolatedVertices := [6];;
-#! gap> complex := SimplicialComplexByDownwardIncidence(isolatedVertices, verticesOfEdges, edgesOfFaces);
+#! gap> complex := SimplicialComplexByDownwardIncidence([6], verticesOfEdges, 
+#! >    EdgesOfFaces(tetra));
 #! simplicial complex (6 vertices, 7 edges, and 4 faces)
 #! gap> pureComplex := PureSimplicialComplex(complex);
 #! simplicial surface (4 vertices, 6 edges, and 4 faces)
-#! gap> VerticesOfFaces(pureComplex) = VerticesOfFaces(tetra);
-#! true
 #! @EndExampleSession
 #!
 #! @Returns a simplicial complex
@@ -612,7 +482,7 @@ DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
 #! @Section Face-induced order of incident vertices/edges
 #! @SectionLabel Access_OrderedFaceAccess
 #!
-#! In section <Ref Sect="Section_Access_BasicAccess"/> we
+#! In Section <Ref Sect="Section_Access_BasicAccess"/> we
 #! introduced the methods <K>VerticesOfFace</K>
 #! (<Ref Subsect="VerticesOfFaces"/>) and <K>EdgesOfFace</K>
 #! (<Ref Subsect="EdgesOfFaces"/>) to
@@ -653,7 +523,7 @@ DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
 #!
 #! It returns the perimeter of the polygon as a perimeter path (a special
 #! vertex-edge-path), not a list (all available
-#! methods for vertex-edge-paths and perimeter paths can be found in sections
+#! methods for vertex-edge-paths and perimeter paths can be found in Sections
 #! <Ref Sect="Section_Paths_VertexEdge"/> and 
 #! <Ref Sect="Section_Paths_Perimeter"/>).
 #! @BeginExampleSession
@@ -697,7 +567,7 @@ DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
 #! @Description
 #! The operation 
 #! <K>PerimeterPathOfFace</K>(<A>complex</A>,<A>face</A>) returns a perimeter
-#! path (section <Ref Sect="Section_Paths_Perimeter"/>), i.e. a closed
+#! path (Section <Ref Sect="Section_Paths_Perimeter"/>), i.e. a closed
 #! vertex-edge-path (for the exact definition compare 
 #! <Ref Subsect="VertexEdgePath"/> and 
 #! <Ref Subsect="VertexEdge_IsClosedPath"/>) of
@@ -720,7 +590,7 @@ DeclareOperation( "PureSimplicialComplex", [IsSimplicialComplex]);
 #! The operations
 #! 
 #! As an example consider the polygonal complex that was introduced at the
-#! start of section
+#! start of Section
 #! <Ref Sect="Section_Access_OrderedFaceAccess"/>:
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_PentagonCyclicOrder-1.svg"> &lt;/img> &lt;br>
@@ -780,20 +650,20 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 ## useful to find the appropriate numbers more effectively - especially if
 ## some of them are roman numerals).
 ##
-#! In section <Ref Sect="Section_Access_BasicAccess"/> the methods 
+#! In Section <Ref Sect="Section_Access_BasicAccess"/> the methods 
 #! <K>EdgesOfVertex</K> (<Ref Subsect="EdgesOfVertices"/>) and
 #! <K>FacesOfVertex</K> (<Ref Subsect="FacesOfVertices"/>) were introduced. 
 #! They
 #! allow access to the edges and faces incident to a vertex but they don't
 #! give any information about the relationship between them.
 #!
-#!         For polygonal surfaces (described in section
+#!         For polygonal surfaces (described in Section
 #!         <Ref Sect="PolygonalStructures_surface"/>) there is a natural 
 #!         ordering of the edges and 
 #!         faces that are incident to a vertex. It is achieved by "travelling 
 #!         around the vertex" while staying on the surface. 
 #! This order is called <E>umbrella-path</E> and we formalize it
-#! by <E>edge-face-paths</E> (section <Ref Sect="Section_Paths_EdgeFace"/>
+#! by <E>edge-face-paths</E> (Section <Ref Sect="Section_Paths_EdgeFace"/>
 #! contains the methods to access those paths).
 #!          <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_EdgeFacePath-1.svg"> &lt;/img> &lt;br>
@@ -859,7 +729,7 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! @BeginGroup UmbrellaPathsOfVertices
 #! @Description
 #! The method <K>UmbrellaPathOfVertex</K>(<A>surface</A>,<A>vertex</A>)
-#! returns an umbrella-path around <A>vertex</A> (as defined in section
+#! returns an umbrella-path around <A>vertex</A> (as defined in Section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>) that contains all edges
 #! and faces incident to <A>vertex</A>, with the following 
 #! conventions:
@@ -871,7 +741,7 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #! polygonal complex is edge-ramified) or is not unique (this might happen 
 #! if the polygonal complex is vertex-ramified), <K>fail</K> is returned. 
 #! To access the contents
-#! of the umbrella-paths, the methods from section 
+#! of the umbrella-paths, the methods from Section 
 #! <Ref Sect="Section_Paths_EdgeFace"/> can be used.
 #! 
 #! The attribute <K>UmbrellaPathsOfVertices</K>(<A>surface</A>) collects all
@@ -960,7 +830,7 @@ DeclareOperation( "UmbrellaPathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #! @Description
 #! The method 
 #! <K>UmbrellaPathPartitionOfVertex</K>(<A>ramSurf</A>, <A>vertex</A>) returns
-#! a set of umbrellas-paths around <A>vertex</A> (as defined in section
+#! a set of umbrellas-paths around <A>vertex</A> (as defined in Section
 #! <Ref Sect="Section_Access_OrderedVertexAccess"/>). The edges
 #! and faces incident to <A>vertex</A> are partitioned by these 
 #! umbrella-paths
@@ -1062,16 +932,11 @@ DeclareOperation( "UmbrellaPathPartitionOfVertexNC",
 #! gap> hex := SimplicialSurfaceByDownwardIncidence( 
 #! >    [ [1,7], [2,7],[3,7],[4,7],[5,7],[6,7],[1,2],[2,3],[3,4],[4,5],[5,6], [1,6] ], 
 #! >    [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
-#! gap> star1:=Star(hex,7);
+#! gap> star:=Star(hex,7);
 #! simplicial surface (7 vertices, 12 edges, and 6 faces)
-#! gap> IsIsomorphic(star1,hex);
-#! true
-#! gap> star2:=Star(hex,[1,7]);
-#! simplicial surface (7 vertices, 12 edges, and 6 faces)
-#! gap> IsIsomorphic(star2,hex);
+#! gap> IsIsomorphic(star,hex);
 #! true
 #! @EndExampleSession
-#! The star of vertex 7 and the star of vertex 1 and 7 is the same as the hexagon.
 #! 
 #! @Returns a subsurface
 #! @Arguments complex, vertex
@@ -1116,8 +981,6 @@ DeclareOperation("StarNC",[IsTriangularComplex,IsList]);
 #! >    [ [1,2,7],[2,3,8],[3,4,9],[4,5,10],[5,6,11],[1,6,12] ]);;
 #! gap> link:=Link(hex,7);
 #! ( v1, E7, v2, E8, v3, E9, v4, E10, v5, E11, v6, E12, v1 )
-#! gap> Link(hex)[7]=link;
-#! true
 #! @EndExampleSession
 #! The link of vertex 7 is the same as the boundary of the hexagon.
 #!
@@ -1155,7 +1018,7 @@ DeclareOperation("LinkNC",[IsTriangularComplex,IsInt]);
 #! Informally, a hole can be characterised by the vertices and edges along its
 #! perimeter. These can be given as an alternating path of vertices and edges
 #! that starts and stops with the same vertex. This notion is formalized by
-#! <E>vertex-edge-paths</E> which are defined in more detail in section
+#! <E>vertex-edge-paths</E> which are defined in more detail in Section
 #! <Ref Sect="Section_Paths_VertexEdge"/>.
 #!
 #! For example, consider the following polygonal surface:
@@ -1202,7 +1065,7 @@ DeclareOperation("LinkNC",[IsTriangularComplex,IsInt]);
 #!
 
 #! @Description
-#! Return a set of closed vertex-edge-paths (compare 
+#! Return a set of closed vertex-edge-paths (compare Sections 
 #! <Ref Subsect="VertexEdgePath"/> and <Ref Subsect="VertexEdge_IsClosedPath"/> for
 #! the exact definitions) that represent the holes in the given polygonal
 #! surface.
@@ -1219,7 +1082,7 @@ DeclareOperation("LinkNC",[IsTriangularComplex,IsInt]);
 #! unique perimeter path of the hole including <A>edge</A>.
 #! Each edge can be in only one boundary path.
 #!
-#! As an example, consider the surface from the start of section
+#! As an example, consider the surface from the start of Section
 #! <Ref Sect="Section_Access_OrderedHoleAccess"/>:
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_HoleExample-1.svg"> &lt;/img> &lt;br>

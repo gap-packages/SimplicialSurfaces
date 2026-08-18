@@ -47,37 +47,26 @@ true
 </Log>
 
     <Section Label="Introduction_Teaser"><Heading>What can it do?</Heading>
-        The <K>SimplicialSurface</K>-package contains the following basic 
-        functionality:
-        <Enum>
-            <Item>It allows computations with simplicial surfaces (and 
-                generalisations of 
-                them like polygonal complexes, compare section 
-                <Ref Chap="PolygonalStructures"/>), for 
-                example:
-                <!-- TODO Alternative for text-version -->
-
-                <Alt Only="HTML">
-                &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples-1.svg"> &lt;/img> &lt;br>
-                </Alt>
-                <Alt Only = "LaTeX">
-                \begin{center}
-                \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
-                \end{center}
-                </Alt>
-                <Alt Only = "Text">
-                Image omitted in terminal text
-                </Alt>
-                Instead of working with an embedding of these structures, we
-                see them as abstract surfaces and represent them by their
-                incidence geometry (for more details see section
-                <Ref Sect="PolygonalStructures_complex"/>).
-            </Item>
-            <Item>It can work with edge colourings of simplicial surfaces
-                (in general and for the purpose of an embedding). <!--TODO--></Item>
-            <!--            <Item>It can fold and unfold these objects.-->
-                <!--TODO abstract nature has to be made clear </Item>-->
-        </Enum>
+        The <K>SimplicialSurface</K>-package provides basic 
+        functionality for computations with simplicial surfaces and 
+        generalisations, such as polygonal complexes (see Chapter 
+        <Ref Chap="PolygonalStructures"/>), including for example:
+        <Alt Only="HTML">
+        &lt;br>&lt;img src="./images/_Wrapper_Image_ManyExamples-1.svg"> &lt;/img> &lt;br>
+        </Alt>
+        <Alt Only = "LaTeX">
+        \begin{center}
+        \includegraphics{images/_Wrapper_Image_ManyExamples.pdf}
+        \end{center}
+        </Alt>
+        <Alt Only = "Text">
+        Image omitted in terminal text
+        </Alt>
+        Instead of working with an embedding of these structures, we
+        see them as abstract surfaces and represent them by their
+        incidence geometry (for more details see Section
+        <Ref Sect="PolygonalStructures_complex"/>).
+          
         The remainder of this chapter is a measured introduction into
         the main data structure of the package and some simple capabilities. 
         Chapter <Ref Chap="PolygonalStructures"/> contains the formal definitions
@@ -110,7 +99,7 @@ true
              It also connects the surfaces to something familiar. The 
              formulation of this sentence is still dangerous as it should
              neither promise too much, nor trivialize the contents of this 
-             section. (TODO) -->
+             section. -->
         We will use the cube as an example.
         <!-- Why the cube? Because we believe it is the one platonic solid
              that most people know best. Furthermore it is easy to understand
@@ -143,8 +132,6 @@ gap&gt; NumberOfFaces(surface);
 gap&gt; EulerCharacteristic(surface);
 2
 </Example>
-    <!--TODO has closed to be explained?-->
-    <!--TODO closed implies compact -> what about infinite surfaces? -->
         and we can show that the surface is homeomorphic to a sphere by 
         verifying that it is closed, connected and orientable.
         <!-- This is a risky sentence - We want to give interested people
@@ -164,9 +151,7 @@ gap&gt; IsOrientableSurface(surface);
 true
 </Example>
         We can also compute more complicated properties like the 
-        automorphism group and check for isomorphisms between surfaces. 
-    <!-- TODO do so, probably with a tetrahedron: Be careful to not overdo it! --> 
-        
+        automorphism group and check for isomorphisms between surfaces, see Chapter <Ref Chap="Chapter_Graphs"/>. 
     </Section>
 
 
@@ -251,7 +236,6 @@ gap&gt; VerticesOfFaces(surf);
 </Example>
 
         A slightly more complicated example is a Möbius-strip.
-        <!-- TODO better colour for identified edges? -->
         <Alt Only="HTML">
         &lt;br>&lt;img src='./images/_Wrapper_intro-5-1.svg'> &lt;/img> &lt;br>
         </Alt>
@@ -272,7 +256,6 @@ gap&gt; moebius := SimplicialSurfaceByVerticesInFaces(
 gap&gt; IsOrientableSurface(moebius);
 false
 </Example>
-<!-- TODO can you avoid the colour loss? Can't we just use the gap-prompt as a left fixture -->
         
         <Subsection Label="Introduction_NonTriangularCase">
             <Heading>Creating non-triangular faces</Heading>
@@ -304,7 +287,6 @@ false
             have to use the
             method <K>PolygonalSurfaceByVerticesInFaces</K>. We also have to
             be more careful since this method is a bit more subtle.
-            <!--TODO add references?-->
             <!-- This formulation should help people with skipping this section.
                  If someone only cares about triangles and is a bit impatient
                  they will hopefully say "I don't want that" and skip ahead.-->
@@ -321,7 +303,6 @@ false
             Image omitted in terminal text
             </Alt>
             To encode this surface we have to enumerate the faces.
-            <!-- TODO Is there a way to properly do this in the picture?-->
             But if we try to input the surface
 <Example>
 gap&gt; pyr := PolygonalSurfaceByVerticesInFaces( 
@@ -352,7 +333,7 @@ false
 </Example>
             Since this seems strange it would be natural to check the edges.
             For that the method <K>VerticesOfEdges</K> (which will be 
-            explained in more detail in section 
+            explained in more detail in Section 
             <Ref Sect="Introduction_EdgeNumbering"/>) can be used. It shows
             for each edge its incident vertices.
 <Example>
@@ -382,7 +363,7 @@ gap&gt; VerticesOfEdges(pyr);
             we compare it with our picture we can see that the vertices 2 and 4 
             are connected in the picture but not adjacent in our list. Likewise 
             the vertices 2 and 5 are adjacent in the list (we imagine that the 
-            list wraps around) but don't have an edge between them in the 
+            list wraps around) but do not have an edge between them in the 
             picture. <P/>
             
             Instead we have to give the vertices in a proper cyclic ordering:
@@ -403,15 +384,13 @@ true
              for the end of a skip. -->
     </Section>
 
-    <!--TODO since this section is a skipping target, it should have a more evocative
-         name that stops people from infinite skipping.-->
     <!-- This section explains how to use surfaces without knowing about the edges.-->
     <Section Label="Introduction_AccessVerticesFaces">
         <Heading>Playing with vertices and faces.</Heading>
         After having learned how to construct a simplicial surface by the method
         <K>SimplicialSurfaceByVerticesInFaces</K>, we can use the labelling of vertices
         and faces to get more detailed information about the surface. We will
-        use the example from section
+        use the example from Section
         <Ref Sect="Introduction_EasyConstruction"/>:
         <Alt Only="HTML">
         &lt;br>&lt;img src='./images/_Wrapper_intro-4-1.svg'> &lt;/img> &lt;br>
@@ -542,7 +521,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
     <Section Label="Introduction_GeneralConstructor">
         <Heading>Constructing surfaces with vertex, edge and face data</Heading>
 
-        There are some cases in which we don't want to use
+        There are some cases in which we do not want to use
         <K>SimplicialSurfaceByVerticesInFaces</K> but a more versatile method,
         for example
         <Enum>
@@ -563,7 +542,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
         <Alt Only = "Text">
         Image omitted in terminal text
         </Alt>
-        Since both faces share the same vertices we can't use 
+        Since both faces share the same vertices we cannot use 
         <K>SimplicialSurfaceByVerticesInFaces</K> here. Instead we need to label
         vertices, edges and faces individually: 
         <Alt Only="HTML">
