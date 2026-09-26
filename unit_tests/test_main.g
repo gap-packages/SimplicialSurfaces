@@ -26,6 +26,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_JoinVertexEdgePaths();
     __SIMPLICIAL_Test_SplitVertexEdgePath();
     __SIMPLICIAL_Test_SplitEdgePath();
+    __SIMPLICIAL_Test_ConnectedEdgeSum();
     __SIMPLICIAL_Test_Smaller();
     __SIMPLICIAL_Test_Connectivity();
 
