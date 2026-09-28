@@ -828,7 +828,7 @@ BindGlobal( "__SIMPLICIAL_CounterName",
 InstallMethod(TypeOfCounter, "for a counter",
 	[IsCounter],
 	function(counter)
-		 Print(__SIMPLICIAL_CounterName(counter,true)); 
+		return __SIMPLICIAL_CounterName(counter,true); 
 	end
 );
 

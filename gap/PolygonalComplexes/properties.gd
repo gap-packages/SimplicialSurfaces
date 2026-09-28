@@ -153,6 +153,7 @@ DeclareAttribute( "EulerCharacteristic", IsTwistedPolygonalComplex );
 #! @EndExampleSession
 #!
 #! @Arguments complex
+#! @Returns true or false
 DeclareProperty( "IsClosedComplex", IsTwistedPolygonalComplex and IsNotEdgeRamified );
 #! @Arguments surf
 DeclareProperty( "IsClosedSurface", IsPolygonalSurface );
@@ -168,6 +169,7 @@ DeclareProperty( "IsClosedSurface", IsPolygonalSurface );
 #! Example for simplex rings can be found in <Ref Subsect="SimplexRingByIsomorphismType"/>
 #!
 #! @Arguments complex
+#! @Returns true or false
 DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
 #! @EndGroup
 
@@ -181,6 +183,7 @@ DeclareProperty( "IsSimplexRing", IsTwistedPolygonalComplex);
 #! Example for simplex rings can be found in <Ref Subsect="SimplexStringByIsomorphismType"/>.
 #!
 #! @Arguments complex
+#! @Returns true or false
 DeclareProperty( "IsSimplexString", IsTwistedPolygonalComplex);
 #! @EndGroup
 
@@ -197,6 +200,7 @@ DeclareProperty( "IsSimplexString", IsTwistedPolygonalComplex);
 #! @EndExampleSession
 #!
 #! @Arguments simplex ring
+#! @Returns a list
 DeclareAttribute( "FaceListOfSimplexRing", IsSimplexRing);
 #! @EndGroup
 
@@ -213,6 +217,7 @@ DeclareAttribute( "FaceListOfSimplexRing", IsSimplexRing);
 #! @EndExampleSession
 #!
 #! @Arguments simplex string
+#! @Returns a list
 DeclareAttribute( "FaceListOfSimplexString", IsSimplexString);
 #! @EndGroup
 
@@ -884,9 +889,10 @@ DeclareAttribute("CounterOfUmbrellas",IsClosedSurface and IsSimplicialSurface);
 #! @BeginExampleSession
 #! gap> counter:=CounterOfVertices(fiveStar);;
 #! gap> TypeOfCounter(counter);
-#! CounterOfVertices
+#! "CounterOfVertices"
 #! @EndExampleSession
 #! 
+#! @Returns a String
 #! @Arguments counter
 DeclareOperation("TypeOfCounter", [IsCounter]);
 #! @EndGroup
