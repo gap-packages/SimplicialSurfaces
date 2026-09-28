@@ -806,7 +806,6 @@ InstallMethod(ReembeddingsOfDigraph,
                 Add(umbr,CycleFromList(cycle));
             od;
             Add(res,SimplicialSurfaceByUmbrellaDescriptor(umbr));
-	    return res;
         od;
         return res;
     end;
