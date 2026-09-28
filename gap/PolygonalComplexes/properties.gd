@@ -731,7 +731,7 @@ DeclareAttribute( "TotalInnerDefect", IsSimplicialSurface );
 #! > [2,4,6],[3,5,7],[3,6,7]];;
 #! gap> s:=SimplicialSurfaceByVerticesInFaces(vof);;
 #! gap> counter:=CounterOfButterflies(s);
-#! counter of butterlies ([ [ [ 4, 4 ], [ 5, 5 ] ], [ [ 4, 5 ], [ 4, 4 ] ] ]
+#! counter of butterflies ([ [ [ 4, 4 ], [ 5, 5 ] ], [ [ 4, 5 ], [ 4, 4 ] ] ]
 #! degrees, and [ 5, 10 ] multiplicities) 
 #! gap> ListCounter(counter);
 #! [ [ [ [ 4, 4 ], [ 5, 5 ] ], 5 ], [ [ [ 4, 5 ], [ 4, 4 ] ], 10 ] ]
