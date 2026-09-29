@@ -20,6 +20,7 @@ BindGlobal( "__SIMPLICIAL_IncidenceGraph",
                 # There are two vertices for each edge
                 verts := VerticesOfEdges(complex)[e];
                 Append( edgeList, [ [verts[1], maxVertex+e], [verts[2], maxVertex+e] ] );
+                
             od;
             Append(vertexList, Edges(complex) + maxVertex);
             Append(colourList, ListWithIdenticalEntries( NumberOfEdges(complex), 1 ));
@@ -318,6 +319,10 @@ InstallOtherMethod( IsIsomorphic,
             return false;
         fi;
 
+        if Length(IsolatedVertices(complex1)) <> Length(IsolatedVertices(complex2)) then
+            return false;
+        fi;
+
         inc1 := IncidenceDigraphsGraph(complex1);
         inc2 := IncidenceDigraphsGraph(complex2);
         g1:=inc1[1];
@@ -344,8 +349,12 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
             local inc1, inc2;
 		
             if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
-		return false;
-	    fi;
+                return false;
+            fi;
+
+            if Length(IsolatedVertices(complex1)) <> Length(IsolatedVertices(complex2)) then
+                return false;
+            fi;
 
             inc1 := IncidenceGrapeGraph(complex1);
             inc2 := IncidenceGrapeGraph(complex2);
@@ -364,8 +373,14 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         "for two twisted polygonal complexes", 
         [IsTwistedPolygonalComplex, IsTwistedPolygonalComplex],5,
         function(complex1, complex2)
-        if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and CounterOfButterflies(complex1)<>CounterOfButterflies(complex2) then
-              return false;
+
+        if IsSimplicialSurface(complex1) and IsSimplicialSurface(complex2) and
+           CounterOfButterflies(complex1) <> CounterOfButterflies(complex2) then
+            return false;
+        fi;
+        
+        if Length(IsolatedVertices(complex1)) <> Length(IsolatedVertices(complex2)) then
+            return false;
         fi;
 
         return IsomorphismGraphs( 
