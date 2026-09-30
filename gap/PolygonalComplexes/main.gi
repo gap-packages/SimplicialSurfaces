@@ -280,6 +280,10 @@ InstallMethod( String, "for a twisted polygonal complex", [IsTwistedPolygonalCom
             PrintTo(out,  __SIMPLICIAL_PolygonalComplexName(complex, true) );
             if IsPolygonalComplex(complex) and IsDefaultChamberSystem(complex) then
                 PrintTo( out, "ByDownwardIncidenceNC(" );
+                if Length(IsolatedVertices(complex)) > 0 then
+                    PrintTo( out, IsolatedVertices(complex) );
+                    PrintTo( out, ", " );
+                fi;
                 PrintTo( out, VerticesOfEdges(complex) );
                 PrintTo( out, ", " );
                 PrintTo( out, EdgesOfFaces(complex) );
