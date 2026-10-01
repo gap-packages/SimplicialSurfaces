@@ -1871,6 +1871,80 @@ if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
 fi;
 
 
+InstallMethod( ConnectedEdgeSum, "for two polygonal surfaces and two flags",
+    [IsPolygonalSurface, IsList, IsPolygonalSurface, IsList],
+    function(surface1, flag1, surface2, flag2)
+        local split1, split2, edge1, edge2, other1, other2, vertex1, vertex2,
+            disjoint, shift, path1, path2, join;
+
+        if not flag1 in Flags(surface1) then
+            Error(Concatenation("ConnectedEdgeSum: The first list ",
+                String(flag1),
+                " is not a flag of the first polygonal surface."));
+        fi;
+        if not flag2 in Flags(surface2) then
+            Error(Concatenation("ConnectedEdgeSum: The second list ",
+                String(flag2),
+                " is not a flag of the second polygonal surface."));
+        fi;
+
+        if IsBoundaryEdgeNC(surface1, flag1[2]) then
+            return fail;
+        fi;
+        if IsBoundaryEdgeNC(surface2, flag2[2]) then
+            return fail;
+        fi;
+
+        # Cutting along an inner edge turns it into two boundary edges, one
+        # for each incident face. SplitEdgeNC returns the new labels in the
+        # order of the (sorted) incident faces.
+        split1 := SplitEdgeNC( surface1, flag1[2] );
+        edge1 := split1[2][ Position( FacesOfEdges(surface1)[flag1[2]], flag1[3] ) ];
+        split2 := SplitEdgeNC( surface2, flag2[2] );
+        edge2 := split2[2][ Position( FacesOfEdges(surface2)[flag2[2]], flag2[3] ) ];
+
+        vertex1 := Difference( VerticesOfEdges(surface1)[flag1[2]], [flag1[1]] )[1];
+        vertex2 := Difference( VerticesOfEdges(surface2)[flag2[2]], [flag2[1]] )[1];
+        other1 := Difference( split1[2], [edge1] )[1];
+        other2 := Difference( split2[2], [edge2] )[1];
+
+        disjoint := DisjointUnion( split1[1], split2[1] );
+        shift := disjoint[2];
+
+        # Both boundaries are closed paths of length two whose edges have the
+        # same incident vertices. Therefore they can not be reconstructed from
+        # their edges alone (as JoinBoundaries would do) and are given
+        # explicitly instead. Starting both of them in the vertex and the face
+        # of the corresponding flag identifies the vertices of the flags and
+        # makes the faces of the flags neighbours.
+        path1 := VertexEdgePathNC( disjoint[1],
+            [ flag1[1], edge1, vertex1, other1, flag1[1] ] );
+        path2 := VertexEdgePathNC( disjoint[1],
+            [ flag2[1]+shift, edge2+shift, vertex2+shift, other2+shift,
+              flag2[1]+shift ] );
+
+        # Both joined vertex pairs lie in different connected components of
+        # the disjoint union, so the join can not fail.
+        join := JoinVertexEdgePathsNC( disjoint[1], path1, path2 );
+
+        # Gluing two cut surfaces along their cuts always produces a
+        # polygonal surface again.
+        SetIsNotEdgeRamified( join[1], true );
+        SetIsNotVertexRamified( join[1], true );
+        if HasIsTriangular(surface1) and HasIsTriangular(surface2) then
+            SetIsTriangular( join[1],
+                IsTriangular(surface1) and IsTriangular(surface2) );
+        fi;
+        return join[1];
+    end
+);
+if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
+    RedispatchOnCondition( ConnectedEdgeSum, true,
+        [IsTwistedPolygonalComplex, IsList, IsTwistedPolygonalComplex, IsList],
+        [IsPolygonalSurface,,IsPolygonalSurface], 0 );
+fi;
+
+
 InstallMethod( SnippOffEars, "for a simplicial surface", [IsSimplicialSurface],
     function(surface)
         local facePairs, commonEdges, snippPairs, joinEdges, remFaces, 

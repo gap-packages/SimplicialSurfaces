@@ -444,6 +444,85 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdgePath", function()
 	SIMPLICIAL_TestAssert(split = SplitEdgePathNC( butterfly, cutPath2 ));
 end);
 
+BindGlobal( "__SIMPLICIAL_Test_ConnectedEdgeSum", function()
+    local tetra, edgeSum, bipyr, oneFace, fourGon, Common, Errors;
+
+    # Call ConnectedEdgeSum and report whether it raises an error. The break
+    # loop has to be switched off, otherwise Error enters it instead of
+    # returning to CALL_WITH_CATCH.
+    Errors := function(s1, f1, s2, f2)
+        local breakOnError, caught;
+        breakOnError := BreakOnError;
+        BreakOnError := false;
+        caught := CALL_WITH_CATCH(ConnectedEdgeSum, [s1, f1, s2, f2]);
+        BreakOnError := breakOnError;
+        return caught[1] = false;
+    end;
+
+    # The two vertices of the edge that the faces of the given flags share
+    # in the connected edge-sum of two pentagonal bipyramids.
+    Common := function(sum, face1, face2)
+        local shift, common;
+        shift := Minimum(Difference(Faces(sum), [1..10])) - 1;
+        common := Intersection(EdgesOfFaces(sum)[face1], EdgesOfFaces(sum)[face2+shift]);
+        SIMPLICIAL_TestAssert(Length(common) = 1);
+        return SortedList(List(VerticesOfEdges(sum)[common[1]],
+            v -> FaceDegreeOfVertex(sum, v)));
+    end;
+
+    tetra := Tetrahedron();
+    edgeSum := ConnectedEdgeSum(tetra, [1,1,1], tetra, [1,1,1]);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(edgeSum));
+    SIMPLICIAL_TestAssert(IsClosedSurface(edgeSum));
+    SIMPLICIAL_TestAssert(NumberOfConnectedComponents(edgeSum) = 1);
+    SIMPLICIAL_TestAssert(EulerCharacteristic(edgeSum) = 2);
+    SIMPLICIAL_TestAssert(NumberOfVertices(edgeSum) = 6);
+    SIMPLICIAL_TestAssert(NumberOfEdges(edgeSum) = 12);
+    SIMPLICIAL_TestAssert(NumberOfFaces(edgeSum) = 8);
+    # cutting along an edge and regluing introduces an edge anomaly
+    SIMPLICIAL_TestAssert(not IsAnomalyFree(edgeSum));
+    SIMPLICIAL_TestAssert(not IsIsomorphic(edgeSum, Octahedron()));
+
+    # The faces of the given flags have to become neighbours and the vertices
+    # of the given flags have to be identified. In the pentagonal bipyramid
+    # the edge 3 joins the vertex 1 of degree 4 with the vertex 6 of degree 5.
+    # Therefore the degrees of the vertices of the newly shared edge show
+    # which vertices were identified.
+    bipyr := SimplicialSurfaceByVerticesInFaces(
+        [[1,2,6],[2,3,6],[3,4,6],[4,5,6],[5,1,6],
+         [1,2,7],[2,3,7],[3,4,7],[4,5,7],[5,1,7]]);
+    SIMPLICIAL_TestAssert(VerticesOfEdges(bipyr)[3] = [1,6]);
+    SIMPLICIAL_TestAssert(FacesOfEdges(bipyr)[3] = [1,5]);
+    # vertex 1 with vertex 1 and vertex 6 with vertex 6
+    SIMPLICIAL_TestAssert(Common(ConnectedEdgeSum(bipyr,[1,3,1],bipyr,[1,3,1]),1,1) = [8,10]);
+    # vertex 1 with vertex 6 and vertex 6 with vertex 1
+    SIMPLICIAL_TestAssert(Common(ConnectedEdgeSum(bipyr,[1,3,1],bipyr,[6,3,1]),1,1) = [9,9]);
+    # the second flag may also use the other incident face
+    SIMPLICIAL_TestAssert(Common(ConnectedEdgeSum(bipyr,[1,3,1],bipyr,[1,3,5]),1,5) = [8,10]);
+
+    # boundary edges can not be used
+    oneFace := SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3]],[[1,2,3]]);
+    SIMPLICIAL_TestAssert(ConnectedEdgeSum(oneFace, [1,1,1], tetra, [1,1,1]) = fail);
+    SIMPLICIAL_TestAssert(ConnectedEdgeSum(tetra, [1,1,1], oneFace, [1,1,1]) = fail);
+
+    # lists that are no flags are rejected. In the tetrahedron the edge 6 is
+    # incident to neither the vertex 1 nor the face 1.
+    SIMPLICIAL_TestAssert(Length(Flags(tetra)) = 24);
+    SIMPLICIAL_TestAssert(not [1,6,1] in Flags(tetra));
+    SIMPLICIAL_TestAssert(Errors(tetra, [1,6,1], tetra, [1,1,1]));
+    SIMPLICIAL_TestAssert(Errors(tetra, [1,1,1], tetra, [1,6,1]));
+
+    # surfaces with boundary can be combined along their inner edges
+    fourGon := SimplicialSurfaceByDownwardIncidence(
+        [[1,2],[1,3],[1,4],[1,5],[2,3],[3,4],[4,5],[2,5]],
+        [[1,2,5],[2,3,6],[3,4,7],[1,4,8]] );
+    edgeSum := ConnectedEdgeSum(fourGon, [1,2,1], fourGon, [1,2,1]);
+    SIMPLICIAL_TestAssert(IsSimplicialSurface(edgeSum));
+    SIMPLICIAL_TestAssert(not IsClosedSurface(edgeSum));
+    SIMPLICIAL_TestAssert(EulerCharacteristic(edgeSum) = 0);
+    SIMPLICIAL_TestAssert(NumberOfFaces(edgeSum) = 8);
+end);
+
 BindGlobal( "__SIMPLICIAL_Test_Smaller", function()
     local butterfly, geodesic, s, triangle1, triangle2, triangle3;
 

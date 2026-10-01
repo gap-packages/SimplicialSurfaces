@@ -1463,6 +1463,71 @@ DeclareOperation( "ConnectedFaceSum", [IsPolygonalComplex, IsList, IsPolygonalCo
 #! @EndGroup
 #TODO can this be implemented more generally?
 
+#! @BeginGroup ConnectedEdgeSum
+#! @Description
+#! Compute the <E>connected edge-sum</E> of two polygonal surfaces.
+#! The connected edge-sum cuts both surfaces along one of their edges and
+#! identifies the two boundaries that are created in this way. The given
+#! edges can't be boundary edges (<Ref Subsect="BoundaryEdges"/>), otherwise
+#! <K>fail</K> is returned.
+#!
+#! Since there are four different ways how the two cuts could be identified,
+#! this method needs a flag of each complex, i.e. a list of a vertex, an edge
+#! and a face that are all incident. The vertices of the two flags are
+#! identified with each other and the faces of the two flags become
+#! neighbours.
+#!
+#! For example consider the tetrahedron:
+#! @BeginExampleSession
+#! gap> edgeSum:=ConnectedEdgeSum(Tetrahedron(),[1,1,1],Tetrahedron(),[1,1,1]);
+#! simplicial surface (6 vertices, 12 edges, and 8 faces)
+#! gap> IsClosedSurface(edgeSum);
+#! true
+#! gap> EulerCharacteristic(edgeSum);
+#! 2
+#! gap> NumberOfConnectedComponents(edgeSum);
+#! 1
+#! @EndExampleSession
+#!
+#! In contrast to the connected face-sum the connected edge-sum may introduce
+#! edge anomalies, i.e. pairs of distinct edges with the same incident
+#! vertices. This happens in the example above, so the result is not
+#! isomorphic to the octahedron:
+#! @BeginExampleSession
+#! gap> IsAnomalyFree(edgeSum);
+#! false
+#! gap> IsIsomorphic(edgeSum, Octahedron());
+#! false
+#! @EndExampleSession
+#!
+#! The central part of this can be implemented like this:
+#! @BeginLogSession
+#! gap> split1 := SplitEdge( surface1, flag1[2] );
+#! gap> split2 := SplitEdge( surface2, flag2[2] );
+#! gap> edge1 := split1[2][Position(FacesOfEdges(surface1)[flag1[2]], flag1[3])];
+#! gap> edge2 := split2[2][Position(FacesOfEdges(surface2)[flag2[2]], flag2[3])];
+#! gap> other1 := Difference(split1[2], [edge1])[1];
+#! gap> other2 := Difference(split2[2], [edge2])[1];
+#! gap> vertex1 := Difference(VerticesOfEdges(surface1)[flag1[2]], [flag1[1]])[1];
+#! gap> vertex2 := Difference(VerticesOfEdges(surface2)[flag2[2]], [flag2[1]])[1];
+#! gap> disjoint := DisjointUnion( split1[1], split2[1] );
+#! gap> path1 := VertexEdgePath( disjoint[1],
+#! >        [flag1[1], edge1, vertex1, other1, flag1[1]] );
+#! gap> path2 := VertexEdgePath( disjoint[1],
+#! >        [flag2[1], edge2, vertex2, other2, flag2[1]] + disjoint[2] );
+#! gap> edgeSum := JoinVertexEdgePaths( disjoint[1], path1, path2 )[1];
+#! @EndLogSession
+#!
+#! Note that the two boundaries can not be described by their edges alone
+#! (as <K>JoinBoundaries</K> (<Ref Subsect="JoinBoundaries"/>) would do),
+#! since both edges of such a boundary are incident to the same two vertices.
+#!
+#! @Returns a polygonal surface or <K>fail</K>
+#! @Arguments surface1, flag1, surface2, flag2
+DeclareOperation( "ConnectedEdgeSum", [IsPolygonalComplex, IsList, IsPolygonalComplex, IsList] );
+#! @EndGroup
+
+
 
 #! @Description
 #! Remove all "ears" of the given simplicial surface, i.e. all pairs of faces
