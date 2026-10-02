@@ -190,13 +190,13 @@
 #! @EndExampleSession
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
 #! @BeginLogSession
-#! gap> grape := IncidenceGrapeGraph(complex).graph;;
+#! gap> grape := IncidenceGraphGrape(complex).graph;;
 #! gap> DirectedEdges(grape)=DigraphEdges(digraph);
 #! true
 #! @EndLogSession
 #! Finally, consider how getting information from a graph given by <K>NautyTracesInterface</K> looks like:
 #! @BeginLogSession
-#! gap> nauty:=UnderlyingNautyGraph(IncidenceNautyGraph(complex));;
+#! gap> nauty:=UnderlyingNautyGraph(IncidenceGraphNauty(complex));;
 #! gap> nautyEdges:=nauty!.edges;
 #! [ [ 1, 6 ], [ 3, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 5, 9 ],
 #! [ 2, 10 ], [ 4, 10 ], [ 4, 11 ], [ 5, 11 ], [ 6, 12 ],
