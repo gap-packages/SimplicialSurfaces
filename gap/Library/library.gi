@@ -111,7 +111,7 @@ BindGlobal( "__SIMPLICIAL_ParseLibraryQuery",
 
         if not IsFunction( argList[1] ) then
             # The first entry is the result of NumberOfFaces
-            if not IsPosInt(argList[1]) and not IsList(argList[1]) and not ForAny(argList[1],IsPosInt) then
+            if not IsPosInt(argList[1]) and not ( IsList(argList[1]) and ForAll(argList[1],IsPosInt) ) then
                 Error(Concatenation(fctName, 
                     ": If the first argument is not a function it has to be the",
                     " result of NumberOfFaces, so either a positive integer or",
