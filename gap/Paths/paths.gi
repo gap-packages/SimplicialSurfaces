@@ -396,7 +396,7 @@ InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 			
 		# First calculate all cycles of the edge graph.
 		# These cycles result in all closed vertex edge path of the complex except cycles of length two.
-		graph:=EdgeDigraphsGraph(newComplex);
+		graph:=EdgeGraphDigraphs(newComplex);
 		cycles:=DigraphAllUndirectedSimpleCircuits(graph);
 		newCycles:=[];
 		
@@ -959,7 +959,7 @@ InstallMethod(IsWaist, "for a complex and a vertex-edge path",
 
 			# check distance-faithful
 			if Length(edges)>3 then
-				edgeGraph:=EdgeDigraphsGraph(complex);
+				edgeGraph:=EdgeGraphDigraphs(complex);
 				vertices:=ShallowCopy(VerticesAsList(path));
 				Remove(vertices);
 				subdigr:=InducedSubdigraph(edgeGraph,vertices);

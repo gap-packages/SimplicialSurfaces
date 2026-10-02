@@ -769,7 +769,7 @@ BindGlobal( "__SIMPLICIAL_ColourIncidenceGraph",
 end
 );
 
-InstallMethod( ColourIncidenceDigraphsGraph, 
+InstallMethod( ColourIncidenceGraphDigraphs, 
     "for an edge coloured polygonal complex",
     [IsEdgeColouredPolygonalComplex],
     function( colComplex )
@@ -800,7 +800,7 @@ InstallMethod( ColourIncidenceDigraphsGraph,
 );
 
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
-    InstallMethod( ColourIncidenceGrapeGraph, 
+    InstallMethod( ColourIncidenceGraphGrape, 
         "for an edge coloured polygonal complex",
         [IsEdgeColouredPolygonalComplex],
         function(colComplex)
@@ -850,7 +850,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
-    InstallMethod( ColourIncidenceNautyGraph, 
+    InstallMethod( ColourIncidenceGraphNauty, 
         "for an edge coloured polygonal complex",
         [IsEdgeColouredPolygonalComplex],
         function(colComplex)
@@ -871,8 +871,8 @@ InstallMethod( IsIsomorphicEdgeColouredPolygonalComplex,
             return false;
         fi;
 
-        inc1 := ColourIncidenceDigraphsGraph(complex1);
-        inc2 := ColourIncidenceDigraphsGraph(complex2);
+        inc1 := ColourIncidenceGraphDigraphs(complex1);
+        inc2 := ColourIncidenceGraphDigraphs(complex2);
         g1:=inc1[1];
         g2:=inc2[1];
 
@@ -897,8 +897,8 @@ if IsPackageMarkedForLoading("GRAPE", ">=0") then
         [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
         function(complex1, complex2)
             return IsIsomorphicGraph(
-                ShallowCopy( ColourIncidenceGrapeGraph(complex1) ),
-                ShallowCopy( ColourIncidenceGrapeGraph(complex2) ) );
+                ShallowCopy( ColourIncidenceGraphGrape(complex1) ),
+                ShallowCopy( ColourIncidenceGraphGrape(complex2) ) );
         end
     );
 fi;
@@ -909,8 +909,8 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         [IsEdgeColouredPolygonalComplex, IsEdgeColouredPolygonalComplex],
         function(complex1, complex2)
             return IsomorphismGraphs( 
-                UnderlyingNautyGraph( ColourIncidenceNautyGraph(complex1) ),
-                UnderlyingNautyGraph( ColourIncidenceNautyGraph(complex2) )) <> fail;
+                UnderlyingNautyGraph( ColourIncidenceGraphNauty(complex1) ),
+                UnderlyingNautyGraph( ColourIncidenceGraphNauty(complex2) )) <> fail;
         end
     );
 fi;

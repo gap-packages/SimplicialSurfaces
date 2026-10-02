@@ -661,12 +661,12 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
 
 
 
-InstallGlobalFunction( "AllSimplicialSpheres",
+InstallGlobalFunction( "AllSimplicialSpheresEssential",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSpheres");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial spheres/");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSpheresEssential");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial spheres essential/");
     end
 );
 

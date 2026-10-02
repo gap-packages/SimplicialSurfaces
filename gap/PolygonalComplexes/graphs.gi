@@ -42,7 +42,7 @@ BindGlobal( "__SIMPLICIAL_IncidenceGraph",
 ##
 ##      Digraphs
 ##
-InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
+InstallMethod( IncidenceGraphDigraphs, "for a polygonal complex",
     [IsPolygonalComplex],
     function( complex )
     local data, vertexList, newColours, shift, i, j;
@@ -71,7 +71,7 @@ InstallMethod( IncidenceDigraphsGraph, "for a polygonal complex",
     end
 );
 
-InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
+InstallMethod( EdgeGraphDigraphs, "for a polygonal complex",
     [IsPolygonalComplex],
     function(complex)
     local arcs, diedges, i, graph;
@@ -90,7 +90,7 @@ InstallMethod( EdgeDigraphsGraph, "for a polygonal complex",
     return InducedSubdigraph( graph, VerticesAttributeOfComplex(complex) );
 end);
 
-InstallMethod(FaceDigraphsGraph, "for a polygonal complex",[IsPolygonalComplex],
+InstallMethod(FaceGraphDigraphs, "for a polygonal complex",[IsPolygonalComplex],
 function(complex)
     local i, diedges, arcs, loops, graph;
     
@@ -125,7 +125,7 @@ end
 ##      GRAPE
 ##
 if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
-    InstallMethod( IncidenceGrapeGraph, "for a polygonal complex",
+    InstallMethod( IncidenceGraphGrape, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
  	    local graph, vertices, edges, faces, names, colours, incidence, 
@@ -171,10 +171,10 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     );
 
      if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-        RedispatchOnCondition( IncidenceGrapeGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+        RedispatchOnCondition( IncidenceGraphGrape, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
     fi;
 
-    InstallMethod( EdgeGrapeGraph, "for a polygonal complex",
+    InstallMethod( EdgeGraphGrape, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
     	local graph, vertices, names, incidence, trivialAction;
@@ -197,7 +197,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
     );
 
      if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-        RedispatchOnCondition( EdgeGrapeGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+        RedispatchOnCondition( EdgeGraphGrape, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
     fi;
 fi;
 ##
@@ -212,7 +212,7 @@ fi;
 ##      NautyTracesInterface
 ##
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
-    InstallMethod( IncidenceNautyGraph, "for a polygonal complex",
+    InstallMethod( IncidenceGraphNauty, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
             local data;
@@ -223,7 +223,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     );
 
      if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-        RedispatchOnCondition( IncidenceNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+        RedispatchOnCondition( IncidenceGraphNauty, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
     fi;
 
     InstallMethod( ChamberAdjacencyGraph, "for a twisted polygonal complex",
@@ -258,7 +258,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
         end
     );
 
-    InstallMethod( EdgeNautyGraph, "for a polygonal complex",
+    InstallMethod( EdgeGraphNauty, "for a polygonal complex",
         [IsPolygonalComplex],
         function(complex)
             return NautyGraphWithNodeLabels(
@@ -269,10 +269,10 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     );
 
      if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-        RedispatchOnCondition( EdgeNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+        RedispatchOnCondition( EdgeGraphNauty, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
     fi;
 
-    InstallMethod(FaceNautyGraph, "for a polygonal complex",[IsPolygonalComplex],
+    InstallMethod(FaceGraphNauty, "for a polygonal complex",[IsPolygonalComplex],
 	function(complex)
 		local i, diedges, loops;
 			
@@ -286,7 +286,7 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
     );
 
      if SIMPLICIAL_ENABLE_SURFACE_REDISPATCH then
-        RedispatchOnCondition( FaceNautyGraph, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
+        RedispatchOnCondition( FaceGraphNauty, true, [IsTwistedPolygonalComplex], [IsPolygonalComplex], 0 );
     fi;
 fi;
 ##
@@ -322,9 +322,10 @@ InstallOtherMethod( IsIsomorphic,
         if Length(IsolatedVertices(complex1)) <> Length(IsolatedVertices(complex2)) then
             return false;
         fi;
+    
+        inc1 := IncidenceGraphDigraphs(complex1);
+        inc2 := IncidenceGraphDigraphs(complex2);
 
-        inc1 := IncidenceDigraphsGraph(complex1);
-        inc2 := IncidenceDigraphsGraph(complex2);
         g1:=inc1[1];
         g2:=inc2[1];
 
@@ -356,8 +357,8 @@ if IsPackageMarkedForLoading( "GRAPE", ">=0" ) then
                 return false;
             fi;
 
-            inc1 := IncidenceGrapeGraph(complex1);
-            inc2 := IncidenceGrapeGraph(complex2);
+            inc1 := IncidenceGraphGrape(complex1);
+            inc2 := IncidenceGraphGrape(complex2);
             # We copy the structure fully, so that all components stay mutable
             # (this is necessary for GRAPE to function)
             return IsIsomorphicGraph(

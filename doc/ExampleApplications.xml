@@ -28,10 +28,10 @@
         30 faces (since two faces are lost in the construction).
 
         We can obtain a list of spherical surfaces with 16 faces by
-        accessing the surface-library with <K>AllSimplicialSpheres</K>
-        (<Ref Subsect="AllSimplicialSpheres"/>):
+        accessing the surface-library with <K>AllSimplicialSpheresEssential</K>
+        (<Ref Subsect="AllSimplicialSpheresEssential"/>):
 <Example>
-gap&gt; surf16 := AllSimplicialSpheres(16);;
+gap&gt; surf16 := AllSimplicialSpheresEssential(16);;
 gap&gt; Length(surf16);
 10
 </Example>
