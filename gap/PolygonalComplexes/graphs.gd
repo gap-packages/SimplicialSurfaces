@@ -191,8 +191,6 @@
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
 #! @BeginLogSession
 #! gap> grape := IncidenceGraphGrape(complex).graph;;
-#! gap> DirectedEdges(grape)=DigraphEdges(digraph);
-#! true
 #! @EndLogSession
 #! Finally, consider how getting information from a graph given by <K>NautyTracesInterface</K> looks like:
 #! @BeginLogSession
