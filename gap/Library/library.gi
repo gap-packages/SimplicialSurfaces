@@ -681,12 +681,12 @@ InstallGlobalFunction( "AllGeodesicSelfDualSurfaces",
 );
 
 
-InstallGlobalFunction( "AllDiscs",
+InstallGlobalFunction( "AllSimplicialDiscs",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllDiscs");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "discs/");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialDiscs");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "essential_discs/");
     end
 );
 

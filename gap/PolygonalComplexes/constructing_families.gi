@@ -78,7 +78,7 @@ end
 
 
 # Compute up to isomorphism all surfaces that can be obtained from
-# the surface surf by a butterfly insertion along a relevant 2-path
+# the surface surf by a butterfly insertion along an essential  2-path
 InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
     "for a simplicial surface",
     [IsSimplicialSurface],
@@ -98,7 +98,7 @@ InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
         return IsomorphismRepresentatives(surfaces);
 
 end);
-fi;
+fi; # if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
 
 #######################################
