@@ -212,7 +212,7 @@ DeclareGlobalFunction("AllSimplicialSurfaces");
 #! Currently, the following classes are contained in the package:
 #! * <K>AllPlatonicSurfaces</K> (<Ref Subsect="Library_AllPlatonicSurfaces"/>):
 #!   all platonic solids
-#! * <K>AllSimplicialSpheres</K> (<Ref Subsect="Library_AllSimplicialSpheres"/>):
+#! * <K>AllSimplicialSpheresEssential</K> (<Ref Subsect="Library_AllSimplicialSpheresEssential"/>):
 #!   simplicial spheres without 3--waists (i.e. each of their
 #!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>) 
 #!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
@@ -223,35 +223,35 @@ DeclareGlobalFunction("AllSimplicialSurfaces");
 #! 
 #! TODO needs nicer introduction and streamlining
 
-#! @BeginGroup Library_AllSimplicialSpheres
+#! @BeginGroup Library_AllSimplicialSpheresEssential
 #! @Description
 #! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
 #! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
-#! but is restricted to the simplicial spheres without 3--waists, i.e.
+#! but is restricted to the essential simplicial spheres, i.e.
 #! * simplicial surfaces
 #! * that are homeomorphic to the sphere
 #! * each of their
 #!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>) 
 #!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
-#!   of a face
+#!   of a face (i.e. without 3-waists).
 #!
 #! Since this class is infinite, not all of them can be accessed.
 #! Currently, all of those surfaces with at most 28 faces are
 #! stored.
 #!
 #! @BeginExampleSession
-#! gap> AllSimplicialSpheres([4,8,10]);
+#! gap> AllSimplicialSpheresEssential([4,8,10]);
 #! [ simplicial surface (7 vertices, 15 edges, and 10 faces), 
 #!   simplicial surface (4 vertices, 6 edges, and 4 faces), 
 #!   simplicial surface (6 vertices, 12 edges, and 8 faces) ]
-#! gap> AllSimplicialSpheres(NumberOfVertices, 8);
+#! gap> AllSimplicialSpheresEssential(NumberOfVertices, 8);
 #! [ simplicial surface (8 vertices, 18 edges, and 12 faces), 
 #!   simplicial surface (8 vertices, 18 edges, and 12 faces) ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of simplicial surfaces
 #! @Arguments fct1, res1, fct2, res2, ...
-DeclareGlobalFunction("AllSimplicialSpheres");
+DeclareGlobalFunction("AllSimplicialSpheresEssential");
 #! @EndGroup
 
 #! @BeginGroup Library_AllGeodesicSelfDualSurfaces
