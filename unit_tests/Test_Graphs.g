@@ -1,7 +1,7 @@
 
-BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function()
+BindGlobal( "__SIMPLICIAL_Test_IncidenceGraphDigraphs", function()
 	local digTetra, digTetraEdges, vertex, edges, edge, faces;
-	digTetra:=IncidenceDigraphsGraph(Tetrahedron())[1];
+	digTetra:=IncidenceGraphDigraphs(Tetrahedron())[1];
 	digTetraEdges:=ShallowCopy(DigraphEdges(digTetra));
 	Assert(0,Length(digTetraEdges)=48);
 	for edge in [1..Length(digTetraEdges)] do
@@ -22,9 +22,9 @@ BindGlobal( "__SIMPLICIAL_Test_IncidenceDigraphsGraph", function()
 	od;
 end);
 	
-BindGlobal( "__SIMPLICIAL_Test_EdgeDigraphsGraph", function()
+BindGlobal( "__SIMPLICIAL_Test_EdgeGraphDigraphs", function()
 	local digTetra, reversedTetra, vertices, eye, digEye, reversedEye;
-	digTetra:=EdgeDigraphsGraph(Tetrahedron());
+	digTetra:=EdgeGraphDigraphs(Tetrahedron());
 	reversedTetra:=[];
 			for vertices in VerticesOfEdges(Tetrahedron()) do
 					Add(reversedTetra,Reversed(vertices));
@@ -32,7 +32,7 @@ BindGlobal( "__SIMPLICIAL_Test_EdgeDigraphsGraph", function()
 	Assert(0, Set(DigraphEdges(digTetra))=Set(Union(VerticesOfEdges(Tetrahedron()),reversedTetra)));
 	
 	eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
-	digEye:=EdgeDigraphsGraph(eye);
+	digEye:=EdgeGraphDigraphs(eye);
 	reversedEye:=[];
 			for vertices in VerticesOfEdges(eye) do
 					Add(reversedEye,Reversed(vertices));
@@ -40,9 +40,9 @@ BindGlobal( "__SIMPLICIAL_Test_EdgeDigraphsGraph", function()
 	Assert(0, Set(DigraphEdges(digEye))=Set(Union(VerticesOfEdges(eye),reversedEye)));
 end);
 
-BindGlobal( "__SIMPLICIAL_Test_FaceDigraphsGraph", function()
+BindGlobal( "__SIMPLICIAL_Test_FaceGraphDigraphs", function()
 	local digTetra, butterfly, digButterfly, reversedTetra, reversedButterfly, faces;
-	digTetra:=FaceDigraphsGraph(Tetrahedron());
+	digTetra:=FaceGraphDigraphs(Tetrahedron());
 	reversedTetra:=[];
 	for faces in FacesOfEdges(Tetrahedron()) do
 		Add(reversedTetra,Reversed(faces));
@@ -50,7 +50,7 @@ BindGlobal( "__SIMPLICIAL_Test_FaceDigraphsGraph", function()
 	Assert(0, Set(DigraphEdges(digTetra))=Set(Union(FacesOfEdges(Tetrahedron()),reversedTetra)));
 	
 	butterfly := SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4]],[[1,2,3],[3,4,5]]);
-	digButterfly:=FaceDigraphsGraph(butterfly);
+	digButterfly:=FaceGraphDigraphs(butterfly);
 	reversedButterfly:=[];
 	for faces in FacesOfEdges(butterfly) do
 		if Length(faces)=2 then 
@@ -64,9 +64,9 @@ end);
 
 
 if IsPackageMarkedForLoading( "GRAPE", ">=4.8.2" ) then
-	BindGlobal( "__SIMPLICIAL_Test_IncidenceGrapeGraph", function()
+	BindGlobal( "__SIMPLICIAL_Test_IncidenceGraphGrape", function()
 		local grapeTetra, grapeTetraEdges, vertex, edges, edge, faces;
-			grapeTetra:=IncidenceGrapeGraph(Tetrahedron()).graph;
+			grapeTetra:=IncidenceGraphGrape(Tetrahedron()).graph;
 			grapeTetraEdges:=DirectedEdges(grapeTetra);
 			Assert(0,Length(grapeTetraEdges)=48);
 			for vertex in [1..Length(EdgesOfVertices(Tetrahedron()))] do
@@ -82,9 +82,9 @@ if IsPackageMarkedForLoading( "GRAPE", ">=4.8.2" ) then
 			od;
 	end);
 
-	BindGlobal( "__SIMPLICIAL_Test_EdgeGrapeGraph", function()
+	BindGlobal( "__SIMPLICIAL_Test_EdgeGraphGrape", function()
 		local grapeTetra, eye, grapeEye,reversedTetra, reversedEye, vertices;
-		grapeTetra:=EdgeGrapeGraph(Tetrahedron());
+		grapeTetra:=EdgeGraphGrape(Tetrahedron());
 		reversedTetra:=[];
 		for vertices in VerticesOfEdges(Tetrahedron()) do
 			Add(reversedTetra,Reversed(vertices));
@@ -93,7 +93,7 @@ if IsPackageMarkedForLoading( "GRAPE", ">=4.8.2" ) then
 		
 
 		eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
-		grapeEye:=EdgeGrapeGraph(eye);
+		grapeEye:=EdgeGraphGrape(eye);
 		reversedEye:=[];
 		for vertices in VerticesOfEdges(eye) do
 			Add(reversedEye,Reversed(vertices));
@@ -101,14 +101,14 @@ if IsPackageMarkedForLoading( "GRAPE", ">=4.8.2" ) then
 		Assert(0, DirectedEdges(grapeEye)=Union(VerticesOfEdges(eye),reversedEye));
 	end);
 else
-	BindGlobal( "__SIMPLICIAL_Test_IncidenceGrapeGraph", function()	end);	
-	BindGlobal( "__SIMPLICIAL_Test_EdgeGrapeGraph", function() end);
+	BindGlobal( "__SIMPLICIAL_Test_IncidenceGraphGrape", function()	end);	
+	BindGlobal( "__SIMPLICIAL_Test_EdgeGraphGrape", function() end);
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
-	BindGlobal( "__SIMPLICIAL_Test_IncidenceNautyGraph", function()
+	BindGlobal( "__SIMPLICIAL_Test_IncidenceGraphNauty", function()
 		local nautyTetra, nautyTetraEdges, vertex, edges, edge, faces;
-		nautyTetra:=UnderlyingNautyGraph(IncidenceNautyGraph(Tetrahedron()));
+		nautyTetra:=UnderlyingNautyGraph(IncidenceGraphNauty(Tetrahedron()));
 		nautyTetraEdges:=nautyTetra!.edges;
 		Assert(0,Length(nautyTetraEdges)=24);
 		
@@ -125,24 +125,24 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
 		od;
 	end);
 	
-	BindGlobal( "__SIMPLICIAL_Test_EdgeNautyGraph", function()
+	BindGlobal( "__SIMPLICIAL_Test_EdgeGraphNauty", function()
 		local nautyTetra, eye, nautyEye;
-		nautyTetra:=UnderlyingNautyGraph(EdgeNautyGraph(Tetrahedron()));
+		nautyTetra:=UnderlyingNautyGraph(EdgeGraphNauty(Tetrahedron()));
 		Assert(0, nautyTetra!.edges=VerticesOfEdges(Tetrahedron()));
 
 		eye := PolygonalComplexByDownwardIncidence([[1,2],[2,3],[1,3],[2,4],[3,4],[2,3]],[[1,2,3],[4,5,6]]);
-		nautyEye:=UnderlyingNautyGraph(EdgeNautyGraph(eye));
+		nautyEye:=UnderlyingNautyGraph(EdgeGraphNauty(eye));
 		Assert(0, nautyEye!.edges=VerticesOfEdges(eye));
 	end);
 
-	BindGlobal( "__SIMPLICIAL_Test_FaceNautyGraph", function()
+	BindGlobal( "__SIMPLICIAL_Test_FaceGraphNauty", function()
 		local nautyTetra, butterfly, nautyButterfly, edges, faces;
-		nautyTetra:=UnderlyingNautyGraph(FaceNautyGraph(Tetrahedron()));
+		nautyTetra:=UnderlyingNautyGraph(FaceGraphNauty(Tetrahedron()));
 		
 		Assert(0, Set(nautyTetra!.edges)=Set(FacesOfEdges(Tetrahedron())));
 		
 		butterfly := SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4]],[[1,2,3],[3,4,5]]);
-		nautyButterfly:=UnderlyingNautyGraph(FaceNautyGraph(butterfly));
+		nautyButterfly:=UnderlyingNautyGraph(FaceGraphNauty(butterfly));
 		edges:=ShallowCopy(FacesOfEdges(butterfly));
 		for faces in FacesOfEdges(butterfly) do
 			if Length(faces)=1 then 
@@ -152,9 +152,9 @@ if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
 		Assert(0, Set(nautyButterfly!.edges)=Set(Filtered(edges,i->Length(i)=2)));
 	end);
 else
-	BindGlobal( "__SIMPLICIAL_Test_IncidenceNautyGraph", function() end);
-	BindGlobal( "__SIMPLICIAL_Test_EdgeNautyGraph", function() end);
-	BindGlobal( "__SIMPLICIAL_Test_FaceNautyGraph", function() end);
+	BindGlobal( "__SIMPLICIAL_Test_IncidenceGraphNauty", function() end);
+	BindGlobal( "__SIMPLICIAL_Test_EdgeGraphNauty", function() end);
+	BindGlobal( "__SIMPLICIAL_Test_FaceGraphNauty", function() end);
 fi;
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
