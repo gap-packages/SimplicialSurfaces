@@ -681,7 +681,7 @@ InstallGlobalFunction( "AllGeodesicSelfDualSurfaces",
 );
 
 
-InstallGlobalFunction( "AllSimplicialDiscs",
+InstallGlobalFunction( "AllSimplicialDiscsEssential",
     function(arg)
         local trueArg;
 

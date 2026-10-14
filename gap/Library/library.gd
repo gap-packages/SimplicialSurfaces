@@ -288,7 +288,7 @@ DeclareGlobalFunction("AllSimplicialSpheresEssential");
 DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #! @EndGroup
 
-#! @BeginGroup Library_AllSimplicialDiscs
+#! @BeginGroup Library_AllSimplicialDiscsEssential
 #! @Description
 #! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
 #! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
@@ -316,23 +316,23 @@ DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #!   simplicial surface (8 vertices, 18 edges, and 12 faces) ]
 #! @EndExampleSession
 #! @BeginExampleSession
-#! gap> discs := AllSimplicialDiscs();;
+#! gap> discs := AllSimplicialDiscsEssential();;
 #! gap> Length(discs);                          
 #! 19355
-#! gap> AllSimplicialDiscs([6]);  
+#! gap> AllSimplicialDiscsEssential([6]);  
 #! [ simplicial surface (6 vertices, 11 edges, and 6 faces), 
 #!   simplicial surface (7 vertices, 12 edges, and 6 faces) ]
-#! gap> discs := AllSimplicialDiscs(s->Length(BoundaryEdges(s)),14);;
+#! gap> discs := AllSimplicialDiscsEssential(s->Length(BoundaryEdges(s)),14);;
 #! gap> Length(discs);
 #! 114
-#! gap> discs10 := AllSimplicialDiscs( s->Length(BoundaryEdges(s)), [10] );;
+#! gap> discs10 := AllSimplicialDiscsEssential( s->Length(BoundaryEdges(s)), [10] );;
 #! gap> Collected( List( discs10, s-> [ NumberOfFaces(s), Length(BoundaryEdges(s))] ) );
 #! [ [ [ 10, 10 ], 1 ], [ [ 12, 10 ], 4 ], [ [ 14, 10 ], 38 ], [ [ 16, 10 ], 320 ], [ [ 18, 10 ], 2524 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of simplicial surfaces
 #! @Arguments fct1, res1, fct2, res2, ...
-DeclareGlobalFunction("AllSimplicialDiscs");
+DeclareGlobalFunction("AllSimplicialDiscsEssential");
 #! @EndGroup
 
 
