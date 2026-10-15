@@ -63,7 +63,8 @@
 #! we could use
 #! @BeginExampleSession
 #! gap> AllSimplicialSurfaces( NumberOfEdges, [6,8,9] );
-#! [ simplicial surface (3 vertices, 9 edges, and 6 faces),
+#! [ simplicial surface (5 vertices, 8 edges, and 4 faces), 
+#!   simplicial surface (3 vertices, 9 edges, and 6 faces),
 #!   simplicial surface (4 vertices, 6 edges, and 4 faces), 
 #!   simplicial surface (3 vertices, 6 edges, and 3 faces), 
 #!   simplicial surface (3 vertices, 6 edges, and 4 faces) ]
@@ -306,15 +307,6 @@ DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #! Currently, all of those surfaces with at most 18 faces are
 #! stored.
 #!
-#! @BeginExampleSession
-#! gap> AllSimplicialSpheres([4,8,10]);
-#! [ simplicial surface (7 vertices, 15 edges, and 10 faces),
-#!   simplicial surface (4 vertices, 6 edges, and 4 faces),
-#!   simplicial surface (6 vertices, 12 edges, and 8 faces) ]
-#! gap> AllSimplicialSpheres(NumberOfVertices, 8);
-#! [ simplicial surface (8 vertices, 18 edges, and 12 faces),
-#!   simplicial surface (8 vertices, 18 edges, and 12 faces) ]
-#! @EndExampleSession
 #! @BeginExampleSession
 #! gap> discs := AllSimplicialDiscsEssential();;
 #! gap> Length(discs);                          
