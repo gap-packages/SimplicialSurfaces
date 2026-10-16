@@ -1024,6 +1024,62 @@ InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
+# Return the adjacency matrix of the edge graph of the given complex.
+# Row and column i belong to the i-th vertex of Vertices(complex).
+# Edges with the same vertices give the same entry 1.
+BindGlobal( "__SIMPLICIAL_AdjacencyMatrixOfVerticesEdges",
+    function( complex )
+        local vertices, voe, m, e, i, j;
+
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        m := NullMat( Length(vertices), Length(vertices) );
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            m[i][j] := 1;
+            m[j][i] := 1;
+        od;
+        return m;
+    end
+);
+
+InstallMethod( IsSurfaceThreeWaistFree, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( surface )
+        local adj, adj2, trace;
+
+        if not IsSimplicialSurface(surface) then
+            Error("IsSurfaceThreeWaistFree: The given complex has to be a simplicial surface.");
+        fi;
+
+        if HasAllThreeWaistsOfComplex(surface) then
+            return IsEmpty( AllThreeWaistsOfComplex(surface) );
+        fi;
+
+        # The counting argument below needs every triangle of the edge
+        # graph that is not a face to be a 3-waist. On a surface with
+        # boundary such a triangle may contain a boundary edge, and without
+        # vertex-faithfulness faces or edges are not determined by their
+        # vertices. In these cases we fall back to listing the waists.
+        if not IsClosedSurface(surface) or not IsVertexFaithful(surface) then
+            return IsEmpty( AllThreeWaistsOfComplex(surface) );
+        fi;
+
+        # The trace of adj^3 is six times the number of triangles in the
+        # edge graph. We compute it as the sum of the entries of the
+        # entrywise product of adj^2 and adj, which needs only one matrix
+        # product.
+        adj := __SIMPLICIAL_AdjacencyMatrixOfVerticesEdges(surface);
+        adj2 := adj * adj;
+        trace := Sum( [1..Length(adj)], i -> adj2[i] * adj[i] );
+
+        # Every face is a triangle, so there are no 3-waists if and only if
+        # there are no other triangles.
+        return trace = 6 * NumberOfFaces(surface);
+    end
+);
+
 if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 InstallMethod(AllWaistsOfComplex, "for a twisted polygonal complex",
         [IsTwistedPolygonalComplex],

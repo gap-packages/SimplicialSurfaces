@@ -1333,6 +1333,49 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! @EndGroup
 
+#! @BeginGroup IsSurfaceThreeWaistFree
+#! @Description
+#! Return whether the given simplicial surface <A>surface</A> has no waist of
+#! length 3, i.e. whether <K>AllThreeWaistsOfComplex</K>(<A>surface</A>) (see
+#! <Ref Subsect="AllThreeWaistsOfSimplicalSurface"/>) is empty.
+#! An error is raised if <A>surface</A> is not a simplicial surface.
+#!
+#! If <A>surface</A> is closed and vertex-faithful, this property is computed
+#! without listing any waists. Let <M>A</M> be the adjacency matrix of the
+#! edge graph of <A>surface</A>. Then the trace of <M>A^3</M> is six times the
+#! number of triangles in the edge graph, since each triangle is traversed
+#! from each of its three vertices in two directions. Every face gives such a
+#! triangle and, for a closed vertex-faithful surface, every other triangle
+#! is a 3-waist. Hence <A>surface</A> is free of 3-waists if and only if the
+#! trace of <M>A^3</M> equals six times the number of faces.
+#!
+#! The tetrahedron and the octahedron have no 3-waists, but the surface
+#! from the start of section <Ref Sect="Section_Waists"/> has two:
+#! @BeginExampleSession
+#! gap> IsSurfaceThreeWaistFree( Tetrahedron() );
+#! true
+#! gap> IsSurfaceThreeWaistFree( Octahedron() );
+#! true
+#! gap> IsSurfaceThreeWaistFree( tripleTetra );
+#! false
+#! @EndExampleSession
+#! A closed path of length 3 is only a 3-waist if all of its edges are inner.
+#! The boundary of the umbrella with three faces is therefore not a 3-waist:
+#! @BeginExampleSession
+#! gap> IsSurfaceThreeWaistFree( SimplicialUmbrella(3) );
+#! true
+#! @EndExampleSession
+#! The cube is not a simplicial surface, so it cannot be checked:
+#! @BeginExampleSession
+#! gap> IsSurfaceThreeWaistFree( Cube() );
+#! Error, IsSurfaceThreeWaistFree: The given complex has to be a simplicial surface.
+#! @EndExampleSession
+#!
+#! @Returns true or false
+#! @Arguments surface
+DeclareProperty( "IsSurfaceThreeWaistFree", IsTwistedPolygonalComplex );
+#! @EndGroup
+
 #! @Section Geodesic and umbrella paths
 #! @SectionLabel Paths_Geodesics
 #!

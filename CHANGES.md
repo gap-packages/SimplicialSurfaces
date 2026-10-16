@@ -2,6 +2,8 @@ This file describes changes in the SimplicialSurfaces package.
 
 ## Unreleased
 
+- Add `IsSurfaceThreeWaistFree`, which for closed vertex-faithful surfaces is
+  computed from the adjacency matrix of the edge graph without listing waists
 - Add simplicial complexes: `IsSimplicialComplex`,
   `SimplicialComplexByDownwardIncidence`, `SimplicialComplexByUpwardIncidence`,
   `SimplicialComplexByVerticesInFaces` (with `NC` variants) and
