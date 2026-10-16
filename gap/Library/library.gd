@@ -63,7 +63,8 @@
 #! we could use
 #! @BeginExampleSession
 #! gap> AllSimplicialSurfaces( NumberOfEdges, [6,8,9] );
-#! [ simplicial surface (3 vertices, 9 edges, and 6 faces),
+#! [ simplicial surface (5 vertices, 8 edges, and 4 faces), 
+#!   simplicial surface (3 vertices, 9 edges, and 6 faces),
 #!   simplicial surface (4 vertices, 6 edges, and 4 faces), 
 #!   simplicial surface (3 vertices, 6 edges, and 3 faces), 
 #!   simplicial surface (3 vertices, 6 edges, and 4 faces) ]
@@ -288,26 +289,42 @@ DeclareGlobalFunction("AllSimplicialSpheresEssential");
 DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #! @EndGroup
 
-#! @BeginGroup Library_AllDiscs
+#! @BeginGroup Library_AllSimplicialDiscsEssential
 #! @Description
 #! This method has the same syntax as <K>AllTwistedPolygonalComplexes</K> and
 #! <K>AllSimplicialSurfaces</K> (<Ref Subsect="Library_AllTwistedPolygonalComplexes"/>),
-#! but is restricted to simplicial discs. (TODO)
+#! but is restricted to essential simplicial discs.  These are
+#! * simplicial surfaces
+#! * homeomorphic to the disc (Euler Characteristic 1) 
+#! * each of their
+#!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>)
+#!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
+#!   of a face
+#! * every boundary vertex is incident to at least 2 faces
+#! * there is no inner edge with 2 boundary vertices 
 #!
-#! This list is very incomplete at the moment TODO.
+#! Since this class is infinite, not all of them can be accessed.
+#! Currently, all of those surfaces with at most 18 faces are
+#! stored.
 #!
 #! @BeginExampleSession
-#! gap> discs := AllDiscs();;
+#! gap> discs := AllSimplicialDiscsEssential();;
+#! gap> Length(discs);                          
+#! 19355
+#! gap> AllSimplicialDiscsEssential([6]);  
+#! [ simplicial surface (6 vertices, 11 edges, and 6 faces), 
+#!   simplicial surface (7 vertices, 12 edges, and 6 faces) ]
+#! gap> discs := AllSimplicialDiscsEssential(s->Length(BoundaryEdges(s)),14);;
 #! gap> Length(discs);
-#! 87
-#! gap> AllDiscs(function(surf) return 7 in FaceDegreesOfVertices(surf); end);
-#! []
-#! gap> List(discs, UmbrellaPathsOfVertices);;
+#! 114
+#! gap> discs10 := AllSimplicialDiscsEssential( s->Length(BoundaryEdges(s)), [10] );;
+#! gap> Collected( List( discs10, s-> [ NumberOfFaces(s), Length(BoundaryEdges(s))] ) );
+#! [ [ [ 10, 10 ], 1 ], [ [ 12, 10 ], 4 ], [ [ 14, 10 ], 38 ], [ [ 16, 10 ], 320 ], [ [ 18, 10 ], 2524 ] ]
 #! @EndExampleSession
 #! 
 #! @Returns a list of simplicial surfaces
 #! @Arguments fct1, res1, fct2, res2, ...
-DeclareGlobalFunction("AllDiscs");
+DeclareGlobalFunction("AllSimplicialDiscsEssential");
 #! @EndGroup
 
 
