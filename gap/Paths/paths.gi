@@ -1013,7 +1013,16 @@ InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
         voe := VerticesOfEdges(complex);
         foe := FacesOfEdges(complex);
         adj := AdjacencyMatrixOfEdgeGraph(complex);
-        neighbours := List( adj, row -> PositionsProperty(row, x -> x > 0) );
+        # neighbours[i] holds the positions of the neighbours of the i-th
+        # vertex, i.e. of the nonzero entries in row i of adj. Taking them
+        # from the edges avoids scanning every entry of adj.
+        neighbours := List( vertices, v -> [] );
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            AddSet(neighbours[i], j);
+            AddSet(neighbours[j], i);
+        od;
 
         # innerBetween[i][j] is the list of inner edges between the i-th
         # and the j-th vertex
