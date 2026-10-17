@@ -998,53 +998,60 @@ InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
-# Return the 3-waists of a simplicial complex. They are found as the
-# triangles of the edge graph that are not faces and consist of inner edges.
-# Since the complex is vertex-faithful, two edges of such a triangle are
-# never incident to the same face.
-BindGlobal( "__SIMPLICIAL_AllThreeWaistsOfSimplicialComplex",
+# A 3-waist consists of three inner edges between three vertices that form
+# a triangle in the edge graph, and no two of these edges are incident to
+# the same face. We find the triangles with the adjacency matrix of the edge
+# graph. If the complex is not vertex-faithful, there may be several edges
+# between two vertices, so every combination of them has to be checked.
+InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
     function( complex )
-        local vertices, voe, foe, adj, neighbours, edgeOf, isInner, triples,
-            waists, w, e, i, j, k, v1, v2, v3;
+        local vertices, voe, foe, adj, neighbours, innerBetween, triples,
+            waists, w, e, e2, e3, i, j, k, v1, v2, v3;
 
         vertices := Vertices(complex);
         voe := VerticesOfEdges(complex);
         foe := FacesOfEdges(complex);
         adj := AdjacencyMatrixOfEdgeGraph(complex);
-        neighbours := List( adj, row -> Positions(row, 1) );
+        neighbours := List( adj, row -> PositionsProperty(row, x -> x > 0) );
 
-        # edgeOf[i][j] is the edge between the i-th and the j-th vertex
-        edgeOf := List( vertices, v -> [] );
-        for e in Edges(complex) do
+        # innerBetween[i][j] is the list of inner edges between the i-th
+        # and the j-th vertex
+        innerBetween := List( vertices, v -> [] );
+        for e in InnerEdges(complex) do
             i := PositionSorted(vertices, voe[e][1]);
             j := PositionSorted(vertices, voe[e][2]);
-            edgeOf[i][j] := e;
-            edgeOf[j][i] := e;
-        od;
-        isInner := [];
-        for e in InnerEdges(complex) do
-            isInner[e] := true;
+            if not IsBound(innerBetween[i][j]) then
+                innerBetween[i][j] := [];
+                innerBetween[j][i] := [];
+            fi;
+            Add(innerBetween[i][j], e);
+            Add(innerBetween[j][i], e);
         od;
 
         triples := [];
         for e in InnerEdges(complex) do
             i := PositionSorted(vertices, voe[e][1]);
             j := PositionSorted(vertices, voe[e][2]);
-            # adj[i]*adj[j] is the entry of adj^2 at (i,j), i.e. the number
-            # of triangles containing e. If it is not larger than the number
-            # of faces of e, every triangle containing e is a face.
-            if adj[i] * adj[j] > Length(foe[e]) then
-                for k in neighbours[i] do
-                    if adj[j][k] = 1 and IsBound(isInner[edgeOf[i][k]])
-                            and IsBound(isInner[edgeOf[j][k]])
-                            and IsEmpty( Intersection( foe[e], foe[edgeOf[i][k]] ) ) then
-                        AddSet( triples, Set([ e, edgeOf[i][k], edgeOf[j][k] ]) );
-                    fi;
-                od;
-            fi;
+            # the common neighbours k of the i-th and the j-th vertex give
+            # the triangles containing e
+            for k in neighbours[i] do
+                if adj[j][k] > 0 and IsBound(innerBetween[i][k])
+                        and IsBound(innerBetween[j][k]) then
+                    for e2 in innerBetween[i][k] do
+                        for e3 in innerBetween[j][k] do
+                            # inner edges have two faces each
+                            if Length( Union( foe[e], foe[e2], foe[e3] ) ) = 6 then
+                                AddSet( triples, Set([ e, e2, e3 ]) );
+                            fi;
+                        od;
+                    od;
+                fi;
+            od;
         od;
 
-        # Write the waists in the same form as the general method
+        # Each waist [v3, w[1], v1, w[2], v2, w[3], v3] starts with the
+        # smallest edge
         waists := [];
         for w in triples do
             v1 := Intersection( voe[w[1]], voe[w[2]] )[1];
@@ -1053,43 +1060,6 @@ BindGlobal( "__SIMPLICIAL_AllThreeWaistsOfSimplicialComplex",
             Add( waists, VertexEdgePathNC( complex, [v3,w[1],v1,w[2],v2,w[3],v3] ) );
         od;
         return waists;
-    end
-);
-
-# Return the 3-waists of a twisted polygonal complex by checking all
-# triples of inner edges.
-BindGlobal( "__SIMPLICIAL_AllThreeWaistsByInnerEdgeTriples",
-    function( surface )
-        local w,voe1,voe2,voe3,v1,v2,v3,eof,waists,verticesOfEdges,facesOfEdges,temp;
-         verticesOfEdges:=VerticesOfEdges(surface);
-         facesOfEdges:=FacesOfEdges(surface);
-         waists:=Combinations(InnerEdges(surface),3);
-         waists:=Filtered(waists,w->Length(Union(verticesOfEdges{w}))=3);
-         waists:=Filtered(waists,w->Length(Union(facesOfEdges{w}))=6);
-         temp:=waists;
-         waists:=[];
-         for w in temp do 
-            voe1:=verticesOfEdges[w[1]];
-            voe2:=verticesOfEdges[w[2]];
-            voe3:=verticesOfEdges[w[3]];
- 		    v1:=Intersection(voe1,voe2)[1];
-            v2:=Intersection(voe2,voe3)[1];
-            v3:=Intersection(voe1,voe3)[1];
-            if Length(Set([v1,v2,v3]))=3 then 
- 			    Add(waists,[v3,w[1],v1,w[2],v2,w[3],v3]);
- 		    fi;
-         od;
-         return List(waists,w->VertexEdgePathNC(surface,w));
-end
-);
-
-InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
-    function( complex )
-        if IsSimplicialComplex(complex) then
-            return __SIMPLICIAL_AllThreeWaistsOfSimplicialComplex(complex);
-        fi;
-        return __SIMPLICIAL_AllThreeWaistsByInnerEdgeTriples(complex);
     end
 );
 

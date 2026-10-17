@@ -1288,11 +1288,10 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! vertices so that there exist no face in <A>complex</A> that is incident to more
 #! than one of the visited edges.
 #!
-#! If <A>complex</A> is a simplicial complex, i.e. a vertex-faithful
-#! triangular complex, the 3-waists are found from the adjacency matrix of
-#! its edge graph (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>): they are
-#! the triangles of the edge graph that are not faces and only consist of
-#! inner edges. Otherwise all triples of inner edges are checked.
+#! The 3-waists are found with the adjacency matrix of the edge graph of
+#! <A>complex</A> (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>): every
+#! 3-waist lies on a triangle of the edge graph, and only the inner edges
+#! on these triangles have to be checked.
 #! 
 #! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
@@ -1384,6 +1383,33 @@ DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! false
 #! gap> IsThreeWaistFree( complex );
 #! false
+#! @EndExampleSession
+#! The complex does not have to be vertex-faithful either. Gluing three
+#! Janus heads together at three vertices gives a complex with one 3-waist,
+#! although no Janus head has a 3-waist itself. In the following picture,
+#! the edges 1, 2 and 3 of the 3-waist are red, and every side of the
+#! triangle in the middle carries one Janus head:
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_ThreeJanusHeadsWaist-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ThreeJanusHeadsWaist.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @BeginExampleSession
+#! gap> threeJanus := PolygonalComplexByDownwardIncidence(
+#! > [ [1,2], [2,3], [1,3], [1,4], [2,4], [2,5], [3,5], [3,6], [1,6] ],
+#! > [ [1,4,5], [1,4,5], [2,6,7], [2,6,7], [3,8,9], [3,8,9] ] );;
+#! gap> IsVertexFaithful( threeJanus );
+#! false
+#! gap> IsThreeWaistFree( threeJanus );
+#! false
+#! gap> AllThreeWaistsOfComplex( threeJanus );
+#! [ ( v1, E1, v2, E2, v3, E3, v1 ) ]
 #! @EndExampleSession
 #! The cube is not a triangular complex, so it cannot be checked:
 #! @BeginExampleSession

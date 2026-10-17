@@ -351,7 +351,7 @@ DeclareAttribute( "EdgeGraphNauty", IsPolygonalComplex );
 #! @Description
 #! Return the adjacency matrix of the edge graph (see
 #! <Ref Subsect="EdgeGraph"/>) of the given twisted polygonal complex
-#! <A>complex</A>. This does not need a graph package.
+#! <A>complex</A>.
 #!
 #! Row and column <M>i</M> of the matrix belong to the <M>i</M>-th vertex of
 #! <K>Vertices</K>(<A>complex</A>), so the rows are always numbered from 1 to

@@ -1,6 +1,33 @@
 # Tests for AdjacencyMatrixOfEdgeGraph, AllThreeWaistsOfComplex and
 # IsThreeWaistFree
 
+# Reference for AllThreeWaistsOfComplex: check all triples of inner edges.
+# This was the method before the adjacency matrix of the edge graph was used.
+BindGlobal( "__SIMPLICIAL_Test_AllThreeWaistsByInnerEdgeTriples",
+    function( surface )
+        local w,voe1,voe2,voe3,v1,v2,v3,waists,verticesOfEdges,facesOfEdges,temp;
+         verticesOfEdges:=VerticesOfEdges(surface);
+         facesOfEdges:=FacesOfEdges(surface);
+         waists:=Combinations(InnerEdges(surface),3);
+         waists:=Filtered(waists,w->Length(Union(verticesOfEdges{w}))=3);
+         waists:=Filtered(waists,w->Length(Union(facesOfEdges{w}))=6);
+         temp:=waists;
+         waists:=[];
+         for w in temp do
+            voe1:=verticesOfEdges[w[1]];
+            voe2:=verticesOfEdges[w[2]];
+            voe3:=verticesOfEdges[w[3]];
+            v1:=Intersection(voe1,voe2)[1];
+            v2:=Intersection(voe2,voe3)[1];
+            v3:=Intersection(voe1,voe3)[1];
+            if Length(Set([v1,v2,v3]))=3 then
+                Add(waists,[v3,w[1],v1,w[2],v2,w[3],v3]);
+            fi;
+         od;
+         return List(waists,w->VertexEdgePathNC(surface,w));
+end
+);
+
 BindGlobal( "__SIMPLICIAL_Test_AdjacencyMatrixOfEdgeGraph", function()
     local triangle, doubleJanus, disjoint;
 
@@ -31,7 +58,7 @@ BindGlobal( "__SIMPLICIAL_Test_AdjacencyMatrixOfEdgeGraph", function()
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_IsThreeWaistFree", function()
-    local tripleTetra, doubleJanus, umbdesc, complex, surf, surfs;
+    local tripleTetra, doubleJanus, umbdesc, complex, hidden, threeJanus, surf, surfs;
 
     # Closed vertex-faithful surfaces use the adjacency matrix count
     SIMPLICIAL_TestAssert( IsThreeWaistFree( Tetrahedron() ) );
@@ -73,6 +100,34 @@ BindGlobal( "__SIMPLICIAL_Test_IsThreeWaistFree", function()
         [ [1,2,3], [1,2,4], [1,2,5], [1,3,4] ] );
     SIMPLICIAL_TestAssert( IsThreeWaistFree( complex ) );
 
+    # A complex that is not vertex-faithful: the faces 1 and 2 form a Janus
+    # head, and its edge 1 together with the edges 4 and 5 is a 3-waist
+    # through the ramified vertices 1 and 2
+    hidden := PolygonalComplexByDownwardIncidence(
+        [ [1,2], [1,3], [2,3], [1,4], [2,4], [1,5], [4,5], [1,6], [4,6],
+          [2,7], [4,7], [2,8], [4,8] ],
+        [ [1,2,3], [1,2,3], [4,6,7], [4,8,9], [5,10,11], [5,12,13] ] );
+    SIMPLICIAL_TestAssert( not IsSimplicialSurface( hidden ) );
+    SIMPLICIAL_TestAssert( List( AllThreeWaistsOfComplex( hidden ), PathAsList )
+        = [ [2,1,1,4,4,5,2] ] );
+    SIMPLICIAL_TestAssert( not IsThreeWaistFree( hidden ) );
+
+    # Three Janus heads glued together at three vertices
+    threeJanus := PolygonalComplexByDownwardIncidence(
+        [ [1,2], [2,3], [1,3], [1,4], [2,4], [2,5], [3,5], [3,6], [1,6] ],
+        [ [1,4,5], [1,4,5], [2,6,7], [2,6,7], [3,8,9], [3,8,9] ] );
+    SIMPLICIAL_TestAssert( List( AllThreeWaistsOfComplex( threeJanus ), PathAsList )
+        = [ [1,1,2,2,3,3,1] ] );
+    SIMPLICIAL_TestAssert( not IsThreeWaistFree( threeJanus ) );
+
+    # Both methods agree on complexes that are not vertex-faithful and on
+    # polygonal complexes
+    for complex in [ JanusHead(), doubleJanus, umbdesc, hidden, threeJanus, Cube(),
+            Octahedron(), tripleTetra ] do
+        SIMPLICIAL_TestAssert( AllThreeWaistsOfComplex( complex ) =
+            __SIMPLICIAL_Test_AllThreeWaistsByInnerEdgeTriples( complex ) );
+    od;
+
     # Both methods for AllThreeWaistsOfComplex agree on library surfaces,
     # and the property agrees with them. The property is computed first on
     # a fresh copy, so the counting is used where it applies.
@@ -80,7 +135,7 @@ BindGlobal( "__SIMPLICIAL_Test_IsThreeWaistFree", function()
         AllSimplicialSpheresEssential( NumberOfFaces, [4..18] ) );
     for surf in surfs do
         SIMPLICIAL_TestAssert( AllThreeWaistsOfComplex( surf ) =
-            __SIMPLICIAL_AllThreeWaistsByInnerEdgeTriples( surf ) );
+            __SIMPLICIAL_Test_AllThreeWaistsByInnerEdgeTriples( surf ) );
         SIMPLICIAL_TestAssert( IsThreeWaistFree(
             SimplicialSurfaceByDownwardIncidence( VerticesOfEdges(surf),
                 EdgesOfFaces(surf) ) ) = IsEmpty( AllThreeWaistsOfComplex( surf ) ) );
