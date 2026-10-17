@@ -384,28 +384,13 @@ InstallMethod(ShiftCyclicPath,
 # Return the pairs [e1,e2] with e1<e2 of edges from the given list
 # that have the same vertices, sorted lexicographically. Every such pair
 # forms a closed vertex-edge-path of length 2.
-# The edges are grouped by their vertices by sorting, so that the
-# running time does not grow quadratically with the number of edges.
 BindGlobal( "__SIMPLICIAL_PairsOfEdgesWithSameVertices",
     function( complex, edges )
-        local voe, keys, pairs, start, stop, i, j;
+        local pairs, cl;
 
-        voe:=VerticesOfEdges(complex);
-        keys:=List(edges, e->[voe[e],e]);
-        Sort(keys);
         pairs:=[];
-        start:=1;
-        while start<=Length(keys) do
-            stop:=start;
-            while stop<Length(keys) and keys[stop+1][1]=keys[start][1] do
-                stop:=stop+1;
-            od;
-            for i in [start..stop] do
-                for j in [i+1..stop] do
-                    Add(pairs,[keys[i][2],keys[j][2]]);
-                od;
-            od;
-            start:=stop+1;
+        for cl in __SIMPLICIAL_ComputeClasses(edges, VerticesOfEdges(complex)) do
+            Append(pairs,Combinations(cl,2));
         od;
         Sort(pairs);
         return pairs;
