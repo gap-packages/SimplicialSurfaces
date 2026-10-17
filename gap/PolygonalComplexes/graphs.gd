@@ -417,10 +417,13 @@ DeclareAttribute( "AdjacencyMatrixOfEdgeGraph", IsTwistedPolygonalComplex );
 #!
 #! Each row is stored with one bit per entry, so the matrix needs much less
 #! memory than <K>AdjacencyMatrixOfEdgeGraph</K> and is quicker to compute
-#! for complexes with many vertices. The functions for boolean lists work
-#! on its rows: for example, <K>ListBlist</K> gives the neighbours of a
-#! vertex and <K>SizeBlist</K>(<K>IntersectionBlist</K>( ... )) counts the
-#! common neighbours of two vertices.
+#! for complexes with many vertices. The rows can be used with the GAP
+#! functions for boolean lists. Let <M>B</M> be the result. Then
+#! <K>ListBlist</K>(<K>Vertices</K>(<A>complex</A>), <M>B</M>[<M>i</M>])
+#! is the list of neighbours of the <M>i</M>-th vertex, and
+#! <K>SizeBlist</K>(<K>IntersectionBlist</K>(<M>B</M>[<M>i</M>],
+#! <M>B</M>[<M>j</M>])) is the number of common neighbours of the
+#! <M>i</M>-th and the <M>j</M>-th vertex.
 #!
 #! In the octahedron, the vertex 1 is adjacent to the vertices 2, 3, 4
 #! and 5. It has two common neighbours with the vertex 2 and four with the
