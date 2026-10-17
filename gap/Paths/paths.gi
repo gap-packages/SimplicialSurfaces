@@ -381,6 +381,37 @@ InstallMethod(ShiftCyclicPath,
         end
 );
 
+# Return the pairs [e1,e2] with e1<e2 of edges from the given list
+# that have the same vertices, sorted lexicographically. Every such pair
+# forms a closed vertex-edge-path of length 2.
+# The edges are grouped by their vertices by sorting, so that the
+# running time does not grow quadratically with the number of edges.
+BindGlobal( "__SIMPLICIAL_PairsOfEdgesWithSameVertices",
+    function( complex, edges )
+        local voe, keys, pairs, start, stop, i, j;
+
+        voe:=VerticesOfEdges(complex);
+        keys:=List(edges, e->[voe[e],e]);
+        Sort(keys);
+        pairs:=[];
+        start:=1;
+        while start<=Length(keys) do
+            stop:=start;
+            while stop<Length(keys) and keys[stop+1][1]=keys[start][1] do
+                stop:=stop+1;
+            od;
+            for i in [start..stop] do
+                for j in [i+1..stop] do
+                    Add(pairs,[keys[i][2],keys[j][2]]);
+                od;
+            od;
+            start:=stop+1;
+        od;
+        Sort(pairs);
+        return pairs;
+    end
+);
+
 if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) and IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 	[IsTwistedPolygonalComplex],
@@ -431,7 +462,11 @@ InstallMethod(AllClosedVertexEdgePaths, "for a complex",
 				Add(newCycles,VertexEdgePathByEdges(complex,edges));
 			od;
 		od;
-		return Union(newCycles,AllTwoWaistsOfComplex(complex));
+		# Add the closed vertex-edge-paths of length two
+		for edges in __SIMPLICIAL_PairsOfEdgesWithSameVertices(complex,Edges(complex)) do
+			Add(newCycles,VertexEdgePathByEdges(complex,edges));
+		od;
+		return Set(newCycles);
 	end
 );
 fi;
@@ -982,19 +1017,14 @@ InstallMethod(IsWaist, "for a complex and a vertex-edge path",
 InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( surface )
-	local waists,i,j,edges,voe1,voe2;
-	waists:=[];
-	edges:=Edges(surface);
-	for i in [1..NumberOfEdges(surface)] do
-		for j in [i+1..NumberOfEdges(surface)] do 
-			voe1:=VerticesOfEdge(surface,edges[i]);
-			voe2:=VerticesOfEdge(surface,edges[j]);
-			if voe1=voe2 then
-				Add(waists,VertexEdgePathByEdges(surface,edges{[i,j]}));
-			fi;
-		od;
-	od;
-	return waists;
+	local foe, pairs;
+	# A 2-waist consists of two inner edges with the same vertices
+	# which are not incident to a common face.
+	foe:=FacesOfEdges(surface);
+	pairs:=__SIMPLICIAL_PairsOfEdgesWithSameVertices(surface,
+		InnerEdges(surface));
+	pairs:=Filtered(pairs, p->Intersection(foe[p[1]],foe[p[2]])=[]);
+	return List(pairs, p->VertexEdgePathByEdges(surface,p));
 end
 );
 

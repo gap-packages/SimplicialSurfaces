@@ -80,6 +80,10 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_SimplicialComplex();
     __SIMPLICIAL_Test_Extraction_SimplicialComplex();
 
+    # Waists
+    __SIMPLICIAL_Test_AllTwoWaistsOfComplex();
+    __SIMPLICIAL_Test_ClosedVertexEdgePathsOfLengthTwo();
+
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);
     fi;

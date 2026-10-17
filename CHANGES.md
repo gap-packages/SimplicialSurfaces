@@ -18,6 +18,9 @@ This file describes changes in the SimplicialSurfaces package.
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the
   misspelt name of `CounterOfButterflies` in counter output (#384)
+- Fix `AllTwoWaistsOfComplex` returning pairs of edges that are not inner or
+  that lie in a common face; it now agrees with the definition of a 2-waist
+  and with `IsWaist`
 
 ## 0.8 (2026-05-15)
 
