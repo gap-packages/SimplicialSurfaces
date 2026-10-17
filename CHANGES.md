@@ -21,6 +21,9 @@ This file describes changes in the SimplicialSurfaces package.
 - Fix `AllTwoWaistsOfComplex` returning pairs of edges that are not inner or
   that lie in a common face; it now agrees with the definition of a 2-waist
   and with `IsWaist`
+- Speed up `EdgeAnomalyClasses`, `FaceAnomalyClasses` and hence
+  `IsAnomalyFree`/`IsVertexFaithful` on large complexes: the anomaly classes
+  are now found by sorting instead of pairwise comparison
 
 ## 0.8 (2026-05-15)
 
