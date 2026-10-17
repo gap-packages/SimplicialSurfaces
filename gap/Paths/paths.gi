@@ -1001,59 +1001,43 @@ end
 # A 3-waist consists of three inner edges between three vertices that form
 # a triangle in the edge graph, and no two of these edges are incident to
 # the same face. We find the triangles with the adjacency matrix of the edge
-# graph. If the complex is not vertex-faithful, there may be several edges
+# graph, stored as boolean lists. If the complex is not vertex-faithful, there may be several edges
 # between two vertices, so every combination of them has to be checked.
 InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
     function( complex )
-        local vertices, voe, foe, adj, neighbours, innerBetween, triples,
-            waists, w, e, e2, e3, i, j, k, v1, v2, v3;
+        local vertices, voe, foe, adj, innerAt, triples, waists, w, e, p, q,
+            i, j, v1, v2, v3;
 
         vertices := Vertices(complex);
         voe := VerticesOfEdges(complex);
         foe := FacesOfEdges(complex);
-        adj := AdjacencyMatrixOfEdgeGraph(complex);
-        # neighbours[i] holds the positions of the neighbours of the i-th
-        # vertex, i.e. of the nonzero entries in row i of adj. Taking them
-        # from the edges avoids scanning every entry of adj.
-        neighbours := List( vertices, v -> [] );
-        for e in Edges(complex) do
-            i := PositionSorted(vertices, voe[e][1]);
-            j := PositionSorted(vertices, voe[e][2]);
-            AddSet(neighbours[i], j);
-            AddSet(neighbours[j], i);
-        od;
+        adj := AdjacencyMatrixBooleanOfEdgeGraph(complex);
 
-        # innerBetween[i][j] is the list of inner edges between the i-th
-        # and the j-th vertex
-        innerBetween := List( vertices, v -> [] );
+        # innerAt[i] is the list of pairs [k, e] of the inner edges e between
+        # the i-th and the k-th vertex
+        innerAt := List( vertices, v -> [] );
         for e in InnerEdges(complex) do
             i := PositionSorted(vertices, voe[e][1]);
             j := PositionSorted(vertices, voe[e][2]);
-            if not IsBound(innerBetween[i][j]) then
-                innerBetween[i][j] := [];
-                innerBetween[j][i] := [];
-            fi;
-            Add(innerBetween[i][j], e);
-            Add(innerBetween[j][i], e);
+            Add(innerAt[i], [j, e]);
+            Add(innerAt[j], [i, e]);
         od;
 
         triples := [];
         for e in InnerEdges(complex) do
             i := PositionSorted(vertices, voe[e][1]);
             j := PositionSorted(vertices, voe[e][2]);
-            # the common neighbours k of the i-th and the j-th vertex give
-            # the triangles containing e
-            for k in neighbours[i] do
-                if adj[j][k] > 0 and IsBound(innerBetween[i][k])
-                        and IsBound(innerBetween[j][k]) then
-                    for e2 in innerBetween[i][k] do
-                        for e3 in innerBetween[j][k] do
-                            # inner edges have two faces each
-                            if Length( Union( foe[e], foe[e2], foe[e3] ) ) = 6 then
-                                AddSet( triples, Set([ e, e2, e3 ]) );
-                            fi;
-                        od;
+            # an inner edge p[2] from the i-th to the k-th vertex lies on a
+            # triangle with e if the k-th vertex is a neighbour of the j-th
+            for p in innerAt[i] do
+                if adj[j][p[1]] then
+                    for q in innerAt[j] do
+                        # inner edges have two faces each
+                        if q[1] = p[1] and
+                                Length( Union( foe[e], foe[p[2]], foe[q[2]] ) ) = 6 then
+                            AddSet( triples, Set([ e, p[2], q[2] ]) );
+                        fi;
                     od;
                 fi;
             od;
@@ -1096,17 +1080,19 @@ InstallMethod( IsThreeWaistFree, "for a twisted polygonal complex",
         fi;
 
         # The trace of adj^3 is the sum of adj[i][j]*(adj^2)[i][j], so it is
-        # twice the sum of (adj^2)[i][j] = adj[i]*adj[j] over all edges.
+        # twice the sum of (adj^2)[i][j] over all edges. Since the complex
+        # is vertex-faithful, (adj^2)[i][j] is the number of common
+        # neighbours, which we count with the boolean rows of adj.
         # Since it is six times the number of triangles in the edge graph,
         # the sum over the edges is three times that number.
         vertices := Vertices(complex);
         voe := VerticesOfEdges(complex);
-        adj := AdjacencyMatrixOfEdgeGraph(complex);
+        adj := AdjacencyMatrixBooleanOfEdgeGraph(complex);
         triangles := 0;
         for e in Edges(complex) do
             i := PositionSorted(vertices, voe[e][1]);
             j := PositionSorted(vertices, voe[e][2]);
-            triangles := triangles + adj[i] * adj[j];
+            triangles := triangles + SizeBlist( IntersectionBlist( adj[i], adj[j] ) );
         od;
 
         # Every face is a triangle, so there are no 3-waists if and only if

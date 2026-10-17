@@ -108,6 +108,25 @@ InstallMethod( AdjacencyMatrixOfEdgeGraph, "for a twisted polygonal complex",
     end
 );
 
+InstallMethod( AdjacencyMatrixBooleanOfEdgeGraph, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local vertices, voe, n, m, e, i, j;
+
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        n := Length(vertices);
+        m := List( [1..n], k -> BlistList( [1..n], [] ) );
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            m[i][j] := true;
+            m[j][i] := true;
+        od;
+        return m;
+    end
+);
+
 InstallMethod(FaceGraphDigraphs, "for a polygonal complex",[IsPolygonalComplex],
 function(complex)
     local i, diedges, arcs, loops, graph;

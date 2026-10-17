@@ -1,5 +1,5 @@
-# Tests for AdjacencyMatrixOfEdgeGraph, AllThreeWaistsOfComplex and
-# IsThreeWaistFree
+# Tests for AdjacencyMatrixOfEdgeGraph, AdjacencyMatrixBooleanOfEdgeGraph,
+# AllThreeWaistsOfComplex and IsThreeWaistFree
 
 # Reference for AllThreeWaistsOfComplex: check all triples of inner edges.
 # This was the method before the adjacency matrix of the edge graph was used.
@@ -55,6 +55,32 @@ BindGlobal( "__SIMPLICIAL_Test_AdjacencyMatrixOfEdgeGraph", function()
     # Polygonal complexes
     SIMPLICIAL_TestAssert( Sum( AdjacencyMatrixOfEdgeGraph( Cube() ), Sum ) =
         2 * NumberOfEdges( Cube() ) );
+end);
+
+BindGlobal( "__SIMPLICIAL_Test_AdjacencyMatrixBooleanOfEdgeGraph", function()
+    local doubleJanus, disjoint, B, complex;
+
+    B := AdjacencyMatrixBooleanOfEdgeGraph( Octahedron() );
+    SIMPLICIAL_TestAssert( ForAll( B, IsBlistRep ) );
+    SIMPLICIAL_TestAssert( B[1] = [ false, true, true, true, true, false ] );
+    SIMPLICIAL_TestAssert( SizeBlist( IntersectionBlist( B[1], B[6] ) ) = 4 );
+
+    # Several edges between the same vertices give a single true
+    doubleJanus := SimplicialSurfaceByDownwardIncidence(
+        [[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]], [[1,2,3],[1,4,5],[4,5,6],[2,3,6]]);
+    SIMPLICIAL_TestAssert( AdjacencyMatrixBooleanOfEdgeGraph( doubleJanus ) =
+        List( AdjacencyMatrixOfEdgeGraph( doubleJanus ), row -> List( row, x -> x > 0 ) ) );
+
+    # Isolated vertices give rows without true
+    disjoint := SimplicialComplexByVerticesInFaces( [7], [ [1,2,3], [4,5,6] ] );
+    SIMPLICIAL_TestAssert( SizeBlist( AdjacencyMatrixBooleanOfEdgeGraph( disjoint )[7] ) = 0 );
+
+    # Agreement with the integer matrix
+    for complex in Concatenation( [ Cube(), JanusHead() ],
+            AllSimplicialSurfaces( NumberOfFaces, [1..8] ) ) do
+        SIMPLICIAL_TestAssert( AdjacencyMatrixBooleanOfEdgeGraph( complex ) =
+            List( AdjacencyMatrixOfEdgeGraph( complex ), row -> List( row, x -> x > 0 ) ) );
+    od;
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_IsThreeWaistFree", function()

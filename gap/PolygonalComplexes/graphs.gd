@@ -366,6 +366,11 @@ DeclareAttribute( "EdgeGraphNauty", IsPolygonalComplex );
 #! The complex does not have to be connected. An isolated vertex gives a
 #! zero row and a zero column.
 #!
+#! To check quickly whether two vertices are adjacent, especially in
+#! complexes with many vertices, <K>AdjacencyMatrixBooleanOfEdgeGraph</K>
+#! (see <Ref Subsect="AdjacencyMatrixBooleanOfEdgeGraph"/>) needs much less
+#! memory.
+#!
 #! For example, every two vertices of the tetrahedron are joined by an edge:
 #! @BeginExampleSession
 #! gap> AdjacencyMatrixOfEdgeGraph( Tetrahedron() );
@@ -392,6 +397,60 @@ DeclareAttribute( "EdgeGraphNauty", IsPolygonalComplex );
 #! @Returns a square matrix of non-negative integers
 #! @Arguments complex
 DeclareAttribute( "AdjacencyMatrixOfEdgeGraph", IsTwistedPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup AdjacencyMatrixBooleanOfEdgeGraph
+#! @Description
+#! Return the adjacency matrix of the edge graph of the given twisted
+#! polygonal complex <A>complex</A> as a list of boolean lists. Its purpose
+#! is to check quickly whether two vertices are joined by an edge, not to
+#! compute walks or paths: boolean lists cannot be multiplied. For that, use
+#! <K>AdjacencyMatrixOfEdgeGraph</K>
+#! (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>).
+#!
+#! As for <K>AdjacencyMatrixOfEdgeGraph</K>, row and column <M>i</M> belong
+#! to the <M>i</M>-th vertex of <K>Vertices</K>(<A>complex</A>). The entry
+#! in row <M>i</M> and column <M>j</M> is <K>true</K> if there is an edge
+#! between the <M>i</M>-th and the <M>j</M>-th vertex, and <K>false</K>
+#! otherwise. If <A>complex</A> is not vertex-faithful, the number of edges
+#! between two vertices is therefore lost.
+#!
+#! Each row is stored with one bit per entry, so the matrix needs much less
+#! memory than <K>AdjacencyMatrixOfEdgeGraph</K> and is quicker to compute
+#! for complexes with many vertices. The functions for boolean lists work
+#! on its rows: for example, <K>ListBlist</K> gives the neighbours of a
+#! vertex and <K>SizeBlist</K>(<K>IntersectionBlist</K>( ... )) counts the
+#! common neighbours of two vertices.
+#!
+#! In the octahedron, the vertex 1 is adjacent to the vertices 2, 3, 4
+#! and 5. It has two common neighbours with the vertex 2 and four with the
+#! opposite vertex 6:
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> B := AdjacencyMatrixBooleanOfEdgeGraph( oct );;
+#! gap> B[1];
+#! [ false, true, true, true, true, false ]
+#! gap> B[1][6];
+#! false
+#! gap> ListBlist( Vertices( oct ), B[1] );
+#! [ 2, 3, 4, 5 ]
+#! gap> SizeBlist( IntersectionBlist( B[1], B[2] ) );
+#! 2
+#! gap> SizeBlist( IntersectionBlist( B[1], B[6] ) );
+#! 4
+#! @EndExampleSession
+#! Since the rows belong to the positions in <K>Vertices</K>, the
+#! neighbours are found as follows if the vertices are not numbered from 1:
+#! @BeginExampleSession
+#! gap> triangle := SimplicialSurfaceByVerticesInFaces( [ [ 2, 5, 7 ] ] );;
+#! gap> ListBlist( Vertices( triangle ),
+#! >      AdjacencyMatrixBooleanOfEdgeGraph( triangle )[1] );
+#! [ 5, 7 ]
+#! @EndExampleSession
+#!
+#! @Returns a list of boolean lists
+#! @Arguments complex
+DeclareAttribute( "AdjacencyMatrixBooleanOfEdgeGraph", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup FaceGraph

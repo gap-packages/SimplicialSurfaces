@@ -4,6 +4,8 @@ This file describes changes in the SimplicialSurfaces package.
 
 - Add `AdjacencyMatrixOfEdgeGraph`, the adjacency matrix of the edge graph of
   a complex
+- Add `AdjacencyMatrixBooleanOfEdgeGraph`, the same matrix as a list of boolean
+  lists for quick adjacency tests
 - Add `IsThreeWaistFree` for triangular complexes, which is computed from the
   adjacency matrix of the edge graph if every edge is inner and the complex is
   vertex-faithful
