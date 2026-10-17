@@ -998,30 +998,107 @@ InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
+# A 3-waist consists of three inner edges between three vertices that form
+# a triangle in the edge graph, and no two of these edges are incident to
+# the same face. We find the triangles with the adjacency matrix of the edge
+# graph, stored as boolean lists. If the complex is not vertex-faithful, there may be several edges
+# between two vertices, so every combination of them has to be checked.
 InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
-    function( surface )
-        local w,voe1,voe2,voe3,v1,v2,v3,eof,waists,verticesOfEdges,facesOfEdges,temp;
-         verticesOfEdges:=VerticesOfEdges(surface);
-         facesOfEdges:=FacesOfEdges(surface);
-         waists:=Combinations(InnerEdges(surface),3);
-         waists:=Filtered(waists,w->Length(Union(verticesOfEdges{w}))=3);
-         waists:=Filtered(waists,w->Length(Union(facesOfEdges{w}))=6);
-         temp:=waists;
-         waists:=[];
-         for w in temp do 
-            voe1:=verticesOfEdges[w[1]];
-            voe2:=verticesOfEdges[w[2]];
-            voe3:=verticesOfEdges[w[3]];
- 		    v1:=Intersection(voe1,voe2)[1];
-            v2:=Intersection(voe2,voe3)[1];
-            v3:=Intersection(voe1,voe3)[1];
-            if Length(Set([v1,v2,v3]))=3 then 
- 			    Add(waists,[v3,w[1],v1,w[2],v2,w[3],v3]);
- 		    fi;
-         od;
-         return List(waists,w->VertexEdgePathNC(surface,w));
-end
+    function( complex )
+        local vertices, voe, foe, adj, innerAt, triples, waists, w, e, p, q,
+            i, j, v1, v2, v3;
+
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        foe := FacesOfEdges(complex);
+        adj := AdjacencyMatrixBooleanOfEdgeGraph(complex);
+
+        # innerAt[i] is the list of pairs [k, e] of the inner edges e between
+        # the i-th and the k-th vertex
+        innerAt := List( vertices, v -> [] );
+        for e in InnerEdges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            Add(innerAt[i], [j, e]);
+            Add(innerAt[j], [i, e]);
+        od;
+
+        triples := [];
+        for e in InnerEdges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            # an inner edge p[2] from the i-th to the k-th vertex lies on a
+            # triangle with e if the k-th vertex is a neighbour of the j-th
+            for p in innerAt[i] do
+                if adj[j][p[1]] then
+                    for q in innerAt[j] do
+                        # inner edges have two faces each
+                        if q[1] = p[1] and
+                                Length( Union( foe[e], foe[p[2]], foe[q[2]] ) ) = 6 then
+                            AddSet( triples, Set([ e, p[2], q[2] ]) );
+                        fi;
+                    od;
+                fi;
+            od;
+        od;
+
+        # Each waist [v3, w[1], v1, w[2], v2, w[3], v3] starts with the
+        # smallest edge
+        waists := [];
+        for w in triples do
+            v1 := Intersection( voe[w[1]], voe[w[2]] )[1];
+            v2 := Intersection( voe[w[2]], voe[w[3]] )[1];
+            v3 := Intersection( voe[w[1]], voe[w[3]] )[1];
+            Add( waists, VertexEdgePathNC( complex, [v3,w[1],v1,w[2],v2,w[3],v3] ) );
+        od;
+        return waists;
+    end
+);
+
+InstallMethod( IsThreeWaistFree, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function( complex )
+        local vertices, voe, adj, triangles, e, i, j;
+
+        if not IsTriangularComplex(complex) then
+            Error("IsThreeWaistFree: The given complex has to be a triangular complex.");
+        fi;
+
+        if HasAllThreeWaistsOfComplex(complex) then
+            return IsEmpty( AllThreeWaistsOfComplex(complex) );
+        fi;
+
+        # The counting argument below needs every triangle of the edge
+        # graph that is not a face to be a 3-waist. If an edge is not inner
+        # such a triangle may contain it, and without vertex-faithfulness
+        # faces or edges are not determined by their vertices. In these
+        # cases we list the waists instead.
+        if not IsSimplicialComplex(complex) or
+                Length(InnerEdges(complex)) <> NumberOfEdges(complex) then
+            return IsEmpty( AllThreeWaistsOfComplex(complex) );
+        fi;
+
+        # The trace of adj^3 is the sum of adj[i][j]*(adj^2)[i][j], so it is
+        # twice the sum of (adj^2)[i][j] over all edges. Since the complex
+        # is vertex-faithful, (adj^2)[i][j] is the number of common
+        # neighbours, which we count with the boolean rows of adj.
+        # Since it is six times the number of triangles in the edge graph,
+        # the sum over the edges is three times that number.
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        adj := AdjacencyMatrixBooleanOfEdgeGraph(complex);
+        triangles := 0;
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            triangles := triangles + SizeBlist( IntersectionBlist( adj[i], adj[j] ) );
+        od;
+
+        # Every face is a triangle, so there are no 3-waists if and only if
+        # there are no other triangles.
+        return triangles = 3 * NumberOfFaces(complex);
+    end
 );
 
 if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then

@@ -234,7 +234,7 @@ DeclareGlobalFunction("AllSimplicialSurfaces");
 #! * each of their
 #!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>) 
 #!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
-#!   of a face (i.e. without 3-waists).
+#!   of a face (i.e. without 3-waists, see <Ref Subsect="IsThreeWaistFree"/>).
 #!
 #! Since this class is infinite, not all of them can be accessed.
 #! Currently, all of those surfaces with at most 28 faces are
@@ -299,7 +299,8 @@ DeclareGlobalFunction("AllGeodesicSelfDualSurfaces");
 #! * each of their
 #!   vertex-edge-paths (<Ref Sect="Section_Paths_VertexEdge"/>)
 #!   of length 3 is the perimeter path (<Ref Sect="Section_Paths_Perimeter"/>)
-#!   of a face
+#!   of a face; in particular they have no 3-waists
+#!   (see <Ref Subsect="IsThreeWaistFree"/>)
 #! * every boundary vertex is incident to at least 2 faces
 #! * there is no inner edge with 2 boundary vertices 
 #!
