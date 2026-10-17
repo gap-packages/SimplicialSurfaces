@@ -1285,8 +1285,9 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! Return the set of all waists of length 3 contained in the given
 #! twisted polygonal complex. A waist of length 3 is a closed
 #! vertex-edge-path in <A>complex</A> visiting exactly three edges and
-#! vertices so that there exist no face in <A>complex</A> that is incident to more
-#! than one of the visited edges.
+#! vertices so that all visited edges are inner and there exist no face in
+#! <A>complex</A> that is incident to more than one of the visited edges
+#! (see the beginning of section <Ref Sect="Section_Waists"/>).
 #!
 #! The 3-waists are found with the adjacency matrix of the edge graph of
 #! <A>complex</A> (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>): every
