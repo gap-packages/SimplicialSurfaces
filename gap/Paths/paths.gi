@@ -998,8 +998,67 @@ InstallMethod( AllTwoWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
-InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
-    [IsTwistedPolygonalComplex],
+# Return the 3-waists of a simplicial complex. They are found as the
+# triangles of the edge graph that are not faces and consist of inner edges.
+# Since the complex is vertex-faithful, two edges of such a triangle are
+# never incident to the same face.
+BindGlobal( "__SIMPLICIAL_AllThreeWaistsOfSimplicialComplex",
+    function( complex )
+        local vertices, voe, foe, adj, neighbours, edgeOf, isInner, triples,
+            waists, w, e, i, j, k, v1, v2, v3;
+
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        foe := FacesOfEdges(complex);
+        adj := AdjacencyMatrixOfEdgeGraph(complex);
+        neighbours := List( adj, row -> Positions(row, 1) );
+
+        # edgeOf[i][j] is the edge between the i-th and the j-th vertex
+        edgeOf := List( vertices, v -> [] );
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            edgeOf[i][j] := e;
+            edgeOf[j][i] := e;
+        od;
+        isInner := [];
+        for e in InnerEdges(complex) do
+            isInner[e] := true;
+        od;
+
+        triples := [];
+        for e in InnerEdges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            # adj[i]*adj[j] is the entry of adj^2 at (i,j), i.e. the number
+            # of triangles containing e. If it is not larger than the number
+            # of faces of e, every triangle containing e is a face.
+            if adj[i] * adj[j] > Length(foe[e]) then
+                for k in neighbours[i] do
+                    if adj[j][k] = 1 and IsBound(isInner[edgeOf[i][k]])
+                            and IsBound(isInner[edgeOf[j][k]])
+                            and IsEmpty( Intersection( foe[e], foe[edgeOf[i][k]] ) ) then
+                        AddSet( triples, Set([ e, edgeOf[i][k], edgeOf[j][k] ]) );
+                    fi;
+                od;
+            fi;
+        od;
+
+        # Write the waists in the same form as the general method
+        waists := [];
+        for w in triples do
+            v1 := Intersection( voe[w[1]], voe[w[2]] )[1];
+            v2 := Intersection( voe[w[2]], voe[w[3]] )[1];
+            v3 := Intersection( voe[w[1]], voe[w[3]] )[1];
+            Add( waists, VertexEdgePathNC( complex, [v3,w[1],v1,w[2],v2,w[3],v3] ) );
+        od;
+        return waists;
+    end
+);
+
+# Return the 3-waists of a twisted polygonal complex by checking all
+# triples of inner edges.
+BindGlobal( "__SIMPLICIAL_AllThreeWaistsByInnerEdgeTriples",
     function( surface )
         local w,voe1,voe2,voe3,v1,v2,v3,eof,waists,verticesOfEdges,facesOfEdges,temp;
          verticesOfEdges:=VerticesOfEdges(surface);
@@ -1024,59 +1083,56 @@ InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
 end
 );
 
-# Return the adjacency matrix of the edge graph of the given complex.
-# Row and column i belong to the i-th vertex of Vertices(complex).
-# Edges with the same vertices give the same entry 1.
-BindGlobal( "__SIMPLICIAL_AdjacencyMatrixOfVerticesEdges",
+InstallMethod( AllThreeWaistsOfComplex, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
     function( complex )
-        local vertices, voe, m, e, i, j;
-
-        vertices := Vertices(complex);
-        voe := VerticesOfEdges(complex);
-        m := NullMat( Length(vertices), Length(vertices) );
-        for e in Edges(complex) do
-            i := PositionSorted(vertices, voe[e][1]);
-            j := PositionSorted(vertices, voe[e][2]);
-            m[i][j] := 1;
-            m[j][i] := 1;
-        od;
-        return m;
+        if IsSimplicialComplex(complex) then
+            return __SIMPLICIAL_AllThreeWaistsOfSimplicialComplex(complex);
+        fi;
+        return __SIMPLICIAL_AllThreeWaistsByInnerEdgeTriples(complex);
     end
 );
 
-InstallMethod( IsSurfaceThreeWaistFree, "for a twisted polygonal complex",
+InstallMethod( IsThreeWaistFree, "for a twisted polygonal complex",
     [IsTwistedPolygonalComplex],
-    function( surface )
-        local adj, adj2, trace;
+    function( complex )
+        local vertices, voe, adj, triangles, e, i, j;
 
-        if not IsSimplicialSurface(surface) then
-            Error("IsSurfaceThreeWaistFree: The given complex has to be a simplicial surface.");
+        if not IsTriangularComplex(complex) then
+            Error("IsThreeWaistFree: The given complex has to be a triangular complex.");
         fi;
 
-        if HasAllThreeWaistsOfComplex(surface) then
-            return IsEmpty( AllThreeWaistsOfComplex(surface) );
+        if HasAllThreeWaistsOfComplex(complex) then
+            return IsEmpty( AllThreeWaistsOfComplex(complex) );
         fi;
 
         # The counting argument below needs every triangle of the edge
-        # graph that is not a face to be a 3-waist. On a surface with
-        # boundary such a triangle may contain a boundary edge, and without
-        # vertex-faithfulness faces or edges are not determined by their
-        # vertices. In these cases we fall back to listing the waists.
-        if not IsClosedSurface(surface) or not IsVertexFaithful(surface) then
-            return IsEmpty( AllThreeWaistsOfComplex(surface) );
+        # graph that is not a face to be a 3-waist. If an edge is not inner
+        # such a triangle may contain it, and without vertex-faithfulness
+        # faces or edges are not determined by their vertices. In these
+        # cases we list the waists instead.
+        if not IsSimplicialComplex(complex) or
+                Length(InnerEdges(complex)) <> NumberOfEdges(complex) then
+            return IsEmpty( AllThreeWaistsOfComplex(complex) );
         fi;
 
-        # The trace of adj^3 is six times the number of triangles in the
-        # edge graph. We compute it as the sum of the entries of the
-        # entrywise product of adj^2 and adj, which needs only one matrix
-        # product.
-        adj := __SIMPLICIAL_AdjacencyMatrixOfVerticesEdges(surface);
-        adj2 := adj * adj;
-        trace := Sum( [1..Length(adj)], i -> adj2[i] * adj[i] );
+        # The trace of adj^3 is the sum of adj[i][j]*(adj^2)[i][j], so it is
+        # twice the sum of (adj^2)[i][j] = adj[i]*adj[j] over all edges.
+        # Since it is six times the number of triangles in the edge graph,
+        # the sum over the edges is three times that number.
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        adj := AdjacencyMatrixOfEdgeGraph(complex);
+        triangles := 0;
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            triangles := triangles + adj[i] * adj[j];
+        od;
 
         # Every face is a triangle, so there are no 3-waists if and only if
         # there are no other triangles.
-        return trace = 6 * NumberOfFaces(surface);
+        return triangles = 3 * NumberOfFaces(complex);
     end
 );
 

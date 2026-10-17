@@ -347,6 +347,53 @@ DeclareAttribute( "EdgeGraphGrape", IsPolygonalComplex );
 DeclareAttribute( "EdgeGraphNauty", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup AdjacencyMatrixOfEdgeGraph
+#! @Description
+#! Return the adjacency matrix of the edge graph (see
+#! <Ref Subsect="EdgeGraph"/>) of the given twisted polygonal complex
+#! <A>complex</A>. This does not need a graph package.
+#!
+#! Row and column <M>i</M> of the matrix belong to the <M>i</M>-th vertex of
+#! <K>Vertices</K>(<A>complex</A>), so the rows are always numbered from 1 to
+#! the number of vertices, even if the vertices of <A>complex</A> are not.
+#! The entry in row <M>i</M> and column <M>j</M> is the number of edges
+#! between the <M>i</M>-th and the <M>j</M>-th vertex. For a vertex-faithful
+#! complex every entry is therefore 0 or 1. Then the entry in row <M>i</M>
+#! and column <M>j</M> of the <M>k</M>-th power of the matrix is the number
+#! of walks of length <M>k</M> from the <M>i</M>-th to the <M>j</M>-th vertex
+#! in the edge graph.
+#!
+#! The complex does not have to be connected. An isolated vertex gives a
+#! zero row and a zero column.
+#!
+#! For example, every two vertices of the tetrahedron are joined by an edge:
+#! @BeginExampleSession
+#! gap> AdjacencyMatrixOfEdgeGraph( Tetrahedron() );
+#! [ [ 0, 1, 1, 1 ], [ 1, 0, 1, 1 ], [ 1, 1, 0, 1 ], [ 1, 1, 1, 0 ] ]
+#! @EndExampleSession
+#! The vertices of a single triangle with vertices 2, 5 and 7 belong to the
+#! rows 1, 2 and 3:
+#! @BeginExampleSession
+#! gap> triangle := SimplicialSurfaceByVerticesInFaces( [ [ 2, 5, 7 ] ] );;
+#! gap> Vertices( triangle );
+#! [ 2, 5, 7 ]
+#! gap> AdjacencyMatrixOfEdgeGraph( triangle );
+#! [ [ 0, 1, 1 ], [ 1, 0, 1 ], [ 1, 1, 0 ] ]
+#! @EndExampleSession
+#! In the following surface the edges 1 and 6 both lie between the vertices
+#! 3 and 4:
+#! @BeginExampleSession
+#! gap> doubleJanus := SimplicialSurfaceByDownwardIncidence(
+#! > [[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]], [[1,2,3],[1,4,5],[4,5,6],[2,3,6]]);;
+#! gap> AdjacencyMatrixOfEdgeGraph( doubleJanus );
+#! [ [ 0, 0, 1, 1 ], [ 0, 0, 1, 1 ], [ 1, 1, 0, 2 ], [ 1, 1, 2, 0 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a square matrix of non-negative integers
+#! @Arguments complex
+DeclareAttribute( "AdjacencyMatrixOfEdgeGraph", IsTwistedPolygonalComplex );
+#! @EndGroup
+
 #! @BeginGroup FaceGraph
 #! @Description
 #! Return the face graph of a given polygonal complex. The vertices of the

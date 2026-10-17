@@ -28,6 +28,8 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_SplitEdgePath();
     __SIMPLICIAL_Test_Smaller();
     __SIMPLICIAL_Test_Connectivity();
+    __SIMPLICIAL_Test_AdjacencyMatrixOfEdgeGraph();
+    __SIMPLICIAL_Test_IsThreeWaistFree();
 
     __SIMPLICIAL_Test_UmbrellaDescriptor();
 

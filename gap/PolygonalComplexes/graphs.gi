@@ -90,6 +90,24 @@ InstallMethod( EdgeGraphDigraphs, "for a polygonal complex",
     return InducedSubdigraph( graph, VerticesAttributeOfComplex(complex) );
 end);
 
+InstallMethod( AdjacencyMatrixOfEdgeGraph, "for a twisted polygonal complex",
+    [IsTwistedPolygonalComplex],
+    function(complex)
+        local vertices, voe, m, e, i, j;
+
+        vertices := Vertices(complex);
+        voe := VerticesOfEdges(complex);
+        m := NullMat( Length(vertices), Length(vertices) );
+        for e in Edges(complex) do
+            i := PositionSorted(vertices, voe[e][1]);
+            j := PositionSorted(vertices, voe[e][2]);
+            m[i][j] := m[i][j] + 1;
+            m[j][i] := m[j][i] + 1;
+        od;
+        return m;
+    end
+);
+
 InstallMethod(FaceGraphDigraphs, "for a polygonal complex",[IsPolygonalComplex],
 function(complex)
     local i, diedges, arcs, loops, graph;

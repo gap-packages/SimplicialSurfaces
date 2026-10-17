@@ -1287,6 +1287,12 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! vertex-edge-path in <A>complex</A> visiting exactly three edges and
 #! vertices so that there exist no face in <A>complex</A> that is incident to more
 #! than one of the visited edges.
+#!
+#! If <A>complex</A> is a simplicial complex, i.e. a vertex-faithful
+#! triangular complex, the 3-waists are found from the adjacency matrix of
+#! its edge graph (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>): they are
+#! the triangles of the edge graph that are not faces and only consist of
+#! inner edges. Otherwise all triples of inner edges are checked.
 #! 
 #! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
@@ -1333,47 +1339,61 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! @EndGroup
 
-#! @BeginGroup IsSurfaceThreeWaistFree
+#! @BeginGroup IsThreeWaistFree
 #! @Description
-#! Return whether the given simplicial surface <A>surface</A> has no waist of
-#! length 3, i.e. whether <K>AllThreeWaistsOfComplex</K>(<A>surface</A>) (see
+#! Return whether the given triangular complex <A>complex</A>, for example a
+#! simplicial surface or a simplicial complex, has no waist of length 3, i.e.
+#! whether <K>AllThreeWaistsOfComplex</K>(<A>complex</A>) (see
 #! <Ref Subsect="AllThreeWaistsOfSimplicalSurface"/>) is empty.
-#! An error is raised if <A>surface</A> is not a simplicial surface.
+#! An error is raised if <A>complex</A> is not a triangular complex.
 #!
-#! If <A>surface</A> is closed and vertex-faithful, this property is computed
-#! without listing any waists. Let <M>A</M> be the adjacency matrix of the
-#! edge graph of <A>surface</A>. Then the trace of <M>A^3</M> is six times the
-#! number of triangles in the edge graph, since each triangle is traversed
-#! from each of its three vertices in two directions. Every face gives such a
-#! triangle and, for a closed vertex-faithful surface, every other triangle
-#! is a 3-waist. Hence <A>surface</A> is free of 3-waists if and only if the
+#! If <A>complex</A> is vertex-faithful and all of its edges are inner, for
+#! example if it is a closed vertex-faithful simplicial surface, this
+#! property is computed without listing any waists. Let <M>A</M> be the
+#! adjacency matrix of the edge graph of <A>complex</A> (see
+#! <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>). Then the trace of <M>A^3</M>
+#! is six times the number of triangles in the edge graph, since each
+#! triangle is traversed from each of its three vertices in two directions.
+#! Every face gives such a triangle and, in this case, every other triangle
+#! is a 3-waist. Hence <A>complex</A> is free of 3-waists if and only if the
 #! trace of <M>A^3</M> equals six times the number of faces.
 #!
 #! The tetrahedron and the octahedron have no 3-waists, but the surface
 #! from the start of section <Ref Sect="Section_Waists"/> has two:
 #! @BeginExampleSession
-#! gap> IsSurfaceThreeWaistFree( Tetrahedron() );
+#! gap> IsThreeWaistFree( Tetrahedron() );
 #! true
-#! gap> IsSurfaceThreeWaistFree( Octahedron() );
+#! gap> IsThreeWaistFree( Octahedron() );
 #! true
-#! gap> IsSurfaceThreeWaistFree( tripleTetra );
+#! gap> IsThreeWaistFree( tripleTetra );
 #! false
 #! @EndExampleSession
 #! A closed path of length 3 is only a 3-waist if all of its edges are inner.
 #! The boundary of the umbrella with three faces is therefore not a 3-waist:
 #! @BeginExampleSession
-#! gap> IsSurfaceThreeWaistFree( SimplicialUmbrella(3) );
+#! gap> IsThreeWaistFree( SimplicialUmbrella(3) );
 #! true
 #! @EndExampleSession
-#! The cube is not a simplicial surface, so it cannot be checked:
+#! The complex does not have to be a surface. Adding a face to
+#! <K>tripleTetra</K> that only shares the vertex 1 with it keeps the
+#! 3-waists:
 #! @BeginExampleSession
-#! gap> IsSurfaceThreeWaistFree( Cube() );
-#! Error, IsSurfaceThreeWaistFree: The given complex has to be a simplicial surface.
+#! gap> complex := SimplicialComplexByVerticesInFaces(
+#! > Concatenation( VerticesOfFaces(tripleTetra), [ [ 1, 7, 8 ] ] ) );;
+#! gap> IsSimplicialSurface( complex );
+#! false
+#! gap> IsThreeWaistFree( complex );
+#! false
+#! @EndExampleSession
+#! The cube is not a triangular complex, so it cannot be checked:
+#! @BeginExampleSession
+#! gap> IsThreeWaistFree( Cube() );
+#! Error, IsThreeWaistFree: The given complex has to be a triangular complex.
 #! @EndExampleSession
 #!
 #! @Returns true or false
-#! @Arguments surface
-DeclareProperty( "IsSurfaceThreeWaistFree", IsTwistedPolygonalComplex );
+#! @Arguments complex
+DeclareProperty( "IsThreeWaistFree", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @Section Geodesic and umbrella paths

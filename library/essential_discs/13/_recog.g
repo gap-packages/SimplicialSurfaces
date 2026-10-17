@@ -15,7 +15,8 @@ return function( queryList )
                 [IsClosedComplex,false],
                 [IsConnectedComplex, true],
                 [IsOrientableComplex, true],
-                [IsEssentialDisc, true]
+                [IsEssentialDisc, true],
+                [IsThreeWaistFree, true]
                 ] do
             if query[1] = pair[1] and not __SIMPLICIAL_LibraryRecogUniqueResult(pair[2],query[2]) then
                 return false;
