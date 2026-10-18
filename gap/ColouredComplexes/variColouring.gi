@@ -983,23 +983,26 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
         FindWildColouredSurface := function( finUmbrellas, usedVertexNames, 
                     finVertsInFaces, partialLocalSym )
             local nextPos, next, face, facePos, e1, e2, umbrella, allUmbrellas_c,
-                umbInfo, finVertsInFaces_c, finUmbrellas_c, 
-                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces;
+                umbInfo, finVertsInFaces_c, finUmbrellas_c,
+                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces,
+                verticesOfEdges, v, i;
 
             nextPos := BestNextVertex( usedVertexNames, finVertsInFaces );
             if nextPos = false then
                 # no more free vertices
-                
+
                 # construction of the simplicial surface
-                obj := Objectify( TwistedPolygonalComplexType, rec() );
-                SetIsNotTwisted(obj, true);
-                SetIsDefaultChamberSystem(obj, true);
-                SetFacesOfEdges(obj, facesOfEdges);
-                SetFaces(obj, faces);
-                SetEdgesOfFaces(obj, edgesOfFaces);
-                SetUmbrellaPathsOfVertices(obj, 
-                    List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
-                SetIsFacePure(obj, true);
+                # The vertex v is given by the umbrella finUmbrellas[v], whose
+                # edges are at the odd positions. The edge and face numbering
+                # is the one from the setup.
+                verticesOfEdges := List( facesOfEdges, e -> [] );
+                for v in [1..Length(finUmbrellas)] do
+                    for i in [1,3..Length(finUmbrellas[v])] do
+                        AddSet( verticesOfEdges[finUmbrellas[v][i]], v );
+                    od;
+                od;
+                obj := SimplicialSurfaceByDownwardIncidenceNC(
+                    verticesOfEdges, edgesOfFaces );
 
                 # construction of the coloured surface
                 colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
