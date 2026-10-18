@@ -57,5 +57,43 @@ true
 gap> Length( AllWildColouredSurfaces( octInv, [], false ) );
 26
 
+# The faces do not have to be [1..n]
+gap> tetInv2 := [ (2,5)(7,9), (2,7)(5,9), (2,9)(5,7) ];;
+gap> all := AllWildColouredSurfaces( tetInv2, [], false );;
+gap> List( all, Faces );
+[ [ 2, 5, 7, 9 ], [ 2, 5, 7, 9 ] ]
+gap> SortedList( List( all, EulerCharacteristic ) );
+[ 1, 2 ]
+gap> List( all, LocalSymmetryOfEdgesAsNumbers );
+[ [ 1, 1, 1, 1, 1, 1 ], [ 2, 2, 2, 2, 2, 2 ] ]
+gap> ForAll( all, s -> ForAll( Edges(s), e ->
+>        FacesOfEdges(s)[e] in Orbits( Group( tetInv2[ColoursOfEdges(s)[e]] ), Faces(s) ) ) );
+true
+gap> Length( AllWildColouredSurfaces( tetInv2 ) );
+2
+gap> Length( AllTameColouredSurfaces( tetInv2 ) );
+2
+gap> octInv2 := [ (2,6)(4,8)(10,14)(12,16), (2,14)(4,16)(6,10)(8,12),
+>        (2,8)(4,6)(10,16)(12,14) ];;
+gap> Length( AllWildColouredSurfaces( octInv2 ) );
+6
+gap> Length( AllWildColouredSurfaces( octInv2, [], false ) );
+26
+gap> Length( AllTameColouredSurfaces( octInv2 ) );
+4
+
+# The local symmetry is indexed by the cycles on [1..n]
+gap> l := AllWildColouredSurfaces( octInv, [ [1,2,1,2], 1, 2 ], false );;
+gap> List( l, LocalSymmetryOfEdgesAsNumbers );
+[ [ 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2 ] ]
+gap> l := AllWildColouredSurfaces( octInv2, 
+>        [ [0,1,0,2,0,0,0,1,0,2], 1, 2 ], false );;
+gap> List( l, LocalSymmetryOfEdgesAsNumbers );
+[ [ 1, 2, 1, 2, 1, 1, 1, 1, 2, 2, 2, 2 ] ]
+gap> l := AllWildColouredSurfaces( octInv2, 
+>        [ [0,2,0,1,0,0,0,2,0,1], 1, 2 ], false );;
+gap> List( l, LocalSymmetryOfEdgesAsNumbers );
+[ [ 2, 1, 2, 1, 1, 1, 1, 1, 2, 2, 2, 2 ] ]
+
 #
 gap> STOP_TEST("colouredSurfacesFromInvolutions.tst");
