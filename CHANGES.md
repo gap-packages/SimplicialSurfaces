@@ -24,6 +24,8 @@ This file describes changes in the SimplicialSurfaces package.
 - Speed up `EdgeAnomalyClasses`, `FaceAnomalyClasses` and hence
   `IsAnomalyFree`/`IsVertexFaithful` on large complexes: the anomaly classes
   are now found by sorting instead of pairwise comparison
+- Fix the unit test helper `SIMPLICIAL_TestAssert` breaking on GAP 4.16;
+  a failing assertion now reports its file and line and the tests continue
 
 ## 0.8 (2026-05-15)
 
