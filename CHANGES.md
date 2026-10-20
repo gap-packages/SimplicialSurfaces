@@ -18,6 +18,8 @@ This file describes changes in the SimplicialSurfaces package.
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the
   misspelt name of `CounterOfButterflies` in counter output (#384)
+- Fix the unit test helper `SIMPLICIAL_TestAssert` breaking on GAP 4.16;
+  a failing assertion now reports its file and line and the tests continue
 
 ## 0.8 (2026-05-15)
 
