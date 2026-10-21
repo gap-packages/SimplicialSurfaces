@@ -1591,6 +1591,10 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
             i, j, moved, perm, sigi, img, arrange, f1, f2, e1, e2,
             ind1, ind2, remed, edge1, edge2, verts, cf, e, neigh;
 
+        if not IsClosedSurface(simpSurf) then
+            Error("SixFoldCover: The given surface has to be closed.");
+        fi;
+
         # first we compute the faces of the cover
         # faces are given by the three edges incident to the face
         # Arrangements( [1,2,3], 3) are the images of the map beta in

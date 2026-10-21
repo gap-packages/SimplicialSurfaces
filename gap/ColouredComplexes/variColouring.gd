@@ -479,7 +479,8 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 
 #! @BeginGroup SixFoldCover
 #! @Description
-#! Construct the <E>six fold cover</E> of a simplicial surface. The optional
+#! Construct the <E>six fold cover</E> of a closed simplicial surface
+#! (<Ref Subsect="IsClosedSurface"/>). The optional
 #! argument <A>localSymmetry</A> is a list with three entries, all of them
 #! being 1 (mirror) or 2 (rotation). By default, it is <K>[1,1,1]</K>.
 #! 
@@ -499,8 +500,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #!   For example, if <M>i = 2</M> and the face is
 #!   <M>(f,(e_x,e_y,e_z))</M>, we construct the neighbour in the following way:
 #!   <Par/>
-#!   If <M>e_y</M> is a boundary edge of <A>simpSurf</A>, the lifted edge is
-#!   a boundary edge of the cover. Otherwise, let <M>g</M> be the neighbour
+#!   Let <M>g</M> be the neighbour
 #!   of <M>f</M> with respect to <M>e_y</M>. The neighbour in the six fold
 #!   cover will be of the form
 #!   <M>(g,(?,e_y,?))</M>. The content of the <M>?</M> depends on the argument
