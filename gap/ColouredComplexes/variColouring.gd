@@ -222,8 +222,8 @@ DeclareAttribute("ColourInvolutions",
 #! Image omitted in terminal text
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
-#! Accordingly, an inner edge is called a <E>mirror edge</E> (or
-#! <E>m-edge</E>) or a <E>rotation edge</E> (or <E>r-edge</E>).
+#! Accordingly, an inner edge is called a <E>mirror-edge</E> (or
+#! <E>m-edge</E>) or a <E>rotation-edge</E> (or <E>r-edge</E>).
 #! Together with the <E>boundary</E>-type for the boundary edges
 #! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>
 #! (<Ref Subsect="LocalSymmetryOfEdges"/>).
@@ -300,14 +300,15 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! The first type is called <E>mirror</E> (an <E>m-edge</E>) and the second
-#! one <E>rotation</E> (an <E>r-edge</E>).
+#! The first type is called <E>mirror</E> (a <E>mirror-edge</E> or
+#! <E>m-edge</E>) and the second one <E>rotation</E> (a <E>rotation-edge</E>
+#! or <E>r-edge</E>).
 #! Together with the <E>boundary</E>-type for the boundary edges
 #! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>.
 #! 
 #! This function returns a list whose <E>i</E>th entry is "mirror" if the
-#! <E>i</E>th edge of <A>colSurf</A> is an m-edge, or "rotation" if the
-#! <E>i</E>th edge of <A>colSurf</A> is an r-edge, or "boundary" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a mirror-edge (m-edge), or "rotation" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a rotation-edge (r-edge), or "boundary" if the
 #! <E>i</E>th edge of <A>colSurf</A> is a boundary edge. 
 #! The method <K>LocalSymmetryOfEdgesAsNumbers</K> encodes the same
 #! information by 1 (mirror), 2 (rotation) and 0 (boundary).
@@ -322,8 +323,8 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #!  "mirror", "rotation", "mirror", "mirror", "rotation" ]
 #! @EndExampleSession
 #! The butterfly has four boundary edges and one inner edge. It has two
-#! wild colourings: in the first one, the inner edge is an m-edge, in
-#! the second one, it is an r-edge.
+#! wild colourings: in the first one, the inner edge is a mirror-edge (m-edge), in
+#! the second one, it is a rotation-edge (r-edge).
 #! @BeginExampleSession
 #! gap> butterfly := AllWildColouredSurfaces( Butterfly() );;
 #! gap> LocalSymmetryOfEdges( butterfly[1] );
@@ -388,9 +389,9 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!      edges:
 #!      <List>
 #!        <Item>If <A>localSymmetry</A>[<A>edge</A>] = 1, then <A>edge</A> will
-#!           become an m-edge.</Item>
+#!           become a mirror-edge (m-edge).</Item>
 #!        <Item>If <A>localSymmetry</A>[<A>edge</A>] = 2, then <A>edge</A> will
-#!           become an r-edge.</Item>
+#!           become a rotation-edge (r-edge).</Item>
 #!        <Item>Unbound positions and the value 0 are ignored, all other entries
 #!           will throw errors. </Item>
 #!      </List>
@@ -407,7 +408,8 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!       <Enum>
 #!         <Item>If the entry <A>localSymmetry</A>[<A>colour</A>] is 1, then all edges 
 #!            with colour <A>colour</A> will be
-#!            m-edges. If it is 2, they will be r-edges. If the
+#!            mirror-edges (m-edges). If it is 2, they will be
+#!            rotation-edges (r-edges). If the
 #!            entry is 0 or unbound, no information is given.</Item>
 #!         <Item>If the entry <A>localSymmetry</A>[<A>colour</A>] is again
 #!            a list, it has to be indexed by the cycles of the
@@ -442,7 +444,8 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!
 #! The local symmetry of some edges can be prescribed. For example, there
 #! are two wild colourings of the octahedron in which the first edge is a
-#! m-edge, but only one in which it is an r-edge.
+#! mirror-edge (m-edge), but only one in which it is a rotation-edge
+#! (r-edge).
 #! @BeginExampleSession
 #! gap> Size( AllWildColouredSurfaces( Octahedron(), [1] ) );
 #! 2
@@ -489,30 +492,30 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! surface six times.
 #!
 #! It is constructed in the following way:
-#! * For each face <M>f</M> of <A>simpSurf</A> (with edges <M>e_a</M>,
+#! * For each face <M>F</M> of <A>simpSurf</A> (with edges <M>e_a</M>,
 #!   <M>e_b</M> and <M>e_c</M>) there are six faces in the cover. These
-#!   have the form <M>(f, (e_1, e_2, e_3))</M> with 
+#!   have the form <M>(F, (e_1, e_2, e_3))</M> with 
 #!   <M>\{e_1,e_2,e_3\} = \{e_a,e_b,e_c\}</M>, i.e. they correspond to the
-#!   orderings of the edges of <M>f</M>. In the cover, the edge
+#!   orderings of the edges of <M>F</M>. In the cover, the edge
 #!   <M>e_i</M> of such a face lifts to an edge of colour <M>i</M>.
 #! * For each face of the six fold cover and each <M>i\in\{1,2,3\}</M> 
 #!   the neighbour along the edge of colour <M>i</M> is defined.
 #!   For example, if <M>i = 2</M> and the face is
-#!   <M>(f,(e_x,e_y,e_z))</M>, we construct the neighbour in the following way:
+#!   <M>(F,(e_x,e_y,e_z))</M>, we construct the neighbour in the following way:
 #!   <Par/>
-#!   Let <M>g</M> be the neighbour
-#!   of <M>f</M> with respect to <M>e_y</M>. The neighbour in the six fold
+#!   Let <M>G</M> be the neighbour
+#!   of <M>F</M> with respect to <M>e_y</M>. The neighbour in the six fold
 #!   cover will be of the form
-#!   <M>(g,(?,e_y,?))</M>. The content of the <M>?</M> depends on the argument
+#!   <M>(G,(?,e_y,?))</M>. The content of the <M>?</M> depends on the argument
 #!   <A>localSymmetry</A>.
-#!   Assume <M>g</M> has the edges <M>\{e_y,e_v,e_w\}</M>, where 
+#!   Assume <M>G</M> has the edges <M>\{e_y,e_v,e_w\}</M>, where 
 #!   <M>e_x,e_y,e_v</M> share a vertex in <A>simpSurf</A>. If 
 #!   <A>localSymmetry</A>[<M>i</M>] = 1, we perform a <E>mirroring</E>, so the
-#!   neighbour will be <M>(g,(e_v,e_y,e_w))</M>.
+#!   neighbour will be <M>(G,(e_v,e_y,e_w))</M>.
 #!   If <A>localSymmetry</A>[<M>i</M>] = 2,
 #!   we perform a <E>rotation</E>, so the neighbour will be
-#!   <M>(g,(e_w,e_y,e_v))</M>.
-#! * Consequently, all inner edges of colour <M>i</M> have the local symmetry
+#!   <M>(G,(e_w,e_y,e_v))</M>.
+#! * Consequently, all edges of colour <M>i</M> have the local symmetry
 #!   (<Ref Subsect="LocalSymmetryOfEdges"/>)
 #!   <A>localSymmetry</A>[<M>i</M>] (mirror if it is 1, rotation if it is 2).
 #!   Together with the colour involutions defined by these neighbourhoods,
@@ -521,7 +524,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #!
 #! The method returns a pair. The first entry is the six fold cover.
 #! The second entry is a record whose component <K>Faces</K> stores the
-#! faces of the cover in the form <K>[f, [e_1, e_2, e_3]]</K> described
+#! faces of the cover in the form <K>[F, [e_1, e_2, e_3]]</K> described
 #! above, i.e. the <M>j</M>-th entry describes the <M>j</M>-th face of
 #! the cover. The component <K>Description</K> describes this encoding.
 #! In the following example, the first face of the tetrahedron has the
@@ -574,24 +577,27 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #! <Ref Subsect="LocalSymmetryOfEdges"/>.
 #!
 #! The common cover is constructed as follows:
-#! * Its faces are the triples <M>(f_1, f_2, \beta)</M>, where <M>f_1</M> is
-#!   a face of <A>surf1</A>, <M>f_2</M> is a face of <A>surf2</A> and
-#!   <M>\beta</M> is a bijection from the vertices of <M>f_1</M> to the
-#!   vertices of <M>f_2</M>. In particular, the common cover has
-#!   <M>6 \cdot |F_1| \cdot |F_2|</M> faces.
-#! * Each edge <M>e_1</M> of <M>f_1</M> is mapped by <M>\beta</M> to an
-#!   edge <M>e_2</M> of <M>f_2</M>. Let <M>g_1</M> and <M>g_2</M> be the
-#!   neighbours of <M>f_1</M> and <M>f_2</M> along these edges (if
-#!   <M>e_i</M> is a boundary edge, <M>g_i = f_i</M>). For
-#!   <M>i \in \{1,2\}</M>, let <M>\tau_i</M> be the bijection from the
-#!   vertices of <M>f_i</M> to the vertices of <M>g_i</M> that fixes the
-#!   vertices of <M>e_i</M> if <M>e_i</M> is an m-edge, and interchanges
-#!   them if <M>e_i</M> is an r-edge. Then the face
-#!   <M>(f_1,f_2,\beta)</M> is adjacent to the face
-#!   <M>(g_1, g_2, \tau_2 \circ \beta \circ \tau_1^{-1})</M> along a common
+#! * Its faces are the triples <M>(F, G, \beta)</M>, where <M>F</M> is
+#!   a face of <A>surf1</A>, <M>G</M> is a face of <A>surf2</A> and
+#!   <M>\beta</M> is a bijection from the vertices of <M>F</M> to the
+#!   vertices of <M>G</M>. In particular, the number of faces of the
+#!   common cover is six times the product of the numbers of faces of
+#!   <A>surf1</A> and <A>surf2</A>.
+#! * Each edge <M>e_1</M> of <M>F</M> is mapped by <M>\beta</M> to an
+#!   edge <M>e_2</M> of <M>G</M>. Let <M>F'</M> be the neighbour of
+#!   <M>F</M> along <M>e_1</M> in <A>surf1</A> and <M>G'</M> the neighbour
+#!   of <M>G</M> along <M>e_2</M> in <A>surf2</A> (for a boundary edge,
+#!   the face is its own neighbour). Let <M>\tau_1</M> be the bijection
+#!   from the vertices of <M>F</M> to the vertices of <M>F'</M> that fixes
+#!   the vertices of <M>e_1</M> if <M>e_1</M> is a mirror-edge (m-edge),
+#!   and interchanges them if <M>e_1</M> is a rotation-edge (r-edge).
+#!   Define <M>\tau_2</M> from the vertices of <M>G</M> to the vertices of
+#!   <M>G'</M> in the same way, using <M>e_2</M>. Then the face
+#!   <M>(F, G, \beta)</M> is adjacent to the face
+#!   <M>(F', G', \tau_2 \circ \beta \circ \tau_1^{-1})</M> along a common
 #!   edge that lies over <M>e_1</M> and <M>e_2</M>.
 #! * The vertices are glued along these edges: if <M>e_1</M> and <M>e_2</M>
-#!   have the same local symmetry, the vertex of <M>(f_1,f_2,\beta)</M>
+#!   have the same local symmetry, the vertex of <M>(F, G, \beta)</M>
 #!   corresponding to a vertex <M>v</M> of <M>e_1</M> is identified with
 #!   the vertex of the adjacent face corresponding to <M>v</M>. Otherwise,
 #!   it is identified with the vertex corresponding to the other vertex
@@ -601,10 +607,10 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #! second entry is a record that describes its faces, edges and vertices
 #! in terms of the original surfaces:
 #! * <K>Faces</K>: The <M>j</M>-th entry describes the <M>j</M>-th face as
-#!   <K>[[f_1, f_2], [verts_1, verts_2]]</K>, where the bijection
+#!   <K>[[F, G], [vertsF, vertsG]]</K>, where the bijection
 #!   <M>\beta</M> maps the
-#!   <M>k</M>-th entry of the set <K>verts_1</K> to the <M>k</M>-th entry
-#!   of <K>verts_2</K>.
+#!   <M>k</M>-th entry of the set <K>vertsF</K> of vertices of <M>F</M>
+#!   to the <M>k</M>-th entry of <K>vertsG</K>.
 #! * <K>Edges</K>: The <M>j</M>-th entry describes the <M>j</M>-th edge as
 #!   <K>[[e_1, e_2], faces]</K>, where <K>faces</K> is the set of
 #!   incident faces of the cover.
