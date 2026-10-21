@@ -32,7 +32,8 @@
 #! describes some methods to construct wild-coloured and
 #! tame-coloured surfaces (<Ref Subsect="AllWildColouredSurfaces"/>)
 #! and coverings of simplicial surfaces
-#! (<Ref Subsect="SixFoldCover"/> and <Ref Oper="CommonCover"/>).
+#! (<Ref Subsect="SixFoldCover"/> and <Ref Oper="CommonCover"
+#! Label="for IsSimplicialSurface, IsSimplicialSurface, IsList, IsList"/>).
 #!
 
 #TODO maybe add example of a simplicial surface without a vari-colouring
