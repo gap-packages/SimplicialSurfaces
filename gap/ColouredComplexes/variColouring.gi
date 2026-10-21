@@ -950,29 +950,40 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
         edgesOfFaces := setup[7];
         vertexNames := setup[8];
 
-        localSymOfEdges := Concatenation(localSymmetry);
+        # The entries of localSymmetry are indexed by the cycles of the
+        # involutions on [1..n], while the edges are the cycles on the
+        # faces. Since both lists of cycles are ordered by their smallest
+        # point, we only have to remove the fixed points that are no faces.
+        localSymOfEdges := Concatenation( List( PositionsBound(invList), p ->
+            localSymmetry[p]{ PositionsProperty(
+                Cycles( invList[p], [1..Maximum(faces)] ),
+                c -> IsBound(facePosition[c[1]]) ) } ) );
 
         # Since the algorithm works recursively by constructing umbrellas, it 
         # is optimal if the next face is adjacent to the previously constructed
         # umbrellas.
+        # The lists finVertsInFaces and knownFaces are indexed by the
+        # positions of the faces in the list faces (not by the faces
+        # themselves), since the faces may have holes.
         BestNextVertex := function( usedVertexNames, finVertsInFaces )
-            local face, v, pos;
+            local facePos, v, pos;
 
-            face := Position( finVertsInFaces, 2 );
-            if face = fail then
-                face := Position( finVertsInFaces, 1 );
-                if face = fail then
-                    face := Position( finVertsInFaces, 0 );
-                    if face = fail then
+            facePos := Position( finVertsInFaces, 2 );
+            if facePos = fail then
+                facePos := Position( finVertsInFaces, 1 );
+                if facePos = fail then
+                    facePos := Position( finVertsInFaces, 0 );
+                    if facePos = fail then
                         return false; # All faces are completed
                     fi;
                 fi;
             fi;
-            # face should be the face with highest number of already existing vertices
+            # facePos should be the position of the face with highest number 
+            # of already existing vertices
 
-            # The vertices in the face "face" are at positions
-            # 3*facePos[face]-3 + {1,2,3}
-            pos := 3*facePosition[face]-2;
+            # The vertices in the face at position facePos are at positions
+            # 3*facePos-3 + {1,2,3}
+            pos := 3*facePos-2;
             for v in [pos, pos+1, pos+2] do
                 if not usedVertexNames[v] then
                     return v;
@@ -983,24 +994,26 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
         FindWildColouredSurface := function( finUmbrellas, usedVertexNames, 
                     finVertsInFaces, partialLocalSym )
             local nextPos, next, face, facePos, e1, e2, umbrella, allUmbrellas_c,
-                umbInfo, finVertsInFaces_c, finUmbrellas_c, 
-                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces;
+                umbInfo, finVertsInFaces_c, finUmbrellas_c,
+                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces,
+                verticesOfEdges, v, i;
 
             nextPos := BestNextVertex( usedVertexNames, finVertsInFaces );
             if nextPos = false then
                 # no more free vertices
-                
+
                 # construction of the simplicial surface
-                obj := Objectify( TwistedPolygonalComplexType, rec() );
-                SetIsNotTwisted(obj, true);
-                SetIsDefaultChamberSystem(obj, true);
-                SetFacesOfEdges(obj, facesOfEdges);
-                SetFaces(obj, faces);
-                SetEdgesOfFaces(obj, edgesOfFaces);
-                SetVerticesAttributeOfComplex(obj, [1..Length(finUmbrellas)]);
-                SetUmbrellaPathsOfVertices(obj, 
-                    List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
-                SetIsFacePure(obj, true);
+                # The vertex v is given by the umbrella finUmbrellas[v], whose
+                # edges are at the odd positions. The edge and face numbering
+                # is the one from the setup.
+                verticesOfEdges := List( facesOfEdges, e -> [] );
+                for v in [1..Length(finUmbrellas)] do
+                    for i in [1,3..Length(finUmbrellas[v])] do
+                        AddSet( verticesOfEdges[finUmbrellas[v][i]], v );
+                    od;
+                od;
+                obj := SimplicialSurfaceByDownwardIncidenceNC(
+                    verticesOfEdges, edgesOfFaces );
 
                 # construction of the coloured surface
                 colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
@@ -1021,7 +1034,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
             e2 := next[3];
             umbrella := [e1, face, e2];
             usedVertexNames[nextPos] := true;
-            finVertsInFaces[face] := finVertsInFaces[face] + 1;
+            finVertsInFaces[facePos] := finVertsInFaces[facePos] + 1;
             knownFaces := List(faces, x -> false);
             knownFaces[facePos] := true;
             
@@ -1056,8 +1069,9 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
             knownFaces_c := ShallowCopy(knownFaces);
             knownFaces_c[facePosition[nextFace]] := true;
             finVertsInFaces_c := ShallowCopy(finVertsInFaces);
-            finVertsInFaces_c[nextFace] := finVertsInFaces_c[nextFace] + 1;
-            Assert(1, finVertsInFaces_c[nextFace] <= 3);
+            finVertsInFaces_c[facePosition[nextFace]] := 
+                finVertsInFaces_c[facePosition[nextFace]] + 1;
+            Assert(1, finVertsInFaces_c[facePosition[nextFace]] <= 3);
             usedVertexNames_c := ShallowCopy(usedVertexNames);
 
             # find [ nextFace, lastEdge, nextEdge ] in vertexNames
@@ -1136,7 +1150,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 LoopOneVertex( Reversed(umbrella), knownFaces, 
                     usedVertexNames, finVertsInFaces, partialLocalSym );
                 return;
-            elif knownFaces[nextFace] then
+            elif knownFaces[facePosition[nextFace]] then
                 # this is an error since we never construct a face of an umbrella twice
                 return;
             else
