@@ -121,7 +121,7 @@ IsWildColouredSurface(wildColTetra);
 DrawSurfaceToTikz( wildColTetra, "WildColTetra", rec(
    edgeColourClassColours := ["green","red","blue"],
            scale := 2) );
-#! This colouring of the tetrahedron is an example for a coloring that is not a wild colouring:
+#! This colouring of the tetrahedron is an example for a colouring that is not a wild colouring:
 #! @BeginExample
 colTetra:=EdgeColouredSimplicialSurface(Tetrahedron(),[1,2,3,3,2,2]);;
 IsWildColouredSurface(colTetra);
@@ -173,7 +173,7 @@ LocalSymmetryOfColours(oct[1]);
 #! [ "mirror", "mirror", "mirror" ]
 LocalSymmetryOfEdgesAsNumbers(oct[1]);
 #! [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ]
-IsTameColouredSurface(oct[1]);
+IsTameColouredSurface(oct[2]);
 #! true
 LocalSymmetryOfColours(oct[2]);
 #! [ "mirror", "rotation", "mirror" ]
@@ -203,5 +203,5 @@ IsTameColouredSurface(colSurface);
 DrawSurfaceToTikz( colSurface, "NotTameCol", rec(
     edgeColourClassColours := ["green","red","blue"],
                 scale := 2) );
-#! This is an example for a surface which is not tame coloured, since the blue edges do not have the same symmetry.
+#! This is an example for a surface which is not tame-coloured, since the blue edges do not all have the same local symmetry.
 #! @EndChunk

@@ -17,19 +17,22 @@
 #! as permutations, the
 #! <K>ColourInvolutions</K> (<Ref Subsect="ColourInvolutions"/>).
 #!
-#! After these general properties, section 
+#! After these general properties, Section
 #! <Ref Sect="Section_EdgeVariColouring_Wild"/> deals with a special
-#! subclass of a vari-colouring: <E>edge exact-colourings</E>, in
-#! which the number of colours is minimal (for example, in a simplicial 
-#! surface there can only be three colours). It describes a method to
-#! uniquely reconstruct an exact-coloured surface from its permutation (by 
-#! introducing the <E>local symmetries</E> 
-#! (<Ref Subsect="LocalSymmetryOfEdges"/>)).
+#! subclass of vari-colourings: <E>edge exact-colourings</E>, in
+#! which the number of colours is minimal (for example, in a simplicial
+#! surface there are exactly three colours). Simplicial surfaces with
+#! such a colouring are called <E>wild-coloured surfaces</E>
+#! (<Ref Subsect="IsWildColouredSurface"/>). The section describes how
+#! to uniquely reconstruct a wild-coloured surface from its colour
+#! involutions by introducing the <E>local symmetries</E>
+#! (<Ref Subsect="LocalSymmetryOfEdges"/>).
 #!
 #! Section <Ref Sect="Section_EdgeVariColouring_Wild"/> also
-#! describes some methods to construct vari-coloured
-#! and exact-coloured
-#! surfaces.
+#! describes some methods to construct wild-coloured and
+#! tame-coloured surfaces (<Ref Subsect="AllWildColouredSurfaces"/>)
+#! and coverings of simplicial surfaces
+#! (<Ref Subsect="SixFoldCover"/> and <K>CommonCover</K>).
 #!
 
 #TODO maybe add example of a simplicial surface without a vari-colouring
@@ -202,9 +205,11 @@ DeclareAttribute("ColourInvolutions",
 #!
 #! In this situation there is an additional local symmetry structure on the
 #! edges. For every inner edge (<Ref Subsect="InnerEdges"/>) there are two
-#! possible colourings of the adjacent faces, which can be described by a 
+#! possible colourings of the two adjacent faces, which can be described by a
 #! symmetry with respect to the edge between them. The colours can either be
-#! mirrored or rotated into each other.
+#! mirrored or rotated into each other: In the first case, the two other
+#! edges of the faces that share a given vertex of the inner edge have the
+#! same colour, in the second case they have different colours.
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_LocalSymmetry-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -229,7 +234,7 @@ DeclareAttribute("ColourInvolutions",
 #! Check if an edge-coloured polygonal complex is a 
 #! <E>wild-coloured surface</E>, i.e.
 #! * It is a simplicial surface (<Ref Subsect="IsSimplicialSurface"/>)
-#! * It has an edge-exact colouring (<Ref Subsect="IsEdgeVariColouring"/>), 
+#! * It has an edge exact-colouring (<Ref Subsect="IsEdgeVariColouring"/>), 
 #!   i.e. the edges are coloured by three colours and the edges of every
 #!   face have different colours.
 #!
@@ -244,7 +249,7 @@ InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsWildColouredSurface );
 
 #! @BeginGroup ColouredUmbrellasOfVertices
 #! @Description
-#! For a wild coloured surface (<Ref Subsect="IsWildColouredSurface"/>) the method 
+#! For a wild-coloured surface (<Ref Subsect="IsWildColouredSurface"/>) the method 
 #! <K>ColouredUmbrellaOfVertex</K>(<A>wildSurf</A>, <A>vertex</A>) returns an edge-coloured 
 #! edge-face path for the umbrella-path around <A>vertex</A>. All of these 
 #! umbrella-paths
@@ -279,7 +284,7 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #!
 #! The edges of the edge coloured surface <A>colSurf</A> have a local 
 #! symmetry. For every inner coloured edge (<Ref Subsect="InnerEdges"/>)
-#! there are two  possible colourings of the adjacent faces, which can be
+#! there are two possible colourings of the adjacent faces, which can be
 #! described by a symmetry with respect to the edge between them.
 #! The colours can either be  mirrored or rotated into each other.
 #!  <Alt Only="HTML">
@@ -298,9 +303,11 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>.
 #! 
 #! This function returns a list whose <E>i</E>th entry is "mirror" if the
-#! <E>i</E>th edge of <A>colSurf</A> is a mirror edge,  or "rotation" if the
+#! <E>i</E>th edge of <A>colSurf</A> is a mirror edge, or "rotation" if the
 #! <E>i</E>th edge of <A>colSurf</A> is a rotation edge, or "boundary" if the
 #! <E>i</E>th edge of <A>colSurf</A> is a boundary edge. 
+#! The method <K>LocalSymmetryOfEdgesAsNumbers</K> encodes the same
+#! information by 1 (mirror), 2 (rotation) and 0 (boundary).
 #! @BeginExampleSession
 #! gap> oct := Octahedron();;
 #! gap> oct := AllWildColouredSurfaces(oct);;
@@ -315,7 +322,7 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! @Returns a list of strings
 #! @Arguments colSurf
 DeclareAttribute( "LocalSymmetryOfEdges", IsWildColouredSurface );
-#! @Returns a list of positive integers
+#! @Returns a list of non-negative integers
 #! @Arguments colSurf
 DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsWildColouredSurface ); 
 #! @EndGroup
@@ -329,10 +336,13 @@ DeclareAttribute( "LocalSymmetryOfEdgesAsNumbers", IsWildColouredSurface );
 #! @Description
 #! Check whether the local symmetry (<Ref Subsect="LocalSymmetryOfEdges"/>) of
 #! a wild-coloured surface is equal
-#! for all edges of the same colour.
+#! for all inner edges of the same colour.
 #!
-#! The method <K>LocalSymmetryOfColours</K> returns a list of local symmetries that is
-#! indexed by the colours.
+#! For a tame-coloured surface, the method <K>LocalSymmetryOfColours</K>
+#! returns a list of local symmetries that is
+#! indexed by the colours. The method <K>LocalSymmetryOfColoursAsNumbers</K>
+#! encodes them by 1 (mirror), 2 (rotation) and 0 (if all edges of this
+#! colour are boundary edges).
 #! 
 #! @InsertChunk Example_TameColoured
 #! 
@@ -341,7 +351,7 @@ DeclareProperty( "IsTameColouredSurface", IsEdgeColouredPolygonalComplex);
 #! @Returns a list of strings
 #! @Arguments colSurf
 DeclareAttribute( "LocalSymmetryOfColours", IsTameColouredSurface);
-#! @Returns a list of positive integers
+#! @Returns a list of non-negative integers
 #! @Arguments colSurf
 DeclareAttribute( "LocalSymmetryOfColoursAsNumbers", IsTameColouredSurface);
 #! @EndGroup
@@ -396,7 +406,7 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!   </Item>
 #! </Enum>
 #!
-#! The method <K>AllTameColouredSurfaces</K> works identical, except that it
+#! The method <K>AllTameColouredSurfaces</K> works identically, except that it
 #! only returns the tame-coloured surfaces 
 #! (<Ref Subsect="IsTameColouredSurface"/>).
 #!
@@ -414,7 +424,31 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #! gap> Size(octTameIsom);
 #! 4
 #! @EndExampleSession
-#! TODO examples that use local symmetries -> what is interesting (but small)?
+#!
+#! The local symmetry of some edges can be prescribed. For example, there
+#! are two wild colourings of the octahedron in which the first edge is a
+#! mirror edge, but only one in which it is a rotation edge.
+#! @BeginExampleSession
+#! gap> Size( AllWildColouredSurfaces( Octahedron(), [1] ) );
+#! 2
+#! gap> octRot := AllWildColouredSurfaces( Octahedron(), [2] );;
+#! gap> Size(octRot);
+#! 1
+#! gap> LocalSymmetryOfEdgesAsNumbers( octRot[1] );
+#! [ 2, 1, 2, 1, 1, 1, 2, 1, 1, 1, 2, 1 ]
+#! @EndExampleSession
+#! If the colour involutions are given, a local symmetry for each colour
+#! determines the surface. For the colour involutions of the octahedron
+#! we can change the local symmetry of the first colour to obtain a 
+#! tame-coloured surface with four vertices instead of six.
+#! @BeginExampleSession
+#! gap> invs := ColourInvolutions( octTame[1] );
+#! [ (1,3)(2,4)(5,7)(6,8), (1,7)(2,8)(3,5)(4,6), (1,4)(2,3)(5,8)(6,7) ]
+#! gap> AllWildColouredSurfaces( invs, [1,1,1] );
+#! [ tame coloured surface (MMM with 6 vertices, 12 edges and 8 faces) ]
+#! gap> AllWildColouredSurfaces( invs, [2,1,1] );
+#! [ tame coloured surface (RMM with 4 vertices, 12 edges and 8 faces) ]
+#! @EndExampleSession
 #!
 #! @Returns a list of wild-coloured surfaces 
 #! @Arguments simpSurf[, localSymmetry, noIsom]
@@ -428,42 +462,61 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! @EndGroup
 
 
+#! @BeginGroup SixFoldCover
 #! @Description
-#! Construct the <E>six fold cover</E> of a simplicial surface. The argument
-#! <A>localSymmetry</A> is a list with three entries, all of them being 
-#! 1 (mirror) or 
-#! 2 (rotation).
+#! Construct the <E>six fold cover</E> of a simplicial surface. The optional
+#! argument <A>localSymmetry</A> is a list with three entries, all of them
+#! being 1 (mirror) or 2 (rotation). By default, it is <K>[1,1,1]</K>.
 #! 
-#! The <E>six fold cover</E> of a simplicial surface is a tame coloured
-#! simplicial surface that covers the original surface six times.
+#! The <E>six fold cover</E> of a simplicial surface is a tame-coloured
+#! surface (<Ref Subsect="IsTameColouredSurface"/>) that covers the original
+#! surface six times.
 #!
 #! It is constructed in the following way:
 #! * For each face <M>f</M> of <A>simpSurf</A> (with edges <M>e_a</M>,
 #!   <M>e_b</M> and <M>e_c</M>) there are six faces in the cover. These
-#!   have the form <M>(f, e_1, e_2, e_3)</M> with 
-#!   <M>\{e_1,e_2,e_3\} = \{e_a,e_b,e_c\}</M>. Formally they represent the map
-#!   <M>e_a \to e_1</M>, <M>e_b \to e_2</M>, <M>e_c \to e_3</M>.
+#!   have the form <M>(f, (e_1, e_2, e_3))</M> with 
+#!   <M>\{e_1,e_2,e_3\} = \{e_a,e_b,e_c\}</M>, i.e. they correspond to the
+#!   orderings of the edges of <M>f</M>. In the cover, the edge
+#!   <M>e_i</M> of such a face lifts to an edge of colour <M>i</M>.
 #! * For each face of the six fold cover and each <M>i\in\{1,2,3\}</M> 
-#!   an edge of this face
-#!   is defined. For example, if <M>i = 2</M> and the face is
-#!   <M>(f,e_x,e_y,e_z)</M>, we construct the neighbour in the following way:
+#!   the neighbour along the edge of colour <M>i</M> is defined.
+#!   For example, if <M>i = 2</M> and the face is
+#!   <M>(f,(e_x,e_y,e_z))</M>, we construct the neighbour in the following way:
 #!   <Par/>
-#!   Find the neighbour of <M>f</M> with respect to <M>e_y</M>, denoted by
-#!   <M>g</M>. The neighbour in the six fold cover will be of the form
-#!   <M>(g,?,e_y,?)</M>. The content of the <M>?</M> depends on the argument
+#!   If <M>e_y</M> is a boundary edge of <A>simpSurf</A>, the lifted edge is
+#!   a boundary edge of the cover. Otherwise, let <M>g</M> be the neighbour
+#!   of <M>f</M> with respect to <M>e_y</M>. The neighbour in the six fold
+#!   cover will be of the form
+#!   <M>(g,(?,e_y,?))</M>. The content of the <M>?</M> depends on the argument
 #!   <A>localSymmetry</A>.
 #!   Assume <M>g</M> has the edges <M>\{e_y,e_v,e_w\}</M>, where 
 #!   <M>e_x,e_y,e_v</M> share a vertex in <A>simpSurf</A>. If 
-#!   <A>localSymmetry[i] = 1</A>, we perform a <E>mirroring</E>, so the
-#!   neighbour will be <M>(g,e_v,e_y,e_w)</M>. If <A>localSymmetry[i]=2</A>,
+#!   <A>localSymmetry</A>[<M>i</M>] = 1, we perform a <E>mirroring</E>, so the
+#!   neighbour will be <M>(g,(e_v,e_y,e_w))</M>.
+#!   If <A>localSymmetry</A>[<M>i</M>] = 2,
 #!   we perform a <E>rotation</E>, so the neighbour will be
-#!   <M>(g,e_w,e_y,e_v)</M>.
-#! * To define the vertices, <A>localSymmetry</A> is used. All edges with
-#!   <M>i=2</M> in the preceding explanation will get the local symmetry
-#!   <A>localSymmetry[2]</A> (mirror if it is 1, rotation if it is 2).
+#!   <M>(g,(e_w,e_y,e_v))</M>.
+#! * Consequently, all inner edges of colour <M>i</M> have the local symmetry
+#!   (<Ref Subsect="LocalSymmetryOfEdges"/>)
+#!   <A>localSymmetry</A>[<M>i</M>] (mirror if it is 1, rotation if it is 2).
+#!   Together with the colour involutions defined by these neighbourhoods,
+#!   this determines the vertices of the cover
+#!   (compare <Ref Subsect="AllWildColouredSurfaces"/>).
+#!
+#! The method returns a pair. The first entry is the six fold cover.
+#! The second entry is a record whose component <K>Faces</K> stores the
+#! faces of the cover in the form <K>[f, [e_1, e_2, e_3]]</K> described
+#! above, i.e. the <M>j</M>-th entry describes the <M>j</M>-th face of
+#! the cover. Note that the edges of the old face are stored, not its
+#! vertices (despite the component <K>Description</K> of the record).
+#! In the following example, the first face of the tetrahedron has the
+#! edges 1, 2 and 4.
 #!
 #! @ExampleSession
 #! gap> tetra := Tetrahedron();;
+#! gap> EdgesOfFaces(tetra);
+#! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
 #! gap> SixFoldCover(tetra);
 #! [ tame coloured surface (MMM with 12 vertices, 36 edges and 24 faces), 
 #!   rec( Description := "[oldFace, [vertices of the oldFace]]", 
@@ -474,7 +527,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #!               [ 3, [ 4, 5, 6 ] ], [ 3, [ 4, 6, 5 ] ], [ 3, [ 5, 4, 6 ] ], 
 #!               [ 3, [ 5, 6, 4 ] ], [ 3, [ 6, 4, 5 ] ], [ 3, [ 6, 5, 4 ] ], 
 #!               [ 4, [ 2, 3, 6 ] ], [ 4, [ 2, 6, 3 ] ], [ 4, [ 3, 2, 6 ] ], 
-#!               [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ],[ 4, [ 6, 3, 2 ] ] ] ) ]
+#!               [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ], [ 4, [ 6, 3, 2 ] ] ] ) ]
 #! gap> NumberOfConnectedComponents(last[1]);
 #! 1
 #! gap> SixFoldCover(Tetrahedron(), [2,2,2] );
@@ -492,15 +545,85 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! 6
 #! @EndExampleSession
 #!
-#! @Returns a tame coloured surface
-#! @Arguments simpSurf, localSymmetry
+#! @Returns a pair of a tame-coloured surface and a record
+#! @Arguments simpSurf[, localSymmetry]
 DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
+#! @EndGroup
 
 
 #! @Description
-#! Compute the <E>common cover</E> of two simplicial surfaces.
+#! Compute the <E>common cover</E> of the two simplicial surfaces
+#! <A>surf1</A> and <A>surf2</A> with respect to the given local
+#! symmetries. The arguments <A>localSym1</A> and <A>localSym2</A> are
+#! lists indexed by the edges of <A>surf1</A> and <A>surf2</A>,
+#! respectively. Every entry has to be 1 (mirror) or 2 (rotation), compare
+#! <Ref Subsect="LocalSymmetryOfEdges"/>.
 #!
-#! TODO
+#! The common cover is constructed as follows:
+#! * Its faces are the triples <M>(f_1, f_2, \beta)</M>, where <M>f_1</M> is
+#!   a face of <A>surf1</A>, <M>f_2</M> is a face of <A>surf2</A> and
+#!   <M>\beta</M> is a bijection from the vertices of <M>f_1</M> to the
+#!   vertices of <M>f_2</M>. In particular, the common cover has
+#!   <M>6 \cdot |F_1| \cdot |F_2|</M> faces.
+#! * Each edge <M>e_1</M> of <M>f_1</M> is mapped by <M>\beta</M> to an
+#!   edge <M>e_2</M> of <M>f_2</M>. Let <M>g_1</M> and <M>g_2</M> be the
+#!   neighbours of <M>f_1</M> and <M>f_2</M> along these edges. For
+#!   <M>i \in \{1,2\}</M>, let <M>\tau_i</M> be the bijection from the
+#!   vertices of <M>f_i</M> to the vertices of <M>g_i</M> that fixes the
+#!   vertices of <M>e_i</M> if <M>e_i</M> is a mirror edge, and interchanges
+#!   them if <M>e_i</M> is a rotation edge. Then the face
+#!   <M>(f_1,f_2,\beta)</M> is adjacent to the face
+#!   <M>(g_1, g_2, \tau_2 \circ \beta \circ \tau_1^{-1})</M> along a common
+#!   edge that lies over <M>e_1</M> and <M>e_2</M>.
+#! * The vertices are glued along these edges: if <M>e_1</M> and <M>e_2</M>
+#!   have the same local symmetry, the vertex of <M>(f_1,f_2,\beta)</M>
+#!   corresponding to a vertex <M>v</M> of <M>e_1</M> is identified with
+#!   the vertex of the adjacent face corresponding to <M>v</M>. Otherwise,
+#!   it is identified with the vertex corresponding to the other vertex
+#!   of <M>e_1</M>.
+#!
+#! The method returns a pair. The first entry is the common cover. The
+#! second entry is a record that describes its faces, edges and vertices
+#! in terms of the original surfaces:
+#! * <K>Faces</K>: The <M>j</M>-th entry describes the <M>j</M>-th face as
+#!   <K>[[f_1, f_2], [verts_1, verts_2]]</K>, where the bijection
+#!   <M>\beta</M> maps the
+#!   <M>k</M>-th entry of the set <K>verts_1</K> to the <M>k</M>-th entry
+#!   of <K>verts_2</K>.
+#! * <K>Edges</K>: The <M>j</M>-th entry describes the <M>j</M>-th edge as
+#!   <K>[[e_1, e_2], faces]</K>, where <K>faces</K> is the set of
+#!   incident faces of the cover.
+#! * <K>Vertices</K>: The <M>j</M>-th entry is the list of all pairs
+#!   <K>[face, v]</K> that are identified to form the <M>j</M>-th vertex,
+#!   where <K>face</K> is a face of the cover and <K>v</K> is a vertex of
+#!   <A>surf1</A>.
+#! * <K>DescriptionFaces</K>, <K>DescriptionEdges</K>,
+#!   <K>DescriptionVertices</K>: Short descriptions of these encodings.
+#!
+#! Currently, both surfaces have to be closed
+#! (<Ref Subsect="IsClosedSurface"/>).
+#!
+#! For example, if both tetrahedra are mirror-coloured, the common cover
+#! consists of 24 tetrahedra. If one of them is rotation-coloured instead,
+#! the common cover is connected.
+#! @BeginExampleSession
+#! gap> tet := Tetrahedron();;
+#! gap> mirror := [1,1,1,1,1,1];; rotation := [2,2,2,2,2,2];;
+#! gap> cover := CommonCover( tet, tet, mirror, mirror );;
+#! gap> cover[1];
+#! simplicial surface (96 vertices, 144 edges, and 96 faces)
+#! gap> NumberOfConnectedComponents( cover[1] );
+#! 24
+#! gap> cover[2].Faces[1];
+#! [ [ 1, 1 ], [ [ 1, 2, 3 ], [ 1, 2, 3 ] ] ]
+#! gap> cover := CommonCover( tet, tet, mirror, rotation );;
+#! gap> cover[1];
+#! simplicial surface (24 vertices, 144 edges, and 96 faces)
+#! gap> NumberOfConnectedComponents( cover[1] );
+#! 1
+#! gap> EulerCharacteristic( cover[1] );
+#! -24
+#! @EndExampleSession
 #!
 #! @Returns a pair of a simplicial surface and a record that stores
 #! vertices, edges and faces of it
