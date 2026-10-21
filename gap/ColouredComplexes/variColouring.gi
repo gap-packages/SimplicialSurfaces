@@ -1408,15 +1408,14 @@ InstallMethod( CommonCover,
         edgePair := [e1,e2];
 
         # We need to find the adjacent faces
-        if NeighbourFacesByEdge(surf1, newFace[1], edgePair[1])=fail then
-		adFace1 := newFace[1];
-	else
-		adFace1 := NeighbourFacesByEdge(surf1, newFace[1], edgePair[1])[1];
-	fi;
-	if NeighbourFacesByEdge(surf2, newFace[2], edgePair[2])=fail then
-                adFace2 := newFace[2];
-        else
-                adFace2 := NeighbourFacesByEdge(surf2, newFace[2], edgePair[2])[1];
+        # On a boundary edge, the face is its own neighbour
+        adFace1 := NeighbourFaceByEdge(surf1, newFace[1], edgePair[1]);
+        if adFace1 = fail then
+            adFace1 := newFace[1];
+        fi;
+        adFace2 := NeighbourFaceByEdge(surf2, newFace[2], edgePair[2]);
+        if adFace2 = fail then
+            adFace2 := newFace[2];
         fi;
         #adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
         #adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
@@ -1720,7 +1719,7 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
   
         # Set the alternative names
         altNames := rec( Faces := cfaces,
-          Description := "[oldFace, [vertices of the oldFace]]");
+          Description := "[oldFace, [edges of the oldFace]]");
         
         return [wild[1], altNames];
     end

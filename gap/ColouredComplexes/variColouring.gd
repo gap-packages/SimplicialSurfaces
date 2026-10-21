@@ -523,8 +523,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! The second entry is a record whose component <K>Faces</K> stores the
 #! faces of the cover in the form <K>[f, [e_1, e_2, e_3]]</K> described
 #! above, i.e. the <M>j</M>-th entry describes the <M>j</M>-th face of
-#! the cover. Note that the edges of the old face are stored, not its
-#! vertices (despite the component <K>Description</K> of the record).
+#! the cover. The component <K>Description</K> describes this encoding.
 #! In the following example, the first face of the tetrahedron has the
 #! edges 1, 2 and 4.
 #!
@@ -534,7 +533,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! [ [ 1, 2, 4 ], [ 1, 3, 5 ], [ 4, 5, 6 ], [ 2, 3, 6 ] ]
 #! gap> SixFoldCover(tetra);
 #! [ tame coloured surface (MMM with 12 vertices, 36 edges and 24 faces), 
-#!   rec( Description := "[oldFace, [vertices of the oldFace]]", 
+#!   rec( Description := "[oldFace, [edges of the oldFace]]", 
 #!     Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], 
 #!               [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], 
 #!               [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], 
@@ -547,7 +546,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! 1
 #! gap> SixFoldCover(Tetrahedron(), [2,2,2] );
 #! [ tame coloured surface (RRR with 24 vertices, 36 edges and 24 faces), 
-#!   rec( Description := "[oldFace, [vertices of the oldFace]]", 
+#!   rec( Description := "[oldFace, [edges of the oldFace]]", 
 #!    Faces := [ [ 1, [ 1, 2, 4 ] ], [ 1, [ 1, 4, 2 ] ], [ 1, [ 2, 1, 4 ] ], 
 #!               [ 1, [ 2, 4, 1 ] ], [ 1, [ 4, 1, 2 ] ], [ 1, [ 4, 2, 1 ] ], 
 #!               [ 2, [ 1, 3, 5 ] ], [ 2, [ 1, 5, 3 ] ], [ 2, [ 3, 1, 5 ] ], 
@@ -582,7 +581,8 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!   <M>6 \cdot |F_1| \cdot |F_2|</M> faces.
 #! * Each edge <M>e_1</M> of <M>f_1</M> is mapped by <M>\beta</M> to an
 #!   edge <M>e_2</M> of <M>f_2</M>. Let <M>g_1</M> and <M>g_2</M> be the
-#!   neighbours of <M>f_1</M> and <M>f_2</M> along these edges. For
+#!   neighbours of <M>f_1</M> and <M>f_2</M> along these edges (if
+#!   <M>e_i</M> is a boundary edge, <M>g_i = f_i</M>). For
 #!   <M>i \in \{1,2\}</M>, let <M>\tau_i</M> be the bijection from the
 #!   vertices of <M>f_i</M> to the vertices of <M>g_i</M> that fixes the
 #!   vertices of <M>e_i</M> if <M>e_i</M> is an m-edge, and interchanges
@@ -614,9 +614,6 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!   <A>surf1</A>.
 #! * <K>DescriptionFaces</K>, <K>DescriptionEdges</K>,
 #!   <K>DescriptionVertices</K>: Short descriptions of these encodings.
-#!
-#! Currently, both surfaces have to be closed
-#! (<Ref Subsect="IsClosedSurface"/>).
 #!
 #! For example, if both tetrahedra are mirror-coloured, the common cover
 #! consists of 24 tetrahedra. If one of them is rotation-coloured instead,
