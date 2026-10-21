@@ -34,6 +34,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     # VEF-complex
     __SIMPLICIAL_Test_VEF_SpecialisedIncidence();
 
+    # Wild-coloured surfaces
+    __SIMPLICIAL_Test_WildColouredByInvolutions();
+
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();
 

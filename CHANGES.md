@@ -16,6 +16,8 @@ This file describes changes in the SimplicialSurfaces package.
   isolated vertices (and isolated edges) (#373)
 - Fix `CommonCover` for surfaces with boundary; the `Description` of the
   record returned by `SixFoldCover` now says that faces are given by edges
+- Fix `AllWildColouredSurfaces` and `AllTameColouredSurfaces` for colour
+  involutions: the vertices of the constructed surfaces could not be computed
 - Fix `IsIsomorphic` ignoring isolated vertices (#386), and include isolated
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the

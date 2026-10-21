@@ -997,6 +997,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 SetFacesOfEdges(obj, facesOfEdges);
                 SetFaces(obj, faces);
                 SetEdgesOfFaces(obj, edgesOfFaces);
+                SetVerticesAttributeOfComplex(obj, [1..Length(finUmbrellas)]);
                 SetUmbrellaPathsOfVertices(obj, 
                     List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
                 SetIsFacePure(obj, true);
