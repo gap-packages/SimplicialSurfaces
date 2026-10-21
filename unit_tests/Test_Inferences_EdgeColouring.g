@@ -49,6 +49,45 @@ BindGlobal( "__SIMPLICIAL_Test_WildColouredByInvolutions", function()
         NumberOfVertices(SixFoldCover(Tetrahedron())[1]) = 12 );
 end);
 
+# SixFoldCover for surfaces with boundary
+BindGlobal( "__SIMPLICIAL_Test_CoversWithBoundary", function()
+    local ls, cover, surf, tri, umb, e;
+
+    # Boundary edges lift to boundary edges
+    for ls in [ [1,1,1], [1,2,1], [2,2,2] ] do
+        cover := SixFoldCover( Butterfly(), ls );
+        surf := PolygonalComplex(cover[1]);
+        SIMPLICIAL_TestAssert( NumberOfFaces(surf) = 12 );
+        SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 6 );
+        SIMPLICIAL_TestAssert( ForAll( ConnectedComponents(surf), 
+            c -> IsIsomorphic(c, Butterfly()) ) );
+    od;
+
+    umb := SimplicialUmbrella(4);
+    cover := SixFoldCover( umb, [1,1,1] );
+    surf := PolygonalComplex(cover[1]);
+    SIMPLICIAL_TestAssert( List(ConnectedComponents(surf), NumberOfFaces) 
+        = [4,4,4,4,4,4] );
+    cover := SixFoldCover( umb, [2,2,2] );
+    surf := PolygonalComplex(cover[1]);
+    SIMPLICIAL_TestAssert( List(ConnectedComponents(surf), NumberOfFaces) 
+        = [12,12] );
+    SIMPLICIAL_TestAssert( ForAll( ConnectedComponents(surf), 
+        c -> IsSimplicialSurface(c) and EulerCharacteristic(c) = 1 ) );
+    for e in Edges(surf) do
+        SIMPLICIAL_TestAssert( IsBoundaryEdge(surf, e) = IsBoundaryEdge(umb, 
+            cover[2].Faces[FacesOfEdge(surf,e)[1]][2][ColourOfEdge(cover[1], e)]) );
+    od;
+
+    # A single triangle: all colour involutions of the cover are trivial
+    tri := SimplicialSurfaceByVerticesInFaces( [[1,2,3]] );
+    cover := SixFoldCover( tri );
+    surf := PolygonalComplex(cover[1]);
+    SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 6 );
+    SIMPLICIAL_TestAssert( NumberOfVertices(surf) = 18 );
+
+end);
+
 BindGlobal( "__SIMPLICIAL_Test_EdgeColours", function()
     local edgesOfColours, coloursOfEdges, colComplex, complex, colIncDigr, digEdges, edge, vertex, edges, faces, coloursOfEdges1, colComplex1, 
 	coloursOfEdges2, colComplex2;

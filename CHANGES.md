@@ -20,6 +20,8 @@ This file describes changes in the SimplicialSurfaces package.
   involutions: the vertices of the constructed surfaces could not be computed,
   boundary edges were given a local symmetry, and trivial involutions (the
   one-face) caused an error
+- `SixFoldCover` now works for surfaces with boundary: boundary edges lift
+  to boundary edges
 - Fix `IsIsomorphic` ignoring isolated vertices (#386), and include isolated
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the

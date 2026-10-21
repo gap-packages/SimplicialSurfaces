@@ -36,6 +36,7 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     # Wild-coloured surfaces
     __SIMPLICIAL_Test_WildColouredByInvolutions();
+    __SIMPLICIAL_Test_CoversWithBoundary();
 
     # Edge coloured polygonal complex
     __SIMPLICIAL_Test_EdgeColours();

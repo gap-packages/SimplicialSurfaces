@@ -900,15 +900,22 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
         return newSym;
     end
 );
+# The faces are the points moved by the involutions (or [1] if there are
+# none), unless the optional
+# argument faces is given (it has to contain these points).
 BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
-    function(invList, localSymmetry)
-        local faces, facePosition, facesOfEdges, coloursOfEdges,
+    function(invList, localSymmetry, faces...)
+        local facePosition, facesOfEdges, coloursOfEdges,
             invOfEdges, edgesOfFacesByColour, p, cyc, i, f, edgesOfFaces, vertexNames;
         
-        faces := MovedPoints( Group(invList) );
-        if faces = [] then
-            # trivial involutions: the one-face
-            faces := [1];
+        if Length(faces) = 0 then
+            faces := MovedPoints( Group(invList) );
+            if faces = [] then
+                # trivial involutions: the one-face
+                faces := [1];
+            fi;
+        else
+            faces := faces[1];
         fi;
         # The faces can have holes, but we still want to have fast access 
         # to the position of a face in this list
@@ -1610,10 +1617,6 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
             i, j, moved, perm, sigi, img, arrange, f1, f2, e1, e2,
             ind1, ind2, remed, edge1, edge2, verts, cf, e, neigh;
 
-        if not IsClosedSurface(simpSurf) then
-            Error("SixFoldCover: The given surface has to be closed.");
-        fi;
-
         # first we compute the faces of the cover
         # faces are given by the three edges incident to the face
         # Arrangements( [1,2,3], 3) are the images of the map beta in
@@ -1655,7 +1658,8 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
                 neigh := NeighbourFaceByEdgeNC(simpSurf, cf[1], cf[2][i]);
                                       
                 if neigh = fail then
-                    img := ShallowCopy(cf); # boundary edge
+                    # boundary edge: the face is a fixed point of sigma_i
+                    sigi[j] := j;
                 else
                     img := [neigh];
                     e := EdgesOfFaces(simpSurf)[neigh]; # the edges of neigh
@@ -1743,8 +1747,10 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         od;
 
         # Rewrite cSym in terms of permutation cycles
+        # All faces of the cover have to be used, even if they are fixed
+        # by all colour involutions (if simpSurf has an isolated face)
         cSymCyc := [[],[],[]];
-        moved := MovedPoints( cgens );
+        moved := [1..Length(cfaces)];
         for i in [1,2,3] do
             cyc := Cycles(cgens[i],moved);
             for j in [1..Length(cyc)] do
@@ -1752,7 +1758,14 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
             od;
         od;
     
-        wild := AllWildColouredSurfaces( cgens, cSymCyc );
+        # Since the local symmetry is given for all inner edges, there is
+        # exactly one wild-coloured surface with these colour involutions.
+        # The faces are given explicitly, since AllWildColouredSurfaces
+        # would only use the points moved by cgens.
+        wild := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
+            cgens, cSymCyc, 
+            __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(
+                cgens, cSymCyc, moved));
         Assert(1, Length(wild)=1);
   
         # Set the alternative names

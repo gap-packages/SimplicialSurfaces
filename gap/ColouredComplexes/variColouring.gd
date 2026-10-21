@@ -486,8 +486,8 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 
 #! @BeginGroup SixFoldCover
 #! @Description
-#! Construct the <E>six fold cover</E> of a closed simplicial surface
-#! (<Ref Subsect="IsClosedSurface"/>). The optional
+#! Construct the <E>six fold cover</E> of a simplicial surface, which may
+#! have boundary. The optional
 #! argument <A>localSymmetry</A> is a list with three entries, all of them
 #! being 1 (mirror) or 2 (rotation). By default, it is <K>[1,1,1]</K>.
 #! 
@@ -507,7 +507,8 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #!   For example, if <M>i = 2</M> and the face is
 #!   <M>(F,(e_x,e_y,e_z))</M>, we construct the neighbour in the following way:
 #!   <Par/>
-#!   Let <M>G</M> be the neighbour
+#!   If <M>e_y</M> is a boundary edge of <A>simpSurf</A>, the lifted edge is
+#!   a boundary edge of the cover. Otherwise, let <M>G</M> be the neighbour
 #!   of <M>F</M> with respect to <M>e_y</M>. The neighbour in the six fold
 #!   cover will be of the form
 #!   <M>(G,(?,e_y,?))</M>. The content of the <M>?</M> depends on the argument
@@ -519,9 +520,12 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #!   If <A>localSymmetry</A>[<M>i</M>] = 2,
 #!   we perform a <E>rotation</E>, so the neighbour will be
 #!   <M>(G,(e_w,e_y,e_v))</M>.
-#! * Consequently, all edges of colour <M>i</M> have the local symmetry
+#! * Consequently, all inner edges of colour <M>i</M> have the local symmetry
 #!   (<Ref Subsect="LocalSymmetryOfEdges"/>)
 #!   <A>localSymmetry</A>[<M>i</M>] (mirror if it is 1, rotation if it is 2).
+#!   The boundary edges of the cover are exactly the lifts of the boundary
+#!   edges of <A>simpSurf</A>. In the colour involutions, they correspond
+#!   to fixed points.
 #!   Together with the colour involutions defined by these neighbourhoods,
 #!   this determines the vertices of the cover
 #!   (compare <Ref Subsect="AllWildColouredSurfaces"/>).
@@ -564,6 +568,22 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #!               [ 4, [ 3, 6, 2 ] ], [ 4, [ 6, 2, 3 ] ], [ 4, [ 6, 3, 2 ] ] ] ) ]
 #! gap> NumberOfConnectedComponents(last[1]);
 #! 6
+#! @EndExampleSession
+#!
+#! For a surface with boundary, like the butterfly
+#! (<Ref Subsect="Butterfly"/>), the boundary edges lift to boundary edges.
+#! Here, the six fold cover consists of six butterflies.
+#! @ExampleSession
+#! gap> cover := SixFoldCover( Butterfly() );;
+#! gap> cover[1];
+#! tame coloured surface (MMM with 24 vertices, 30 edges and 12 faces)
+#! gap> Length( BoundaryEdges( cover[1] ) );
+#! 24
+#! gap> comps := ConnectedComponents( PolygonalComplex( cover[1] ) );;
+#! gap> Length( comps );
+#! 6
+#! gap> ForAll( comps, c -> IsIsomorphic( c, Butterfly() ) );
+#! true
 #! @EndExampleSession
 #!
 #! @Returns a pair of a tame-coloured surface and a record
