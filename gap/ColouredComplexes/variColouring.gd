@@ -222,6 +222,8 @@ DeclareAttribute("ColourInvolutions",
 #! Image omitted in terminal text
 #! </Alt>
 #! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
+#! Accordingly, an inner edge is called a <E>mirror edge</E> (or
+#! <E>m-edge</E>) or a <E>rotation edge</E> (or <E>r-edge</E>).
 #! Together with the <E>boundary</E>-type for the boundary edges
 #! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>
 #! (<Ref Subsect="LocalSymmetryOfEdges"/>).
@@ -298,13 +300,14 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! <Alt Only = "Text">
 #! Image omitted in terminal text
 #! </Alt>
-#! The first type is called <E>mirror</E> and the second one <E>rotation</E>.
+#! The first type is called <E>mirror</E> (an <E>m-edge</E>) and the second
+#! one <E>rotation</E> (an <E>r-edge</E>).
 #! Together with the <E>boundary</E>-type for the boundary edges
 #! (<Ref Subsect="BoundaryEdges"/>) this defines the <K>LocalSymmetryOfEdges</K>.
 #! 
 #! This function returns a list whose <E>i</E>th entry is "mirror" if the
-#! <E>i</E>th edge of <A>colSurf</A> is a mirror edge, or "rotation" if the
-#! <E>i</E>th edge of <A>colSurf</A> is a rotation edge, or "boundary" if the
+#! <E>i</E>th edge of <A>colSurf</A> is an m-edge, or "rotation" if the
+#! <E>i</E>th edge of <A>colSurf</A> is an r-edge, or "boundary" if the
 #! <E>i</E>th edge of <A>colSurf</A> is a boundary edge. 
 #! The method <K>LocalSymmetryOfEdgesAsNumbers</K> encodes the same
 #! information by 1 (mirror), 2 (rotation) and 0 (boundary).
@@ -317,6 +320,18 @@ DeclareOperation( "ColouredUmbrellaOfVertexNC", [IsWildColouredSurface, IsPosInt
 #! gap> LocalSymmetryOfEdges(oct[2]);
 #! [ "mirror", "rotation", "mirror", "rotation", "mirror", "mirror", "mirror",
 #!  "mirror", "rotation", "mirror", "mirror", "rotation" ]
+#! @EndExampleSession
+#! The butterfly has four boundary edges and one inner edge. It has two
+#! wild colourings: in the first one, the inner edge is an m-edge, in
+#! the second one, it is an r-edge.
+#! @BeginExampleSession
+#! gap> butterfly := AllWildColouredSurfaces( Butterfly() );;
+#! gap> LocalSymmetryOfEdges( butterfly[1] );
+#! [ "boundary", "mirror", "boundary", "boundary", "boundary" ]
+#! gap> LocalSymmetryOfEdgesAsNumbers( butterfly[1] );
+#! [ 0, 1, 0, 0, 0 ]
+#! gap> LocalSymmetryOfEdges( butterfly[2] );
+#! [ "boundary", "rotation", "boundary", "boundary", "boundary" ]
 #! @EndExampleSession
 #!
 #! @Returns a list of strings
@@ -373,9 +388,9 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!      edges:
 #!      <List>
 #!        <Item>If <A>localSymmetry</A>[<A>edge</A>] = 1, then <A>edge</A> will
-#!           become a mirror-edge.</Item>
+#!           become an m-edge.</Item>
 #!        <Item>If <A>localSymmetry</A>[<A>edge</A>] = 2, then <A>edge</A> will
-#!           become a rotation-edge.</Item>
+#!           become an r-edge.</Item>
 #!        <Item>Unbound positions and the value 0 are ignored, all other entries
 #!           will throw errors. </Item>
 #!      </List>
@@ -392,7 +407,7 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!       <Enum>
 #!         <Item>If the entry <A>localSymmetry</A>[<A>colour</A>] is 1, then all edges 
 #!            with colour <A>colour</A> will be
-#!            mirror edges. If it is 2, they will be rotation edges. If the
+#!            m-edges. If it is 2, they will be r-edges. If the
 #!            entry is 0 or unbound, no information is given.</Item>
 #!         <Item>If the entry <A>localSymmetry</A>[<A>colour</A>] is again
 #!            a list, it has to be indexed by the cycles of the
@@ -427,7 +442,7 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!
 #! The local symmetry of some edges can be prescribed. For example, there
 #! are two wild colourings of the octahedron in which the first edge is a
-#! mirror edge, but only one in which it is a rotation edge.
+#! m-edge, but only one in which it is an r-edge.
 #! @BeginExampleSession
 #! gap> Size( AllWildColouredSurfaces( Octahedron(), [1] ) );
 #! 2
@@ -570,8 +585,8 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!   neighbours of <M>f_1</M> and <M>f_2</M> along these edges. For
 #!   <M>i \in \{1,2\}</M>, let <M>\tau_i</M> be the bijection from the
 #!   vertices of <M>f_i</M> to the vertices of <M>g_i</M> that fixes the
-#!   vertices of <M>e_i</M> if <M>e_i</M> is a mirror edge, and interchanges
-#!   them if <M>e_i</M> is a rotation edge. Then the face
+#!   vertices of <M>e_i</M> if <M>e_i</M> is an m-edge, and interchanges
+#!   them if <M>e_i</M> is an r-edge. Then the face
 #!   <M>(f_1,f_2,\beta)</M> is adjacent to the face
 #!   <M>(g_1, g_2, \tau_2 \circ \beta \circ \tau_1^{-1})</M> along a common
 #!   edge that lies over <M>e_1</M> and <M>e_2</M>.
