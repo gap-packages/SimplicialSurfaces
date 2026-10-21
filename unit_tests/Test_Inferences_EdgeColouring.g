@@ -49,9 +49,9 @@ BindGlobal( "__SIMPLICIAL_Test_WildColouredByInvolutions", function()
         NumberOfVertices(SixFoldCover(Tetrahedron())[1]) = 12 );
 end);
 
-# SixFoldCover for surfaces with boundary
+# SixFoldCover and CommonCover for surfaces with boundary
 BindGlobal( "__SIMPLICIAL_Test_CoversWithBoundary", function()
-    local ls, cover, surf, tri, umb, e;
+    local ls, cover, surf, tri, but, umb, mirror, rotation, e;
 
     # Boundary edges lift to boundary edges
     for ls in [ [1,1,1], [1,2,1], [2,2,2] ] do
@@ -86,6 +86,30 @@ BindGlobal( "__SIMPLICIAL_Test_CoversWithBoundary", function()
     SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 6 );
     SIMPLICIAL_TestAssert( NumberOfVertices(surf) = 18 );
 
+    # An edge of the common cover is a boundary edge if one of the 
+    # underlying edges is a boundary edge
+    for ls in [ [0,0,0], [1,1,1], [2,2,2] ] do
+        cover := CommonCover( tri, tri, [1,1,1], ls );
+        SIMPLICIAL_TestAssert( NumberOfConnectedComponents(cover[1]) = 6 );
+        SIMPLICIAL_TestAssert( NumberOfVertices(cover[1]) = 18 );
+    od;
+
+    but := Butterfly();
+    mirror := [1,1,1,1,1];
+    rotation := [2,2,2,2,2];
+    # the inner edge of the butterfly is 2, the others are boundary edges
+    for ls in [ mirror, rotation, [0,1,0,0,0] ] do
+        cover := CommonCover( but, but, mirror, ls );
+        surf := cover[1];
+        SIMPLICIAL_TestAssert( NumberOfFaces(surf) = 24 );
+        SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 20 );
+        SIMPLICIAL_TestAssert( ForAll( Edges(surf), e -> 
+            IsBoundaryEdge(surf, e) = ForAny( cover[2].Edges[e][1], 
+                    x -> IsBoundaryEdge(but, x) ) ) );
+    od;
+    cover := CommonCover( but, tri, mirror, [0,0,0] );
+    SIMPLICIAL_TestAssert( NumberOfConnectedComponents(cover[1]) = 12 );
+    SIMPLICIAL_TestAssert( Length(BoundaryEdges(cover[1])) = 36 );
 end);
 
 BindGlobal( "__SIMPLICIAL_Test_EdgeColours", function()

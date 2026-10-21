@@ -1327,7 +1327,7 @@ InstallMethod( CommonCover,
             TauByMR, taus1, taus2, tau1, tau2, e, e1, e2, vertOfE2,
             vertexBaseSet, vertexBasePositionsByFace, facePos,
             newFace, foundPairs, adjacencyList, AdjacentFace,
-            edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
+            edgePair, adFace1, adFace2, otherIso, isBoundary, bothFaces, otherFace,  
             found, j, baseVertPos1, baseVertPos2, baseVertA1, baseVertA2,
             baseVertB1, baseVertB2, vertOfEdge,
             connComp, edgeDescription, i, edge, 
@@ -1372,7 +1372,10 @@ InstallMethod( CommonCover,
         thirdVertices := Difference( Union( List(adjacentFaces, 
                                        f -> VerticesOfFaces(surf)[f]) ), vertsOfEdge );
 
-        if mr = 1 then # mirror
+        if Length(adjacentFaces) = 1 then
+        # boundary edge, its local symmetry is irrelevant
+        return ();
+        elif mr = 1 then # mirror
         if Length(thirdVertices) = 1 then
         return ();
         else
@@ -1449,28 +1452,26 @@ InstallMethod( CommonCover,
         edgePair := [e1,e2];
 
         # We need to find the adjacent faces
-        # On a boundary edge, the face is its own neighbour
         adFace1 := NeighbourFaceByEdge(surf1, newFace[1], edgePair[1]);
-        if adFace1 = fail then
-            adFace1 := newFace[1];
-        fi;
         adFace2 := NeighbourFaceByEdge(surf2, newFace[2], edgePair[2]);
-        if adFace2 = fail then
-            adFace2 := newFace[2];
+        # If one of the edges is a boundary edge, the new edge is a 
+        # boundary edge as well, i.e. the face is its own neighbour
+        isBoundary := adFace1 = fail or adFace2 = fail;
+        if isBoundary then
+            otherFace := newFace;
+        else
+            # Define tau2 and tau1^(-1)
+            tau2 := MappingByFunction( Range(newFace[3]), 
+                          Domain(VerticesOfFaces(surf2)[adFace2]),
+                          function(x) return x^taus2[edgePair[2]]; end );
+            tau1 := MappingByFunction( 
+                          Domain(VerticesOfFaces(surf1)[adFace1]),
+                          Source( newFace[3] ), 
+                          function(x) return x^taus1[edgePair[1]]; end );
+            # Now we can compute the composition mapping
+            otherIso := CompositionMapping( tau2, newFace[3], tau1);
+            otherFace := [adFace1, adFace2, otherIso];
         fi;
-        #adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
-        #adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
-        # Define tau2 and tau1^(-1)
-        tau2 := MappingByFunction( Range(newFace[3]), 
-                      Domain(VerticesOfFaces(surf2)[adFace2]),
-                      function(x) return x^taus2[edgePair[2]]; end );
-        tau1 := MappingByFunction( 
-                      Domain(VerticesOfFaces(surf1)[adFace1]),
-                      Source( newFace[3] ), 
-                      function(x) return x^taus1[edgePair[1]]; end );
-        # Now we can compute the composition mapping
-        otherIso := CompositionMapping( tau2, newFace[3], tau1);
-        otherFace := [adFace1, adFace2, otherIso];
         bothFaces := Set( [newFace, otherFace] );
 
         # Check whether we already found this combination
@@ -1526,7 +1527,8 @@ InstallMethod( CommonCover,
 
         # If we have an mm or rr-edge-pair, A1 and A2 are identified
         # Otherwise A1 and B2 are identified.
-        if IsOddInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+        # On a boundary edge, nothing is identified (A1 = A2, B1 = B2).
+        if not isBoundary and IsOddInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
         # The inverted case
         Append( adjacencyList,
                 [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);

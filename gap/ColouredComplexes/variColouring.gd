@@ -597,8 +597,10 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #! <A>surf1</A> and <A>surf2</A> with respect to the given local
 #! symmetries. The arguments <A>localSym1</A> and <A>localSym2</A> are
 #! lists indexed by the edges of <A>surf1</A> and <A>surf2</A>,
-#! respectively. Every entry has to be 1 (mirror) or 2 (rotation), compare
-#! <Ref Subsect="LocalSymmetryOfEdges"/>.
+#! respectively. Every entry for an inner edge has to be 1 (mirror) or
+#! 2 (rotation), compare <Ref Subsect="LocalSymmetryOfEdges"/>. The entries
+#! for boundary edges are ignored, they may be 0 (as in
+#! <K>LocalSymmetryOfEdgesAsNumbers</K>).
 #!
 #! The common cover is constructed as follows:
 #! * Its faces are the triples <M>(F, G, \beta)</M>, where <M>F</M> is
@@ -608,10 +610,12 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #!   common cover is six times the product of the numbers of faces of
 #!   <A>surf1</A> and <A>surf2</A>.
 #! * Each edge <M>e_1</M> of <M>F</M> is mapped by <M>\beta</M> to an
-#!   edge <M>e_2</M> of <M>G</M>. Let <M>F'</M> be the neighbour of
+#!   edge <M>e_2</M> of <M>G</M>. If <M>e_1</M> or <M>e_2</M> is a
+#!   boundary edge, the edge of <M>(F, G, \beta)</M> that lies over
+#!   <M>e_1</M> and <M>e_2</M> is a boundary edge of the common cover.
+#!   Otherwise, let <M>F'</M> be the neighbour of
 #!   <M>F</M> along <M>e_1</M> in <A>surf1</A> and <M>G'</M> the neighbour
-#!   of <M>G</M> along <M>e_2</M> in <A>surf2</A> (for a boundary edge,
-#!   the face is its own neighbour). Let <M>\tau_1</M> be the bijection
+#!   of <M>G</M> along <M>e_2</M> in <A>surf2</A>. Let <M>\tau_1</M> be the bijection
 #!   from the vertices of <M>F</M> to the vertices of <M>F'</M> that fixes
 #!   the vertices of <M>e_1</M> if <M>e_1</M> is a mirror-edge (m-edge),
 #!   and interchanges them if <M>e_1</M> is a rotation-edge (r-edge).
@@ -665,6 +669,20 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #! 1
 #! gap> EulerCharacteristic( cover[1] );
 #! -24
+#! @EndExampleSession
+#!
+#! The common cover of two butterflies (<Ref Subsect="Butterfly"/>)
+#! consists of 4 butterflies (the inner edges are mapped to each other)
+#! and 16 isolated triangles.
+#! @BeginExampleSession
+#! gap> but := Butterfly();;
+#! gap> cover := CommonCover( but, but, [0,1,0,0,0], [0,2,0,0,0] );;
+#! gap> cover[1];
+#! simplicial surface (64 vertices, 68 edges, and 24 faces)
+#! gap> NumberOfConnectedComponents( cover[1] );
+#! 20
+#! gap> Length( BoundaryEdges( cover[1] ) );
+#! 64
 #! @EndExampleSession
 #!
 #! @Returns a pair of a simplicial surface and a record that stores

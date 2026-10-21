@@ -22,6 +22,9 @@ This file describes changes in the SimplicialSurfaces package.
   one-face) caused an error
 - `SixFoldCover` now works for surfaces with boundary: boundary edges lift
   to boundary edges
+- `CommonCover`: an edge of the cover is a boundary edge if one of the
+  underlying edges is; the local symmetry of a boundary edge is ignored and
+  may be 0
 - Fix `IsIsomorphic` ignoring isolated vertices (#386), and include isolated
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the
