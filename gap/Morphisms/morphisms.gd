@@ -146,7 +146,7 @@ DeclareSynonym("IsPolygonalMorphism", IsGeneralPolygonalMorphism and IsTotal and
 #! * The individual argument lists map every vertex/edge/face of
 #!   <A>sourceComplex</A> to a vertex/edge/face of <A>rangeComplex</A>.
 #! * The incidence structure is preserved by the mapping.
-#! * The vertices incident to an edge are mappped to different vertices.
+#! * The vertices incident to an edge are mapped to different vertices.
 #! * A polygon is mapped to a polygon with the same number of sides.
 #! * The edges incident to a face are mapped to different edges.
 #! * The vertices incident to a face are mapped to different vertices.
@@ -216,7 +216,7 @@ DeclareOperation( "PolygonalMorphismByListsNC",
 #! * The list <A>vertexMap</A> maps every vertex of
 #!   <A>sourceComplex</A> to a vertex of <A>rangeComplex</A>.
 #! * The incidence structure is preserved by the mapping.
-#! * The vertices incident to an edge are mappped to different vertices.
+#! * The vertices incident to an edge are mapped to different vertices.
 #! * A polygon is mapped to a polygon with the same number of sides.
 #! * The vertices incident to a face are mapped to different vertices.
 #!
@@ -671,7 +671,7 @@ DeclareOperation( "ImageOfFaceNC", [IsPolygonalMorphism, IsPosInt] );
 #! <Ref Subsect="RangeComplex"/>), 
 #! return the set of all preimages of <A>v</A> under
 #! <A>polMor</A>. If the given vertex <A>v</A> is not a vertex of the
-#! range complexi, an error is raised.
+#! range complex, an error is raised.
 #!
 #! The NC-version does not check whether <A>v</A> is a vertex of the
 #! range complex.
@@ -714,7 +714,7 @@ DeclareOperation( "PreImagesOfVertexNC", [IsPolygonalMorphism, IsPosInt] );
 #! <Ref Subsect="RangeComplex"/>), 
 #! return the set of all preimages of <A>e</A> under
 #! <A>polMor</A>. If the given edge <A>e</A> is not an edge of the
-#! range complexi, an error is raised.
+#! range complex, an error is raised.
 #!
 #! The NC-version does not check whether <A>e</A> is an edge of the
 #! range complex.
@@ -757,7 +757,7 @@ DeclareOperation( "PreImagesOfEdgeNC", [IsPolygonalMorphism, IsPosInt] );
 #! <Ref Subsect="RangeComplex"/>), 
 #! return the set of all preimages of <A>f</A> under
 #! <A>polMor</A>. If the given face <A>f</A> is not a face of the
-#! range complexi, an error is raised.
+#! range complex, an error is raised.
 #!
 #! The NC-version does not check whether <A>f</A> is a face of the
 #! range complex.

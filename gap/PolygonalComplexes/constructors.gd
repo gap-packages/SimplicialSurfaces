@@ -56,7 +56,7 @@
 #! For simplicial surfaces another and more convenient constructor is
 #! the constructor
 #! * <K>SimplicialSurfaceByUmbrellaDescriptor</K>( <A>edgeFacePaths</A> ).
-#! All other constructures which work for general polygonal complexes
+#! All other constructors which work for general polygonal complexes
 #! are structured like [Type]By[Method](args), e.g.
 #! * <K>PolygonalComplexByDownwardIncidence</K>( <A>verticesOfEdges</A>, <A>edgesOfFaces</A> )
 #!
@@ -126,7 +126,7 @@
 #! gap> edgesOfFaces := [ [2,6,12,14], , , [6,8,10], , , , , [10,14,15] ];
 #! [ [ 2, 6, 12, 14 ],,, [ 6, 8, 10 ],,,,, [ 10, 14, 15 ] ]
 #! @EndExampleSession
-#! Since the desired polgonal surface does not has isolated vertices,
+#! Since the desired polygonal surface does not have isolated vertices,
 #! we can construct the desired polygonal surface with these two lists.
 #! @ExampleSession
 #! gap> PolygonalSurfaceByDownwardIncidence( verticesOfEdges, edgesOfFaces );;
@@ -179,7 +179,7 @@
 #! arguments:
 #! <Enum>
 #!   <Item>OPTIONAL <K>isolatedVertices</K>: A list of positive integers
-#!          labeling all vertices with no edge incidence.</Item>
+#!          labelling all vertices with no edge incidence.</Item>
 #!   <Item> <K>verticesOfEdges</K>: A list that has an entry for each edge (a
 #!          positive integer).
 #!          This entry has to be a list of the two 
@@ -823,11 +823,11 @@ DeclareOperation( "SimplicialSurfaceByUpwardIncidenceNC", [IsList, IsList] );
 #! It takes the following arguments:
 #! <Enum>
 #!   <Item>OPTIONAL <K>isolatedVertices</K>: A list of positive integers
-#!          labeling all vertices with no edge incidence.</Item>
+#!          labelling all vertices with no edge incidence.</Item>
 #!   <Item>OPTIONAL <K>verticesOfIsolatedEdges</K>: A list that has an entry
 #!          for each positive integer corresponding to an isolated edge. This
 #!          entry is a list of positive integers <M>[v_1, v_2 , ..., v_k ]</M>,
-#!          each corresponding to a vertex indicent to the isolated edge.</Item>
+#!          each corresponding to a vertex incident to the isolated edge.</Item>
 #!   <Item> <K>verticesInFaces</K>: A list that has an entry for each positive
 #!          integer corresponding to a face. This entry is a list of positive
 #!          integers <M>[v_1, v_2 , ..., v_k ]</M>, each corresponding to
@@ -1434,7 +1434,7 @@ DeclareOperation( "AllUmbrellaDescriptorsOfDegreeSequence",[IsList]);
 
 #! @Section Constructing surfaces via their Dress Group 
 #!
-#! In some constructions a surface may arrise from the knowledge
+#! In some constructions a surface may arise from the knowledge
 #! of its Dress Group, see Section <Ref Sect="Section_Flags_DressGroup"/>.
 #! In this case, the surface can be reconstructed from its Dress group
 #! <M>D = \langle \theta_0, \theta_1, \theta_2\rangle</M> by computing the

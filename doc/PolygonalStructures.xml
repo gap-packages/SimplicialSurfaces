@@ -303,7 +303,7 @@
                 Image omitted in terminal text
                 </Alt>
             </Item>
-            <Item> The complex is face pure, i.e. all edges and vertices are incident to faces. This exludes cases like the following:
+            <Item> The complex is face pure, i.e. all edges and vertices are incident to faces. This excludes cases like the following:
                 <Alt Only="HTML">
                     &lt;br>&lt;img src='./images/_Wrapper_structs-2-1.svg'> &lt;/img> &lt;br>
                     </Alt>

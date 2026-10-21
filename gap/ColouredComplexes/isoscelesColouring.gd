@@ -202,7 +202,7 @@ InstallTrueMethod( IsEdgeColouredSimplicialSurface, IsIsoscelesColouredSurface )
 #! @Section Functions for isosceles coloured Simplicial Surfaces
 #! @SectionLabel Isosceles_Useful
 #!
-#! This section describes some usful functions for isosceles coloured
+#! This section describes some useful functions for isosceles coloured
 #! Simplicial surfaces
 #!
 #! @BeginGroup ApexVertexOfFace

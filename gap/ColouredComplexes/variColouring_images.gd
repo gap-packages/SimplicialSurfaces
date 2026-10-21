@@ -40,7 +40,7 @@ DrawSurfaceToTikz(colPrism, "Prism_coloured", pr );;
 
 
 #! @BeginChunk Example_ColouredDisk
-#! For example, consider a coloured disk (that has a boundary).
+#! For example, consider a coloured disc (that has a boundary).
 #! @BeginExample
 disk := PolygonalSurfaceByDownwardIncidence(
     [[1,4],[1,2],[2,3],[3,4],[1,5],[1,6],[2,7],[2,8],[3,9],[3,10],

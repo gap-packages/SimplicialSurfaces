@@ -75,7 +75,7 @@
 #    avoided in these sections)
 ####
 
-#! In Section <Ref Sect="Section_Access_LabelAccess"/>, the labeling
+#! In Section <Ref Sect="Section_Access_LabelAccess"/>, the labelling
 #! conventions for vertices, edges, and faces are explained. The central
 #! incidence relations between them are described in Section
 #! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialized

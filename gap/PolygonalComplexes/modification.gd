@@ -774,7 +774,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 #!   (<Ref Subsect="JoinBoundaries"/>)
 #!
 #! 
-#! For example conisder the following complex:
+#! For example consider the following complex:
 #! @BeginExampleSession
 #! gap> complex:=SimplicialSurfaceByDownwardIncidence(
 #! >            [,[2,7],[3,7],[4,7],[5,7],[6,7],[2,8],[2,3],[3,4],
@@ -881,7 +881,7 @@ DeclareOperation( "DisjointUnion", [IsPolygonalComplex, IsPolygonalComplex, IsIn
 
 #! @BeginGroup JoinVertices
 #! @Description
-#! Combine two vertices into one. This method comes in two flavors:
+#! Combine two vertices into one. This method comes in two flavours:
 #! <Enum>
 #!   <Item>Combine two vertices <A>v1</A> and <A>v2</A> of a single
 #!      polygonal complex <A>complex</A> into one. This will return
@@ -1859,7 +1859,7 @@ DeclareOperation( "TetrahedralReduction", [IsSimplicialSurface,IsPosInt] );
 #! is not a multi tetrahedral sphere, the function returns <K>fail</K>.
 #!
 #! As an example, consider the multi tetrahedral sphere obtained by applying 
-#! exactly two tetrahdral extensions to the tetrahedron with any two faces.
+#! exactly two tetrahedral extensions to the tetrahedron with any two faces.
 #! Since this surface has exactly two vertices with face degree 3, removing 
 #! the attached tetrahedron gives rise to the tetrahedron.
 #! @BeginExampleSession
@@ -1883,7 +1883,7 @@ DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
 #! <K>fail</K>.
 #!
 #! Since a multi tetrahedral sphere can be constructed by applying
-#! a finite number of tetrahedral extionsions to the the tetrahedron, we can 
+#! a finite number of tetrahedral extensions to the tetrahedron, we can 
 #! define a symbol describing the sphere by choosing helpful identifications
 #! for the faces and vertices of the tetrahedron and thus of the spheres
 #! constructed by the given tetrahedral extensions. 
@@ -1913,11 +1913,11 @@ DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
 #!
 #! And the symbol <M>1_32_4</M> describes the multi tetrahedral sphere 
 #! computed by the following steps:
-#! At first a tetrahdron is attached to the third face of the first tetrahedron. 
+#! At first a tetrahedron is attached to the third face of the first tetrahedron. 
 #! This results in the double tetrahedron, whereby the faces of both tetrahedra putting this
 #! double tetrahedron together are identified with 1,2,4.
 #! So now we attach a third tetrahedron to the fourth face of the second
-#! tetrahehon. 
+#! tetrahedron. 
 #! 
 #! If <K>complex</K> is not a multi tetrahedral sphere, the function returns
 #! <K>fail</K>.
@@ -1932,8 +1932,8 @@ DeclareOperation( "InnerMultiTetrahedralSphere", [IsTwistedPolygonalComplex] );
 #! @EndExampleSession
 #!
 #! As another example consider the multi tetrahedral sphere constructed by 
-#! applying tetrahdral extensions (<Ref Subsect="TetrahedralExtension"/>) to 
-#! the tetradedron. 
+#! applying tetrahedral extensions (<Ref Subsect="TetrahedralExtension"/>) to 
+#! the tetrahedron. 
 #! @BeginExampleSession
 #! gap> multiTet:=Tetrahedron();;
 #! gap> for f in Faces(multiTet) do

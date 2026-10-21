@@ -616,7 +616,7 @@ DeclareAttribute( "ViewInformation", IsVertexEdgePath );
 #! (<Ref Subsect="PerimeterPathsOfFaces"/>) and <K>Orientation</K>
 #! (<Ref Subsect="Orientation"/>).
 #!
-#! Mathematically, a perimerter path is a closed vertex-edge-path that
+#! Mathematically, a perimeter path is a closed vertex-edge-path that
 #! encircles a face. For example, consider the tetrahedron
 #! (<Ref Subsect="Tetrahedron"/>):
 #!  <Alt Only="HTML">
@@ -1895,7 +1895,7 @@ DeclareOperation( "ConnectedComponentOfFaceNC", [IsTwistedPolygonalComplex, IsPo
 #! Check whether the given twisted polygonal complex is strongly connected. 
 #! A twisted polygonal complex is strongly connected if and only if one of
 #! the following equivalent conditions hold:
-#! * It is still connected after removing an arbitary vertex. 
+#! * It is still connected after removing an arbitrary vertex. 
 #! * For each pair of faces there is an edge-face-path (compare section 
 #!   <Ref Sect="Section_Access_OrderedVertexAccess"/>) that connects them.
 #!
