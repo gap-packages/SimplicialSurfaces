@@ -34,7 +34,7 @@ DrawSurfaceToTikz( oct, "Octahedron_example" );;
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! To customise this drawing, a record is used (called the <A>printRecord</A>).
 #! Each call of the drawing method creates one of those:
 #! @BeginLog
 pr := DrawSurfaceToTikz( oct, "Octahedron_example" );;
@@ -69,7 +69,7 @@ DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;
 #! It should be mentioned that all of these calls modify their 
 #! <A>printRecord</A>.
 #! 
-#! Since it is impractical to always call &LaTeX; for every customization
+#! Since it is impractical to always call &LaTeX; for every customisation
 #! we can call it directly from within &GAP;:
 #! @BeginLog
 pr.compileLaTeX := true;;
@@ -190,7 +190,7 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
 #!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface, 
 #!     the colour is skipped. The colours are strings that are 
-#!     recognizable by &LaTeX;.
+#!     recognisable by &LaTeX;.
 #!
 #!     It is possible to leave some vertex colours unbound - those will be coloured with the
 #!     default vertex colour (orange).
@@ -234,7 +234,7 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
 #!     is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
 #!     the colour is skipped. The colours are strings that are
-#!     recognizable by &LaTeX;.
+#!     recognisable by &LaTeX;.
 #!
 #!     It is possible to leave some edge colours unbound - those will be coloured with the
 #!     default edge colour (grey).
@@ -281,7 +281,7 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
 #!     face colours unbound - those will be coloured with the default face colour (a darker
 #!     shape of yellow, the custom colour <E>\\faceColorY</E>).
 #!
-#!     The colours can be strings that are recognized by &LaTeX;, but they can
+#!     The colours can be strings that are recognised by &LaTeX;, but they can
 #!     also be one of six pre-defined colours of this package:
 #! @BeginLog
 pr := rec( faceColours := ["\\faceColorY", "\\faceColorB", 
@@ -632,7 +632,7 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #!   each strongly connected component. These are the first faces that were
 #!   drawn from these components. That means that the vertex coordinates of 
 #!   these faces are the first to be calculated. By giving this list manually the first
-#!   drawn faces can be customized. The function will auto-correct the 
+#!   drawn faces can be customised. The function will auto-correct the 
 #!   spelling <E>startingFace</E> into <E>startingFaces</E> if there is
 #!   no entry for <E>startingFaces</E>.
 #! * <E>edgeDrawOrder</E>: After drawing this list contains a list of edges
@@ -640,7 +640,7 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #!   explains the order in which these edges were completed (an edge is 
 #!   completed if both adjacent faces are drawn). This means that this parameter 
 #!   controls which edges are drawn once and which edges need to be drawn twice because 
-#!   they cannot be completed. This can be customized and
+#!   they cannot be completed. This can be customised and
 #!   <K>DrawSurfaceToTikz</K> will try to follow it as closely as possible
 #!   while avoiding intersections (if <E>avoidIntersections</E> is set).
 #! 
@@ -796,7 +796,7 @@ pr:=DrawComplexToSVG(ico,"Icosahedron");;
 #! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/Icosahedron_svg.png}\end{center}</Alt>
 #! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/Icosahedron_svg.png]</Alt>
 #!
-#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! To customise this drawing, a record is used (called the <A>printRecord</A>).
 #! We can change the edge lengths to 1,2 and 2 and give a specific edge
 #! draw order by the following:
 #! @BeginLog
@@ -938,7 +938,7 @@ DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! To customise this drawing, a record is used (called the <A>printRecord</A>).
 #! Each call of the drawing method creates one of those:
 #! @BeginLog
 pr := DrawFacegraphToTikz( oct, "facegraph_oct" );;
@@ -1089,7 +1089,7 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #!     the faces. The colours are given in a list <A>colours</A> such that 
 #!     <A>colours[f]</A> is the colour of the vertex representing face <A>f</A>. If
 #!     face <A>f</A> is not in the surface, the colour is skipped. The colours are 
-#!     strings that are recognizable by &LaTeX;.
+#!     strings that are recognisable by &LaTeX;.
 #!
 #!     It is possible to leave some face colours unbound - those will be coloured
 #!     with the default face colour (grey).
@@ -1135,7 +1135,7 @@ DrawFacegraphToTikz(tetra,
 #!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
 #!     is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
 #!     the colour is skipped. The colours are strings that are
-#!     recognizable by &LaTeX;.
+#!     recognisable by &LaTeX;.
 #!
 #!     It is possible to leave some edge colours unbound - those will be coloured 
 #!     with the default edge colour (grey).

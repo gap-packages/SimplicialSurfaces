@@ -21,7 +21,7 @@
 #! @SectionLabel Paths_VertexEdge
 #!
 #! This section describes all methods for vertex-edge-paths. Intuitively,
-#! vertex-edge-paths describe all paths that are realized by walking only on
+#! vertex-edge-paths describe all paths that are realised by walking only on
 #! the vertices and edges of a polygonal complex.
 #!
 #! We will illustrate several properties with vertex-edge-paths that are

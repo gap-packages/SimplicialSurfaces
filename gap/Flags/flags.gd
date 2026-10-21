@@ -67,7 +67,7 @@
 #! [ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ]
 #! @EndExampleSession
 #!
-#! Sometimes it is necessary to have a standardized set of all flags that
+#! Sometimes it is necessary to have a standardised set of all flags that
 #! consist of two elements. For that reason the command <K>TwoFlags</K>
 #! (<Ref Subsect="TwoFlags"/>) exists.
 #!

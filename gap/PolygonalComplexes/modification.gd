@@ -3,7 +3,7 @@
 #!
 #! This chapter is concerned with the modification of polygonal complexes
 #! (introduced in chapter <Ref Chap="PolygonalStructures"/> as a 
-#! generalization of simplicial surfaces). This allows the construction
+#! generalisation of simplicial surfaces). This allows the construction
 #! of new complexes from old ones.
 #!
 #! This chapter covers the operations of splitting 

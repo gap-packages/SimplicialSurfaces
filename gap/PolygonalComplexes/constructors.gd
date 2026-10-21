@@ -19,7 +19,7 @@
 #! @ChapterLabel Constructors
 #!
 #! In Chapter <Ref Chap="PolygonalStructures"/> we introduced polygonal
-#! complexes (as a generalization of simplicial surfaces). They are based
+#! complexes (as a generalisation of simplicial surfaces). They are based
 #! on incidence structures, which were analysed in Chapter
 #! <Ref Chap="Chapter_AccessIncidenceGeometry"/>.
 #! 
