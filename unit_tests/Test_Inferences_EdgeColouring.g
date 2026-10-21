@@ -27,6 +27,23 @@ BindGlobal( "__SIMPLICIAL_Test_WildColouredByInvolutions", function()
     SIMPLICIAL_TestAssert( Length(AllTameColouredSurfaces(invs)) = 4 );
     SIMPLICIAL_TestAssert( Length(AllWildColouredSurfaces(invs, [0,2,0])) = 5 );
 
+    # boundary edges (fixed points) have no local symmetry
+    invs := [ (), (1,2), () ];  # colour involutions of a butterfly
+    for wild in [ AllTameColouredSurfaces(invs, [], false),
+            AllWildColouredSurfaces(invs, [1,1,1]) ] do
+        SIMPLICIAL_TestAssert( ForAll( wild, s ->
+            LocalSymmetryOfEdgesAsNumbers(s){BoundaryEdges(s)} = [0,0,0,0] ) );
+    od;
+    SIMPLICIAL_TestAssert( Length(AllTameColouredSurfaces(invs)) = 2 );
+
+    # trivial involutions give the one-face
+    for wild in [ AllWildColouredSurfaces([(),(),()]),
+            AllTameColouredSurfaces([(),(),()]) ] do
+        SIMPLICIAL_TestAssert( Length(wild) = 1 );
+        SIMPLICIAL_TestAssert( NumberOfFaces(wild[1]) = 1 );
+        SIMPLICIAL_TestAssert( LocalSymmetryOfEdgesAsNumbers(wild[1]) = [0,0,0] );
+    od;
+
     # SixFoldCover uses this construction
     SIMPLICIAL_TestAssert(
         NumberOfVertices(SixFoldCover(Tetrahedron())[1]) = 12 );

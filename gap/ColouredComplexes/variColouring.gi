@@ -843,8 +843,10 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
                 ": The first list has to consist of involutions.") );
         fi;
 
+        # The faces are 1, ..., n for the largest moved point n. If all
+        # involutions are trivial, there is a single face (the one-face).
         moved := MovedPoints( invList );
-        maxMoved := Maximum(moved);
+        maxMoved := Maximum( Concatenation( [1], moved ) );
         moved := [1..maxMoved];
 
         cycles := List(invList, i -> Cycles(i, moved));
@@ -886,6 +888,13 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
                     ": The local symmetry at position ", String(b), 
                     " is neither unbound, 0, 1, 2 or a list.") );
             fi;
+            # Fixed points of the involution are boundary edges, which
+            # have no local symmetry
+            for n in [1..Length(cycles[b])] do
+                if Length(cycles[b][n]) = 1 then
+                    newSym[b][n] := 0;
+                fi;
+            od;
         od;
 
         return newSym;
@@ -897,6 +906,10 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
             invOfEdges, edgesOfFacesByColour, p, cyc, i, f, edgesOfFaces, vertexNames;
         
         faces := MovedPoints( Group(invList) );
+        if faces = [] then
+            # trivial involutions: the one-face
+            faces := [1];
+        fi;
         # The faces can have holes, but we still want to have fast access 
         # to the position of a face in this list
         facePosition := [];
@@ -1223,10 +1236,13 @@ InstallOtherMethod( AllTameColouredSurfaces,
 InstallMethod( AllTameColouredSurfaces,
     "for a list with three involutions, a list and a boolean", [IsList, IsList, IsBool],
     function(invList, localSymmetry, noIsom)
-        local setup, possTameSym, b, set, i, bound, poss, sym, allTameSurf;
+        local setup, possTameSym, b, set, i, bound, poss, sym, allTameSurf,
+            faces, cycles;
 
         localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
                         invList, localSymmetry, "AllTameColouredSurfaces", true);
+        # same faces as in __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry
+        faces := [1..Maximum( Concatenation( [1], MovedPoints(invList) ) )];
         setup := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(invList, localSymmetry);
 
         bound := PositionsBound(invList);
@@ -1235,12 +1251,15 @@ InstallMethod( AllTameColouredSurfaces,
         for i in [1..Length(bound)] do
             b := bound[i];
             set := Set(localSymmetry[b]);
-            if 1 in set or 2 in set then
-                # only one option
+            cycles := Cycles( invList[b], faces );
+            if 1 in set or 2 in set or invList[b] = () then
+                # only one option (a trivial involution only has
+                # boundary edges)
                 possTameSym[i] := [ localSymmetry[b] ];
             else
-                # two options
-                possTameSym[i] := [ List(localSymmetry[b], i -> 1), List(localSymmetry[b], i -> 2) ];
+                # two options, boundary edges (fixed points) stay 0
+                possTameSym[i] := List( [1,2], m ->
+                    List( cycles, c -> m * (Length(c) - 1) ) );
             fi;
         od;
         

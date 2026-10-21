@@ -400,6 +400,10 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!       (<Ref Subsect="ColourInvolutions"/>) of all returned wild-coloured 
 #!       surfaces. The involutions can also be given individually (with 
 #!       colours 1, 2, 3) or as generators of a group.
+#!       The faces of the returned surfaces are the points from 1 to the
+#!       largest point moved by the involutions; fixed points of an
+#!       involution correspond to boundary edges. If all three involutions
+#!       are trivial, the result is the one-face (<K>OneFace</K>).
 #! 
 #!       The optional argument <A>localSymmetry</A> is a list that
 #!       encodes the local symmetry (<Ref Subsect="IsTameColouredSurface"/>)
