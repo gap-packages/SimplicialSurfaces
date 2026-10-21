@@ -32,7 +32,7 @@
 #! describes some methods to construct wild-coloured and
 #! tame-coloured surfaces (<Ref Subsect="AllWildColouredSurfaces"/>)
 #! and coverings of simplicial surfaces
-#! (<Ref Subsect="SixFoldCover"/> and <K>CommonCover</K>).
+#! (<Ref Subsect="SixFoldCover"/> and <Ref Oper="CommonCover"/>).
 #!
 
 #TODO maybe add example of a simplicial surface without a vari-colouring
@@ -235,7 +235,7 @@ DeclareAttribute("ColourInvolutions",
 #! @Description
 #! Check if an edge-coloured polygonal complex is a 
 #! <E>wild-coloured surface</E>, i.e.
-#! * It is a simplicial surface (<Ref Subsect="IsSimplicialSurface"/>)
+#! * It is a simplicial surface (<Ref Prop="IsSimplicialSurface"/>)
 #! * It has an edge exact-colouring (<Ref Subsect="IsEdgeVariColouring"/>), 
 #!   i.e. the edges are coloured by three colours and the edges of every
 #!   face have different colours.
@@ -383,7 +383,7 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #! isomorphic edge-coloured surfaces. By default, <A>noIsom</A> is true.
 #! The information can be given in one of two forms:
 #! <Enum>
-#!   <Item>A simplicial surface (<Ref Subsect="IsSimplicialSurface"/>).
+#!   <Item>A simplicial surface (<Ref Prop="IsSimplicialSurface"/>).
 #!      The optional argument <A>localSymmetry</A> is a list that encodes
 #!      the local symmetry (<Ref Subsect="LocalSymmetryOfEdges"/>) of some
 #!      edges:
@@ -403,7 +403,7 @@ InstallTrueMethod( IsWildColouredSurface, IsTameColouredSurface );
 #!       The faces of the returned surfaces are the points from 1 to the
 #!       largest point moved by the involutions; fixed points of an
 #!       involution correspond to boundary edges. If all three involutions
-#!       are trivial, the result is the one-face (<K>OneFace</K>).
+#!       are trivial, the result is the one-face (<Ref Oper="OneFace"/>).
 #! 
 #!       The optional argument <A>localSymmetry</A> is a list that
 #!       encodes the local symmetry (<Ref Subsect="IsTameColouredSurface"/>)
@@ -571,7 +571,7 @@ DeclareOperation( "AllTameColouredSurfaces", [IsList, IsList, IsBool] );
 #! @EndExampleSession
 #!
 #! For a surface with boundary, like the butterfly
-#! (<Ref Subsect="Butterfly"/>), the boundary edges lift to boundary edges.
+#! (<Ref Oper="Butterfly"/>), the boundary edges lift to boundary edges.
 #! Here, the six fold cover consists of six butterflies.
 #! @ExampleSession
 #! gap> cover := SixFoldCover( Butterfly() );;
@@ -671,7 +671,7 @@ DeclareOperation( "SixFoldCover", [IsSimplicialSurface, IsList] );
 #! -24
 #! @EndExampleSession
 #!
-#! The common cover of two butterflies (<Ref Subsect="Butterfly"/>)
+#! The common cover of two butterflies (<Ref Oper="Butterfly"/>)
 #! consists of 4 butterflies (the inner edges are mapped to each other)
 #! and 16 isolated triangles.
 #! @BeginExampleSession
