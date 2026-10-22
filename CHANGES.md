@@ -18,6 +18,12 @@ This file describes changes in the SimplicialSurfaces package.
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the
   misspelt name of `CounterOfButterflies` in counter output (#384)
+- Fix `AllTwoWaistsOfComplex` returning pairs of edges that are not inner or
+  that lie in a common face; it now agrees with the definition of a 2-waist
+  and with `IsWaist`
+- Speed up `EdgeAnomalyClasses`, `FaceAnomalyClasses` and hence
+  `IsAnomalyFree`/`IsVertexFaithful` on large complexes: the anomaly classes
+  are now found by sorting instead of pairwise comparison
 - Fix the unit test helper `SIMPLICIAL_TestAssert` breaking on GAP 4.16;
   a failing assertion now reports its file and line and the tests continue
 
