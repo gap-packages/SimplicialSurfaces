@@ -139,7 +139,7 @@ Keywords := [ "Simplicial" ],
 AutoDoc := rec(
     TitlePage := rec(
         Copyright := Concatenation(
-                    "&copyright; 2016-2026 by Alice Niemeyer and Markus Baumeister<P/>\n\n",
+                    "&copyright; 2016-2026 by Alice Niemeyer, Markus Baumeister, Reymond Akpanya, Tom Görtzen, Meike Weiß and Lukas Schnelle<P/>\n\n",
                     "This package may be distributed under the terms and conditions of the\n",
                     "GNU Public License Version 3 (or higher).<P/>",
                     "The primary sources for much of the covered material are:<P/>",
