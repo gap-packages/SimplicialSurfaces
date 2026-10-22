@@ -14,6 +14,17 @@ This file describes changes in the SimplicialSurfaces package.
   `...ByVerticesInFaces` constructors: they no longer take explicit lists of
   vertices, edges and faces; complex constructors instead accept optional
   isolated vertices (and isolated edges) (#373)
+- Fix `CommonCover` for surfaces with boundary; the `Description` of the
+  record returned by `SixFoldCover` now says that faces are given by edges
+- Fix `AllWildColouredSurfaces` and `AllTameColouredSurfaces` for colour
+  involutions: the vertices of the constructed surfaces could not be computed,
+  boundary edges were given a local symmetry, and trivial involutions (the
+  one-face) caused an error
+- `SixFoldCover` now works for surfaces with boundary: boundary edges lift
+  to boundary edges
+- `CommonCover`: an edge of the cover is a boundary edge if one of the
+  underlying edges is; the local symmetry of a boundary edge is ignored and
+  may be 0
 - Fix `IsIsomorphic` ignoring isolated vertices (#386), and include isolated
   vertices in the `String` of a polygonal complex (#387)
 - `TypeOfCounter` now returns the counter name instead of printing it; fix the
