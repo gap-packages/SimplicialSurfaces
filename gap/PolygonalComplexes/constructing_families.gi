@@ -78,7 +78,7 @@ end
 
 
 # Compute up to isomorphism all surfaces that can be obtained from
-# the surface surf by a butterfly insertion along a relevant 2-path
+# the surface surf by a butterfly insertion along an essential  2-path
 InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
     "for a simplicial surface",
     [IsSimplicialSurface],
@@ -98,7 +98,7 @@ InstallMethod( AllSimplicialSurfacesByEssentialButterflyInsertion,
         return IsomorphismRepresentatives(surfaces);
 
 end);
-fi;
+fi; # if IsPackageMarkedForLoading("NautyTracesInterface", ">=0") then
 
 
 #######################################
@@ -462,7 +462,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
             if not IsClosedSurface(surface) then
                 Error("AllSimplicialSurfacesByFacesOfEdges: The given surface has to be closed");
             fi;
-		    return AllSimplicialSurfacesOfDigraph(FaceDigraphsGraph(surface));
+		    return AllSimplicialSurfacesOfDigraph(FaceGraphDigraphs(surface));
 	    end
     );
 
@@ -472,7 +472,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
             if not IsClosedSurface(surface) then
                 Error("AllSimplicialSurfacesByFacesOfEdges: The given surface has to be closed");
             fi;
-		    return AllSimplicialSurfacesOfDigraph(FaceDigraphsGraph(surface),vertexFaithful);
+		    return AllSimplicialSurfacesOfDigraph(FaceGraphDigraphs(surface),vertexFaithful);
         end
     );
 fi;
@@ -605,7 +605,7 @@ InstallMethod(ReembeddingsOfSimplicialSphere,"for a vertex-faithful simplicial s
 	[IsSimplicialSurface, IsInt, IsBool],
 	function(surf, g, orientable)
         if EulerCharacteristic(surf)=2 and IsVertexFaithful(surf) then
-		    return ReembeddingsOfDigraph(FaceDigraphsGraph(surf),g,orientable);
+		    return ReembeddingsOfDigraph(FaceGraphDigraphs(surf),g,orientable);
         else
             Error("The given simplicial surface is not a vertex-faithful simplicial sphere");
         fi;

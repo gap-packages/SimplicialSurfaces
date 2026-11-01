@@ -35,9 +35,9 @@ to access the package inside a GAP session.
 
 To create the manual you have to type
 
-    make
+    gap makedoc.g
 
-in the main folder of the SimplicialSurfaces-package. This requires `GAPDoc` version `>= 1.6` and `AutoDoc` version `>= 2017.09.15`. These are deposited packages, so usually are shipped with your GAP installation. If you don't have those, go to the folder of your local GAP installation and clone them in the `pkg/`-subfolder:
+in the main folder of the SimplicialSurfaces-package. This requires `GAPDoc` version `>= 1.6` and `AutoDoc` version `>= 2019.05.20`. These are deposited packages, so usually are shipped with your GAP installation. If you don't have those, go to the folder of your local GAP installation and clone them in the `pkg/`-subfolder:
 
     git clone https://github.com/frankluebeck/GAPDoc.git
     git clone https://github.com/gap-packages/AutoDoc.git

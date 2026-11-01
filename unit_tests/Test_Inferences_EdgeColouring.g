@@ -32,8 +32,8 @@ BindGlobal( "__SIMPLICIAL_Test_EdgeColours", function()
     SIMPLICIAL_TestAssert(ColoursOfEdges(colComplex) = coloursOfEdges);
     SIMPLICIAL_TestAssert(Colours(colComplex)=[1,2,4]);
 	
-    # ColourIncidenceDigraphsGraph
-    colIncDigr:=ColourIncidenceDigraphsGraph(colComplex)[1];
+    # ColourIncidenceGraphDigraphs
+    colIncDigr:=ColourIncidenceGraphDigraphs(colComplex)[1];
     digEdges:=ShallowCopy(DigraphEdges(colIncDigr));
         
     for edge in [1..Length(digEdges)] do

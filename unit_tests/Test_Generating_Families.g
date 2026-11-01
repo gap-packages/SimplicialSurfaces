@@ -29,7 +29,7 @@ if IsPackageMarkedForLoading( "Digraphs", ">=1.9.0" ) then
 	BindGlobal( "__SIMPLICIAL_Test_AllSimplicialSurfacesOfDigraph", function()
 		local dig, surface, list1, list2;
 		surface:=SimplicialSurfaceByVerticesInFaces([[1,4,5],[1,4,6],[1,5,7],[1,6,7],[2,3,5],[2,3,6],[2,4,5],[2,4,6],[3,5,7],[3,6,7]]);
-		dig:=FaceDigraphsGraph(surface);
+		dig:=FaceGraphDigraphs(surface);
 	
 		list2:=AllSimplicialSurfacesOfDigraph(dig);
 		Assert(0, Length(Filtered(list2,IsVertexFaithful))=1);

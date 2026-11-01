@@ -311,7 +311,7 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! to different graph packages:
 #! @InsertChunk Graphs_Packages
 #!
-#! Note that if <K>ColourIncidenceDigraphsGraph</K>  is used the output is a list,
+#! Note that if <K>ColourIncidenceGraphDigraphs</K>  is used the output is a list,
 #! where the first entry is a digraph and the second a list of vertex colours, with the colours 1...5.
 #! There are isolated vertices of the digraph which correspond to labels of vertices, edges and faces 
 #! that do not exists in the given polygonal complex.
@@ -336,19 +336,19 @@ DeclareOperation( "DrawSurfaceToTikz", [IsEdgeColouredPolygonalComplex and IsNot
 #! Edge 1 has the label 5 in the incidence graph.
 #! This means that edge 5 must be adjacent to the vertices 1, 2, 11, 12 and 15 in the incidence graph:
 #! @BeginExampleSession
-#! gap> digraph:=ColourIncidenceDigraphsGraph(colTetra)[1];;
+#! gap> digraph:=ColourIncidenceGraphDigraphs(colTetra)[1];;
 #! gap> InNeighboursOfVertex(digraph,5);
 #! [ 1, 2, 11, 12, 15 ]
 #! @EndExampleSession
 #! @Returns a graph as defined in the package <K>Digraphs</K>
 #! @Arguments colComplex
-DeclareAttribute( "ColourIncidenceDigraphsGraph", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "ColourIncidenceGraphDigraphs", IsEdgeColouredPolygonalComplex );
 #! @Returns a graph as defined in the package <K>GRAPE</K>
 #! @Arguments colComplex
-DeclareAttribute( "ColourIncidenceGrapeGraph", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "ColourIncidenceGraphGrape", IsEdgeColouredPolygonalComplex );
 #! @Returns a graph as defined in the package <K>NautyTracesInterface</K>
 #! @Arguments colComplex
-DeclareAttribute( "ColourIncidenceNautyGraph", IsEdgeColouredPolygonalComplex );
+DeclareAttribute( "ColourIncidenceGraphNauty", IsEdgeColouredPolygonalComplex );
 #! @EndGroup
 
 

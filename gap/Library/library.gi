@@ -111,7 +111,7 @@ BindGlobal( "__SIMPLICIAL_ParseLibraryQuery",
 
         if not IsFunction( argList[1] ) then
             # The first entry is the result of NumberOfFaces
-            if not IsPosInt(argList[1]) and not IsList(argList[1]) and not ForAny(argList[1],IsPosInt) then
+            if not IsPosInt(argList[1]) and not ( IsList(argList[1]) and ForAll(argList[1],IsPosInt) ) then
                 Error(Concatenation(fctName, 
                     ": If the first argument is not a function it has to be the",
                     " result of NumberOfFaces, so either a positive integer or",
@@ -661,12 +661,12 @@ InstallGlobalFunction( "AllSimplicialSurfaces",
 
 
 
-InstallGlobalFunction( "AllSimplicialSpheres",
+InstallGlobalFunction( "AllSimplicialSpheresEssential",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSpheres");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial spheres/");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialSpheresEssential");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "simplicial_spheres_essential/");
     end
 );
 
@@ -676,17 +676,17 @@ InstallGlobalFunction( "AllGeodesicSelfDualSurfaces",
         local trueArg;
 
         trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllGeodesicSelfDualSurfaces");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "geodesic selfdual surfaces/");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "geodesic_selfdual_surfaces/");
     end
 );
 
 
-InstallGlobalFunction( "AllDiscs",
+InstallGlobalFunction( "AllSimplicialDiscsEssential",
     function(arg)
         local trueArg;
 
-        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllDiscs");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "discs/");
+        trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllSimplicialDiscs");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "essential_discs/");
     end
 );
 
@@ -730,7 +730,7 @@ InstallGlobalFunction( "AllPlatonicSurfaces",
         local trueArg;
 
         trueArg := __SIMPLICIAL_ParseLibraryQuery(arg, "AllPlatonicSurfaces");
-        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic surfaces/");
+        return __SIMPLICIAL_AccessLibrary(trueArg, "platonic_surfaces/");
     end
 );
 

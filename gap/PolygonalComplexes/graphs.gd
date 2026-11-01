@@ -161,7 +161,7 @@
 #! to different graph packages: 
 #! @InsertChunk Graphs_Packages
 #!
-#! Note that if <K>IncidenceDigraphsGraph</K>  is used the output is a list,
+#! Note that if <K>IncidenceGraphDigraphs</K>  is used the output is a list,
 #! where the first entry is a digraph and the second a list of vertex colours, with the colours 1...4.
 #! There are isolated vertices of the digraph which correspond to labels of vertices, edges and faces 
 #! that do not exists in the given polygonal complex.
@@ -176,7 +176,7 @@
 #! @EndExampleSession
 #! First of all look at the graph given by <K>Digraphs</K>:
 #! @BeginExampleSession
-#! gap> digraph := IncidenceDigraphsGraph(complex)[1];;
+#! gap> digraph := IncidenceGraphDigraphs(complex)[1];;
 #! gap> DigraphVertices(digraph);
 #! [ 1 .. 28 ]
 #! gap> DigraphEdges(digraph);
@@ -190,13 +190,11 @@
 #! @EndExampleSession
 #! Consider how getting information from a graph given by <K>GRAPE</K> looks like:
 #! @BeginLogSession
-#! gap> grape := IncidenceGrapeGraph(complex).graph;;
-#! gap> DirectedEdges(grape)=DigraphEdges(digraph);
-#! true
+#! gap> grape := IncidenceGraphGrape(complex).graph;;
 #! @EndLogSession
 #! Finally, consider how getting information from a graph given by <K>NautyTracesInterface</K> looks like:
 #! @BeginLogSession
-#! gap> nauty:=UnderlyingNautyGraph(IncidenceNautyGraph(complex));;
+#! gap> nauty:=UnderlyingNautyGraph(IncidenceGraphNauty(complex));;
 #! gap> nautyEdges:=nauty!.edges;
 #! [ [ 1, 6 ], [ 3, 6 ], [ 1, 7 ], [ 2, 7 ], [ 2, 8 ], [ 3, 8 ], [ 3, 9 ], [ 5, 9 ],
 #! [ 2, 10 ], [ 4, 10 ], [ 4, 11 ], [ 5, 11 ], [ 6, 12 ],
@@ -209,11 +207,11 @@
 #!
 #! @Returns a graph as defined in the package <K>Digraphs</K>,<K>GRAPE</K> or <K>NautyTracesInterface</K>
 #! @Arguments complex
-DeclareAttribute( "IncidenceDigraphsGraph", IsPolygonalComplex );
+DeclareAttribute( "IncidenceGraphDigraphs", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "IncidenceGrapeGraph", IsPolygonalComplex, "mutable" );
+DeclareAttribute( "IncidenceGraphGrape", IsPolygonalComplex, "mutable" );
 #! @Arguments complex
-DeclareAttribute( "IncidenceNautyGraph", IsPolygonalComplex );
+DeclareAttribute( "IncidenceGraphNauty", IsPolygonalComplex );
 #! @EndGroup
 
 
@@ -321,7 +319,7 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! 
 #! For example, consider the edge graph of the tetrahedron:
 #! @BeginExampleSession
-#! gap> digraph:=EdgeDigraphsGraph(Tetrahedron());
+#! gap> digraph:=EdgeGraphDigraphs(Tetrahedron());
 #! <immutable digraph with 4 vertices, 12 edges>
 #! gap> DigraphEdges(digraph);
 #! [ [ 1, 2 ], [ 2, 1 ], [ 1, 3 ], [ 3, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 3 ], [ 3, 2 ], 
@@ -342,11 +340,11 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #!
 #! @Arguments complex
 #! @Returns a graph as defined in the package <K>Digraphs</K>/<K>GRAPE</K>/<K>NautyTracesInterface</K>
-DeclareAttribute( "EdgeDigraphsGraph", IsPolygonalComplex );
+DeclareAttribute( "EdgeGraphDigraphs", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "EdgeGrapeGraph", IsPolygonalComplex );
+DeclareAttribute( "EdgeGraphGrape", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
+DeclareAttribute( "EdgeGraphNauty", IsPolygonalComplex );
 #! @EndGroup
 
 #! @BeginGroup FaceGraph
@@ -371,7 +369,7 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #!
 #! For example, consider the face graph of the tetrahedron:
 #! @BeginExampleSession
-#! gap> digraph:=FaceDigraphsGraph(Tetrahedron());
+#! gap> digraph:=FaceGraphDigraphs(Tetrahedron());
 #! <immutable digraph with 4 vertices, 12 edges>
 #! gap> digraphEdges:=DigraphEdges(digraph);
 #! [ [ 1, 2 ], [ 2, 1 ], [ 1, 4 ], [ 4, 1 ], [ 2, 4 ], [ 4, 2 ], [ 1, 3 ], [ 3, 1 ],
@@ -393,9 +391,9 @@ DeclareAttribute( "EdgeNautyGraph", IsPolygonalComplex );
 #!
 #! @Arguments complex
 #! @Returns a graph as defined in the package <K>Digraphs</K>/<K>NautyTracesInterface</K>
-DeclareAttribute( "FaceDigraphsGraph", IsPolygonalComplex );
+DeclareAttribute( "FaceGraphDigraphs", IsPolygonalComplex );
 #! @Arguments complex
-DeclareAttribute( "FaceNautyGraph", IsPolygonalComplex );
+DeclareAttribute( "FaceGraphNauty", IsPolygonalComplex );
 #! @EndGroup
 
 
