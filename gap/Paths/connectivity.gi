@@ -94,6 +94,10 @@ InstallImmediateMethod( IsConnectedComplex,
     function(complex)
 	    local components;
 
+        if Length(IsolatedVertices(complex)) > 0 then
+            return false;
+        fi;
+
 	    components := ConnectedComponentsAttributeOfComplex(complex);
 	    if Length(components) > 1 then
             return false;
