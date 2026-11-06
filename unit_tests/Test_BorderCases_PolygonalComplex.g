@@ -514,6 +514,14 @@ BindGlobal( "__SIMPLICIAL_Test_Connectivity", function()
     SIMPLICIAL_TestAssert(Length(Faces(subComplex)) = 1);
 
     SIMPLICIAL_TestAssert(IsConnectedComplex(subComplex)); # inferenced
+
+    # Test immediate function installation of IsConnectedComplex picking
+    # up isolated vertices check.
+    complex := SimplicialComplexByDownwardIncidence(
+                    [10,11],[[1,2],[1,3],[2,3]],[[1,2,3]]
+                );
+    NumberOfConnectedComponents(complex);
+    SIMPLICIAL_TestAssert(not IsConnectedComplex(complex));
 end);
 
 if IsPackageMarkedForLoading("NautyTracesInterface", ">=0.2") then
