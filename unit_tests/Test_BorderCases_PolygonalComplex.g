@@ -444,6 +444,14 @@ BindGlobal( "__SIMPLICIAL_Test_SplitEdgePath", function()
 	SIMPLICIAL_TestAssert(split = SplitEdgePathNC( butterfly, cutPath2 ));
 end);
 
+BindGlobal( "__SIMPLICIAL_Test_IsolatedConnectedComponents", function()
+    local complex;
+
+    complex := SimplicialComplexByDownwardIncidence([12,13], [[1,2],[1,3],[2,3],[10,11]], [[1,2,3]]);
+
+    SIMPLICIAL_TestAssert(NumberOfConnectedComponents(complex)=4);
+end);
+
 BindGlobal( "__SIMPLICIAL_Test_Smaller", function()
     local butterfly, geodesic, s, triangle1, triangle2, triangle3;
 
