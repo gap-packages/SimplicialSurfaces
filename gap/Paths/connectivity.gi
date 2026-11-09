@@ -299,18 +299,62 @@ InstallMethod( StronglyConnectedComponentOfFaceNC, "for a twisted polygonal comp
 InstallMethod( ConnectedComponentsAttributeOfComplex,
     "for a twisted polygonal complex", [IsTwistedPolygonalComplex],
     function(complex)
-	local faces, comp, f, component;
+	local faces, components, f, e, v, component, isEdgeVisited,
+          unvisitedEdges, connectedEdges, voes, compVOEs,
+          isolatedEdgesComps, isolatedVertexComps;
 
 	faces := Faces(complex);
-	comp := [ ];
+	components := [];
+    isEdgeVisited := List( Edges(complex), e -> false );
 	while Length(faces) > 0 do
 	    f := faces[1];
-            component := ConnectedComponentOfFace(complex, f);
-	    Append( comp, [component] );
+        component := ConnectedComponentOfFace(complex, f);
+	    Append( components, [component] );
 	    faces := Difference( faces, Faces(component) );
+
+        for e in Edges(component) do
+            isEdgeVisited[e] := true;
+        od;
 	od;
 
-	return comp;
+    # Each isolated vertex is a component, hence build a complex for each isolated vertex.
+    isolatedVertexComps := List( IsolatedVertices(complex),
+                                 v -> SimplicialComplexByDownwardIncidence([v], [], []) );
+
+    components := Concatenation( components, isolatedVertexComps );
+
+    # Complexes might consist of only isolated edges so they are not found
+    # by the face walk. So we need to identify those complexes separately.
+    #
+    # Collect edges that have not been found by the face walk.
+    unvisitedEdges := Filtered( Edges(complex), e -> not isEdgeVisited[e] );
+    #
+    if Length(unvisitedEdges) = 0 then
+        return components;
+    fi;
+    #
+    compVOEs := [];
+    while Length(unvisitedEdges) > 0 do
+        # Do BFS via vertex-edge relation on unvisited edges
+        connectedEdges := __SIMPLICIAL_AbstractConnectedComponent( 
+                                unvisitedEdges,
+                                VerticesOfEdges(complex), 
+                                unvisitedEdges[1] );
+
+        voes := [];
+        for e in connectedEdges do
+            Add(voes, VerticesOfEdge(complex, e), e);
+        od;
+        Add( compVOEs, voes );
+
+        unvisitedEdges := Difference(unvisitedEdges, connectedEdges);
+    od;
+    #
+    isolatedEdgesComps := List( compVOEs,
+                                voes -> SimplicialComplexByDownwardIncidence(voes, []) );
+
+    components := Concatenation( components, isolatedEdgesComps );
+	return components;
     end
 );
 InstallImmediateMethod( ConnectedComponentsAttributeOfComplex,
