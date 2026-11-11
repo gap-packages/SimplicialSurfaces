@@ -34,7 +34,7 @@ DrawSurfaceToTikz( oct, "Octahedron_example" );;
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! To customise this drawing, a record is used (called the <A>printRecord</A>).
 #! Each call of the drawing method creates one of those:
 #! @BeginLog
 pr := DrawSurfaceToTikz( oct, "Octahedron_example" );;
@@ -69,7 +69,7 @@ DrawSurfaceToTikz( oct, "Octahedron_recoloured.tex", pr );;
 #! It should be mentioned that all of these calls modify their 
 #! <A>printRecord</A>.
 #! 
-#! Since it is impractical to always call &LaTeX; for every customization
+#! Since it is impractical to always call &LaTeX; for every customisation
 #! we can call it directly from within &GAP;:
 #! @BeginLog
 pr.compileLaTeX := true;;
@@ -160,7 +160,7 @@ DrawSurfaceToTikz( oct, "Octahedron_reshaped", pr );
 #! * <E>vertexColours</E>: Modify the colours of the vertices (the default
 #!   colour is orange).
 #! * <E>edgeColours</E>: Modify the colours of the edges (the default
-#!   colour is gray).
+#!   colour is grey).
 #! * <E>faceColours</E>: Modify the colours of the face (the default
 #!   colour is a darker shade of yellow).
 #!
@@ -190,7 +190,7 @@ DrawSurfaceToTikz(cube, "Cube_example");;
 #!     are given in a list <A>colours</A> such that <A>colours[v]</A> is the
 #!     colour of the vertex <A>v</A>. If vertex <A>v</A> is not in the surface, 
 #!     the colour is skipped. The colours are strings that are 
-#!     recognizable by &LaTeX;.
+#!     recognisable by &LaTeX;.
 #!
 #!     It is possible to leave some vertex colours unbound - those will be coloured with the
 #!     default vertex colour (orange).
@@ -234,10 +234,10 @@ DrawSurfaceToTikz(cube, "Cube_vertexColouredGlobal", pr);;
 #!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
 #!     is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
 #!     the colour is skipped. The colours are strings that are
-#!     recognizable by &LaTeX;.
+#!     recognisable by &LaTeX;.
 #!
-#!     Is is possible to leave some edge colours unbound - those will be coloured with the
-#!     default edge colour (gray).
+#!     It is possible to leave some edge colours unbound - those will be coloured with the
+#!     default edge colour (grey).
 #! @BeginLog
 pr := rec( edgeColours :=
    [,,,,"red", "purple", "blue", "green!80!black"] );;
@@ -281,7 +281,7 @@ DrawSurfaceToTikz( cube, "Cube_edgeColouredGlobal", pr );;
 #!     face colours unbound - those will be coloured with the default face colour (a darker
 #!     shape of yellow, the custom colour <E>\\faceColorY</E>).
 #!
-#!     The colours can be strings that are recognized by &LaTeX;, but they can
+#!     The colours can be strings that are recognised by &LaTeX;, but they can
 #!     also be one of six pre-defined colours of this package:
 #! @BeginLog
 pr := rec( faceColours := ["\\faceColorY", "\\faceColorB", 
@@ -632,7 +632,7 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #!   each strongly connected component. These are the first faces that were
 #!   drawn from these components. That means that the vertex coordinates of 
 #!   these faces are the first to be calculated. By giving this list manually the first
-#!   drawn faces can be customized. The function will auto-correct the 
+#!   drawn faces can be customised. The function will auto-correct the 
 #!   spelling <E>startingFace</E> into <E>startingFaces</E> if there is
 #!   no entry for <E>startingFaces</E>.
 #! * <E>edgeDrawOrder</E>: After drawing this list contains a list of edges
@@ -640,7 +640,7 @@ DrawSurfaceToTikz( rectangle, "Rectangle_angles", pr);;
 #!   explains the order in which these edges were completed (an edge is 
 #!   completed if both adjacent faces are drawn). This means that this parameter 
 #!   controls which edges are drawn once and which edges need to be drawn twice because 
-#!   they cannot be completed. This can be customized and
+#!   they cannot be completed. This can be customised and
 #!   <K>DrawSurfaceToTikz</K> will try to follow it as closely as possible
 #!   while avoiding intersections (if <E>avoidIntersections</E> is set).
 #! 
@@ -782,7 +782,7 @@ DrawSurfaceToTikz(doubleSixGon,"DoubleSixGon_edgeDraw",pr);;
 #! net of a ramified polygonal surface into a plane. 
 #! Instead of drawing them in a <E>.tex</E> file we can draw them
 #! in a <E>.svg</E> file and add for example flaps so that it is possible to clue
-#! the folding plan together to obatin an embedding in <M>&RR;^3</M>.
+#! the folding plan together to obtain an embedding in <M>&RR;^3</M>.
 #!
 #! For example, the net of an icosahedron can be drawn like this:
 #! @BeginLog
@@ -791,12 +791,12 @@ pr:=DrawComplexToSVG(ico,"Icosahedron");;
 #! @EndLog
 #!
 #! This will write a file <E>Icosahedron.svg</E> that contains the net of
-#! the isocahedron:
+#! the icosahedron:
 #! <Alt Only="HTML">&lt;br>&lt;img src="images/Icosahedron_svg.png">&lt;/img>&lt;/br></Alt>
 #! <Alt Only="LaTeX">\begin{center}\includegraphics[scale=0.7]{images/Icosahedron_svg.png}\end{center}</Alt>
 #! <Alt Only="Text">[Image omitted in text manual. Check &lt;package location>/doc/images/Icosahedron_svg.png]</Alt>
 #!
-#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! To customise this drawing, a record is used (called the <A>printRecord</A>).
 #! We can change the edge lengths to 1,2 and 2 and give a specific edge
 #! draw order by the following:
 #! @BeginLog
@@ -825,7 +825,7 @@ pr:=DrawComplexToSVG(ico,"Icosahedron_example",pr);;
 #!   <K>false</K>) the generated <E>.svg</E> file will compute flaps which are triangles.
 #!
 #! For example, consider icosahedron at the begin of this section. Here we added
-#! the flaps with four coners:
+#! the flaps with four corners:
 #! @BeginLog
 ico:=Icosahedron();;
 pr:=rec();;
@@ -849,8 +849,8 @@ pr:=DrawComplexToSVG(ico,"Icosahedron_FlapTriangle");;
 #! @EndChunk
 
 #! @BeginChunk DrawComplexToSVG_Circles
-#! If the paramterer <E>AddCircle</E> is <K>true</K> (the default is
-#! <K>false</K>) circles are drawn at the center of each face.
+#! If the parameter <E>AddCircle</E> is <K>true</K> (the default is
+#! <K>false</K>) circles are drawn at the centre of each face.
 #! This can be used, for example, to place magnets in the surfaces that 
 #! can be constructed by gluing the folding plan together.
 #!
@@ -867,7 +867,7 @@ pr:=DrawComplexToSVG(ico,"Icosahedron_Circle");;
 #! @EndChunk
 
 #! @BeginChunk DrawSurfaceToSVG_Geodesic
-#! If the paramterer <E>AddGeodesic</E> is <K>true</K> (the default is
+#! If the parameter <E>AddGeodesic</E> is <K>true</K> (the default is
 #! <K>false</K>) all geodesics are drawn on the surface.
 #! This only works for equilateral triangles otherwise a warning is printed.
 #!
@@ -938,7 +938,7 @@ DrawFacegraphToTikz( oct, "facephgraph_oct_example" );;
 #! Image omitted in terminal text
 #! </Alt>
 #!
-#! To customize this drawing, a record is used (called the <A>printRecord</A>).
+#! To customise this drawing, a record is used (called the <A>printRecord</A>).
 #! Each call of the drawing method creates one of those:
 #! @BeginLog
 pr := DrawFacegraphToTikz( oct, "facegraph_oct" );;
@@ -1062,9 +1062,9 @@ pr.faceCoordinates2D[5]:=[0.,3.];;pr.faceCoordinates2D[8]:=[4.,3.];;
 #! from <K>DrawFacegraphToTikz</K> (<Ref Subsect="DrawFacegraphToTikz"/>).
 #! It covers the following parameters:
 #! * <E>faceColours</E>: Modify the colours of the vertices representing 
-#!   the faces (the default colour is gray).
+#!   the faces (the default colour is grey).
 #! * <E>edgeColours</E>: Modify the colours of the edges (the default
-#!   colour is gray).
+#!   colour is grey).
 #!
 #! We will exemplify them with the tetrahedron to make clear how the parameters 
 #! work:
@@ -1089,10 +1089,10 @@ DrawFacegraphToTikz(tetra, "facegraph_tetrahedron");;
 #!     the faces. The colours are given in a list <A>colours</A> such that 
 #!     <A>colours[f]</A> is the colour of the vertex representing face <A>f</A>. If
 #!     face <A>f</A> is not in the surface, the colour is skipped. The colours are 
-#!     strings that are recognizable by &LaTeX;.
+#!     strings that are recognisable by &LaTeX;.
 #!
 #!     It is possible to leave some face colours unbound - those will be coloured
-#!     with the default face colour (gray).
+#!     with the default face colour (grey).
 #! @BeginLog
 pr := rec( faceColours :=
    ["blue", "green",, "black!20!yellow"] );;
@@ -1135,10 +1135,10 @@ DrawFacegraphToTikz(tetra,
 #!     colours are given in a list <A>colours</A> such that <A>colours[e]</A>
 #!     is the colour of the edge <A>e</A>. If edge <A>e</A> is not in the surface,
 #!     the colour is skipped. The colours are strings that are
-#!     recognizable by &LaTeX;.
+#!     recognisable by &LaTeX;.
 #!
-#!     Is is possible to leave some edge colours unbound - those will be coloured 
-#!     with the default edge colour (gray).
+#!     It is possible to leave some edge colours unbound - those will be coloured 
+#!     with the default edge colour (grey).
 #! @BeginLog
 pr := rec( edgeColours :=
    [,,"red","purple","blue","green!80!black"] );;
@@ -1476,8 +1476,8 @@ DrawFacegraphToTikz(tetra,
 #!    vertices representing the faces. The spread parameter can be chosen as a float in the
 #!    interval (0, 1). Choosing the parameter outside the interval results in
 #!    an error. Choosing a number close to 1 modifies the face coordinates such
-#!    that they tend torwards the outer ring of the face graph. Choosing a number
-#!    close to 0 modifies the face coordinates such that they tend torwards the
+#!    that they tend towards the outer ring of the face graph. Choosing a number
+#!    close to 0 modifies the face coordinates such that they tend towards the
 #!    middle of the face graph. The default spread is set at 0.5.
 #!
 #! We will exemplify this parameter with the icosahedron.
@@ -1499,7 +1499,7 @@ DrawConvexFacegraphToTikz(icosahedron,
 #!    vertices representing the faces. The spread parameter can be chosen as a float in the
 #!    interval (0, 1). Choosing the parameter outside the interval results in
 #!    an error. Choosing a number close to 1 modifies the face coordinates such
-#!    that they tend torwards the outer ring of the face graph. Choosing a number
+#!    that they tend towards the outer ring of the face graph. Choosing a number
 #!    close to 0 modifies the face coordinates such that they tend torwards the
 #!    middle of the face graph. The default spread is set at 0.5.
 #!
@@ -1596,7 +1596,7 @@ DrawFacegraphToTikz( oct, "facegraph_Octahedron.tex" );;
 #! Image omitted in terminal text
 #! </Alt>
 #! <List>
-#!   <Item><E>geodesicsActive</E>: By default the geodics are not painted into
+#!   <Item><E>geodesicsActive</E>: By default the geodesics are not painted into
 #!   the .tex file. If they should be shown, this parameter can be set to
 #!   <K>true</K>. Note the octahedron has four geodesics which are all
 #!   represented in the drawing by polygons coloured in red, green, 

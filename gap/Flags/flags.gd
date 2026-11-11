@@ -67,7 +67,7 @@
 #! [ [ 2, 1 ], [ 3, 1 ], [ 3, 4 ], [ 5, 1 ], [ 5, 4 ], [ 7, 4 ], [ 11, 4 ] ]
 #! @EndExampleSession
 #!
-#! Sometimes it is necessary to have a standardized set of all flags that
+#! Sometimes it is necessary to have a standardised set of all flags that
 #! consist of two elements. For that reason the command <K>TwoFlags</K>
 #! (<Ref Subsect="TwoFlags"/>) exists.
 #!
@@ -398,17 +398,17 @@ DeclareAttribute( "DressGroup", IsPolygonalComplex and IsNotEdgeRamified );
 #! <Enum>
 #!   <Item>The vertices are given by the <K>OneFlags</K> 
 #!         (<Ref Subsect="OneFlags"/>), i.e. there is a new vertex for every
-#!         original vertex, in the middle of each edge and in the center
+#!         original vertex, in the middle of each edge and in the centre
 #!         of gravity for each face.</Item>
 #!   <Item>The edges are given by the <K>TwoFlags</K>
 #!         (<Ref Subsect="TwoFlags"/>), e.g. for each incident
 #!          edge-face-pair there is a new edge between the middle
-#!          of the edge and the center of gravity of the face. There
+#!          of the edge and the centre of gravity of the face. There
 #!          are also new edges for the vertex-edge- and vertex-face-pairs.</Item>
 #!   <Item>The faces are given by the <K>ThreeFlags</K> 
 #!         (<Ref Subsect="Flags"/>), i.e. for every flag <M>(V,E,F)</M>
 #!          there is a new face between <M>V</M>, the middle of <M>E</M>
-#!          and the center of gravity of <M>F</M>.</Item>
+#!          and the centre of gravity of <M>F</M>.</Item>
 #! </Enum>
 #! 
 #! @InsertChunk Example_FlagComplex

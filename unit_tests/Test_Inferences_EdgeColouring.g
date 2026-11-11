@@ -3,6 +3,115 @@
 # This file contains tests for the integrity of the edge coloured polygonal 
 # complex category
 
+# Wild-coloured surfaces constructed from colour involutions have to know
+# their vertices (they were not computable before)
+BindGlobal( "__SIMPLICIAL_Test_WildColouredByInvolutions", function()
+    local invs, wild;
+
+    # colour involutions of the mirror-coloured octahedron
+    invs := [ (1,3)(2,4)(5,7)(6,8), (1,7)(2,8)(3,5)(4,6), (1,4)(2,3)(5,8)(6,7) ];
+
+    wild := AllWildColouredSurfaces( invs, [1,1,1] );
+    SIMPLICIAL_TestAssert( Length(wild) = 1 );
+    SIMPLICIAL_TestAssert( NumberOfVertices(wild[1]) = 6 );
+    SIMPLICIAL_TestAssert( IsSimplicialSurface(PolygonalComplex(wild[1])) );
+    SIMPLICIAL_TestAssert( ColourInvolutions(wild[1]) = invs );
+
+    wild := AllWildColouredSurfaces( invs, [2,1,1] );
+    SIMPLICIAL_TestAssert( Length(wild) = 1 );
+    SIMPLICIAL_TestAssert( NumberOfVertices(wild[1]) = 4 );
+
+    # without (complete) local symmetry, isomorphic surfaces are removed,
+    # which needs the vertices
+    SIMPLICIAL_TestAssert( Length(AllWildColouredSurfaces(invs)) = 6 );
+    SIMPLICIAL_TestAssert( Length(AllTameColouredSurfaces(invs)) = 4 );
+    SIMPLICIAL_TestAssert( Length(AllWildColouredSurfaces(invs, [0,2,0])) = 5 );
+
+    # boundary edges (fixed points) have no local symmetry
+    invs := [ (), (1,2), () ];  # colour involutions of a butterfly
+    for wild in [ AllTameColouredSurfaces(invs, [], false),
+            AllWildColouredSurfaces(invs, [1,1,1]) ] do
+        SIMPLICIAL_TestAssert( ForAll( wild, s ->
+            LocalSymmetryOfEdgesAsNumbers(s){BoundaryEdges(s)} = [0,0,0,0] ) );
+    od;
+    SIMPLICIAL_TestAssert( Length(AllTameColouredSurfaces(invs)) = 2 );
+
+    # trivial involutions give the one-face
+    for wild in [ AllWildColouredSurfaces([(),(),()]),
+            AllTameColouredSurfaces([(),(),()]) ] do
+        SIMPLICIAL_TestAssert( Length(wild) = 1 );
+        SIMPLICIAL_TestAssert( NumberOfFaces(wild[1]) = 1 );
+        SIMPLICIAL_TestAssert( LocalSymmetryOfEdgesAsNumbers(wild[1]) = [0,0,0] );
+    od;
+
+    # SixFoldCover uses this construction
+    SIMPLICIAL_TestAssert(
+        NumberOfVertices(SixFoldCover(Tetrahedron())[1]) = 12 );
+end);
+
+# SixFoldCover and CommonCover for surfaces with boundary
+BindGlobal( "__SIMPLICIAL_Test_CoversWithBoundary", function()
+    local ls, cover, surf, tri, but, umb, mirror, rotation, e;
+
+    # Boundary edges lift to boundary edges
+    for ls in [ [1,1,1], [1,2,1], [2,2,2] ] do
+        cover := SixFoldCover( Butterfly(), ls );
+        surf := PolygonalComplex(cover[1]);
+        SIMPLICIAL_TestAssert( NumberOfFaces(surf) = 12 );
+        SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 6 );
+        SIMPLICIAL_TestAssert( ForAll( ConnectedComponents(surf), 
+            c -> IsIsomorphic(c, Butterfly()) ) );
+    od;
+
+    umb := SimplicialUmbrella(4);
+    cover := SixFoldCover( umb, [1,1,1] );
+    surf := PolygonalComplex(cover[1]);
+    SIMPLICIAL_TestAssert( List(ConnectedComponents(surf), NumberOfFaces) 
+        = [4,4,4,4,4,4] );
+    cover := SixFoldCover( umb, [2,2,2] );
+    surf := PolygonalComplex(cover[1]);
+    SIMPLICIAL_TestAssert( List(ConnectedComponents(surf), NumberOfFaces) 
+        = [12,12] );
+    SIMPLICIAL_TestAssert( ForAll( ConnectedComponents(surf), 
+        c -> IsSimplicialSurface(c) and EulerCharacteristic(c) = 1 ) );
+    for e in Edges(surf) do
+        SIMPLICIAL_TestAssert( IsBoundaryEdge(surf, e) = IsBoundaryEdge(umb, 
+            cover[2].Faces[FacesOfEdge(surf,e)[1]][2][ColourOfEdge(cover[1], e)]) );
+    od;
+
+    # A single triangle: all colour involutions of the cover are trivial
+    tri := SimplicialSurfaceByVerticesInFaces( [[1,2,3]] );
+    cover := SixFoldCover( tri );
+    surf := PolygonalComplex(cover[1]);
+    SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 6 );
+    SIMPLICIAL_TestAssert( NumberOfVertices(surf) = 18 );
+
+    # An edge of the common cover is a boundary edge if one of the 
+    # underlying edges is a boundary edge
+    for ls in [ [0,0,0], [1,1,1], [2,2,2] ] do
+        cover := CommonCover( tri, tri, [1,1,1], ls );
+        SIMPLICIAL_TestAssert( NumberOfConnectedComponents(cover[1]) = 6 );
+        SIMPLICIAL_TestAssert( NumberOfVertices(cover[1]) = 18 );
+    od;
+
+    but := Butterfly();
+    mirror := [1,1,1,1,1];
+    rotation := [2,2,2,2,2];
+    # the inner edge of the butterfly is 2, the others are boundary edges
+    for ls in [ mirror, rotation, [0,1,0,0,0] ] do
+        cover := CommonCover( but, but, mirror, ls );
+        surf := cover[1];
+        SIMPLICIAL_TestAssert( NumberOfFaces(surf) = 24 );
+        SIMPLICIAL_TestAssert( NumberOfConnectedComponents(surf) = 20 );
+        SIMPLICIAL_TestAssert( ForAll( Edges(surf), e -> 
+            IsBoundaryEdge(surf, e) = ForAny( cover[2].Edges[e][1], 
+                    x -> IsBoundaryEdge(but, x) ) ) );
+    od;
+    cover := CommonCover( but, tri, mirror, [0,0,0] );
+    SIMPLICIAL_TestAssert( NumberOfConnectedComponents(cover[1]) = 12 );
+    SIMPLICIAL_TestAssert( Length(BoundaryEdges(cover[1])) = 36 );
+end);
+
 BindGlobal( "__SIMPLICIAL_Test_EdgeColours", function()
     local edgesOfColours, coloursOfEdges, colComplex, complex, colIncDigr, digEdges, edge, vertex, edges, faces, coloursOfEdges1, colComplex1, 
 	coloursOfEdges2, colComplex2;

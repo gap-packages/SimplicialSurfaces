@@ -228,7 +228,7 @@ DeclareAttribute( "FaceListOfSimplexString", IsSimplexString);
 #! <A>disc</A> is called an <E>essential disc</E> if <A>disc</A> is a connected
 #! simplicial surfaces of Euler characteristic 1  and every circular
 #! vertex-edge path of length 3 bounds a face of <A>disc</A>, and every
-#! boundary vertex has degree at least <A>2</A> and and no inner edge joins
+#! boundary vertex has degree at least <A>2</A> and no inner edge joins
 #! two boundary vertices.
 #!
 #! @BeginExampleSession
@@ -263,7 +263,7 @@ DeclareOperation( "IsEssentialDisc", [IsTwistedPolygonalComplex] );
 #! euler-characteristic 2. 
 #! As example consider the tetrahedron and the double tetrahedron. Up to
 #! isomorphism there is exactly one multi-tetrahedral sphere with 4
-#! faces, namely the tetradron.
+#! faces, namely the tetrahedron.
  
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src='./images/_Wrapper_properties-6-1.svg'> &lt;/img> &lt;br>
@@ -277,8 +277,8 @@ DeclareOperation( "IsEssentialDisc", [IsTwistedPolygonalComplex] );
 #! Image omitted in terminal text
             #! </Alt>
 #! And there is exactly one multi-tetrahedral sphere with 6 faces namely
-#! the double tetraedron which can be obtained by performing exactly one
-#! tetrahedral extension to the tetradron.
+#! the double tetrahedron which can be obtained by performing exactly one
+#! tetrahedral extension to the tetrahedron.
 #!  <Alt Only="HTML">
 #! &lt;br>&lt;img src="./images/_Wrapper_Image_DoubleTetrahedron-1.svg"> &lt;/img> &lt;br>
 #! </Alt>
@@ -935,7 +935,7 @@ DeclareAttribute("ListCounter",IsCounter);
 
 #! @BeginGroup MultiplicitiesOfCounter
 #! @Description
-#! The method <A>Multiplicities</A> returns the second entry of the tupels contained in the list obtained from <A>ListCounter</A>.
+#! The method <A>Multiplicities</A> returns the second entry of the tuples contained in the list obtained from <A>ListCounter</A>.
 #! This means, for example, that the method returns how many vertices have the same degree if <A>counter</A> is a vertex counter.
 #! The method <A>MultiplicityOfDegree</A> returns the number for the given <A>degree</A> or <A>degreeList</A> of <A>counter</A>.
 #! The method <A>MultiplicitiesOfDegrees</A> returns a list <A>multiplicities</A> for a vertex counter where <A>multiplicities[i]</A>
@@ -963,7 +963,7 @@ DeclareOperation("MultiplicityOfDegree",[IsCounterOfVertices, IsPosInt]);
 
 #! @BeginGroup DegreesOfCounter
 #! @Description
-#! The method <A>Degrees</A> returns the first entry of tupels contained in the list obtained from <A>ListCounter</A>.
+#! The method <A>Degrees</A> returns the first entry of tuples contained in the list obtained from <A>ListCounter</A>.
 #! This means, for example, that if <A>counter</A> is a vertex counter, the method returns what the different degrees of the vertices are.
 #! The method <A>DegreesOfMultiplicities</A> returns a list <A>degrees</A> for <A>counter</A>, where <A>degrees[i]</A>
 #! is the degree or degreeList that occurs <A>i</A> times.
@@ -1678,10 +1678,10 @@ DeclareOperation( "IsChaoticVertexNC", [IsTwistedPolygonalComplex, IsPosInt] );
 #! @BeginGroup FaceTwoColouring
 #! @Description
 #! If the method is given a polygonal complex, it returns a pair of two sets of 
-#! faces, which represents a face-2-coloring, if possible. 
+#! faces, which represents a face-2-colouring, if possible. 
 #! A 2-face-colouring of a polygonal complex is a colouring of the faces with exactly
 #! two colours, whereby two neighbouring faces have to be coloured different.
-#! If no such coloring exists, the method returns <K>fail</K>.
+#! If no such colouring exists, the method returns <K>fail</K>.
 #! In the case that such a colouring exists,
 #! the first set of the returned pair contains the face with the smallest label.  
 #!
@@ -1725,7 +1725,7 @@ DeclareAttribute( "FaceTwoColouring", IsPolygonalComplex );
 #! The relation <K>relation</K> is given by the resulting partition of vertices, edges and faces.
 #! If <K>bool=true</K> then the list which is returned by the function contains all surfaces that can be constructed by forming an admissible relation of the given surface and 
 #! if <K>bool=false</K> then the list only contains isomorphism representatives with their corresponding admissible relations.
-#! If <K>bool2=false</K> then the function prints how many faces are already visited while computating the admissible relations.
+#! If <K>bool2=false</K> then the function prints how many faces are already visited while computing the admissible relations.
 
 #! As an example, consider the tetrahedron.
 #! @BeginLogSession

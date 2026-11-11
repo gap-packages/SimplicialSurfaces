@@ -225,7 +225,7 @@ DeclareAttribute( "DisplayInformationEdgeColoured", IsEdgeColouredTwistedPolygon
 #! This method extends the drawing method for polygonal surfaces without edge
 #! ramifications
 #! (compare <Ref Subsect="DrawSurfaceToTikz"/>) by respecting the edge colour
-#! classes of <A>colRamSurf</A>. An introduction the the usage of the 
+#! classes of <A>colRamSurf</A>. An introduction to the usage of the 
 #! additional parameters can be found at the start of section
 #! <Ref Sect="Section_EdgeColouring_Drawing"/>.
 #!

@@ -7,7 +7,7 @@
      operations refer to it in one way or another). Therefore it has to explained
      quite early (for people who read a manual in order).
      Since we don't want to bore readers, we aim for an engagingly written
-     chapter with many pictures to easily visualize what is going on. -->
+     chapter with many pictures to easily visualise what is going on. -->
 <Chapter Label="PolygonalStructures"><Heading>Polygonal Structures</Heading>
     This chapter presents the different ways in which surfaces and complexes are used
     in the <K>SimplicialSurfaces</K>-package. More accurately, it presents 
@@ -288,7 +288,7 @@
                 Image omitted in terminal text
                 </Alt>
             </Item>
-            <Item> There are no ramified vertices. We will formalize this
+            <Item> There are no ramified vertices. We will formalise this
                 below but the aim of this condition is to exclude cases like 
                 these:
                 <Alt Only="HTML">
@@ -303,7 +303,7 @@
                 Image omitted in terminal text
                 </Alt>
             </Item>
-            <Item> The complex is face pure, i.e. all edges and vertices are incident to faces. This exludes cases like the following:
+            <Item> The complex is face pure, i.e. all edges and vertices are incident to faces. This excludes cases like the following:
                 <Alt Only="HTML">
                     &lt;br>&lt;img src='./images/_Wrapper_structs-2-1.svg'> &lt;/img> &lt;br>
                     </Alt>
@@ -337,7 +337,7 @@
     
         <Subsection Label="Definition_Umbrella">
             <Heading>Definition (Umbrella-path around a vertex)</Heading>
-                We now proceed to formalize the second condition. Intuitively we want to
+                We now proceed to formalise the second condition. Intuitively we want to
                 distinguish between the different coloured faces in these examples:
                 <Alt Only="HTML">
                 &lt;br>&lt;img src='./images/_Wrapper_structs-8-1.svg'> &lt;/img> &lt;br>

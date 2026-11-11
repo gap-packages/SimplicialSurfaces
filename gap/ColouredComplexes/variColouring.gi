@@ -843,8 +843,10 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
                 ": The first list has to consist of involutions.") );
         fi;
 
+        # The faces are 1, ..., n for the largest moved point n. If all
+        # involutions are trivial, there is a single face (the one-face).
         moved := MovedPoints( invList );
-        maxMoved := Maximum(moved);
+        maxMoved := Maximum( Concatenation( [1], moved ) );
         moved := [1..maxMoved];
 
         cycles := List(invList, i -> Cycles(i, moved));
@@ -886,17 +888,35 @@ BindGlobal("__SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry",
                     ": The local symmetry at position ", String(b), 
                     " is neither unbound, 0, 1, 2 or a list.") );
             fi;
+            # Fixed points of the involution are boundary edges, which
+            # have no local symmetry
+            for n in [1..Length(cycles[b])] do
+                if Length(cycles[b][n]) = 1 then
+                    newSym[b][n] := 0;
+                fi;
+            od;
         od;
 
         return newSym;
     end
 );
+# The faces are the points moved by the involutions (or [1] if there are
+# none), unless the optional
+# argument faces is given (it has to contain these points).
 BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup",
-    function(invList, localSymmetry)
-        local faces, facePosition, facesOfEdges, coloursOfEdges,
+    function(invList, localSymmetry, faces...)
+        local facePosition, facesOfEdges, coloursOfEdges,
             invOfEdges, edgesOfFacesByColour, p, cyc, i, f, edgesOfFaces, vertexNames;
         
-        faces := MovedPoints( Group(invList) );
+        if Length(faces) = 0 then
+            faces := MovedPoints( Group(invList) );
+            if faces = [] then
+                # trivial involutions: the one-face
+                faces := [1];
+            fi;
+        else
+            faces := faces[1];
+        fi;
         # The faces can have holes, but we still want to have fast access 
         # to the position of a face in this list
         facePosition := [];
@@ -950,29 +970,40 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
         edgesOfFaces := setup[7];
         vertexNames := setup[8];
 
-        localSymOfEdges := Concatenation(localSymmetry);
+        # The entries of localSymmetry are indexed by the cycles of the
+        # involutions on [1..n], while the edges are the cycles on the
+        # faces. Since both lists of cycles are ordered by their smallest
+        # point, we only have to remove the fixed points that are no faces.
+        localSymOfEdges := Concatenation( List( PositionsBound(invList), p ->
+            localSymmetry[p]{ PositionsProperty(
+                Cycles( invList[p], [1..Maximum(faces)] ),
+                c -> IsBound(facePosition[c[1]]) ) } ) );
 
         # Since the algorithm works recursively by constructing umbrellas, it 
         # is optimal if the next face is adjacent to the previously constructed
         # umbrellas.
+        # The lists finVertsInFaces and knownFaces are indexed by the
+        # positions of the faces in the list faces (not by the faces
+        # themselves), since the faces may have holes.
         BestNextVertex := function( usedVertexNames, finVertsInFaces )
-            local face, v, pos;
+            local facePos, v, pos;
 
-            face := Position( finVertsInFaces, 2 );
-            if face = fail then
-                face := Position( finVertsInFaces, 1 );
-                if face = fail then
-                    face := Position( finVertsInFaces, 0 );
-                    if face = fail then
+            facePos := Position( finVertsInFaces, 2 );
+            if facePos = fail then
+                facePos := Position( finVertsInFaces, 1 );
+                if facePos = fail then
+                    facePos := Position( finVertsInFaces, 0 );
+                    if facePos = fail then
                         return false; # All faces are completed
                     fi;
                 fi;
             fi;
-            # face should be the face with highest number of already existing vertices
+            # facePos should be the position of the face with highest number 
+            # of already existing vertices
 
-            # The vertices in the face "face" are at positions
-            # 3*facePos[face]-3 + {1,2,3}
-            pos := 3*facePosition[face]-2;
+            # The vertices in the face at position facePos are at positions
+            # 3*facePos-3 + {1,2,3}
+            pos := 3*facePos-2;
             for v in [pos, pos+1, pos+2] do
                 if not usedVertexNames[v] then
                     return v;
@@ -983,23 +1014,26 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
         FindWildColouredSurface := function( finUmbrellas, usedVertexNames, 
                     finVertsInFaces, partialLocalSym )
             local nextPos, next, face, facePos, e1, e2, umbrella, allUmbrellas_c,
-                umbInfo, finVertsInFaces_c, finUmbrellas_c, 
-                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces;
+                umbInfo, finVertsInFaces_c, finUmbrellas_c,
+                usedVertexNames_c, obj, partialLocalSym_c, colSurf, knownFaces,
+                verticesOfEdges, v, i;
 
             nextPos := BestNextVertex( usedVertexNames, finVertsInFaces );
             if nextPos = false then
                 # no more free vertices
-                
+
                 # construction of the simplicial surface
-                obj := Objectify( TwistedPolygonalComplexType, rec() );
-                SetIsNotTwisted(obj, true);
-                SetIsDefaultChamberSystem(obj, true);
-                SetFacesOfEdges(obj, facesOfEdges);
-                SetFaces(obj, faces);
-                SetEdgesOfFaces(obj, edgesOfFaces);
-                SetUmbrellaPathsOfVertices(obj, 
-                    List(finUmbrellas, ls -> EdgeFacePathNC(obj,ls)));
-                SetIsFacePure(obj, true);
+                # The vertex v is given by the umbrella finUmbrellas[v], whose
+                # edges are at the odd positions. The edge and face numbering
+                # is the one from the setup.
+                verticesOfEdges := List( facesOfEdges, e -> [] );
+                for v in [1..Length(finUmbrellas)] do
+                    for i in [1,3..Length(finUmbrellas[v])] do
+                        AddSet( verticesOfEdges[finUmbrellas[v][i]], v );
+                    od;
+                od;
+                obj := SimplicialSurfaceByDownwardIncidenceNC(
+                    verticesOfEdges, edgesOfFaces );
 
                 # construction of the coloured surface
                 colSurf := Objectify( EdgeColouredTwistedPolygonalComplexType, rec() );
@@ -1020,7 +1054,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
             e2 := next[3];
             umbrella := [e1, face, e2];
             usedVertexNames[nextPos] := true;
-            finVertsInFaces[face] := finVertsInFaces[face] + 1;
+            finVertsInFaces[facePos] := finVertsInFaces[facePos] + 1;
             knownFaces := List(faces, x -> false);
             knownFaces[facePos] := true;
             
@@ -1055,8 +1089,9 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
             knownFaces_c := ShallowCopy(knownFaces);
             knownFaces_c[facePosition[nextFace]] := true;
             finVertsInFaces_c := ShallowCopy(finVertsInFaces);
-            finVertsInFaces_c[nextFace] := finVertsInFaces_c[nextFace] + 1;
-            Assert(1, finVertsInFaces_c[nextFace] <= 3);
+            finVertsInFaces_c[facePosition[nextFace]] := 
+                finVertsInFaces_c[facePosition[nextFace]] + 1;
+            Assert(1, finVertsInFaces_c[facePosition[nextFace]] <= 3);
             usedVertexNames_c := ShallowCopy(usedVertexNames);
 
             # find [ nextFace, lastEdge, nextEdge ] in vertexNames
@@ -1135,7 +1170,7 @@ BindGlobal( "__SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion",
                 LoopOneVertex( Reversed(umbrella), knownFaces, 
                     usedVertexNames, finVertsInFaces, partialLocalSym );
                 return;
-            elif knownFaces[nextFace] then
+            elif knownFaces[facePosition[nextFace]] then
                 # this is an error since we never construct a face of an umbrella twice
                 return;
             else
@@ -1208,10 +1243,13 @@ InstallOtherMethod( AllTameColouredSurfaces,
 InstallMethod( AllTameColouredSurfaces,
     "for a list with three involutions, a list and a boolean", [IsList, IsList, IsBool],
     function(invList, localSymmetry, noIsom)
-        local setup, possTameSym, b, set, i, bound, poss, sym, allTameSurf;
+        local setup, possTameSym, b, set, i, bound, poss, sym, allTameSurf,
+            faces, cycles;
 
         localSymmetry := __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry(
                         invList, localSymmetry, "AllTameColouredSurfaces", true);
+        # same faces as in __SIMPLICIAL_WildTameInvolutions_FixLocalSymmetry
+        faces := [1..Maximum( Concatenation( [1], MovedPoints(invList) ) )];
         setup := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(invList, localSymmetry);
 
         bound := PositionsBound(invList);
@@ -1220,12 +1258,15 @@ InstallMethod( AllTameColouredSurfaces,
         for i in [1..Length(bound)] do
             b := bound[i];
             set := Set(localSymmetry[b]);
-            if 1 in set or 2 in set then
-                # only one option
+            cycles := Cycles( invList[b], faces );
+            if 1 in set or 2 in set or invList[b] = () then
+                # only one option (a trivial involution only has
+                # boundary edges)
                 possTameSym[i] := [ localSymmetry[b] ];
             else
-                # two options
-                possTameSym[i] := [ List(localSymmetry[b], i -> 1), List(localSymmetry[b], i -> 2) ];
+                # two options, boundary edges (fixed points) stay 0
+                possTameSym[i] := List( [1,2], m ->
+                    List( cycles, c -> m * (Length(c) - 1) ) );
             fi;
         od;
         
@@ -1286,7 +1327,7 @@ InstallMethod( CommonCover,
             TauByMR, taus1, taus2, tau1, tau2, e, e1, e2, vertOfE2,
             vertexBaseSet, vertexBasePositionsByFace, facePos,
             newFace, foundPairs, adjacencyList, AdjacentFace,
-            edgePair, adFace1, adFace2, otherIso, bothFaces, otherFace,  
+            edgePair, adFace1, adFace2, otherIso, isBoundary, bothFaces, otherFace,  
             found, j, baseVertPos1, baseVertPos2, baseVertA1, baseVertA2,
             baseVertB1, baseVertB2, vertOfEdge,
             connComp, edgeDescription, i, edge, 
@@ -1331,7 +1372,10 @@ InstallMethod( CommonCover,
         thirdVertices := Difference( Union( List(adjacentFaces, 
                                        f -> VerticesOfFaces(surf)[f]) ), vertsOfEdge );
 
-        if mr = 1 then # mirror
+        if Length(adjacentFaces) = 1 then
+        # boundary edge, its local symmetry is irrelevant
+        return ();
+        elif mr = 1 then # mirror
         if Length(thirdVertices) = 1 then
         return ();
         else
@@ -1408,29 +1452,26 @@ InstallMethod( CommonCover,
         edgePair := [e1,e2];
 
         # We need to find the adjacent faces
-        if NeighbourFacesByEdge(surf1, newFace[1], edgePair[1])=fail then
-		adFace1 := newFace[1];
-	else
-		adFace1 := NeighbourFacesByEdge(surf1, newFace[1], edgePair[1])[1];
-	fi;
-	if NeighbourFacesByEdge(surf2, newFace[2], edgePair[2])=fail then
-                adFace2 := newFace[2];
+        adFace1 := NeighbourFaceByEdge(surf1, newFace[1], edgePair[1]);
+        adFace2 := NeighbourFaceByEdge(surf2, newFace[2], edgePair[2]);
+        # If one of the edges is a boundary edge, the new edge is a 
+        # boundary edge as well, i.e. the face is its own neighbour
+        isBoundary := adFace1 = fail or adFace2 = fail;
+        if isBoundary then
+            otherFace := newFace;
         else
-                adFace2 := NeighbourFacesByEdge(surf2, newFace[2], edgePair[2])[1];
+            # Define tau2 and tau1^(-1)
+            tau2 := MappingByFunction( Range(newFace[3]), 
+                          Domain(VerticesOfFaces(surf2)[adFace2]),
+                          function(x) return x^taus2[edgePair[2]]; end );
+            tau1 := MappingByFunction( 
+                          Domain(VerticesOfFaces(surf1)[adFace1]),
+                          Source( newFace[3] ), 
+                          function(x) return x^taus1[edgePair[1]]; end );
+            # Now we can compute the composition mapping
+            otherIso := CompositionMapping( tau2, newFace[3], tau1);
+            otherFace := [adFace1, adFace2, otherIso];
         fi;
-        #adFace1 := AdjacentFace(surf1, newFace[1], edgePair[1]);
-        #adFace2 := AdjacentFace(surf2, newFace[2], edgePair[2]);
-        # Define tau2 and tau1^(-1)
-        tau2 := MappingByFunction( Range(newFace[3]), 
-                      Domain(VerticesOfFaces(surf2)[adFace2]),
-                      function(x) return x^taus2[edgePair[2]]; end );
-        tau1 := MappingByFunction( 
-                      Domain(VerticesOfFaces(surf1)[adFace1]),
-                      Source( newFace[3] ), 
-                      function(x) return x^taus1[edgePair[1]]; end );
-        # Now we can compute the composition mapping
-        otherIso := CompositionMapping( tau2, newFace[3], tau1);
-        otherFace := [adFace1, adFace2, otherIso];
         bothFaces := Set( [newFace, otherFace] );
 
         # Check whether we already found this combination
@@ -1486,7 +1527,8 @@ InstallMethod( CommonCover,
 
         # If we have an mm or rr-edge-pair, A1 and A2 are identified
         # Otherwise A1 and B2 are identified.
-        if IsOddInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
+        # On a boundary edge, nothing is identified (A1 = A2, B1 = B2).
+        if not isBoundary and IsOddInt( mrType1[edgePair[1]] + mrType2[edgePair[2]] ) then
         # The inverted case
         Append( adjacencyList,
                 [[baseVertA1,baseVertB2], [baseVertB1, baseVertA2]]);
@@ -1618,7 +1660,8 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
                 neigh := NeighbourFaceByEdgeNC(simpSurf, cf[1], cf[2][i]);
                                       
                 if neigh = fail then
-                    img := ShallowCopy(cf); # boundary edge
+                    # boundary edge: the face is a fixed point of sigma_i
+                    sigi[j] := j;
                 else
                     img := [neigh];
                     e := EdgesOfFaces(simpSurf)[neigh]; # the edges of neigh
@@ -1706,8 +1749,10 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
         od;
 
         # Rewrite cSym in terms of permutation cycles
+        # All faces of the cover have to be used, even if they are fixed
+        # by all colour involutions (if simpSurf has an isolated face)
         cSymCyc := [[],[],[]];
-        moved := MovedPoints( cgens );
+        moved := [1..Length(cfaces)];
         for i in [1,2,3] do
             cyc := Cycles(cgens[i],moved);
             for j in [1..Length(cyc)] do
@@ -1715,12 +1760,19 @@ InstallMethod( SixFoldCover, "for a simplicial surface and a list",
             od;
         od;
     
-        wild := AllWildColouredSurfaces( cgens, cSymCyc );
+        # Since the local symmetry is given for all inner edges, there is
+        # exactly one wild-coloured surface with these colour involutions.
+        # The faces are given explicitly, since AllWildColouredSurfaces
+        # would only use the points moved by cgens.
+        wild := __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionRecursion(
+            cgens, cSymCyc, 
+            __SIMPLICIAL_AllWildTameColouredSurfaces_InvolutionSetup(
+                cgens, cSymCyc, moved));
         Assert(1, Length(wild)=1);
   
         # Set the alternative names
         altNames := rec( Faces := cfaces,
-          Description := "[oldFace, [vertices of the oldFace]]");
+          Description := "[oldFace, [edges of the oldFace]]");
         
         return [wild[1], altNames];
     end

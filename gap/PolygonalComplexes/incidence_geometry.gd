@@ -75,10 +75,10 @@
 #    avoided in these sections)
 ####
 
-#! In Section <Ref Sect="Section_Access_LabelAccess"/>, the labeling
+#! In Section <Ref Sect="Section_Access_LabelAccess"/>, the labelling
 #! conventions for vertices, edges, and faces are explained. The central
 #! incidence relations between them are described in Section
-#! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialized
+#! <Ref Sect="Section_Access_BasicAccess"/>. Some more specialised
 #! applications for incidence can be found in Chapter
 #! <Ref Chap="Chapter_Navigation"/>.
 #! 
@@ -662,7 +662,7 @@ DeclareOperation( "PerimeterPathOfFaceNC", [IsPolygonalComplex, IsPosInt] );
 #!         ordering of the edges and 
 #!         faces that are incident to a vertex. It is achieved by "travelling 
 #!         around the vertex" while staying on the surface. 
-#! This order is called <E>umbrella-path</E> and we formalize it
+#! This order is called <E>umbrella-path</E> and we formalise it
 #! by <E>edge-face-paths</E> (Section <Ref Sect="Section_Paths_EdgeFace"/>
 #! contains the methods to access those paths).
 #!          <Alt Only="HTML">
@@ -846,7 +846,7 @@ DeclareOperation( "UmbrellaPathOfVertexNC", [IsPolygonalComplex, IsPosInt] );
 #!   * The first entry of the returned umbrella-path will be as small as
 #!     possible.
 #!   * The second entry of the returned umbrella-path will be as small as
-#!     possible (after having minimized the first entry). This condition is
+#!     possible (after having minimised the first entry). This condition is
 #!     non-trivial only for closed umbrella-paths .
 #!
 #! If there is no such set of umbrella-paths (which can happen for 
@@ -1017,7 +1017,7 @@ DeclareOperation("LinkNC",[IsTriangularComplex,IsInt]);
 #!
 #! Informally, a hole can be characterised by the vertices and edges along its
 #! perimeter. These can be given as an alternating path of vertices and edges
-#! that starts and stops with the same vertex. This notion is formalized by
+#! that starts and stops with the same vertex. This notion is formalised by
 #! <E>vertex-edge-paths</E> which are defined in more detail in Section
 #! <Ref Sect="Section_Paths_VertexEdge"/>.
 #!

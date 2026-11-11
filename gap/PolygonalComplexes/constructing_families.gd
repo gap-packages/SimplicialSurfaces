@@ -3,7 +3,7 @@
 
 #! This chapter introduces methods to find all simplicial surfaces with certain
 #! restrictions. 
-#! Section <Ref Sect="Section_Strings_Rings"/> includes several constuction 
+#! Section <Ref Sect="Section_Strings_Rings"/> includes several construction 
 #! methods for simplex rings and strings.
 #! In Section <Ref Sect="Section_Generating_Butterfly_Insertion"/> 
 #! all simplicial surfaces for a given vertex-faithful simplicial surface 

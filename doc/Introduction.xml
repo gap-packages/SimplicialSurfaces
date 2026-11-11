@@ -98,7 +98,7 @@ true
              which helps them to test more cases themselves.
              It also connects the surfaces to something familiar. The 
              formulation of this sentence is still dangerous as it should
-             neither promise too much, nor trivialize the contents of this 
+             neither promise too much, nor trivialise the contents of this 
              section. -->
         We will use the cube as an example.
         <!-- Why the cube? Because we believe it is the one platonic solid
@@ -450,7 +450,7 @@ gap&gt; List( Orientation(surf), VerticesAsPerm );
     <!-- We only show this snippet and hope that an interested reader will
          be able to find the alternative representations easily enough by
          looking at the table of contents. -->
-    <!-- At this point people should be able to generalize our naming
+    <!-- At this point people should be able to generalise our naming
          conventions for operations. As this is quite important, we try to
          teach the correct spelling subconsciously at first. When we explain
          it in text, it should not be surprising to readers. -->
@@ -530,7 +530,7 @@ gap&gt; Filtered( Edges(surf), e -> Size(FacesOfEdges(surf)[e]) = 2 );
                 vertices.</Item>
         </Enum>
         An example of the second situation is given by two triangles 
-        that share exactly two edges. They can be visualized as an "open bag".
+        that share exactly two edges. They can be visualised as an "open bag".
         <Alt Only="HTML">
         &lt;br>&lt;img src='./images/_Wrapper_intro-8-1.svg'> &lt;/img> &lt;br>
         </Alt>
