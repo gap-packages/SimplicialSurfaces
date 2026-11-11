@@ -29,6 +29,12 @@ jobs:
           - 'latest'  # latest GAP release
           - 'minimal' # oldest GAP release supported by this package
 
+    env:
+      # GCC >= 15 defaults to C23, which breaks old bundled C code (e.g. planarity
+      # in digraphs). Set this for the whole job, since gap-actions/build-pkg
+      # rebuilds the dependencies in its own steps.
+      CFLAGS: "-g -O2 -std=gnu17"
+
     steps:
       - uses: actions/checkout@v7
       - uses: gap-actions/setup-gap@v3
@@ -39,8 +45,7 @@ jobs:
           cd $GAPROOT/pkg
           git clone https://github.com/gap-packages/AttributeScheduler.git
           git clone https://github.com/gap-packages/NautyTracesInterface.git
-          # GCC >= 15 defaults to C23, which breaks old bundled C code (e.g. planarity in digraphs)
-          CFLAGS="-g -O2 -std=gnu17" ../bin/BuildPackages.sh io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface
+          ../bin/BuildPackages.sh io profiling AttributeScheduler grape datastructures orb digraphs NautyTracesInterface
       - uses: gap-actions/build-pkg@v3
       - uses: gap-actions/build-pkg-docs@v2
       - uses: gap-actions/run-pkg-tests@v4
