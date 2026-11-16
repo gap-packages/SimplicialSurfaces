@@ -26,8 +26,12 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_JoinVertexEdgePaths();
     __SIMPLICIAL_Test_SplitVertexEdgePath();
     __SIMPLICIAL_Test_SplitEdgePath();
+    __SIMPLICIAL_Test_IsolatedConnectedComponents();
     __SIMPLICIAL_Test_Smaller();
     __SIMPLICIAL_Test_Connectivity();
+    __SIMPLICIAL_Test_AdjacencyMatrixOfEdgeGraph();
+    __SIMPLICIAL_Test_AdjacencyMatrixBooleanOfEdgeGraph();
+    __SIMPLICIAL_Test_IsThreeWaistFree();
 
     __SIMPLICIAL_Test_UmbrellaDescriptor();
 
@@ -83,6 +87,13 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
 
     __SIMPLICIAL_Test_SimplicialComplex();
     __SIMPLICIAL_Test_Extraction_SimplicialComplex();
+
+    # Waists
+    __SIMPLICIAL_Test_AllTwoWaistsOfComplex();
+    __SIMPLICIAL_Test_ClosedVertexEdgePathsOfLengthTwo();
+
+    # Coloured surfaces from involutions
+    __SIMPLICIAL_Test_ColouredSurfacesFromInvolutions();
 
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);

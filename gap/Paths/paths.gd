@@ -1249,9 +1249,13 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! @BeginGroup AllTwoWaistsOfWaistsOfComplex
 #! @Description
 #! Return the set of all waists of length 2 contained in the given
-#! twisted polygonal complex. A waist of length 2 is a closed
+#! twisted polygonal complex. As defined at the beginning of section
+#! <Ref Sect="Section_Waists"/>, a waist of length 2 is a closed
 #! vertex-edge-path in <A>complex</A> visiting exactly two edges and two
-#! vertices.
+#! vertices such that
+#! * both edges are inner edges and
+#! * no face of <A>complex</A> is incident to both edges.
+#!
 #! As an example consider the following simplicial surfaces.
 #! @BeginExampleSession
 #! gap> AllTwoWaistsOfComplex(Octahedron());
@@ -1261,6 +1265,16 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! gap> doubleJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof);;
 #! gap> AllTwoWaistsOfComplex(doubleJanus);
 #! [ ( v3, E1, v4, E6, v3 )]
+#! @EndExampleSession
+#! If all faces are triangles, two different edges with the same
+#! vertices never lie in a common face, so only the first condition
+#! matters. For example, if we remove the last face, the edges 1 and 6
+#! still have the same vertices, but edge 6 is a boundary edge. Thus
+#! there is no 2-waist.
+#! @BeginExampleSession
+#! gap> openJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof{[1..3]});;
+#! gap> AllTwoWaistsOfComplex(openJanus);
+#! [  ]
 #! @EndExampleSession
 #!  <Alt Only="HTML">
 #! &lt;img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
@@ -1285,8 +1299,16 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! Return the set of all waists of length 3 contained in the given
 #! twisted polygonal complex. A waist of length 3 is a closed
 #! vertex-edge-path in <A>complex</A> visiting exactly three edges and
-#! vertices so that there exist no face in <A>complex</A> that is incident to more
-#! than one of the visited edges.
+#! vertices so that all visited edges are inner and there exist no face in
+#! <A>complex</A> that is incident to more than one of the visited edges
+#! (see the beginning of section <Ref Sect="Section_Waists"/>).
+#!
+#! Every 3-waist forms a triangle in the edge graph of <A>complex</A>, i.e.
+#! its three vertices are pairwise joined by edges. Therefore the triangles
+#! of the edge graph are computed first, with the adjacency matrix of the
+#! edge graph (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>). Such a
+#! triangle gives a 3-waist if all three of its edges correspond to inner
+#! edges of the complex and no face of the complex contains two of them.
 #! 
 #! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
@@ -1331,6 +1353,84 @@ DeclareAttribute( "AllThreeWaistsOfComplex", IsTwistedPolygonalComplex);
 #! @Returns a set of closed vertex-edge-paths
 #! @Arguments complex
 DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
+#! @EndGroup
+
+#! @BeginGroup IsThreeWaistFree
+#! @Description
+#! Return whether the given triangular complex <A>complex</A> has no waist of
+#! length 3, i.e.
+#! whether <K>AllThreeWaistsOfComplex</K>(<A>complex</A>) (see
+#! <Ref Subsect="AllThreeWaistsOfSimplicalSurface"/>) is empty.
+#! An error is raised if <A>complex</A> is not a triangular complex.
+#!
+#! If <A>complex</A> is vertex-faithful and all of its edges are inner, this
+#! property is computed without listing any waists. Let <M>A</M> be the
+#! adjacency matrix of the edge graph of <A>complex</A> (see
+#! <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>). Then the trace of <M>A^3</M>
+#! is six times the number of triangles in the edge graph, since each
+#! triangle is traversed from each of its three vertices in two directions.
+#! Every face gives such a triangle and, in this case, every other triangle
+#! is a 3-waist. Hence <A>complex</A> is free of 3-waists if and only if the
+#! trace of <M>A^3</M> equals six times the number of faces.
+#!
+#! The tetrahedron and the octahedron have no 3-waists, but the surface
+#! from the start of section <Ref Sect="Section_Waists"/> has two:
+#! @BeginExampleSession
+#! gap> IsThreeWaistFree( Tetrahedron() );
+#! true
+#! gap> IsThreeWaistFree( Octahedron() );
+#! true
+#! gap> IsThreeWaistFree( tripleTetra );
+#! false
+#! @EndExampleSession
+#! A closed path of length 3 is only a 3-waist if all of its edges are inner.
+#! The boundary of the umbrella with three faces is therefore not a 3-waist:
+#! @BeginExampleSession
+#! gap> IsThreeWaistFree( SimplicialUmbrella(3) );
+#! true
+#! @EndExampleSession
+#! The complex does not have to be a surface. Adding a face to
+#! <K>tripleTetra</K> that only shares the vertex 1 with it keeps the
+#! 3-waists:
+#! @BeginExampleSession
+#! gap> complex := SimplicialComplexByVerticesInFaces(
+#! > Concatenation( VerticesOfFaces(tripleTetra), [ [ 1, 7, 8 ] ] ) );;
+#! gap> IsSimplicialSurface( complex );
+#! false
+#! gap> IsThreeWaistFree( complex );
+#! false
+#! @EndExampleSession
+#! The complex does not have to be vertex-faithful either. Gluing three
+#! Janus heads together at three vertices gives a complex with one 3-waist,
+#! although no Janus head has a 3-waist itself. In the following picture,
+#! the edges 1, 2 and 3 of the 3-waist are red, and every side of the
+#! triangle in the middle carries one Janus head:
+#!  <Alt Only="HTML">
+#! &lt;img src="./images/_Wrapper_Image_ThreeJanusHeadsWaist-1.svg"> &lt;/img>
+#! </Alt>
+#! <Alt Only = "LaTeX">
+#! \begin{center}
+#! \includegraphics{images/_Wrapper_Image_ThreeJanusHeadsWaist.pdf}
+#! \end{center}
+#! </Alt>
+#! <Alt Only = "Text">
+#! Image omitted in terminal text
+#! </Alt>
+#! @BeginExampleSession
+#! gap> threeJanus := PolygonalComplexByDownwardIncidence(
+#! > [ [1,2], [2,3], [1,3], [1,4], [2,4], [2,5], [3,5], [3,6], [1,6] ],
+#! > [ [1,4,5], [1,4,5], [2,6,7], [2,6,7], [3,8,9], [3,8,9] ] );;
+#! gap> IsVertexFaithful( threeJanus );
+#! false
+#! gap> IsThreeWaistFree( threeJanus );
+#! false
+#! gap> AllThreeWaistsOfComplex( threeJanus );
+#! [ ( v1, E1, v2, E2, v3, E3, v1 ) ]
+#! @EndExampleSession
+#!
+#! @Returns true or false
+#! @Arguments complex
+DeclareProperty( "IsThreeWaistFree", IsTwistedPolygonalComplex );
 #! @EndGroup
 
 #! @Section Geodesic and umbrella paths

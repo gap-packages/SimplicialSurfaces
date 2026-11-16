@@ -347,6 +347,115 @@ DeclareAttribute( "EdgeGraphGrape", IsPolygonalComplex );
 DeclareAttribute( "EdgeGraphNauty", IsPolygonalComplex );
 #! @EndGroup
 
+#! @BeginGroup AdjacencyMatrixOfEdgeGraph
+#! @Description
+#! Return the adjacency matrix of the edge graph (see
+#! <Ref Subsect="EdgeGraph"/>) of the given twisted polygonal complex
+#! <A>complex</A>.
+#!
+#! Row and column <M>i</M> of the matrix belong to the <M>i</M>-th vertex of
+#! <K>Vertices</K>(<A>complex</A>), so the rows are always numbered from 1 to
+#! the number of vertices, even if the vertices of <A>complex</A> are not.
+#! The entry in row <M>i</M> and column <M>j</M> is the number of edges
+#! between the <M>i</M>-th and the <M>j</M>-th vertex. For a vertex-faithful
+#! complex every entry is therefore 0 or 1. Then the entry in row <M>i</M>
+#! and column <M>j</M> of the <M>k</M>-th power of the matrix is the number
+#! of walks of length <M>k</M> from the <M>i</M>-th to the <M>j</M>-th vertex
+#! in the edge graph.
+#!
+#! The complex does not have to be connected. An isolated vertex gives a
+#! zero row and a zero column.
+#!
+#! To check quickly whether two vertices are adjacent, especially in
+#! complexes with many vertices, <K>AdjacencyMatrixBooleanOfEdgeGraph</K>
+#! (see <Ref Subsect="AdjacencyMatrixBooleanOfEdgeGraph"/>) needs much less
+#! memory.
+#!
+#! For example, every two vertices of the tetrahedron are joined by an edge:
+#! @BeginExampleSession
+#! gap> AdjacencyMatrixOfEdgeGraph( Tetrahedron() );
+#! [ [ 0, 1, 1, 1 ], [ 1, 0, 1, 1 ], [ 1, 1, 0, 1 ], [ 1, 1, 1, 0 ] ]
+#! @EndExampleSession
+#! The vertices of a single triangle with vertices 2, 5 and 7 belong to the
+#! rows 1, 2 and 3:
+#! @BeginExampleSession
+#! gap> triangle := SimplicialSurfaceByVerticesInFaces( [ [ 2, 5, 7 ] ] );;
+#! gap> Vertices( triangle );
+#! [ 2, 5, 7 ]
+#! gap> AdjacencyMatrixOfEdgeGraph( triangle );
+#! [ [ 0, 1, 1 ], [ 1, 0, 1 ], [ 1, 1, 0 ] ]
+#! @EndExampleSession
+#! In the following surface the edges 1 and 6 both lie between the vertices
+#! 3 and 4:
+#! @BeginExampleSession
+#! gap> doubleJanus := SimplicialSurfaceByDownwardIncidence(
+#! > [[3,4],[1,3],[1,4],[2,3],[2,4],[3,4]], [[1,2,3],[1,4,5],[4,5,6],[2,3,6]]);;
+#! gap> AdjacencyMatrixOfEdgeGraph( doubleJanus );
+#! [ [ 0, 0, 1, 1 ], [ 0, 0, 1, 1 ], [ 1, 1, 0, 2 ], [ 1, 1, 2, 0 ] ]
+#! @EndExampleSession
+#!
+#! @Returns a square matrix of non-negative integers
+#! @Arguments complex
+DeclareAttribute( "AdjacencyMatrixOfEdgeGraph", IsTwistedPolygonalComplex );
+#! @EndGroup
+
+#! @BeginGroup AdjacencyMatrixBooleanOfEdgeGraph
+#! @Description
+#! Return the adjacency matrix of the edge graph of the given twisted
+#! polygonal complex <A>complex</A> as a list of boolean lists. Its purpose
+#! is to check quickly whether two vertices are joined by an edge, not to
+#! compute walks or paths: boolean lists cannot be multiplied. For that, use
+#! <K>AdjacencyMatrixOfEdgeGraph</K>
+#! (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>).
+#!
+#! As for <K>AdjacencyMatrixOfEdgeGraph</K>, row and column <M>i</M> belong
+#! to the <M>i</M>-th vertex of <K>Vertices</K>(<A>complex</A>). The entry
+#! in row <M>i</M> and column <M>j</M> is <K>true</K> if there is an edge
+#! between the <M>i</M>-th and the <M>j</M>-th vertex, and <K>false</K>
+#! otherwise. If <A>complex</A> is not vertex-faithful, the number of edges
+#! between two vertices is therefore lost.
+#!
+#! Each row is stored with one bit per entry, so the matrix needs much less
+#! memory than <K>AdjacencyMatrixOfEdgeGraph</K> and is quicker to compute
+#! for complexes with many vertices. The rows can be used with the GAP
+#! functions for boolean lists. Let <M>B</M> be the result. Then
+#! <K>ListBlist</K>(<K>Vertices</K>(<A>complex</A>), <M>B</M>[<M>i</M>])
+#! is the list of neighbours of the <M>i</M>-th vertex, and
+#! <K>SizeBlist</K>(<K>IntersectionBlist</K>(<M>B</M>[<M>i</M>],
+#! <M>B</M>[<M>j</M>])) is the number of common neighbours of the
+#! <M>i</M>-th and the <M>j</M>-th vertex.
+#!
+#! In the octahedron, the vertex 1 is adjacent to the vertices 2, 3, 4
+#! and 5. It has two common neighbours with the vertex 2 and four with the
+#! opposite vertex 6:
+#! @BeginExampleSession
+#! gap> oct := Octahedron();;
+#! gap> B := AdjacencyMatrixBooleanOfEdgeGraph( oct );;
+#! gap> B[1];
+#! [ false, true, true, true, true, false ]
+#! gap> B[1][6];
+#! false
+#! gap> ListBlist( Vertices( oct ), B[1] );
+#! [ 2, 3, 4, 5 ]
+#! gap> SizeBlist( IntersectionBlist( B[1], B[2] ) );
+#! 2
+#! gap> SizeBlist( IntersectionBlist( B[1], B[6] ) );
+#! 4
+#! @EndExampleSession
+#! Since the rows belong to the positions in <K>Vertices</K>, the
+#! neighbours are found as follows if the vertices are not numbered from 1:
+#! @BeginExampleSession
+#! gap> triangle := SimplicialSurfaceByVerticesInFaces( [ [ 2, 5, 7 ] ] );;
+#! gap> ListBlist( Vertices( triangle ),
+#! >      AdjacencyMatrixBooleanOfEdgeGraph( triangle )[1] );
+#! [ 5, 7 ]
+#! @EndExampleSession
+#!
+#! @Returns a list of boolean lists
+#! @Arguments complex
+DeclareAttribute( "AdjacencyMatrixBooleanOfEdgeGraph", IsTwistedPolygonalComplex );
+#! @EndGroup
+
 #! @BeginGroup FaceGraph
 #! @Description
 #! Return the face graph of a given polygonal complex. The vertices of the
