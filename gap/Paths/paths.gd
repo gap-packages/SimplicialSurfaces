@@ -1289,10 +1289,12 @@ DeclareAttribute( "AllTwoWaistsOfComplex", IsTwistedPolygonalComplex);
 #! <A>complex</A> that is incident to more than one of the visited edges
 #! (see the beginning of section <Ref Sect="Section_Waists"/>).
 #!
-#! The 3-waists are found with the adjacency matrix of the edge graph of
-#! <A>complex</A> (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>): every
-#! 3-waist lies on a triangle of the edge graph, and only the inner edges
-#! on these triangles have to be checked.
+#! Every 3-waist forms a triangle in the edge graph of <A>complex</A>, i.e.
+#! its three vertices are pairwise joined by edges. Therefore the triangles
+#! of the edge graph are computed first, with the adjacency matrix of the
+#! edge graph (see <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>). Such a
+#! triangle gives a 3-waist if all three of its edges correspond to inner
+#! edges of the complex and no face of the complex contains two of them.
 #! 
 #! For example, consider the simplicial surface from the start of section <Ref Sect="Section_Waists"/>:
 #! @BeginExampleSession
@@ -1341,14 +1343,13 @@ DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 
 #! @BeginGroup IsThreeWaistFree
 #! @Description
-#! Return whether the given triangular complex <A>complex</A>, for example a
-#! simplicial surface or a simplicial complex, has no waist of length 3, i.e.
+#! Return whether the given triangular complex <A>complex</A> has no waist of
+#! length 3, i.e.
 #! whether <K>AllThreeWaistsOfComplex</K>(<A>complex</A>) (see
 #! <Ref Subsect="AllThreeWaistsOfSimplicalSurface"/>) is empty.
 #! An error is raised if <A>complex</A> is not a triangular complex.
 #!
-#! If <A>complex</A> is vertex-faithful and all of its edges are inner, for
-#! example if it is a closed vertex-faithful simplicial surface, this
+#! If <A>complex</A> is vertex-faithful and all of its edges are inner, this
 #! property is computed without listing any waists. Let <M>A</M> be the
 #! adjacency matrix of the edge graph of <A>complex</A> (see
 #! <Ref Subsect="AdjacencyMatrixOfEdgeGraph"/>). Then the trace of <M>A^3</M>
@@ -1411,11 +1412,6 @@ DeclareOperation( "AllWaistsOfComplex", [IsTwistedPolygonalComplex] );
 #! false
 #! gap> AllThreeWaistsOfComplex( threeJanus );
 #! [ ( v1, E1, v2, E2, v3, E3, v1 ) ]
-#! @EndExampleSession
-#! The cube is not a triangular complex, so it cannot be checked:
-#! @BeginExampleSession
-#! gap> IsThreeWaistFree( Cube() );
-#! Error, IsThreeWaistFree: The given complex has to be a triangular complex.
 #! @EndExampleSession
 #!
 #! @Returns true or false
