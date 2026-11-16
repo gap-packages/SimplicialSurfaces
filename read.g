@@ -47,4 +47,5 @@ ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Graphs.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Generating_Families.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_ThreeWaistFree.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/Test_Waists.g" );
+ReadPackage( "SimplicialSurfaces", "unit_tests/Test_ColouredSurfacesFromInvolutions.g" );
 ReadPackage( "SimplicialSurfaces", "unit_tests/test_main.g" );

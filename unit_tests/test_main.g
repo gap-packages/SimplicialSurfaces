@@ -88,6 +88,9 @@ BindGlobal( "SIMPLICIAL_TestAll", function()
     __SIMPLICIAL_Test_AllTwoWaistsOfComplex();
     __SIMPLICIAL_Test_ClosedVertexEdgePathsOfLengthTwo();
 
+    # Coloured surfaces from involutions
+    __SIMPLICIAL_Test_ColouredSurfacesFromInvolutions();
+
     if __SIMPLICIAL_TestFailure then
         QUIT_GAP(1);
     fi;
