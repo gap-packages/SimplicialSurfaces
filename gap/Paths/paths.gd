@@ -1249,9 +1249,13 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! @BeginGroup AllTwoWaistsOfWaistsOfComplex
 #! @Description
 #! Return the set of all waists of length 2 contained in the given
-#! twisted polygonal complex. A waist of length 2 is a closed
+#! twisted polygonal complex. As defined at the beginning of section
+#! <Ref Sect="Section_Waists"/>, a waist of length 2 is a closed
 #! vertex-edge-path in <A>complex</A> visiting exactly two edges and two
-#! vertices.
+#! vertices such that
+#! * both edges are inner edges and
+#! * no face of <A>complex</A> is incident to both edges.
+#!
 #! As an example consider the following simplicial surfaces.
 #! @BeginExampleSession
 #! gap> AllTwoWaistsOfComplex(Octahedron());
@@ -1261,6 +1265,16 @@ DeclareOperation("IsWaist",[IsTwistedPolygonalComplex, IsVertexEdgePath]);
 #! gap> doubleJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof);;
 #! gap> AllTwoWaistsOfComplex(doubleJanus);
 #! [ ( v3, E1, v4, E6, v3 )]
+#! @EndExampleSession
+#! If all faces are triangles, two different edges with the same
+#! vertices never lie in a common face, so only the first condition
+#! matters. For example, if we remove the last face, the edges 1 and 6
+#! still have the same vertices, but edge 6 is a boundary edge. Thus
+#! there is no 2-waist.
+#! @BeginExampleSession
+#! gap> openJanus:=SimplicialSurfaceByDownwardIncidence(voe,eof{[1..3]});;
+#! gap> AllTwoWaistsOfComplex(openJanus);
+#! [  ]
 #! @EndExampleSession
 #!  <Alt Only="HTML">
 #! &lt;img src="./images/_Wrapper_Image_Example2Waist-1.svg"> &lt;/img>
