@@ -516,8 +516,8 @@ DeclareAttribute( "RadiusOfPolygonalComplex", IsPolygonalComplex );
 #! @BeginGroup CenterOfPolygonalComplex
 
 #! @Description
-#! This method computes the **center** of a polygonal complex. The center of a polygonal complex is the set of all vertices of <A>polygonalComplex</A>, whose eccentricity (compare <Ref Subsect="EccentricityOfVertex"/>) is equal to the radius (compare <Ref Subsect="RadiusOfPolygonalComplex"/>) of <A>polygonalComplex</A>.
-#! If some vertices have infinite distance to each other, then the center is defined as the empty set [ ].
+#! This method computes the **centre** of a polygonal complex. The centre of a polygonal complex is the set of all vertices of <A>polygonalComplex</A>, whose eccentricity (compare <Ref Subsect="EccentricityOfVertex"/>) is equal to the radius (compare <Ref Subsect="RadiusOfPolygonalComplex"/>) of <A>polygonalComplex</A>.
+#! If some vertices have infinite distance to each other, then the centre is defined as the empty set [ ].
 #!
 #! @ExampleSession
 #! gap> Bat:=SimplicialSurfaceByDownwardIncidence([[1,2],[1,3],[2,3],[2,4],[3,4],

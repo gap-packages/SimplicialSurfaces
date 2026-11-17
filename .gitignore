@@ -8,6 +8,8 @@ doc/*.png
 doc/manual.pdf
 doc/manual.six
 tst/*.tst
+# hand-written tests
+!tst/colouredSurfacesFromInvolutions.tst
 
 # allow pre-generated images
 !doc/images/*

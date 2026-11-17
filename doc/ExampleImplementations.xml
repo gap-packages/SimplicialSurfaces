@@ -43,7 +43,7 @@
      tangent about code development).
      But explaining the complete code first and only then going into 
      development would turn off readers who need to see the development.
-     This could be ameliorated by not giving the optimized full code but only
+     This could be ameliorated by not giving the optimised full code but only
      a naive code that is easy to understand. This would frustrate the expert
      readers though since they need more than the naive approach.
 
@@ -139,7 +139,7 @@ true
             the neighbours of those faces (and so on). We will end up with all
             faces of the strongly connected component of 7.
 
-            The initialization of this algorithm is easy.
+            The initialisation of this algorithm is easy.
 <Example>
 gap&gt; component := [ 7 ];
 [ 7 ]
@@ -246,7 +246,7 @@ gap&gt; VertexCounter_custom( pyr );
 gap&gt; faceDegrees := List( FacesOfVertices(pyr), Size );
 [ 4, , 3, 3, 3, 3 ]
 </Example>
-        Alternatively we could have used the specialized method
+        Alternatively we could have used the specialised method
         <K>FaceDegreesOfVertices</K> (<Ref Subsect="FaceDegreesOfVertices"/>) directly.
 <Example>
 gap&gt; FaceDegreesOfVertices( pyr );

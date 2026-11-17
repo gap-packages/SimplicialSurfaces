@@ -273,7 +273,7 @@ DeclareAttribute( "ChamberAdjacencyGraph", IsTwistedPolygonalComplex );
 #! The face graph and the edge graph of a polygonal complex are dual graphs of each other.
 #! The dual graph of a planar graph G is a graph that has a vertex for each face of G
 #! and an edge for each pair of faces that intersect in at least one edge.
-#! For example, consider the ocathedron. The following graph is the face graph of the octahedron:
+#! For example, consider the octahedron. The following graph is the face graph of the octahedron:
 #!  <Alt Only="HTML">
 #! &lt;img src="./images/_Wrapper_Image_FacegraphOct-1.svg"> &lt;/img>
 #! </Alt>

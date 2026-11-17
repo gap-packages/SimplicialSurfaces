@@ -831,7 +831,7 @@ DeclareOperation("NeighbourFacesByEdgeNC",
 #! @EndExampleSession
 #!
 #! With the knowledge how sublists can be produced, the condition can be
-#! expressed more succintly:
+#! expressed more succinctly:
 #! @ExampleSession
 #! gap> edge := 8;;
 #! gap> vertices := VerticesOfEdge(complex, edge);
